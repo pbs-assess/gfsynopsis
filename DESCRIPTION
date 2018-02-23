@@ -1,9 +1,30 @@
 Package: gfsynopsis
 Version: 0.0.0.9000
-Title: What the Package Does (One Line, Title Case)
-Description: What the package does (one paragraph).
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-License: What license is it under?
+Date: 2018-02-16
+Title: Data Synopsis Reports for PBS Groundfish
+Description: Facilitates the creation of reproducible data synopsis report for
+    DFO PBS groundfish stocks in British Columbia, Canada.
+Authors@R: c(person("Sean", "Anderson",
+    email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
+    person("Elise", "Keppel", role = "aut"))
 Encoding: UTF-8
-LazyData: true
 ByteCompile: true
+Depends: R (>= 3.2.0)
+License: GPL (>=2)
+LazyData: true
+Imports: 
+    gfplot,
+    readr,
+    ggplot2,
+    dplyr,
+    magrittr,
+    viridis,
+    RColorBrewer,
+    rlang
+Remotes: github::seananderson/gfplot
+RoxygenNote: 6.0.1.9000
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat
+URL: https://github.com/seananderson/gfsynopsis
+BugReports: https://github.com/seananderson/gfsynopsis/issues

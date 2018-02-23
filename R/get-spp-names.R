@@ -4,7 +4,7 @@ get_spp_names <- function() {
     col_types = list(species_common_name = readr::col_character(),
       type = readr::col_character()))
   spp$species_common_name <- tolower(gsub(" $", "", spp$species_common_name))
-  spp <- dplyr::filter(spp, !species_common_name %in% c(
+  spp <- dplyr::filter(spp, !.data$species_common_name %in% c(
     "sixgill shark",
     "soupfin shark",
     "pectoral rattail",
