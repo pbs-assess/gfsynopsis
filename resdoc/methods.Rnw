@@ -398,7 +398,7 @@ Extracting commercial biological data from \texttt{GFBio} with \texttt{get-comm-
 \begin{table}[htp]
 \centering
 \caption{TODO: CAPTION HERE}
-\label{tab:sql-comm-samp}
+\label{tab:sql-bio-samp}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
@@ -408,18 +408,43 @@ Extracting survey biological data from \texttt{GFBio} with \texttt{get-survey-sa
                                                                                            & Filtered for \texttt{SPECIMEN\_SEX\_CODE} \texttt{1, 2} (sexed as male/female)                                                                                                                 & To extract only those records with specimen sex recorded                                                                                   \\
                                                                                            & Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1} (unsorted samples)                                                                                                                      & To extract only samples which were unsorted (some of which are discarded) to avoid sampling bias                                           \\
                                                                                            & Filtered for \texttt{USABILITY\_CODE} \texttt{0, 1, 2, 6} (usable samples)                                                                                                                       & To remove samples from incomplete surveys, when gear was damaged, or other sampling errors                                                 \\
-                                                                                           & Filtered for \texttt{FE\_PARENT\_EVENT\_ID} \texttt{NULL} (to include data at only one level --- some data also recorded in database at higher or lower level with separate fishing event ID's) & To extract data at only one level --- some data are also recorded in the database at higher or lower levels with separate fishing event ID's \\
+                                                                                           & Filtered for \texttt{FE\_PARENT\_EVENT\_ID} \texttt{NULL} (to include data at only one level --- some data also recorded in database at higher or lower level with separate fishing event IDs) & To extract data at only one level --- some data are also recorded in the database at higher or lower levels with separate fishing event ID's \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
-% Extracting commercial trawl catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_              & filtered for \texttt{LAT} between 47.8 and 55 and LON between -135 and -122                                                                                                          & To remove erroneous location records                                                                                                       \\
-% \texttt{get-cpue.sql}                                               OFFICIAL\_CATCH}            & filtered for \texttt{YEAR(BEST\_DATE)} \textgreater2012                                                                                                                              & To extract data since the fishery footprint was initiated                                                                                  \\
-%                                                                                       & filtered for \texttt{FISHERY\_SECTOR} \texttt{'GROUNDFISH TRAWL'}                                                                                                                             & To select only trawl fishery data                                                                                                          \\
-%                                                                                       & filtered for (\texttt{LANDED\_ROUND\_KG} + \texttt{TOTAL\_RELEASED\_ROUND\_KG}) \textgreater0                                                                                                 & To select only fishing events which had a positive catch for a species                                                                     \\
-%                                                                                       & filtered for \texttt{END\_DATE} \textgreater \texttt{START\_DATE} AND \texttt{YEAR(START\_DATE) = YEAR(END\_DATE)}                                                                                     & To remove erroneous date records                                                                                                           \\
-% Extract commercial landings                                GFFOS.MERGED\_CATCH        & no filters                                                                                                                                                                  & To extract all landings and discards by fishery sector and gear                                                                            \\
-% \texttt{get-landings.sql}                                                                      &                                                                                                                                                                             &                                                                                                                                            \\
+\begin{table}[htp]
+\centering
+\caption{TODO: CAPTION HERE}
+\label{tab:sql-cpue-spatial}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
+\toprule
+SQL Query                                                                                                     & Filters                                                                                                            & Rationale                                                              \\
+\midrule
+Extracting commercial trawl catch per unit effort (kg/hr) from \texttt{GFFOS. TODO OFFICIAL\_CATCH} with TODO & Filtered for \texttt{LAT} between 47.8 and 55 and LON between -135 and -122                                        & To remove erroneous location records                                   \\
+                                                                                                              & Filtered for \texttt{YEAR(BEST\_DATE)} \textgreater2012                                                            & To extract data since the fishery footprint was initiated              \\
+                                                                                                              & Filtered for \texttt{FISHERY\_SECTOR} \texttt{'GROUNDFISH TRAWL'}                                                  & To select only trawl fishery data                                      \\
+                                                                                                              & Filtered for (\texttt{LANDED\_ROUND\_KG} + \texttt{TOTAL\_RELEASED\_ROUND\_KG}) $>0$                               & To select only fishing events which had a positive catch for a species \\
+                                                                                                              & Filtered for \texttt{END\_DATE} \textgreater \texttt{START\_DATE} AND \texttt{YEAR(START\_DATE) = YEAR(END\_DATE)} & To remove erroneous date records                                       \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+\begin{table}[htp]
+\centering
+\caption{TODO: CAPTION HERE}
+\label{tab:sql-cpue-spatial}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
+\toprule
+SQL Query                                                               & Filters    & Rationale                                                       \\
+\midrule
+Extract commercial landings from \texttt{GFFOS.MERGED\_CATCH} with TODO & No filters & To extract all landings and discards by fishery sector and gear \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
 % Extract bootstrapped survey biomass index                  GFBio                      & filter for ACTIVE\_IND 1                                                                                                                                                    & To extract only active (useable) bootstrapped index records                                                                                \\
 % \texttt{get-survey-boot}                                                                       &                                                                                                                                                                             &                                                                                                                                            \\
 % Assign maturity status                                     GFBio                      & no filters                                                                                                                                                                  &                                                                                                                                            \\

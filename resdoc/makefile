@@ -1,5 +1,5 @@
 all:pdf  
-MAINFILE  := gf-synopsis
+MAINFILE  := gf-synopsis-wp
 RNWFILES  := methods.Rnw, introduction.Rnw spatial-appendix.Rnw
 RFILES    := 
 TEXFILES  := 
