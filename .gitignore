@@ -26,7 +26,7 @@ marmap_coord_-134.535533;52.4393;-132.120716;54.976666_res_1.csv
 *.blg
 *.fdb_latexmk
 *.fls
-resdoc/gf-synopsis.tex
+resdoc/gf-synopsis-wp.tex
 *.toc
 *.upa
 resdoc/introduction.tex
