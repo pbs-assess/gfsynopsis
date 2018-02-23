@@ -36,3 +36,4 @@
 ^inst/R-draft/
 ^inst/stan/*.rds
 ^appveyor\.yml$
+^resdoc/
