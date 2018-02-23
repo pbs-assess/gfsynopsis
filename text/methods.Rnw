@@ -1,0 +1,429 @@
+% !TEX root = gf-synopsis.Rnw
+
+\section{METHODS}
+
+\subsection{OVERARCHING COMMENTS}
+
+The various plots are placed randomly on the page for now (whatever I could get
+to fit in LaTeX). I didn't want to spend time carefully laying them out and
+arranging them until we decide exactly what we are including. For now, I am
+showing plots for all the ``commercially valuable assessment species'' and half
+of the ``candidate species for triage assessments'' as listed at the end of the
+current Groundfish Strategic Plan (Draft 3). This is just for demonstration
+purposes. We also need to decide which stocks to include.
+
+I imagine we will also have some text at the top for each stock that gives
+information such as the scientific name, last assessment if available, perhaps
+something about the management scheme, and any other notes of interest for that
+stock.
+
+The colour schemes for the four main synoptic surveys are consistent throughout
+the various plots to help guide the eye and make it easier to quickly connect
+the various pieces.
+
+There's a tension between plotting what is best for a given stock vs.\ making
+the exact same plots for all the stocks regardless of if there are data for
+a given stock. I think there is value in showing the exact same plots and panels
+for every single stock so that you can quickly browse through multiple stocks
+and no where to look. It also makes it easy to quickly get a feeling for how
+data limited a stock is by the missing data plots.
+
+All maps are shown in UTMs (zone 8) so that distance is constant. This is
+important for the spatial modeling. Perhaps this would be better as zone 9 as
+I see has been used for some coast-wide analyses before. I have not added axes
+to the map plots in an attempt to simplify, but I could add those.
+
+Some of the SQL data queries are modified from Norm's existing code in GFASTeR.
+I've included the SQL code at this stage for full transparency and so others can
+check the data query, but ultimately I imagine this would be summarized in the
+research document.
+
+I'm assuming we won't include captions for every single plot on every single
+page (there would be a fully explained template at the beginning and a research
+document accompanying the first year of publication to fill in more details).
+However, it might be useful to have labels on each plot/panel to help people
+remember the basics of what each plot indicates.
+
+If we include much more (and even now) we might need two pages per stock.
+
+\textit{Other possible plots:}
+
+Do we want to show effort through time at least for recent years?
+
+Do we want to show length or age plotted against maturity? This could include
+a model fit similarly to the length-age and length-weight panels.
+
+Are there other plots that people would find useful to include?
+
+\subsection{COMMERCIAL FISHERY CATCHES}
+
+I extracted commercial fishery landings and discards from the GFFOS
+\texttt{GF\_MERGED\_CATCH} table.
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=2.75in]{../catches/pacific-ocean-perch.pdf}
+\caption{Pacific Ocean Perch catches.}
+\end{figure}
+
+% \verbatiminput{../R/get-landings.sql}
+
+The plot shows the sum of landings (weight of landings plus weight of discards)
+aggregated each year within bottom trawl, midwater trawl, hook and line, and
+trap categories. I aggregated other minor categories, including \texttt{unknown}
+and generic \texttt{trawl} into their own category. These generally represent
+a very small quantity of catches. I combined discarded weight across all the
+categories. I did not include fish pieces in the current plot, which for the
+most part means that hook and line discards are ignored.
+
+Years before 1996 are shaded to indicate they are less reliable.
+
+Do we want to try and account for hook and line discards? Do we want to show
+trawl and hook and line / traps separately?
+
+\subsection{COMMERCIAL CATCH PER UNIT EFFORT}
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=3.8in]{../cpue/pacific-ocean-perch.pdf}
+\caption{Pacific Ocean Perch CPUE for the groundfish bottom trawl sector. Shown
+  is the geometric mean within each hexagon cell since 2013.}
+\end{figure}
+
+The data are extracted from GFFOS with the following code:
+
+% \verbatiminput{../R/get-cpue.sql}
+
+These represent catches in weight (landings + discards) per unit effort (time) for the
+groundfish trawl fleet.
+
+The plots show all CPUE from 2013 onwards since the trawl footprint was frozen
+in April 2012.
+
+Hexagon cells are 7 km wide and show the geometric mean of CPUE as indicated by
+the shading of each cell. Cells must have at least three unique vessels to be
+shown. I am also only showing any data if there are at least 5 hexagon cells to
+show.
+
+The map shows depth contours at 100m, 200m, and 500m (in increasingly slightly
+darker shades of grey).
+
+The coloured rectangles indicate the subplot regions in the spatial survey plots.
+
+We may want to show the trawl footprint boundaries.
+
+Do we also want to show hook and line CPUE?
+
+We could pick a finer or coarser cell size. I picked something to approximately
+match what is usually used in groundfish stock assessment research documents.
+It's a balance between fine-scale accuracy and being able to see the patterns on
+a relatively small figure.
+
+We could possibly show this at a couple slices of time. Including, perhaps,
+a slice of time before the footprint was frozen.
+
+\subsection{AVAILABLE BIOLOGICAL SAMPLES} \label{sec:bio-samples}
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=2.45in]{../synop/dat-syn-pacific-ocean-perch.pdf}
+\caption{Pacific Ocean Perch available biological samples.}
+\end{figure}
+
+I extracted data for the survey samples from GFBioSQL with:
+
+% \verbatiminput{../R/get-survey-biology.sql}
+
+I then removed duplicate specimen IDs in R since these can be duplicated across
+multiple survey groupings (and my R skills greatly exceed my SQL skills!).
+
+I extracted data for the commercial samples from GFBioSQL with:
+
+% \verbatiminput{../R/get-commercial-biology.sql}
+
+The shading of the grid cells indicates the number of samples for a given year
+and data type available across all surveys or commercial sources. The cell in
+each panel with the largest value has its value indicated in text (rounded to an
+appropriate clean number). The color scales are independent between the
+commercial and survey panels.
+
+For the commercial samples, I am only showing unsorted samples. We could include
+sorted samples or include them as a separate panel or rows for some types of
+data.
+
+Note that the survey samples come from all survey data in the GFBioSQL
+database, not just the surveys focused on elsewhere in the document.
+
+I'm currently only counting specimens which have a \texttt{sex} value of male or
+female. I'm not sure if there are some stocks where it is difficult to assign
+a sex but we do still want the biological measurements.
+
+We could also consider showing the counts for male and female, or for female
+only, which might make sense for the purposes of data-limited assessments that
+do not model the two separately.
+
+\subsection{LENGTH DISTRIBUTIONS}
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=4in]{../joy/pacific-ocean-perch-joy.pdf}
+\caption{Pacific Ocean Perch length distributions shown as probability densities
+  of ``Joy'' plots.. Coloured represents females. Grey represents males.}
+\end{figure}
+
+Uses the same SQL query as for Section \ref{sec:bio-samples}.
+
+These are probability density plots for the fish lengths by year and survey.
+Effectively these are a continuous version of a histogram.
+
+Coloured represents females. Grey represents males. I've been trying to figure
+out what the best way to indicate that on the plot is.
+
+The plots are only showing probability densities for year-sex-survey
+combinations with at least 20 fish samples. Otherwise, the probability density
+plots can start reflecting more noise than signal in the data.
+
+These could be done instead as histograms or as bubble plots, but it is
+challenging to fit as much information in such a small space with these other
+types of plots.
+
+\subsection{SPATIAL MODELLING OF SYNOPTIC TRAWL SURVEY DATA}
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=4in]{../spatial-survey/pacific-ocean-perch.pdf}
+\caption{Pacific Ocean Perch biomass estimates from surveys.}
+\end{figure}
+
+The data were extracted from GFBioSQL with the procedure
+\texttt{proc\_catmat\_2011}, which is used to generate the data for the usual
+stratum-based bootstrap procedure to calculate the biomass indices from these
+trawl surveys.
+
+Here I am fitting Bayesian generalized linear mixed effects models with Gaussian
+random fields to estimate expected biomass density on the surface covering the
+entirety of the survey boundaries. I fit the models with the glmmfields
+R package I've been working on
+(\url{https://github.com/seananderson/glmmfields}). The Gaussian
+random field describes a wiggly surface of unexplained spatial pattern (the
+``random effects'') in the response variable (here biomass of fish or
+probability of observing a given fish species in a survey tow) beyond that which
+can be described by the included ("fixed effect") predictors (here a quadratic
+effect of bottom depth). Gaussian random fields describe random effects drawn
+from a multivariate normal distribution with some estimated covariance
+structure. The glmmfields package uses a predictive process approach where
+a limited number of ``knots'' are modelled and these are projected to the data
+locations as part of the fitting process. This makes the analysis of large
+spatial data sets possible.
+
+See Appendix \ref{sec:spatial-app} for details on the methods.
+
+At this point I'm only using bottom depth as a predictor but there's no reason
+why we couldn't include other predictors such as bottom temperature and
+substrate type.
+
+I still need to tweak the interpolation algorithm to go from the
+bathymetry grid layer to the locations of the grid cells in the final
+projection (I think it's introducing a bit of `roughness' right now). I'm using
+actual tow depth for the observed data and the depth data from `PBSdata::bctopo`
+for the projections. Originally I was using a NOAA dataset, but it didn't match
+the trawl depths as closely. It sounds like another division of DFO might be
+developing an even better version we could use.
+
+There are separate models for the presence or absence of a given species in
+a tow and for the density if they are observed. These are then combined after by
+multiplying the probability of observation with the density conditional on being
+observed and are projected onto a fine-scale grid encompassing the full region
+of the survey polygon.
+
+I am only fitting the spatial models if at least 10\% of the survey tows from
+a given survey caught that species that year. Otherwise, there is very little
+data to estimate the positive density component. In these cases, I just show the
+raw tow data and do not add the colour shading for the predicted biomass density.
+
+I am only showing the predicted biomass density for fine-scale grid cells within
+the range of depth for that survey in that year (extending an extra 5m shallower
+and deeper; hence the patches of white). This avoids extrapolating the
+density-presence and density-biomass relationships. This becomes important
+because there are a couple points in the survey polygons that get very close to
+land, even crossing slightly. Extrapolating the quadratic relationship can
+predict very high densities for these grid cells and distort the colour
+scheme.
+
+Crosses indicate tows that did not catch that species. Circles indicate tows
+that did catch that species and the area of the circle is proportional to the
+density.
+
+We may want to add point size and colour legends to these. We may also want to
+scale the colours and point sizes so that they are consistent across the
+different survey panels. Right now there is no way to get a feeling for the
+relative abundance of species between the survey areas. The only larger scale
+spatial indicator is the trawl CPUE.
+
+We would want to emphasize that these spatial predictions are for visualization
+purposes only at this point. We'd want to do a lot more investigation on
+a stock-by-stock basis before believing them too strongly.
+
+\subsection{BIOMASS SURVEY INDEX TRENDS}
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=3.4in]{../sparks/pacific-ocean-perch.pdf}
+\caption{Pacific Ocean Perch survey biomass index trends.}
+\end{figure}
+
+Extracted with:
+
+% \verbatiminput{../R/get-survey-boot.sql}
+
+from GFBioSQL.
+
+These show the median and 95\% bootstrap confidence intervals on the survey
+biomass trends through time. Each trend is scaled so that the maximum upper
+confidence interval reaches the top of the plot. We could consider plotting them
+with consistent absolute biomass on the y-axis, but that depends how much we
+trust these values relative to each other.
+
+We will almost certainly not want to show all the cases where data are present,
+which is what I am currently doing. We will have to make some decisions about
+which surveys are likely representative on various species and somehow indicate
+if we have not shown a given survey trend (it may be by shading that panel
+grey.).
+
+There are also other possible surveys to show. It's a balance of finding the
+surveys that are indicative for the most stocks and I welcome thoughts on this.
+
+\subsection{LENGTH-AGE AND LENGTH-WEIGHT MODEL FITS}
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=3.35in]{../vb/pacific-ocean-perch.pdf}
+\caption{Pacific Ocean Perch length-age and length-weight model fits.}
+\end{figure}
+
+This is using the same data extracted for Section \ref{sec:bio-samples}.
+
+I am fitting these models to survey data only currently. I should likely include
+commercial samples as well. At least the unsorted samples.
+
+I only fit models in cases where there were more than 100 fish samples for
+a given species-sex combination.
+
+The von Bertalanffy models were fit with Stan (details to follow):
+
+\begin{equation}
+  L_i \sim \mathrm{lognormal} \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))), \sigma \right)
+\end{equation}
+
+where $L_i$ and $A_i$ represent the length and age of fish $i$,
+$l_\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth
+parameters, and $\sigma$ represents the log standard deviation or scale
+parameter. The models were fit with the following priors:
+
+\begin{align}
+  k &\sim \mathcal{N}(0, 1)[0, \infty]\\
+  l_\mathrm{inf} &\sim  \mathcal{N}(0, \varphi)[0, \infty]\\
+  \sigma &\sim  \mathcal{N}(0, 1)[0, \infty]\\
+  t0 &\sim  \mathcal{N}(0, 20)
+\end{align}
+
+where $\varphi$ was set to twice the 99\% quantile of observed lengths for that
+stock. This ensures that the $l_\mathrm{inf}$ prior is on an appropriate scale
+for a given stock.
+
+These weakly informative priors and the Bayesian framework in general are
+helpful when fitting these nonlinear models to a large number of stocks where
+maximum likelihood methods can give nonsensical results for some stocks and it
+is difficult to adjust the optimization procedure on a stock-by-stock basis. I'm
+open to modifying the priors, are trying the same models in TMB. Straight
+optimization to the mode of the posterior distributions (i.e.\ no MCMC) in Stan
+was having problems for some stocks.
+
+I fit the length-weight models as robust linear regressions of log(length)
+on log(weight) (details to follow, \texttt{MASS::rlm()} function).
+
+We may want some filtering iteration where we exclude data points that are
+obviously measurement or data-entry errors based on enormous residual values.
+This could remove the need for the \textit{robust} linear regression.
+
+All the points are the same colour right now. We could colour them by male and
+female. If there are more than 2000 fish samples for a given stock, I randomly
+sample 2000 fish to plot. This is just to avoid plotting an excessive number of
+dots, which generates very large PDF files.
+
+\subsection{AGE BUBBLE PLOTS}
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[height=4in]{../bubbles/pacific-ocean-perch.pdf}
+\caption{Pacific Ocean Perch age bubble plots.}
+\end{figure}
+
+This is using the same data extracted for Section \ref{sec:bio-samples}.
+
+The area of the circles is proportional to the number of fish at a given age in
+a given year for a given survey. The bubble scale is constant for a given
+stock but is independent across stocks so that the maximum area of a bubble
+is the same across stocks. We could instead scale them within each survey.
+
+This, and the length plots, are cases where we may want to select a certain
+number of surveys that have the most data for a given stock since there are
+cases where these four synoptic surveys are not the best available data for
+a given stock.
+
+It looks like our CSAS reports usually have length or age on the y axis and year
+on the x axis. The current plots are reversed from this. I was trying to keep
+the same orientation as the length distribution plots. This could be changed.
+
+
+\begin{table}[htp]
+\centering
+\caption{TODO: CAPTION HERE}
+\label{tab:sql-comm-samp}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
+\toprule
+SQL Query                                                                                    & Filters                                                                        & Rationale                                                                                                                                  \\
+\midrule
+Extracting commercial biological data from \texttt{GFBio} with \texttt{get-comm-samples.sql} & Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)       & To extract only commercial data                                                                                                            \\
+                                                                                             & Filtered for \texttt{SPECIMEN\_SEX\_CODE} \texttt{1, 2} (sexed as male/female) & To extract only those records with specimen sex recorded                                                                                   \\
+                                                                                             & Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1} (unsorted samples)       & To extract only samples which were unsorted (some of which are discarded) to avoid sampling bias                                           \\
+                                                                                             & Filtered for \texttt{USABILITY\_CODE} \texttt{0, 1, 2, 6} (usable samples)     & To remove samples from incomplete surveys, when gear was damaged, or other sampling errors                                                 \\
+                                                                                             & Filtered for \texttt{FE\_PARENT\_EVENT\_ID} \texttt{NULL}                      & To extract data at only one level --- some data are also recorded in the database at higher or lower levels with separate fishing event ID's \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+
+\begin{table}[htp]
+\centering
+\caption{TODO: CAPTION HERE}
+\label{tab:sql-comm-samp}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
+\toprule
+SQL Query                                                                                    & Filters                                                                        & Rationale                                                                                                                                  \\
+\midrule
+Extracting survey biological data from \texttt{GFBio} with \texttt{get-survey-samples.sql} & Filtered for \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)                                                                                                                       & To extract only research data                                                                                                              \\
+                                                                                           & Filtered for \texttt{SPECIMEN\_SEX\_CODE} \texttt{1, 2} (sexed as male/female)                                                                                                                 & To extract only those records with specimen sex recorded                                                                                   \\
+                                                                                           & Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1} (unsorted samples)                                                                                                                      & To extract only samples which were unsorted (some of which are discarded) to avoid sampling bias                                           \\
+                                                                                           & Filtered for \texttt{USABILITY\_CODE} \texttt{0, 1, 2, 6} (usable samples)                                                                                                                       & To remove samples from incomplete surveys, when gear was damaged, or other sampling errors                                                 \\
+                                                                                           & Filtered for \texttt{FE\_PARENT\_EVENT\_ID} \texttt{NULL} (to include data at only one level --- some data also recorded in database at higher or lower level with separate fishing event ID's) & To extract data at only one level --- some data are also recorded in the database at higher or lower levels with separate fishing event ID's \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+% Extracting commercial trawl catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_              & filtered for \texttt{LAT} between 47.8 and 55 and LON between -135 and -122                                                                                                          & To remove erroneous location records                                                                                                       \\
+% \texttt{get-cpue.sql}                                               OFFICIAL\_CATCH}            & filtered for \texttt{YEAR(BEST\_DATE)} \textgreater2012                                                                                                                              & To extract data since the fishery footprint was initiated                                                                                  \\
+%                                                                                       & filtered for \texttt{FISHERY\_SECTOR} \texttt{'GROUNDFISH TRAWL'}                                                                                                                             & To select only trawl fishery data                                                                                                          \\
+%                                                                                       & filtered for (\texttt{LANDED\_ROUND\_KG} + \texttt{TOTAL\_RELEASED\_ROUND\_KG}) \textgreater0                                                                                                 & To select only fishing events which had a positive catch for a species                                                                     \\
+%                                                                                       & filtered for \texttt{END\_DATE} \textgreater \texttt{START\_DATE} AND \texttt{YEAR(START\_DATE) = YEAR(END\_DATE)}                                                                                     & To remove erroneous date records                                                                                                           \\
+% Extract commercial landings                                GFFOS.MERGED\_CATCH        & no filters                                                                                                                                                                  & To extract all landings and discards by fishery sector and gear                                                                            \\
+% \texttt{get-landings.sql}                                                                      &                                                                                                                                                                             &                                                                                                                                            \\
+% Extract bootstrapped survey biomass index                  GFBio                      & filter for ACTIVE\_IND 1                                                                                                                                                    & To extract only active (useable) bootstrapped index records                                                                                \\
+% \texttt{get-survey-boot}                                                                       &                                                                                                                                                                             &                                                                                                                                            \\
+% Assign maturity status                                     GFBio                      & no filters                                                                                                                                                                  &                                                                                                                                            \\
+% \texttt{maturity\_assignment.sql}                                                              & designates maturity code at and above which a sample assessed following a given maturity convention is considered mature                                                    &                                                                                                                                            \\
+% Extract all age readings to determine aging precision      GFBio                      & filter for AGE\_READING\_TYPE\_CODE 2 or 3                                                                                                                                  & To extract only those aged specimen records which were aged using the break and burn or break and bake methods                             \\
+% \texttt{aging\_precision.sql}                                                                  &                                                                                                                                                                             &                                                                                                                                           
+% 

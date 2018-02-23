@@ -1,0 +1,24 @@
+﻿SQL Query,Database or Database.Table,Filters,Rationale
+Extracting commercial biological data,GFBio,"filtered out TRIP_SUBTYPE_CODE 2,3 (research trips)",To extract only commercial data
+get-commercial-biology.sql,,"filtered for SPECIMEN_SEX_CODE 1,2 (sexed as male/female)",To extract only those records with specimen sex recorded
+,,filtered for SAMPLE_SOURCE_CODE 1 (unsorted samples),To extract only samples which were unsorted (some of which are discarded) to avoid sampling bias
+,,"filtered for USABILITY_CODE 0,1,2,6 (usable samples)","To remove samples from incomplete surveys, when gear was damaged, or other sampling errors"
+,,filtered for FE_PARENT_EVENT_ID null ,To extract data at only one level - some data are also recorded in the database at higher or lower levels with separate fishing event ID's
+Extracting survey biological data,GFBio,"filtered for TRIP_SUBTYPE_CODE 2,3 (research trips)",To extract only research data
+get-survey-biology.sql,,"filtered for SPECIMEN_SEX_CODE 1,2 (sexed as male/female)",To extract only those records with specimen sex recorded
+,,filtered for SAMPLE_SOURCE_CODE 1 (unsorted samples),To extract only samples which were unsorted (some of which are discarded) to avoid sampling bias
+,,"filtered for USABILITY_CODE 0,1,2,6 (usable samples)","To remove samples from incomplete surveys, when gear was damaged, or other sampling errors"
+,,filtered for FE_PARENT_EVENT_ID null (to include data at only one level - some data also recorded in database at higher or lower level with separate fishing event ID's),To extract data at only one level - some data are also recorded in the database at higher or lower levels with separate fishing event ID's
+Extracting commercial trawl catch per unit effort (kg/hr),GFFOS.GF_D_,filtered for LAT between 47.8 and 55 and LON between -135 and -122,To remove erroneous location records
+get-cpue.sql,OFFICIAL_CATCH,filtered for YEAR(BEST_DATE) >2012,To extract data since the fishery footprint was initiated
+,,filtered for FISHERY_SECTOR 'GROUNDFISH TRAWL',To select only trawl fishery data
+,,filtered for (LANDED_ROUND_KG + TOTAL_RELEASED_ROUND_KG) >0,To select only fishing events which had a positive catch for a species
+,,filtered for END_DATE > START_DATE AND YEAR(START_DATE) = YEAR(END_DATE)  ,To remove erroneous date records
+Extract commercial landings,GFFOS.MERGED_CATCH,no filters,To extract all landings and discards by fishery sector and gear
+get-landings.sql,,,
+Extract bootstrapped survey biomass index,GFBio,filter for ACTIVE_IND 1 ,To extract only active (useable) bootstrapped index records
+get-survey-boot,,,
+Assign maturity status,GFBio,no filters,
+maturity_assignment.sql,,designates maturity code at and above which a sample assessed following a given maturity convention is considered mature,
+Extract all age readings to determine aging precision,GFBio,filter for AGE_READING_TYPE_CODE 2 or 3,To extract only those aged specimen records which were aged using the break and burn or break and bake methods
+aging_precision.sql,,,

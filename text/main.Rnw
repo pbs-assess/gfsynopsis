@@ -1,0 +1,3 @@
+% !TEX root = gf-synopsis.Rnw
+
+\section{ACKNOWLEDGEMENTS}

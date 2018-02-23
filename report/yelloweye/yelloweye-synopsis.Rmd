@@ -1,0 +1,141 @@
+```{r, include=FALSE}
+knitr::opts_knit$set(root.dir = "../../")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+# install_github("seananderson/pbs-synopsis")
+```
+
+```{r}
+library(PBSsynopsis)
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+figs <- file.path("report", "yelloweye", "figs")
+dir.create(figs, showWarnings = FALSE)
+```
+
+```{r, eval=FALSE}
+cache_pbs_data("yelloweye rockfish", path = "data-cache")
+```
+
+```{r}
+cache <- file.path("report", "yelloweye", "data-cache")
+d_surv_tows <- readRDS(file.path(cache, "pbs-surv-tows.rds"))
+d_surv_samples <- readRDS(file.path(cache, "pbs-surv-samples.rds"))
+d_comm_samples <- readRDS(file.path(cache, "pbs-comm-samples.rds"))
+d_catch <- readRDS(file.path(cache, "pbs-catch.rds"))
+d_cpue_spatial <- readRDS(file.path(cache, "pbs-cpue-spatial.rds"))
+d_cpue_spatial_ll <- readRDS(file.path(cache, "pbs-cpue-spatial-ll.rds"))
+d_surv_index <- readRDS(file.path(cache, "pbs-surv-index.rds"))
+d_age_precision <- readRDS(file.path(cache, "pbs-age-precision.rds"))
+```
+
+```{r, fig.width=8, fig.width = 4}
+tidy_ages_raw(d_surv_samples) %>%
+  plot_ages()
+ggsave(file.path(figs, "ages-raw.pdf"), width = 12, height = 6)
+```
+
+```{r, fig.width=8, fig.height=8}
+tidy_lengths_raw(d_surv_samples, bin_size = 2,
+  year_lim = c(2002, Inf)) %>%
+  plot_lengths()
+ggsave(file.path(figs, "lengths-raws.pdf"), width = 9, height = 9)
+```
+
+```{r}
+tidy_age_precision(d_age_precision) %>%
+  plot_age_precision()
+ggsave(file.path(figs, "age-precision.pdf"), width = 5, height = 5)
+```
+
+```{r, fig.height=2}
+tidy_catch(d_catch) %>%
+  plot_catch()
+ggsave(file.path(figs, "catch.pdf"), width = 6, height = 3)
+```
+
+```{r}
+tidy_surv_index(d_surv_index) %>%
+  plot_surv_index()
+ggsave(file.path(figs, "surv-index.pdf"), width = 5, height = 5)
+```
+
+```{r, fig.height=2}
+tidy_samp_avail(d_comm_samples) %>%
+  plot_samp_avail(title = "Commercial samples", year_range = c(1994, 2017))
+ggsave(file.path(figs, "comm-samp-avail.pdf"), width = 6, height = 1.75)
+
+tidy_samp_avail(d_surv_samples) %>%
+  plot_samp_avail(title = "Survey samples", year_range = c(1994, 2017))
+ggsave(file.path(figs, "surv-samp-avail.pdf"), width = 6, height = 1.75)
+```
+
+```{r}
+vb_m <- fit_vb(d_surv_samples, sex = "male", method = "mpd")
+vb_f <- fit_vb(d_surv_samples, sex = "female", method = "mpd")
+plot_vb(object_female = vb_m, object_male = vb_f)
+ggsave(file.path(figs, "vb.pdf"), width = 6, height = 3.5)
+
+lw_m <- fit_length_wt(d_surv_samples, sex = "male", method = "rlm")
+lw_f <- fit_length_wt(d_surv_samples, sex = "female", method = "rlm")
+plot_length_wt(object_female = lw_m, object_male = lw_f)
+ggsave(file.path(figs, "length-wt.pdf"), width = 6, height = 3.5)
+```
+
+```{r}
+mat_age <- d_surv_samples %>%
+  fit_mat_ogive(
+    type = "age",
+    months = seq(4, 6),
+    ageing_method = c(3, 17))
+plot_mat_ogive(mat_age)
+ggsave(file.path(figs, "age-mat-ogive.pdf"), width = 6, height = 3.5)
+
+mat_length <- d_surv_samples %>%
+  fit_mat_ogive(
+    type = "length",
+    months = seq(4, 6),
+    ageing_method = c(3, 17))
+plot_mat_ogive(mat_length)
+ggsave(file.path(figs, "length-mat-ogive.pdf"), width = 6, height = 3.5)
+```
+
+```{r}
+filter(d_cpue_spatial_ll, year >= 2008) %>%
+  plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
+    fill_lab = "CPUE (kg/fe)") +
+  ggtitle("Hook and line CPUE") +
+  labs(subtitle = "Since 2008; excluding discards")
+ggsave(file.path(figs, "cpue-spatial-ll.pdf"), width = 6, height = 4.75)
+
+dplyr::filter(d_cpue_spatial, year >= 2012) %>%
+  plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3) +
+  ggtitle("Trawl CPUE") +
+  labs(subtitle = "Since 2012; including discards")
+ggsave(file.path(figs, "cpue-spatial.pdf"), width = 6, height = 4.75)
+```
+
+```{r, eval=FALSE}
+# ## Will come back to:
+# m_wcvi <- fit_surv_tows(d_surv_tows,
+#   survey = "West Coast Vancouver Island Synoptic Survey",
+#   years = 2016)
+# plot_surv_tows(m1$predictions, m1$data, fill_column = "combined")
+#
+# ## etc.
+# m_wchg <- fit_surv_tows(d_surv_tows,
+#   survey = "West Coast Vancouver Island Synoptic Survey",
+#   years = 2016)
+# plot_surv_tows(m1$predictions, m1$data, fill_column = "combined")
+```
