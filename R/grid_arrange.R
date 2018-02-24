@@ -83,6 +83,7 @@ make_pages <- function(debug = FALSE) {
 
   gg_mat_age        <- ggplotGrob(g_mat_age)
   gg_mat_length     <- ggplotGrob(g_mat_length)
+  gg_mat_month     <- ggplotGrob(ggplot() + theme_pbs())
   gg_lengths        <- ggplotGrob(g_lengths)
   gg_ages           <- ggplotGrob(g_ages)
   gg_length_weight  <- ggplotGrob(g_length_weight)
@@ -92,6 +93,7 @@ make_pages <- function(debug = FALSE) {
 
   fg_mat_age        <- egg::gtable_frame(gg_mat_age, debug = debug)
   fg_mat_length     <- egg::gtable_frame(gg_mat_length, debug = debug)
+  fg_mat_month     <- egg::gtable_frame(gg_mat_month, debug = debug)
   fg_lengths        <- egg::gtable_frame(gg_lengths, debug = debug)
   fg_ages           <- egg::gtable_frame(gg_ages, debug = debug)
   fg_length_weight  <- egg::gtable_frame(gg_length_weight, debug = debug)
@@ -124,7 +126,7 @@ make_pages <- function(debug = FALSE) {
     debug = debug)
 
   f_bottom <- egg::gtable_frame(
-    gridExtra::gtable_cbind(fg_mat_age, fg_mat_length, fg_mat_length),
+    gridExtra::gtable_cbind(fg_mat_age, fg_mat_length, fg_mat_month),
     width = grid::unit(1, "null"),
     height = grid::unit(0.3, "null"),
     debug = debug)
@@ -141,12 +143,11 @@ make_pages <- function(debug = FALSE) {
   assertthat::assert_that(identical(ncol(f_top), ncol(f_very_top)))
 
   aspect <- 1.35 # aspect ratio of full page figure in Science Response
-  width <- 10.5 # arbitrary scalar to get size looking right
+  width <- 11.5 # arbitrary scalar to get size looking right
   height <- width * aspect
 
   pdf("report/test.pdf", width = width, height = height)
   grid.newpage()
   grid.draw(f_all)
   dev.off()
-
 }
