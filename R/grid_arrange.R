@@ -1,4 +1,4 @@
-make_pages <- function() {
+make_pages <- function(debug = FALSE) {
   figs <- file.path("report", "yelloweye", "yelloweye-figs")
   dir.create(figs, showWarnings = FALSE)
   if (!file.exists(file.path("report", "yelloweye", "data-cache", "pbs-surv-tows.rds"))) { # random test
@@ -15,13 +15,17 @@ make_pages <- function() {
   d_survey_index    <- readRDS(file.path(cache, "pbs-surv-index.rds"))
   d_age_precision   <- readRDS(file.path(cache, "pbs-age-precision.rds"))
 
+  survey_pal <- function(x) rev(gg_color_hue(x))
+  # survey_pal <- function(x) RColorBrewer::brewer.pal(n = x, "Set2")
+
   load_all("../gfplot/")
   g_ages <- tidy_ages_raw(d_survey_samples) %>%
     plot_ages() + guides(colour = FALSE, fill = FALSE)
 
-  g_lengths <- tidy_lengths_raw(d_survey_samples, bin_size = 2,
+  g_lengths <- tidy_lengths_raw(d_survey_samples, bin_size = 2.5,
     year_lim = c(2002, Inf)) %>%
-    plot_lengths() + guides(colour = FALSE, fill = FALSE)
+    plot_lengths(
+      survey_col_function = survey_pal)
 
   g_age_precision <- tidy_age_precision(d_age_precision) %>%
     plot_age_precision()
@@ -77,59 +81,67 @@ make_pages <- function() {
 
   ## layout figure:
 
-  library(grid) # for grid::unit()
-  debug <- FALSE
+  gg_mat_age        <- ggplotGrob(g_mat_age)
+  gg_mat_length     <- ggplotGrob(g_mat_length)
+  gg_lengths        <- ggplotGrob(g_lengths)
+  gg_ages           <- ggplotGrob(g_ages)
+  gg_length_weight  <- ggplotGrob(g_length_weight)
+  gg_vb             <- ggplotGrob(g_vb)
+  gg_comm_samples   <- ggplotGrob(g_comm_samples)
+  gg_survey_samples <- ggplotGrob(g_survey_samples)
 
-  gg_mat_age       <- ggplotGrob(g_mat_age)
-  gg_mat_length    <- ggplotGrob(g_mat_length)
-  gg_lengths       <- ggplotGrob(g_lengths)
-  gg_ages          <- ggplotGrob(g_ages)
-  gg_length_weight <- ggplotGrob(g_length_weight)
-  gg_vb            <- ggplotGrob(g_vb)
-
-  fg_mat_age       <- egg::gtable_frame(gg_mat_age, debug = debug)
-  fg_mat_length    <- egg::gtable_frame(gg_mat_length, debug = debug)
-  fg_lengths       <- egg::gtable_frame(gg_lengths, debug = debug)
-  fg_ages          <- egg::gtable_frame(gg_ages, debug = debug)
-  fg_length_weight <- egg::gtable_frame(gg_length_weight, debug = debug)
-  fg_vb            <- egg::gtable_frame(gg_vb, debug = debug)
+  fg_mat_age        <- egg::gtable_frame(gg_mat_age, debug = debug)
+  fg_mat_length     <- egg::gtable_frame(gg_mat_length, debug = debug)
+  fg_lengths        <- egg::gtable_frame(gg_lengths, debug = debug)
+  fg_ages           <- egg::gtable_frame(gg_ages, debug = debug)
+  fg_length_weight  <- egg::gtable_frame(gg_length_weight, debug = debug)
+  fg_vb             <- egg::gtable_frame(gg_vb, debug = debug)
+  fg_comm_samples   <- egg::gtable_frame(gg_comm_samples, debug = debug)
+  fg_survey_samples <- egg::gtable_frame(gg_survey_samples, debug = debug)
 
   f_topright <- egg::gtable_frame(
     gridExtra::gtable_rbind(fg_vb, fg_length_weight),
-    width = unit(1, "null"),
-    height = unit(1, "null"),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
     debug = debug)
 
   f_topleft <- egg::gtable_frame(
     fg_lengths,
-    width = unit(2.5, "null"),
-    height = unit(1, "null"),
+    width = grid::unit(2.2, "null"),
+    height = grid::unit(1, "null"),
     debug = debug)
 
   f_top <- egg::gtable_frame(
     gridExtra::gtable_cbind(f_topleft, f_topright),
-    width = unit(1, "null"),
-    height = unit(1, "null"),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
     debug = debug)
 
   f_middle <- egg::gtable_frame(
     fg_ages,
-    width = unit(1, "null"),
-    height = unit(0.8, "null"),
+    width = grid::unit(1, "null"),
+    height = grid::unit(0.75, "null"),
     debug = debug)
 
   f_bottom <- egg::gtable_frame(
     gridExtra::gtable_cbind(fg_mat_age, fg_mat_length, fg_mat_length),
-    width = unit(1, "null"),
-    height = unit(0.4, "null"),
+    width = grid::unit(1, "null"),
+    height = grid::unit(0.3, "null"),
     debug = debug)
 
-  f_all <- gridExtra::gtable_rbind(f_top, f_middle, f_bottom)
+  f_very_top <- egg::gtable_frame(
+    gridExtra::gtable_cbind(fg_comm_samples, fg_survey_samples),
+    width = grid::unit(1, "null"),
+    height = grid::unit(0.17, "null"),
+    debug = debug)
+
+  f_all <- gridExtra::gtable_rbind(f_very_top, f_top, f_middle, f_bottom)
   assertthat::assert_that(identical(ncol(f_top), ncol(f_middle)))
   assertthat::assert_that(identical(ncol(f_top), ncol(f_bottom)))
+  assertthat::assert_that(identical(ncol(f_top), ncol(f_very_top)))
 
   aspect <- 1.35 # aspect ratio of full page figure in Science Response
-  width <- 10 # arbitrary scalar to get size looking right
+  width <- 10.5 # arbitrary scalar to get size looking right
   height <- width * aspect
 
   pdf("report/test.pdf", width = width, height = height)
