@@ -15,17 +15,21 @@ make_pages <- function(debug = FALSE) {
   d_survey_index    <- readRDS(file.path(cache, "pbs-surv-index.rds"))
   d_age_precision   <- readRDS(file.path(cache, "pbs-age-precision.rds"))
 
+  ## survey_pal <- function(x) RColorBrewer::brewer.pal(n = x, "Set2")
   survey_pal <- function(x) rev(gg_color_hue(x))
-  # survey_pal <- function(x) RColorBrewer::brewer.pal(n = x, "Set2")
+  survey_cols <- survey_pal(7)
+  survey_cols <- stats::setNames(survey_cols, 
+    c("WCHG", "HS", "QCS", "WCVI", "PHMA LL (N)", "PHMA LL (S)", "IPHC"))
 
   load_all("../gfplot/")
   g_ages <- tidy_ages_raw(d_survey_samples) %>%
-    plot_ages() + guides(colour = FALSE, fill = FALSE)
+    plot_ages(survey_cols = survey_cols)
+  ## g_ages
 
   g_lengths <- tidy_lengths_raw(d_survey_samples, bin_size = 2.5,
     year_lim = c(2002, Inf)) %>%
-    plot_lengths(
-      survey_col_function = survey_pal)
+    plot_lengths(survey_cols = survey_cols)
+  ## g_lengths
 
   g_age_precision <- tidy_age_precision(d_age_precision) %>%
     plot_age_precision()
@@ -70,30 +74,30 @@ make_pages <- function(debug = FALSE) {
 
   g_cpue_spatial <- dplyr::filter(d_cpue_spatial, year >= 2012) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3) +
-    ggtitle("Trawl CPUE") +
+    ggplot2::ggtitle("Trawl CPUE") +
     labs(subtitle = "Since 2012; including discards; 3-vessel minimum")
 
   g_cpue_spatial_ll <- filter(d_cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       fill_lab = "CPUE (kg/fe)") +
-    ggtitle("Hook and line CPUE") +
+    ggplot2::ggtitle("Hook and line CPUE") +
     labs(subtitle = "Since 2008; excluding discards; 3-vessel minimum")
 
   ## layout figure:
 
-  gg_mat_age        <- ggplotGrob(g_mat_age)
-  gg_mat_length     <- ggplotGrob(g_mat_length)
-  gg_mat_month     <- ggplotGrob(ggplot() + theme_pbs())
-  gg_lengths        <- ggplotGrob(g_lengths)
-  gg_ages           <- ggplotGrob(g_ages)
-  gg_length_weight  <- ggplotGrob(g_length_weight)
-  gg_vb             <- ggplotGrob(g_vb)
-  gg_comm_samples   <- ggplotGrob(g_comm_samples)
-  gg_survey_samples <- ggplotGrob(g_survey_samples)
+  gg_mat_age        <- ggplot2::ggplotGrob(g_mat_age)
+  gg_mat_length     <- ggplot2::ggplotGrob(g_mat_length)
+  gg_mat_month      <- ggplot2::ggplotGrob(ggplot() + theme_pbs())
+  gg_lengths        <- ggplot2::ggplotGrob(g_lengths)
+  gg_ages           <- ggplot2::ggplotGrob(g_ages)
+  gg_length_weight  <- ggplot2::ggplotGrob(g_length_weight)
+  gg_vb             <- ggplot2::ggplotGrob(g_vb)
+  gg_comm_samples   <- ggplot2::ggplotGrob(g_comm_samples)
+  gg_survey_samples <- ggplot2::ggplotGrob(g_survey_samples)
 
   fg_mat_age        <- egg::gtable_frame(gg_mat_age, debug = debug)
   fg_mat_length     <- egg::gtable_frame(gg_mat_length, debug = debug)
-  fg_mat_month     <- egg::gtable_frame(gg_mat_month, debug = debug)
+  fg_mat_month      <- egg::gtable_frame(gg_mat_month, debug = debug)
   fg_lengths        <- egg::gtable_frame(gg_lengths, debug = debug)
   fg_ages           <- egg::gtable_frame(gg_ages, debug = debug)
   fg_length_weight  <- egg::gtable_frame(gg_length_weight, debug = debug)
@@ -147,7 +151,7 @@ make_pages <- function(debug = FALSE) {
   height <- width * aspect
 
   pdf("report/test.pdf", width = width, height = height)
-  grid.newpage()
-  grid.draw(f_all)
+  grid::grid.newpage()
+  grid::grid.draw(f_all)
   dev.off()
 }
