@@ -17,3 +17,4 @@ get_spp_names <- function() {
   spp$spp_w_hyphens <- gsub("/", "-", gsub(" ", "-", spp$species_common_name))
   as.data.frame(spp)
 }
+
