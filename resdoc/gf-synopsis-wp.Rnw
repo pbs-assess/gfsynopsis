@@ -14,7 +14,7 @@
 
 % \usepackage{pdflscape}
 % \usepackage{longtable}
-\usepackage{booktabs} 
+\usepackage{booktabs}
 % \usepackage{tabularx}
 % \usepackage{colortbl} % https://tex.stackexchange.com/questions/40666/how-to-change-line-color-in-tabular
 \usepackage{tabu} % https://tex.stackexchange.com/questions/50332/vertical-spacing-of-a-table-cell
