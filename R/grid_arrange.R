@@ -15,13 +15,14 @@ make_pages <- function(debug = FALSE) {
   d_survey_index    <- readRDS(file.path(cache, "pbs-surv-index.rds"))
   d_age_precision   <- readRDS(file.path(cache, "pbs-age-precision.rds"))
 
+  load_all("../gfplot/")
+
   ## survey_pal <- function(x) RColorBrewer::brewer.pal(n = x, "Set2")
   survey_pal <- function(x) rev(gg_color_hue(x))
   survey_cols <- survey_pal(7)
-  survey_cols <- stats::setNames(survey_cols, 
+  survey_cols <- stats::setNames(survey_cols,
     c("WCHG", "HS", "QCS", "WCVI", "PHMA LL (N)", "PHMA LL (S)", "IPHC"))
 
-  load_all("../gfplot/")
   g_ages <- tidy_ages_raw(d_survey_samples) %>%
     plot_ages(survey_cols = survey_cols)
   ## g_ages
@@ -45,6 +46,8 @@ make_pages <- function(debug = FALSE) {
 
   g_survey_samples <- tidy_sample_avail(d_survey_samples) %>%
     plot_sample_avail(title = "Survey samples", year_range = c(1994, 2017))
+
+  g_blank <- ggplot() + gfplot::theme_pbs()
 
   vb_m <- fit_vb(d_survey_samples, sex = "male", method = "mpd")
   vb_f <- fit_vb(d_survey_samples, sex = "female", method = "mpd")
@@ -74,20 +77,19 @@ make_pages <- function(debug = FALSE) {
 
   g_cpue_spatial <- dplyr::filter(d_cpue_spatial, year >= 2012) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3) +
-    ggplot2::ggtitle("Trawl CPUE") +
-    labs(subtitle = "Since 2012; including discards; 3-vessel minimum")
+    ggplot2::ggtitle("Trawl CPUE") #+
+    # labs(subtitle = "Since 2012; including discards; 3-vessel minimum")
 
   g_cpue_spatial_ll <- filter(d_cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       fill_lab = "CPUE (kg/fe)") +
-    ggplot2::ggtitle("Hook and line CPUE") +
-    labs(subtitle = "Since 2008; excluding discards; 3-vessel minimum")
+    ggplot2::ggtitle("Hook and line CPUE") #+
+    # labs(subtitle = "Since 2008; excluding discards; 3-vessel minimum")
 
-  ## layout figure:
-
+  ## Page 2
   gg_mat_age        <- ggplot2::ggplotGrob(g_mat_age)
   gg_mat_length     <- ggplot2::ggplotGrob(g_mat_length)
-  gg_mat_month      <- ggplot2::ggplotGrob(ggplot() + theme_pbs())
+  gg_mat_month      <- ggplot2::ggplotGrob(g_blank)
   gg_lengths        <- ggplot2::ggplotGrob(g_lengths)
   gg_ages           <- ggplot2::ggplotGrob(g_ages)
   gg_length_weight  <- ggplot2::ggplotGrob(g_length_weight)
@@ -150,8 +152,80 @@ make_pages <- function(debug = FALSE) {
   width <- 11.5 # arbitrary scalar to get size looking right
   height <- width * aspect
 
-  pdf("report/test.pdf", width = width, height = height)
+  pdf("report/test-2.pdf", width = width, height = height)
   grid::grid.newpage()
   grid::grid.draw(f_all)
   dev.off()
+
+  ## Page 1
+  gg_catch           <- ggplot2::ggplotGrob(g_catch)
+  gg_survey_index    <- ggplot2::ggplotGrob(g_survey_index)
+  gg_cpue_spatial    <- ggplot2::ggplotGrob(g_cpue_spatial + xlim(290, 800))
+  gg_cpue_spatial_ll <- ggplot2::ggplotGrob(g_cpue_spatial_ll)
+  gg_cpue_index      <- ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle("Commercial CPUE"))
+  gg_survey_spatial  <- ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle("Surveys"))
+
+  fg_catch           <- egg::gtable_frame(gg_catch, debug = debug)
+  fg_survey_index    <- egg::gtable_frame(gg_survey_index, debug = debug)
+  fg_cpue_spatial    <- egg::gtable_frame(gg_cpue_spatial, debug = debug)
+  fg_cpue_spatial_ll <- egg::gtable_frame(gg_cpue_spatial_ll, debug = debug)
+  fg_cpue_index      <- egg::gtable_frame(gg_cpue_index, debug = debug)
+  fg_survey_spatial  <- egg::gtable_frame(gg_survey_spatial, debug = debug)
+
+  f_topleft <- egg::gtable_frame(
+    fg_survey_index,
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_topright <- egg::gtable_frame(
+    gridExtra::gtable_rbind(fg_catch, fg_cpue_index, fg_cpue_index),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_fake_text <- egg::gtable_frame(ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle("Description here")),
+    width = grid::unit(1, "null"),
+    height = grid::unit(0.3, "null"),
+    debug = debug)
+
+  f_top <- egg::gtable_frame(
+    gridExtra::gtable_cbind(f_topleft, f_topright),
+    width = grid::unit(1, "null"),
+    height = grid::unit(0.7, "null"),
+    debug = debug)
+
+  f_bottomleft <- egg::gtable_frame(
+    fg_survey_spatial,
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_bottomright <- egg::gtable_frame(
+    gridExtra::gtable_rbind(fg_cpue_spatial, fg_cpue_spatial_ll),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_bottom <- egg::gtable_frame(
+    gridExtra::gtable_cbind(f_bottomleft, f_bottomright),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_all <- gridExtra::gtable_rbind(f_fake_text, f_top, f_bottom)
+
+  aspect <- 1.35 # aspect ratio of full page figure in Science Response
+  width <- 11.5 # arbitrary scalar to get size looking right
+
+  height <- width * aspect
+
+  pdf("report/test-1.pdf", width = width, height = height)
+  grid::grid.newpage()
+  grid::grid.draw(f_all)
+  dev.off()
+
+
+
+
 }
