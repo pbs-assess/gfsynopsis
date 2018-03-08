@@ -376,6 +376,8 @@ on the x axis. The current plots are reversed from this. I was trying to keep
 the same orientation as the length distribution plots. This could be changed.
 
 
+\section{SQL query descriptions}
+
 \begin{table}[htp]
 \centering
 \caption{Description of filters in SQL queries extracting commercial sample data from \texttt{GFBio}}
@@ -383,12 +385,17 @@ the same orientation as the length distribution plots. This could be changed.
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                    & Filters                                                                              & Rationale                                                                                                                                  \\
+SQL Query & Filters & Rationale \\
 \midrule
-Extracting commercial biological data from \texttt{GFBio} with \texttt{get-comm-samples.sql} & Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)             & To extract only commercial data                                                                                                            \\
-                                                                                             & Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2} (random or total)             & To extract only those records of sample type 'random' or 'total'                                                                           \\
-                                                                                             & Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{1, NULL} (unsorted catches)    & To extract samples only from catches which were unsorted                                                                                   \\
-                                                                                             & Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1, NULL} (unsorted samples)       & To extract only samples which were unsorted to avoid sampling bias                                           \\
+Extracting commercial biological data from \texttt{GFBio} with
+\texttt{get-comm-samples.sql} & Filtered out \texttt{TRIP\_SUBTYPE\_CODE}
+\texttt{2, 3} (research trips) & To extract only commercial data \\
+ & Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2} (random or total) & To
+extract only those records of sample type 'random' or 'total' \\
+ & Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{1, NULL} (unsorted
+catches) & To extract samples only from catches which were unsorted \\
+ & Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1, NULL} (unsorted
+samples) & To extract only samples which were unsorted to avoid sampling bias \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -401,12 +408,17 @@ Extracting commercial biological data from \texttt{GFBio} with \texttt{get-comm-
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                    & Filters                                                                              & Rationale                                                                                                   \\
+SQL Query & Filters & Rationale \\
 \midrule
-Extracting survey biological data from \texttt{GFBio} with \texttt{get-survey-samples.sql}   & Filtered for \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)             & To extract only research data                                                                               \\
-                                                                                             & Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2} (random or total)             & To extract only those records of sample type 'random' or 'total'                                            \\
-                                                                                             & Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{1, NULL} (unsorted catches)    & To extract samples only from catches which were unsorted                                                    \\
-                                                                                             & Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1, NULL} (unsorted samples)       & To extract only samples which were unsorted to avoid sampling bias                                          \\
+Extracting survey biological data from \texttt{GFBio} with
+\texttt{get-survey-samples.sql} & Filtered for \texttt{TRIP\_SUBTYPE\_CODE}
+\texttt{2, 3} (research trips) & To extract only research data \\
+ & Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2} (random or total) & To
+extract only those records of sample type 'random' or 'total' \\
+ & Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{1, NULL} (unsorted
+catches) & To extract samples only from catches which were unsorted \\
+ & Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1, NULL} (unsorted
+samples) & To extract only samples which were unsorted to avoid sampling bias \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -418,9 +430,12 @@ Extracting survey biological data from \texttt{GFBio} with \texttt{get-survey-sa
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                                                        & Filters                                                                                                            & Rationale                                                              \\
+SQL Query & Filters & Rationale \\
 \midrule
-Extracting commercial trawl catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-cpue-index.sql} & Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL}                        & To remove erroneous date records                                       \\
+Extracting commercial trawl catch per unit effort (kg/hr) from
+\texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-cpue-index.sql} & Filtered for
+\texttt{END\_DATE} \texttt{IS NOT NULL} and \texttt{START\_DATE} \texttt{IS NOT NULL}
+& To remove erroneous date records \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -432,13 +447,22 @@ Extracting commercial trawl catch per unit effort (kg/hr) from \texttt{GFFOS.GF\
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                                     & Filters                                                                                                                                   & Rationale                                                              \\
+SQL Query & Filters & Rationale \\
 \midrule
-Extracting commercial trawl spatial catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-index.sql}& Filtered for \texttt{LAT} between 47.8 and 55 and LON between -135 and -122                                & To remove erroneous location records                                   \\
-                                                                                                                                     & Filtered for \texttt{YEAR(BEST\_DATE)} \textgreater2012                                                            & To extract data since the fishery footprint was initiated              \\
-                                                                                                                                     & Filtered for \texttt{FISHERY\_SECTOR} \texttt{'GROUNDFISH TRAWL'}                                                  & To select only trawl fishery data                                      \\
-                                                                                                                                     & Filtered for (\texttt{LANDED\_ROUND\_KG} + \texttt{TOTAL\_RELEASED\_ROUND\_KG}) \textgreater0                      & To select only fishing events which had a positive catch for a species \\
-                                                                                                                                     & Filtered for \texttt{END\_DATE} \textgreater \texttt{START\_DATE} AND \texttt{YEAR(START\_DATE) = YEAR(END\_DATE)} & To remove erroneous date records                                       \\
+Extracting commercial trawl spatial catch per unit effort (kg/hr) from
+\texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-index.sql}& Filtered
+for \texttt{LAT} between 47.8 and 55 and LON between -135 and -122 & To remove
+erroneous location records \\
+ & Filtered for \texttt{YEAR(BEST\_DATE)} \textgreater2012 & To extract data
+since the fishery footprint was initiated \\
+& Filtered for \texttt{FISHERY\_SECTOR} \texttt{`GROUNDFISH TRAWL'} & To select
+only trawl fishery data \\
+ & Filtered for (\texttt{LANDED\_ROUND\_KG} \texttt{TOTAL\_RELEASED\_ROUND\_KG})
+\textgreater0 & To select only fishing events which had a positive catch for
+a species \\
+ & Filtered for \texttt{END\_DATE} \textgreater \texttt{START\_DATE} AND
+\texttt{YEAR(START\_DATE) = YEAR(END\_DATE)} & To remove erroneous date records
+\\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -452,7 +476,9 @@ Extracting commercial trawl spatial catch per unit effort (kg/hr) from \texttt{G
 \toprule
 SQL Query                                                                                     & Filters    & Rationale                                                       \\
 \midrule
-Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql} & No filters & To extract all landings and discards by fishery sector and gear \\
+Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with
+\texttt{get-catch.sql} & No filters & To extract all landings and discards by
+fishery sector and gear \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -464,10 +490,15 @@ Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{g
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                           & Filters                           & Rationale                                                                                                                \\
+SQL Query & Filters & Rationale \\
 \midrule
-Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql}       & No filters                        & To extract all landings and discards by fishery sector and gear                                                          \\
-Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignment.sql}             & No filters                        & Designates maturity code at and above which a sample assessed following a given maturity convention is considered mature \\
+Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with
+\texttt{get-catch.sql} & No filters & To extract all landings and discards by
+fishery sector and gear \\
+Assign maturity status from \texttt{GFFOS.GFBio} with
+\texttt{maturity\_assignment.sql} & No filters & Designates maturity code at and
+above which a sample assessed following a given maturity convention is
+considered mature \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -479,9 +510,11 @@ Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignme
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                     & Filters                            & Rationale                                                      \\
+SQL Query & Filters & Rationale \\
 \midrule
-Extract bootstrapped survey biomass index from \texttt{GFBio} with \texttt{get-survey-index}  & Filter for ACTIVE\_IND 1          & To extract only active (useable) bootstrapped index records     \\
+Extract bootstrapped survey biomass index from \texttt{GFBio} with
+\texttt{get-survey-index} & Filter for \texttt{ACTIVE\_IND = 1} & To extract
+only active (useable) bootstrapped index records \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -494,9 +527,12 @@ Extract bootstrapped survey biomass index from \texttt{GFBio} with \texttt{get-s
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                                 & Filters                                    & Rationale                                                                                                        \\
+SQL Query & Filters & Rationale \\
 \midrule
-Extract all age readings to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}  & filter for AGE\_READING\_TYPE\_CODE 2, 3   & To extract only those aged specimen records which were aged using the break and burn or break and bake methods   \\
+Extract all age readings to determine aging precision from {GFBio} with
+\texttt{get\_age\_precision.sql} & filter for \texttt{AGE\_READING\_TYPE\_CODE
+= 2, 3} & To extract only those aged specimen records which were aged using the
+break and burn or break and bake methods \\
 \end{tabu}}
 \end{table}
 
