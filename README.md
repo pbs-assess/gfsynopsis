@@ -10,6 +10,6 @@ The gfsynopsis package is *not* ready for use yet. However, it can be installed 
 
 ```r
 # install.packages("devtools")
-devtools::install_github("seananderson.ca/gfsynopsis")
+devtools::install_github("seananderson/gfsynopsis")
 library("gfsynopsis")
 ```
