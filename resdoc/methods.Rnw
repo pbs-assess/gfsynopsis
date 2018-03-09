@@ -17,35 +17,75 @@ a groundfish-specific ``view'' of the Fishery Operations System (FOS) database
 Region).  Research survey data and commercial biological data from the 1940s
 to present are housed in GFBio, the Groundfish Biological Samples database.
 
-Code was developed in this project to automate data extraction from these
-databases in a consistent, reproducible manner. The data extraction relies on
-SQL queries, developed with support from the Groundfish Data Unit, run within
-the R functions to pull in data. The extracted data are formatted to feed
-directly into other functions in the package to allow for a fully automated
-procedure.
-
+Functions were developed within the \texttt{gfplot} package to automate
+data extraction from these databases in a consistent, reproducible manner.
+These functions extract data using SQL queries, developed with support from
+the Groundfish Data Unit, and the data are formatted to feed directly into
+other functions in the package to allow for a fully automated procedure.
 Some filtering is performed within the SQL queries to restrict the data
-extracted. Commercial catch per unit effort (CPUE) index data are filtered
-to include only records with valid start and end dates (Table X). Commercial
-trawl spatial CPUE data are filtered to remove records with erroneous latitude
-and longitude values, and to include only records from the groundfish trawl
-sector since 2012 when the trawl footprint was implemented (Table~\ref{tab:sql-cpue-spatial}). Spatial longline
-CPUE data are similarly filtered by latitude and longitude, gear type and for
-records from and including 2008 after the implementation of rockfish
-conservation areas (Table X).
+extracted.
 
-Survey biomass index data are filtered for active records of a calculated
-bootstrapped biomass column in the dataset (Table X). Biological data, including
-length, weight, age, maturity and age, are extracted by different functions for
-survey and commercial data, each filtered by the \texttt{TRIP\_SUBTYPE\_CODE} for either
-survey or commercial samples. In addition, samples are restricted
-to unsorted samples to remove any bias from inclusion of sorted samples that
-may skew the data, and survey samples were filtered for only total or random
-samples. The ageing precision data are filtered to bring in the primary
-and secondary readings performed by separate technicians.
+Commercial catch data are extracted with \texttt{get-catch}.
+All landings and discards are extracted by species, fishery sector, gear type and
+year in kg and are not filtered in any way (Table~\ref{tab:sql-catch}).
+Species names are specified as an argument to the function by the user.
 
-Commercial catch data include all landings and discards by fishery sector and
-gear type and were not filtered in any way.
+Commercial trawl catch per unit effort (CPUE) index data are
+extracted using \texttt{get-CPUE-index} and are filtered to include only
+records with valid start and end dates (Table ~\ref{tab:sql-cpue-index}).
+Catch (kg) and effort (exptressed in hours), year, gear type and Pacific Management
+Fishing Area (PFMA) are extracted for each tow.
+Gear type, PFMA and minimum year are given as arguments and are set at
+defaults of bottom trawl, all areas and 1996, respectively.
+
+Commercial trawl spatial CPUE data are extracted using \texttt{get-cpue-spatial},
+pulling out latitude, longitude, gear type, catch (kg) and tow time (hours)
+for every tow by species.
+The data are filtered to remove records with erroneous latitude and
+longitude values, and to include only records from the groundfish trawl
+sector since 2012 when the trawl footprint was implemented
+(Table~\ref{tab:sql-cpue-spatial}).
+Species names are given as an argument to the function.
+
+Spatial longline CPUE data are extracted using \texttt{get-cpue-spatial-ll} which
+pulls out latitude and longitude, gear type, catch (pieces) and years for all
+fishing events (sets, as a unit of effort) by species.
+Data are filtered to remove records with erroneous latitude and
+longitude data, and for records with longline gear and from and including 2008
+after the implementation of rockfish conservation areas
+(Table ~\ref{tab:sql-cpue-spatial-ll}).
+CPUE is represented by catch in pieces per fishing event (set)
+Species names are given as an argument to the function.
+
+Survey biomass index data are extracted with \texttt{get-survey-index}.
+Calculated bootstrapped biomass, year and survey series identification
+code (ssid) are filtered for active records of the calculated biomass in the
+database (Table ~\ref(tab:sql-survey-index}).
+Species and survey series identification code (ssid) are given as arguments
+to the function.
+
+Biological data are extracted using \texttt{get-survey-samples} and
+\texttt{get-comm-samples} for research survey and commercial samples,
+respectively.
+Records of all biological samples are extracted by species, including
+available length, weight, age and maturity data.
+Records include available metadata including PFMA, gear type, ssid,
+sample date, survey identification code (sid) and sampling protocol codes
+for maturity and ageing data.
+Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either
+survey or commercial samples (Table~\ref{tab:sql-bio-samp}).
+In addition, samples are restricted to unsorted samples with \texttt{SPECIES_CATEGORY_CODE} and
+\texttt{SAMPLE_SOURCE_CODE} to avoid bias from inclusion of sorted, stratified
+or selected samples.
+Survey samples are also filtered for only total or random samples.
+
+The ageing precision data are extracted with \texttt{get-age-precision}.
+Data are filtered to bring in only records for which a secondary (precision)
+reading was performed by a different technician in addition to the primary
+reading (Table~\ref{tab:sql-age-precision})
+
+
+
 
 \subsection{COMMERCIAL FISHERY CATCHES}
 
