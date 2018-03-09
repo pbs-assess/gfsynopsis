@@ -55,6 +55,51 @@ a model fit similarly to the length-age and length-weight panels.
 
 Are there other plots that people would find useful to include?
 
+
+\subsection{DATA EXTRACTION}
+For the annual data synopsis report, commercial and research survey data are
+plotted to visualise the available data for groundfish species. Commercial
+and research catch, effort, and biological data are archived by the Groundfish
+Data Unit (Fisheries and Oceans Canada, Science Branch, Pacific Region) and
+housed in a number of relational databases. Historical commercial catch and
+effort data from 1954 – 2006/2007 are housed in GFCatch, PacHarvTrawl,
+PacHarvHL, and PacHarvSable depending on the fishery and time period.
+Modern (2006/2007 to present) commercial catch data are housed in GFFOS,
+a groundfish-specific “view” of the Fishery Operations System (FOS) database
+(Fisheries and Oceans Canada, Fisheries and Aquaculture Management, Pacific
+Region).  Research survey data and commercial biological data from the 1940s
+to present are housed in GFBio, the Groundfish Biological Samples database.
+
+Code was developed in this project to automate data extraction from these
+databases in a consistent, reproducible manner. The data extraction relies on
+SQL queries, developed with support from the Groundfish Data Unit, run within
+the R functions to pull in data. The extracted data are formatted to feed
+directly into other functions in the package to allow for a fully automated
+procedure.
+Some filtering is performed within the SQL queries to restrict the data
+extracted. Commercial catch per unit effort (CPUE) index data were filtered
+to include only records with valid start and end dates (Table X). Commercial
+trawl spatial CPUE data were filtered to remove records with erroneous latitude
+and longitude values, and to include only records from the groundfish trawl
+sector since 2012 when the trawl footprint was implemented. Spatial longline
+CPUE data were similarly filtered by latitude and longitude, gear type and for
+records from and including 2008 after the implementation of rockfish
+conservation areas.
+
+Survey biomass index data were filtered for active records of a calculated
+bootstrapped biomass column in the dataset (Table X). Biological data, including
+length, weight, age, maturity and age, are extracted by different functions for
+survey and commercial data, each filtered by the TRIP_SUBTYPE_CODE for either
+survey or commercial samples. In addition, commercial samples were restricted
+to unsorted samples to remove any bias from inclusion of sorted samples that
+may skew the data, and survey samples were filtered for only total or random
+samples to similarly avoid biases. The ageing precision data were filtered to
+bring in only the primary and secondary readings, which are performed by
+separate technicians.
+
+Commercial catch data include all landings and discards by fishery sector and gear type and were not filtered in any way.
+
+
 \subsection{COMMERCIAL FISHERY CATCHES}
 
 I extracted commercial fishery landings and discards from the GFFOS
