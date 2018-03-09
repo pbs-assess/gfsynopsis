@@ -76,28 +76,29 @@ SQL queries, developed with support from the Groundfish Data Unit, run within
 the R functions to pull in data. The extracted data are formatted to feed
 directly into other functions in the package to allow for a fully automated
 procedure.
-Some filtering is performed within the SQL queries to restrict the data
-extracted. Commercial catch per unit effort (CPUE) index data were filtered
-to include only records with valid start and end dates (Table X). Commercial
-trawl spatial CPUE data were filtered to remove records with erroneous latitude
-and longitude values, and to include only records from the groundfish trawl
-sector since 2012 when the trawl footprint was implemented. Spatial longline
-CPUE data were similarly filtered by latitude and longitude, gear type and for
-records from and including 2008 after the implementation of rockfish
-conservation areas.
 
-Survey biomass index data were filtered for active records of a calculated
+Some filtering is performed within the SQL queries to restrict the data
+extracted. Commercial catch per unit effort (CPUE) index data are filtered
+to include only records with valid start and end dates (Table X). Commercial
+trawl spatial CPUE data are filtered to remove records with erroneous latitude
+and longitude values, and to include only records from the groundfish trawl
+sector since 2012 when the trawl footprint was implemented (Table X). Spatial longline
+CPUE data are similarly filtered by latitude and longitude, gear type and for
+records from and including 2008 after the implementation of rockfish
+conservation areas (Table X).
+
+Survey biomass index data are filtered for active records of a calculated
 bootstrapped biomass column in the dataset (Table X). Biological data, including
 length, weight, age, maturity and age, are extracted by different functions for
 survey and commercial data, each filtered by the TRIP_SUBTYPE_CODE for either
-survey or commercial samples. In addition, commercial samples were restricted
+survey or commercial samples. In addition, samples are restricted
 to unsorted samples to remove any bias from inclusion of sorted samples that
 may skew the data, and survey samples were filtered for only total or random
-samples to similarly avoid biases. The ageing precision data were filtered to
-bring in only the primary and secondary readings, which are performed by
-separate technicians.
+samples. The ageing precision data are filtered to bring in the primary
+and secondary readings performed by separate technicians.
 
-Commercial catch data include all landings and discards by fishery sector and gear type and were not filtered in any way.
+Commercial catch data include all landings and discards by fishery sector and
+gear type and were not filtered in any way.
 
 
 \subsection{COMMERCIAL FISHERY CATCHES}
