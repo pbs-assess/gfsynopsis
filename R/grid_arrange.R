@@ -1,65 +1,142 @@
-make_pages <- function(debug = FALSE) {
-  figs <- file.path("report", "yelloweye", "yelloweye-figs")
-  dir.create(figs, showWarnings = FALSE)
-  if (!file.exists(file.path("report", "yelloweye", "data-cache", "pbs-surv-tows.rds"))) { # random test
-    cache_pbs_data("yelloweye rockfish", path = "data-cache")
-  }
-  cache <- file.path("report", "yelloweye", "data-cache")
+#' Make pages
+#'
+#' @param dat TODO
+#' @param spp TODO
+#' @param output_path TODO
+#' @param aspect TODO
+#' @param width TODO
+#' @param survey_cols TODO
+#' @param debug TODO
+#'
+#' @export
+#' @importFrom grDevices dev.off pdf
+#'
+#' @examples
+#' \dontrun{
+#' # TODO broken example!!
+#' library("gfplot")
+#' dc <- "data-cache"
+#' spp <- "pacific cod"
+#' dir.create(dc, showWarnings = FALSE)
+#' dir.create("figs", showWarnings = FALSE)
+#' cache_pbs_data(spp, path = dc)
+#'
+#' dat <- list()
+#' dat$survey_tows     <- readRDS(file.path(dc, "pbs-surv-tows.rds"))
+#' dat$survey_samples  <- readRDS(file.path(dc, "pbs-surv-samples.rds"))
+#' dat$comm_samples    <- readRDS(file.path(dc, "pbs-comm-samples.rds"))
+#' dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
+#' dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
+#' dat$cpue_spatial    <- readRDS(file.path(dc, "pbs-cpue-spatial.rds"))
+#' dat$cpue_spatial_ll <- readRDS(file.path(dc, "pbs-cpue-spatial-ll.rds"))
+#' dat$survey_index    <- readRDS(file.path(dc, "pbs-surv-index.rds"))
+#' dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
+#'
+#' make_pages(dat, "arrowtooth flounder", output_path = "figs")
+#' }
 
-  d_survey_tows     <- readRDS(file.path(cache, "pbs-surv-tows.rds"))
-  d_survey_samples  <- readRDS(file.path(cache, "pbs-surv-samples.rds"))
-  d_comm_samples    <- readRDS(file.path(cache, "pbs-comm-samples.rds"))
-  d_catch           <- readRDS(file.path(cache, "pbs-catch.rds"))
-  d_cpue_spatial    <- readRDS(file.path(cache, "pbs-cpue-spatial.rds"))
-  d_cpue_spatial_ll <- readRDS(file.path(cache, "pbs-cpue-spatial-ll.rds"))
-  d_survey_index    <- readRDS(file.path(cache, "pbs-surv-index.rds"))
-  d_age_precision   <- readRDS(file.path(cache, "pbs-age-precision.rds"))
+make_pages <- function(
+  dat,
+  spp,
+  output_path,
+  aspect = 1.35,
+  width = 11.5,
+  survey_cols = gg_color_hue(7L),
+  debug = FALSE) {
 
-  load_all("../gfplot/")
+  dc <- file.path("report", "data-cache")
+  dat <- list()
+  dat$survey_sets     <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
+  dat$survey_samples  <- readRDS(file.path(dc, "pbs-survey-samples.rds"))
+  dat$comm_samples    <- readRDS(file.path(dc, "pbs-comm-samples.rds"))
+  dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
+  dat$cpue_index      <- readRDS(file.path(dc, "pbs-cpue-index.rds"))
+  dat$cpue_spatial    <- readRDS(file.path(dc, "pbs-cpue-spatial.rds"))
+  dat$cpue_spatial_ll <- readRDS(file.path(dc, "pbs-cpue-spatial-ll.rds"))
+  dat$survey_index    <- readRDS(file.path(dc, "pbs-survey-index.rds"))
+  dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
 
-  ## survey_pal <- function(x) RColorBrewer::brewer.pal(n = x, "Set2")
-  survey_pal <- function(x) rev(gg_color_hue(x))
-  survey_cols <- survey_pal(7)
+  dat_orig <- dat
+
+  spp <- "pacific cod"
+
+  dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
+  dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp)
+  dat$comm_samples <- dplyr::filter(dat$comm_samples, species_common_name == spp)
+  dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
+  dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
+  dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
+  dat$survey_index <- dplyr::filter(dat$survey_index, species_common_name == spp)
+  dat$age_precision <- dplyr::filter(dat$age_precision, species_code == 222)
+
+  dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples, keeper == FALSE)
+
+  output_path <- "."
+  aspect = 1.35
+  width = 11.5
+  survey_cols = RColorBrewer::brewer.pal(7L, "Set2")
+  debug = TRUE
+
+  height <- width * aspect
+
   survey_cols <- stats::setNames(survey_cols,
     c("WCHG", "HS", "QCS", "WCVI", "PHMA LL (N)", "PHMA LL (S)", "IPHC"))
 
-  g_ages <- tidy_ages_raw(d_survey_samples) %>%
-    plot_ages(survey_cols = survey_cols)
-  ## g_ages
+  ss <- tidy_ages_raw(dat$survey_samples,
+    sample_type = "survey")
+  sc <- tidy_ages_raw(dat$comm_samples_no_keepers,
+    sample_type = "commercial") %>%
+    filter(year >= 2000)
+  sb <- suppressWarnings(bind_rows(ss, sc))
+  sb$survey <- factor(sb$survey,
+    levels = c("WCHG", "HS", "QCS", "WCVI", "PHMA LL (N)",
+      "PHMA LL (S)", "IPHC", "Commercial"))
+  g_ages <- plot_ages(sb)
 
-  g_lengths <- tidy_lengths_raw(d_survey_samples, bin_size = 2.5,
-    year_lim = c(2002, Inf)) %>%
-    plot_lengths(survey_cols = survey_cols)
-  ## g_lengths
+  ss <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
+    sample_type = "survey")
+  sc <- tidy_lengths_raw(dat$comm_samples_no_keepers, bin_size = 2.5,
+    sample_type = "commercial") %>%
+    filter(year >= 2000)
+  sb <- suppressWarnings(bind_rows(ss, sc))
+  sb$survey <- factor(sb$survey,
+    levels = c("WCHG", "HS", "QCS", "WCVI", "PHMA LL (N)",
+      "PHMA LL (S)", "IPHC", "Commercial"))
+  g_lengths <- plot_lengths(sb)
 
-  g_age_precision <- tidy_age_precision(d_age_precision) %>%
+  g_age_precision <- tidy_age_precision(dat$age_precision) %>%
     plot_age_precision()
 
-  g_catch <- tidy_catch(d_catch) %>%
-    plot_catch()
+  # ind <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
+  #   species = unique(dat$catch$species_common_name))
+  # saveRDS(ind, file = "report/pcod-cpue-cache.rds")
+  ind <- readRDS("report/pcod-cpue-cache.rds")
+  g_cpue_index <- gfsynopsis::plot_cpue_indices(ind)
 
-  g_survey_index <- tidy_survey_index(d_survey_index) %>%
+  g_catch <- gfsynopsis::plot_catches(dat_i$catch)
+
+  g_survey_index <- tidy_survey_index(dat$survey_index) %>%
     plot_survey_index()
 
-  g_comm_samples <- tidy_sample_avail(d_comm_samples) %>%
+  g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
     plot_sample_avail(title = "Commercial samples", year_range = c(1994, 2017))
 
-  g_survey_samples <- tidy_sample_avail(d_survey_samples) %>%
+  g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
     plot_sample_avail(title = "Survey samples", year_range = c(1994, 2017))
 
   g_blank <- ggplot() + gfplot::theme_pbs()
 
-  vb_m <- fit_vb(d_survey_samples, sex = "male", method = "mpd")
-  vb_f <- fit_vb(d_survey_samples, sex = "female", method = "mpd")
+  vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "mpd")
+  vb_f <- fit_vb(dat$survey_samples, sex = "female", method = "mpd")
   g_vb <- plot_vb(object_female = vb_m, object_male = vb_f) +
     guides(colour = FALSE, fill = FALSE)
 
-  lw_m <- fit_length_weight(d_survey_samples, sex = "male", method = "rlm")
-  lw_f <- fit_length_weight(d_survey_samples, sex = "female", method = "rlm")
+  lw_m <- fit_length_weight(dat$survey_samples, sex = "male", method = "rlm")
+  lw_f <- fit_length_weight(dat$survey_samples, sex = "female", method = "rlm")
   g_length_weight <- plot_length_weight(object_female = lw_m, object_male = lw_f) +
     guides(colour = FALSE, fill = FALSE)
 
-  mat_age <- d_survey_samples %>%
+  mat_age <- dat$survey_samples %>%
     fit_mat_ogive(
       type = "age",
       months = seq(4, 6),
@@ -67,7 +144,7 @@ make_pages <- function(debug = FALSE) {
   g_mat_age <- plot_mat_ogive(mat_age) +
     guides(colour = FALSE, fill = FALSE)
 
-  mat_length <- d_survey_samples %>%
+  mat_length <- dat$survey_samples %>%
     fit_mat_ogive(
       type = "length",
       months = seq(4, 6),
@@ -75,16 +152,16 @@ make_pages <- function(debug = FALSE) {
   g_mat_length <- plot_mat_ogive(mat_length) +
     guides(colour = FALSE, fill = FALSE)
 
-  g_cpue_spatial <- dplyr::filter(d_cpue_spatial, year >= 2012) %>%
+  g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3) +
     ggplot2::ggtitle("Trawl CPUE") #+
-    # labs(subtitle = "Since 2012; including discards; 3-vessel minimum")
+  # labs(subtitle = "Since 2012; including discards; 3-vessel minimum")
 
-  g_cpue_spatial_ll <- filter(d_cpue_spatial_ll, year >= 2008) %>%
+  g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       fill_lab = "CPUE (kg/fe)") +
     ggplot2::ggtitle("Hook and line CPUE") #+
-    # labs(subtitle = "Since 2008; excluding discards; 3-vessel minimum")
+  # labs(subtitle = "Since 2008; excluding discards; 3-vessel minimum")
 
   ## Page 2
   gg_mat_age        <- ggplot2::ggplotGrob(g_mat_age)
@@ -144,15 +221,9 @@ make_pages <- function(debug = FALSE) {
     debug = debug)
 
   f_all <- gridExtra::gtable_rbind(f_very_top, f_top, f_middle, f_bottom)
-  assertthat::assert_that(identical(ncol(f_top), ncol(f_middle)))
-  assertthat::assert_that(identical(ncol(f_top), ncol(f_bottom)))
-  assertthat::assert_that(identical(ncol(f_top), ncol(f_very_top)))
 
-  aspect <- 1.35 # aspect ratio of full page figure in Science Response
-  width <- 11.5 # arbitrary scalar to get size looking right
-  height <- width * aspect
-
-  pdf("report/test-2.pdf", width = width, height = height)
+  pdf(file.path(output_path, paste0(spp_file, "-2.pdf")), width = width,
+    height = height)
   grid::grid.newpage()
   grid::grid.draw(f_all)
   dev.off()
@@ -184,7 +255,8 @@ make_pages <- function(debug = FALSE) {
     height = grid::unit(1, "null"),
     debug = debug)
 
-  f_fake_text <- egg::gtable_frame(ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle("Description here")),
+  f_fake_text <- egg::gtable_frame(
+    ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle("Description here")),
     width = grid::unit(1, "null"),
     height = grid::unit(0.3, "null"),
     debug = debug)
@@ -215,17 +287,10 @@ make_pages <- function(debug = FALSE) {
 
   f_all <- gridExtra::gtable_rbind(f_fake_text, f_top, f_bottom)
 
-  aspect <- 1.35 # aspect ratio of full page figure in Science Response
-  width <- 11.5 # arbitrary scalar to get size looking right
-
-  height <- width * aspect
-
-  pdf("report/test-1.pdf", width = width, height = height)
+  pdf(file.path(output_path, paste0(spp_file, "-1.pdf")), width = width,
+    height = height)
   grid::grid.newpage()
   grid::grid.draw(f_all)
   dev.off()
-
-
-
 
 }
