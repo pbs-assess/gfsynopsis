@@ -1,11 +1,8 @@
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
   model = c("glmmfields", "inla"),
-  surveys = c(
-    "Queen Charlotte Sound Synoptic Survey",
-    "Hecate Strait Synoptic Survey",
-    "West Coast Haida Gwaii Synoptic Survey",
-    "West Coast Vancouver Island Synoptic Survey"), years = c(2016, 2017),
+  surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
+  years = c(2016, 2017),
   ...) {
   dat <- dplyr::filter(dat, species_common_name == species)
   model <- match.arg(model)
@@ -34,7 +31,7 @@ fit_survey_maps <- function(dat,
     species = species, include_depth = include_depth)
 }
 
-plot_survey_maps <- function(pred_dat, raw_dat) {
+plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE, ...) {
   plot_survey_sets(pred_dat, raw_dat,
     fill_column = "combined", show_model_predictions = TRUE,
     pos_pt_col = "#FFFFFF60",
@@ -47,8 +44,8 @@ plot_survey_maps <- function(pred_dat, raw_dat) {
       viridis::scale_colour_viridis(trans = "sqrt", option = "C"),
     rotation_center = c(500, 5700), rotation_angle = 40, north_symbol = TRUE,
     xlim = c(375, 680), ylim = c(5200, 6150), x_buffer = 0, y_buffer = 0,
-    north_symbol_coord = c(130, 5975), show_axes = FALSE,
-    extrapolate_depth = TRUE
+    north_symbol_coord = c(130, 5975), show_axes = show_axes,
+    extrapolate_depth = TRUE, ...
   ) + theme(legend.position = "bottom") +
     guides(fill = FALSE, size = FALSE) +
     ggplot2::annotate("text", 390, 6090, label = "2016", col = "grey30") +

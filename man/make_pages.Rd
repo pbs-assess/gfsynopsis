@@ -52,8 +52,10 @@ Make pages
 }
 \examples{
 \dontrun{
+# TODO broken example!!
 library("gfplot")
 dc <- "data-cache"
+spp <- "pacific cod"
 dir.create(dc, showWarnings = FALSE)
 dir.create("figs", showWarnings = FALSE)
 cache_pbs_data(spp, path = dc)
@@ -62,6 +64,7 @@ dat <- list()
 dat$survey_tows     <- readRDS(file.path(dc, "pbs-surv-tows.rds"))
 dat$survey_samples  <- readRDS(file.path(dc, "pbs-surv-samples.rds"))
 dat$comm_samples    <- readRDS(file.path(dc, "pbs-comm-samples.rds"))
+dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
 dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
 dat$cpue_spatial    <- readRDS(file.path(dc, "pbs-cpue-spatial.rds"))
 dat$cpue_spatial_ll <- readRDS(file.path(dc, "pbs-cpue-spatial-ll.rds"))
