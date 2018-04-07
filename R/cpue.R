@@ -15,7 +15,7 @@
 
 fit_cpue_indices <- function(dat,
   species = "pacific cod",
-  areas = c("3[CD]+|5[ABCDE]+", "5[AB]+", "5[CDE]+", "3[CD]+")) {
+  areas = c("3[CD]+|5[ABCDE]+", "5[AB]+", "5[CDE]+", "3[CD]+"), ...) {
 
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
@@ -106,10 +106,9 @@ fit_cpue_indices <- function(dat,
 
 plot_cpue_indices <- function(dat) {
 
-  labs <- unique(select(dat, area))
   yrs <- range(dat$year, na.rm = TRUE)
 
-  dat %>%
+  dat <- dat %>%
     group_by(area) %>%
     mutate(max_value = max(c(upr, est_unstandardized))) %>%
     mutate(
@@ -120,9 +119,11 @@ plot_cpue_indices <- function(dat) {
       ) %>%
     arrange(area) %>%
     ungroup() %>%
-    mutate(area =
-        forcats::fct_relevel(area, "3CD|5ABCDE", "5AB", "5CDE", "3CD")) %>%
-    ggplot(aes_string("year", "est", ymin = "lwr", ymax = "upr")) +
+    mutate(area = factor(area, levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")))
+
+  labs <- unique(select(dat, area))
+
+  ggplot(dat, aes_string("year", "est", ymin = "lwr", ymax = "upr")) +
     geom_vline(xintercept = seq(yrs[1], yrs[2]), col = "grey98") +
     geom_vline(xintercept = seq(gfplot:::mround(yrs[1], 5), yrs[2], 5),
       col = "grey95") +
@@ -130,8 +131,7 @@ plot_cpue_indices <- function(dat) {
     geom_line(aes_string(x = "year", y = "est_unstandardized"),
       inherit.aes = FALSE, lty = 2) +
     geom_line() +
-    facet_wrap(~area,
-      scales = "free_y", ncol = 1) +
+    facet_wrap(~area, scales = "free_y", ncol = 1) +
     ylab("Estimate") + xlab("Year") +
     guides(fill = FALSE) +
     theme_pbs() +

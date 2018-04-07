@@ -8,66 +8,146 @@
 #' @param survey_cols TODO
 #' @param debug TODO
 #'
-#' importFrom grDevices dev.off pdf
 #' @export
-#' @examples
-#' \dontrun{
-#' library("gfplot")
-#' spp <- "arrowtooth flounder"
-#' dc <- "data-cache"
-#' dir.create(dc, showWarnings = FALSE)
-#' dir.create("figs", showWarnings = FALSE)
-#' cache_pbs_data(spp, path = dc)
-#'
-#' dat <- list()
-#' dat$survey_tows     <- readRDS(file.path(dc, "pbs-surv-tows.rds"))
-#' dat$survey_samples  <- readRDS(file.path(dc, "pbs-surv-samples.rds"))
-#' dat$comm_samples    <- readRDS(file.path(dc, "pbs-comm-samples.rds"))
-#' dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
-#' dat$cpue_spatial    <- readRDS(file.path(dc, "pbs-cpue-spatial.rds"))
-#' dat$cpue_spatial_ll <- readRDS(file.path(dc, "pbs-cpue-spatial-ll.rds"))
-#' dat$survey_index    <- readRDS(file.path(dc, "pbs-surv-index.rds"))
-#' dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
-#'
-#' make_pages(dat, spp, output_path = "figs")
-#' }
+#' @importFrom grDevices dev.off pdf png
+#' @importFrom ggplot2 labeller
 
-make_pages <- function(dat,
-                       spp,
-                       output_path,
-                       aspect = 1.35,
-                       width = 11.5,
-                       survey_cols = gg_color_hue(7L),
-                       debug = FALSE,
-                       ageing_method_codes = c(3, 17),
-                       survey_age_year_range =
-                         c(2002, as.numeric(format(Sys.Date(), "%Y")))) {
+make_pages <- function(dat, spp) {
 
+  # Setup: -------------------------------------
+  aspect <- 1.35
+  width <- 11.5
+  debug <- FALSE
+  resolution <- 220
+  png_format <- FALSE
+  spp_file <- gfsynopsis:::clean_name(spp)
+  report_folder <- "report"
+
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030",
+    "#a8a8a8", "#a8a8a8", "#a8a8a8")
+  survey_cols <- stats::setNames(survey_cols,
+    c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+      "HBLL OUT S", "IPHC FISS", "Commercial",
+      "HBLL INS N", "HBLL INS S", "MSA HS"))
+
+  # Internal setup calculations: -------------
   height <- width * aspect
 
-  survey_cols <- stats::setNames(survey_cols,
-    c("WCHG", "HS", "QCS", "WCVI", "PHMA LL (N)", "PHMA LL (S)", "IPHC"))
+  dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
+  dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp)
+  dat$comm_samples <- dplyr::filter(dat$comm_samples, species_common_name == spp)
+  dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
+  dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
+  dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
+  dat$survey_index <- dplyr::filter(dat$survey_index, species_common_name == spp)
+  # TODO fix:
+  dat$age_precision <- dplyr::filter(dat$age_precision,
+    species_code == unique(dat$survey_sets$species_code))
 
-  survey_index_cols <-
-    c(survey_cols[seq_len(6)], rep("#666666", 3), survey_cols[7])
+  dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples, keeper == FALSE)
+  dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
 
-  g_ages <- tidy_ages_raw(dat$survey_samples, year_range = survey_age_year_range,
-  ageing_method_codes = ageing_method_codes) %>%
-    plot_ages(survey_cols = survey_cols, year_range = survey_age_year_range)
+  # TODO: temp:
+  dat$survey_index$survey_abbrev <- gsub("_", " ", dat$survey_index$survey_abbrev)
+  dat$survey_index$survey_abbrev <-
+    ifelse(dat$survey_index$survey_series_desc ==
+        "Hecate Strait Multispecies Assemblage Bottom Trawl", "MSA HS",
+      dat$survey_index$survey_abbrev)
 
-  g_lengths <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
-  year_lim = c(2002, Inf)) %>%
-    plot_lengths(survey_cols = survey_cols)
+  # TODO: temp:
+  # lookup <- unique(select(dat$survey_samples, survey_abbrev, survey_series_desc))
+  # dat$survey_sets$survey_abbrev <- NULL # in case
+  # dat$survey_sets <- left_join(dat$survey_sets, lookup)
 
-  g_age_precision <- tidy_age_precision(dat$age_precision,
-    ageing_method_codes = ageing_method_codes) %>%
+  # File and folder setup: --------------------------
+
+  fig_folder <- file.path(report_folder, "figure-pages")
+  cpue_cache <- file.path(report_folder, "cpue-cache")
+  survey_map_cache <- file.path(report_folder, "map-cache")
+  vb_cache <- file.path(report_folder, "vb-cache")
+
+  dir.create(fig_folder, showWarnings = FALSE, recursive = TRUE)
+  dir.create(cpue_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(survey_map_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(survey_map_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(survey_map_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(vb_cache, showWarnings = FALSE, recursive = TRUE)
+
+  fig_folder_spp1 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-1.png" else "-1.pdf")
+  fig_folder_spp2 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-2.png" else "-2.pdf")
+  cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+  map_cache_spp_synoptic <- paste0(file.path(survey_map_cache, "synoptic", spp_file), ".rds")
+  map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
+  map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
+  vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
+
+  # Age compositions: -------------------------------
+
+  ss <- tidy_ages_raw(dat$survey_samples,
+    sample_type = "survey")
+  sc <- tidy_ages_raw(dat$comm_samples_no_keepers,
+    sample_type = "commercial") %>%
+    filter(year >= 2003)
+  sb <- suppressWarnings(bind_rows(ss, sc))
+  sb$survey_abbrev <- factor(sb$survey_abbrev,
+    levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+      "HBLL OUT S", "IPHC FISS", "Commercial"))
+  g_ages <- plot_ages(sb, survey_cols = survey_cols) +
+    guides(fill = FALSE, colour = FALSE)
+
+  # Length compositions: -------------------------------
+
+  ss <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
+    sample_type = "survey")
+  sc <- tidy_lengths_raw(dat$comm_samples_no_keepers, bin_size = 2.5,
+    sample_type = "commercial") %>%
+    filter(year >= 2003)
+  sb <- suppressWarnings(bind_rows(ss, sc))
+  sb$survey_abbrev <- factor(sb$survey_abbrev,
+    levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+      "HBLL OUT S", "IPHC FISS", "Commercial"))
+  g_lengths <- plot_lengths(sb, survey_cols = survey_cols) +
+    guides(colour = FALSE, fill = FALSE)
+
+  # Aging precision: -------------------------------
+
+  g_age_precision <- tidy_age_precision(dat$age_precision) %>%
     plot_age_precision()
 
-  g_catch <- tidy_catch(dat$catch) %>%
-    plot_catch()
+  # Commercial CPUE indices: -------------------------------
+
+  if (!file.exists(cpue_cache_spp)) {
+    cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
+      species = unique(dat$catch$species_common_name))
+    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+  } else {
+    cpue_index <- readRDS(cpue_cache_spp)
+  }
+
+  g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
+    ggplot2::ggtitle("Commercial trawl CPUE") +
+    ylab("") + xlab("") +
+    theme(
+      axis.title.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank()
+    )
+
+  # Commercial catch: -------------------------------
+
+  g_catch <- gfsynopsis::plot_catches(dat$catch) +
+    theme(legend.position = "none")
+
+  # Survey biomass indices: -------------------------------
 
   g_survey_index <- tidy_survey_index(dat$survey_index) %>%
-    plot_survey_index(survey_cols = survey_index_cols)
+    plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols) +
+    theme(
+      axis.title.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank()
+    ) + ggplot2::ggtitle("Survey relative biomass indices")
 
   g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
     plot_sample_avail(title = "Commercial samples", year_range = c(1994, 2017))
@@ -75,53 +155,202 @@ make_pages <- function(dat,
   g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
     plot_sample_avail(title = "Survey samples", year_range = c(1994, 2017))
 
-  g_blank <- ggplot() + gfplot::theme_pbs()
+  # Maturity by month: -------------------------------
 
-  g_mat_month <- tidy_maturity_months(dat$survey_samples) %>%
+  # TODO: should this include commercial?
+  g_maturity_month <- tidy_maturity_months(dat$survey_samples) %>%
     plot_maturity_months() +
-    ggplot2::guides(fill = FALSE, colour = FALSE)
-
-  vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "mpd")
-  vb_f <- fit_vb(dat$survey_samples, sex = "female", method = "mpd")
-  g_vb <- plot_vb(object_female = vb_m, object_male = vb_f) +
     guides(colour = FALSE, fill = FALSE)
 
-  lw_m <- fit_length_weight(dat$survey_samples, sex = "male", method = "rlm")
-  lw_f <- fit_length_weight(dat$survey_samples, sex = "female", method = "rlm")
-  g_length_weight <- plot_length_weight(object_female = lw_m, object_male = lw_f) +
+  # Growth fits: -------------------------------
+
+  if (!file.exists(vb_cache_spp)) {
+    # TODO: memory mapping problem:
+    model_file <- system.file("stan", "vb.stan", package = "gfplot")
+    mod <- rstan::stan_model(model_file)
+    vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd")
+    vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd")
+    vb <- list()
+    vb$m <- vb_m
+    vb$f <- vb_f
+    saveRDS(vb, file = vb_cache_spp, compress = FALSE)
+  } else {
+    vb <- readRDS(vb_cache_spp)
+  }
+
+  g_vb <- plot_vb(object_female = vb$m, object_male = vb$f) +
     guides(colour = FALSE, fill = FALSE)
 
-  mat_age <- dat$survey_samples %>%
+  lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm")
+  lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm")
+  g_length_weight <-
+    plot_length_weight(object_female = lw_m, object_male = lw_f) +
+    guides(colour = FALSE, fill = FALSE)
+
+  # Maturity ogives: -------------------------------
+
+  mat_age <- dat$combined_samples %>%
     fit_mat_ogive(
       type = "age",
-      months = seq(4, 6),
-      ageing_method = c(3, 17))
+      months = 1:12)
   g_mat_age <- plot_mat_ogive(mat_age) +
     guides(colour = FALSE, fill = FALSE)
 
-  mat_length <- dat$survey_samples %>%
+  mat_length <- dat$combined_samples %>%
     fit_mat_ogive(
       type = "length",
-      months = seq(4, 6),
-      ageing_method = c(3, 17))
+      months = 1:12)
   g_mat_length <- plot_mat_ogive(mat_length) +
     guides(colour = FALSE, fill = FALSE)
 
+  # Commercial CPUE maps -------------------------------
+
+  coord_cart <- coord_cartesian(xlim = c(360, 640), ylim = c(5275, 6155))
+
+  # for checking if aspect ratio of map is 1:1
+  checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
+    y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
+    inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
+
   g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
-    plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3) +
-    ggplot2::ggtitle("Trawl CPUE") #+
-  # labs(subtitle = "Since 2012; including discards; 3-vessel minimum")
-
-  g_cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
-    fill_lab = "CPUE (kg/fe)") +
-    ggplot2::ggtitle("Hook and line CPUE") #+
-  # labs(subtitle = "Since 2008; excluding discards; 3-vessel minimum")
+      rotation_angle = 40, xlim = c(375, 680), ylim = c(5200, 6150)) +
+    ggplot2::ggtitle("Commercial trawl CPUE") +
+    theme(legend.position = "none") +
+    coord_cart + theme(
+      axis.title = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank()
+    )  #+ checking_square
 
-  ## Page 2
+  g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
+    plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
+      rotation_angle = 40, xlim = c(375, 680), ylim = c(5200, 6150),
+      fill_lab = "CPUE (kg/fe)") +
+    ggplot2::ggtitle("Commercial H & L CPUE") +
+    theme(legend.position = "none") +
+    coord_cart + theme(
+      axis.title = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank()
+    )
+
+  # Survey maps: -------------------------------
+
+  if (!file.exists(map_cache_spp_synoptic)) {
+    dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
+    syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+      species = spp, model = "inla",
+      surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
+      verbose = FALSE)
+    syn_fits$models <- NULL # save space
+    saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
+  } else {
+    syn_fits <- readRDS(map_cache_spp_synoptic)
+  }
+
+  # if (!file.exists(map_cache_spp_iphc)) {
+  #   iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+  #     species = spp, model = "inla", density_column = "density_ppkm2",
+  #     surveys = "IPHC FISS",
+  #     verbose = TRUE)
+  #   syn_fits$models <- NULL # save space
+  #   saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
+  # } else {
+  #   iphc_fits <- readRDS(map_cache_spp_iphc)
+  # }
+  #
+  # if (!file.exists(map_cache_spp_hbll)) {
+  #   hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+  #     species = spp, model = "inla", density_column = "density_ppkm2",
+  #     surveys = c("HBLL OUT N", "HBLL OUT S"),
+  #     verbose = TRUE)
+  #   syn_fits$models <- NULL # save space
+  #   saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
+  # } else {
+  #   hbll_fits <- readRDS(map_cache_spp_hbll)
+  # }
+
+  g_survey_spatial <-
+    gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat) +
+    coord_cart
+
+  g_survey_spatial_syn <- g_survey_spatial + ggplot2::ggtitle("Synoptic survey biomass")
+
+  # TODO: temp:
+  g_survey_spatial_iphc <- g_survey_spatial + ggplot2::ggtitle("IPHC survey biomass")
+  g_survey_spatial_hbll <- g_survey_spatial + ggplot2::ggtitle("HBLL OUT survey biomass")
+
+  # Page 1 layout: -------------------------------
+
+  gg_catch               <- ggplot2::ggplotGrob(g_catch)
+  gg_survey_index        <- ggplot2::ggplotGrob(g_survey_index)
+  gg_cpue_spatial        <- ggplot2::ggplotGrob(g_cpue_spatial)
+  gg_cpue_spatial_ll     <- ggplot2::ggplotGrob(g_cpue_spatial_ll)
+  gg_cpue_index          <- ggplot2::ggplotGrob(g_cpue_index)
+  gg_survey_spatial_syn  <- ggplot2::ggplotGrob(g_survey_spatial_syn)
+  gg_survey_spatial_iphc <- ggplot2::ggplotGrob(g_survey_spatial_iphc)
+  gg_survey_spatial_hbll <- ggplot2::ggplotGrob(g_survey_spatial_hbll)
+
+  fg_catch               <- egg::gtable_frame(gg_catch, debug = debug)
+  fg_survey_index        <- egg::gtable_frame(gg_survey_index, debug = debug)
+  fg_cpue_spatial        <- egg::gtable_frame(gg_cpue_spatial, debug = debug)
+  fg_cpue_spatial_ll     <- egg::gtable_frame(gg_cpue_spatial_ll, debug = debug)
+  fg_cpue_index          <- egg::gtable_frame(gg_cpue_index, debug = debug,
+                                              width = grid::unit(0.7, "null"))
+  fg_survey_spatial_syn  <- egg::gtable_frame(gg_survey_spatial_syn, debug = debug)
+  fg_survey_spatial_iphc <- egg::gtable_frame(gg_survey_spatial_iphc, debug = debug)
+  fg_survey_spatial_hbll <- egg::gtable_frame(gg_survey_spatial_hbll, debug = debug)
+
+  f_topleft <- egg::gtable_frame(
+    fg_survey_index,
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_topright <- egg::gtable_frame(
+    gridExtra::gtable_cbind(fg_catch, fg_cpue_index),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_fake_text <- egg::gtable_frame(
+    ggplot2::ggplotGrob(ggplot2::ggplot() + ggplot2::ggtitle(" ") + theme_pbs()),
+    width = grid::unit(1, "null"),
+    height = grid::unit(0.3, "null"),
+    debug = debug)
+
+  f_top <- egg::gtable_frame(
+    gridExtra::gtable_cbind(f_topleft, f_topright),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1, "null"),
+    debug = debug)
+
+  f_bottom <- egg::gtable_frame(
+    gridExtra::gtable_cbind(
+      fg_survey_spatial_syn, fg_survey_spatial_hbll, fg_survey_spatial_iphc,
+      fg_cpue_spatial, fg_cpue_spatial_ll),
+    width = grid::unit(1, "null"),
+    height = grid::unit(1.102, "null"),
+    debug = debug)
+
+  f_all <- gridExtra::gtable_rbind(f_fake_text, f_top, f_bottom)
+
+  if (png_format) {
+    png(fig_folder_spp1, width = width * resolution,
+      height = height * resolution, res = resolution)
+  } else {
+    pdf(fig_folder_spp1, width = width, height = height)
+  }
+  grid::grid.newpage()
+  grid::grid.draw(f_all)
+  dev.off()
+
+  # Page 2 layout: -------------------------------
+
   gg_mat_age        <- ggplot2::ggplotGrob(g_mat_age)
   gg_mat_length     <- ggplot2::ggplotGrob(g_mat_length)
-  gg_mat_month      <- ggplot2::ggplotGrob(g_mat_month)
+  gg_mat_month      <- ggplot2::ggplotGrob(g_maturity_month)
   gg_lengths        <- ggplot2::ggplotGrob(g_lengths)
   gg_ages           <- ggplot2::ggplotGrob(g_ages)
   gg_length_weight  <- ggplot2::ggplotGrob(g_length_weight)
@@ -177,76 +406,13 @@ make_pages <- function(dat,
 
   f_all <- gridExtra::gtable_rbind(f_very_top, f_top, f_middle, f_bottom)
 
-  pdf(file.path(output_path, paste0(clean_name(spp), "-2.pdf")),
-    width = width, height = height)
+  if (png_format) {
+    png(fig_folder_spp2, width = width * resolution,
+      height = height * resolution, res = resolution)
+  } else {
+    pdf(fig_folder_spp2, width = width, height = height)
+  }
   grid::grid.newpage()
   grid::grid.draw(f_all)
   dev.off()
-
-  # ## Page 1
-  # gg_catch           <- ggplot2::ggplotGrob(g_catch)
-  # gg_survey_index    <- ggplot2::ggplotGrob(g_survey_index)
-  # gg_cpue_spatial    <- ggplot2::ggplotGrob(g_cpue_spatial + xlim(290, 800))
-  # gg_cpue_spatial_ll <- ggplot2::ggplotGrob(g_cpue_spatial_ll)
-  # gg_cpue_index      <- ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle("Commercial CPUE"))
-  # gg_survey_spatial  <- ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle("Surveys"))
-  #
-  # fg_catch           <- egg::gtable_frame(gg_catch, debug = debug)
-  # fg_survey_index    <- egg::gtable_frame(gg_survey_index, debug = debug)
-  # fg_cpue_spatial    <- egg::gtable_frame(gg_cpue_spatial, debug = debug)
-  # fg_cpue_spatial_ll <- egg::gtable_frame(gg_cpue_spatial_ll, debug = debug)
-  # fg_cpue_index      <- egg::gtable_frame(gg_cpue_index, debug = debug)
-  # fg_survey_spatial  <- egg::gtable_frame(gg_survey_spatial, debug = debug)
-  #
-  # f_topleft <- egg::gtable_frame(
-  #   fg_survey_index,
-  #   width = grid::unit(1, "null"),
-  #   height = grid::unit(1, "null"),
-  #   debug = debug)
-  #
-  # f_topright <- egg::gtable_frame(
-  #   gridExtra::gtable_rbind(fg_catch, fg_cpue_index, fg_cpue_index),
-  #   width = grid::unit(1, "null"),
-  #   height = grid::unit(1, "null"),
-  #   debug = debug)
-  #
-  # f_fake_text <- egg::gtable_frame(ggplot2::ggplotGrob(
-  #   g_blank + ggplot2::ggtitle("Description here")),
-  #   width = grid::unit(1, "null"),
-  #   height = grid::unit(0.3, "null"),
-  #   debug = debug)
-  #
-  # f_top <- egg::gtable_frame(
-  #   gridExtra::gtable_cbind(f_topleft, f_topright),
-  #   width = grid::unit(1, "null"),
-  #   height = grid::unit(0.7, "null"),
-  #   debug = debug)
-  #
-  # f_bottomleft <- egg::gtable_frame(
-  #   fg_survey_spatial,
-  #   width = grid::unit(1, "null"),
-  #   height = grid::unit(1, "null"),
-  #   debug = debug)
-  #
-  # f_bottomright <- egg::gtable_frame(
-  #   # gridExtra::gtable_rbind(fg_cpue_spatial, fg_cpue_spatial_ll),
-  #   gridExtra::gtable_rbind(fg_mat_month, fg_mat_month),
-  #   width = grid::unit(1, "null"),
-  #   height = grid::unit(1, "null"),
-  #   debug = debug)
-  #
-  # f_bottom <- egg::gtable_frame(
-  #   gridExtra::gtable_cbind(f_bottomleft, f_bottomright),
-  #   width = grid::unit(1, "null"),
-  #   height = grid::unit(1, "null"),
-  #   debug = debug)
-  #
-  # f_all <- gridExtra::gtable_rbind(f_fake_text, f_top, f_bottom)
-  #
-  # pdf(file.path(output_path, paste0(clean_name(spp), "-1.pdf")),
-  #   width = width, height = height)
-  # grid::grid.newpage()
-  # grid::grid.draw(f_all)
-  # dev.off()
-
 }

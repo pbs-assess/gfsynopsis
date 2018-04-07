@@ -15,3 +15,5 @@ dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
 
 gfsynopsis::make_pages(dat, "pacific ocean perch")
 gfsynopsis::make_pages(dat, "pacific cod")
+gfsynopsis::make_pages(dat, "redbanded rockfish")
+gfsynopsis::make_pages(dat, "shortraker rockfish")
