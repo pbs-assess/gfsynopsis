@@ -1,0 +1,8 @@
+\section{INTRODUCTION}
+
+\subsection{CONTEXT}
+
+\begin{resdoclist}
+\item What is the exact decision that has to be made?
+\item What is the timeframe for the decision?
+\end{resdoclist}

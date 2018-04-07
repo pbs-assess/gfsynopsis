@@ -1,3 +1,0 @@
-% Variables
-\newcommand{\fishName}{Pacific Herring}
-\newcommand{\scienceName}{\emph{Clupea pallasii}}

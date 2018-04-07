@@ -1,0 +1,7 @@
+\section{PLOTS}
+
+\subsection{PACIFIC OCEAN PERCH}
+
+\begin{figure}[h]
+  \includegraphics[width=5.75in]{../figure-pages/pacific-ocean-perch-1}
+\end{figure}

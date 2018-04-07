@@ -39,7 +39,7 @@
 \newcommand{\rdNumber}{XXX}
 
 % Title
-\newcommand{\rdTitle}{Title here \fishName (\scienceName)}
+\newcommand{\rdTitle}{Title here}
 
 % Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
 \newcommand{\rdAuth}{A.B. Lastname\textsuperscript{1}, C.D. Lastname\textsuperscript{1}}
@@ -52,9 +52,10 @@
 \textsuperscript{1}Pacific Biological Station\\
 Fisheries and Oceans Canada, 3190 Hammond Bay Road\\
 Nanaimo, British Columbia, V9T 6N7, Canada
+}
 
 % Name of file with abstract and resume (see \abstract and \frenchabstract for requirements)
-\newcommand{\rdAbstract}{\Sexpr{knit_child('maindoc/0_abstract.rnw')}}
+\newcommand{\rdAbstract}{\Sexpr{knit_child('doc/00-abstract.rnw')}}
 
 %%%% End of title page commands %%%%%
 
@@ -62,14 +63,18 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 \begin{document}
 
 % More custom variables
-<<variables, child='variables.rnw'>>=
+<<variables, child='doc/99-variables.rnw'>>=
 @
 
 % Make the first few pages
 \frontmatter
 
-<<introduction, child='maindoc/1_introduction.rnw'>>=
+<<introduction, child='doc/01-introduction.rnw'>>=
 @
+
+<<plots, child='doc/02-plots.rnw'>>=
+@
+
 
 % Fin
 \end{document}

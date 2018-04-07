@@ -9,58 +9,29 @@
 #' @param debug TODO
 #'
 #' @export
-#' @importFrom grDevices dev.off pdf
-#'
-#' @examples
-#' \dontrun{
-#' # TODO broken example!!
-#' library("gfplot")
-#' dc <- "data-cache"
-#' spp <- "pacific cod"
-#' dir.create(dc, showWarnings = FALSE)
-#' dir.create("figs", showWarnings = FALSE)
-#' cache_pbs_data(spp, path = dc)
-#'
-#' dat <- list()
-#' dat$survey_sets     <- readRDS(file.path(dc, "pbs-surv-sets.rds"))
-#' dat$survey_samples  <- readRDS(file.path(dc, "pbs-surv-samples.rds"))
-#' dat$comm_samples    <- readRDS(file.path(dc, "pbs-comm-samples.rds"))
-#' dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
-#' dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
-#' dat$cpue_spatial    <- readRDS(file.path(dc, "pbs-cpue-spatial.rds"))
-#' dat$cpue_spatial_ll <- readRDS(file.path(dc, "pbs-cpue-spatial-ll.rds"))
-#' dat$survey_index    <- readRDS(file.path(dc, "pbs-surv-index.rds"))
-#' dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
-#'
-#' make_pages(dat, "arrowtooth flounder", output_path = "figs")
-#' }
+#' @importFrom grDevices dev.off pdf png
+#' @importFrom ggplot2 labeller
 
-make_pages <- function(
-  dat,
-  spp,
-  spp_file = spp,
-  output_path,
-  aspect = 1.35,
-  width = 11.5,
-  survey_cols = gg_color_hue(7L),
-  debug = FALSE) {
+make_pages <- function(dat, spp) {
 
   # Setup: -------------------------------------
-  dc <- file.path("report", "data-cache")
-  dat <- list()
-  dat$survey_sets     <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
-  dat$survey_samples  <- readRDS(file.path(dc, "pbs-survey-samples.rds"))
-  dat$comm_samples    <- readRDS(file.path(dc, "pbs-comm-samples.rds"))
-  dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
-  dat$cpue_index      <- readRDS(file.path(dc, "pbs-cpue-index.rds"))
-  dat$cpue_spatial    <- readRDS(file.path(dc, "pbs-cpue-spatial.rds"))
-  dat$cpue_spatial_ll <- readRDS(file.path(dc, "pbs-cpue-spatial-ll.rds"))
-  dat$survey_index    <- readRDS(file.path(dc, "pbs-survey-index.rds"))
-  dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
+  aspect <- 1.35
+  width <- 11.5
+  debug <- FALSE
+  resolution <- 220
+  png_format <- FALSE
+  spp_file <- gfsynopsis:::clean_name(spp)
+  report_folder <- "report"
 
-  spp <- "pacific ocean perch"
-  # spp <- "yelloweye rockfish"
-  spp_file <- file.path("report", "pop-eg")
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030",
+    "#a8a8a8", "#a8a8a8", "#a8a8a8")
+  survey_cols <- stats::setNames(survey_cols,
+    c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+      "HBLL OUT S", "IPHC FISS", "Commercial",
+      "HBLL INS N", "HBLL INS S", "MSA HS"))
+
+  # Internal setup calculations: -------------
+  height <- width * aspect
 
   dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
   dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp)
@@ -69,38 +40,47 @@ make_pages <- function(
   dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
   dat$survey_index <- dplyr::filter(dat$survey_index, species_common_name == spp)
-  dat$age_precision <- dplyr::filter(dat$age_precision, species_code == 396)
+  # TODO fix:
+  dat$age_precision <- dplyr::filter(dat$age_precision,
+    species_code == unique(dat$survey_sets$species_code))
 
   dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples, keeper == FALSE)
   dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
 
-  # saveRDS(dat, file = "report/dat-eg.rds", compress = FALSE)
-  # dat <- readRDS("report/dat-eg.rds")
-
-  # temp:
+  # TODO: temp:
   dat$survey_index$survey_abbrev <- gsub("_", " ", dat$survey_index$survey_abbrev)
   dat$survey_index$survey_abbrev <-
     ifelse(dat$survey_index$survey_series_desc ==
         "Hecate Strait Multispecies Assemblage Bottom Trawl", "MSA HS",
       dat$survey_index$survey_abbrev)
 
-  # temp:
+  # TODO: temp:
   # lookup <- unique(select(dat$survey_samples, survey_abbrev, survey_series_desc))
   # dat$survey_sets$survey_abbrev <- NULL # in case
   # dat$survey_sets <- left_join(dat$survey_sets, lookup)
 
-  output_path <- "."
-  aspect = 1.35
-  width = 11.5
-  survey_cols = RColorBrewer::brewer.pal(7L, "Set2")
-  debug = FALSE
-  resolution = 300
+  # File and folder setup: --------------------------
 
-  height <- width * aspect
+  fig_folder <- file.path(report_folder, "figure-pages")
+  cpue_cache <- file.path(report_folder, "cpue-cache")
+  survey_map_cache <- file.path(report_folder, "map-cache")
+  vb_cache <- file.path(report_folder, "vb-cache")
 
-  survey_cols <- stats::setNames(survey_cols,
-    c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-      "HBLL OUT S", "IPHC FISS"))
+  dir.create(fig_folder, showWarnings = FALSE, recursive = TRUE)
+  dir.create(cpue_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(survey_map_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(survey_map_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(survey_map_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(vb_cache, showWarnings = FALSE, recursive = TRUE)
+
+  fig_folder_spp1 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-1.png" else "-1.pdf")
+  fig_folder_spp2 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-2.png" else "-2.pdf")
+  cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+  map_cache_spp_synoptic <- paste0(file.path(survey_map_cache, "synoptic", spp_file), ".rds")
+  map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
+  map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
+  vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
 
   # Age compositions: -------------------------------
 
@@ -113,7 +93,7 @@ make_pages <- function(
   sb$survey_abbrev <- factor(sb$survey_abbrev,
     levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
       "HBLL OUT S", "IPHC FISS", "Commercial"))
-  g_ages <- plot_ages(sb) +
+  g_ages <- plot_ages(sb, survey_cols = survey_cols) +
     guides(fill = FALSE, colour = FALSE)
 
   # Length compositions: -------------------------------
@@ -122,12 +102,12 @@ make_pages <- function(
     sample_type = "survey")
   sc <- tidy_lengths_raw(dat$comm_samples_no_keepers, bin_size = 2.5,
     sample_type = "commercial") %>%
-    filter(year >= 2000)
+    filter(year >= 2003)
   sb <- suppressWarnings(bind_rows(ss, sc))
   sb$survey_abbrev <- factor(sb$survey_abbrev,
     levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
       "HBLL OUT S", "IPHC FISS", "Commercial"))
-  g_lengths <- plot_lengths(sb) +
+  g_lengths <- plot_lengths(sb, survey_cols = survey_cols) +
     guides(colour = FALSE, fill = FALSE)
 
   # Aging precision: -------------------------------
@@ -137,10 +117,13 @@ make_pages <- function(
 
   # Commercial CPUE indices: -------------------------------
 
-  # ind <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
-  #   species = unique(dat$catch$species_common_name))
-  # saveRDS(ind, file = "report/cpue-eg-cache.rds", compress = FALSE)
-  ind <- readRDS("report/cpue-eg-cache.rds")
+  if (!file.exists(cpue_cache_spp)) {
+    ind <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
+      species = unique(dat$catch$species_common_name))
+    saveRDS(ind, file = cpue_cache_spp, compress = FALSE)
+  } else {
+    ind <- readRDS(cpue_cache_spp)
+  }
 
   g_cpue_index <- gfsynopsis::plot_cpue_indices(ind) +
     ggplot2::ggtitle("Commercial trawl CPUE") +
@@ -156,10 +139,10 @@ make_pages <- function(
   g_catch <- gfsynopsis::plot_catches(dat$catch) +
     theme(legend.position = "none")
 
-  # Survey biomas indices: -------------------------------
+  # Survey biomass indices: -------------------------------
 
   g_survey_index <- tidy_survey_index(dat$survey_index) %>%
-    plot_survey_index(col = c("grey60", "grey20")) +
+    plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols) +
     theme(
       axis.title.y = element_blank(),
       axis.text.y = element_blank(),
@@ -181,9 +164,21 @@ make_pages <- function(
 
   # Growth fits: -------------------------------
 
-  vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd")
-  vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd")
-  g_vb <- plot_vb(object_female = vb_m, object_male = vb_f) +
+  if (!file.exists(vb_cache_spp)) {
+    # TODO: memory mapping problem:
+    model_file <- system.file("stan", "vb.stan", package = "gfplot")
+    mod <- rstan::stan_model(model_file)
+    vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd")
+    vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd")
+    vb <- list()
+    vb$m <- vb_m
+    vb$f <- vb_f
+    saveRDS(vb, file = vb_cache_spp, compress = FALSE)
+  } else {
+    vb <- readRDS(vb_cache_spp)
+  }
+
+  g_vb <- plot_vb(object_female = vb$m, object_male = vb$f) +
     guides(colour = FALSE, fill = FALSE)
 
   lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm")
@@ -194,7 +189,7 @@ make_pages <- function(
 
   # Maturity ogives: -------------------------------
 
-  e <- dat$combined_samples %>%
+  mat_age <- dat$combined_samples %>%
     fit_mat_ogive(
       type = "age",
       months = 1:12)
@@ -212,8 +207,9 @@ make_pages <- function(
 
   coord_cart <- coord_cartesian(xlim = c(360, 640), ylim = c(5275, 6155))
 
+  # for checking if aspect ratio of map is 1:1
   checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
-    y = c(5500, 5500, 5700, 5700)), aes(x = x, y = y),
+    y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
     inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
 
   g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
@@ -241,40 +237,69 @@ make_pages <- function(
 
   # Survey maps: -------------------------------
 
-  # syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-  #   species = spp, model = "inla", plot = FALSE,
-  #   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-  #     verbose = TRUE)
-  # saveRDS(syn_fits, file = "report/syn-fits-eg-cache.rds", compress = FALSE)
-  syn_fits <- readRDS("report/syn-fits-eg-cache.rds")
+  if (!file.exists(map_cache_spp_synoptic)) {
+    syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+      species = spp, model = "inla",
+      surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
+      verbose = TRUE)
+    syn_fits$models <- NULL # save space
+    saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
+  } else {
+    syn_fits <- readRDS(map_cache_spp_synoptic)
+  }
 
-  # iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-  #   species = spp, density_column = "density_ppkm2",
-  #   model = "inla", plot = TRUE,
-  #   surveys = "IPHC FISS", verbose = TRUE)
-  # saveRDS(syn_fits, file = "report/syn-fits-eg-cache.rds", compress = FALSE)
+  # if (!file.exists(map_cache_spp_iphc)) {
+  #   iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+  #     species = spp, model = "inla", density_column = "density_ppkm2",
+  #     surveys = "IPHC FISS",
+  #     verbose = TRUE)
+  #   syn_fits$models <- NULL # save space
+  #   saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
+  # } else {
+  #   iphc_fits <- readRDS(map_cache_spp_iphc)
+  # }
+  #
+  # if (!file.exists(map_cache_spp_hbll)) {
+  #   hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+  #     species = spp, model = "inla", density_column = "density_ppkm2",
+  #     surveys = c("HBLL OUT N", "HBLL OUT S"),
+  #     verbose = TRUE)
+  #   syn_fits$models <- NULL # save space
+  #   saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
+  # } else {
+  #   hbll_fits <- readRDS(map_cache_spp_hbll)
+  # }
 
   g_survey_spatial <-
     gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat) +
-    coord_cart +
-    ggplot2::ggtitle("Synoptic survey biomass")
+    coord_cart
+
+  g_survey_spatial_syn <- g_survey_spatial + ggplot2::ggtitle("Synoptic survey biomass")
+
+  # TODO: temp:
+  g_survey_spatial_iphc <- g_survey_spatial + ggplot2::ggtitle("IPHC survey biomass")
+  g_survey_spatial_hbll <- g_survey_spatial + ggplot2::ggtitle("HBLL OUT survey biomass")
 
   # Page 1 layout: -------------------------------
 
-  gg_catch           <- ggplot2::ggplotGrob(g_catch)
-  gg_survey_index    <- ggplot2::ggplotGrob(g_survey_index)
-  gg_cpue_spatial    <- ggplot2::ggplotGrob(g_cpue_spatial)
-  gg_cpue_spatial_ll <- ggplot2::ggplotGrob(g_cpue_spatial_ll)
-  gg_cpue_index      <- ggplot2::ggplotGrob(g_cpue_index)
-  gg_survey_spatial  <- ggplot2::ggplotGrob(g_survey_spatial)
+  gg_catch               <- ggplot2::ggplotGrob(g_catch)
+  gg_survey_index        <- ggplot2::ggplotGrob(g_survey_index)
+  gg_cpue_spatial        <- ggplot2::ggplotGrob(g_cpue_spatial)
+  gg_cpue_spatial_ll     <- ggplot2::ggplotGrob(g_cpue_spatial_ll)
+  gg_cpue_index          <- ggplot2::ggplotGrob(g_cpue_index)
+  gg_survey_spatial_syn  <- ggplot2::ggplotGrob(g_survey_spatial_syn)
+  gg_survey_spatial_iphc <- ggplot2::ggplotGrob(g_survey_spatial_iphc)
+  gg_survey_spatial_hbll <- ggplot2::ggplotGrob(g_survey_spatial_hbll)
 
-  fg_catch           <- egg::gtable_frame(gg_catch, debug = debug)
-  fg_survey_index    <- egg::gtable_frame(gg_survey_index, debug = debug)
-  fg_cpue_spatial    <- egg::gtable_frame(gg_cpue_spatial, debug = debug)
-  fg_cpue_spatial_ll <- egg::gtable_frame(gg_cpue_spatial_ll, debug = debug)
-  fg_cpue_index      <- egg::gtable_frame(gg_cpue_index, debug = debug,
-    width = grid::unit(0.7, "null"))
-  fg_survey_spatial  <- egg::gtable_frame(gg_survey_spatial, debug = debug)
+  fg_catch               <- egg::gtable_frame(gg_catch, debug = debug)
+  fg_survey_index        <- egg::gtable_frame(gg_survey_index, debug = debug)
+  fg_cpue_spatial        <- egg::gtable_frame(gg_cpue_spatial, debug = debug)
+  fg_cpue_spatial_ll     <- egg::gtable_frame(gg_cpue_spatial_ll, debug = debug)
+  fg_cpue_index          <- egg::gtable_frame(gg_cpue_index, debug = debug,
+                                              width = grid::unit(0.7, "null"))
+  fg_survey_spatial_syn  <- egg::gtable_frame(gg_survey_spatial_syn, debug = debug)
+  fg_survey_spatial_iphc <- egg::gtable_frame(gg_survey_spatial_iphc, debug = debug)
+  fg_survey_spatial_hbll <- egg::gtable_frame(gg_survey_spatial_hbll, debug = debug)
 
   f_topleft <- egg::gtable_frame(
     fg_survey_index,
@@ -289,7 +314,7 @@ make_pages <- function(
     debug = debug)
 
   f_fake_text <- egg::gtable_frame(
-    ggplot2::ggplotGrob(g_blank + ggplot2::ggtitle(" ")),
+    ggplot2::ggplotGrob(ggplot2::ggplot() + ggplot2::ggtitle(" ") + theme_pbs()),
     width = grid::unit(1, "null"),
     height = grid::unit(0.3, "null"),
     debug = debug)
@@ -302,7 +327,7 @@ make_pages <- function(
 
   f_bottom <- egg::gtable_frame(
     gridExtra::gtable_cbind(
-      fg_survey_spatial, fg_survey_spatial, fg_survey_spatial,
+      fg_survey_spatial_syn, fg_survey_spatial_hbll, fg_survey_spatial_iphc,
       fg_cpue_spatial, fg_cpue_spatial_ll),
     width = grid::unit(1, "null"),
     height = grid::unit(1.102, "null"),
@@ -310,8 +335,12 @@ make_pages <- function(
 
   f_all <- gridExtra::gtable_rbind(f_fake_text, f_top, f_bottom)
 
-  pdf(file.path(output_path, paste0(spp_file, "-1.pdf")), width = width,
-    height = height)
+  if (png_format) {
+    png(fig_folder_spp1, width = width * resolution,
+      height = height * resolution, res = resolution)
+  } else {
+    pdf(fig_folder_spp1, width = width, height = height)
+  }
   grid::grid.newpage()
   grid::grid.draw(f_all)
   dev.off()
@@ -376,12 +405,13 @@ make_pages <- function(
 
   f_all <- gridExtra::gtable_rbind(f_very_top, f_top, f_middle, f_bottom)
 
-  pdf(file.path(output_path, paste0(spp_file, "-2.pdf")), width = width,
-    height = height)
-  # png(file.path(output_path, paste0(spp_file, "-2.png")), width = width * resolution,
-    # height = height * resolution, res = resolution)
+  if (png_format) {
+    png(fig_folder_spp2, width = width * resolution,
+      height = height * resolution, res = resolution)
+  } else {
+    pdf(fig_folder_spp2, width = width, height = height)
+  }
   grid::grid.newpage()
   grid::grid.draw(f_all)
   dev.off()
-
 }
