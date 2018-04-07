@@ -16,7 +16,7 @@ fit_survey_maps <- function(dat,
     } else {
       fit_survey_sets(dat, survey = surv, years = years,
         model = "glmmfields", chains = 1, iter = 800,
-        mcmc_posterior_samples = 300, n_knots = 25)
+        mcmc_posterior_samples = 300, n_knots = 25, ...)
     }
   })
 

@@ -119,12 +119,18 @@ plot_cpue_indices <- function(dat) {
       est_unstandardized = est_unstandardized / max_value
       ) %>%
     arrange(area) %>%
+    ungroup() %>%
+    mutate(area =
+        forcats::fct_relevel(area, "3CD|5ABCDE", "5AB", "5CDE", "3CD")) %>%
     ggplot(aes_string("year", "est", ymin = "lwr", ymax = "upr")) +
+    geom_vline(xintercept = seq(yrs[1], yrs[2]), col = "grey98") +
+    geom_vline(xintercept = seq(gfplot:::mround(yrs[1], 5), yrs[2], 5),
+      col = "grey95") +
     geom_ribbon(alpha = 0.3, col = NA, fill = "grey60") +
     geom_line(aes_string(x = "year", y = "est_unstandardized"),
       inherit.aes = FALSE, lty = 2) +
     geom_line() +
-    facet_wrap(~forcats::fct_relevel(area, "3CD|5ABCDE", "5AB", "5CDE", "3CD"),
+    facet_wrap(~area,
       scales = "free_y", ncol = 1) +
     ylab("Estimate") + xlab("Year") +
     guides(fill = FALSE) +
@@ -140,9 +146,9 @@ plot_cpue_indices <- function(dat) {
     ) +
     guides(fill = FALSE, colour = FALSE) +
     geom_text(
-      data = labs, x = yrs[1] + 0.5, y = 0.88,
+      data = labs, x = yrs[1] + 0.5, y = 0.92,
       aes_string(label = "area"),
-      inherit.aes = FALSE, colour = "grey30", size = 2.75, hjust = 0
+      inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
     ) +
     scale_x_continuous(breaks = seq(0, yrs[2], 5))
 }

@@ -17,8 +17,10 @@ plot_catches <- function(dat) {
     ) +
     scale_x_continuous(breaks = seq(0, yrs[2], 10))
 
-
-  gdat <- ggplot2::ggplot_build(g)$data[[1]]
+  gdat <- ggplot2::ggplot_build(g)$data
+  data_element <- which(unlist(lapply(lapply(gdat, names),
+    function(x) "ymax" %in% x)))[[1]]
+  gdat <- gdat[[data_element]]
   max_val <- max(gdat$ymax)
 
   labs <- unique(select(catch, area))
