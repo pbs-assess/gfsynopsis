@@ -2,33 +2,42 @@
 #'
 #' @param dat TODO
 #' @param spp TODO
-#' @param output_path TODO
 #' @param aspect TODO
 #' @param width TODO
-#' @param survey_cols TODO
 #' @param debug TODO
+#' @param resolution TODO
+#' @param png_format TODO
+#' @param spp_file TODO
+#' @param report_folder TODO
+#' @param survey_cols TODO
+#' @param survey_col_names TODO
 #'
 #' @export
 #' @importFrom grDevices dev.off pdf png
 #' @importFrom ggplot2 labeller
 
-make_pages <- function(dat, spp) {
+make_pages <- function(
+  dat,
+  spp,
+  aspect = 1.35,
+  short_page_height_ratio = 0.78,
+  width = 11.5,
+  debug = FALSE,
+  resolution = 220,
+  png_format = TRUE,
+  spp_file = gfsynopsis:::clean_name(spp),
+  report_folder = "report",
+  include_map_square = FALSE,
+  map_xlim = c(360, 653),
+  map_ylim = c(5275, 6155),
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
+    "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"),
+  survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+      "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
+      "HBLL INS N", "HBLL INS S", "MSA HS")
+  ) {
 
-  # Setup: -------------------------------------
-  aspect <- 1.35
-  width <- 11.5
-  debug <- FALSE
-  resolution <- 220
-  png_format <- FALSE
-  spp_file <- gfsynopsis:::clean_name(spp)
-  report_folder <- "report"
-
-  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030",
-    "#a8a8a8", "#a8a8a8", "#a8a8a8")
-  survey_cols <- stats::setNames(survey_cols,
-    c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-      "HBLL OUT S", "IPHC FISS", "Commercial",
-      "HBLL INS N", "HBLL INS S", "MSA HS"))
+  survey_cols <- stats::setNames(survey_cols, survey_col_names)
 
   # Internal setup calculations: -------------
   height <- width * aspect
@@ -150,10 +159,12 @@ make_pages <- function(dat, spp) {
     ) + ggplot2::ggtitle("Survey relative biomass indices")
 
   g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
-    plot_sample_avail(title = "Commercial samples", year_range = c(1994, 2017))
+    plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
+    viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey85")
 
   g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
-    plot_sample_avail(title = "Survey samples", year_range = c(1994, 2017))
+    plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
+    viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey85")
 
   # Maturity by month: -------------------------------
 
@@ -205,7 +216,7 @@ make_pages <- function(dat, spp) {
 
   # Commercial CPUE maps -------------------------------
 
-  coord_cart <- coord_cartesian(xlim = c(360, 640), ylim = c(5275, 6155))
+  coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
 
   # for checking if aspect ratio of map is 1:1
   checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
@@ -221,7 +232,10 @@ make_pages <- function(dat, spp) {
       axis.title = element_blank(),
       axis.text = element_blank(),
       axis.ticks = element_blank()
-    )  #+ checking_square
+    )
+
+  if (include_map_square)
+    g_cpue_spatial <- g_cpue_spatial + checking_square
 
   g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
@@ -331,16 +345,16 @@ make_pages <- function(dat, spp) {
       fg_survey_spatial_syn, fg_survey_spatial_hbll, fg_survey_spatial_iphc,
       fg_cpue_spatial, fg_cpue_spatial_ll),
     width = grid::unit(1, "null"),
-    height = grid::unit(1.102, "null"),
+    height = grid::unit(1.35, "null"),
     debug = debug)
 
-  f_all <- gridExtra::gtable_rbind(f_fake_text, f_top, f_bottom)
+  f_all <- gridExtra::gtable_rbind(f_top, f_bottom)
 
   if (png_format) {
     png(fig_folder_spp1, width = width * resolution,
-      height = height * resolution, res = resolution)
+      height = height * resolution * short_page_height_ratio, res = resolution)
   } else {
-    pdf(fig_folder_spp1, width = width, height = height)
+    pdf(fig_folder_spp1, width = width, height = height * short_page_height_ratio)
   }
   grid::grid.newpage()
   grid::grid.draw(f_all)
@@ -398,13 +412,13 @@ make_pages <- function(dat, spp) {
     height = grid::unit(0.3, "null"),
     debug = debug)
 
-  f_very_top <- egg::gtable_frame(
-    gridExtra::gtable_cbind(fg_comm_samples, fg_survey_samples),
+  f_very_bottom <- egg::gtable_frame(
+    gridExtra::gtable_cbind(fg_survey_samples, fg_comm_samples),
     width = grid::unit(1, "null"),
     height = grid::unit(0.17, "null"),
     debug = debug)
 
-  f_all <- gridExtra::gtable_rbind(f_very_top, f_top, f_middle, f_bottom)
+  f_all <- gridExtra::gtable_rbind(f_top, f_middle, f_bottom, f_very_bottom)
 
   if (png_format) {
     png(fig_folder_spp2, width = width * resolution,
