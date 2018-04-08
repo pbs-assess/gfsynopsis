@@ -121,7 +121,7 @@ plot_cpue_indices <- function(dat) {
     ungroup() %>%
     mutate(area = factor(area, levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")))
 
-  labs <- unique(select(dat, area))
+  labs <- tibble(area = factor(levels(dat$area), levels = levels(dat$area)))
 
   ggplot(dat, aes_string("year", "est", ymin = "lwr", ymax = "upr")) +
     geom_vline(xintercept = seq(yrs[1], yrs[2]), col = "grey98") +
@@ -131,7 +131,7 @@ plot_cpue_indices <- function(dat) {
     geom_line(aes_string(x = "year", y = "est_unstandardized"),
       inherit.aes = FALSE, lty = 2) +
     geom_line() +
-    facet_wrap(~area, scales = "free_y", ncol = 1) +
+    facet_wrap(~area, scales = "free_y", ncol = 1, drop = FALSE) +
     ylab("Estimate") + xlab("Year") +
     guides(fill = FALSE) +
     theme_pbs() +

@@ -13,11 +13,11 @@
 \textit{Sebastes alutus}
 
 \vspace{10pt}
-DFO. 2017. Pacific Ocean Perch (Sebastes alutus) stock assessments for Queen Charlotte
+DFO. 2017. Pacific Ocean Perch (\emph{Sebastes alutus}) stock assessments for Queen Charlotte
 Sound, British Columbia in 2017. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2017/043.
 
 \vspace{10pt}
-Edwards, A.M., Haigh, R., and Starr, P.J. 2014. Pacific Ocean Perch (Sebastes alutus) stock
+Edwards, A.M., Haigh, R., and Starr, P.J. 2014. Pacific Ocean Perch (\emph{Sebastes alutus}) stock
 assessment for the west coast of Vancouver Island, British Columbia. DFO Can. Sci.
 Advis. Sec. Res. Doc. 2013/093. vi + 135 p.
 \end{minipage}
