@@ -12,11 +12,11 @@
 \subsection{PACIFIC OCEAN PERCH}
 \textit{Sebastes alutus}
 
-\vspace{10pt}
+\vspace{8pt}
 DFO. 2017. Pacific Ocean Perch (\emph{Sebastes alutus}) stock assessments for Queen Charlotte
 Sound, British Columbia in 2017. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2017/043.
 
-\vspace{10pt}
+\vspace{8pt}
 Edwards, A.M., Haigh, R., and Starr, P.J. 2014. Pacific Ocean Perch (\emph{Sebastes alutus}) stock
 assessment for the west coast of Vancouver Island, British Columbia. DFO Can. Sci.
 Advis. Sec. Res. Doc. 2013/093. vi + 135 p.
@@ -37,6 +37,17 @@ Advis. Sec. Res. Doc. 2013/093. vi + 135 p.
 \begin{minipage}[t][4cm][t]{\textwidth}
 \subsection{PACIFIC COD}
 \textit{Gadus macrocephalus}
+
+\vspace{8pt}
+DFO. 2015. Assessment of Pacific Cod (\emph{Gadus macrocephalus}) for Queen Charlotte Sound (Area 5AB)
+in 2013. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2015/027.
+
+\vspace{8pt}
+Forrest, R.E., Rutherford, K.L, Lacko, L., Kronlund, A.R., Starr, P.J., and McClelland, E.K. 2015.
+Assessment of Pacific Cod (\emph{Gadus macrocephalus}) for Hecate Strait (5CD) and Queen
+Charlotte Sound (5AB) in 2013. DFO Can. Sci. Advis. Sec. Res. Doc. 2015/052.
+xii + 197 p.
+
 \end{minipage}
 
 \begin{figure}[h]
