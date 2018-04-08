@@ -1,91 +1,88 @@
-\section{PLOTS}
-
-% \subsection{PACIFIC OCEAN PERCH}
-
-% --------------------------
-
 \clearpage
-
-% \fbox{%
 \begin{minipage}[t][4cm][t]{\textwidth}
-
-\subsection{PACIFIC OCEAN PERCH}
-\textit{Sebastes alutus}
+\subsection*{PACIFIC COD}
+\emph{Gadus macrocephalus}
 
 \vspace{8pt}
-DFO. 2017. Pacific Ocean Perch (\emph{Sebastes alutus}) stock assessments for Queen Charlotte
-Sound, British Columbia in 2017. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2017/043.
+DFO. 2015. Assessment of Pacific Cod (\emph{Gadus macrocephalus}) for Queen Charlotte Sound (Area 5AB) in 2013. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2015/027.
 
 \vspace{8pt}
-Edwards, A.M., Haigh, R., and Starr, P.J. 2014. Pacific Ocean Perch (\emph{Sebastes alutus}) stock
-assessment for the west coast of Vancouver Island, British Columbia. DFO Can. Sci.
-Advis. Sec. Res. Doc. 2013/093. vi + 135 p.
+Forrest, R.E., Rutherford, K.L, Lacko, L., Kronlund, A.R., Starr, P.J., and McClelland, E.K. 2015. Assessment of Pacific Cod (\emph{Gadus macrocephalus}) for Hecate Strait (5CD) and Queen Charlotte Sound (5AB) in 2013. DFO Can. Sci. Advis. Sec. Res. Doc. 2015/052. xii + 197 p.
 \end{minipage}
-% }
 
-\begin{figure}[h]
-  \includegraphics[width=6.40in]{../figure-pages/pacific-ocean-perch-1.png}
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/pacific-cod-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/pacific-cod-2.png}
 \end{figure}
 
-\begin{figure}[h]
-  \includegraphics[width=6.5in]{../figure-pages/pacific-ocean-perch-2.png}
-\end{figure}
+% ---------------------------------------------------------------------------
 
 \clearpage
-% --------------------------
-
 \begin{minipage}[t][4cm][t]{\textwidth}
-\subsection{PACIFIC COD}
-\textit{Gadus macrocephalus}
+\subsection*{PACIFIC OCEAN PERCH}
+\emph{Sebastes alutus}
 
 \vspace{8pt}
-DFO. 2015. Assessment of Pacific Cod (\emph{Gadus macrocephalus}) for Queen Charlotte Sound (Area 5AB)
-in 2013. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2015/027.
+DFO. 2017. Pacific Ocean Perch (\emph{Sebastes alutus}) stock assessments for Queen Charlotte Sound, British Columbia in 2017. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2017/043.
 
 \vspace{8pt}
-Forrest, R.E., Rutherford, K.L, Lacko, L., Kronlund, A.R., Starr, P.J., and McClelland, E.K. 2015.
-Assessment of Pacific Cod (\emph{Gadus macrocephalus}) for Hecate Strait (5CD) and Queen
-Charlotte Sound (5AB) in 2013. DFO Can. Sci. Advis. Sec. Res. Doc. 2015/052.
-xii + 197 p.
-
+Edwards, A.M., Haigh, R., and Starr, P.J. 2014. Pacific Ocean Perch (\emph{Sebastes alutus}) stock assessment for the west coast of Vancouver Island, British Columbia. DFO Can. Sci. Advis. Sec. Res. Doc. 2013/093. vi + 135 p.
 \end{minipage}
 
-\begin{figure}[h]
-  \includegraphics[width=6.5in]{../figure-pages/pacific-cod-1.png}
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/pacific-ocean-perch-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/pacific-ocean-perch-2.png}
 \end{figure}
 
-\begin{figure}[h]
-  \includegraphics[width=6.5in]{../figure-pages/pacific-cod-2.png}
-\end{figure}
+% ---------------------------------------------------------------------------
 
 \clearpage
-% --------------------------
-
 \begin{minipage}[t][4cm][t]{\textwidth}
-\subsection{REDBANDED ROCKFISH}
-\textit{Sebastes babcocki}
+\subsection*{REDBANDED ROCKFISH}
+\emph{Sebastes babcocki}
+
+\vspace{8pt}
+
+
+\vspace{8pt}
+Edwards, A.M., Haigh, R., and Starr, P.J. 2017. Redbanded Rockfish (\emph{Sebastes babcocki}) stock assessment for the Pacific coast of Canada in 2014. DFO Can. Sci. Advis. Sec. Res. Doc. 2017/058. v + 182 p.
 \end{minipage}
 
-\begin{figure}[h]
-  \includegraphics[width=6.5in]{../figure-pages/redbanded-rockfish-1.png}
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/redbanded-rockfish-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/redbanded-rockfish-2.png}
 \end{figure}
 
-\begin{figure}[h]
-  \includegraphics[width=6.5in]{../figure-pages/redbanded-rockfish-2.png}
-\end{figure}
+% ---------------------------------------------------------------------------
 
 \clearpage
-% --------------------------
-
 \begin{minipage}[t][4cm][t]{\textwidth}
-\subsection{YELLOWEYE ROCKFISH}
-\textit{Sebastes ruberrimus}
+\subsection*{YELLOWEYE ROCKFISH}
+\emph{Sebastes ruberrimus}
+
+\vspace{8pt}
+DFO. 2015. Stock Assessment for the Outside population of Yelloweye Rockfish (\emph{Sebastes ruberrimus}) for British Columbia, Canada in 2014. DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2015/060.
+
+\vspace{8pt}
+Yamanaka, K.L., McAllister, M.M., Etienne, M., Edwards, A.M., and Haigh, R. 2018. Stock Assessment for the Outside Population of Yelloweye Rockfish (\emph{Sebastes ruberrimus}) for British Columbia, Canada in 2014. DFO Can. Sci. Advis. Sec. Res. Doc. 2018/001. ix + 150 p.
 \end{minipage}
 
-\begin{figure}[h]
-  \includegraphics[width=6.5in]{../figure-pages/yelloweye-rockfish-1.png}
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/yelloweye-rockfish-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[ht]
+\includegraphics[width=6.4in]{../figure-pages/yelloweye-rockfish-2.png}
 \end{figure}
 
-\begin{figure}[h]
-  \includegraphics[width=6.5in]{../figure-pages/yelloweye-rockfish-2.png}
-\end{figure}
+% ---------------------------------------------------------------------------
+

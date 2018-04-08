@@ -16,3 +16,8 @@ gg_color_hue <- function(n, hue_min = 8, hue_max = 290, l = 52, c = 100) {
 }
 
 clean_name <- function(x) gsub("/", "-", gsub(" ", "-", x))
+
+all_cap <- function(x) toupper(x)
+
+emph <- function(x) paste0("\\emph{", x, "}")
+

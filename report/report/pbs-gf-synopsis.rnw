@@ -39,13 +39,13 @@
 \newcommand{\rdNumber}{XXX}
 
 % Title
-\newcommand{\rdTitle}{Title here}
+\newcommand{\rdTitle}{A Data Synopsis Report for British Columia Groundfish}
 
 % Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
-\newcommand{\rdAuth}{A.B. Lastname\textsuperscript{1}, C.D. Lastname\textsuperscript{1}}
+\newcommand{\rdAuth}{S.C. Anderson\textsuperscript{1}, E.A. Keppel\textsuperscript{1}}
 
 % Author names reversed separated by commas in the format 'Grinnell, M.H.'
-\newcommand{\rdAuthRev}{Lastname, A.B., Lastname, C.D.}
+\newcommand{\rdAuthRev}{Anderson, S.C., Keppel, E.A.}
 
 % Author addresses (use \textsuperscript{n})
 \newcommand{\rdAuthAddy}{
@@ -55,7 +55,7 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 }
 
 % Name of file with abstract and resume (see \abstract and \frenchabstract for requirements)
-\newcommand{\rdAbstract}{\Sexpr{knit_child('doc/00-abstract.rnw')}}
+\newcommand{\rdAbstract}{\Sexpr{knit_child('doc/00-abstract.Rnw')}}
 
 %%%% End of title page commands %%%%%
 
@@ -63,16 +63,16 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 \begin{document}
 
 % More custom variables
-<<variables, child='doc/99-variables.rnw'>>=
+<<variables, child='doc/99-variables.Rnw'>>=
 @
 
 % Make the first few pages
 \frontmatter
 
-<<introduction, child='doc/01-introduction.rnw'>>=
+<<introduction, child='doc/01-introduction.Rnw'>>=
 @
 
-<<plots, child='doc/02-plots.rnw'>>=
+<<plots, child='doc/02-plots.Rnw'>>=
 @
 
 
