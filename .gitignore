@@ -44,3 +44,4 @@ resdoc/spatial-appendix.tex
 *.sublime-project
 *.sublime-workspace
 inst/doc
+report/report/doc/02-plots.Rnw
