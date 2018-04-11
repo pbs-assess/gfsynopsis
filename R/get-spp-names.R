@@ -11,8 +11,7 @@ get_spp_names <- function() {
     "lamp grenadier",
     "pearly prickleback"
   ))
-  spp$species_common_name <- sub("spiny dogfish", "north pacific spiny dogfish",
-    spp$species_common_name)
+
   spp <- spp[!duplicated(spp), ]
   spp$spp_w_hyphens <- gsub("/", "-", gsub(" ", "-", spp$species_common_name))
   as.data.frame(spp)
