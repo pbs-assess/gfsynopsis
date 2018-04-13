@@ -1,4 +1,15 @@
 
+<<knitr-opts, echo=FALSE, cache=FALSE>>=
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "knitr-figs/",
+  cache.path = "knitr-cache/",
+  fig.asp = 0.618,
+  fig.width = 9
+)
+@
+
 <<install, eval=FALSE>>=
 # install.packages("devtools")
 devtools::install_github("pbs-assess/gfplot")
@@ -11,36 +22,75 @@ library(dplyr)
 library(rstan)
 @
 
-<<load-eg-data, echo=FALSE, eval=FALSE>>=
-cache             <- file.path("pcod-cache")
-d_survey_sets     <- readRDS(file.path(cache, "pbs-survey-sets.rds"))
-d_survey_samples  <- readRDS(file.path(cache, "pbs-survey-samples.rds"))
-d_comm_samples    <- readRDS(file.path(cache, "pbs-comm-samples.rds"))
-d_catch           <- readRDS(file.path(cache, "pbs-catch.rds"))
-d_cpue_spatial    <- readRDS(file.path(cache, "pbs-cpue-spatial.rds"))
-d_cpue_spatial_ll <- readRDS(file.path(cache, "pbs-cpue-spatial-ll.rds"))
-d_survey_index    <- readRDS(file.path(cache, "pbs-survey-index.rds"))
-d_age_precision   <- readRDS(file.path(cache, "pbs-age-precision.rds"))
-d_cpue_index      <- readRDS(file.path(cache, "pbs-cpue-index.rds"))
+<<load-eg-data, echo=FALSE>>=
+cache <- file.path("..", "generated-data")
+if (!file.exists(file.path(cache, "pop-example.rds"))) {
+  cache_pbs_data(396, path = cache)
+  d_survey_sets     <- readRDS(file.path(cache, "pbs-survey-sets.rds"))
+  d_survey_samples  <- readRDS(file.path(cache, "pbs-survey-samples.rds"))
+  d_comm_samples    <- readRDS(file.path(cache, "pbs-comm-samples.rds"))
+  d_catch           <- readRDS(file.path(cache, "pbs-catch.rds"))
+  d_cpue_spatial    <- readRDS(file.path(cache, "pbs-cpue-spatial.rds"))
+  d_cpue_spatial_ll <- readRDS(file.path(cache, "pbs-cpue-spatial-ll.rds"))
+  d_survey_index    <- readRDS(file.path(cache, "pbs-survey-index.rds"))
+  d_age_precision   <- readRDS(file.path(cache, "pbs-age-precision.rds"))
+  d_cpue_index      <- readRDS(file.path(cache, "pbs-cpue-index.rds"))
+  dat                 <- list()
+  dat$survey_sets     <- d_survey_sets
+  dat$survey_samples  <- d_survey_samples
+  dat$comm_samples    <- d_comm_samples
+  dat$catch           <- d_catch
+  dat$cpue_spatial    <- d_cpue_spatial
+  dat$cpue_spatial_ll <- d_cpue_spatial_ll
+  dat$survey_index    <- d_survey_index
+  dat$age_precision   <- d_age_precision
+  # dat$cpue_index      <- d_cpue_index
+  saveRDS(dat, file.path(cache, "pop-example.rds"), compress = FALSE)
+  saveRDS(d_cpue_index, file.path(cache, "cpue-index-dat.rds"), compress = FALSE)
+} else {
+  dat <- readRDS(file.path(cache, "pop-example.rds"))
+}
 @
 
-<<echo=FALSE, eval=FALSE>>=
-tidy_ages_raw(d_survey_samples) %>%
-  plot_ages()
+<<echo=FALSE>>=
+survey_cols <- c(RColorBrewer::brewer.pal(7L, "Set2"),
+        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+survey_col_names <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+    "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
+    "HBLL INS N", "HBLL INS S", "MSA HS")
+names(survey_cols) <- survey_col_names
 @
 
 
-<<echo=FALSE, eval=FALSE>>=
-g <- tidy_lengths_raw(d_survey_samples,
-  bin_size = 2,
-  year_range = c(2002, Inf)
-) %>%
-  plot_lengths()
-g
+<<echo=FALSE, fig.width=9, warning=FALSE>>=
+ss <- tidy_ages_raw(dat$survey_samples,
+  sample_type = "survey")
+sc <- tidy_ages_raw(dat$comm_samples,
+  sample_type = "commercial") %>% filter(year >= 2003)
+sb <- bind_rows(ss, sc)
+sb$survey_abbrev <- factor(sb$survey_abbrev,
+  levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+    "HBLL OUT S", "IPHC FISS", "Commercial"))
+plot_ages(sb, survey_cols = survey_cols) +
+  guides(fill = FALSE, colour = FALSE)
 @
 
-<<echo=FALSE, eval=FALSE>>=
-tidy_age_precision(d_age_precision) %>%
+<<echo=FALSE>>=
+ss <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
+  sample_type = "survey")
+sc <- tidy_lengths_raw(dat$comm_samples, bin_size = 2.5,
+  sample_type = "commercial") %>%
+  dplyr::filter(year >= 2003)
+sb <- bind_rows(ss, sc)
+sb$survey_abbrev <- factor(sb$survey_abbrev,
+  levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+    "HBLL OUT S", "IPHC FISS", "Commercial"))
+plot_lengths(sb, survey_cols = survey_cols) +
+  guides(colour = FALSE, fill = FALSE)
+@
+
+<<echo=FALSE>>=
+tidy_age_precision(dat$age_precision) %>%
   plot_age_precision()
 @
 
