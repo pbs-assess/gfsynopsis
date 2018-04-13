@@ -1,6 +1,8 @@
 % Document setup
 \documentclass[11pt]{book}
 
+\usepackage{tabu} % https://tex.stackexchange.com/questions/50332/vertical-spacing-of-a-table-cell
+
 % Use the style file in the csas-style repository:
 \usepackage{csas-style/res-doc}
 
@@ -73,8 +75,14 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 <<introduction, child='doc/01-introduction.Rnw'>>=
 @
 
-<<plots, child='doc/02-plots.Rnw'>>=
+<<data, child='doc/data.Rnw'>>=
 @
+
+<<data, child='doc/plot-background.Rnw'>>=
+@
+
+% <<plots, child='doc/02-plots.Rnw'>>=
+% @
 
 
 % Fin
