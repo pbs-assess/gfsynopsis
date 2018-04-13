@@ -26,25 +26,24 @@ Some filtering is performed within the SQL queries to restrict the data
 extracted.
 
 Commercial catch data are extracted with \texttt{get-catch}.
-All landings and discards are extracted by species, fishery sector, gear type and
-year in kg and are not filtered in any way (Table~\ref{tab:sql-catch}).
+All landings and discards are extracted by species, fishery sector, gear type
+and year in kg and are not filtered in any way (Table~\ref{tab:sql-catch}).
 Species names are specified as an argument to the function by the user.
 
 Commercial trawl catch per unit effort (CPUE) index data are
 extracted using \texttt{get-CPUE-index} and are filtered to include only
 records with valid start and end dates (Table ~\ref{tab:sql-cpue-index}).
-Catch (kg) and effort (exptressed in hours), year, gear type and Pacific Management
-Fishing Area (PFMA) are extracted for each tow.
+Catch (kg) and effort (exptressed in hours), year, gear type and Pacific Fishery
+Management Area (PFMA) are extracted for each tow.
 Gear type, PFMA and minimum year are given as arguments and are set at
 defaults of bottom trawl, all areas and 1996, respectively.
 
 Commercial trawl spatial CPUE data are extracted using \texttt{get-cpue-spatial},
 pulling out latitude, longitude, gear type, catch (kg) and tow time (hours)
 for every tow by species.
-The data are filtered to remove records with erroneous latitude and
-longitude values, and to include only records from the groundfish trawl
-sector since 2012 when the trawl footprint was implemented
-(Table~\ref{tab:sql-cpue-spatial}).
+The data are filtered to remove records with erroneous latitude and longitude
+values, and to include only records from the groundfish trawl sector since 2012
+when the trawl footprint was implemented (Table~\ref{tab:sql-cpue-spatial}).
 Species names are given as an argument to the function.
 
 Spatial longline CPUE data are extracted using \texttt{get-cpue-spatial-ll} which
@@ -58,8 +57,8 @@ CPUE is represented by catch in pieces per fishing event (set)
 Species names are given as an argument to the function.
 
 Survey biomass index data are extracted with \texttt{get-survey-index}.
-Calculated bootstrapped biomass, year and survey series identification
-code (ssid) are filtered for active records of the calculated biomass in the
+Calculated bootstrapped biomass, year and survey series identification code
+(ssid) are filtered for active records of the calculated biomass in the
 database (Table ~\ref(tab:sql-survey-index}).
 Species and survey series identification code (ssid) are given as arguments
 to the function.
@@ -69,14 +68,14 @@ Biological data are extracted using \texttt{get-survey-samples} and
 respectively.
 Records of all biological samples are extracted by species, including
 available length, weight, age and maturity data.
-Records include available metadata including PFMA, gear type, ssid,
-sample date, survey identification code (sid) and sampling protocol codes
+Records include available metadata including PFMA, gear type, ssid, sample date,
+survey identification code (sid) and sampling protocol codes
 for maturity and ageing data.
-Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either
-survey or commercial samples (Table~\ref{tab:sql-bio-samp}).
-In addition, samples are restricted to unsorted samples with \texttt{SPECIES_CATEGORY_CODE} and
-\texttt{SAMPLE_SOURCE_CODE} to avoid bias from inclusion of sorted, stratified
-or selected samples.
+Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
+or commercial samples (Table~\ref{tab:sql-bio-samp}).
+In addition, samples are restricted to unsorted samples with
+\texttt{SPECIES_CATEGORY_CODE} and \texttt{SAMPLE_SOURCE_CODE} to avoid bias
+from inclusion of sorted, stratified or selected samples.
 Survey samples are also filtered for only total or random samples.
 
 The ageing precision data are extracted with \texttt{get-age-precision}.
