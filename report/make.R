@@ -28,12 +28,16 @@ spp <- left_join(spp, refs, by = "species_common_name")
 spp$sar[is.na(spp$sar)] <- ""
 spp$resdoc[is.na(spp$resdoc)] <- ""
 
+# ggthemes::gdocs_pal()
+
 for (i in seq_along(spp$species_common_name)) {
   cat("Building figures for", spp$species_common_name[i], "\n")
   suppressMessages(
     make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
-      resolution = 185
+      resolution = 185,
+      survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
+        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
   )
 }

@@ -250,7 +250,6 @@ make_pages <- function(
     )
 
   # Survey maps: -------------------------------
-
   if (!file.exists(map_cache_spp_synoptic)) {
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,

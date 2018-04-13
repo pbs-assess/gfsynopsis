@@ -42,10 +42,11 @@
 \newcommand{\rdTitle}{A Data Synopsis Report for British Columia Groundfish}
 
 % Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
-\newcommand{\rdAuth}{S.C. Anderson\textsuperscript{1}, E.A. Keppel\textsuperscript{1}}
+\newcommand{\rdAuth}{S.C. Anderson\textsuperscript{1}, E.A.
+Keppel\textsuperscript{1}, A.A. Other Possible Authors Here}
 
 % Author names reversed separated by commas in the format 'Grinnell, M.H.'
-\newcommand{\rdAuthRev}{Anderson, S.C., Keppel, E.A.}
+\newcommand{\rdAuthRev}{Anderson, S.C., Keppel, E.A., Other, A.A}
 
 % Author addresses (use \textsuperscript{n})
 \newcommand{\rdAuthAddy}{
