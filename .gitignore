@@ -43,4 +43,5 @@ resdoc/spatial-appendix.tex
 *.so
 *.sublime-project
 *.sublime-workspace
+framed.sty
 inst/doc
