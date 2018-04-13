@@ -1,0 +1,80 @@
+% Document setup
+\documentclass[11pt]{book}
+
+% Use the style file in the csas-style repository:
+\usepackage{csas-style/res-doc}
+
+% Multi-letter identifier (i.e., multi-character variable such as `SB`)
+\newcommand{\mli}[1]{\mathit{#1}}
+% Better treatment of input (no extra trailing space)
+\newcommand{\inputsp}[1]{\input{#1}\unskip}
+
+% Custom commands:
+\newcommand{\sQuote}[1]{`#1'}
+\newcommand{\dQuote}[1]{``#1''}
+\newcommand{\eqn}[1]{\begin{equation}#1\end{equation}}
+\newcommand{\gfrac}[2]{\genfrac{}{}{}{0}{#1}{#2}}
+
+% eor - Show two things with a vertical bar between them. e.g. A|B
+\newcommand{\eor}[2]{{#1$\Vert$#2}}
+
+% bM - makes equations larger
+\newcommand{\bM}[1]{\mathlarger{\mathlarger{#1}}}
+
+% Headers and footers
+\lhead{Draft working paper --- Do not cite or circulate}
+% \lhead{}
+\rhead{}
+% \rfoot{DRAFT - DO NOT CITE}
+
+%%%% Commands for title page etc %%%%%
+
+% Publication year
+\newcommand{\rdYear}{YYYY}
+
+% Publication month
+\newcommand{\rdMonth}{Month}
+
+% Report number
+\newcommand{\rdNumber}{XXX}
+
+% Title
+\newcommand{\rdTitle}{A Data Synopsis Report for British Columia Groundfish}
+
+% Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
+\newcommand{\rdAuth}{S.C. Anderson\textsuperscript{1}, E.A. Keppel\textsuperscript{1}}
+
+% Author names reversed separated by commas in the format 'Grinnell, M.H.'
+\newcommand{\rdAuthRev}{Anderson, S.C., Keppel, E.A.}
+
+% Author addresses (use \textsuperscript{n})
+\newcommand{\rdAuthAddy}{
+\textsuperscript{1}Pacific Biological Station\\
+Fisheries and Oceans Canada, 3190 Hammond Bay Road\\
+Nanaimo, British Columbia, V9T 6N7, Canada
+}
+
+% Name of file with abstract and resume (see \abstract and \frenchabstract for requirements)
+\newcommand{\rdAbstract}{\Sexpr{knit_child('doc/00-abstract.Rnw')}}
+
+%%%% End of title page commands %%%%%
+
+% Let it begin
+\begin{document}
+
+% More custom variables
+<<variables, child='doc/99-variables.Rnw'>>=
+@
+
+% Make the first few pages
+\frontmatter
+
+<<introduction, child='doc/01-introduction.Rnw'>>=
+@
+
+<<plots, child='doc/02-plots.Rnw'>>=
+@
+
+
+% Fin
+\end{document}

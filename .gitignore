@@ -45,3 +45,4 @@ resdoc/spatial-appendix.tex
 *.sublime-workspace
 framed.sty
 inst/doc
+report/report/doc/02-plots.Rnw
