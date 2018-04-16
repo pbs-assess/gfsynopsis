@@ -4,12 +4,13 @@
 \alias{make_pages}
 \title{Make pages}
 \usage{
-make_pages(dat, spp, aspect = 1.35, width = 11.5, debug = FALSE,
-  resolution = 220, png_format = FALSE,
+make_pages(dat, spp, aspect = 1.35, short_page_height_ratio = 0.78,
+  width = 11.5, debug = FALSE, resolution = 220, png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp), report_folder = "report",
-  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8",
-  "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS",
-  "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
+  include_map_square = FALSE, map_xlim = c(360, 653), map_ylim = c(5275,
+  6155), survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030",
+  "#a8a8a8", "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG", "SYN HS",
+  "SYN QCS", "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
   "HBLL INS N", "HBLL INS S", "MSA HS"))
 }
 \arguments{
