@@ -131,14 +131,14 @@ make_pages <- function(
       year = seq(2004, 2016, 2),
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE)) +
       guides(fill = FALSE, colour = FALSE) +
-      theme(axis.text.y = element_blank())
+      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
 
   # Length compositions: -------------------------------
 
-  bin_width1 <- max(dat$survey_samples$length, na.rm = TRUE) / 35
-  bin_width2 <- max(dat$comm_samples_no_keepers$length, na.rm = TRUE) / 35
-  bin_width <- mean(bin_width1, bin_width2) * 2
+  bin_width1 <- diff(range(dat$survey_samples$length, na.rm = TRUE)) / 30
+  bin_width2 <- diff(range(dat$comm_samples_no_keepers$length, na.rm = TRUE)) / 30
+  bin_width <- mean(bin_width1, bin_width2, na.rm = TRUE)
 
   ss <- tidy_lengths_raw(dat$survey_samples, bin_size = bin_width,
     sample_type = "survey")
@@ -167,6 +167,7 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", "Commercial"))
+    sb$year <- factor(sb$year, levels = seq(2003, 2017))
     g_lengths <- plot_lengths(sb, survey_cols = survey_cols, bin_size = bin_width) +
       guides(colour = FALSE, fill = FALSE)
   } else {
