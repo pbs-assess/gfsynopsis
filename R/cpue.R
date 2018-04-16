@@ -127,13 +127,6 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
 
   g <- ggplot(dat, aes_string("year", "est", ymin = "lwr", ymax = "upr"))
 
-  if (!blank_plot) {
-    g <- g + geom_ribbon(alpha = 0.3, col = NA, fill = "grey60") +
-      geom_line(aes_string(x = "year", y = "est_unstandardized"),
-        inherit.aes = FALSE, lty = 2) +
-      geom_line()
-    }
-
   g <- g +
     geom_vline(xintercept = seq(yrs[1], yrs[2]), col = "grey98") +
     geom_vline(xintercept = seq(gfplot:::mround(yrs[1], 5), yrs[2], 5),
@@ -158,6 +151,13 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
       inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
     ) +
     scale_x_continuous(breaks = seq(0, yrs[2], 5))
+
+  if (!blank_plot) {
+    g <- g + geom_ribbon(alpha = 0.3, col = NA, fill = "grey60") +
+      geom_line(aes_string(x = "year", y = "est_unstandardized"),
+        inherit.aes = FALSE, lty = 2) +
+      geom_line()
+  }
 
   g
 }
