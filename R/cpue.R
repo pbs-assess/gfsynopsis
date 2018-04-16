@@ -19,6 +19,7 @@ fit_cpue_indices <- function(dat,
 
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
+
     fleet <- tidy_cpue_index(dat,
       year_range = c(1996, 2017),
       species_common = species,
@@ -104,33 +105,39 @@ fit_cpue_indices <- function(dat,
       by = c("year", "area"))
 }
 
-plot_cpue_indices <- function(dat) {
+plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
 
-  yrs <- range(dat$year, na.rm = TRUE)
+  yrs <- xlim
 
-  dat <- dat %>%
-    group_by(area) %>%
-    mutate(max_value = max(c(upr, est_unstandardized))) %>%
-    mutate(
-      est = est / max_value,
-      upr = upr / max_value,
-      lwr = lwr / max_value,
-      est_unstandardized = est_unstandardized / max_value
+  if (!blank_plot) {
+    dat <- dat %>%
+      group_by(area) %>%
+      mutate(max_value = max(c(upr, est_unstandardized))) %>%
+      mutate(
+        est = est / max_value,
+        upr = upr / max_value,
+        lwr = lwr / max_value,
+        est_unstandardized = est_unstandardized / max_value
       ) %>%
-    arrange(area) %>%
-    ungroup() %>%
-    mutate(area = factor(area, levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")))
-
+      arrange(area) %>%
+      ungroup() %>%
+      mutate(area = factor(area, levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")))
+  }
   labs <- tibble(area = factor(levels(dat$area), levels = levels(dat$area)))
 
-  ggplot(dat, aes_string("year", "est", ymin = "lwr", ymax = "upr")) +
+  g <- ggplot(dat, aes_string("year", "est", ymin = "lwr", ymax = "upr"))
+
+  if (!blank_plot) {
+    g <- g + geom_ribbon(alpha = 0.3, col = NA, fill = "grey60") +
+      geom_line(aes_string(x = "year", y = "est_unstandardized"),
+        inherit.aes = FALSE, lty = 2) +
+      geom_line()
+    }
+
+  g <- g +
     geom_vline(xintercept = seq(yrs[1], yrs[2]), col = "grey98") +
     geom_vline(xintercept = seq(gfplot:::mround(yrs[1], 5), yrs[2], 5),
       col = "grey95") +
-    geom_ribbon(alpha = 0.3, col = NA, fill = "grey60") +
-    geom_line(aes_string(x = "year", y = "est_unstandardized"),
-      inherit.aes = FALSE, lty = 2) +
-    geom_line() +
     facet_wrap(~area, scales = "free_y", ncol = 1, drop = FALSE) +
     ylab("Estimate") + xlab("Year") +
     guides(fill = FALSE) +
@@ -151,6 +158,8 @@ plot_cpue_indices <- function(dat) {
       inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
     ) +
     scale_x_continuous(breaks = seq(0, yrs[2], 5))
+
+  g
 }
 #
 # d_cpue_index <- readRDS("report/data-cache/pbs-cpue-index.rds")

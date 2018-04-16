@@ -1,14 +1,17 @@
-plot_catches <- function(dat) {
+plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1965, 2017), ...) {
 
-  catch_areas <- gfplot::tidy_catch(dat, areas = c("5[CDE]+", "5[AB]+", "3[CD]+"))
-  catch_all <- gfplot::tidy_catch(dat, areas = NULL)
-  catch <- bind_rows(catch_all, catch_areas)
-  catch$area <- factor(catch$area,
-    levels = c("Coastwide", "5AB", "5CDE", "3CD"))
+  if (!blank_plot) {
+    catch_areas <- gfplot::tidy_catch(dat, areas = c("5[CDE]+", "5[AB]+", "3[CD]+"))
+    catch_all <- gfplot::tidy_catch(dat, areas = NULL)
+    catch <- bind_rows(catch_all, catch_areas)
+    catch$area <- factor(catch$area,
+      levels = c("Coastwide", "5AB", "5CDE", "3CD"))
+  } else {
+    catch <- dat
+  }
+  yrs <- xlim
 
-  yrs <- range(catch$year)
-
-  g <- gfplot::plot_catch(catch) +
+  g <- gfplot::plot_catch(catch, xlim = xlim, ...) +
     # ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2)) +
     theme(panel.spacing = unit(-0.1, "lines")) +
     theme(

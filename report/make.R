@@ -1,7 +1,7 @@
 devtools::load_all("../gfplot/")
 devtools::load_all(".")
 
-dc                  <- file.path("report", "data-cache")
+dc                  <- file.path("report", "data-cache2")
 dat                 <- list()
 dat$survey_sets     <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
 dat$survey_samples  <- readRDS(file.path(dc, "pbs-survey-samples.rds"))
@@ -17,18 +17,20 @@ dat$cpue_index      <- feather::read_feather(file.path(dc, "pbs-cpue-index.feath
 
 spp <- get_spp_names()
 spp <- dplyr::filter(spp, species_common_name %in%
-  c(
-    "pacific ocean perch",
-    "pacific cod",
-    "redbanded rockfish",
-    "yelloweye rockfish"
-  ))
+    spp$species_common_name[2]
+  # c("north pacific spiny dogfish",
+    # "pacific ocean perch",
+    # "pacific cod",
+    # "redbanded rockfish",
+    # "yelloweye rockfish")
+  )
+
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$sar[is.na(spp$sar)] <- ""
 spp$resdoc[is.na(spp$resdoc)] <- ""
 
-# ggthemes::gdocs_pal()
+# ggthemes::gdocs_pal()(7)
 
 for (i in seq_along(spp$species_common_name)) {
   cat("Building figures for", spp$species_common_name[i], "\n")
@@ -36,7 +38,8 @@ for (i in seq_along(spp$species_common_name)) {
     make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
       resolution = 185,
-      survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
+      # survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
+      survey_cols = c(ggthemes::gdocs_pal()(6), ggthemes::gdocs_pal()(10)[[10]],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
   )

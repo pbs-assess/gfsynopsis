@@ -14,7 +14,9 @@
 #'
 #' @export
 #' @importFrom grDevices dev.off pdf png
-#' @importFrom ggplot2 labeller
+#' @importFrom ggplot2 labeller theme element_blank ggtitle
+#' @importFrom grid unit
+#' @importFrom INLA inla.models inla.reorderings
 
 make_pages <- function(
   dat,
@@ -91,62 +93,140 @@ make_pages <- function(
   map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
   vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
 
+  samp_panels <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+    "HBLL OUT S", "IPHC FISS", "Commercial")
+
   # Age compositions: -------------------------------
 
   ss <- tidy_ages_raw(dat$survey_samples,
     sample_type = "survey")
   sc <- tidy_ages_raw(dat$comm_samples_no_keepers,
-    sample_type = "commercial") %>%
-    filter(year >= 2003)
-  sb <- suppressWarnings(bind_rows(ss, sc))
-  sb$survey_abbrev <- factor(sb$survey_abbrev,
-    levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-      "HBLL OUT S", "IPHC FISS", "Commercial"))
-  g_ages <- plot_ages(sb, survey_cols = survey_cols) +
-    guides(fill = FALSE, colour = FALSE)
+    sample_type = "commercial")
+
+  if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
+  if (is.data.frame(sc))
+    if (nrow(sc) == 0)
+      sc <- NA
+
+  if (!is.na(ss[[1]]) && !is.na(sc[[1]])) {
+    sb <- suppressWarnings(bind_rows(ss, sc))
+  }
+  if (!is.na(ss[[1]]) && is.na(sc[[1]])) {
+    sb <- ss
+  }
+  if (is.na(ss[[1]]) && !is.na(sc[[1]])) {
+    sb <- sc
+  }
+  if (is.na(ss[[1]]) && is.na(sc[[1]])) {
+    sb <- NA
+  }
+  if (!is.na(sb)) {
+    sb$survey_abbrev <- factor(sb$survey_abbrev,
+      levels = samp_panels)
+    g_ages <- plot_ages(sb, survey_cols = survey_cols) +
+      guides(fill = FALSE, colour = FALSE)
+  } else {
+    g_ages <- plot_ages(expand.grid(
+      survey_abbrev = factor(x = samp_panels, levels = samp_panels),
+      year = seq(2004, 2016, 2),
+      sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE)) +
+      guides(fill = FALSE, colour = FALSE) +
+      theme(axis.text.y = element_blank())
+  }
 
   # Length compositions: -------------------------------
 
   ss <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
     sample_type = "survey")
   sc <- tidy_lengths_raw(dat$comm_samples_no_keepers, bin_size = 2.5,
-    sample_type = "commercial") %>%
-    filter(year >= 2003)
-  sb <- suppressWarnings(bind_rows(ss, sc))
-  sb$survey_abbrev <- factor(sb$survey_abbrev,
-    levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-      "HBLL OUT S", "IPHC FISS", "Commercial"))
-  g_lengths <- plot_lengths(sb, survey_cols = survey_cols) +
-    guides(colour = FALSE, fill = FALSE)
+    sample_type = "commercial")
+
+  if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
+  if (is.data.frame(sc))
+    if (nrow(sc) == 0)
+      sc <- NA
+
+  if (!is.na(ss[[1]]) && !is.na(sc[[1]])) {
+    sb <- suppressWarnings(bind_rows(ss, sc))
+  }
+  if (!is.na(ss[[1]]) && is.na(sc[[1]])) {
+    sb <- ss
+  }
+  if (is.na(ss[[1]]) && !is.na(sc[[1]])) {
+    sb <- sc
+  }
+  if (is.na(ss[[1]]) && is.na(sc[[1]])) {
+    sb <- NA
+  }
+  if (!is.na(sb)) {
+    sb$survey_abbrev <- factor(sb$survey_abbrev,
+      levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+        "HBLL OUT S", "IPHC FISS", "Commercial"))
+    g_lengths <- plot_lengths(sb, survey_cols = survey_cols) +
+      guides(colour = FALSE, fill = FALSE)
+  } else {
+    g_lengths <- ggplot() + theme_pbs() + ggtitle("Length frequencies")
+  }
 
   # Aging precision: -------------------------------
 
-  g_age_precision <- tidy_age_precision(dat$age_precision) %>%
-    plot_age_precision()
+  # if (nrow(dat$age_precision) > 0) {
+  # g_age_precision <- tidy_age_precision(dat$age_precision) %>%
+  #   plot_age_precision()
+  # } else {
+  #   g <- ggplot() + theme_pbs()
+  # }
 
   # Commercial CPUE indices: -------------------------------
 
-  if (!file.exists(cpue_cache_spp)) {
-    cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
-      species = unique(dat$catch$species_common_name))
-    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-  } else {
-    cpue_index <- readRDS(cpue_cache_spp)
-  }
+  if (nrow(dat$catch) > 0) {
+    if (!file.exists(cpue_cache_spp)) {
+      cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
+        species = unique(dat$catch$species_common_name))
+      saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+    } else {
+      cpue_index <- readRDS(cpue_cache_spp)
+    }
 
-  g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
-    ggplot2::ggtitle("Commercial trawl CPUE") +
-    ylab("") + xlab("") +
-    theme(
-      axis.title.y = element_blank(),
-      axis.text.y = element_blank(),
-      axis.ticks.y = element_blank()
-    )
+    if (!is.na(cpue_index[[1]])) { # enough vessels?
+
+      g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
+        ggplot2::ggtitle("Commercial trawl CPUE") +
+        ylab("") + xlab("") +
+        ggplot2::theme(
+          axis.title.y = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank()
+        )
+    }
+  if (nrow(dat$catch) == 0 || is.na(cpue_index[[1]])) {
+    g_cpue_index <-
+      gfsynopsis::plot_cpue_indices(
+        expand.grid(area = factor(c("3CD|5ABCDE", "5AB", "5CDE", "3CD"),
+          levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")), year = 2000,
+          est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
+      ggplot2::ggtitle("Commercial trawl CPUE") +
+      ylab("") + xlab("") +
+      ggplot2::theme(
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+  }
 
   # Commercial catch: -------------------------------
 
-  g_catch <- gfsynopsis::plot_catches(dat$catch) +
-    theme(legend.position = "none")
+  if (nrow(dat$catch) > 0) {
+    g_catch <- gfsynopsis::plot_catches(dat$catch) +
+      theme(legend.position = "none")
+  } else {
+    g_catch <- ggplot() + theme_pbs()
+    g_catch <- gfsynopsis::plot_catches(expand.grid(year = 999,
+      area = factor(c("Coastwide", "5AB", "5CDE", "3CD"),
+        levels = c("Coastwide", "5AB", "5CDE", "3CD")),
+      gear = "a", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
+      theme(legend.position = "none") +
+      theme(axis.text.y = element_blank())
+  }
 
   # Survey biomass indices: -------------------------------
 
@@ -204,15 +284,25 @@ make_pages <- function(
     fit_mat_ogive(
       type = "age",
       months = 1:12)
-  g_mat_age <- plot_mat_ogive(mat_age) +
-    guides(colour = FALSE, fill = FALSE)
+  if (!is.na(mat_age[[1]])) {
+    g_mat_age <- plot_mat_ogive(mat_age) +
+      guides(colour = FALSE, fill = FALSE)
+  } else {
+    g_mat_age <- ggplot() + theme_pbs() + ggtitle("Age at maturity") +
+      ggplot2::labs(x = "Age (years)", y = "Probability mature")
+  }
 
   mat_length <- dat$combined_samples %>%
     fit_mat_ogive(
       type = "length",
       months = 1:12)
-  g_mat_length <- plot_mat_ogive(mat_length) +
-    guides(colour = FALSE, fill = FALSE)
+  if (!is.na(mat_length[[1]])) {
+    g_mat_length <- plot_mat_ogive(mat_length) +
+      guides(colour = FALSE, fill = FALSE)
+  } else {
+    g_mat_length <- ggplot() + theme_pbs() + ggtitle("Length at maturity") +
+      ggplot2::labs(x = "Length (cm)", y = "Probability mature")
+  }
 
   # Commercial CPUE maps -------------------------------
 
@@ -255,7 +345,7 @@ make_pages <- function(
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      verbose = FALSE)
+      verbose = TRUE)
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -293,14 +383,30 @@ make_pages <- function(
   }
 
   g_survey_spatial_syn <-
-    gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat) +
+    gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
+      north_symbol = TRUE, annotations = "SYN") +
     coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
+
+  if (sum(iphc_fits$raw_dat$present) > 0.05 * nrow(iphc_fits$raw_dat))
+    show_model_predictions <- TRUE
+  else
+    show_model_predictions <- FALSE
   g_survey_spatial_iphc <-
     gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
-      show_raw_data = FALSE, cell_size = 2.8, circles = TRUE) +
+      show_raw_data = FALSE, cell_size = 2.4, circles = TRUE,
+      show_model_predictions = show_model_predictions, annotations = "IPHC") +
     coord_cart + ggplot2::ggtitle("IPHC survey biomass")
+
+  if (sum(hbll_fits$raw_dat$present) > 0.05 * nrow(hbll_fits$raw_dat))
+    show_model_predictions <- TRUE
+  else
+    show_model_predictions <- FALSE
   g_survey_spatial_hbll <-
-    gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat) +
+    gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
+      pos_pt_col = "#FFFFFF35",
+      bin_pt_col = "#FFFFFF12",
+      pos_pt_fill = "#FFFFFF03",
+      show_model_predictions = show_model_predictions, annotations = "HBLL") +
     coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
 
   # Page 1 layout: -------------------------------
