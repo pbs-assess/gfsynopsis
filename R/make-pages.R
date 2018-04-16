@@ -136,9 +136,13 @@ make_pages <- function(
 
   # Length compositions: -------------------------------
 
-  ss <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
+  bin_width1 <- max(dat$survey_samples$length, na.rm = TRUE) / 35
+  bin_width2 <- max(dat$comm_samples_no_keepers$length, na.rm = TRUE) / 35
+  bin_width <- mean(bin_width1, bin_width2) * 2
+
+  ss <- tidy_lengths_raw(dat$survey_samples, bin_size = bin_width,
     sample_type = "survey")
-  sc <- tidy_lengths_raw(dat$comm_samples_no_keepers, bin_size = 2.5,
+  sc <- tidy_lengths_raw(dat$comm_samples_no_keepers, bin_size = bin_width,
     sample_type = "commercial")
 
   if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
@@ -158,11 +162,12 @@ make_pages <- function(
   if (is.na(ss[[1]]) && is.na(sc[[1]])) {
     sb <- NA
   }
+
   if (!is.na(sb)) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", "Commercial"))
-    g_lengths <- plot_lengths(sb, survey_cols = survey_cols) +
+    g_lengths <- plot_lengths(sb, survey_cols = survey_cols, bin_size = bin_width) +
       guides(colour = FALSE, fill = FALSE)
   } else {
     g_lengths <- ggplot() + theme_pbs() + ggtitle("Length frequencies")
