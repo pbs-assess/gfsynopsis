@@ -46,3 +46,5 @@ resdoc/spatial-appendix.tex
 framed.sty
 inst/doc
 report/report/doc/02-plots.Rnw
+report/report/knit*
+
