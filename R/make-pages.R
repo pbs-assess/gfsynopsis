@@ -199,6 +199,7 @@ make_pages <- function(
           axis.ticks.y = element_blank()
         )
     }
+  }
   if (nrow(dat$catch) == 0 || is.na(cpue_index[[1]])) {
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
