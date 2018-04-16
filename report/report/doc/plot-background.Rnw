@@ -6,7 +6,11 @@ knitr::opts_chunk$set(
   fig.path = "knitr-figs/",
   cache.path = "knitr-cache/",
   fig.asp = 0.618,
-  fig.width = 9
+  fig.width = 9,
+  echo = FALSE,
+  autodep = TRUE,
+  cache = TRUE,
+  cache.comments = FALSE
 )
 @
 
@@ -50,9 +54,10 @@ if (!file.exists(file.path(cache, "pop-example.rds"))) {
 } else {
   dat <- readRDS(file.path(cache, "pop-example.rds"))
 }
+dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
 @
 
-<<echo=FALSE>>=
+<<survey-cols, echo=FALSE>>=
 survey_cols <- c(RColorBrewer::brewer.pal(7L, "Set2"),
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
 survey_col_names <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
@@ -62,7 +67,7 @@ names(survey_cols) <- survey_col_names
 @
 
 
-<<echo=FALSE, fig.width=9, warning=FALSE>>=
+<<ages, echo=FALSE, fig.width=9, warning=FALSE>>=
 ss <- tidy_ages_raw(dat$survey_samples,
   sample_type = "survey")
 sc <- tidy_ages_raw(dat$comm_samples,
@@ -75,7 +80,7 @@ plot_ages(sb, survey_cols = survey_cols) +
   guides(fill = FALSE, colour = FALSE)
 @
 
-<<echo=FALSE>>=
+<<lengths, echo=FALSE, warning=FALSE>>=
 ss <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
   sample_type = "survey")
 sc <- tidy_lengths_raw(dat$comm_samples, bin_size = 2.5,
@@ -89,10 +94,58 @@ plot_lengths(sb, survey_cols = survey_cols) +
   guides(colour = FALSE, fill = FALSE)
 @
 
-<<echo=FALSE>>=
+<<age-precisions, echo=FALSE, fig.asp=0.4>>=
 tidy_age_precision(dat$age_precision) %>%
   plot_age_precision()
 @
+
+<<catches, fig.asp=1, fig.width=6, out.width="4.5in">>=
+gfsynopsis:::plot_catches(dat$catch) +
+  theme(legend.position = "right")
+@
+
+<<maturity-ogives, fig.asp=0.4>>=
+mat_age <- dat$combined_samples %>%
+  fit_mat_ogive(
+    type = "age",
+    months = 1:12)
+g_mat_age <- plot_mat_ogive(mat_age) +
+  guides(colour = FALSE, fill = FALSE)
+
+mat_length <- dat$combined_samples %>%
+  fit_mat_ogive(
+    type = "length",
+    months = 1:12)
+g_mat_length <- plot_mat_ogive(mat_length) +
+  guides(colour = FALSE, fill = FALSE)
+
+cowplot::plot_grid(g_mat_length, g_mat_age, align = "v")
+@
+
+<<cpue-spatial>>=
+map_xlim <- c(360, 653)
+map_ylim <- c(5275, 6155)
+coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
+
+# for checking if aspect ratio of map is 1:1
+checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
+  y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
+  inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
+
+g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
+  plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3) +
+  ggplot2::ggtitle("Commercial trawl CPUE") +
+  theme(legend.position = "none")
+#   theme(
+#     axis.title = element_blank(),
+#     axis.text = element_blank(),
+#     axis.ticks = element_blank()
+# )
+g_cpue_spatial
+# g_cpue_spatial + checking_square
+@
+
+
 
 
 \subsection{COMMERCIAL FISHERY CATCHES}
