@@ -53,7 +53,7 @@ make_pages <- function(
   dat$age_precision <- dplyr::filter(dat$age_precision,
     species_code == unique(dat$survey_sets$species_code))
 
-  dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples, keeper == FALSE)
+  dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples, sampling_desc %in% "UNSORTED")
   dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
 
   # TODO: temp:
@@ -262,37 +262,46 @@ make_pages <- function(
     syn_fits <- readRDS(map_cache_spp_synoptic)
   }
 
-  # if (!file.exists(map_cache_spp_iphc)) {
-  #   iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-  #     species = spp, model = "inla", density_column = "density_ppkm2",
-  #     surveys = "IPHC FISS",
-  #     verbose = TRUE)
-  #   syn_fits$models <- NULL # save space
-  #   saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
-  # } else {
-  #   iphc_fits <- readRDS(map_cache_spp_iphc)
-  # }
-  #
-  # if (!file.exists(map_cache_spp_hbll)) {
-  #   hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-  #     species = spp, model = "inla", density_column = "density_ppkm2",
-  #     surveys = c("HBLL OUT N", "HBLL OUT S"),
-  #     verbose = TRUE)
-  #   syn_fits$models <- NULL # save space
-  #   saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
-  # } else {
-  #   hbll_fits <- readRDS(map_cache_spp_hbll)
-  # }
 
-  g_survey_spatial <-
+  # nrow(pred_grid)
+  # m <- fit_survey_sets(dat, survey = "IPHC FISS", years = 2017,
+  #   model = "inla", mcmc_posterior_samples = 200, include_depth = TRUE,
+  #   verbose = TRUE,
+  #   premade_grid = pred_grid, density_column = "density_ppkm2"
+  # )
+
+  if (!file.exists(map_cache_spp_iphc)) {
+    iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+      species = spp, model = "inla",
+      surveys = "IPHC FISS",
+      verbose = TRUE)
+    iphc_fits$models <- NULL # save space
+    saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
+  } else {
+    iphc_fits <- readRDS(map_cache_spp_iphc)
+  }
+
+  if (!file.exists(map_cache_spp_hbll)) {
+    hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+      species = spp, model = "inla",
+      surveys = "HBLL OUT",
+      verbose = TRUE)
+    hbll_fits$models <- NULL # save space
+    saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
+  } else {
+    hbll_fits <- readRDS(map_cache_spp_hbll)
+  }
+
+  g_survey_spatial_syn <-
     gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat) +
-    coord_cart
-
-  g_survey_spatial_syn <- g_survey_spatial + ggplot2::ggtitle("Synoptic survey biomass")
-
-  # TODO: temp:
-  g_survey_spatial_iphc <- g_survey_spatial + ggplot2::ggtitle("IPHC survey biomass")
-  g_survey_spatial_hbll <- g_survey_spatial + ggplot2::ggtitle("HBLL OUT survey biomass")
+    coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
+  g_survey_spatial_iphc <-
+    gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
+      show_raw_data = FALSE, cell_size = 2.8, circles = TRUE) +
+    coord_cart + ggplot2::ggtitle("IPHC survey biomass")
+  g_survey_spatial_hbll <-
+    gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat) +
+    coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
 
   # Page 1 layout: -------------------------------
 

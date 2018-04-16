@@ -1,43 +1,133 @@
+# cache             <- file.path("report", "data-cache2")
+# dat     <- readRDS(file.path(cache, "pbs-survey-sets.rds"))
+# library(dplyr)
+# dat     <- filter(dat, species_common_name == "yelloweye rockfish")
+# dat <- filter(dat, survey_abbrev %in% c("HBLL OUT N", "HBLL OUT S"))
+# dat$survey_abbrev <- "HBLL OUT"
+# dat$year <- 2017
+# m <- fit_survey_sets(dat, survey = "HBLL OUT", years = 2017,
+#   model = "inla", mcmc_posterior_samples = 200, include_depth = TRUE,
+#   verbose = TRUE,
+#   premade_grid = gfplot::hbll_grid, density_column = "density_ppkm2"
+# )
+# raw_dat <- tidy_survey_sets(dat, "HBLL OUT",
+#   years = 2017, density_column = "density_ppkm2"
+# )
+# pred_dat <- m$predictions
+# # pred_dat$combined <- pred_dat$combined * 1e6
+#
+#
+# plot_survey_maps(pred_dat, raw_dat, show_axes = TRUE, show_raw_data = T,
+#   pos_pt_col = "#FFFFFF25",
+#   bin_pt_col = "#FFFFFF05",
+#   pos_pt_fill = "#FFFFFF03")
+#
+
+# cache             <- file.path("report", "data-cache2")
+# dat     <- readRDS(file.path(cache, "pbs-survey-sets.rds"))
+# library(dplyr)
+# dat     <- filter(dat, species_common_name == "yelloweye rockfish")
+# dat <- filter(dat, survey_abbrev %in% c("IPHC FISS"))
+# dat <- filter(dat, year %in% 2017)
+#
+# pred_grid <- select(dat, longitude, latitude, depth_m) %>%
+#   rename(X = longitude, Y = latitude, depth = depth_m)
+# pred_grid <- list(grid = pred_grid, cell_area = 1.0)
+# nrow(pred_grid)
+# m <- fit_survey_sets(dat, survey = "IPHC FISS", years = 2017,
+#   model = "inla", mcmc_posterior_samples = 200, include_depth = TRUE,
+#   verbose = TRUE,
+#   premade_grid = pred_grid, density_column = "density_ppkm2"
+# )
+# raw_dat <- tidy_survey_sets(dat, "IPHC FISS",
+#   years = 2017, density_column = "density_ppkm2"
+# )
+# pred_dat <- m$predictions
+#
+# plot_survey_maps(pred_dat, raw_dat, show_axes = TRUE, show_raw_data = F,
+#   cell_size = 2.8, circles = TRUE)
+
+# , "HBLL OUT", "IPHC FISS"
+
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
-  model = c("glmmfields", "inla"),
+  model = c("inla", "glmmfields"),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
   years = c(2016, 2017),
   ...) {
-  dat <- dplyr::filter(dat, species_common_name == species)
+  dat <- dplyr::filter(dat, species_common_name %in% species)
+  dat <- dplyr::filter(dat, year %in% years)
+
   model <- match.arg(model)
   out <- lapply(surveys, function(surv) {
+    if (!surv %in% c("HBLL OUT", "IPHC FISS", "SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"))
+      stop("survey value was '", surv, "' but must be one of ",
+        "c('HBLL OUT', 'IPHC FISS', 'SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')")
     message("Fitting model for the survey ", surv)
 
+    if (surv == "HBLL OUT") {
+      density_column <- "density_ppkm2"
+      .dat <- filter(dat, survey_abbrev %in% c("HBLL OUT N", "HBLL OUT S"))
+      .dat$survey_abbrev <- "HBLL OUT"
+      .dat$year <- years[2]
+      premade_grid <- gfplot::hbll_grid
+      raw_dat <- tidy_survey_sets(.dat, "HBLL OUT",
+        years = years[2], density_column = density_column
+      )
+    }
+    if (surv == "IPHC FISS") {
+      density_column <- "density_ppkm2"
+      .dat <- filter(dat, year %in% years[2]) # just last year
+      .dat <- filter(.dat, survey_abbrev %in% surv)
+      raw_dat <- tidy_survey_sets(.dat, surv,
+        years = years[2], density_column = density_column
+      )
+      premade_grid <- select(raw_dat, X, Y, depth)
+      premade_grid <- list(grid = premade_grid, cell_area = 1.0)
+    }
+    if (surv %in% c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")) {
+      density_column <- "density_kgpm2"
+      .dat <- filter(dat, survey_abbrev %in% surv)
+      premade_grid <- NULL
+      raw_dat <- tidy_survey_sets(.dat, surv,
+        years = years, density_column = "density_kgpm2"
+      )
+    }
+
     if (model == "inla") {
-      fit_survey_sets(dat, survey = surv, years = years,
+      model <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "inla", mcmc_posterior_samples = 800,
+        density_column = density_column,
+        premade_grid = premade_grid,
         ...)
     } else {
-      fit_survey_sets(dat, survey = surv, years = years,
+      stop("NEED TO CHECK GLMMFIELDS")
+      model <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "glmmfields", chains = 1, iter = 800,
         mcmc_posterior_samples = 300, n_knots = 25, ...)
     }
+    list(model = model, raw_dat = raw_dat)
   })
 
-  raw_dat <- tidy_survey_sets(dat, surveys,
-    years = years
-  )
+  pred_dat <- purrr::map_df(out, function(x) x$model$predictions)
+  raw_dat  <- purrr::map_df(out, function(x) x$raw_dat)
+  models   <- purrr::map(out,    function(x) x$model)
 
-  pred_dat <- purrr::map_df(out, function(x) x$predictions)
-  # pred_dat$combined <- pred_dat$combined * 1e6
-
-  list(pred_dat = pred_dat, raw_dat = raw_dat, models = out,
+  list(pred_dat = pred_dat, models = models, raw_dat = raw_dat,
     species = species, include_depth = include_depth)
 }
 
-plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE, ...) {
+plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
+  show_raw_data = TRUE, pos_pt_col = "#FFFFFF60",
+  bin_pt_col = "#FFFFFF40",
+  pos_pt_fill = "#FFFFFF05",
+  ...) {
   plot_survey_sets(pred_dat, raw_dat,
     fill_column = "combined", show_model_predictions = TRUE,
-    pos_pt_col = "#FFFFFF60",
-    bin_pt_col = "#FFFFFF40",
-    pos_pt_fill = "#FFFFFF05",
-    show_raw_data = TRUE,
+    show_raw_data = show_raw_data,
+    pos_pt_col = pos_pt_col,
+    bin_pt_col = bin_pt_col,
+    pos_pt_fill = pos_pt_fill,
     fill_scale =
       viridis::scale_fill_viridis(trans = "sqrt", option = "C"),
     colour_scale =
