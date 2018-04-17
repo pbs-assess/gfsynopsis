@@ -90,8 +90,8 @@ Filters                                                                         
 \midrule
 Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)                      & To extract only commercial data                                                                                                           \\
 Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total)             & To extract only those records of sample type 'random' or 'total'                                                                          \\
-Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 1, 3, 4, 5, 6, 7}                 & To remove samples sorted on unknown criteria (includes remains and fish heads from longline samples)                          \\
-Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}                             & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples)                                                                        \\
+Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7}              & To remove samples sorted on unknown criteria                                                                                              \\
+Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}                             & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples)                  \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -104,98 +104,105 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}               
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                              & Rationale                                                                                                   \\
+Filters                                                                              & Rationale                                                                                                                                          \\
 \midrule
-Filtered for \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)             & To extract only research data                                                                               \\
-Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2} (random or total)             & To extract only those records of sample type 'random' or 'total'                                            \\
-Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{1, NULL} (unsorted catches)    & To extract samples only from catches which were unsorted                                                    \\
-Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{1, NULL} (unsorted samples)       & To extract only samples which were unsorted to avoid sampling bias                                          \\
+Filtered for \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)                      & To extract only research data                                                                                                             \\
+Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total)             & To extract only those records of sample type 'random' or 'total'                                                                          \\
+Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7}              & To remove samples sorted on unknown criteria                                                                                              \\
+Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}                             & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples)                  \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
 \begin{table}[htp]
 \centering
-\caption{from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-cpue-index.sql}}
+\caption{Description of filters in SQL queries extracting commercial trawl catch and effort data from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-cpue-index.sql}}
 \label{tab:sql-cpue-index}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                                            & Rationale                                                              \\
+Filters                                                                                                            & Rationale                                                             \\
 \midrule
-Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL}                        & To remove erroneous date records                                       \\
+Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL}                        & To remove records with missing date                                   \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
 \begin{table}[htp]
 \centering
-\caption{TODO: CAPTION HERE Extracting commercial trawl spatial catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-index.sql}}
+\caption{Description of filters in SQL queries extracting commercial trawl spatial catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial.sql}}
 \label{tab:sql-cpue-spatial}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                                                                   & Rationale                                                              \\
+Filters                                                                                                            & Rationale                                                                 \\
 \midrule
-Filtered for \texttt{LAT} between 47.8 and 55 and LON between -135 and -122                                & To remove erroneous location records                                   \\
+Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122                               & To remove erroneous location records                                      \\
+Filtered for \texttt{YEAR(BEST\_DATE)} greater than 2012                                                           & To extract only records since the trawl fishery footprint was established \\
+Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE}   & To remove records with erroneous dates                                    \\
+Filtered for \texttt{FISHERY_SECTOR} = \texttt{GROUNDFISH TRAWL}                                                   & To extract only records in the groundfish trawl fishery                   \\
+Filtered for \texttt{ISNULL(LANDED_ROUND_KG,0) + ISNULL(TOTAL_RELEASED_ROUND_KG,0)} > 0                            & To extract only records with positive catch                               \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
 \begin{table}[htp]
 \centering
-\caption{TODO: CAPTION HERE Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql} }
-\label{tab:sql-get-catch}
+\caption{Description of filters in SQL queries extracting commercial hook and line spatial catch per unit effort (kg/set) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial-ll.sql}}
+\label{tab:sql-cpue-spatial}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters    & Rationale                                                       \\
+Filters                                                                                                            & Rationale                                                                 \\
 \midrule
-To extract all landings and discards by fishery sector and gear \\
+Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122                               & To remove erroneous location records                                      \\
+Filtered for \texttt{YEAR(BEST\_DATE)} greater than or equal to 2008                                               & To extract only records since 2008 when records are more reliable         \\
+Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE}   & To remove records with erroneous dates                                    \\
+Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK AND LINE)}                        & To extract only records in the hook and line fishery                      \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
 \begin{table}[htp]
 \centering
-\caption{TODO: CAPTION HERE}
+\caption{Description of filters in SQL queries extracting bootstrapped survey biomass index from \texttt{GFBio} with \texttt{get-survey-index}}
+\label{tab:sql-survey-index}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+\toprule
+Filters                                                                                                            & Rationale                                                                \\
+\midrule
+Filter for \texttt{ACTIVE\_IND} 1                                                                                  & To extract only active (useable) bootstrapped index records              \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+\begin{table}[htp]
+\centering
+\caption{Description of filters in SQL queries extracting all age records with a precision test reading to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}
+\label{tab:sql-age-precision}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+\toprule
+Filters                                                                                                            & Rationale                                                                \\
+\midrule
+Filter for \texttt{AGE_READING_TYPE_CODE} 2, 3                                                                     & To extract primary and precision test readings                           \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+
+\begin{table}[htp]
+\centering
+\caption{Description of SQL queries used for data extraction in which no filters were applied and all data were extracted}
 \label{tab:sql-no filters}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
 \toprule
-SQL Query                                                                                           & Filters                           & Rationale                                                                                                                \\
+SQL Query                                                                                           & Rationale                                                                                                                \\
 \midrule
-Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql}       & No filters                        & To extract all landings and discards by fishery sector and gear                                                          \\
-Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignment.sql}             & No filters                        & Designates maturity code at and above which a sample assessed following a given maturity convention is considered mature \\
+Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql}       & To extract all landings and discards by fishery sector and gear                                                          \\
+Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignment.sql}             & Designates maturity code at and above which a sample assessed following a given maturity convention is considered mature \\
 \bottomrule
 \end{tabu}}
 \end{table}
-
-\begin{table}[htp]
-\centering
-\caption{TODO: CAPTION HERE}
-\label{tab:sql-survey-index}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
-\toprule
-SQL Query                                                                                     & Filters                            & Rationale                                                      \\
-\midrule
-Extract bootstrapped survey biomass index from \texttt{GFBio} with \texttt{get-survey-index}  & Filter for ACTIVE\_IND 1          & To extract only active (useable) bootstrapped index records     \\
-\bottomrule
-\end{tabu}}
-\end{table}
-
-
-\begin{table}[htp]
-\centering
-\caption{TODO: CAPTION HERE}
-\label{tab:sql-age-precision}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
-\toprule
-SQL Query                                                                                                 & Filters                                    & Rationale                                                                                                        \\
-\midrule
-Extract all age readings to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}  & filter for AGE\_READING\_TYPE\_CODE 2, 3   & To extract only those aged specimen records which were aged using the break and burn or break and bake methods   \\
-\end{tabu}}
-\end{table}
-
