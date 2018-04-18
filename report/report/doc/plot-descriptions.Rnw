@@ -184,7 +184,7 @@ gridExtra::grid.arrange(
 
 \subsection{AVAILABLE BIOLOGICAL SAMPLES} \label{sec:bio-samples}
 
-<<samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", spp1, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (top panel) or across all commercial fleets (bottom panel). Gray panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells rounded to the nearest 100 unless the number is less than 100.")>>=
+<<samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", spp1, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (top panel) or across all commercial fleets (bottom panel). Gray panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells rounded to the nearest clear number.")>>=
 gridExtra::grid.arrange(
   gpop$survey_samples,
   gpop$comm_samples,
@@ -192,28 +192,12 @@ gridExtra::grid.arrange(
 )
 @
 
-The shading of the grid cells indicates the number of samples for a given year
-and data type available across all surveys or commercial sources. The cell in
-each panel with the largest value has its value indicated in text (rounded to an
-appropriate clean number). The colour scales are independent between the
-commercial and survey panels.
-
-Note that the survey samples come from all survey data in the GFBioSQL
-database, not just the surveys focused on elsewhere in the document.
-
-% I'm currently only counting specimens which have a \texttt{sex} value of male or
-% female. I'm not sure if there are some stocks where it is difficult to assign
-% a sex but we do still want the biological measurements.
-
-We could also consider showing the counts for male and female, or for female
-only, which might make sense for the purposes of data-limited assessments that
-do not model the two separately.
-
+% Note that the survey samples come from all survey data in the GFBioSQL
+% database, not just the surveys focused on elsewhere in the document.
 
 \clearpage
 
-
-\subsection{LENGTH DISTRIBUTIONS}
+\subsection{LENGTH COMPOSITION DATA}
 
 <<lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", spp1, ". Female fish are shown as colored (or black) bars and male fish are shown behind as light gray bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination.")>>=
 gpop$lengths
@@ -241,21 +225,11 @@ These could be done instead as histograms or as bubble plots, but it is
 challenging to fit as much information in such a small space with these other
 types of plots.
 
-\subsection{AGE BUBBLE PLOTS}
+\subsection{AGE COMPOSITION DATA}
 
 <<ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", spp1, ". Female fish are shown as colored (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five year intervals to facilitate tracing cohorts of fish.")>>=
 gpop$ages
 @
-
-The area of the circles is proportional to the number of fish at a given age in
-a given year for a given survey. The bubble scale is constant for a given
-stock but is independent across stocks so that the maximum area of a bubble
-is the same across stocks. We could instead scale them within each survey.
-
-This, and the length plots, are cases where we may want to select a certain
-number of surveys that have the most data for a given stock since there are
-cases where these four synoptic surveys are not the best available data for
-a given stock.
 
 <<age-precisions, echo=FALSE, out.width="5in", fig.width=6, fig.cap="Ageing precision.">>=
 gpop$age_precision
