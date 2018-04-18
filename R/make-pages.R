@@ -128,7 +128,7 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
     g_ages <- plot_ages(sb, survey_cols = survey_cols) +
-      guides(fill = FALSE, colour = FALSE)
+      guides(fill = FALSE, colour = FALSE, year_range = c(2003, 2017))
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
