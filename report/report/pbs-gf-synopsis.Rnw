@@ -81,8 +81,8 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 <<data, child='doc/plot-background.Rnw'>>=
 @
 
-% <<plots, child='doc/02-plots.Rnw'>>=
-% @
+%<<plots, child='doc/02-plots.Rnw'>>=
+%@
 
 
 % Fin

@@ -10,7 +10,11 @@ knitr::opts_chunk$set(
   echo = FALSE,
   autodep = TRUE,
   cache = TRUE,
-  cache.comments = FALSE
+  cache.comments = FALSE,
+  dev = "png",
+  dpi = 200,
+  fig.align = "center",
+  fig.pos = "htb"
 )
 @
 
@@ -19,195 +23,174 @@ knitr::opts_chunk$set(
 devtools::install_github("pbs-assess/gfplot")
 @
 
-<<libraries, cache=FALSE, echo=FALSE, message=FALSE, warning=FALSE, output='hide'>>=
-library(gfplot)
-library(ggplot2)
+<<libraries, cache=FALSE, echo=FALSE, message=FALSE, warning=FALSE>>=
 library(dplyr)
-library(rstan)
+library(ggplot2)
+library(gfplot)
+library(gfsynopsis)
 @
 
-<<load-eg-data, echo=FALSE>>=
-cache <- file.path("..", "generated-data")
-if (!file.exists(file.path(cache, "pop-example.rds"))) {
-  cache_pbs_data(396, path = cache)
-  d_survey_sets     <- readRDS(file.path(cache, "pbs-survey-sets.rds"))
-  d_survey_samples  <- readRDS(file.path(cache, "pbs-survey-samples.rds"))
-  d_comm_samples    <- readRDS(file.path(cache, "pbs-comm-samples.rds"))
-  d_catch           <- readRDS(file.path(cache, "pbs-catch.rds"))
-  d_cpue_spatial    <- readRDS(file.path(cache, "pbs-cpue-spatial.rds"))
-  d_cpue_spatial_ll <- readRDS(file.path(cache, "pbs-cpue-spatial-ll.rds"))
-  d_survey_index    <- readRDS(file.path(cache, "pbs-survey-index.rds"))
-  d_age_precision   <- readRDS(file.path(cache, "pbs-age-precision.rds"))
-  d_cpue_index      <- readRDS(file.path(cache, "pbs-cpue-index.rds"))
-  dat                 <- list()
-  dat$survey_sets     <- d_survey_sets
-  dat$survey_samples  <- d_survey_samples
-  dat$comm_samples    <- d_comm_samples
-  dat$catch           <- d_catch
-  dat$cpue_spatial    <- d_cpue_spatial
-  dat$cpue_spatial_ll <- d_cpue_spatial_ll
-  dat$survey_index    <- d_survey_index
-  dat$age_precision   <- d_age_precision
-  # dat$cpue_index      <- d_cpue_index
-  saveRDS(dat, file.path(cache, "pop-example.rds"), compress = FALSE)
-  saveRDS(d_cpue_index, file.path(cache, "cpue-index-dat.rds"), compress = FALSE)
-} else {
-  dat <- readRDS(file.path(cache, "pop-example.rds"))
-}
-dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
+<<load-cod-figs>>=
+gpcod1 <- readRDS("../../ggplot-objects/pacific-cod.rds")
+gpcod <- list()
+gpcod$survey_spatial_hbll <- gpcod1$survey_spatial_hbll
+gpcod$survey_spatial_iphc <- gpcod1$survey_spatial_iphc
+gpcod$survey_spatial_syn <-  gpcod1$survey_spatial_syn
+gpcod$survey_index <-  gpcod1$survey_index
+rm(gpcod1) # very big
 @
 
-<<survey-cols, echo=FALSE>>=
-survey_cols <- c(RColorBrewer::brewer.pal(7L, "Set2"),
-        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-survey_col_names <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-    "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
-    "HBLL INS N", "HBLL INS S", "MSA HS")
-names(survey_cols) <- survey_col_names
+<<load-pop-figs>>=
+gpop <- readRDS("../../ggplot-objects/pacific-ocean-perch.rds")
 @
 
-
-<<ages, echo=FALSE, fig.width=9, warning=FALSE>>=
-ss <- tidy_ages_raw(dat$survey_samples,
-  sample_type = "survey")
-sc <- tidy_ages_raw(dat$comm_samples,
-  sample_type = "commercial") %>% filter(year >= 2003)
-sb <- bind_rows(ss, sc)
-sb$survey_abbrev <- factor(sb$survey_abbrev,
-  levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-    "HBLL OUT S", "IPHC FISS", "Commercial"))
-plot_ages(sb, survey_cols = survey_cols) +
-  guides(fill = FALSE, colour = FALSE)
-@
-
-<<lengths, echo=FALSE, warning=FALSE>>=
-ss <- tidy_lengths_raw(dat$survey_samples, bin_size = 2.5,
-  sample_type = "survey")
-sc <- tidy_lengths_raw(dat$comm_samples, bin_size = 2.5,
-  sample_type = "commercial") %>%
-  dplyr::filter(year >= 2003)
-sb <- bind_rows(ss, sc)
-sb$survey_abbrev <- factor(sb$survey_abbrev,
-  levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-    "HBLL OUT S", "IPHC FISS", "Commercial"))
-plot_lengths(sb, survey_cols = survey_cols) +
-  guides(colour = FALSE, fill = FALSE)
-@
-
-<<age-precisions, echo=FALSE, fig.asp=0.4>>=
-tidy_age_precision(dat$age_precision) %>%
-  plot_age_precision()
-@
-
-<<catches, fig.asp=1, fig.width=6, out.width="4.5in">>=
-gfsynopsis:::plot_catches(dat$catch) +
-  theme(legend.position = "right")
-@
-
-<<maturity-ogives, fig.asp=0.4>>=
-mat_age <- dat$combined_samples %>%
-  fit_mat_ogive(
-    type = "age",
-    months = 1:12)
-g_mat_age <- plot_mat_ogive(mat_age) +
-  guides(colour = FALSE, fill = FALSE)
-
-mat_length <- dat$combined_samples %>%
-  fit_mat_ogive(
-    type = "length",
-    months = 1:12)
-g_mat_length <- plot_mat_ogive(mat_length) +
-  guides(colour = FALSE, fill = FALSE)
-
-cowplot::plot_grid(g_mat_length, g_mat_age, align = "v")
-@
-
-<<cpue-spatial>>=
-map_xlim <- c(360, 653)
-map_ylim <- c(5275, 6155)
-coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
-
-# for checking if aspect ratio of map is 1:1
+<<checking-square>>=
 checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
   y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
   inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
+@
 
-g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
-  plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3) +
-  ggplot2::ggtitle("Commercial trawl CPUE") +
-  theme(legend.position = "none")
-#   theme(
-#     axis.title = element_blank(),
-#     axis.text = element_blank(),
-#     axis.ticks = element_blank()
-# )
-g_cpue_spatial
-# g_cpue_spatial + checking_square
+<<spp-ids>>=
+spp1 <- "Pacific Ocean Perch"
+spp2 <- "Pacific Cod"
+@
+
+% ---------------------------------------------------------------------
+\clearpage
+
+\subsection{RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS}
+
+<<survey-index, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", spp2, ". Dots represent mean estimates of relative biomass and colored shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or a less than 5\\% average positive sets (sets that caught the species of interest).")>>=
+gpcod$survey_index
 @
 
 
+\clearpage
+
+\subsection{MAPS OF RELATIVE BIOMASS FROM SURVEYS}
+
+<<map-text>>=
+map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the maps in the available space. Depth contours are shown at 100, 200, and 500m."
+@
+
+<<survey-maps, fig.asp=1.0, fig.width=6, out.width="5.0in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", spp2, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Color shading indicates productions from a spatial model. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows predicted biomass density at the survey stations. Years on the left side of each plot indicate the year of the respective survey. ", map_text)>>=
+gridExtra::grid.arrange(
+  gpcod$survey_spatial_syn,
+  gpcod$survey_spatial_hbll,
+  gpcod$survey_spatial_iphc, # + checking_square,
+  nrow = 1)
+@
+
+% Here I am fitting Bayesian generalized linear mixed effects models with Gaussian
+% random fields to estimate expected biomass density on the surface covering the
+% entirety of the survey boundaries. I fit the models with the glmmfields
+% R package I've been working on
+% (\url{https://github.com/seananderson/glmmfields}). The Gaussian
+% random field describes a wiggly surface of unexplained spatial pattern (the
+% ``random effects'') in the response variable (here biomass of fish or
+% probability of observing a given fish species in a survey tow) beyond that which
+% can be described by the included ("fixed effect") predictors (here a quadratic
+% effect of bottom depth). Gaussian random fields describe random effects drawn
+% from a multivariate normal distribution with some estimated covariance
+% structure. The glmmfields package uses a predictive process approach where
+% a limited number of ``knots'' are modelled and these are projected to the data
+% locations as part of the fitting process. This makes the analysis of large
+% spatial data sets possible.
+%
+% See Appendix \ref{sec:spatial-app} for details on the methods.
+%
+% At this point I'm only using bottom depth as a predictor but there's no reason
+% why we couldn't include other predictors such as bottom temperature and
+% substrate type.
+%
+% There are separate models for the presence or absence of a given species in
+% a tow and for the density if they are observed. These are then combined after by
+% multiplying the probability of observation with the density conditional on being
+% observed and are projected onto a fine-scale grid encompassing the full region
+% of the survey polygon.
+%
+% I am only fitting the spatial models if at least 10\% of the survey tows from
+% a given survey caught that species that year. Otherwise, there is very little
+% data to estimate the positive density component. In these cases, I just show the
+% raw tow data and do not add the colour shading for the predicted biomass density.
+%
+% I am only showing the predicted biomass density for fine-scale grid cells within
+% the range of depth for that survey in that year (extending an extra 5m shallower
+% and deeper; hence the patches of white). This avoids extrapolating the
+% density-presence and density-biomass relationships. This becomes important
+% because there are a couple points in the survey polygons that get very close to
+% land, even crossing slightly. Extrapolating the quadratic relationship can
+% predict very high densities for these grid cells and distort the colour
+% scheme.
+%
+% Crosses indicate tows that did not catch that species. Circles indicate tows
+% that did catch that species and the area of the circle is proportional to the
+% density.
+%
+% We may want to add point size and colour legends to these. We may also want to
+% scale the colours and point sizes so that they are consistent across the
+% different survey panels. Right now there is no way to get a feeling for the
+% relative abundance of species between the survey areas. The only larger scale
+% spatial indicator is the trawl CPUE.
+%
+% We would want to emphasize that these spatial predictions are for visualization
+% purposes only at this point. We'd want to do a lot more investigation on
+% a stock-by-stock basis before believing them too strongly.
+
+\clearpage
 
 
 \subsection{COMMERCIAL FISHERY CATCHES}
 
-% \begin{figure}[htbp]
-% \centering
-% \includegraphics[height=2.75in]{../catches/pacific-ocean-perch.pdf}
-% \caption{Pacific Ocean Perch catches.}
-% \end{figure}
+<<catches, fig.asp=1, fig.width=6, out.width="4.5in", warning=FALSE, fig.cap=paste0("Example commercial fishery catches plot for ", spp1, ". Catch from various gear types as indicated by different color shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, hook and line discards are mostly not included in these data. Years before TODO and 1996 are shaded grey to indicate they are considered less reliable.")>>=
+gpop$catch
+@
 
-The plot shows the sum of landings (weight of landings plus weight of discards)
-aggregated each year within bottom trawl, midwater trawl, hook and line, and
-trap categories. I aggregated other minor categories, including \texttt{unknown}
-and generic \texttt{trawl} into their own category. These generally represent
-a very small quantity of catches. I combined discarded weight across all the
-categories. I did not include fish pieces in the current plot, which for the
-most part means that hook and line discards are ignored.
+% The plot shows the sum of landings (weight of landings plus weight of discards)
+% aggregated each year within bottom trawl, midwater trawl, hook and line, and
+% trap categories. I aggregated other minor categories, including \texttt{unknown}
+% and generic \texttt{trawl} into their own category. These generally represent
+% a very small quantity of catches. I combined discarded weight across all the
+% categories. I did not include fish pieces in the current plot, which for the
+% most part means that hook and line discards are ignored.
 
-Years before 1996 are shaded to indicate they are less reliable.
+\clearpage
 
-% Do we want to try and account for hook and line discards? Do we want to show
-% trawl and hook and line / traps separately?
 
-\subsection{COMMERCIAL CATCH PER UNIT EFFORT}
+\subsection{COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES}
 
-% \begin{figure}[htbp]
-% \centering
-% \includegraphics[height=3.8in]{../cpue/pacific-ocean-perch.pdf}
-% \caption{Pacific Ocean Perch CPUE for the groundfish bottom trawl sector. Shown
-%   is the geometric mean within each hexagon cell since 2013.}
-% \end{figure}
+<<trawl-cpue-index, fig.asp=1.4, fig.width=5, out.width="4in", warning=FALSE, fig.cap=paste0("Example commercial bottom trawl catch per unit effort index trends shown for ", spp1, ". Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort trend standardized for depth, latitude, DFO locality region, vessel, and month of year (see details in the text). The line itself represents the estimate and the shaded ribbon represents a 95\\% confidence interval.")>>=
+gpop$cpue_index
+@
 
-These represent catches in weight (landings + discards) per unit effort (time) for the
-groundfish trawl fleet.
 
-The plots show all CPUE from 2013 onwards since the trawl footprint was frozen
-in April 2012.
 
-Hexagon cells are X km wide and show the geometric mean of CPUE as indicated by
-the shading of each cell. Cells must have at least three unique vessels to be
-shown. I am also only showing any data if there are at least 5 hexagon cells to
-show.
+\clearpage
 
-The map shows depth contours at 100m, 200m, and 500m (in increasingly slightly
-darker shades of grey).
+\subsection{MAPS OF COMMERCIAL CATCH PER UNIT EFFORT}
 
-The coloured rectangles indicate the subplot regions in the spatial survey plots.
+<<cpue-maps, fig.asp=1.47, fig.width=4.1, out.width="3.4in", fig.cap=paste0("Example commercial trawl and hook and line catch per unit effort maps for ", spp2, ". Lighter shading indicates higher levels of a geometric mean of catch per unit effort in a given hexagon cell. Cells are 7km wide and are only shown in cases where there are at least 3 unique vessels in given cell for privacy reasons. For bottom trawl, catch per unit effort is calculated as the weight of catch (landings plus discards) divided by hours fished for all positive tows from the groundfish trawl sector. Trawl data are shown from 2013 onwards. For hook and line, catch per unit effort is the TODO and so is more accurately considered numbers of fish caught. Hook and line data are shown from 2008 onwards.", map_text)>>=
+gridExtra::grid.arrange(
+  gpop$cpue_spatial, # + checking_square,
+  gpop$cpue_spatial_ll,
+  nrow = 1
+)
+@
 
-We may want to show the trawl footprint boundaries.
+% The plots show all CPUE from 2013 onwards since the trawl footprint was frozen
+% in April 2012.
 
-We could pick a finer or coarser cell size. I picked something to approximately
-match what is usually used in groundfish stock assessment research documents.
-It's a balance between fine-scale accuracy and being able to see the patterns on
-a relatively small figure.
+\clearpage
 
 \subsection{AVAILABLE BIOLOGICAL SAMPLES} \label{sec:bio-samples}
 
-% \begin{figure}[htbp]
-% \centering
-% \includegraphics[height=2.45in]{../synop/dat-syn-pacific-ocean-perch.pdf}
-% \caption{Pacific Ocean Perch available biological samples.}
-% \end{figure}
+<<samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", spp1, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (top panel) or across all commercial fleets (bottom panel). Gray panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells rounded to the nearest 100 unless the number is less than 100.")>>=
+gridExtra::grid.arrange(
+  gpop$survey_samples,
+  gpop$comm_samples,
+  nrow = 2
+)
+@
 
 The shading of the grid cells indicates the number of samples for a given year
 and data type available across all surveys or commercial sources. The cell in
@@ -226,7 +209,16 @@ We could also consider showing the counts for male and female, or for female
 only, which might make sense for the purposes of data-limited assessments that
 do not model the two separately.
 
+
+\clearpage
+
+
 \subsection{LENGTH DISTRIBUTIONS}
+
+<<lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", spp1, ". Female fish are shown as colored (or black) bars and male fish are shown behind as light gray bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination.")>>=
+gpop$lengths
+@
+
 
 % \begin{figure}[htbp]
 % \centering
@@ -249,98 +241,31 @@ These could be done instead as histograms or as bubble plots, but it is
 challenging to fit as much information in such a small space with these other
 types of plots.
 
-\subsection{SPATIAL MODELLING OF SYNOPTIC TRAWL SURVEY DATA}
+\subsection{AGE BUBBLE PLOTS}
 
-% \begin{figure}[htbp]
-% \centering
-% % \includegraphics[height=4in]{../spatial-survey/pacific-ocean-perch.pdf}
-% \caption{Pacific Ocean Perch biomass estimates from surveys.}
-% \end{figure}
+<<ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", spp1, ". Female fish are shown as colored (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five year intervals to facilitate tracing cohorts of fish.")>>=
+gpop$ages
+@
 
-The data were extracted from GFBioSQL with the procedure
-\texttt{proc\_catmat\_2011}, which is used to generate the data for the usual
-stratum-based bootstrap procedure to calculate the biomass indices from these
-trawl surveys.
+The area of the circles is proportional to the number of fish at a given age in
+a given year for a given survey. The bubble scale is constant for a given
+stock but is independent across stocks so that the maximum area of a bubble
+is the same across stocks. We could instead scale them within each survey.
 
-Here I am fitting Bayesian generalized linear mixed effects models with Gaussian
-random fields to estimate expected biomass density on the surface covering the
-entirety of the survey boundaries. I fit the models with the glmmfields
-R package I've been working on
-(\url{https://github.com/seananderson/glmmfields}). The Gaussian
-random field describes a wiggly surface of unexplained spatial pattern (the
-``random effects'') in the response variable (here biomass of fish or
-probability of observing a given fish species in a survey tow) beyond that which
-can be described by the included ("fixed effect") predictors (here a quadratic
-effect of bottom depth). Gaussian random fields describe random effects drawn
-from a multivariate normal distribution with some estimated covariance
-structure. The glmmfields package uses a predictive process approach where
-a limited number of ``knots'' are modelled and these are projected to the data
-locations as part of the fitting process. This makes the analysis of large
-spatial data sets possible.
+This, and the length plots, are cases where we may want to select a certain
+number of surveys that have the most data for a given stock since there are
+cases where these four synoptic surveys are not the best available data for
+a given stock.
 
-See Appendix \ref{sec:spatial-app} for details on the methods.
-
-At this point I'm only using bottom depth as a predictor but there's no reason
-why we couldn't include other predictors such as bottom temperature and
-substrate type.
-
-I still need to tweak the interpolation algorithm to go from the
-bathymetry grid layer to the locations of the grid cells in the final
-projection (I think it's introducing a bit of `roughness' right now). I'm using
-actual tow depth for the observed data and the depth data from `PBSdata::bctopo`
-for the projections. Originally I was using a NOAA dataset, but it didn't match
-the trawl depths as closely. It sounds like another division of DFO might be
-developing an even better version we could use.
-
-There are separate models for the presence or absence of a given species in
-a tow and for the density if they are observed. These are then combined after by
-multiplying the probability of observation with the density conditional on being
-observed and are projected onto a fine-scale grid encompassing the full region
-of the survey polygon.
-
-I am only fitting the spatial models if at least 10\% of the survey tows from
-a given survey caught that species that year. Otherwise, there is very little
-data to estimate the positive density component. In these cases, I just show the
-raw tow data and do not add the colour shading for the predicted biomass density.
-
-I am only showing the predicted biomass density for fine-scale grid cells within
-the range of depth for that survey in that year (extending an extra 5m shallower
-and deeper; hence the patches of white). This avoids extrapolating the
-density-presence and density-biomass relationships. This becomes important
-because there are a couple points in the survey polygons that get very close to
-land, even crossing slightly. Extrapolating the quadratic relationship can
-predict very high densities for these grid cells and distort the colour
-scheme.
-
-Crosses indicate tows that did not catch that species. Circles indicate tows
-that did catch that species and the area of the circle is proportional to the
-density.
-
-We may want to add point size and colour legends to these. We may also want to
-scale the colours and point sizes so that they are consistent across the
-different survey panels. Right now there is no way to get a feeling for the
-relative abundance of species between the survey areas. The only larger scale
-spatial indicator is the trawl CPUE.
-
-We would want to emphasize that these spatial predictions are for visualization
-purposes only at this point. We'd want to do a lot more investigation on
-a stock-by-stock basis before believing them too strongly.
-
-\subsection{BIOMASS SURVEY INDEX TRENDS}
-
-% \begin{figure}[htbp]
-% \centering
-% % \includegraphics[height=3.4in]{../sparks/pacific-ocean-perch.pdf}
-% \caption{Pacific Ocean Perch survey biomass index trends.}
-% \end{figure}
-
-These show the median and 95\% bootstrap confidence intervals on the survey
-biomass trends through time. Each trend is scaled so that the maximum upper
-confidence interval reaches the top of the plot. We could consider plotting them
-with consistent absolute biomass on the y-axis, but that depends how much we
-trust these values relative to each other.
+<<age-precisions, echo=FALSE, out.width="5in", fig.width=6, fig.cap="Ageing precision.">>=
+gpop$age_precision
+@
 
 \subsection{LENGTH-AGE AND LENGTH-WEIGHT MODEL FITS}
+
+<<length-weight-vb, warning=FALSE, fig.asp=0.4>>=
+cowplot::plot_grid(gpop$vb, gpop$length_weight, align = "v")
+@
 
 % \begin{figure}[htbp]
 % \centering
@@ -396,20 +321,15 @@ female. If there are more than 2000 fish samples for a given stock, I randomly
 sample 2000 fish to plot. This is just to avoid plotting an excessive number of
 dots, which generates very large PDF files.
 
-\subsection{AGE BUBBLE PLOTS}
 
-% \begin{figure}[htbp]
-% \centering
-% % \includegraphics[height=4in]{../bubbles/pacific-ocean-perch.pdf}
-% \caption{Pacific Ocean Perch age bubble plots.}
-% \end{figure}
+\subsection{MATURITY}
 
-The area of the circles is proportional to the number of fish at a given age in
-a given year for a given survey. The bubble scale is constant for a given
-stock but is independent across stocks so that the maximum area of a bubble
-is the same across stocks. We could instead scale them within each survey.
+<<maturity-months, out.width="4in", fig.asp=0.5, fig.width=5>>=
+gpop$maturity_month
+@
 
-This, and the length plots, are cases where we may want to select a certain
-number of surveys that have the most data for a given stock since there are
-cases where these four synoptic surveys are not the best available data for
-a given stock.
+<<maturity-ogives, fig.asp=0.4>>=
+cowplot::plot_grid(gpop$mat_length, gpop$mat_age, align = "v")
+@
+
+
