@@ -153,8 +153,8 @@ Filters                                                                         
 Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122                               & To remove erroneous location records                                      \\
 Filtered for \texttt{YEAR(BEST\_DATE)} greater than 2012                                                           & To extract only records since the trawl fishery footprint was established \\
 Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE}   & To remove records with erroneous dates                                    \\
-Filtered for \texttt{FISHERY_SECTOR} = \texttt{GROUNDFISH TRAWL}                                                   & To extract only records in the groundfish trawl fishery                   \\
-Filtered for \texttt{ISNULL(LANDED_ROUND_KG,0) + ISNULL(TOTAL_RELEASED_ROUND_KG,0)} > 0                            & To extract only records with positive catch                               \\
+Filtered for \texttt{FISHERY\_SECTOR} = \texttt{GROUNDFISH TRAWL}                                                   & To extract only records in the groundfish trawl fishery                   \\
+Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND\_KG,0)} > 0                            & To extract only records with positive catch                               \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -192,14 +192,14 @@ Filter for \texttt{ACTIVE\_IND} 1                                               
 
 \begin{table}[htp]
 \centering
-\caption{Description of filters in SQL queries extracting all age records with a precision test reading to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}
+\caption{Description of filters in SQL queries extracting all age records with a precision test reading to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}}
 \label{tab:sql-age-precision}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
 Filters                                                                                                            & Rationale                                                                \\
 \midrule
-Filter for \texttt{AGE_READING_TYPE_CODE} 2, 3                                                                     & To extract primary and precision test readings                           \\
+Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                                                                     & To extract primary and precision test readings                           \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -210,7 +210,7 @@ Filter for \texttt{AGE_READING_TYPE_CODE} 2, 3                                  
 \caption{Description of SQL queries used for data extraction in which no filters were applied and all data were extracted}
 \label{tab:sql-no filters}
 {\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
 SQL Query                                                                                           & Rationale                                                                                                                \\
 \midrule
