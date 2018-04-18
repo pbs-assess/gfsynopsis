@@ -34,6 +34,9 @@ fit_cpue_indices <- function(dat,
       lat_bin_quantiles = c(0.01, 0.99)
     )
 
+    if (!is.data.frame(fleet))
+      if (is.na(fleet[[1]]))
+        return(NA)
     if (length(unique(fleet$vessel_name)) < 10)
       return(NA)
 
@@ -45,21 +48,24 @@ fit_cpue_indices <- function(dat,
     base_locality <- get_most_common_level(pos_catch_fleet$locality)
 
     message("Fitting standardization model for area ", area, ".")
-    m_cpue <- fit_cpue_index(fleet,
-      formula_binomial = pos_catch ~ year_factor +
-        f(month, base_month) +
-        f(vessel, base_vessel) +
-        f(locality, base_locality) +
-        f(depth, base_depth) +
-        f(latitude, base_lat),
-      formula_lognormal = log(spp_catch / hours_fished) ~
-        year_factor +
-        f(month, base_month) +
-        f(vessel, base_vessel) +
-        f(locality, base_locality) +
-        f(depth, base_depth) +
-        f(latitude, base_lat)
-    )
+
+    invisible(capture.output(
+      m_cpue <- fit_cpue_index(fleet,
+        formula_binomial = pos_catch ~ year_factor +
+          f(month, base_month) +
+          f(vessel, base_vessel) +
+          f(locality, base_locality) +
+          f(depth, base_depth) +
+          f(latitude, base_lat),
+        formula_lognormal = log(spp_catch / hours_fished) ~
+          year_factor +
+          f(month, base_month) +
+          f(vessel, base_vessel) +
+          f(locality, base_locality) +
+          f(depth, base_depth) +
+          f(latitude, base_lat)
+      )
+    ))
     list(model = m_cpue, fleet = fleet, area = gsub("\\[|\\]|\\+", "", area))
   })
 
