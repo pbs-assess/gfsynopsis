@@ -248,13 +248,15 @@ make_pages <- function(
       axis.ticks.y = element_blank()
     ) + ggplot2::ggtitle("Survey relative biomass indices")
 
-  g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
-    plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
-    viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey85")
+  suppressMessages({
+    g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
+      plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
+      viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey85")
 
-  g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
-    plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
-    viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey85")
+    g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
+      plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
+      viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey85")
+  })
 
   # Maturity by month: -------------------------------
 
@@ -266,9 +268,6 @@ make_pages <- function(
   # Growth fits: -------------------------------
 
   if (!file.exists(vb_cache_spp)) {
-    # TODO: memory mapping problem:
-    model_file <- system.file("stan", "vb.stan", package = "gfplot")
-    mod <- rstan::stan_model(model_file)
     vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd")
     vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd")
     vb <- list()
@@ -355,7 +354,7 @@ make_pages <- function(
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      verbose = TRUE)
+      verbose = FALSE)
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -374,7 +373,7 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "IPHC FISS",
-      verbose = TRUE)
+      verbose = FALSE)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -385,7 +384,7 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "HBLL OUT",
-      verbose = TRUE)
+      verbose = FALSE)
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
