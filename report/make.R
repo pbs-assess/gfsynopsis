@@ -1,5 +1,6 @@
 devtools::load_all("../gfplot/")
 devtools::load_all(".")
+library(dplyr)
 
 dc                  <- file.path("report", "data-cache2")
 dat                 <- list()
@@ -20,10 +21,10 @@ spp <- dplyr::filter(spp, species_common_name %in%
   # unique(c(spp$species_common_name[13:15])))
   # "north pacific spiny dogfish",
   c("pacific ocean perch",
-  "pacific cod",
-  "widow rockfish",
-  "redbanded rockfish",
-  "yelloweye rockfish"
+  "pacific cod"#,
+  # "widow rockfish",
+  # "redbanded rockfish",
+  # "yelloweye rockfish"
   ))
 
 # spp <- dplyr::filter(spp, species_common_name %in%
@@ -34,8 +35,6 @@ spp <- left_join(spp, refs, by = "species_common_name")
 spp$sar[is.na(spp$sar)] <- ""
 spp$resdoc[is.na(spp$resdoc)] <- ""
 
-# ggthemes::gdocs_pal()(7)
-
 for (i in seq_along(spp$species_common_name)) {
   cat(crayon::red(clisymbols::symbol$tick),
     "Building figures for", spp$species_common_name[i], "\n")
@@ -43,11 +42,10 @@ for (i in seq_along(spp$species_common_name)) {
     make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
       resolution = 185,
-      # survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
+      save_gg_objects = TRUE,
       survey_cols = c(RColorBrewer::brewer.pal(7L, "Dark2"),
-      # survey_cols = c(rcartocolor::carto_pal(n = 7, name = "Bold"),
-      # survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"), RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-      # survey_cols = c(ggthemes::gdocs_pal()(6), ggthemes::gdocs_pal()(10)[[10]],
+      # survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+      #   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
   )
