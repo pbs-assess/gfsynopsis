@@ -223,22 +223,21 @@ make_pages <- function(
   # Commercial catch: -------------------------------
 
   if (nrow(dat$catch) > 0) {
-    g_catch <- gfsynopsis::plot_catches(dat$catch) +
-      theme(legend.position = "none")
+    g_catch <- gfsynopsis::plot_catches(dat$catch)
   } else {
     g_catch <- ggplot() + theme_pbs()
     g_catch <- gfsynopsis::plot_catches(expand.grid(year = 999,
       area = factor(c("Coastwide", "5AB", "5CDE", "3CD"),
         levels = c("Coastwide", "5AB", "5CDE", "3CD")),
-      gear = "a", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
-      theme(legend.position = "none") +
-      theme(axis.text.y = element_blank())
+      gear = "abc", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
+      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
 
   # Survey biomass indices: -------------------------------
 
   g_survey_index <- tidy_survey_index(dat$survey_index) %>%
-    plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols) +
+    plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols,
+      xlim = c(1984, 2017)) +
     theme(
       axis.title.y = element_blank(),
       axis.text.y = element_blank(),
@@ -400,7 +399,7 @@ make_pages <- function(
     show_model_predictions <- FALSE
   g_survey_spatial_iphc <-
     gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
-      show_raw_data = FALSE, cell_size = 2.4, circles = TRUE,
+      show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
       show_model_predictions = show_model_predictions, annotations = "IPHC") +
     coord_cart + ggplot2::ggtitle("IPHC survey biomass")
 
