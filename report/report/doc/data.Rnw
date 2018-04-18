@@ -1,8 +1,6 @@
 % !TEX root = gf-synopsis.Rnw
 
-\section{METHODS}
-
-\subsection{DATA EXTRACTION}
+\section{DATA EXTRACTION}
 
 Commercial and research catch, effort, and biological data for groundfish are
 archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science
@@ -11,24 +9,21 @@ Historical commercial catch and effort data from 1954--2006/2007 are housed in
 GFCatch, PacHarvTrawl, PacHarvHL, and PacHarvSable, depending on the fishery and
 time period.
 Modern (2006/2007 to present) commercial catch data are housed in GFFOS, a
-groundfish-specific ``view'' of the Fishery Operations System (FOS) database
+groundfish-specific view of the Fishery Operations System (FOS) database
 (Fisheries and Oceans Canada, Fisheries and Aquaculture Management, Pacific
 Region).
 Research survey data and commercial biological data from the 1940s to
 present are housed in GFBio, the Groundfish Biological Samples database.
 
-Functions were developed within the \textbf{gfplot} package to automate
+We developed a package \textbf{gfplot} for the system software R to automate
 data extraction from these databases in a consistent, reproducible manner.
 The functions extract data using SQL queries, developed with support from
 the Groundfish Data Unit, which select and filter for specific data depending on
-analyses they will be used in.
-The extracted data are formatted to feed directly into other functions in the
-package to allow for a fully automated procedure.
+the analyses for which they will be used.
 
 Commercial catch data are extracted with \texttt{get-catch.sql}.
 All landings and discards are extracted by species, fishery sector, gear type
-and year and are not filtered in any way (Table~\ref{tab:sql-no filters}).
-Species names or codes are specified as an argument to the function by the user.
+and year, and are not filtered in any further way (Table~\ref{tab:sql-no filters}).
 
 Commercial trawl catch per unit effort (CPUE) index data are
 extracted using \texttt{get-cpue-index.sql} and are filtered to include only
@@ -79,7 +74,7 @@ Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
 (Table~\ref{tab:sql-surv-samp}) or commercial (Table~\ref{tab:sql-comm-samp})
 samples.
 In addition, samples designated as unsorted or sorted ('keepers' and 'discards')
-based on combination of \texttt{SPECIES\_CATEGORY\_CODE} and
+based on combinations of \texttt{SPECIES\_CATEGORY\_CODE} and
 \texttt{SAMPLE\_SOURCE\_CODE} to allow anaylysis on either only sorted samples
 to remove bias from inclusion of sorted or selected samples or on
 all samples.
@@ -204,18 +199,18 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                               
 \end{tabu}}
 \end{table}
 
-
-\begin{table}[htp]
-\centering
-\caption{Description of SQL queries used for data extraction in which no filters were applied and all data were extracted}
-\label{tab:sql-no filters}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
-\toprule
-SQL Query                                                                                           & Rationale                                                                                                                \\
-\midrule
-Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql}       & To extract all landings and discards by fishery sector and gear                                                          \\
-Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignment.sql}             & Designates maturity code at and above which a sample assessed following a given maturity convention is considered mature \\
-\bottomrule
-\end{tabu}}
-\end{table}
+%
+% \begin{table}[htp]
+% \centering
+% \caption{Description of SQL queries used for data extraction in which no filters were applied and all data were extracted}
+% \label{tab:sql-no filters}
+% {\tabulinesep=1.6mm
+% \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+% \toprule
+% SQL Query                                                                                           & Rationale                                                                                                                \\
+% \midrule
+% Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql}       & To extract all landings and discards by fishery sector and gear                                                          \\
+% Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignment.sql}             & Designates maturity code at and above which a sample assessed following a given maturity convention is considered mature \\
+% \bottomrule
+% \end{tabu}}
+% \end{table}
