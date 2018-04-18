@@ -3,25 +3,11 @@
 
 \usepackage{tabu} % https://tex.stackexchange.com/questions/50332/vertical-spacing-of-a-table-cell
 
-% Use the style file in the csas-style repository:
-\usepackage{csas-style/res-doc}
+% Location of the csas-style repository: adjust path as needed
+\newcommand{\locRepo}{csas-style}
 
-% Multi-letter identifier (i.e., multi-character variable such as `SB`)
-\newcommand{\mli}[1]{\mathit{#1}}
-% Better treatment of input (no extra trailing space)
-\newcommand{\inputsp}[1]{\input{#1}\unskip}
-
-% Custom commands:
-\newcommand{\sQuote}[1]{`#1'}
-\newcommand{\dQuote}[1]{``#1''}
-\newcommand{\eqn}[1]{\begin{equation}#1\end{equation}}
-\newcommand{\gfrac}[2]{\genfrac{}{}{}{0}{#1}{#2}}
-
-% eor - Show two things with a vertical bar between them. e.g. A|B
-\newcommand{\eor}[2]{{#1$\Vert$#2}}
-
-% bM - makes equations larger
-\newcommand{\bM}[1]{\mathlarger{\mathlarger{#1}}}
+% Use the style file in the csas-style repository (res-doc.sty)
+\usepackage{\locRepo/res-doc}
 
 % Headers and footers
 \lhead{Draft working paper --- Do not cite or circulate}
@@ -75,14 +61,14 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 <<introduction, child='doc/01-introduction.Rnw'>>=
 @
 
+<<data, child='doc/plot-descriptions.Rnw'>>=
+@
+
 <<data, child='doc/data.Rnw'>>=
 @
 
-<<data, child='doc/plot-background.Rnw'>>=
+<<plots, child='doc/02-plots.Rnw'>>=
 @
-
-%<<plots, child='doc/02-plots.Rnw'>>=
-%@
 
 
 % Fin

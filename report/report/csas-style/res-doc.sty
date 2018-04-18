@@ -571,6 +571,23 @@
 
 \newcommand{\Bmsy}{B_\mathrm{MSY}}
 \newcommand{\umsy}{u_\mathrm{MSY}}
+
+% Multi-letter identifier (i.e., multi-character variable such as `SB`)
+\newcommand{\mli}[1]{\mathit{#1}}
+% Better treatment of input (no extra trailing space)
+\newcommand{\inputsp}[1]{\input{#1}\unskip}
+
+% Custom commands:
+\newcommand{\sQuote}[1]{`#1'}
+\newcommand{\dQuote}[1]{``#1''}
+\newcommand{\eqn}[1]{\begin{equation}#1\end{equation}}
+\newcommand{\gfrac}[2]{\genfrac{}{}{}{0}{#1}{#2}}
+
+% eor - Show two things with a vertical bar between them. e.g. A|B
+\newcommand{\eor}[2]{{#1$\Vert$#2}}
+
+% bM - makes equations larger
+\newcommand{\bM}[1]{\mathlarger{\mathlarger{#1}}}
 %% ------------------------------------------------------------------------------
 
 \fancypagestyle{nofooter}{%
@@ -585,7 +602,9 @@
 
 \thispagestyle{empty}
 
-\includegraphics[width=9.14cm]{csas-style/images/title-header.png}
+\newgeometry{top=0.5in,bottom=0.6in,left=1in,right=1in}
+
+\includegraphics[width=9.14cm]{\locRepo/images/title-header.png}
 
 \textbf{Canadian Science Advisory Secretariat (CSAS)}
 \vspace{0.5mm}
@@ -621,10 +640,12 @@
 \parbox{9cm}{\rdMonth{} \rdYear{}}%
 \begin{minipage}[t]{7.48cm}
 \flushright
-\includegraphics[width=3.54cm]{csas-style/images/title-footer.png}%
+\includegraphics[width=3.54cm]{\locRepo/images/title-footer.png}%
 \end{minipage}
 
 \clearpage
+
+\restoregeometry
 
 \vspace*{\fill}
 
@@ -653,7 +674,7 @@ Ottawa ON K1A 0E6\\
 \href{mailto://csas-sccs@dfo-mpo.gc.ca}{csas-sccs@dfo-mpo.gc.ca}
 
 \vspace{-3mm}
-\includegraphics[scale=0.96]{csas-style/images/recycle.png}
+\includegraphics[scale=0.96]{\locRepo/images/recycle.png}
 
 \vspace{-3mm}
 \textcopyright\ Her Majesty the Queen in Right of Canada, \rdYear{}\\
