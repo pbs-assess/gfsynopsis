@@ -184,7 +184,7 @@ make_pages <- function(
   g_age_precision <- tidy_age_precision(dat$age_precision) %>%
     plot_age_precision()
   } else {
-    g <- ggplot() + theme_pbs()
+    g_age_precision <- ggplot() + theme_pbs()
   }
 
   # Commercial CPUE indices: -------------------------------
