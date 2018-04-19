@@ -1,5 +1,3 @@
-% !TEX root = gf-synopsis.Rnw
-
 \section{DATA EXTRACTION}
 
 Commercial and research catch, effort, and biological data for groundfish are
@@ -15,7 +13,7 @@ Region).
 Research survey data and commercial biological data from the 1940s to
 present are housed in GFBio, the Groundfish Biological Samples database.
 
-We developed a package \textbf{gfplot} for the system software R to automate
+We developed a package \textbf{gfplot} for the statistical software R to automate
 data extraction from these databases in a consistent, reproducible manner.
 The functions extract data using SQL queries, developed with support from
 the Groundfish Data Unit, which select and filter for specific data depending on
