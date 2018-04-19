@@ -1,3 +1,4 @@
+#' @export
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
   model = c("inla", "glmmfields"),
@@ -68,6 +69,7 @@ fit_survey_maps <- function(dat,
     species = species, include_depth = include_depth)
 }
 
+#' @export
 plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   show_raw_data = TRUE, pos_pt_col = "#FFFFFF60",
   bin_pt_col = "#FFFFFF40",

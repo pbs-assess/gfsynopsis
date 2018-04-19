@@ -20,6 +20,9 @@ fit_cpue_indices <- function(dat,
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
 
+    if (species == "quillback rockfish") # TODO CONVERGENCE ISSUES
+      return(NA)
+
     fleet <- tidy_cpue_index(dat,
       year_range = c(1996, 2017),
       species_common = species,
@@ -34,6 +37,9 @@ fit_cpue_indices <- function(dat,
       lat_bin_quantiles = c(0.01, 0.99)
     )
 
+    if (!is.data.frame(fleet))
+      if (is.na(fleet[[1]]))
+        return(NA)
     if (length(unique(fleet$vessel_name)) < 10)
       return(NA)
 
@@ -45,21 +51,29 @@ fit_cpue_indices <- function(dat,
     base_locality <- get_most_common_level(pos_catch_fleet$locality)
 
     message("Fitting standardization model for area ", area, ".")
-    m_cpue <- fit_cpue_index(fleet,
-      formula_binomial = pos_catch ~ year_factor +
-        f(month, base_month) +
-        f(vessel, base_vessel) +
-        f(locality, base_locality) +
-        f(depth, base_depth) +
-        f(latitude, base_lat),
-      formula_lognormal = log(spp_catch / hours_fished) ~
-        year_factor +
-        f(month, base_month) +
-        f(vessel, base_vessel) +
-        f(locality, base_locality) +
-        f(depth, base_depth) +
-        f(latitude, base_lat)
-    )
+
+    invisible(capture.output(
+      m_cpue <- try(fit_cpue_index(fleet,
+        formula_binomial = pos_catch ~ year_factor +
+          f(month, base_month) +
+          f(vessel, base_vessel) +
+          f(locality, base_locality) +
+          f(depth, base_depth) +
+          f(latitude, base_lat),
+        formula_lognormal = log(spp_catch / hours_fished) ~
+          year_factor +
+          f(month, base_month) +
+          f(vessel, base_vessel) +
+          f(locality, base_locality) +
+          f(depth, base_depth) +
+          f(latitude, base_lat)
+      ), silent = TRUE)
+    ))
+
+    if (identical(class(m_cpue), "try-error")) {
+      warning("TMB CPUE model for area ", area, " didn't converge.")
+      return(NA)
+    }
     list(model = m_cpue, fleet = fleet, area = gsub("\\[|\\]|\\+", "", area))
   })
 
@@ -69,6 +83,8 @@ fit_cpue_indices <- function(dat,
     p$area <- x$area
     p
   })
+  if (nrow(indices_centered) == 0) # none exist
+    return(NA)
 
   # coef_plots <- lapply(cpue_models, function(x) {
   # if (is.na(x[[1]])[[1]]) return()
@@ -82,21 +98,6 @@ fit_cpue_indices <- function(dat,
     out$area <- x$area
     out
   })
-
-  # plot_cpue_facet <- function(dat, scales = "free_y") {
-  #   dat %>%
-  #     ggplot(aes(year, est, ymin = lwr, ymax = upr, fill = model)) +
-  #     geom_ribbon(alpha = 0.3) +
-  #     geom_line() +
-  #     facet_grid(model~area, scales = scales) +
-  #     theme_pbs() +
-  #     ylab("Estimate") + xlab("Year") +
-  #     guides(fill = FALSE)
-  # }
-  #
-  # plot_cpue_facet(filter(indices_centered, model == "Combined")) +
-  #   facet_wrap(~area, scales = "free_y", ncol = 1) +
-  #   scale_fill_manual(values = "black")
 
   jks %>%
     dplyr::filter(term == "Unstandardized") %>%

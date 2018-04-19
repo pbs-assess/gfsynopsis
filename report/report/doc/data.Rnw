@@ -1,8 +1,6 @@
 % !TEX root = gf-synopsis.Rnw
 
-\section{METHODS}
-
-\subsection{DATA EXTRACTION}
+\section{DATA EXTRACTION}
 
 Commercial and research catch, effort, and biological data for groundfish are
 archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science
@@ -11,24 +9,21 @@ Historical commercial catch and effort data from 1954--2006/2007 are housed in
 GFCatch, PacHarvTrawl, PacHarvHL, and PacHarvSable, depending on the fishery and
 time period.
 Modern (2006/2007 to present) commercial catch data are housed in GFFOS, a
-groundfish-specific ``view'' of the Fishery Operations System (FOS) database
+groundfish-specific view of the Fishery Operations System (FOS) database
 (Fisheries and Oceans Canada, Fisheries and Aquaculture Management, Pacific
 Region).
 Research survey data and commercial biological data from the 1940s to
 present are housed in GFBio, the Groundfish Biological Samples database.
 
-Functions were developed within the \textbf{gfplot} package to automate
+We developed a package \textbf{gfplot} for the system software R to automate
 data extraction from these databases in a consistent, reproducible manner.
 The functions extract data using SQL queries, developed with support from
 the Groundfish Data Unit, which select and filter for specific data depending on
-analyses they will be used in.
-The extracted data are formatted to feed directly into other functions in the
-package to allow for a fully automated procedure.
+the analyses for which they will be used.
 
 Commercial catch data are extracted with \texttt{get-catch.sql}.
 All landings and discards are extracted by species, fishery sector, gear type
-and year and are not filtered in any way (Table~\ref{tab:sql-no filters}).
-Species names or codes are specified as an argument to the function by the user.
+and year, and are not filtered in any further way (Table~\ref{tab:sql-no filters}).
 
 Commercial trawl catch per unit effort (CPUE) index data are
 extracted using \texttt{get-cpue-index.sql} and are filtered to include only
@@ -79,7 +74,7 @@ Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
 (Table~\ref{tab:sql-surv-samp}) or commercial (Table~\ref{tab:sql-comm-samp})
 samples.
 In addition, samples designated as unsorted or sorted ('keepers' and 'discards')
-based on combination of \texttt{SPECIES\_CATEGORY\_CODE} and
+based on combinations of \texttt{SPECIES\_CATEGORY\_CODE} and
 \texttt{SAMPLE\_SOURCE\_CODE} to allow anaylysis on either only sorted samples
 to remove bias from inclusion of sorted or selected samples or on
 all samples.
@@ -153,8 +148,8 @@ Filters                                                                         
 Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122                               & To remove erroneous location records                                      \\
 Filtered for \texttt{YEAR(BEST\_DATE)} greater than 2012                                                           & To extract only records since the trawl fishery footprint was established \\
 Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE}   & To remove records with erroneous dates                                    \\
-Filtered for \texttt{FISHERY_SECTOR} = \texttt{GROUNDFISH TRAWL}                                                   & To extract only records in the groundfish trawl fishery                   \\
-Filtered for \texttt{ISNULL(LANDED_ROUND_KG,0) + ISNULL(TOTAL_RELEASED_ROUND_KG,0)} > 0                            & To extract only records with positive catch                               \\
+Filtered for \texttt{FISHERY\_SECTOR} = \texttt{GROUNDFISH TRAWL}                                                   & To extract only records in the groundfish trawl fishery                   \\
+Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND\_KG,0)} > 0                            & To extract only records with positive catch                               \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -192,30 +187,30 @@ Filter for \texttt{ACTIVE\_IND} 1                                               
 
 \begin{table}[htp]
 \centering
-\caption{Description of filters in SQL queries extracting all age records with a precision test reading to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}
+\caption{Description of filters in SQL queries extracting all age records with a precision test reading to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}}
 \label{tab:sql-age-precision}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
 Filters                                                                                                            & Rationale                                                                \\
 \midrule
-Filter for \texttt{AGE_READING_TYPE_CODE} 2, 3                                                                     & To extract primary and precision test readings                           \\
+Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                                                                     & To extract primary and precision test readings                           \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
-
-\begin{table}[htp]
-\centering
-\caption{Description of SQL queries used for data extraction in which no filters were applied and all data were extracted}
-\label{tab:sql-no filters}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}>{\raggedright\arraybackslash}m{2in}}
-\toprule
-SQL Query                                                                                           & Rationale                                                                                                                \\
-\midrule
-Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql}       & To extract all landings and discards by fishery sector and gear                                                          \\
-Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignment.sql}             & Designates maturity code at and above which a sample assessed following a given maturity convention is considered mature \\
-\bottomrule
-\end{tabu}}
-\end{table}
+%
+% \begin{table}[htp]
+% \centering
+% \caption{Description of SQL queries used for data extraction in which no filters were applied and all data were extracted}
+% \label{tab:sql-no filters}
+% {\tabulinesep=1.6mm
+% \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+% \toprule
+% SQL Query                                                                                           & Rationale                                                                                                                \\
+% \midrule
+% Extract commercial landings from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-catch.sql}       & To extract all landings and discards by fishery sector and gear                                                          \\
+% Assign maturity status from \texttt{GFFOS.GFBio} with \texttt{maturity\_assignment.sql}             & Designates maturity code at and above which a sample assessed following a given maturity convention is considered mature \\
+% \bottomrule
+% \end{tabu}}
+% \end{table}

@@ -32,6 +32,7 @@ make_pages <- function(
   include_map_square = FALSE,
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
+  save_gg_objects = FALSE,
   survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
     "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"),
   survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
@@ -73,11 +74,13 @@ make_pages <- function(
   # File and folder setup: --------------------------
 
   fig_folder <- file.path(report_folder, "figure-pages")
+  ggplot_folder <- file.path(report_folder, "ggplot-objects")
   cpue_cache <- file.path(report_folder, "cpue-cache")
   survey_map_cache <- file.path(report_folder, "map-cache")
   vb_cache <- file.path(report_folder, "vb-cache")
 
   dir.create(fig_folder, showWarnings = FALSE, recursive = TRUE)
+  dir.create(ggplot_folder, showWarnings = FALSE, recursive = TRUE)
   dir.create(cpue_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(survey_map_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(survey_map_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
@@ -85,6 +88,7 @@ make_pages <- function(
   dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
   dir.create(vb_cache, showWarnings = FALSE, recursive = TRUE)
 
+  gg_folder_spp <- paste0(file.path(ggplot_folder, spp_file), ".rds")
   fig_folder_spp1 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-1.png" else "-1.pdf")
   fig_folder_spp2 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-2.png" else "-2.pdf")
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
@@ -124,7 +128,7 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
     g_ages <- plot_ages(sb, survey_cols = survey_cols) +
-      guides(fill = FALSE, colour = FALSE)
+      guides(fill = FALSE, colour = FALSE, year_range = c(2003, 2017))
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
@@ -176,12 +180,12 @@ make_pages <- function(
 
   # Aging precision: -------------------------------
 
-  # if (nrow(dat$age_precision) > 0) {
-  # g_age_precision <- tidy_age_precision(dat$age_precision) %>%
-  #   plot_age_precision()
-  # } else {
-  #   g <- ggplot() + theme_pbs()
-  # }
+  if (nrow(dat$age_precision) > 0) {
+  g_age_precision <- tidy_age_precision(dat$age_precision) %>%
+    plot_age_precision()
+  } else {
+    g_age_precision <- ggplot() + theme_pbs()
+  }
 
   # Commercial CPUE indices: -------------------------------
 
@@ -223,35 +227,36 @@ make_pages <- function(
   # Commercial catch: -------------------------------
 
   if (nrow(dat$catch) > 0) {
-    g_catch <- gfsynopsis::plot_catches(dat$catch) +
-      theme(legend.position = "none")
+    g_catch <- gfsynopsis::plot_catches(dat$catch)
   } else {
     g_catch <- ggplot() + theme_pbs()
     g_catch <- gfsynopsis::plot_catches(expand.grid(year = 999,
       area = factor(c("Coastwide", "5AB", "5CDE", "3CD"),
         levels = c("Coastwide", "5AB", "5CDE", "3CD")),
-      gear = "a", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
-      theme(legend.position = "none") +
-      theme(axis.text.y = element_blank())
+      gear = "abc", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
+      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
 
   # Survey biomass indices: -------------------------------
 
   g_survey_index <- tidy_survey_index(dat$survey_index) %>%
-    plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols) +
+    plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols,
+      xlim = c(1984, 2017)) +
     theme(
       axis.title.y = element_blank(),
       axis.text.y = element_blank(),
       axis.ticks.y = element_blank()
     ) + ggplot2::ggtitle("Survey relative biomass indices")
 
-  g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
-    plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
-    viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey85")
+  suppressMessages({
+    g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
+      plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
+      viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey85")
 
-  g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
-    plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
-    viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey85")
+    g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
+      plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
+      viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey85")
+  })
 
   # Maturity by month: -------------------------------
 
@@ -263,9 +268,6 @@ make_pages <- function(
   # Growth fits: -------------------------------
 
   if (!file.exists(vb_cache_spp)) {
-    # TODO: memory mapping problem:
-    model_file <- system.file("stan", "vb.stan", package = "gfplot")
-    mod <- rstan::stan_model(model_file)
     vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd")
     vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd")
     vb <- list()
@@ -322,7 +324,7 @@ make_pages <- function(
 
   g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
-      rotation_angle = 40, xlim = c(375, 680), ylim = c(5200, 6150)) +
+      rotation_angle = 40, xlim = map_xlim, ylim = map_ylim) +
     ggplot2::ggtitle("Commercial trawl CPUE") +
     theme(legend.position = "none") +
     coord_cart + theme(
@@ -336,7 +338,7 @@ make_pages <- function(
 
   g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
-      rotation_angle = 40, xlim = c(375, 680), ylim = c(5200, 6150),
+      rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
       fill_lab = "CPUE (kg/fe)") +
     ggplot2::ggtitle("Commercial H & L CPUE") +
     theme(legend.position = "none") +
@@ -352,7 +354,7 @@ make_pages <- function(
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      verbose = TRUE)
+      verbose = FALSE)
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -371,7 +373,7 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "IPHC FISS",
-      verbose = TRUE)
+      verbose = FALSE)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -382,7 +384,7 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "HBLL OUT",
-      verbose = TRUE)
+      verbose = FALSE)
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
@@ -400,7 +402,7 @@ make_pages <- function(
     show_model_predictions <- FALSE
   g_survey_spatial_iphc <-
     gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
-      show_raw_data = FALSE, cell_size = 2.4, circles = TRUE,
+      show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
       show_model_predictions = show_model_predictions, annotations = "IPHC") +
     coord_cart + ggplot2::ggtitle("IPHC survey biomass")
 
@@ -550,4 +552,29 @@ make_pages <- function(
   grid::grid.newpage()
   grid::grid.draw(f_all)
   dev.off()
+
+  if (save_gg_objects) {
+    plots <- list()
+    plots$age_precision <- g_age_precision
+    plots$ages <- g_ages
+    plots$lengths <- g_lengths
+    plots$catch <- g_catch
+    plots$comm_samples <- g_comm_samples
+    plots$survey_samples <- g_survey_samples
+    plots$mat_age <- g_mat_age
+    plots$mat_length <- g_mat_length
+    plots$vb <- g_vb
+    plots$cpue_index <- g_cpue_index
+    plots$cpue_spatial_ll <- g_cpue_spatial_ll
+    plots$cpue_index <- g_cpue_index
+    plots$maturity_month <- g_maturity_month
+    plots$cpue_spatial <- g_cpue_spatial
+    plots$cpue_spatial_ll <- g_cpue_spatial_ll
+    plots$survey_spatial_hbll <- g_survey_spatial_hbll
+    plots$survey_spatial_iphc <- g_survey_spatial_iphc
+    plots$survey_spatial_syn <- g_survey_spatial_syn
+    plots$length_weight <- g_length_weight
+    plots$survey_index <- g_survey_index
+    saveRDS(plots, file = gg_folder_spp, compress = FALSE)
+  }
 }

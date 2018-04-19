@@ -1,6 +1,8 @@
 devtools::load_all("../gfplot/")
 devtools::load_all(".")
+library(dplyr)
 
+# ------------------------------------------------------------
 dc                  <- file.path("report", "data-cache2")
 dat                 <- list()
 dat$survey_sets     <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
@@ -15,36 +17,55 @@ dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
 # feather::write_feather(dat$cpue_index, file.path(dc, "pbs-cpue-index.feather"))
 dat$cpue_index      <- feather::read_feather(file.path(dc, "pbs-cpue-index.feather"))
 
+# ------------------------------------------------------------
 spp <- get_spp_names()
-spp <- dplyr::filter(spp, species_common_name %in%
-    spp$species_common_name[2]
-  # c("north pacific spiny dogfish",
-    # "pacific ocean perch",
-    # "pacific cod",
-    # "redbanded rockfish",
-    # "yelloweye rockfish")
-  )
+spp <- filter(spp, type == "A")
+spp <- filter(spp, species_common_name != "sablefish")
+spp <- filter(spp, species_common_name != "hake")
 
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$sar[is.na(spp$sar)] <- ""
+spp$spp_latin[is.na(spp$spp_latin)] <- ""
 spp$resdoc[is.na(spp$resdoc)] <- ""
 
-# ggthemes::gdocs_pal()(7)
+# ------------------------------------------------------------
+# TODO: memory mapping problem:
+tmb_cpp <- system.file("tmb", "deltalognormal.cpp", package = "gfplot")
+TMB::compile(tmb_cpp)
+dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))
+model_file <- system.file("stan", "vb.stan", package = "gfplot")
+mod <- rstan::stan_model(model_file)
 
+# ------------------------------------------------------------
 for (i in seq_along(spp$species_common_name)) {
-  cat("Building figures for", spp$species_common_name[i], "\n")
-  suppressMessages(
+  fig_check <- paste0(file.path("report", "figure-pages"),
+    gfsynopsis:::clean_name(spp$species_common_name[i]))
+  fig_check1 <- paste0(fig_check, "-1.png")
+  fig_check2 <- paste0(fig_check, "-2.png")
+
+  if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
+    cat(crayon::red(clisymbols::symbol$cross),
+      "Building figure pages for", spp$species_common_name[i], "\n")
+
     make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
       resolution = 185,
-      # survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
-      survey_cols = c(ggthemes::gdocs_pal()(6), ggthemes::gdocs_pal()(10)[[10]],
+      save_gg_objects = FALSE,
+      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
-  )
+
+  } else {
+
+    cat(crayon::yellow(clisymbols::symbol$tick),
+      "Figure pages for", spp$species_common_name[i], "already exist\n")
+
+  }
 }
 
+# ------------------------------------------------------------
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- clean_name(x)
   spp_title <- all_cap(x)
@@ -94,4 +115,3 @@ temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
 writeLines(temp, con = "report/report/doc/02-plots.Rnw")
 
-# system("make pdf")
