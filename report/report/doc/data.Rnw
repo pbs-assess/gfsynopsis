@@ -53,12 +53,12 @@ type, catch (pieces) and years for all fishing events (sets, as a unit of
 effort) by species.
 The data are filtered to extract only records with valid start and end dates, to
 remove records with erroneous latitude and longitude values, and to only include
-records with hook and line gear with non-zero catch and since 2008 after
-implementation of the integrated groundfish management plan
-(Table~\ref{tab:sql-cpue-spatial-ll}).
-CPUE is represented by landed catch in pieces per fishing event (set). Discards
-are not included in hook and line spatial CPUE as discarded pieces are not
-reliably recorded.
+records with hook and line gear with non-zero catch.
+Data include all records since 2008 after implementation of the integrated
+groundfish management plan (Table~\ref{tab:sql-cpue-spatial-ll}).
+CPUE is represented by landed catch in pieces per fishing event (set).
+Discards are not included in hook and line spatial CPUE as discarded pieces are
+not reliably recorded.
 Species names are given as an argument to the function.
 
 Survey biomass index data are extracted with \texttt{get-survey-index.sql}.
@@ -72,9 +72,9 @@ Biological data are extracted using \texttt{get-survey-samples.sql} and
 respectively.
 Records of all biological samples are extracted by species, including
 available length, weight, age and maturity data.
-Records include available metadata including PFMA, gear type, SSID, sample date,
-survey identification code (SID) and sampling protocol codes
-for maturity and ageing data.
+Records include available metadata including PFMA, fishery, gear type, SSID and
+survey identification code (SID, only available for research survey data),
+survey sampling types, and sampling protocol codes for maturity and ageing data.
 Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
 (Table~\ref{tab:sql-surv-samp}) or commercial (Table~\ref{tab:sql-comm-samp})
 samples.
@@ -83,7 +83,7 @@ based on combination of \texttt{SPECIES\_CATEGORY\_CODE} and
 \texttt{SAMPLE\_SOURCE\_CODE} to allow anaylysis on either only sorted samples
 to remove bias from inclusion of sorted or selected samples or on
 all samples.
-Samples are also filtered by \texttt{SAMPLE\_TYPE\_CODE} for only total or
+Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} for only total or
 random samples.
 
 The ageing precision data are extracted with \texttt{get-age-precision.sql}.
