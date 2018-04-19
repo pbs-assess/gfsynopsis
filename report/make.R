@@ -34,9 +34,16 @@ spp <- filter(spp, species_common_name != "pacific hake")
 
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
-spp$sar[is.na(spp$sar)] <- ""
-spp$spp_latin[is.na(spp$spp_latin)] <- ""
-spp$resdoc[is.na(spp$resdoc)] <- ""
+
+meta <- dat$survey_sets %>%
+  select(species_common_name, species_science_name, species_code) %>%
+  unique()
+
+spp <- left_join(spp, meta, by = "species_common_name")
+spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
+spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
+spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("\\citep{", spp$resdoc, "}"))
+spp$sar <- ifelse(is.na(spp$sar), "", paste0("\\citep{", spp$sar, "}"))
 
 # ------------------------------------------------------------
 # TODO: memory mapping problem:
@@ -59,7 +66,7 @@ for (i in seq_along(spp$species_common_name)) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
 
-    if (spp$species_common_name[i] %in% c("arrowtooth flounder", "petrale sole"))
+    if (spp$species_common_name[i] %in% c("petrale sole"))
       save_gg_objects <- TRUE
     else
       save_gg_objects <- FALSE
@@ -86,9 +93,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- clean_name(x)
   spp_title <- all_cap(x)
   out <- list()
-  latin_name <- spp$spp_latin[spp$species_common_name == x]
+  latin_name <- spp$species_science_name[spp$species_common_name == x]
   sar <- spp$sar[spp$species_common_name == x]
   resdoc <- spp$resdoc[spp$species_common_name == x]
+  species_code <- spp$species_code[spp$species_common_name == x]
 
   i <- 1
   out[[i]] <- "\\clearpage"
@@ -97,15 +105,16 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0("\\subsection{", spp_title, "}")
   i <- i + 1
-  out[[i]] <- paste0(emph(latin_name), "\n")
+  out[[i]] <- paste0("Scientific name: ", emph(latin_name),
+    "; DFO species code: ", species_code, "\n")
   i <- i + 1
   out[[i]] <- "\\vspace{8pt}"
   i <- i + 1
-  out[[i]] <- paste0(sar, "\n")
+  out[[i]] <- paste0("Last Research Document: ", resdoc, "\n")
   i <- i + 1
   out[[i]] <- "\\vspace{8pt}"
   i <- i + 1
-  out[[i]] <- resdoc
+  out[[i]] <- paste0("Last Science Advisory Report: ", sar)
   i <- i + 1
   out[[i]] <- "\\end{minipage}\n"
   i <- i + 1
@@ -129,4 +138,4 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-# writeLines(temp, con = "report/report/doc/02-plots.Rnw")
+writeLines(temp, con = "report/report/doc/02-plots.Rnw")
