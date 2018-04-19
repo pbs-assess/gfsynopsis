@@ -90,6 +90,6 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 \clearpage
 
-\bibliography{spp-refs}
+\bibliography{refs}
 
 \end{document}

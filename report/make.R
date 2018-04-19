@@ -45,6 +45,9 @@ spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
 spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("\\citep{", spp$resdoc, "}"))
 spp$sar <- ifelse(is.na(spp$sar), "", paste0("\\citep{", spp$sar, "}"))
 
+spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
+  paste0(spp$type_other_ref, ": \\citep{", spp$other_ref, "}"))
+
 # ------------------------------------------------------------
 # TODO: memory mapping problem:
 tmb_cpp <- system.file("tmb", "deltalognormal.cpp", package = "gfplot")
@@ -97,6 +100,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   sar <- spp$sar[spp$species_common_name == x]
   resdoc <- spp$resdoc[spp$species_common_name == x]
   species_code <- spp$species_code[spp$species_common_name == x]
+  other_ref <- spp$other_ref_cite[spp$species_common_name == x]
 
   i <- 1
   out[[i]] <- "\\clearpage"
@@ -116,6 +120,14 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0("Last Science Advisory Report: ", sar)
   i <- i + 1
+
+  if (other_ref != "") {
+    out[[i]] <- "\n \\vspace{8pt}"
+    i <- i + 1
+    out[[i]] <- paste0(other_ref)
+    i <- i + 1
+  }
+
   out[[i]] <- "\\end{minipage}\n"
   i <- i + 1
   out[[i]] <- "\\begin{figure}[ht]"
