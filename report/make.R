@@ -90,8 +90,8 @@ for (i in seq_along(spp$species_common_name)) {
 
 # ------------------------------------------------------------
 temp <- lapply(spp$species_common_name, function(x) {
-  spp_file <- clean_name(x)
-  spp_title <- all_cap(x)
+  spp_file <- gfsynopsis:::clean_name(x)
+  spp_title <- gfsynopsis:::all_cap(x)
   out <- list()
   latin_name <- spp$species_science_name[spp$species_common_name == x]
   sar <- spp$sar[spp$species_common_name == x]
@@ -105,7 +105,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0("\\subsection{", spp_title, "}")
   i <- i + 1
-  out[[i]] <- paste0("Scientific name: ", emph(latin_name),
+  out[[i]] <- paste0("Scientific name: ", gfsynopsis:::emph(latin_name),
     "; DFO species code: ", species_code, "\n")
   i <- i + 1
   out[[i]] <- "\\vspace{8pt}"
