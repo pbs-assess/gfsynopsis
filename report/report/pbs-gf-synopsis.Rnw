@@ -85,8 +85,8 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 \section{SYNOPSIS PLOTS}
 
-% <<plots, child='doc/02-plots.Rnw'>>=
-% @
+<<plots, child='doc/02-plots.Rnw'>>=
+@
 
 \clearpage
 
