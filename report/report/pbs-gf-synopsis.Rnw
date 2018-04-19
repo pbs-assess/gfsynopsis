@@ -48,6 +48,8 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 %%%% End of title page commands %%%%%
 
+\pdfcompresslevel=5 % faster PNGs
+
 % Let it begin
 \begin{document}
 

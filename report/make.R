@@ -1,6 +1,13 @@
 devtools::load_all("../gfplot/")
 devtools::load_all(".")
-library(dplyr)
+library("dplyr")
+# library("future")
+# future::plan(multiprocess, workers = 2)
+# options(future.globals.maxSize = 4000 * 1024 ^ 2) # 4GB
+# future::plan(sequential)
+# future::plan(transparent)
+# library("doParallel")
+# registerDoParallel(cores = 4L)
 
 # ------------------------------------------------------------
 dc                  <- file.path("report", "data-cache2")
@@ -20,8 +27,10 @@ dat$cpue_index      <- feather::read_feather(file.path(dc, "pbs-cpue-index.feath
 # ------------------------------------------------------------
 spp <- get_spp_names()
 spp <- filter(spp, type == "A")
+if (exists("N"))
+  spp <- spp[N, , drop = FALSE]
 spp <- filter(spp, species_common_name != "sablefish")
-spp <- filter(spp, species_common_name != "hake")
+spp <- filter(spp, species_common_name != "pacific hake")
 
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
@@ -37,9 +46,11 @@ dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))
 model_file <- system.file("stan", "vb.stan", package = "gfplot")
 mod <- rstan::stan_model(model_file)
 
+system.time({
 # ------------------------------------------------------------
+# plyr::l_ply(seq_along(spp$species_common_name), function(i) {
 for (i in seq_along(spp$species_common_name)) {
-  fig_check <- paste0(file.path("report", "figure-pages"),
+  fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
   fig_check1 <- paste0(fig_check, "-1.png")
   fig_check2 <- paste0(fig_check, "-2.png")
@@ -48,22 +59,27 @@ for (i in seq_along(spp$species_common_name)) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
 
+    if (spp$species_common_name[i] %in% c("arrowtooth flounder", "petrale sole"))
+      save_gg_objects <- TRUE
+    else
+      save_gg_objects <- FALSE
+
     make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
-      resolution = 185,
-      save_gg_objects = FALSE,
+      resolution = 160,
+      save_gg_objects = save_gg_objects,
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
 
   } else {
-
-    cat(crayon::yellow(clisymbols::symbol$tick),
+    cat(crayon::green(clisymbols::symbol$tick),
       "Figure pages for", spp$species_common_name[i], "already exist\n")
-
   }
 }
+# }, .parallel = TRUE)
+})
 
 # ------------------------------------------------------------
 temp <- lapply(spp$species_common_name, function(x) {
@@ -79,7 +95,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- "\\begin{minipage}[t][4cm][t]{\\textwidth}"
   i <- i + 1
-  out[[i]] <- paste0("\\subsection*{", spp_title, "}")
+  out[[i]] <- paste0("\\subsection{", spp_title, "}")
   i <- i + 1
   out[[i]] <- paste0(emph(latin_name), "\n")
   i <- i + 1
@@ -113,5 +129,4 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-writeLines(temp, con = "report/report/doc/02-plots.Rnw")
-
+# writeLines(temp, con = "report/report/doc/02-plots.Rnw")

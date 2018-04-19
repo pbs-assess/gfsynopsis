@@ -25,7 +25,7 @@ make_pages <- function(
   short_page_height_ratio = 0.78,
   width = 11.5,
   debug = FALSE,
-  resolution = 220,
+  resolution = 180,
   png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp),
   report_folder = "report",
@@ -127,13 +127,14 @@ make_pages <- function(
   if (!is.na(sb)) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols) +
-      guides(fill = FALSE, colour = FALSE, year_range = c(2003, 2017))
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, 2017)) +
+      guides(fill = FALSE, colour = FALSE)
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
       year = seq(2004, 2016, 2),
-      sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE)) +
+      sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
+      year_range = c(2003, 2017)) +
       guides(fill = FALSE, colour = FALSE) +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
@@ -248,14 +249,20 @@ make_pages <- function(
       axis.ticks.y = element_blank()
     ) + ggplot2::ggtitle("Survey relative biomass indices")
 
+  # Specimen numbers: -------------------------------
+
   suppressMessages({
     g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
       plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
-      viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey85")
+      # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
+      viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey75") +
+      ggplot2::ggtitle("Commercial specimen counts")
 
     g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
       plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
-      viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey85")
+      # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
+      viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey75") +
+      ggplot2::ggtitle("Survey specimen counts")
   })
 
   # Maturity by month: -------------------------------
@@ -268,8 +275,10 @@ make_pages <- function(
   # Growth fits: -------------------------------
 
   if (!file.exists(vb_cache_spp)) {
-    vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd")
-    vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd")
+    vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd",
+      too_high_quantile = 0.99)
+    vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd",
+      too_high_quantile = 0.99)
     vb <- list()
     vb$m <- vb_m
     vb$f <- vb_f
@@ -278,14 +287,20 @@ make_pages <- function(
     vb <- readRDS(vb_cache_spp)
   }
 
-  g_vb <- plot_vb(object_female = vb$m, object_male = vb$f) +
-    guides(colour = FALSE, fill = FALSE)
+  g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
+    guides(colour = FALSE, fill = FALSE, lty = FALSE)
 
-  lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm")
-  lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm")
+  lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm",
+    too_high_quantile = 0.99)
+  lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm",
+    too_high_quantile = 0.99)
+
   g_length_weight <-
-    plot_length_weight(object_female = lw_m, object_male = lw_f) +
-    guides(colour = FALSE, fill = FALSE)
+    plot_length_weight(object_female = lw_f, object_male = lw_m) +
+    ggplot2::theme(legend.position = c(0.9, 0.2),
+      legend.key.width = grid::unit(1.8, units = "char")) +
+    ggplot2::guides(lty =
+        guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
 
   # Maturity ogives: -------------------------------
 
@@ -295,10 +310,12 @@ make_pages <- function(
       months = 1:12)
   if (!is.na(mat_age[[1]])) {
     g_mat_age <- plot_mat_ogive(mat_age) +
-      guides(colour = FALSE, fill = FALSE)
+      guides(colour = FALSE, fill = FALSE, lty = FALSE) +
+      ggplot2::guides(lty = FALSE, colour = FALSE)
   } else {
     g_mat_age <- ggplot() + theme_pbs() + ggtitle("Age at maturity") +
-      ggplot2::labs(x = "Age (years)", y = "Probability mature")
+      ggplot2::labs(x = "Age (years)", y = "Probability mature") +
+      ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
   mat_length <- dat$combined_samples %>%
@@ -307,10 +324,14 @@ make_pages <- function(
       months = 1:12)
   if (!is.na(mat_length[[1]])) {
     g_mat_length <- plot_mat_ogive(mat_length) +
-      guides(colour = FALSE, fill = FALSE)
+      ggplot2::theme(legend.position = c(0.9, 0.2),
+      legend.key.width = grid::unit(1.8, units = "char")) +
+      ggplot2::guides(lty =
+          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
     g_mat_length <- ggplot() + theme_pbs() + ggtitle("Length at maturity") +
-      ggplot2::labs(x = "Length (cm)", y = "Probability mature")
+      ggplot2::labs(x = "Length (cm)", y = "Probability mature") +
+      ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
   # Commercial CPUE maps -------------------------------
