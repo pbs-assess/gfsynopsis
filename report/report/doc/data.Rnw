@@ -1,5 +1,3 @@
-\section{DATA EXTRACTION}
-
 Commercial and research catch, effort, and biological data for groundfish are
 archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science
 Branch, Pacific Region) and housed in a number of relational databases.
@@ -21,7 +19,7 @@ the analyses for which they will be used.
 
 Commercial catch data are extracted with \texttt{get-catch.sql}.
 All landings and discards are extracted by species, fishery sector, gear type
-and year, and are not filtered in any further way (Table~\ref{tab:sql-no filters}).
+and year, and are not filtered in any further way.
 
 Commercial trawl catch per unit effort (CPUE) index data are
 extracted using \texttt{get-cpue-index.sql} and are filtered to include only
@@ -84,7 +82,7 @@ Data are filtered to bring in only records for which a secondary (precision)
 reading was performed by a different technician in addition to the primary
 reading (Table~\ref{tab:sql-age-precision}).
 
-\begin{table}[htp]
+\begin{table}[htpb]
 \centering
 \caption{Description of filters in SQL queries extracting commercial sample data from GFBio with \texttt{get-comm-samples.sql}.}
 \label{tab:sql-comm-samp}
@@ -102,7 +100,7 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}               
 \end{table}
 
 
-\begin{table}[htp]
+\begin{table}[htpb]
 \centering
 \caption{Description of filters in SQL queries extracting research survey sample data from GFBio with \texttt{get-survey-samples.sql}.}
 \label{tab:sql-surv-samp}
@@ -119,7 +117,7 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}               
 \end{tabu}}
 \end{table}
 
-\begin{table}[htp]
+\begin{table}[htpb]
 \centering
 \caption{Description of filters in SQL queries extracting commercial trawl catch and effort data from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-cpue-index.sql}}
 \label{tab:sql-cpue-index}
@@ -134,7 +132,7 @@ Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \
 \end{tabu}}
 \end{table}
 
-\begin{table}[htp]
+\begin{table}[htpb]
 \centering
 \caption{Description of filters in SQL queries extracting commercial trawl spatial catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial.sql}}
 \label{tab:sql-cpue-spatial}
@@ -152,10 +150,10 @@ Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND
 \end{tabu}}
 \end{table}
 
-\begin{table}[htp]
+\begin{table}[htpb]
 \centering
 \caption{Description of filters in SQL queries extracting commercial hook and line spatial catch per unit effort (kg/set) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial-ll.sql}}
-\label{tab:sql-cpue-spatial}
+\label{tab:sql-cpue-spatial-ll}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
@@ -212,3 +210,56 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                               
 % \bottomrule
 % \end{tabu}}
 % \end{table}
+
+<<aging-method-table-setup>>=
+library(dplyr)
+dc <- "../../data-cache2"
+d_survey_sets <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
+meta <- d_survey_sets %>%
+  select(species_common_name, species_science_name, species_code) %>%
+  unique()
+f <- system.file("extdata", "ageing_methods.csv", package = "gfplot")
+age_methods <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
+names(age_methods) <- tolower(names(age_methods))
+age_methods$species_common_name <- tolower(age_methods$species_common_name)
+age_methods <- left_join(age_methods, meta, by = "species_common_name")
+age_methods$species_common_name <- gfsynopsis:::first_cap(age_methods$species_common_name)
+age_methods <- filter(age_methods, type == "A")
+age_methods$species_common_name <- gsub("Rockfish Complex", "", age_methods$species_common_name)
+age_methods$species_science_name <- gsub(" complex", "", age_methods$species_science_name)
+age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianusu",
+  age_methods$species_science_name)
+age_methods <- select(age_methods, species_common_name, species_science_name,
+  species_code, ageing_method_codes)
+age_methods <- arrange(age_methods, species_code)
+age_methods$species_science_name <- paste0("\\emph{",
+  gfplot:::firstup(age_methods$species_science_name), "}")
+names(age_methods) <- c("Common name", "Scientific name", "Species code", "Aging codes")
+@
+
+<<aging-method-table, results='asis'>>=
+print(xtable::xtable(age_methods, caption = "Ageing method codes from GFBio considered valid throughout the synopsis document for groundfish species in British Columbia. The ageing method codes were chosen with the help of the PBS Schlerochronology Lab. 1 $=$ `Otolith Surface Only', 3 $=$ ` Otolith Broken and Burnt', 17 $=$ `Otolith Broken and Baked (Break and Bake)', 6 $=$ `Dorsal Fin XS', 11 $=$ `Dorsal Spine', 12 $=$ `Vertebrae'."), include.rownames = FALSE,
+  floating = TRUE, booktabs = TRUE, caption.placement = "top",
+  sanitize.text.function = I)
+@
+
+
+<<maturity-table, results='asis'>>=
+f <- system.file("extdata", "maturity_assignment.csv", package = "gfplot")
+mat <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
+names(mat) <- tolower(names(mat))
+names(mat) <- gsub("_", " ", names(mat))
+names(mat) <- gfplot:::firstup(names(mat))
+mat$`Maturity convention maxvalue` <- NULL
+mat <- rename(mat, `Maturity convention description` = `Maturity convention desc`,
+  `Mat. conv. code` = `Maturity convention code`)
+mat$Sex <- if_else(mat$Sex == 1, "M", "F")
+
+mat <- filter(mat, !`Maturity convention description` %in% "HAKE (AMR simplified)")
+mat <- filter(mat, !`Maturity convention description` %in% "HAKE (1977+)")
+mat <- filter(mat, !`Maturity convention description` %in% "HAKE (U.S.)")
+mat <- filter(mat, !grepl("SABLEFISH", `Maturity convention description`))
+
+print(xtable::xtable(mat, caption = "Maturity convention codes (`Mat. conv. code'), maturity convention descriptions, sex, and the maturity convention value at which a fish is deemed to be mature for the purposes of the synopsis report. Note that fish may be considered mature at other maturity convention values in particular stock assessments where other values are chosen for specific reasons."), include.rownames = FALSE,
+  floating = TRUE, booktabs = TRUE, caption.placement = "top")
+@
