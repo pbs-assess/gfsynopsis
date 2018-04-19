@@ -50,6 +50,8 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 \pdfcompresslevel=5 % faster PNGs
 
+\bibliographystyle{csas-style/res-doc}
+
 % Let it begin
 \begin{document}
 
@@ -63,15 +65,31 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 <<introduction, child='doc/01-introduction.Rnw'>>=
 @
 
+\clearpage
+
+\section{PLOT DESCRIPTIONS AND BACKGROUND}
+
 <<data, child='doc/plot-descriptions.Rnw'>>=
 @
+
+\clearpage
+
+\section{DATA EXTRACTION BACKGROUND}
 
 <<data, child='doc/data.Rnw'>>=
 @
 
-<<plots, child='doc/02-plots.Rnw'>>=
-@
+\clearpage
 
+\bibpunct{}{}{,}{a}{}{,}
 
-% Fin
+\section{SYNOPSIS PLOTS}
+
+% <<plots, child='doc/02-plots.Rnw'>>=
+% @
+
+\clearpage
+
+\bibliography{spp-refs}
+
 \end{document}
