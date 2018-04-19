@@ -339,52 +339,252 @@
 } 
 
 
-@article{cosewic2007longspineidiots, 
- author       = {COSEWIC}, 
- year         = {2007}, 
- title        = {COSEWIC assessment and status report on the {Longspine Thornyhead}, (\emph{Sebastolobus altivelis}), in {Canada}}, 
- journal   = {COSEWIC}, 
- volume    = {CW69-14/527-2007E-PDF}, 
- pages     = {vi + 27~p} 
+@article{holt2016lingSOG, 
+ author       = {Holt, K.R. and King, J.R. and Krishka, B.A.}, 
+ year         = {2016}, 
+ title        = {Stock assessment for {Lingcod} (\emph{Ophiodon elongatus}) in the {Strait of Georgia, British Columbia} in 2014}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2016/013}, 
+ pages     = {xi + 186~p} 
 } 
 
 
-@article{, 
+@article{dfo2015lingSOG, 
  author       = {Fisheries and Oceans Canada}, 
+ year         = {2015}, 
+ title        = {Stock assessment for {Lingcod} (\emph{Ophiodon elongatus}) in the {Strait of Georgia, British Columbia} in 2014}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Sci. Advis. Rep.}, 
+ volume    = {2015/014}, 
+ pages     = {13~p} 
+} 
+
+
+@article{king2011lingOutside, 
+ author       = {King, J.R. and McAllister, M. and Holt, K.R. and Starr, P.J.}, 
+ year         = {2011}, 
+ title        = {{Lingcod} (\emph{Ophiodon elongatus}) stock assessment and yield advice for outside stocks in {British Columbia}}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2011/124}, 
+ pages     = {viii + 177~p} 
+} 
+
+
+@article{dfo2011lingOutside, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {2011}, 
+ title        = {{Lingcod} (\emph{Ophiodon elongatus}) stock assessment and yield advice for outside stocks in {British Columbia}}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Sci. Advis. Rep.}, 
+ volume    = {2011/051}, 
+ pages     = {11~p} 
+} 
+
+
+
+@article{grandin2017arrowtooth, 
+ author       = {Grandin, C.J. and Forrest, R.E.}, 
+ year         = {2017}, 
+ title        = {{Arrowtooth Flounder} (\emph{Atheresthes stomias}) stock assessment for the West Coast of {British Columbia}}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2017/25}, 
+ pages     = {v + 87~p} 
+} 
+
+
+@article{dfo2015arrowtooth, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {2015}, 
+ title        = {{Arrowtooth Flounder} (\emph{Atheresthes stomias}) stock assessment for the West Coast of {British Columbia}}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Sci. Advis. Rep.}, 
+ volume    = {2015/055}, 
+ pages     = {10~p} 
+} 
+
+
+@article{starr2009petrale, 
+ author       = {Starr, P.J}, 
  year         = {2009}, 
+ title        = {{Petrale Sole} (\emph{Eopsetta jordani}) in {British Columbia, Canada} : stock assessment for 2006/07 and advice to managers for 2007/08}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2009/070}, 
+ pages     = {v + 134~p} 
+} 
+
+
+@article{dfo1998petrale, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {1999}, 
+ title        = {{Petrale Sole} (\emph{Eopsetta jordani}) {British Columbia, Canada} (Areas 3C-5D)}, 
+ journal   = {DFO Sci. Stock Status Rep.}, 
+ volume    = {A6-06}, 
+ pages     = {3~p} 
+} 
+
+
+@article{holt2016rocksole, 
+ author       = {Holt, K.R. and Starr, P.J. and Haigh, R. and Krishka, B.}, 
+ year         = {2016}, 
+ title        = {Stock assessment and harvest advice for Rock Sole (\emph{Lepidopsetta} spp.) in {British Columbia}}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2016/009}, 
+ pages     = {ix + 256~p} 
+} 
+
+
+@article{dfo2014rocksole, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {2014}, 
+ title        = {Stock assessment and harvest advice for Rock Sole (\emph{Lepidopsetta} spp.) in {British Columbia}}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Sci. Advis. Rep.}, 
+ volume    = {2014/039}, 
+ pages     = {14~p} 
+} 
+
+
+@article{dfo1999dover, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {1999}, 
+ title        = {{Dover Sole} West coast {Vancouver Island} (Areas 3C, D) to {Queen Charlotte Islands} (Areas 5A-E) }, 
+ journal   = {DFO Sci. Stock Status Rep.}, 
+ volume    = {A6-04}, 
+ pages     = {3~p} 
+} 
+
+
+@article{starr2009english, 
+ author       = {Starr, P.J.}, 
+ year         = {2009}, 
+ title        = {{English Sole (\emph{Parophrys vetulus}) in {British Columbia, Canada} : Stock assessment for 2006-07 and advice to managers for 2007/08}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2009/069}, 
+ pages     = {v + 149~p} 
+} 
+
+
+@article{dfo1999english5CD, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {1999}, 
+ title        = {{English Sole Hecate Strait} (Areas 5C/D)}, 
+ journal   = {DFO Can. Sci. Advis. Sec. DFO Sci. Stock Status Rep.}, 
+ volume    = {A6-05}, 
+ pages     = {3~p} 
+} 
+
+
+@article{dfo2011baskingshark, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {2011}, 
+ title        = {Recovery strategy for the Basking Shark (\emph{Cetorhinus maximus}) in {Canadian Pacific} waters}, 
+ journal   = {\emph{Species at Risk Act} Recovery Strategy}, 
+ volume    = {En3-4/95-2011E-PDF}, 
+ pages     = {v + 25~p} 
+} 
+
+
+@article{mcfarlane2008basking, 
+ author       = {McFarlane, G. and King, J. and Leask, K. and Christensen, L.B.}, 
+ year         = {2008}, 
+ title        = {Assessment of information used to develop a recovery potential assessment for Basking Shark (\emph{Cetorhinus maximus}) ({Pacific} population) in {Canada}}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2008/071}, 
+ pages     = {vi + 104~p} 
+} 
+
+
+@article{dfo, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {20}, 
+ title        = {Recovery potential assessment for Basking Shark in {Canadian Pacific} waters}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
+} 
+
+
+@article{cite, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {20}, 
  title        = {}, 
  journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
- volume    = {2009/021}, 
- pages     = {iv + 54~p} 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
 } 
 
 
-@article{, 
+@article{cite, 
  author       = {Fisheries and Oceans Canada}, 
- year         = {2009}, 
+ year         = {20}, 
  title        = {}, 
  journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
- volume    = {2009/021}, 
- pages     = {iv + 54~p} 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
 } 
 
 
-@article{, 
+@article{cite, 
  author       = {Fisheries and Oceans Canada}, 
- year         = {2009}, 
+ year         = {20}, 
  title        = {}, 
  journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
- volume    = {2009/021}, 
- pages     = {iv + 54~p} 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
 } 
 
 
-@article{, 
+@article{cite, 
  author       = {Fisheries and Oceans Canada}, 
- year         = {2009}, 
+ year         = {20}, 
  title        = {}, 
  journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
- volume    = {2009/021}, 
- pages     = {iv + 54~p} 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
 } 
 
+
+@article{cite, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {20}, 
+ title        = {}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
+} 
+
+
+@article{cite, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {20}, 
+ title        = {}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
+} 
+
+
+@article{cite, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {20}, 
+ title        = {}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
+} 
+
+
+@article{cite, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {20}, 
+ title        = {}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
+} 
+
+
+@article{cite, 
+ author       = {Fisheries and Oceans Canada}, 
+ year         = {20}, 
+ title        = {}, 
+ journal   = {DFO Can. Sci. Advis. Sec. Res. Doc.}, 
+ volume    = {2011/051}, 
+ pages     = {viii + 177~p} 
+} 
