@@ -69,11 +69,13 @@ survey sampling types, and sampling protocol codes for maturity and ageing data.
 Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
 (Table~\ref{tab:sql-surv-samp}) or commercial (Table~\ref{tab:sql-comm-samp})
 samples.
-In addition, samples designated as unsorted or sorted ('keepers' and 'discards')
-based on combinations of \texttt{SPECIES\_CATEGORY\_CODE} and
-\texttt{SAMPLE\_SOURCE\_CODE} to allow anaylysis on either only sorted samples
-to remove bias from inclusion of sorted or selected samples or on
-all samples.
+In addition, samples are designated as one of three sample descriptions based on
+combinations of two codes relating to sampling procedures:
+\texttt{SPECIES\_CATEGORY\_CODE} and \texttt{SAMPLE\_SOURCE\_CODE}.
+Samples can be designated as 'unsorted samples' or sorted samples (where
+selected samples are sorted into 'keepers' and 'discards').
+All samples are extracted and can be filtered to allow anaylysis on all samples
+or on only sorted samples to remove bias from inclusion of sorted samples.
 Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} for only total or
 random samples.
 
