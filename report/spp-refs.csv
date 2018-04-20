@@ -4,9 +4,9 @@ big skate,garcia2015biglongnoseskate,dfo2014biglongnoseskate,,
 longnose skate,garcia2015biglongnoseskate,dfo2014biglongnoseskate,,
 pacific cod,forrest2015pcod,dfo2015pcod,,
 pacific hake,martell2009hake,dfo2003hake,,
-walleye pollock,,,Pacific Stock Assessment PSARC,saunders1998pollock
+walleye pollock,starr2017pollock,dfo2018pollock,Pacific Stock Assessment PSARC,saunders1998pollock
 rougheye/blackspotted rockfish complex,haigh2005rougheyeblackspotted,dfo1999rougheye,Species at Risk Act Management Plan Series,dfo2012rougheyeblackspotted
-pacific ocean perch,edwards2014pop,dfo2017pop,,
+pacific ocean perch,"edwards2014popwcvi, edwards2013pophg, haigh2018popqcs","dfo2013popwcvihg, haigh2018popqcs",,
 redbanded rockfish,edwards2017redbanded,,,
 shortraker rockfish,schnute1999shortraker,dfo1999shortraker,,
 silvergray rockfish,starr2016silvergray,dfo2014silvergray,,
@@ -19,7 +19,7 @@ bocaccio,stanley2012bocaccio,dfo2012bocaccio,,
 canary rockfish,stanley2009canary,dfo2009canary,,
 redstripe rockfish,schnute1999redstripe,dfo1999redstripe,,
 yellowmouth rockfish,edwards2012yellowmouth,dfo2011yellowmouth,,
-yelloweye rockfish,,,,
+yelloweye rockfish,"yamanaka2015yelloweyeoutside, yamanaka2011yelloweyeinside","dfo2015yelloweyeoutside, dfo2011yelloweyeinside",Pre-COSEWIC Review,keppel2018yelloweye
 shortspine thornyhead,starr2015shortspineidiots,dfo2016shortspineidiots,,
 longspine thornyhead,haigh2005longspineidiots,,Species at Risk Act Management Plan Series,dfo2012longspineidiots
 sablefish,,,,
