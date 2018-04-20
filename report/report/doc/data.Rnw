@@ -286,20 +286,26 @@ print(xtable::xtable(mat, caption = "Maturity convention codes (`Mat. conv. code
   floating = TRUE, booktabs = TRUE, caption.placement = "top")
 @
 
-
 <<spp-cat-code-table, message=FALSE, warning=FALSE, results='asis'>>=
 spp_cat <- readr::read_csv("../tables/spp-category.csv")
-print(xtable::xtable(scc, caption = "Species category codes lookup table which
-  describes sampling protocols at the catch level", label = "tab:spp-cat"),
+spp_cat$`Species Category Description` <-
+  gfplot:::firstup(tolower(spp_cat$`Species Category Description`))
+spp_cat$`Species Category Description` <-
+  gsub("-", "--", spp_cat$`Species Category Description`)
+spp_cat$`Species Category Description` <-
+  gsub("unk\\.", "unknown", spp_cat$`Species Category Description`)
+print(xtable::xtable(spp_cat, caption = "Species category codes lookup table, which
+  describes sampling protocols at the catch level.", label = "tab:spp-cat"),
   include.rownames = FALSE, floating = TRUE, booktabs = TRUE,
   caption.placement = "top")
 @
 
-
 <<sample-source-code-table, message=FALSE, warning=FALSE, results='asis'>>=
 samp_source <- readr::read_csv("../tables/sample-source.csv")
-print(xtable::xtable(ssc, caption = "Sample source codes lookup table which
-  describes sampling protocols at the sample level", label = "tab:samp-source"),
+samp_source$`Sample Source Description` <-
+  gfplot:::firstup(tolower(samp_source$`Sample Source Description`))
+print(xtable::xtable(samp_source, caption = "Sample source codes lookup table, which
+  describes sampling protocols at the sample level.", label = "tab:samp-source"),
   include.rownames = FALSE, floating = TRUE, booktabs = TRUE,
   caption.placement = "top")
 @
