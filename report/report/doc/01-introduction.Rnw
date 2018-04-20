@@ -1,28 +1,27 @@
 \section{INTRODUCTION}
 
-Fisheries and Oceans Canada at Pacific Biological Station manages vast
-quantities of data on groundfish species in British Columbia. However, we (DFO
-Science branch stock assessment scientists) lack the capacity to conduct formal
-stock assessments for most stocks annually, and therefore, much of these data
-are not regularly published or readily accessible. This document aims to give a
-snapshot of long-term and recent population and fishing trends and data
-availability for all major British Columbia groundfish stocks of commercial and
-conservation interest. The report generation is fully automated --- pulling data
-from databases, generating visualizations, and stitching the document together
-to facilitate annual publication.
+The combination of fishery dependent data, such as catch and effort, and fishery
+independent survey data, such as biomass indices and age compositions, forms the
+backbone of most fisheries stock assessments. Fisheries and Oceans Canada at
+Pacific Biological Station manages vast quantities of data on groundfish species
+in British Columbia. However, we (DFO Science branch stock assessment
+scientists) lack the capacity to conduct formal stock assessments for most
+stocks annually, and therefore, much of these data are not regularly published
+or readily accessible. This document aims to give a snapshot of long-term and
+recent population and fishing trends and data availability for all major British
+Columbia groundfish stocks of commercial and conservation interest. The report
+generation is fully automated --- pulling data from databases, generating
+visualizations, and stitching the document together to facilitate annual
+publication.
 
 Our (the authors') goals are to (1) facilitate groundfish scientists and
-managers regularly reviewing trends in survey indices and stock composition to
-potentially flag stocks for prioritized assessment; (2) generate standardized
-datasets and visualizations that will help assessment scientists develop
-operating models and select candidate management procedures as part of a planned
-management-procedure framework for data-limited groundfish stocks; and (3)
-increase data transparency between Fisheries and Oceans Canada, the fishing
-industry, First Nations, non-governmental organizations, and the general public.
+managers regularly reviewing trends in survey indices and stock composition
+across all stocks to potentially flag stocks for prioritized assessment; (2)
+generate standardized datasets, biological model fits, and visualizations that
+will help assessment scientists develop operating models and select candidate
+management procedures as part of a planned management-procedure framework for
+data-limited groundfish stocks; and (3) increase data transparency between
+Fisheries and Oceans Canada, the fishing industry, First Nations,
+non-governmental organizations, and the general public.
 
-TODO
-
-% \subsection{CONTEXT}
-%
-% \begin{resdoclist} \item What is the exact decision that has to be made? \item
-% What is the timeframe for the decision? \end{resdoclist}
+To be continued \ldots
