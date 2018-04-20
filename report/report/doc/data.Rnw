@@ -267,3 +267,9 @@ mat <- filter(mat, !grepl("SABLEFISH", `Maturity convention description`))
 print(xtable::xtable(mat, caption = "Maturity convention codes (`Mat. conv. code'), maturity convention descriptions, sex, and the maturity convention value at which a fish is deemed to be mature for the purposes of the synopsis report. Note that fish may be considered mature at other maturity convention values in particular stock assessments where other values are chosen for specific reasons."), include.rownames = FALSE,
   floating = TRUE, booktabs = TRUE, caption.placement = "top")
 @
+
+<<spp-cat-code-table, message=FALSE, warning=FALSE, results='asis'>>=
+scc <- readr::read_csv("../tables/species_category_code.csv")
+print(xtable::xtable(scc, caption = "CAPTION HERE."), include.rownames = FALSE,
+  floating = TRUE, booktabs = TRUE, caption.placement = "top")
+@
