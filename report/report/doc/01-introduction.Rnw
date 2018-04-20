@@ -2,7 +2,7 @@
 
 The combination of fishery dependent data, such as catch and effort, and fishery
 independent survey data, such as biomass indices and age compositions, forms the
-backbone of most fisheries stock assessments. Fisheries and Oceans Canada at
+backbone of most fisheries stock assessments. Fisheries and Oceans Canada at the
 Pacific Biological Station manages vast quantities of data on groundfish species
 in British Columbia. However, we (DFO Science branch stock assessment
 scientists) lack the capacity to conduct formal stock assessments for most
@@ -19,7 +19,7 @@ managers regularly reviewing trends in survey indices and stock composition
 across all stocks to potentially flag stocks for prioritized assessment; (2)
 generate standardized datasets, biological model fits, and visualizations that
 will help assessment scientists develop operating models and select candidate
-management procedures as part of a planned management-procedure framework for
+management procedures as part of a planned management procedure framework for
 data-limited groundfish stocks; and (3) increase data transparency between
 Fisheries and Oceans Canada, the fishing industry, First Nations,
 non-governmental organizations, and the general public.
