@@ -72,8 +72,8 @@ samples.
 In addition, samples are designated as one of three sample descriptions based on
 combinations of two codes relating to sampling procedures:
 \texttt{SPECIES\_CATEGORY\_CODE} and \texttt{SAMPLE\_SOURCE\_CODE}.
-Samples can be designated as 'unsorted samples' or sorted samples (where
-selected samples are sorted into 'keepers' and 'discards').
+Samples can be designated as `unsorted samples' or `sorted samples' (where
+selected samples are sorted into `keepers' and `discards').
 All samples are extracted and can be filtered to allow anaylysis on all samples
 or on only sorted samples to remove bias from inclusion of sorted samples.
 Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} for only total or

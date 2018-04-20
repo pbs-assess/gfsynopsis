@@ -37,7 +37,8 @@ make_pages <- function(
     "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"),
   survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
       "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
-      "HBLL INS N", "HBLL INS S", "MSA HS")
+      "HBLL INS N", "HBLL INS S", "MSA HS"),
+  mat_min_n = 20
   ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -308,8 +309,30 @@ make_pages <- function(
     fit_mat_ogive(
       type = "age",
       months = 1:12)
+
+
+  type <- "none"
   if (!is.na(mat_age[[1]])) {
-    g_mat_age <- plot_mat_ogive(mat_age) +
+    sample_size <- mat_age$data %>% group_by(female, mature) %>%
+      summarise(N = n()) %>%
+      group_by(female) %>%
+      summarise(N_min = min(N))
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+      type <- "none"
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+      type <- "all"
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+      type <- "male"
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+      type <- "female"
+  }
+
+  if (!is.na(mat_age[[1]])) {
+    g_mat_age <- plot_mat_ogive(mat_age, prediction_type = type) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE) +
       ggplot2::guides(lty = FALSE, colour = FALSE)
   } else {
@@ -322,8 +345,29 @@ make_pages <- function(
     fit_mat_ogive(
       type = "length",
       months = 1:12)
+
+  type <- "none"
+  if (!is.na(mat_age[[1]])) {
+    sample_size <- mat_length$data %>% group_by(female, mature) %>%
+      summarise(N = n()) %>%
+      group_by(female) %>%
+      summarise(N_min = min(N))
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+      type <- "none"
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+      type <- "all"
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+      type <- "male"
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+      type <- "female"
+  }
+
   if (!is.na(mat_length[[1]])) {
-    g_mat_length <- plot_mat_ogive(mat_length) +
+    g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
       legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =
