@@ -70,26 +70,32 @@ Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
 (Table~\ref{tab:sql-surv-samp}) or commercial (Table~\ref{tab:sql-comm-samp})
 samples.
 In addition, samples are designated as one of three sample descriptions based on
-combinations of two codes relating to sampling procedures:
-\texttt{SPECIES\_CATEGORY\_CODE} and \texttt{SAMPLE\_SOURCE\_CODE}.
-Samples can be designated as `unsorted samples' or `sorted samples' (where
-selected samples are sorted into `keepers' and `discards').
+combinations of two codes relating to sampling protocols:
+\texttt{SPECIES\_CATEGORY\_CODE} (Table~\ref{tab:spp-cat}) and
+\texttt{SAMPLE\_SOURCE\_CODE} (Table~\ref{tab:samp-source}). Samples can be
+designated as `unsorted samples' in which data were collected for all specimens
+in the sample, or `sorted samples' where specimens were sorted or selected into
+`keepers' which were sampled and `discards' which were not sampled.
+
+Specimens with a species category code of 0 are of unknown species category and
+are not useable. Those with a species category code of 1 (unsorted) and a
+sample source code of 0 (unknown) or 1 (unsorted), or with a species
+category code of 5 (remains) or 6 (fish heads only) and a sample source code
+of 1 (unsorted) are classified as 'unsorted'.
+
+Specimens with a sample source code of 2 (keepers) and a species category code
+of 1 (unsorted), 2 (sorted) or 3 (keepers), or with a species category
+code of 3 (keepers) and a sample source code of 1 (unsorted) are classified
+as 'keepers'.
+
+Specimens with a species category code of 4 (discards) and a sample source
+code of 1 (unsorted) or 3 (discards), or a sample source code of 3 (discards)
+and a species category code of 1 (unsorted) are 'discards'
+
 All samples are extracted and can be filtered to allow anaylysis on all samples
-or on only sorted samples to remove bias from inclusion of sorted samples.
-Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} for only total or
+or on only unsorted samples to remove bias from inclusion of sorted samples.
+Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} to extract only total or
 random samples.
-
-<<spp-cat-code-table, message=FALSE, warning=FALSE, results='asis'>>=
-scc <- readr::read_csv("../tables/spp-category.csv")
-print(xtable::xtable(scc, caption = "Species category codes lookup table which describes sampling protocols at the catch level"), include.rownames = FALSE,
-  floating = TRUE, booktabs = TRUE, caption.placement = "top")
-@
-
-<<sample-source-code-table, message=FALSE, warning=FALSE, results='asis'>>=
-ssc <- readr::read_csv("../tables/sample-source.csv")
-print(xtable::xtable(scc, caption = "Sample source codes lookup table which describes sampling protocols at the sample level"), include.rownames = FALSE,
-  floating = TRUE, booktabs = TRUE, caption.placement = "top")
-@
 
 The ageing precision data are extracted with \texttt{get-age-precision.sql}.
 Data are filtered to bring in only records for which a secondary (precision)
@@ -281,3 +287,19 @@ print(xtable::xtable(mat, caption = "Maturity convention codes (`Mat. conv. code
 @
 
 
+<<spp-cat-code-table, message=FALSE, warning=FALSE, results='asis'>>=
+spp_cat <- readr::read_csv("../tables/spp-category.csv")
+print(xtable::xtable(scc, caption = "Species category codes lookup table which
+  describes sampling protocols at the catch level", label = "tab:spp-cat"),
+  include.rownames = FALSE, floating = TRUE, booktabs = TRUE,
+  caption.placement = "top")
+@
+
+
+<<sample-source-code-table, message=FALSE, warning=FALSE, results='asis'>>=
+samp_source <- readr::read_csv("../tables/sample-source.csv")
+print(xtable::xtable(ssc, caption = "Sample source codes lookup table which
+  describes sampling protocols at the sample level", label = "tab:samp-source"),
+  include.rownames = FALSE, floating = TRUE, booktabs = TRUE,
+  caption.placement = "top")
+@
