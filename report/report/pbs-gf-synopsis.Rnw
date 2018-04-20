@@ -81,7 +81,7 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 \clearpage
 
-\bibpunct{}{}{,}{a}{}{,}
+% \bibpunct{}{}{,}{a}{}{,}
 
 \section{SYNOPSIS PLOTS}
 

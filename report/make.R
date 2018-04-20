@@ -42,11 +42,11 @@ meta <- dat$survey_sets %>%
 spp <- left_join(spp, meta, by = "species_common_name")
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
-spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("\\citep{", spp$resdoc, "}"))
-spp$sar <- ifelse(is.na(spp$sar), "", paste0("\\citep{", spp$sar, "}"))
+spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("\\citet{", spp$resdoc, "}"))
+spp$sar <- ifelse(is.na(spp$sar), "", paste0("\\citet{", spp$sar, "}"))
 
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
-  paste0(spp$type_other_ref, ": \\citep{", spp$other_ref, "}"))
+  paste0(spp$type_other_ref, ": \\citet{", spp$other_ref, "}"))
 
 # ------------------------------------------------------------
 # TODO: memory mapping problem:
