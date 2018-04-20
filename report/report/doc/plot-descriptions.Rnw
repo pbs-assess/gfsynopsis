@@ -94,6 +94,8 @@ gridExtra::grid.arrange(
   nrow = 1)
 @
 
+We model the expected biomass density in space for each species using data from the synoptic bottom trawl surveys, the Outer Hard Bottom Long Line surveys (alternatively referred to as the, Pacific Halibut Management Association, PHMA, surveys), and the International Pacific Halibut Commission (IPHC) surveys.
+
 % Here I am fitting Bayesian generalized linear mixed effects models with Gaussian
 % random fields to estimate expected biomass density on the surface covering the
 % entirety of the survey boundaries. I fit the models with the glmmfields

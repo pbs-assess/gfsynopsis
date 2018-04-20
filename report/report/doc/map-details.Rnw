@@ -1,0 +1,107 @@
+% We will fit one model predicting the presence vs. absence of Pacific ocean perch
+% in a given tow and another model predicting the biomass of Pacific ocean perch
+% given that a tow includes the species. One is a binomial GLMM with a logit link.
+% The other is a lognormal GLMM with a log link. Both are currently modelled with
+% a squared exponential covariance function. Alternatives would include an
+% exponential or Matern covariance function, but likely make little difference
+% here.
+%
+% TODO: the following is very incomplete:
+%
+% The models can be described as:
+%
+% \begin{align}
+%   g(\mu_{s}) &= \beta_0 + \beta_1 T_s + \beta_2 T^2_s + \gamma_{s}, \\
+%   \gamma_{s} &\sim \mathrm{MVN}\left(0, \mathbf{\Sigma}_{s}\right),
+% \end{align}
+%
+% where $g$ represents a link function (log or logit), $\mu_{s}$ represents the
+% mean at spatial location $s$, $T$ represents bottom temperature, the $\beta$s
+% represent estimated coefficients, $\gamma_{s}$ represents a Gaussian random
+% field, and $\mathbf{\Sigma}_{s}$ represents a covariance matrix.
+%
+% The squared exponential covariance function models the correlation between
+% points $i$ and $j$ as $H(\delta_{ij}) = \exp \left(- \delta_{ij}^2
+% / 2 \theta_{\mathrm{GP}} \right)$, where $\delta_{ij}$ is the distance between
+% points $i$ and $j$ and $\theta_{\mathrm{GP}}$ controls how steeply correlation
+% declines with distance (GP = Gaussian process). For a given set of
+% $\delta_{ij}$, large values of $\theta_{\mathrm{GP}}$ correspond to smooth
+% spatial patterns and small values correspondence to wiggly spatial patterns.
+%
+% The elements of the covariance matrix $\mathbf{\Sigma}$ at the $m$ knot
+% locations are then defined as $\mathbf{\Sigma}_{ij}^* = \sigma_{\mathrm{GP}}^2
+% \exp \left( -\delta_{ij}^2 / 2 \theta_{\mathrm{GP}} \right)$ with the spatial
+% variance parameter $\sigma_{\mathrm{GP}}^2$ scaling the amplitude of the spatial
+% deviations and the $*$ denoting a symbol referring to the knot locations as
+% opposed to the sample locations.
+
+
+<<example-survey-maps-syn, warning=FALSE, message=FALSE, fig.asp=1, fig.cap="Example delta-Gamma model components for spatial models fit to synoptic survey data for Petrale Sole. (a) The binary model --- this model predicts the probability of a survey tow catching the species. (b) The Gamma positive component model --- this model predicts the expected biomass density of the species conditional on a survey tow catching at least one fish of the species. (c) The combined model prediction as shown throughout the synopsis report --- the combined prediction is formed by multiplying the probability of observing the species by expected biomass if the species is observed (i.e. multiplying the first and second map predictions together).">>=
+library(ggplot2)
+library(dplyr)
+eg_syn <- readRDS("../../map-cache/synoptic/petrale-sole.rds")
+bin <- gfsynopsis::plot_survey_maps(
+  eg_syn$pred_dat, eg_syn$raw_dat, fill_column = "bin",
+  north_symbol = TRUE) +
+  scale_fill_gradient2(midpoint = 0.5,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue"), limits = c(0, 1), breaks = c(0, 0.5, 1)) +
+  scale_colour_gradient2(midpoint = 0.5,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue"), limits = c(0, 1)) +
+  ggtitle("(a) Binary model") +
+  guides(fill = guide_colorbar(), size = FALSE) +
+  labs(fill = "Predicted\nprobability\nof a positive set")
+
+pos <- gfsynopsis::plot_survey_maps(
+  eg_syn$pred_dat, eg_syn$raw_dat, fill_column = "pos") +
+  ggtitle("(b) Positive model") +
+  guides(fill = guide_colorbar(), size = FALSE) +
+  labs(fill = "Predicted biomass\ndensity given\na positive set")
+
+combined <- gfsynopsis::plot_survey_maps(
+  eg_syn$pred_dat, eg_syn$raw_dat, fill_column = "combined") +
+  ggtitle("(c) Combined model") +
+  guides(fill = guide_colorbar(), size = FALSE) +
+  labs(fill = "Predicted\nbiomass\ndensity")
+
+gridExtra::grid.arrange(bin, pos, combined, nrow = 1)
+@
+
+<<example-survey-maps-hbll, warning=FALSE, message=FALSE, fig.asp=1, fig.cap="Caption the same as for Figure~\\ref{fig:example-survey-maps-syn} but in this case the surveys shown are the Outside Hard Bottom Long Line surveys.">>=
+eg_hbll <- readRDS("../../map-cache/hbll/petrale-sole.rds")
+bin <- gfsynopsis::plot_survey_maps(
+  eg_hbll$pred_dat, eg_hbll$raw_dat, fill_column = "bin",
+  north_symbol = TRUE,
+  show_raw_data = FALSE,
+  annotations = "HBLL") +
+  scale_fill_gradient2(midpoint = 0.5,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue"), limits = c(0, 1), breaks = c(0, 0.5, 1)) +
+  scale_colour_gradient2(midpoint = 0.5,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue"), limits = c(0, 1)) +
+  ggtitle("(a) Binary model") +
+  guides(fill = guide_colorbar(), size = FALSE) +
+  labs(fill = "Predicted\nprobability\nof a positive set")
+
+pos <- gfsynopsis::plot_survey_maps(
+  eg_hbll$pred_dat, eg_hbll$raw_dat, fill_column = "pos",
+  show_raw_data = FALSE, annotations = "HBLL") +
+  ggtitle("(b) Positive model") +
+  guides(fill = guide_colorbar(), size = FALSE) +
+  labs(fill = "Predicted biomass\ndensity given\na positive set")
+
+combined <- gfsynopsis::plot_survey_maps(
+  eg_hbll$pred_dat, eg_hbll$raw_dat, fill_column = "combined",
+  show_raw_data = FALSE, annotations = "HBLL") +
+  ggtitle("(c) Combined model") +
+  guides(fill = guide_colorbar(), size = FALSE) +
+  labs(fill = "Predicted\nbiomass\ndensity")
+
+gridExtra::grid.arrange(bin, pos, combined, nrow = 1)
+@

@@ -90,6 +90,10 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 \clearpage
 
+\section{SPATIAL SURVEY MODELING} \label{sec:survey-modelling}
+<<map-details, child='doc/map-details.Rnw'>>=
+@
+
 \bibliography{refs}
 
 \end{document}
