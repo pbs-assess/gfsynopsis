@@ -6,7 +6,7 @@ pacific cod,forrest2015pcod,dfo2015pcod,,
 pacific hake,martell2009hake,dfo2003hake,,
 walleye pollock,starr2017pollock,dfo2018pollock,Pacific Stock Assessment PSARC,saunders1998pollock
 rougheye/blackspotted rockfish complex,haigh2005rougheyeblackspotted,dfo1999rougheye,Species at Risk Act Management Plan Series,dfo2012rougheyeblackspotted
-pacific ocean perch,"edwards2014popwcvi, edwards2013pophg, haigh2018popqcs","dfo2013popwcvihg, haigh2018popqcs",,
+pacific ocean perch,"edwards2013pophg, edwards2014popwcvi, haigh2018popqcs","dfo2013popwcvihg, haigh2018popqcs",,
 redbanded rockfish,edwards2017redbanded,,,
 shortraker rockfish,schnute1999shortraker,dfo1999shortraker,,
 silvergray rockfish,starr2016silvergray,dfo2014silvergray,,
@@ -23,7 +23,7 @@ yelloweye rockfish,"yamanaka2015yelloweyeoutside, yamanaka2011yelloweyeinside","
 shortspine thornyhead,starr2015shortspineidiots,dfo2016shortspineidiots,,
 longspine thornyhead,haigh2005longspineidiots,,Species at Risk Act Management Plan Series,dfo2012longspineidiots
 sablefish,,,,
-lingcod,"holt2016ling, king2011lingOutside","dfo2015lingSOG, dfo2011lingOutside",,
+lingcod,"king2011lingOutside, holt2016ling","dfo2015lingSOG, dfo2011lingOutside",,
 arrowtooth flounder,grandin2017arrowtooth,dfo2015arrowtooth,,
 petrale sole,starr2009petrale,dfo1998petrale,,
 rex sole,,,,
