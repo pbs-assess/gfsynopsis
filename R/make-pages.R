@@ -38,7 +38,8 @@ make_pages <- function(
   survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
       "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
       "HBLL INS N", "HBLL INS S", "MSA HS"),
-  mat_min_n = 20
+  mat_min_n = 20,
+  survey_map_outlier = 0.995
   ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -426,7 +427,6 @@ make_pages <- function(
     syn_fits <- readRDS(map_cache_spp_synoptic)
   }
 
-
   # nrow(pred_grid)
   # m <- fit_survey_sets(dat, survey = "IPHC FISS", years = 2017,
   #   model = "inla", mcmc_posterior_samples = 200, include_depth = TRUE,
@@ -454,6 +454,16 @@ make_pages <- function(
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
     hbll_fits <- readRDS(map_cache_spp_hbll)
+  }
+
+  # squash massive outlying cells for colour scale goodness:
+  if (!is.null(syn_fits$pred_dat$combined)) {
+    qs <- quantile(syn_fits$pred_dat$combined, probs = survey_map_outlier, na.rm = TRUE)[[1]]
+    syn_fits$pred_dat$combined[syn_fits$pred_dat$combined > qs] <- qs
+  }
+  if (!is.null(hbll_fits$pred_dat$combined)) {
+    qs <- quantile(hbll_fits$pred_dat$combined, probs = survey_map_outlier, na.rm = TRUE)[[1]]
+    hbll_fits$pred_dat$combined[hbll_fits$pred_dat$combined > qs] <- qs
   }
 
   g_survey_spatial_syn <-

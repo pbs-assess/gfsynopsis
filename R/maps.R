@@ -75,6 +75,8 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   bin_pt_col = "#FFFFFF40",
   pos_pt_fill = "#FFFFFF05",
   north_symbol = FALSE,
+  fill_column = "combined",
+  trans = "sqrt",
   show_model_predictions = TRUE,
   annotations = c("SYN", "IPHC", "HBLL"),
   ...) {
@@ -82,15 +84,15 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   annotations <- match.arg(annotations)
 
   g <- plot_survey_sets(pred_dat, raw_dat,
-    fill_column = "combined", show_model_predictions = show_model_predictions,
+    fill_column = fill_column, show_model_predictions = show_model_predictions,
     show_raw_data = show_raw_data,
     pos_pt_col = pos_pt_col,
     bin_pt_col = bin_pt_col,
     pos_pt_fill = pos_pt_fill,
     fill_scale =
-      viridis::scale_fill_viridis(trans = "sqrt", option = "C"),
+      viridis::scale_fill_viridis(trans = trans, option = "C"),
     colour_scale =
-      viridis::scale_colour_viridis(trans = "sqrt", option = "C"),
+      viridis::scale_colour_viridis(trans = trans, option = "C"),
     rotation_center = c(500, 5700), rotation_angle = 40, north_symbol = north_symbol,
     xlim = c(375, 680), ylim = c(5200, 6150), x_buffer = 0, y_buffer = 0,
     north_symbol_coord = c(130, 5975), show_axes = show_axes,
