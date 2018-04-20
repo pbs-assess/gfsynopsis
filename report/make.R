@@ -109,8 +109,8 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0("\\subsection{", spp_title, "}")
   i <- i + 1
-  out[[i]] <- paste0("Scientific name: ", gfsynopsis:::emph(latin_name),
-    "; DFO species code: ", species_code, "\n")
+  out[[i]] <- paste0(gfsynopsis:::emph(latin_name),
+    "\\, / DFO species code: ", species_code, "\n")
   i <- i + 1
   out[[i]] <- "\\vspace{8pt}"
   i <- i + 1
