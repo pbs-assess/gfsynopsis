@@ -79,6 +79,18 @@ or on only sorted samples to remove bias from inclusion of sorted samples.
 Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} for only total or
 random samples.
 
+<<spp-cat-code-table, message=FALSE, warning=FALSE, results='asis'>>=
+scc <- readr::read_csv("../tables/spp-category.csv")
+print(xtable::xtable(scc, caption = "Species category codes lookup table which describes sampling protocols at the catch level"), include.rownames = FALSE,
+  floating = TRUE, booktabs = TRUE, caption.placement = "top")
+@
+
+<<sample-source-code-table, message=FALSE, warning=FALSE, results='asis'>>=
+ssc <- readr::read_csv("../tables/sample-source.csv")
+print(xtable::xtable(scc, caption = "Sample source codes lookup table which describes sampling protocols at the sample level"), include.rownames = FALSE,
+  floating = TRUE, booktabs = TRUE, caption.placement = "top")
+@
+
 The ageing precision data are extracted with \texttt{get-age-precision.sql}.
 Data are filtered to bring in only records for which a secondary (precision)
 reading was performed by a different technician in addition to the primary
@@ -268,8 +280,4 @@ print(xtable::xtable(mat, caption = "Maturity convention codes (`Mat. conv. code
   floating = TRUE, booktabs = TRUE, caption.placement = "top")
 @
 
-<<spp-cat-code-table, message=FALSE, warning=FALSE, results='asis'>>=
-scc <- readr::read_csv("../tables/species_category_code.csv")
-print(xtable::xtable(scc, caption = "CAPTION HERE."), include.rownames = FALSE,
-  floating = TRUE, booktabs = TRUE, caption.placement = "top")
-@
+
