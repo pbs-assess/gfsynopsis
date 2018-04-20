@@ -84,6 +84,8 @@ Data are filtered to bring in only records for which a secondary (precision)
 reading was performed by a different technician in addition to the primary
 reading (Table~\ref{tab:sql-age-precision}).
 
+\clearpage
+
 \begin{table}[htpb]
 \centering
 \caption{Description of filters in SQL queries extracting commercial sample data from GFBio with \texttt{get-comm-samples.sql}.}
