@@ -101,6 +101,8 @@ temp <- lapply(spp$species_common_name, function(x) {
   resdoc <- spp$resdoc[spp$species_common_name == x]
   species_code <- spp$species_code[spp$species_common_name == x]
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
+  resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
+  sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
 
   i <- 1
   out[[i]] <- "\\clearpage"
@@ -114,11 +116,11 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- "\\vspace{8pt}"
   i <- i + 1
-  out[[i]] <- paste0("Last Research Document: ", resdoc, "\n")
+  out[[i]] <- paste0(resdoc_text, resdoc, "\n")
   i <- i + 1
   out[[i]] <- "\\vspace{8pt}"
   i <- i + 1
-  out[[i]] <- paste0("Last Science Advisory Report: ", sar)
+  out[[i]] <- paste0(sar_text, sar)
   i <- i + 1
 
   if (other_ref != "") {
