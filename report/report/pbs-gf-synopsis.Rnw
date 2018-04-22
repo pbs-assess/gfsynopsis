@@ -1,4 +1,4 @@
-% Document setup
+% Documents setup
 \documentclass[11pt]{book}
 
 \usepackage{tabu} % https://tex.stackexchange.com/questions/50332/vertical-spacing-of-a-table-cell
@@ -52,6 +52,8 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 \bibliographystyle{csas-style/res-doc}
 
+\usepackage{amsmath}
+\usepackage{bm}
 % Let it begin
 \begin{document}
 
@@ -62,38 +64,41 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 % Make the first few pages
 \frontmatter
 
+\section{INTRODUCTION} \label{sec:introduction}
+
 <<introduction, child='doc/01-introduction.Rnw'>>=
 @
 
 \clearpage
 
-\section{PLOT DESCRIPTIONS AND BACKGROUND}
+\section{PLOT DESCRIPTIONS} \label{sec:doc-background}
 
 <<data, child='doc/plot-descriptions.Rnw'>>=
 @
 
 \clearpage
 
-\section{DATA EXTRACTION BACKGROUND}
-
-<<data, child='doc/data.Rnw'>>=
-@
-
-\clearpage
-
-% \bibpunct{}{}{,}{a}{}{,}
-
-\section{SYNOPSIS PLOTS}
+\section{SYNOPSIS PLOTS} \label{sec:plot-pages}
 
 <<plots, child='doc/02-plots.Rnw'>>=
 @
 
 \clearpage
 
-\section{SPATIAL SURVEY MODELING} \label{sec:survey-modelling}
-<<map-details, child='doc/map-details.Rnw'>>=
+\section{DATA EXTRACTION DETAILS} \label{sec:data}
+
+<<data, child='doc/data.Rnw'>>=
 @
 
-\bibliography{refs}
+\clearpage
+
+\section{MODELLING DETAILS} \label{sec:modelling-details}
+
+<<models, child='doc/modelling.Rnw'>>=
+@
+
+\clearpage
+
+\bibliography{spp-refs,synopsis}
 
 \end{document}

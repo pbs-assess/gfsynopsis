@@ -1,5 +1,3 @@
-\section{INTRODUCTION}
-
 The combination of fishery dependent data, such as catch and effort, and fishery
 independent survey data, such as biomass indices and age compositions, forms the
 backbone of most fisheries stock assessments. Fisheries and Oceans Canada at the

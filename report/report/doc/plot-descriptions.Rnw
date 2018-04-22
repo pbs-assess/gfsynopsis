@@ -228,42 +228,12 @@ g$age_precision
 
 \subsection{LENGTH-AGE AND LENGTH-WEIGHT MODEL FITS}
 
-<<length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model (both models described further in text). Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and light dots represent individual fish that the models are fit to.")>>=
+<<length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model (both models described further in text). Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and light dots represent individual fish that the models are fit to. See Sections \\ref{sec:length-age-models} and \\ref{sec:length-weight-models} for details on the models.")>>=
 cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 @
 
 % I only fit models in cases where there were more than 100 fish samples for
 % a given species-sex combination.
-
-The von Bertalanffy growth models were fit with Stan as:
-
-\begin{equation}
-  L_i \sim \mathrm{lognormal} \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))), \sigma \right)
-\end{equation}
-
-where $L_i$ and $A_i$ represent the length and age of fish $i$,
-$l_\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth
-parameters, and $\sigma$ represents the log standard deviation or scale
-parameter. The models were fit with the following priors:
-
-\begin{align}
-  k &\sim \mathcal{N}(0, 1)[0, \infty]\\
-  l_\mathrm{inf} &\sim  \mathcal{N}(0, \varphi)[0, \infty]\\
-  \sigma &\sim  \mathcal{N}(0, 1)[0, \infty]\\
-  t0 &\sim  \mathcal{N}(0, 20)
-\end{align}
-
-where $\varphi$ was set to twice the 99\% quantile of observed lengths for that
-stock. This ensures that the $l_\mathrm{inf}$ prior is on an appropriate scale
-for a given stock. These weakly informative priors helpful when fitting these
-nonlinear models to a large number of stocks where maximum likelihood methods
-can give nonsensical results for some stocks and it is difficult to adjust the
-optimization procedure on a stock-by-stock basis.
-
-We fit the length-weight models as robust linear regressions of log(length) on
-log(weight) using the \texttt{MASS::rlm()} function. This down weights the
-influence of outlying values and helps generate reasonable faith across all
-species without handpicking outlying measurements to discard.
 
 \clearpage
 
