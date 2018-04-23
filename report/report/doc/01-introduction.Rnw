@@ -2,7 +2,7 @@ The combination of fishery dependent data, such as catch and effort, and fishery
 independent survey data, such as biomass indices and age compositions, form the
 backbone of most fisheries stock assessment. Fisheries and Oceans Canada (DFO)
 at the Pacific Biological Station (PBS) manages vast quantities of such data on
-groundfish species in British Columbia. However, we (DFO Science Branch, Pacific
+groundfish species in British Columbia (BC). However, we (DFO Science Branch, Pacific
 Region stock assessment scientists) lack the capacity to conduct formal stock
 assessments for most stocks annually, and therefore, much of these data are not
 regularly published or readily accessible.
@@ -12,7 +12,7 @@ give a snapshot of long-term and recent population and fishing trends and data
 availability for all major British Columbia groundfish stocks of commercial and
 conservation interest. The report is an extension of the data scorecard concept
 discussed at a Canadian Science Advisory Secretariat (CSAS) Regional Peer Review
-Meeting in May 2016 \citep{macdoughall2016}. We plan to publish this report as
+Meeting in May 2016 \citep{macdougall2016}. We plan to publish this report as
 a CSAS Research Document in its first year and to update the report annually as
 a CSAS Science Response in subsequent years. The report generation is fully
 automated --- pulling data from databases, fitting models, generating
@@ -32,14 +32,13 @@ First Nations, non-governmental organizations, and the general public.
 \subsection{REPORT STRUCTURE}
 
 The synopsis report is comprised of two-page species-by-species subsections that
-visually synthesize most available data for each species (used interchangeably
-with stock). The report focuses on the most important species to track for
-commercial and conservation concern, as outlined in the current BC groundfish
-strategic plan, and focuses on the surveys and data types applicable to the
-widest array of these fish stocks. Currently, we have focused on the A-level
-species, which are identified as the main species of commercial and conservation
-interest. The strategic plan also includes a set of B-level species, which
-could easily be included as well.
+visually synthesize most available data for each species. The report focuses on
+the most important species to track for commercial and conservation concern, as
+outlined in the current BC groundfish strategic plan, and focuses on the surveys
+and data types applicable to the widest array of these fish stocks. Currently,
+we have focused on the A-level species, which are identified as the main species
+of commercial and conservation interest. The strategic plan also includes a set
+of B-level species, which could easily be included as well.
 
 Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
@@ -58,8 +57,8 @@ Outside Hard Bottom Long Line surveys (HBLL; alternatively referred to as the
 Pacific Halibut Management Association, PHMA, surveys), and the International
 Pacific Halibut Commission (IPHC) surveys because these provide the greatest
 spatial and taxonomic coverage of the stocks in this report. As an example, we
-are not showing biomass index trends or maps from the sablefish trap surveys,
-since these are highly selective for sablefish. However, we do include counts of
+are not showing biomass index trends or maps from the Sablefish trap surveys,
+since these are highly selective for Sablefish. However, we do include counts of
 available fish specimens from biological samples on all surveys.
 
 Following the species-by-species visualizations, we include a section providing

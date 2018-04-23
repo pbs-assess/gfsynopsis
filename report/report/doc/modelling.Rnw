@@ -148,10 +148,10 @@ parameter. We fit the models with the following priors:
 \end{align}
 
 where $\varphi$ was set to twice the 99\% quantile of observed lengths for that
-stock. This ensures that the $l_\mathrm{inf}$ prior is on an appropriate scale
-for a given stock. These weakly informative priors were helpful when fitting
-these nonlinear models to a large number of stocks making it is difficult to
-adjust the optimization procedure on a stock-by-stock basis. For speed, the
+species. This ensures that the $l_\mathrm{inf}$ prior is on an appropriate scale
+for a given species. These weakly informative priors were helpful when fitting
+these nonlinear models to a large number of species making it is difficult to
+adjust the optimization procedure on a species-by-species basis. For speed, the
 model fits shown in this synopsis report are derived from the mode of the
 marginal posterior distributions (MPD) as opposed to from full Markov chain
 Monte Carlo (MCMC) sampling.
