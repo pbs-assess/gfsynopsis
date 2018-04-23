@@ -1,28 +1,4 @@
-\emph{TODO: A brief introduction to this section and the layout in general.}
-
-\begin{resdoclist}
-
-\item Colours are consistent for the surveys across the survey biomass index
-  trends and the age and length compositions to facilitate tracing a single
-  survey throughout the plots.
-
-\item The colour scales are consistent for the survey maps and survey biological
-  specimen number plots and for the commercial catch per unit effort maps and
-  commercial biological specimen number plots.
-
-\item Female data features are always shown in front of male data features and
-  are either coloured or black whereas males are always indicated with light
-  gray.
-
-\item We have attempted to focus on visualizations, model fits, and survey
-  selections that are applicable to the widest array of groundfish stocks. For
-  example, we are not showing biomass index trends or maps from the highly
-  selective sablefish trap surveys, although we include biological
-  sample fish specimen counts across all surveys.
-
-\end{resdoclist}
-
-To be continued \ldots
+TODO After this introduction, we provide complete figure captions for each of the visualizations that form the synopsis report. 
 
 <<knitr-opts, echo=FALSE, cache=FALSE>>=
 knitr::opts_chunk$set(

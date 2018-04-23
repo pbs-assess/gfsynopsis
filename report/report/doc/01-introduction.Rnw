@@ -33,7 +33,7 @@ strategic plan, and the surveys and data types applicable to the widest array of
 these fish stocks. Currently, we have focused on the `A' level species, which
 are identified as the main species of commercial and conservation interest. The
 strategic plan also includes a set of `B' level species, which could easily be
-included as well. 
+included as well.
 
 Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
@@ -44,7 +44,7 @@ and spatial patterns on the left and commercial timeseries and spatial patterns
 on the right. The second page is focused on biological samples. It begins at the
 top with length and age data and their relationship with each other, progresses
 into data on maturity, and finishes with an overview of available numbers of
-fish across all survey and commercial samples.  
+fish across all survey and commercial samples.
 
 In terms of surveys, we focused on the Synoptic Bottom Trawl surveys, the
 Outside Hard Bottom Long Line surveys (alternatively referred to as the Pacific
@@ -98,41 +98,41 @@ We made a number of overarching design decisions in structuring the report:
 
 There are many important caveats when interpreting this report. First, the
 synopsis report is not intended to be a substitute for stock assessment. For
-example, although relative biomass indices from surveys can in some cases
-provide an indication of the general trend of biomass for a species in
-a particular area, such information usually needs to be combined with other
-information such as removals by commercial catches and information on the age-
-or length-composition of the stock to make any meaningful conclusions about
-about the status of a stock.
+example, although relative biomass indices from surveys can indicate the general
+trend of biomass for a species in an area, such information is best combined
+with other information such as removals by commercial catches and information on
+the age- or length-composition of the stock to make conclusions about about the
+status of a stock.
 
 Second, biomass indices from trawl or longline surveys and commercial catch per
 unit effort indices need careful interpretation on a stock-by-stock basis. We
 have attempted to flag survey index trends that may be especially suspect either
-because of high survey variability (high coefficients of variation, CVs) or
-because of a small fraction of trawl or long line sets containing the species,
-but this is just a starting point. The survey indices are not always
-representative of abundance a variety of changes through time, including fish
-behavioural changes, could also result in biases through time. Commercial catch
-per unit effort (CPUE) timeseries, even when standardized for consistent time of
-year, depth, latitude, and vessel need to be considered even more carefully.
-There are a multitude of reasons why commercial CPUE trends can diverge strongly
-from underlying trends in abundance \citep[e.g.][]{harley2001}.
+because of high survey variability or because of a small fraction of trawl or
+long line sets containing the species, but this is not a guarantee in itself.
+Survey indices are not always representative of abundance a variety of reasons
+--- changes through time, including fish behavioural changes, could also result
+in biases through time. Commercial catch per unit effort (CPUE) timeseries, even
+when standardized for consistent time of year, depth, latitude, and vessel need
+to be considered even more carefully. There are a multitude of reasons why
+commercial CPUE trends may not represent underlying trends in abundance
+\citep[e.g.][]{harley2001}.
 
 To be continued \ldots
 
 \subsection{GFPLOT AND GFSYNOPSIS PACKAGES}
 
-As stated above, one goal of this report is to generate standardized data sets, model fits, and
-visualizations to facilitate stock assessment. We intend for the data extraction
-and plots developed here to be useful for the upcoming management-procedure
-framework for data-limited and data-moderate groundfish stocks in BC, but also
-for the preparation of other groundfish stock assessments and to facilitate
-data-to-document workflows that go straight from databases to the final report
-via code and can be quickly updated in future years. To that end, all data
-extraction, data manipulation, model fitting, and visualization for this report
-is accomplished via the R package gfplot, which the authors developed for this
-purpose. The specific layout and tools needed to make this report are created
-with a second R package, gfsynopsis. Both packages (but not the data itself) are
+As stated above, one goal of this report is to generate standardized data sets,
+model fits, and visualizations to facilitate stock assessment. We intend for the
+data extraction and plots developed here to be useful for the upcoming
+management-procedure framework for data-limited and data-moderate groundfish
+stocks in BC, but also for the preparation of other groundfish stock assessments
+and to facilitate data-to-document workflows that go straight from databases to
+the final report via code and can be quickly updated in future years. To that
+end, all data extraction, data manipulation, model fitting, and visualization
+for this report is accomplished via the R package gfplot, which the authors
+developed for this purpose. The specific layout and tools needed to make this
+report are created with a second R package, gfsynopsis. Both packages (but not
+the data itself) are
 publicly available on GitHub:\\
 \url{https://github.com/pbs-assess/gfplot}\\
 \url{https://github.com/pbs-assess/gfsynopsis}.
