@@ -4,6 +4,33 @@ The trawl and longline survey relative biomass index trends are derived from the
 same design-based bootstrap approach used in recent BC groundfish stock
 assessment reports. Details to follow.
 
+\subsection{SURVEY METHODS} \label{sec:survey-methods}
+
+Survey design and methods for the various surveys referenced in this report can
+be found in the following documents:
+
+\begin{resdoclist}
+
+\item Synoptic Survey, Queen Charlotte Sound -  \citep{williams2018synqcs}
+
+\item Synoptic Survey, West Coast Vancouver Island - \citep{williams2017synwcvi}
+
+\item Synoptic Survey, Hecate Strait - \citep{nottingham2018synhs}
+
+\item Synoptic Survey, West Coast Haida Gwaii - \citep{nottingham2018synwchg}
+
+\item Hardbottom Longline Survey, Inside - \citep{lochead2004irf}
+
+\item Hardbottom Longline Survey, Outside - \citep{dfo2018ifmp}
+
+\item International Pacific Halibut Commission - \citep{flemming2012iphc}
+
+\item Hecate Strait Multispecies Assemblage Survey - \citep{fargo1984hsmsa};
+  \citep{westrheim1984hsmsa}
+
+\end{resdoclist}
+
+
 \subsection{SPATIAL MODELLING OF SURVEY BIOMASS} \label{sec:spatial-modeling}
 
 <<map-details, child='map-details.Rnw'>>=
