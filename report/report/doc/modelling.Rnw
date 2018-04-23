@@ -124,28 +124,6 @@ mature. We only fit these models if there are at least 20 mature males, 20
 immature males, 20 mature females, and 20 immature females to ensure reasonably
 representative sampling insufficient sample sizes.
 
-\subsection{LENGTH-WEIGHT MODELS} \label{sec:length-weight-models}
-
-We fit the length-weight models as robust linear regressions of log(length) on
-log(weight) using the \texttt{MASS::rlm()} function. This approach downweights
-the influence of outlying values and helps generate reasonable model fits across
-all species without handpicking outlying measurements to discard. The model can
-be written as:
-
-\begin{equation}
-  W_i = a \cdot L_i^b \cdot e_i,
-\end{equation}
-with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $e_i$
-representing error that is given some distribution such as lognormal or Gamma.
-The variables $a$ and $b$ the estimated length-weight parameters.
-Following the common convention, we fit the model as:
-\begin{equation}
-  \log (W_i) \sim \mathcal{N} (\log (a + b L_i), \sigma),
-\end{equation}
-with a robust algorithm being substituted for the usual normal distribution as
-written here.
-
-
 \subsection{LENGTH-AGE MODELS} \label{sec:length-age-models}
 
 We fit the von Bertalanffy length-age models with Stan as:
@@ -176,4 +154,26 @@ adjust the optimization procedure on a stock-by-stock basis. For speed, the
 model fits shown in this synopsis report are derived from the mode of the
 marginal posterior distributions (MPD) as opposed to from full Markov chain
 Monte Carlo (MCMC) sampling.
+
+\subsection{LENGTH-WEIGHT MODELS} \label{sec:length-weight-models}
+
+We fit the length-weight models as robust linear regressions of log(length) on
+log(weight) using the \texttt{MASS::rlm()} function. This approach downweights
+the influence of outlying values and helps generate reasonable model fits across
+all species without handpicking outlying measurements to discard. The model can
+be written as:
+
+\begin{equation}
+  W_i = a \cdot L_i^b \cdot e_i,
+\end{equation}
+with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $e_i$
+representing error that is given some distribution such as lognormal or Gamma.
+The variables $a$ and $b$ the estimated length-weight parameters.
+Following the common convention, we fit the model as:
+\begin{equation}
+  \log (W_i) \sim \mathcal{N} (\log (a + b L_i), \sigma),
+\end{equation}
+with a robust algorithm being substituted for the usual normal distribution as
+written here.
+
 

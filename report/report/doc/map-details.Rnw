@@ -1,14 +1,17 @@
-We fit geostatistical models to predict relative biomass of each species in
-space along the BC coast using data from the various synoptic trawl and longline
-surveys (e.g.~Figure~\ref{fig:survey-maps}). Our modeling approach is consistent
-with recent models used for spatiotemporal index standardization of fish
-populations \citep[e.g.][]{shelton2014,ward2015,thorson2015,thorson2016}. Such
-models have been shown to improve estimates of rockfish abundance and
-distribution \citep{shelton2014} and improve precision when estimating relative
-abundance indices for groundfish \citep{thorson2015}. Our specific model follows
-the implementation in \citet{shelton2018} closely and is currently implemented
-with INLA \citep{rue2009} via R \citep{rcoreteam2018}, which enables rapid
-Bayesian model fitting for these large spatial data sets.
+Using geostatistical models, we model the expected biomass density in space for
+each species using data from the synoptic bottom trawl surveys, the Outer Hard
+Bottom Long Line surveys (alternatively referred to as the, Pacific Halibut
+Management Association, PHMA, surveys), and the International Pacific Halibut
+Commission (IPHC) surveys (e.g.~Figure~\ref{fig:survey-maps}). Our modeling
+approach is consistent with recent models used for spatiotemporal index
+standardization of fish populations
+\citep[e.g.][]{shelton2014,ward2015,thorson2015,thorson2016}. Such models have
+been shown to improve estimates of rockfish abundance and distribution
+\citep{shelton2014} and improve precision when estimating relative abundance
+indices for groundfish \citep{thorson2015}. Our specific model follows the
+implementation in \citet{shelton2018} closely and is currently implemented with
+INLA \citep{rue2009} via R \citep{rcoreteam2018}, which enables rapid Bayesian
+model fitting for these large spatial data sets.
 
 At a high level, these models model the expected biomass in space as a
 continuous process with a quadratic effect for bottom depth and a residual

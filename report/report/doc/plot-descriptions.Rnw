@@ -86,7 +86,7 @@ g$survey_index
 map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the maps in the available space. Depth contours are shown at 100, 200, and 500m."
 @
 
-<<survey-maps, fig.asp=1.0, fig.width=6, out.width="5.0in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", sp, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Color shading indicates productions from a spatial model. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows predicted biomass density at the survey stations. Years on the left side of each plot indicate the year of the respective survey. ", map_text)>>=
+<<survey-maps, fig.asp=1.0, fig.width=6, out.width="5.0in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", sp, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Color shading indicates productions from a spatial model. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows predicted biomass density at the survey stations. Years on the left side of each plot indicate the year of the respective survey. See Section \\ref{sec:spatial-modeling} for details on the modeling approach. ", map_text)>>=
 gridExtra::grid.arrange(
   g$survey_spatial_syn,
   g$survey_spatial_hbll,
@@ -94,7 +94,6 @@ gridExtra::grid.arrange(
   nrow = 1)
 @
 
-We model the expected biomass density in space for each species using data from the synoptic bottom trawl surveys, the Outer Hard Bottom Long Line surveys (alternatively referred to as the, Pacific Halibut Management Association, PHMA, surveys), and the International Pacific Halibut Commission (IPHC) surveys.
 
 % Here I am fitting Bayesian generalized linear mixed effects models with Gaussian
 % random fields to estimate expected biomass density on the surface covering the
@@ -173,7 +172,7 @@ g$catch
 
 \subsection{COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES}
 
-<<trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.6in", warning=FALSE, fig.cap=paste0("Example commercial bottom trawl catch per unit effort trends for ", sp, ". Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort trend standardized for depth, latitude, DFO locality region, vessel, and month of year (see details in the text). The line itself represents the estimate and the shaded ribbon represents a 95\\% confidence interval.")>>=
+<<trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.6in", warning=FALSE, fig.cap=paste0("Example commercial bottom trawl catch per unit effort trends for ", sp, ". Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort trend standardized for depth, latitude, DFO locality region, vessel, and month of year (see details in Section \\ref{sec:cpue-models}). The line itself represents the estimate and the shaded ribbon represents a 95\\% confidence interval.")>>=
 g$cpue_index
 @
 
@@ -208,7 +207,7 @@ gridExtra::grid.arrange(
 
 \subsection{LENGTH COMPOSITION DATA}
 
-<<lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as colored (or black) bars and male fish are shown behind as light gray bars behind. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination.")>>=
+<<lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as colored (or black) bars and male fish are shown behind as light gray bars behind. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. These are raw unweighted proportions within each length been; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference.")>>=
 g$lengths
 @
 
@@ -216,7 +215,7 @@ g$lengths
 
 \subsection{AGE COMPOSITION DATA}
 
-<<ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as colored (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five year intervals to facilitate tracing cohorts of fish through time.")>>=
+<<ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as colored (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five year intervals to facilitate tracing cohorts of fish through time. These are raw unweighted proportions at age; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference.")>>=
 g$ages
 @
 
@@ -243,7 +242,7 @@ cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 g$maturity_month
 @
 
-<<maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age and length maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs.\ not mature. The solid black lines represent fits to the female fish and the dashed gray lines represent fits to the male fish. The vertical lines indicate the estimated age or at length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish.")>>=
+<<maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age and length maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs.\ not mature. The solid black lines represent fits to the female fish and the dashed gray lines represent fits to the male fish. The vertical lines indicate the estimated age or at length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to samples from the entire year. See Section \\ref{sec:maturity-models} for details.")>>=
 cowplot::plot_grid(g$mat_age, g$mat_length, align = "v")
 @
 
