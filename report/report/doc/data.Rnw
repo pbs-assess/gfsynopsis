@@ -3,99 +3,102 @@ archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science
 Branch, Pacific Region) and housed in a number of relational databases.
 Historical commercial catch and effort data from 1954--2006/2007 are housed in
 GFCatch, PacHarvTrawl, PacHarvHL, and PacHarvSable, depending on the fishery and
-time period.
-Modern (2006/2007 to present) commercial catch data are housed in GFFOS, a
-groundfish-specific view of the Fishery Operations System (FOS) database
-(Fisheries and Oceans Canada, Fisheries and Aquaculture Management, Pacific
-Region).
-Research survey data and commercial biological data from the 1940s to
-present are housed in GFBio, the Groundfish Biological Samples database.
+time period. Modern (2006/2007 to present) commercial catch data are housed in
+GFFOS, a groundfish-specific view of the Fishery Operations System (FOS)
+database (Fisheries and Oceans Canada, Fisheries and Aquaculture Management,
+Pacific Region). Research survey data and commercial biological data from the
+1940s to present are housed in GFBio, the Groundfish Biological Samples
+database.
 
-We developed a package \textbf{gfplot} for the statistical software R to automate
-data extraction from these databases in a consistent, reproducible manner.
-The functions extract data using SQL queries, developed with support from
-the Groundfish Data Unit, which select and filter for specific data depending on
-the analyses for which they will be used.
+We developed a package gfplot for the statistical software R to automate data
+extraction from these databases in a consistent, reproducible manner. The
+functions extract data using SQL queries, developed with support from the
+Groundfish Data Unit, which select and filter for specific data depending on the
+analyses for which they will be used. The SQL file names mentioned in the
+section can be viewed at
+\url{https://github.com/pbs-assess/gfplot/tree/master/inst/sql} and may be
+archived in the final version of this document.
 
-Commercial catch data are extracted with \texttt{get-catch.sql}.
-All landings and discards are extracted by species, fishery sector, gear type
-and year, and are not filtered in any further way.
+We extracted commercial catch with \texttt{get-catch.sql}. All landings and
+discards are extracted by species, fishery sector, gear type and year, and are
+not filtered in any further way.
 
-Commercial trawl catch per unit effort (CPUE) index data are
-extracted using \texttt{get-cpue-index.sql} and are filtered to include only
-records with valid start and end dates (Table~\ref{tab:sql-cpue-index}).
-Catch (kg) and effort (expressed in hours), year, gear type and Pacific Fishery
-Management Area (PFMA) are extracted for each tow.
-Gear type, PFMA and minimum year are given as arguments and are set at defaults
-of bottom trawl, all areas and 1996, respectively.
-
-Commercial trawl spatial CPUE data are extracted using
-\texttt{get-cpue-spatial.sql}, pulling out latitude, longitude, gear type,
-catch (kg) and tow time (hours) for every tow by species.
-The data are filtered to extract only records with valid start and end dates, to
-remove records with erroneous latitude and longitude values, and to include only
-records from the groundfish trawl sector with positive tows since 2012 when the
-trawl footprint was implemented (Table~\ref{tab:sql-cpue-spatial}).
-Species names are given as an argument to the function.
-
-Commercial hook and line spatial CPUE data are extracted using
-\texttt{get-cpue-spatial-ll.sql} which pulls out latitude and longitude, gear
-type, catch (pieces) and years for all fishing events (sets, as a unit of
-effort) by species.
-The data are filtered to extract only records with valid start and end dates, to
-remove records with erroneous latitude and longitude values, and to only include
-records with hook and line gear with non-zero catch.
-Data include all records since 2008 after implementation of the integrated
-groundfish management plan (Table~\ref{tab:sql-cpue-spatial-ll}).
-CPUE is represented by landed catch in pieces per fishing event (set).
-Discards are not included in hook and line spatial CPUE as discarded pieces are
-not reliably recorded.
-Species names are given as an argument to the function.
-
-Survey biomass index data are extracted with \texttt{get-survey-index.sql}.
-Calculated bootstrapped biomass, year and survey series identification code
-(SSID) are filtered for active records of the calculated biomass in the
-database (Table~\ref{tab:sql-survey-index}).
-Species and SSID codes are given as arguments to the function.
-
-Biological data are extracted using \texttt{get-survey-samples.sql} and
-\texttt{get-comm-samples.sql} for research survey and commercial samples,
+We extracted commercial trawl catch per unit effort (CPUE) index data using
+\texttt{get-cpue-index.sql} and we filter the data to include only records with
+valid start and end dates (Table~\ref{tab:sql-cpue-index}). Catch (kg) and
+effort (expressed in hours), year, gear type and Pacific Fishery Management Area
+(PFMA) are extracted for each tow. Gear type, PFMA and minimum year are given as
+arguments and are set at defaults of bottom trawl, all areas, and 1996,
 respectively.
-Records of all biological samples are extracted by species, including
-available length, weight, age and maturity data.
-Records include available metadata including PFMA, fishery, gear type, SSID and
-survey identification code (SID, only available for research survey data),
-survey sampling types, and sampling protocol codes for maturity and ageing data.
-Data are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
+
+We extracted commercial trawl spatial CPUE data using
+\texttt{get-cpue-spatial.sql}, pulling out latitude, longitude, gear type, catch
+(kg) and tow time (hours) for every tow by species. The data are filtered to
+extract only records with valid start and end dates, to remove records with
+erroneous latitude and longitude values, and to include only records from the
+groundfish trawl sector with positive tows since 2012 when the trawl footprint
+was implemented (Table~\ref{tab:sql-cpue-spatial}).
+
+We extracted commercial hook and line spatial CPUE data using
+\texttt{get-cpue-spatial-ll.sql}, which pulls out latitude and longitude, gear
+type, catch (pieces) and years for all fishing events (sets, as a unit of
+effort) by species. The data are filtered to extract only records with valid
+start and end dates, to remove records with erroneous latitude and longitude
+values, and to only include records with hook and line gear with non-zero catch.
+Data include all records since 2008 after implementation of the Integrated
+Groundfish Management Plan (Table~\ref{tab:sql-cpue-spatial-ll}). CPUE is
+represented by landed catch in pieces per fishing event (set). Discards are not
+included in hook and line spatial CPUE because discarded pieces are not reliably
+recorded in all years. Species names are given as an argument to the function.
+
+We extracted survey biomass index data \texttt{get-survey-index.sql}. Calculated
+bootstrapped biomass, year and survey series identification code (SSID) are
+filtered for active records of the calculated biomass in the database
+(Table~\ref{tab:sql-survey-index}). Species and SSID codes are given as
+arguments to the function.
+
+We extracted biological data using \texttt{get-survey-samples.sql} and
+\texttt{get-comm-samples.sql} for research survey and commercial samples,
+respectively. Records of all biological samples are extracted by species,
+including available length, weight, age and maturity data. Records include
+available metadata including PFMA, fishery, gear type, SSID and survey
+identification code (SID, only available for research survey data), survey
+sampling types, and sampling protocol codes for maturity and ageing data. Data
+are filtered by the \texttt{TRIP\_SUBTYPE\_CODE} to extract either survey
 (Table~\ref{tab:sql-surv-samp}) or commercial (Table~\ref{tab:sql-comm-samp})
-samples.
-In addition, samples are designated as one of three sample descriptions based on
-combinations of two codes relating to sampling protocols:
+samples. In addition, samples are designated as one of three sample descriptions
+based on combinations of two codes relating to sampling protocols:
 \texttt{SPECIES\_CATEGORY\_CODE} (Table~\ref{tab:spp-cat}) and
 \texttt{SAMPLE\_SOURCE\_CODE} (Table~\ref{tab:samp-source}). Samples can be
 designated as `unsorted samples' in which data were collected for all specimens
 in the sample, or `sorted samples' where specimens were sorted or selected into
-`keepers' which were sampled and `discards' which were not sampled.
+`keepers', which were sampled, and `discards' which were not sampled:
 
-Specimens with a species category code of 0 are of unknown species category and
-are not useable. Those with a species category code of 1 (unsorted) and a
-sample source code of 0 (unknown) or 1 (unsorted), or with a species
-category code of 5 (remains) or 6 (fish heads only) and a sample source code
-of 1 (unsorted) are classified as 'unsorted'.
+\begin{resdoclist}
 
-Specimens with a sample source code of 2 (keepers) and a species category code
-of 1 (unsorted), 2 (sorted) or 3 (keepers), or with a species category
-code of 3 (keepers) and a sample source code of 1 (unsorted) are classified
-as 'keepers'.
+\item Specimens with a species category code of 0 are of unknown species
+  category and are not useable. Those with a species category code of 1
+  (unsorted) and a sample source code of 0 (unknown) or 1 (unsorted), or with a
+  species category code of 5 (remains) or 6 (fish heads only) and a sample
+  source code of 1 (unsorted) are classified as `unsorted'.
 
-Specimens with a species category code of 4 (discards) and a sample source
-code of 1 (unsorted) or 3 (discards), or a sample source code of 3 (discards)
-and a species category code of 1 (unsorted) are 'discards'
+\item Specimens with a sample source code of 2 (keepers) and a species category
+  code of 1 (unsorted), 2 (sorted) or 3 (keepers), or with a species category
+  code of 3 (keepers) and a sample source code of 1 (unsorted) are classified as
+  `keepers'.
 
-All samples are extracted and can be filtered to allow anaylysis on all samples
-or on only unsorted samples to remove bias from inclusion of sorted samples.
-Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} to extract only total or
-random samples.
+\item Specimens with a species category code of 4 (discards) and a sample source
+  code of 1 (unsorted) or 3 (discards), or a sample source code of 3 (discards)
+  and a species category code of 1 (unsorted) are `discards'.
+
+\end{resdoclist}
+
+% All samples are extracted and can be filtered to allow analysis on all samples
+% or on only unsorted samples to remove bias from inclusion of sorted samples.
+% Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} to extract only total or
+% random samples.
+
+In the synopsis report, we are only including unsorted biological samples.
 
 The ageing precision data are extracted with \texttt{get-age-precision.sql}.
 Data are filtered to bring in only records for which a secondary (precision)

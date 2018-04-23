@@ -1,5 +1,3 @@
-TODO After this introduction, we provide complete figure captions for each of the visualizations that form the synopsis report. 
-
 <<knitr-opts, echo=FALSE, cache=FALSE>>=
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -43,9 +41,11 @@ checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
   inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
 @
 
+In this section we provide complete figure captions for each of the
+visualizations that form the species-by-species synopsis report in
+Section~\ref{sec:plot-pages} We use \Sexpr{sp} as an example species.
 
 % ---------------------------------------------------------------------
-\clearpage
 
 \subsection{RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS}
 

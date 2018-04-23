@@ -1,7 +1,7 @@
 \subsection{SURVEY RELATIVE BIOMASS INDEX TRENDS} \label{sec:survey-trend-models}
 
 The trawl and longline survey relative biomass index trends are derived from the
-same design-based bootstrap approach used in any recent BC groundfish stock
+same design-based bootstrap approach used in recent BC groundfish stock
 assessment reports. Details to follow.
 
 \subsection{SPATIAL MODELLING OF SURVEY BIOMASS} \label{sec:spatial-modeling}
@@ -21,25 +21,26 @@ assessments of using a Generalized Linear Model (GLM) to account for the
 confounding effects of month, depth, latitude, vessel, and DFO locality
 (predesignated historical geographical locations) when calculating an annual
 index value. We do this by fitting two GLMs: one to data representing whether or
-not the species of interest is caught in a given tow (the `binary' model),
+not the species of interest (e.g. Pacific Cod for a Pacific Cod CPUE index) is
+caught in a given tow (the `binary' model),
 and a second to data representing the CPUE conditional on a tow having caught
-any of the species of interest (the `lognormal' model). This approach is
-sometimes called a `delta-lognormal' GLM. These two model components can then be
+at least one of that species of interest (the `lognormal' model). This approach is
+sometimes called a delta-lognormal GLM. These two model components can then be
 combined to derive the final estimate of CPUE for a given year at a consistent
 value for all the predictors, i.e. a consistent month, depth, latitude, vessel,
 and DFO locality.
 
 Due to the multispecies nature of the BC groundfish fishery, it is necessary to
-define some rules to decide which vessels should be considered part of a `fleet'
+define rules about which vessels should be considered part of a `fleet'
 with which to calculate a CPUE index. We follow the approach used in a number of
 recent BC groundfish stock assessments by requiring vessel to have caught the
 species in a certain number of tows across all years of interest, and to have
 passed a certain threshold of positive trips (trips that recorded some of the
-species) for a certain number of years within a set of years of interest. Our
-current implementation requires a vessel to have recorded at least 100 positive
-tows since 1996 and to have recorded at least 4 positive trips in at least 4
-years since 1996. These decisions are in line with recent BC groundfish stock
-assessments \citep[e.g.][]{starr2017pollock}.
+species) for a certain number of years. Our current implementation requires a
+vessel to have recorded at least 100 positive tows since 1996 and to have
+recorded at least 4 positive trips in at least 4 years since 1996. These
+decisions are in line with recent BC groundfish stock assessments
+\citep[e.g.][]{starr2017pollock}.
 
 We fit the binomial model (denoted with a superscript $B$) as a logistic
 regression:
@@ -62,12 +63,13 @@ We fit the lognormal model (denoted with a superscript $L$) as a linear model
 fit to log-transformed response data:
 
 \begin{equation}
-  \log (y_i^L) \sim \mathcal{N}(\bm{X_i^L} \bm{\beta^L}, \sigma^2),
+  \log (y_i^L) \sim \mathcal{N}(\bm{X_i^L} \bm{\beta^L}, \sigma),
 \end{equation}
 
 where the symbols can be interpreted as before except that $y_i^L$ represents
 the CPUE in kg per hour towed for a tow that did catch at least one of the
-species, and $\sigma^2$ represents the variance of unexplained residual error.
+species, and $\sigma$ represents the standard deviation of unexplained residual
+error.
 
 We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as:
 
@@ -85,15 +87,14 @@ was caught.
 Recent BC groundfish stock assessments have used a bootstrap approach to derive
 estimates of uncertainty around standardized CPUE timeseries. This proved to be
 computationally unfeasible to run for all the management areas and stocks in
-this synopsis report. Therefore we wrote the model in TMB and use standard
-errors ($\mathrm{SE}$) as calculated by the statistical software TMB
-\citep{kristensen2016} on $\log (\mu_t)$ via the Delta method as is commonly
-done for these delta-lognormal models \citep[e.g.][]{thorson2015}. We then
-calculated the 95\% confidence intervals as $\exp (\mu_t \pm 1.96
-\mathrm{SE}_t)$.
+this synopsis report. Therefore we wrote the model in the statistical software
+TMB \citep{kristensen2016} and use standard errors ($\mathrm{SE}$) as calculated
+by TMB on $\log (\mu_t)$ via the Delta method as is commonly done for such
+models \citep[e.g.][]{thorson2015}. We then calculated the 95\% confidence
+intervals as $\exp (\mu_t \pm 1.96 \mathrm{SE}_t)$.
 
 We tested our implementation of this index standardization model against
-simulated data to ensure that (1) it can estimate unbiased annual estimate and
+simulated data to ensure that (1) it can generate unbiased annual estimates and
 (2) the confidence intervals have the correct coverage, i.e. the confidence
 intervals contain the true known value at the expected frequency of 95\%. We
 also compared our estimates to recent estimates from similar models in published
@@ -126,7 +127,8 @@ representative sampling in sufficient sample sizes.
 
 \subsection{LENGTH-AGE MODELS} \label{sec:length-age-models}
 
-We fit the von Bertalanffy length-age models with Stan as:
+We fit von Bertalanffy length-age growth models \citep{vonbertalanffy1938} with
+Stan \citep{rstan2018} as:
 
 \begin{equation}
   L_i \sim \operatorname{log-normal}
@@ -148,8 +150,7 @@ parameter. We fit the models with the following priors:
 where $\varphi$ was set to twice the 99\% quantile of observed lengths for that
 stock. This ensures that the $l_\mathrm{inf}$ prior is on an appropriate scale
 for a given stock. These weakly informative priors were helpful when fitting
-these nonlinear models to a large number of stocks where maximum likelihood
-methods can give nonsensical results for some stocks and it is difficult to
+these nonlinear models to a large number of stocks making it is difficult to
 adjust the optimization procedure on a stock-by-stock basis. For speed, the
 model fits shown in this synopsis report are derived from the mode of the
 marginal posterior distributions (MPD) as opposed to from full Markov chain
@@ -168,7 +169,7 @@ be written as:
 \end{equation}
 with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $e_i$
 representing error that is given some distribution such as lognormal or Gamma.
-The variables $a$ and $b$ the estimated length-weight parameters.
+The variables $a$ and $b$ represent the estimated length-weight parameters.
 Following the common convention, we fit the model as:
 \begin{equation}
   \log (W_i) \sim \mathcal{N} (\log (a + b L_i), \sigma),
