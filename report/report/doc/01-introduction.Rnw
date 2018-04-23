@@ -1,18 +1,21 @@
 The combination of fishery dependent data, such as catch and effort, and fishery
 independent survey data, such as biomass indices and age compositions, form the
-backbone of most fisheries stock assessments. Fisheries and Oceans Canada at the
-Pacific Biological Station manages vast quantities of such data on groundfish
-species in British Columbia. However, we (DFO Science Branch, Pacific Region
-stock assessment scientists) lack the capacity to conduct formal stock
+backbone of most fisheries stock assessment. Fisheries and Oceans Canada (DFO)
+at the Pacific Biological Station (PBS) manages vast quantities of such data on
+groundfish species in British Columbia. However, we (DFO Science Branch, Pacific
+Region stock assessment scientists) lack the capacity to conduct formal stock
 assessments for most stocks annually, and therefore, much of these data are not
-regularly published or readily accessible. The 'Data Synopsis Report' aims to
-give a snapshot of long-term and recent population and fishing trends and data
-availability for all major British Columbia groundfish stocks of commercial and
-conservation interest. The first publication of the report is included as part
-of this Research Document, and is planned to be published as a Science Response
-in subsequent years. The report generation is fully automated --- pulling data
-from databases, fitting models, generating visualizations, and stitching the
-document together to facilitate annual publication.
+regularly published or readily accessible. As one step to address this problem,
+we have created a data synopsis report to give a snapshot of long-term and
+recent population and fishing trends and data availability for all major British
+Columbia groundfish stocks of commercial and conservation interest. The report
+is an extension of the data scorecard concept discussed at a Canadian Science
+Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
+\citep{macdoughall2016}. We plan to publish this report as a CSAS Research
+Document in its first year and to update the report annually as a CSAS Science
+Response in subsequent years. The report generation is fully automated ---
+pulling data from databases, fitting models, generating visualizations, and
+stitching the document together to facilitate rapid publication.
 
 Our (the authors') goals with this report are to (1) facilitate groundfish
 scientists and managers regularly reviewing trends in survey indices and stock
