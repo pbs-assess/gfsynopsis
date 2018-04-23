@@ -14,7 +14,7 @@ We developed a package gfplot for the statistical software R to automate data
 extraction from these databases in a consistent, reproducible manner. The
 functions extract data using SQL queries, developed with support from the
 Groundfish Data Unit, which select and filter for specific data depending on the
-analyses for which they will be used. The SQL file names mentioned in the
+analyses for which they will be used. The SQL file names mentioned in this
 section can be viewed at
 \url{https://github.com/pbs-assess/gfplot/tree/master/inst/sql} and may be
 archived in the final version of this document.
