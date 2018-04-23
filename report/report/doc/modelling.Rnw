@@ -1,7 +1,7 @@
 \subsection{SURVEY RELATIVE BIOMASS INDEX TRENDS} \label{sec:survey-trend-models}
 
 The trawl and longline survey relative biomass index trends are derived from the
-same design-based bootstrap approach used in any recent BC groundfish stock
+same design-based bootstrap approach used in recent BC groundfish stock
 assessment reports. Details to follow.
 
 \subsection{SPATIAL MODELLING OF SURVEY BIOMASS} \label{sec:spatial-modeling}
@@ -21,10 +21,11 @@ assessments of using a Generalized Linear Model (GLM) to account for the
 confounding effects of month, depth, latitude, vessel, and DFO locality
 (predesignated historical geographical locations) when calculating an annual
 index value. We do this by fitting two GLMs: one to data representing whether or
-not the species of interest is caught in a given tow (the `binary' model),
+not the species of interest (e.g. Pacific Cod for a Pacific Cod CPUE index) is
+caught in a given tow (the `binary' model),
 and a second to data representing the CPUE conditional on a tow having caught
-any of the species of interest (the `lognormal' model). This approach is
-sometimes called a `delta-lognormal' GLM. These two model components can then be
+at least one of that species of interest (the `lognormal' model). This approach is
+sometimes called a delta-lognormal GLM. These two model components can then be
 combined to derive the final estimate of CPUE for a given year at a consistent
 value for all the predictors, i.e. a consistent month, depth, latitude, vessel,
 and DFO locality.

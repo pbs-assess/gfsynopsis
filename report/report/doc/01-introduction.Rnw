@@ -2,17 +2,17 @@ The combination of fishery dependent data, such as catch and effort, and fishery
 independent survey data, such as biomass indices and age compositions, form the
 backbone of most fisheries stock assessments. Fisheries and Oceans Canada at the
 Pacific Biological Station manages vast quantities of such data on groundfish
-species in British Columbia. However, we (DFO Science branch stock assessment
-scientists) lack the capacity to conduct formal stock assessments for most
-stocks annually, and therefore, much of these data are not regularly published
-or readily accessible. The 'Data Synopsis Report' aims to give a snapshot of
-long-term and recent population and fishing trends and data availability for all
-major British Columbia groundfish stocks of commercial and conservation
-interest. The first publication of the report is included as part of this
-Research Document, and is planned to be published as a Science Response in
-subsequent years. The report generation is fully automated --- pulling data from
-databases, fitting models, generating visualizations, and stitching the document
-together to facilitate annual publication.
+species in British Columbia. However, we (DFO Science Branch, Pacific Region
+stock assessment scientists) lack the capacity to conduct formal stock
+assessments for most stocks annually, and therefore, much of these data are not
+regularly published or readily accessible. The 'Data Synopsis Report' aims to
+give a snapshot of long-term and recent population and fishing trends and data
+availability for all major British Columbia groundfish stocks of commercial and
+conservation interest. The first publication of the report is included as part
+of this Research Document, and is planned to be published as a Science Response
+in subsequent years. The report generation is fully automated --- pulling data
+from databases, fitting models, generating visualizations, and stitching the
+document together to facilitate annual publication.
 
 Our (the authors') goals with this report are to (1) facilitate groundfish
 scientists and managers regularly reviewing trends in survey indices and stock
@@ -73,55 +73,56 @@ We made a number of overarching design decisions in structuring the report:
 \item The species are ordered according to the DFO species codes in GFBio, which
   are derived from the page numbers in \citet{hart1988}.
 
-\item Each species is displayed on two pages with the exact same layout.
-  We have limited the report to two pages per species so that all
-  plots can be laid out at once on a screen in a PDF. The data presentation is
-  dense, but we think there is great value in being able to compare all the data
-  for a particular species at once.
+\item Each species is displayed with the same layout to facilitate finding
+  a type of data, comparing stocks, and identifying missing data via empty
+  plots.
 
-\item Missing data is indicated by empty plots to facilitate assessing data
-  availability.
+\item We have limited the report to two pages per species so that all plots can
+  be laid out at once on a screen in a PDF. The data presentation is dense, but
+  we believe there is value in being able to compare all the data for a species
+  at once.
 
-\item The colours representing the various surveys are held constant across
-  across as many plots as possible to facilitate tracing a single survey
-  throughout the plots.
+\item The colours representing the various surveys are held constant to
+  facilitate tracing a single survey throughout the plots.
 
 \item The colour scales are consistent for the survey maps and survey biological
   specimen number plots and for the commercial catch per unit effort maps and
-  commercial biological specimen number plots.
+  commercial biological specimen number plots (the bottom plots on both pages).
 
 \item Data on female fish are always shown in front of data on male fish and
   are either coloured or black whereas males are always indicated with light
-  gray.
+  gray. We did this to focus mainly on female fish, which are often more
+  important in stock assessment models.
 
 \end{resdoclist}
 
 \subsection{CAVEATS}
 
-There are many important caveats when interpreting this report. First, the
-synopsis report is not intended to be a substitute for stock assessment. For
-example, although relative biomass indices from surveys can indicate the general
-trend of biomass for a species in an area, such information is best combined
-with other information such as removals by commercial catches and information on
-the age- or length-composition of the stock to make conclusions about about the
-status of a stock.
+There are many caveats when interpreting this report. First, the synopsis report
+is not intended to be a substitute for stock assessment. For example, although
+relative biomass indices from surveys can indicate the biomass trend for
+a species in an area, such information is best combined with other information
+such as removals by commercial catches and information on the age- or
+length-composition of the stock to make conclusions about about the status of
+a stock.
 
 Second, biomass indices from trawl or longline surveys and commercial catch per
 unit effort indices need careful interpretation on a stock-by-stock basis. We
 have attempted to flag survey index trends that may be especially suspect either
 because of high survey variability or because of a small fraction of trawl or
 long line sets containing the species, but this is not a guarantee in itself.
-Survey indices are not always representative of abundance for a variety of reasons
---- changes through time, including fish behavioural changes, could also result
-in biases through time. Commercial catch per unit effort (CPUE) timeseries, even
-when standardized for consistent time of year, depth, latitude, and vessel need
-to be considered even more carefully. There are a multitude of reasons why
-commercial CPUE trends may not represent underlying trends in abundance
-\citep[e.g.][]{harley2001}.
+Survey indices are not always representative of abundance for a variety of
+reasons --- changes through time, including fish behavioural changes, could also
+result in biases through time. Commercial catch per unit effort (CPUE)
+timeseries, even when standardized for consistent time of year, depth, latitude,
+and vessel need to be considered even more carefully. There are a multitude of
+reasons why commercial CPUE trends may not represent underlying trends in
+abundance \citep[e.g.][]{harley2001}. Nonetheless, we think there is value in
+transparently displaying the available data for all species.
 
 To be continued \ldots
 
-\subsection{GFPLOT AND GFSYNOPSIS PACKAGES}
+\subsection{GFPLOT AND GFSYNOPSIS R PACKAGES}
 
 As stated above, one goal of this report is to generate standardized data sets,
 model fits, and visualizations to facilitate stock assessment. We intend for the

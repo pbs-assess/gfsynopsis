@@ -80,6 +80,13 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 
 \section{SYNOPSIS PLOTS} \label{sec:plot-pages}
 
+This section contains of the main species-by-species data visualizations. Each
+species is shown on two pages with the same layout used throughout. See
+Section~\ref{sec:doc-background} for figure captions. The species are ordered
+according to DFO species codes, which are the page numbers in \citet{hart1988}.
+The table of contents at the beginning of the document includes links to the
+various species pages.
+
 <<plots, child='doc/02-plots.Rnw'>>=
 @
 
