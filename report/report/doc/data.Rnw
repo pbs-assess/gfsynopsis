@@ -19,11 +19,11 @@ section can be viewed at
 \url{https://github.com/pbs-assess/gfplot/tree/master/inst/sql} and may be
 archived in the final version of this document.
 
-We extract commercial catch with \texttt{get-catch.sql}. All landings and
+We extracted commercial catch with \texttt{get-catch.sql}. All landings and
 discards are extracted by species, fishery sector, gear type and year, and are
 not filtered in any further way.
 
-We extract commercial trawl catch per unit effort (CPUE) index data using
+We extracted commercial trawl catch per unit effort (CPUE) index data using
 \texttt{get-cpue-index.sql} and we filter the data to include only records with
 valid start and end dates (Table~\ref{tab:sql-cpue-index}). Catch (kg) and
 effort (expressed in hours), year, gear type and Pacific Fishery Management Area
@@ -31,7 +31,7 @@ effort (expressed in hours), year, gear type and Pacific Fishery Management Area
 arguments and are set at defaults of bottom trawl, all areas, and 1996,
 respectively.
 
-We extract commercial trawl spatial CPUE data using
+We extracted commercial trawl spatial CPUE data using
 \texttt{get-cpue-spatial.sql}, pulling out latitude, longitude, gear type, catch
 (kg) and tow time (hours) for every tow by species. The data are filtered to
 extract only records with valid start and end dates, to remove records with
@@ -39,7 +39,7 @@ erroneous latitude and longitude values, and to include only records from the
 groundfish trawl sector with positive tows since 2012 when the trawl footprint
 was implemented (Table~\ref{tab:sql-cpue-spatial}).
 
-We extract commercial hook and line spatial CPUE data using
+We extracted commercial hook and line spatial CPUE data using
 \texttt{get-cpue-spatial-ll.sql}, which pulls out latitude and longitude, gear
 type, catch (pieces) and years for all fishing events (sets, as a unit of
 effort) by species. The data are filtered to extract only records with valid
@@ -51,13 +51,13 @@ represented by landed catch in pieces per fishing event (set). Discards are not
 included in hook and line spatial CPUE because discarded pieces are not reliably
 recorded in all years. Species names are given as an argument to the function.
 
-We extract survey biomass index data \texttt{get-survey-index.sql}. Calculated
+We extracted survey biomass index data \texttt{get-survey-index.sql}. Calculated
 bootstrapped biomass, year and survey series identification code (SSID) are
 filtered for active records of the calculated biomass in the database
 (Table~\ref{tab:sql-survey-index}). Species and SSID codes are given as
 arguments to the function.
 
-We extract biological data using \texttt{get-survey-samples.sql} and
+We extracted biological data using \texttt{get-survey-samples.sql} and
 \texttt{get-comm-samples.sql} for research survey and commercial samples,
 respectively. Records of all biological samples are extracted by species,
 including available length, weight, age and maturity data. Records include

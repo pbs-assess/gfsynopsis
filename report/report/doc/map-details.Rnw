@@ -13,25 +13,36 @@ implementation in \citet{shelton2018} closely and is currently implemented with
 INLA \citep{rue2009} via R \citep{rcoreteam2018}, which enables rapid Bayesian
 model fitting for these large spatial data sets.
 
-At a high level, these models model the expected biomass in space as a
-continuous process with a quadratic effect for bottom depth and a residual
-`random effect' wiggly surface that represents an amalgamation of other spatial
-processes not explicitly included in the model. This random effect surface
-allows for the fact that fish biomass should be more related for points in space
-closer together and less related for those further away. After fitting the model
-to sets from trawl or longline surveys the model is then projected to a
-fine-scale grid over the entirety of the survey domain to drive estimates of
-biomass throughout the survey domain.
+At a high level, these models predict relative biomass in space as a continuous
+process with a quadratic effect for bottom depth and a residual random effect
+`wiggly' surface that represents an amalgamation of other spatial processes not
+explicitly included in the model. This random effect surface allows for the fact
+that fish biomass should be more related for points in space closer together and
+less related for those further away. After fitting the model to sets from trawl
+or longline surveys, the model is then projected to a fine-scale 2$\times$2 km
+grid in a UTM 9 projection to derive estimates of biomass throughout the survey
+domain.
 
 Similarly to the catch per unit effort index standardization (explained in
 Section \ref{sec:cpue-models}), we fit these models as `delta' models that
-combine a model explaining the probability of presence of a species in a tow
-with a model explaining the expected biomass in a tow given that it has been
-caught. The probability from the first model is multiplied by the expected
+combine a model explaining the probability of presence of a species in a set
+with a model explaining the expected biomass in a set given that the species has
+been caught. The probability from the first model is multiplied by the expected
 biomass from the second model to derive the overall estimate of relative
 biomass.
 
-Details to follow on the implementation. See
+We have fit the four synoptic survey data sets separately, partly because only
+two of the surveys are conducted each year. We then combine the predictions to
+generate the map plot, but label the years the various surveys were conducted
+in. Currently, we are fitting the HBLL surveys as one dataset, although we plan
+to separate the north and south surveys since they are also conducted in offset
+years. We have projected the IPCC model estimates back to the original station
+locations, but we could instead project them onto a similar fine-scale grid as
+for the other surveys.
+
+More details to follow on the implementation.
+
+See
 Figures~\ref{fig:example-survey-maps-syn} and \ref{fig:example-survey-maps-hbll}
 for examples of these sub-component binary and positive models and the combined
 model.
