@@ -82,7 +82,7 @@ We made a number of overarching design decisions in structuring the report:
 \item Missing data is indicated by empty plots to facilitate assessing data
   availability.
 
-\item The colors representing the various surveys are held constant across
+\item The colours representing the various surveys are held constant across
   across as many plots as possible to facilitate tracing a single survey
   throughout the plots.
 
