@@ -141,12 +141,16 @@ the data itself) are publicly available on GitHub:\\
 
 \subsection{ACKNOWLEDGEMENTS}
 
-We thank the project's steering committee (Greg Workman, Robyn Forrest, Dana
-Haggarty, Andrew Edwards, Chris Grandin, and Rob Kronlund for invaluable input
-into the report design and feedback throughout its production. We thank Norm
-Olsen, Maria Surry, and Malcolm Wyeth for providing support on data extraction
-and general database structure and content. We thank Christie Whelan for her
-support initiating this project. Finally, we are grateful for the ongoing
-collaboration with commercial fishermen, First Nations, and non-governmental
-organizations, which has made the collection of the valuable data that underlies
-this report possible.
+We are grateful for the ongoing collaboration between DFO, commercial fishers,
+First Nations, and non-governmental organizations, which has made the collection
+of the valuable data that underlies this report possible. We thank the project's
+steering committee (Greg Workman, Robyn Forrest, Dana Haggarty, Andrew Edwards,
+Chris Grandin, and Rob Kronlund) for invaluable input into the report design and
+feedback throughout its production. We thank Christie Whelan for her support
+initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for
+providing support on data extraction and general database structure and content.
+We thank the participants of the peer review meeting on tiered approaches in May
+2016, which included a data scorecard by Norm Olsen, from which this report
+takes inspiration. We also think Norm Olsen for his work on GFASTeR, which parts
+of the code for this project are based on.
+
