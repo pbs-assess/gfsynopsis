@@ -138,3 +138,16 @@ the data itself) are publicly available on GitHub:\\
 \url{https://github.com/pbs-assess/gfplot}\\
 \url{https://github.com/pbs-assess/gfsynopsis}.
 
+\subsection{ACKNOWLEDGEMENTS}
+
+This project could not have been pulled together without the contributions of a
+number of people and groups. We would like to thank the project's steering
+committee (Greg Workman, Robyn Forrest, Dana Haggarty, Andrew Edwards, Chris
+Grandin and Rob Kronlund for invaluable input into the report design and
+feedback throughout it's production. We thank Norm Olsen, Maria Surry and
+Malcolm Wyeth in the Groundfish Data Section for providing support on data
+extraction and general database structure and content. We would like to thank
+Christie Whelan for her support initiating this project. And finally, we are
+grateful for the collaboration with commercial fishermen, First Nations and non-
+governmental organizations with whom we have collected valuable data from which
+this project benefits immensely.
