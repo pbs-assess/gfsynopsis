@@ -92,7 +92,7 @@ for (i in seq_along(spp$species_common_name)) {
 })
 
 # ------------------------------------------------------------
-temp <- lapply(spp$species_common_name[3:4], function(x) {
+temp <- lapply(spp$species_common_name[c(1, 17, 19)], function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   spp_title <- gfsynopsis:::all_cap(x)
   out <- list()

@@ -30,7 +30,7 @@
 \newcommand{\rdTitle}{A Data Synopsis Report for British Columia Groundfish}
 
 % Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
-\newcommand{\rdAuth}{S.C. Anderson\textsuperscript{1}, E.A.
+\newcommand{\rdAuth}{Sean C. Anderson\textsuperscript{1}, Elise .A.
 Keppel\textsuperscript{1}, A.A. Other Possible Authors Here}
 
 % Author names reversed separated by commas in the format 'Grinnell, M.H.'
