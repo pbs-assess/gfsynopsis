@@ -89,7 +89,7 @@ in the sample, or `sorted samples' where specimens were sorted or selected into
 
 \item Specimens with a species category code of 4 (discards) and a sample source
   code of 1 (unsorted) or 3 (discards), or a sample source code of 3 (discards)
-  and a species category code of 1 (unsorted) are `discards'
+  and a species category code of 1 (unsorted) are `discards'.
 
 \end{resdoclist}
 
