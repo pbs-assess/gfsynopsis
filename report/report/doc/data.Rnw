@@ -93,12 +93,21 @@ in the sample, or `sorted samples' where specimens were sorted or selected into
 
 \end{resdoclist}
 
-% All samples are extracted and can be filtered to allow analysis on all samples
-% or on only unsorted samples to remove bias from inclusion of sorted samples.
-% Data are also filtered by \texttt{SAMPLE\_TYPE\_CODE} to extract only total or
-% random samples.
+In the synopsis report, we are only including unsorted biological samples. Data
+are also filtered by \texttt{SAMPLE\_TYPE\_CODE} to extract only total or random
+samples and exclude samples selected by specified criteria.
 
-In the synopsis report, we are only including unsorted biological samples.
+Age data extracted with the biological sample queries are filtered by
+\texttt{AGEING\_METHOD\_CODE} to select current ageing methods verified with the
+ageing lab at the Pacific Biological Station in order to remove experimental
+ageing methods that may also be recorded in the database.
+
+Maturity codes are assigned at the time of sampling following one of
+conventions. The various conventions have different scales and classifications.
+We worked with the survey staff, data team and biologists for the various taxa
+to select which codes at and above which an individual fish is considered
+'mature' in order to assign a maturity status to each specimen based on a
+combination of maturity convention, maturity code and sex.
 
 The ageing precision data are extracted with \texttt{get-age-precision.sql}.
 Data are filtered to bring in only records for which a secondary (precision)
