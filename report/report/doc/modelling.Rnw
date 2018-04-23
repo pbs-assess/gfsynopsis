@@ -21,8 +21,8 @@ assessments of using a Generalized Linear Model (GLM) to account for the
 confounding effects of month, depth, latitude, vessel, and DFO locality
 (predesignated historical geographical locations) when calculating an annual
 index value. We do this by fitting two GLMs: one to data representing whether or
-not the species of interest is caught in in a given tow (the `binary' model),
-and a second to data representing the CPUE conditional on a two having caught
+not the species of interest is caught in a given tow (the `binary' model),
+and a second to data representing the CPUE conditional on a tow having caught
 any of the species of interest (the `lognormal' model). This approach is
 sometimes called a `delta-lognormal' GLM. These two model components can then be
 combined to derive the final estimate of CPUE for a given year at a consistent
@@ -78,7 +78,7 @@ We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as
 where $\bm{X_r}$ represents a vector of predictors set to the reference ($r$)
 levels with the year set to the year of interest. We chose the reference levels
 as the most frequent level of each predictor in the positive-only data
-\citep{maunder2004}. For example, we set the reference month as of the most
+\citep{maunder2004}. For example, we set the reference month as the most
 common month observed in the dataset filtered for only tows where the species
 was caught.
 
@@ -122,7 +122,7 @@ a binary predictor that is 1 if the fish is female and 0 if the fish is male.
 The parameter $\mu_i$ represents the expected probability of fish $i$ being
 mature. We only fit these models if there are at least 20 mature males, 20
 immature males, 20 mature females, and 20 immature females to ensure reasonably
-representative sampling insufficient sample sizes.
+representative sampling in sufficient sample sizes.
 
 \subsection{LENGTH-AGE MODELS} \label{sec:length-age-models}
 
