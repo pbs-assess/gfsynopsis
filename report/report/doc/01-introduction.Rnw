@@ -71,16 +71,16 @@ We made a number of overarching design decisions in structuring the report:
 \item The species are ordered according to the DFO species codes in GFBio, which
   are derived from the page numbers in \citet{hart1988}.
 
-\item Each species is displayed on two pages with the exact same layout.
-  We have limited the report to two pages per species so that all
-  plots can be laid out at once on a screen in a PDF. The data presentation is
-  dense, but we think there is great value in being able to compare all the data for
-  a particular species at once.
+\item Each species is displayed on two pages with the same layout. We have
+  limited the report to two pages per species so that all plots can be laid out
+  at once on a screen in a PDF. The data presentation is dense, but we think
+  there is value in being able to compare all the data for a particular species
+  at once.
 
 \item Missing data is indicated by empty plots to facilitate assessing data
   availability.
 
-\item The colors representing the various surveys are held constant across
+\item The colours representing the various surveys are held constant across
   across as many plots as possible to facilitate tracing a single survey
   throughout the plots.
 
