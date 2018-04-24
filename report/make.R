@@ -152,4 +152,4 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-writeLines(temp, con = "report/report/doc/02-plots.Rnw")
+# writeLines(temp, con = "report/report/doc/02-plots.Rnw")

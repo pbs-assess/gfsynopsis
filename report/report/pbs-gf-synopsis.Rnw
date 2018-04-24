@@ -106,6 +106,6 @@ various species pages.
 
 \clearpage
 
-\bibliography{spp-refs,synopsis}
+\bibliography{spp-refs,synopsis,survey-refs}
 
 \end{document}

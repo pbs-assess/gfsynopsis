@@ -100,14 +100,16 @@ samples and exclude samples selected by specified criteria.
 Age data extracted with the biological sample queries are filtered by
 \texttt{AGEING\_METHOD\_CODE} to select current ageing methods verified with the
 ageing lab at the Pacific Biological Station in order to remove experimental
-ageing methods that may also be recorded in the database.
+ageing methods that may also be recorded in the database
+(Table~\ref{tab:valid-age-methods}).
 
-Maturity codes are assigned at the time of sampling following one of
+Maturity codes are assigned at the time of sampling following one of the
 conventions. The various conventions have different scales and classifications.
-We worked with the survey staff, data team and biologists for the various taxa
+We worked with the survey staff, data team, and biologists for the various taxa
 to select which codes at and above which an individual fish is considered
-'mature' in order to assign a maturity status to each specimen based on a
-combination of maturity convention, maturity code and sex.
+`mature' in order to assign a maturity status to each specimen based on
+a combination of maturity convention, maturity code, and sex
+(Table~\ref{tab:mat-conv-codes}).
 
 The ageing precision data are extracted with \texttt{get-age-precision.sql}.
 Data are filtered to bring in only records for which a secondary (precision)
@@ -272,7 +274,7 @@ names(age_methods) <- c("Common name", "Scientific name", "Species code", "Aging
 @
 
 <<aging-method-table, results='asis'>>=
-print(xtable::xtable(age_methods, caption = "Ageing method codes from GFBio considered valid throughout the synopsis document for groundfish species in British Columbia. The ageing method codes were chosen with the help of the PBS Schlerochronology Lab. 1 $=$ `Otolith Surface Only', 3 $=$ ` Otolith Broken and Burnt', 17 $=$ `Otolith Broken and Baked (Break and Bake)', 6 $=$ `Dorsal Fin XS', 11 $=$ `Dorsal Spine', 12 $=$ `Vertebrae'."), include.rownames = FALSE,
+print(xtable::xtable(age_methods, caption = "Ageing method codes from GFBio considered valid throughout the synopsis document for groundfish species in British Columbia. The ageing method codes were chosen with the help of the PBS Schlerochronology Lab. 1 $=$ `Otolith Surface Only', 3 $=$ ` Otolith Broken and Burnt', 17 $=$ `Otolith Broken and Baked (Break and Bake)', 6 $=$ `Dorsal Fin XS', 11 $=$ `Dorsal Spine', 12 $=$ `Vertebrae'.", label = "tab:valid-age-methods"), include.rownames = FALSE,
   floating = TRUE, booktabs = TRUE, caption.placement = "top",
   sanitize.text.function = I)
 @
@@ -294,7 +296,7 @@ mat <- filter(mat, !`Maturity convention description` %in% "HAKE (1977+)")
 mat <- filter(mat, !`Maturity convention description` %in% "HAKE (U.S.)")
 mat <- filter(mat, !grepl("SABLEFISH", `Maturity convention description`))
 
-print(xtable::xtable(mat, caption = "Maturity convention codes (`Mat. conv. code'), maturity convention descriptions, sex, and the maturity convention value at which a fish is deemed to be mature for the purposes of the synopsis report. Note that fish may be considered mature at other maturity convention values in particular stock assessments where other values are chosen for specific reasons."), include.rownames = FALSE,
+print(xtable::xtable(mat, caption = "Maturity convention codes (`Mat. conv. code'), maturity convention descriptions, sex, and the maturity convention value at which a fish is deemed to be mature for the purposes of the synopsis report. Note that fish may be considered mature at other maturity convention values in particular stock assessments where other values are chosen for specific reasons.", label = "tab:mat-conv-codes"), include.rownames = FALSE,
   floating = TRUE, booktabs = TRUE, caption.placement = "top")
 @
 

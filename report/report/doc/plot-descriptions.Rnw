@@ -49,7 +49,24 @@ Section~\ref{sec:plot-pages} We use \Sexpr{sp} as an example species.
 
 \subsection{RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS}
 
-<<survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and colored shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or a less than 5\\% average positive sets (sets that caught the species of interest).")>>=
+<<make-surv-abbrev-text, eval=TRUE>>=
+dat_survey_index <- readRDS("../../data-cache2/pbs-survey-index.rds")
+survs <- c(
+  "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+  "HBLL OUT N",
+  "HBLL OUT S", "HBLL INS N", "HBLL INS S",
+  "MSA HS", "IPHC FISS")
+survs <- tibble(surv_order = seq_along(survs), survey_abbrev = survs)
+x <- inner_join(dat_survey_index, survs, by = "survey_abbrev") %>%
+  select(survey_series_desc, survey_abbrev, surv_order) %>%
+  unique() %>%
+  arrange(surv_order)
+x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
+surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
+@
+
+
+<<survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and colored shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or a less than 5\\% average positive sets (sets that caught the species of interest). ", surv_abbrev_text, ".")>>=
 g$survey_index
 @
 
@@ -183,7 +200,7 @@ gridExtra::grid.arrange(
 
 \subsection{LENGTH COMPOSITION DATA}
 
-<<lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as colored (or black) bars and male fish are shown behind as light gray bars behind. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. These are raw unweighted proportions within each length been; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference.")>>=
+<<lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as colored (or black) bars and male fish are shown behind as light gray bars behind. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. These are raw unweighted proportions within each length been; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference. See Figure \\ref{fig:survey-index} for survey abbreviations.")>>=
 g$lengths
 @
 
@@ -191,7 +208,7 @@ g$lengths
 
 \subsection{AGE COMPOSITION DATA}
 
-<<ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as colored (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five year intervals to facilitate tracing cohorts of fish through time. These are raw unweighted proportions at age; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference.")>>=
+<<ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as colored (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five year intervals to facilitate tracing cohorts of fish through time. These are raw unweighted proportions at age; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference. See Figure \\ref{fig:survey-index} for survey abbreviations.")>>=
 g$ages
 @
 
