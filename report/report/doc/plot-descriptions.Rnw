@@ -132,7 +132,7 @@ gridExtra::grid.arrange(
 
 \subsection{COMMERCIAL FISHERY CATCHES}
 
-<<catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap=paste0("Example commercial fishery catches plot for ", sp, ". Catch from various gear types is indicated by color shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, hook and line discards are mostly exluded from these data. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable.")>>=
+<<catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap=paste0("Example commercial fishery catches plot for ", sp, ". Catch from various gear types is indicated by color shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, hook and line discards are mostly exluded from these data. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006.")>>=
 g$catch
 @
 

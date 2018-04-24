@@ -30,11 +30,11 @@
 \newcommand{\rdTitle}{A Data Synopsis Report for British Columia Groundfish}
 
 % Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
-\newcommand{\rdAuth}{Sean C. Anderson\textsuperscript{1}, Elise .A.
-Keppel\textsuperscript{1}, A.A. Other Possible Authors Here}
+\newcommand{\rdAuth}{Sean C. Anderson\textsuperscript{1}, Elise A.
+Keppel\textsuperscript{1}, Other Possible Authors}
 
 % Author names reversed separated by commas in the format 'Grinnell, M.H.'
-\newcommand{\rdAuthRev}{Anderson, S.C., Keppel, E.A., Other, A.A}
+\newcommand{\rdAuthRev}{Anderson, S.C., Keppel, E.A., Other Possible Authors.}
 
 % Author addresses (use \textsuperscript{n})
 \newcommand{\rdAuthAddy}{
@@ -83,7 +83,7 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 This section contains the main species-by-species data visualizations. Each
 species is shown on two pages with the same layout used throughout. See
 Section~\ref{sec:doc-background} for figure captions. The species are ordered
-according to DFO species codes, which are the page numbers in \citet{hart1988}.
+according to DFO species codes.
 The table of contents at the beginning of the document includes links to the
 various species pages.
 
