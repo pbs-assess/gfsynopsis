@@ -39,7 +39,7 @@ make_pages <- function(
       "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
       "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
-  survey_map_outlier = 0.995
+  survey_map_outlier = 0.996
   ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)

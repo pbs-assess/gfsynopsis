@@ -42,7 +42,7 @@ of B-level species, which could easily be included as well.
 
 Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
-DFO species code which corresponds to the page number referencing the species in
+DFO species code, which usually corresponds to the page number referencing the species in
 \citet{hart1988}. We plan to include information on management of the stock and
 COSEWIC/SARA status soon. The figures themselves are laid out such that the
 first page has survey timeseries trends and spatial patterns on the left and
@@ -73,9 +73,6 @@ references are clickable hyperlinks to facilitate navigation.
 We made a number of overarching design decisions in structuring the report:
 
 \begin{resdoclist}
-
-\item The species are ordered according to the DFO species codes in GFBio, which
-  are derived from the page numbers in \citet{hart1988}.
 
 \item Each species is displayed with the same layout to facilitate finding
   a type of data, comparing stocks, and identifying missing data via empty
