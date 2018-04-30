@@ -1,11 +1,11 @@
 species_common_name,resdoc,sar,type_other_ref,other_ref
-north pacific spiny dogfish,taylor2011dogfish,dfo2010dogfish,,
-big skate,garcia2015biglongnoseskate,dfo2014biglongnoseskate,,
-longnose skate,garcia2015biglongnoseskate,dfo2014biglongnoseskate,,
+north pacific spiny dogfish,galluci2011dogfish,dfo2010dogfish,,
+big skate,king2015biglongnoseskate,dfo2014biglongnoseskate,,
+longnose skate,king2015biglongnoseskate,dfo2014biglongnoseskate,,
 pacific cod,forrest2015pcod,"dfo2015pcod5cd, dfo2015pcod5ab",,
 pacific hake,martell2009hake,dfo2003hake,,
 walleye pollock,starr2017pollock,dfo2018pollock,Pacific Stock Assessment PSARC,saunders1998pollock
-rougheye/blackspotted rockfish complex,haigh2005rougheyeblackspotted,dfo1999rougheye,Species at Risk Act Management Plan Series,dfo2012rougheyeblackspotted
+rougheye/blackspotted rockfish complex,haigh2005rougheye,dfo1999rougheye,Species at Risk Act Management Plan Series,dfo2012rougheyeblackspotted
 pacific ocean perch,"edwards2013pophg, edwards2014popwcvi, haigh2018popqcs","dfo2013popwcvihg, dfo2017popqcs",,
 redbanded rockfish,edwards2017redbanded,,,
 shortraker rockfish,schnute1999shortraker,dfo1999shortraker,,
@@ -23,7 +23,7 @@ yelloweye rockfish,"yamanaka2011yelloweyeinside, yamanaka2015yelloweyeoutside","
 shortspine thornyhead,starr2015shortspineidiots,dfo2016shortspineidiots,,
 longspine thornyhead,haigh2005longspineidiots,,Species at Risk Act Management Plan Series,dfo2012longspineidiots
 sablefish,,,,
-lingcod,"king2011lingOutside, holt2016ling","dfo2011lingOutside, dfo2015lingSOG",,
+lingcod,"king2011lingOutside, holt2016lingSOG","dfo2011lingOutside, dfo2015lingSOG",,
 arrowtooth flounder,grandin2017arrowtooth,dfo2015arrowtooth,,
 petrale sole,starr2009petrale,dfo1998petrale,,
 rex sole,,,,
