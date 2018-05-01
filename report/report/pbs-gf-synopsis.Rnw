@@ -27,7 +27,7 @@
 \newcommand{\rdNumber}{XXX}
 
 % Title
-\newcommand{\rdTitle}{A Data Synopsis Report for British Columia Groundfish}
+\newcommand{\rdTitle}{A Data Synopsis Report for British Columbia Groundfish}
 
 % Author names separated by commas and ', and' for the last author in the format 'M.H. Grinnell' (use \textsuperscript{n} for addresses)
 \newcommand{\rdAuth}{Sean C. Anderson\textsuperscript{1}, Elise A.

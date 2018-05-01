@@ -47,4 +47,4 @@ framed.sty
 inst/doc
 report/report/doc/02-plots.Rnw
 report/report/knit*
-
+report/report/*.rtf
