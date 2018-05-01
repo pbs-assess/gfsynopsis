@@ -24,6 +24,10 @@ dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
 # feather::write_feather(dat$cpue_index, file.path(dc, "pbs-cpue-index.feather"))
 dat$cpue_index      <- feather::read_feather(file.path(dc, "pbs-cpue-index.feather"))
 
+# TODO: temp:
+dat$catch$species_common_name <- gsub("^spiny dogfish$", "north pacific spiny dogfish",
+  dat$catch$species_common_name)
+
 # ------------------------------------------------------------
 spp <- get_spp_names()
 spp <- filter(spp, type == "A")
