@@ -5,7 +5,7 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...) {
     catch_all <- gfplot::tidy_catch(dat, areas = NULL)
     catch <- bind_rows(catch_all, catch_areas)
     catch$area <- factor(catch$area,
-      levels = c("Coastwide", "5AB", "5CDE", "3CD"))
+      levels = c("Coastwide", "5CDE", "5AB", "3CD"))
   } else {
     catch <- dat
   }

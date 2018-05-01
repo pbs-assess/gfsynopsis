@@ -15,7 +15,7 @@
 
 fit_cpue_indices <- function(dat,
   species = "pacific cod",
-  areas = c("3[CD]+|5[ABCDE]+", "5[AB]+", "5[CDE]+", "3[CD]+"), ...) {
+  areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"), ...) {
 
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
@@ -122,7 +122,7 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
       ) %>%
       arrange(area) %>%
       ungroup() %>%
-      mutate(area = factor(area, levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")))
+      mutate(area = factor(area, levels = c("3CD|5ABCDE", "5CDE", "5AB", "3CD")))
   }
   labs <- tibble(area = factor(levels(dat$area), levels = levels(dat$area)))
 
