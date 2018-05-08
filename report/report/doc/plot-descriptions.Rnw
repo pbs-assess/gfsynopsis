@@ -66,7 +66,7 @@ surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collaps
 @
 
 
-<<survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and coloured shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or a less than 5\\% average positive sets (sets that caught the species of interest). ", surv_abbrev_text, ".")>>=
+<<survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and coloured shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or a less than 5\\% average positive sets (sets that caught the species of interest). All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey.", surv_abbrev_text, ".")>>=
 g$survey_index
 @
 
