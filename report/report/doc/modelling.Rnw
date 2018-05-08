@@ -51,17 +51,31 @@ confounding effects of month, depth, latitude, vessel, and DFO locality
 index value. We do this by fitting two GLMs: one to data representing whether or
 not the species of interest (e.g. Pacific Cod for a Pacific Cod CPUE index) is
 caught in a given tow (the `binary' model),
-and a second to data representing the CPUE conditional on a tow having caught
+and a second model to data representing the CPUE conditional on a tow having caught
 at least one of that species of interest (the `lognormal' model). This approach is
 sometimes called a delta-lognormal GLM. These two model components can then be
 combined to derive the final estimate of CPUE for a given year at a consistent
 value for all the predictors, i.e. a consistent month, depth, latitude, vessel,
 and DFO locality.
 
+For depth and latitude, we binned the values into a sequence of bands to allow
+for nonlinear relationships between these predictors and the response. For
+latitude, we used bands that are 0.2 degrees wide, start at the 2\% quantile of
+the latitude values for the specific region and end at the 98\% quantile of the
+latitude values. We used this quantile method to algorithmically account for
+outlying values that were often data recording errors and could cause problems
+when fitting the models. We rounded the lowest latitude bin down to the nearest
+0.2 latitude value and rounded to the upper latitude bin up to the nearest 0.2
+  latitude value. For depth, we used the fishing capture depth binned into bands
+  that are 50m wide. The bins start at the 1\% quantile of the depth values for
+  the specific region and end at the 99\% quantile of the depth values. We
+  rounded the lowest and highest bin values to 50m values similarly to the
+  process for the latitude bins as described above.
+
 Due to the multispecies nature of the BC groundfish fishery, it is necessary to
 define rules about which vessels should be considered part of a `fleet'
 with which to calculate a CPUE index. We follow the approach used in a number of
-recent BC groundfish stock assessments by requiring vessel to have caught the
+recent BC groundfish stock assessments by requiring vessels to have caught the
 species in a certain number of tows across all years of interest, and to have
 passed a certain threshold of positive trips (trips that recorded some of the
 species) for a certain number of years. Our current implementation requires a
@@ -69,6 +83,7 @@ vessel to have recorded at least 100 positive tows since 1996 and to have
 recorded at least 4 positive trips in at least 4 years since 1996. These
 decisions are in line with recent BC groundfish stock assessments
 \citep[e.g.][]{starr2017pollock}.
+
 
 We fit the binomial model (denoted with a superscript $B$) as a logistic
 regression:
@@ -108,9 +123,10 @@ We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as
 where $\bm{X_r}$ represents a vector of predictors set to the reference ($r$)
 levels with the year set to the year of interest. We chose the reference levels
 as the most frequent level of each predictor in the positive-only data
-\citep{maunder2004}. For example, we set the reference month as the most
-common month observed in the dataset filtered for only tows where the species
-was caught.
+\citep{maunder2004}. For example, we set the reference month as the most common
+month observed in the dataset filtered for only tows where the species was
+caught. This will have a minor effect on the shape of the final CPUE index
+because of the multiplication of the binary and positive components.
 
 Recent BC groundfish stock assessments have used a bootstrap approach to derive
 estimates of uncertainty around standardized CPUE timeseries. This proved to be
@@ -187,10 +203,10 @@ Monte Carlo (MCMC) sampling.
 \subsection{LENGTH-WEIGHT MODELS} \label{sec:length-weight-models}
 
 We fit the length-weight models as robust linear regressions of log(length) on
-log(weight) using the \texttt{MASS::rlm()} function. This approach downweights
-the influence of outlying values and helps generate reasonable model fits across
-all species without handpicking outlying measurements to discard. The model can
-be written as:
+log(weight) using the \texttt{MASS::rlm()} function `M'-estimator method
+\citep{venables2002}. This approach downweights the influence of outlying values
+and helps generate reasonable model fits across all species without handpicking
+outlying measurements to discard. The model can be written as:
 
 \begin{equation}
   W_i = a \cdot L_i^b \cdot e_i,
