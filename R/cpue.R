@@ -15,7 +15,8 @@
 
 fit_cpue_indices <- function(dat,
   species = "pacific cod",
-  areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"), ...) {
+  areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
+  center = TRUE, ...) {
 
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
@@ -79,7 +80,7 @@ fit_cpue_indices <- function(dat,
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
-    p <- predict_cpue_index(x$model, center = TRUE)
+    p <- predict_cpue_index(x$model, center = center)
     p$area <- x$area
     p
   })
