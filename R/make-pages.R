@@ -39,7 +39,7 @@ make_pages <- function(
       "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
       "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
-  survey_map_outlier = 0.996
+  survey_map_outlier = 0.999
   ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -420,7 +420,7 @@ make_pages <- function(
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      verbose = FALSE)
+      verbose = FALSE, max_edge = c(20, 100))
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -438,7 +438,7 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "IPHC FISS",
-      verbose = FALSE)
+      verbose = FALSE, max_edge = c(30, 100))
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -449,7 +449,7 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "HBLL OUT",
-      verbose = FALSE)
+      verbose = FALSE, max_edge = c(30, 100))
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {

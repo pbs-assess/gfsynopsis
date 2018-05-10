@@ -60,39 +60,37 @@ dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))
 model_file <- system.file("stan", "vb.stan", package = "gfplot")
 mod <- rstan::stan_model(model_file)
 
-system.time({
 # ------------------------------------------------------------
-# plyr::l_ply(seq_along(spp$species_common_name), function(i) {
-for (i in seq_along(spp$species_common_name)) {
-  fig_check <- paste0(file.path("report", "figure-pages"), "/",
-    gfsynopsis:::clean_name(spp$species_common_name[i]))
-  fig_check1 <- paste0(fig_check, "-1.png")
-  fig_check2 <- paste0(fig_check, "-2.png")
+system.time({
+  for (i in seq_along(spp$species_common_name)) {
+    fig_check <- paste0(file.path("report", "figure-pages"), "/",
+      gfsynopsis:::clean_name(spp$species_common_name[i]))
+    fig_check1 <- paste0(fig_check, "-1.png")
+    fig_check2 <- paste0(fig_check, "-2.png")
 
-  if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
-    cat(crayon::red(clisymbols::symbol$cross),
-      "Building figure pages for", spp$species_common_name[i], "\n")
+    if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
+      cat(crayon::red(clisymbols::symbol$cross),
+        "Building figure pages for", spp$species_common_name[i], "\n")
 
-    if (spp$species_common_name[i] %in% c("petrale sole"))
-      save_gg_objects <- TRUE
-    else
-      save_gg_objects <- FALSE
+      if (spp$species_common_name[i] %in% c("petrale sole"))
+        save_gg_objects <- TRUE
+      else
+        save_gg_objects <- FALSE
 
-    make_pages(dat, spp$species_common_name[i],
-      include_map_square = FALSE,
-      resolution = 160,
-      save_gg_objects = save_gg_objects,
-      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-    )
+      make_pages(dat, spp$species_common_name[i],
+        include_map_square = FALSE,
+        resolution = 160,
+        save_gg_objects = save_gg_objects,
+        survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+          RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+          "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+      )
 
-  } else {
-    cat(crayon::green(clisymbols::symbol$tick),
-      "Figure pages for", spp$species_common_name[i], "already exist\n")
+    } else {
+      cat(crayon::green(clisymbols::symbol$tick),
+        "Figure pages for", spp$species_common_name[i], "already exist\n")
+    }
   }
-}
-# }, .parallel = TRUE)
 })
 
 # ------------------------------------------------------------
