@@ -38,8 +38,9 @@ years. We have projected the IPCC model estimates back to the original station
 locations, but we could instead project them onto a similar fine-scale grid as
 for the other surveys.
 
-We fit the binomial model (denoted with a superscript $B$) as a logistic \ldots
-
+We fit binomial occurrence models (denoted with a superscript $B$), which
+predict the probability of occurrence of a given species at location $s$,
+$\pi_s^B$ as a logistic GLMM (generalized linear mixed-effects model):
 
 \begin{align}
   y_\mathbf{s}^B &\sim \mathrm{Binomial}(\pi_\mathbf{s}^B)\\
@@ -47,47 +48,62 @@ We fit the binomial model (denoted with a superscript $B$) as a logistic \ldots
 \end{align}
 
 where
-\begin{equation}
-  \mathrm{logit}\left(\pi \right) = \log \left( \frac{\pi}{1 - \pi} \right),
-\end{equation}
 
 \begin{equation}
-  \epsilon_\mathbf{s}^B \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^B \right)
+  \mathrm{logit}\left(\pi \right) = \log \left( \frac{\pi}{1 - \pi} \right).
 \end{equation}
 
-We fit the positive model (denoted with a superscript $G$) as a Gamma \ldots
+The spatial random effects $\epsilon_\mathbf{s}^B$ are assumed to be drawn from
+a multivariate normal distribution with covariance matrix
+$\bm{\Phi}_\mathbf{s}^B$ that is centered on zero:
+
+\begin{equation}
+  \epsilon_\mathbf{s}^B \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^B \right).
+\end{equation}
+
+We fit the positive model (denoted with a superscript $G$ for Gamma) as a Gamma
+GLMM with a similar structure to the spatial random effects:
 
 \begin{align}
   y_\mathbf{s}^G &\sim \mathrm{Gamma} \left( \bm{\mu}_\mathbf{s}^G, \phi^G \right)\\
-  \log \left( \bm{\mu}_\mathbf{s}^G \right) &= \bm{X}_\mathbf{s}^G \bm{\beta}^G + \epsilon_\mathbf{s}^G
+  \log \left( \bm{\mu}_\mathbf{s}^G \right) &= \bm{X}_\mathbf{s}^G \bm{\beta}^G + \epsilon_\mathbf{s}^G\\
+  \epsilon_\mathbf{s}^G &\sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^G \right)
 \end{align}
 
-\begin{equation}
-  \epsilon_\mathbf{s}^G \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^G \right)
-\end{equation}
+We modeled the covariance for the spatial random effects in both the occurrence
+and positive models as a function of distance with the Mat\'ern function. The
+Mat\'ern function describes the covariance between spatial locations $s_j$ and
+$s_k$ as:
 
 \begin{equation}
   \Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
-    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right)
+    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),
 \end{equation}
+
+where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma
+function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the
+Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents a
+scaling parameter that is estimated. The parameter $\nu$ controls the smoothness
+of the covariance function. We set $\nu = 3/2$, as is commonly done when fitting
+similar spatial models \citep[e.g.][]{ward2015, thorson2015, ono2016, shelton2018}, which
+lets the covariance function be more flexible than an exponential covariance
+function but still be differentiable \citep{rasmussen2004}.
 
 \begin{equation}
   \mu_\mathbf{s} = \pi_\mathbf{s}^B \cdot \mu_\mathbf{s}^G
 \end{equation}
 
-Normal(0, 5) prior on slopes and Normal(0, 20) on intercepts (standard deviation not variance).
+We placed Normal(0, 5) priors on coefficients relating standardized depth and
+standardized depth squared to the responses and Normal(0, 20) priors on the
+intercepts. Note that our notation is Normal(mean, standard deviation) not
+Normal(mean, variance).
 
-\citep{rue2009, lindgren2015}
+We fit the spatial models using the package INLA \citep{rue2009, lindgren2015}
+for the statistical software R \citep{rcoreteam2018}, which \ldots
 
-\citep{rasmussen2004}
-
-\citep{ward2015, ono2016}
-
-
-See
-Figures~\ref{fig:example-survey-maps-syn} and \ref{fig:example-survey-maps-hbll}
-for examples of these sub-component binary and positive models and the combined
-model.
+See Figures~\ref{fig:example-survey-maps-syn} and
+\ref{fig:example-survey-maps-hbll} for examples of these sub-component binary
+and positive models and the combined model.
 
 % We will fit one model predicting the presence vs. absence of Pacific ocean perch
 % in a given tow and another model predicting the biomass of Pacific ocean perch
