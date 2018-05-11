@@ -33,7 +33,7 @@ spp <- get_spp_names()
 spp <- filter(spp, type == "A")
 if (exists("N"))
   spp <- spp[N, , drop = FALSE]
-spp <- filter(spp, species_common_name != "sablefish")
+# spp <- filter(spp, species_common_name != "sablefish")
 spp <- filter(spp, species_common_name != "pacific hake")
 
 refs <- readr::read_csv("report/spp-refs.csv")
@@ -154,4 +154,4 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-# writeLines(temp, con = "report/report/doc/02-plots.Rnw")
+writeLines(temp, con = "report/report/doc/02-plots.Rnw")
