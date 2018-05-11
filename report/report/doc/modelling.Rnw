@@ -89,13 +89,10 @@ We fit the binomial model (denoted with a superscript $B$) as a logistic
 regression:
 
 \begin{align}
-y_i^B &\sim \mathrm{binomial}(\mu_i^B)\\
-\mathrm{logit}(\mu_i^B) &= \bm{X_i^B} \bm{\beta^B},
+  y_i^B &\sim \mathrm{Binomial}(\pi_i^B)\\
+  \mathrm{logit}\left(\pi_i^B\right) &= \bm{X}_i^B \bm{\beta}^B,
 \end{align}
-where
-\begin{equation}
-  \mathrm{logit}(\mu_i^B) = \log \left( \frac{\mu_i^B}{1 - \mu_i^B} \right),
-\end{equation}
+
 and $i$ represents a single tow, $y_i$ represents either a 1 if a tow caught the
 species or a 0 if it did not, $\bm{X^B_i}$ represents a vector of predictors,
 $\bm{\beta^B}$ represents a vector of coefficients, and $\mu_i^B$ represents the
@@ -106,7 +103,7 @@ We fit the lognormal model (denoted with a superscript $L$) as a linear model
 fit to log-transformed response data:
 
 \begin{equation}
-  \log (y_i^L) \sim \mathcal{N}(\bm{X_i^L} \bm{\beta^L}, \sigma),
+  \log \left(y_i^L\right) \sim \mathrm{Normal} \left(\bm{X}_i^L \bm{\beta}^L, \sigma \right),
 \end{equation}
 
 where the symbols can be interpreted as before except that $y_i^L$ represents
@@ -117,7 +114,13 @@ error.
 We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as:
 
 \begin{equation}
-  \mu_t = \mathrm{logit}^{-1} (\bm{X_r^B} \bm{\beta^B}) \cdot \exp (\bm{X_r^L} \bm{\beta^L})
+  \mu_t = \mathrm{logit}^{-1} \left(\bm{X}_r^B \bm{\beta}^B \right) \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
+\end{equation}
+
+or
+
+\begin{equation}
+  \mu_t = \pi_t^B \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
 \end{equation}
 
 where $\bm{X_r}$ represents a vector of predictors set to the reference ($r$)
