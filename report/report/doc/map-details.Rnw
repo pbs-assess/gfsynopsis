@@ -38,6 +38,9 @@ years. We have projected the IPCC model estimates back to the original station
 locations, but we could instead project them onto a similar fine-scale grid as
 for the other surveys.
 
+We fit the binomial model (denoted with a superscript $B$) as a logistic \ldots
+
+
 \begin{align}
   y_\mathbf{s}^B &\sim \mathrm{Binomial}(\pi_\mathbf{s}^B)\\
   \mathrm{logit} \left(\pi_\mathbf{s}^B \right) &= \bm{X}_\mathbf{s}^B \bm{\beta}^B + \epsilon_\mathbf{s}^B,
@@ -52,6 +55,8 @@ where
   \epsilon_\mathbf{s}^B \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^B \right)
 \end{equation}
 
+We fit the positive model (denoted with a superscript $G$) as a Gamma \ldots
+
 \begin{align}
   y_\mathbf{s}^G &\sim \mathrm{Gamma} \left( \bm{\mu}_\mathbf{s}^G, \phi^G \right)\\
   \log \left( \bm{\mu}_\mathbf{s}^G \right) &= \bm{X}_\mathbf{s}^G \bm{\beta}^G + \epsilon_\mathbf{s}^G
@@ -62,13 +67,15 @@ where
 \end{equation}
 
 \begin{equation}
-  \mu_\mathbf{s} = \pi_\mathbf{s}^B \cdot \mu_\mathbf{s}^G
+  \Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
+    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right)
 \end{equation}
 
 \begin{equation}
-  \Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1} 
-    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right)
+  \mu_\mathbf{s} = \pi_\mathbf{s}^B \cdot \mu_\mathbf{s}^G
 \end{equation}
+
+Normal(0, 5) prior on slopes and Normal(0, 20) on intercepts (standard deviation not variance).
 
 \citep{rue2009, lindgren2015}
 
