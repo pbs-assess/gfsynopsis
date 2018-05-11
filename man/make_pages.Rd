@@ -2,40 +2,68 @@
 % Please edit documentation in R/make-pages.R
 \name{make_pages}
 \alias{make_pages}
-\title{Make pages}
+\title{Make synopsis pages}
 \usage{
 make_pages(dat, spp, aspect = 1.35, short_page_height_ratio = 0.78,
-  width = 11.5, debug = FALSE, resolution = 220, png_format = TRUE,
+  width = 11.5, debug = FALSE, resolution = 180, png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp), report_folder = "report",
   include_map_square = FALSE, map_xlim = c(360, 653), map_ylim = c(5275,
-  6155), survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030",
-  "#a8a8a8", "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG", "SYN HS",
-  "SYN QCS", "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
-  "HBLL INS N", "HBLL INS S", "MSA HS"))
+  6155), save_gg_objects = FALSE,
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8",
+  "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS",
+  "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
+  "HBLL INS N", "HBLL INS S", "MSA HS"), mat_min_n = 20,
+  survey_map_outlier = 0.999)
 }
 \arguments{
-\item{dat}{TODO}
+\item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
 
-\item{spp}{TODO}
+\item{spp}{A species common name.}
 
-\item{aspect}{TODO}
+\item{aspect}{The aspect ratio of the 2nd page.}
 
-\item{width}{TODO}
+\item{short_page_height_ratio}{The aspect ratio of the shorter first page.}
 
-\item{debug}{TODO}
+\item{width}{The width of a page.}
 
-\item{resolution}{TODO}
+\item{debug}{If \code{TRUE} then a debugging grid will be added to the plot
+layout.}
 
-\item{png_format}{TODO}
+\item{resolution}{The resolution for a png page.}
 
-\item{spp_file}{TODO}
+\item{png_format}{If \code{TRUE} then the pages will be png instead of PDF.}
 
-\item{report_folder}{TODO}
+\item{spp_file}{A version of the species name to be used when generating file
+names.}
 
-\item{survey_cols}{TODO}
+\item{report_folder}{The folder in which to create the report.}
 
-\item{survey_col_names}{TODO}
+\item{include_map_square}{If \code{TRUE} then a perfect square will be added to
+the maps to help adjust the figure layout to get the aspect ratio of these
+maps correct.}
+
+\item{map_xlim}{The X axis limits in UTM coordinates.}
+
+\item{map_ylim}{The Y axis limits in UTM coordinates.}
+
+\item{save_gg_objects}{If \code{TRUE} then the ggplot2 objects will be saved as a
+list object in \code{file.path(report_folder, 'ggplot-objects')}.}
+
+\item{survey_cols}{A vector of colors for the surveys.}
+
+\item{survey_col_names}{A vector of names to associate with the colours.
+Should match the survey abbreviations.}
+
+\item{mat_min_n}{The minimum number of samples before the maturity ogives are
+plotted.}
+
+\item{survey_map_outlier}{A quantile above which of the colors in the map
+should be squashed the same color. Useful to avoid a small number of
+outlying cells from distorting the color scale.}
+}
+\value{
+This function generates 2 png files with all of the plots for a given species.
 }
 \description{
-Make pages
+This is the main workhorse function that creates the synopsis pages.
 }

@@ -1,16 +1,37 @@
-#' Make pages
+#' Make synopsis pages
 #'
-#' @param dat TODO
-#' @param spp TODO
-#' @param aspect TODO
-#' @param width TODO
-#' @param debug TODO
-#' @param resolution TODO
-#' @param png_format TODO
-#' @param spp_file TODO
-#' @param report_folder TODO
-#' @param survey_cols TODO
-#' @param survey_col_names TODO
+#' This is the main workhorse function that creates the synopsis pages.
+#'
+#' @param dat A data list object from [gfplot::cache_pbs_data()].
+#' @param spp A species common name.
+#' @param aspect The aspect ratio of the 2nd page.
+#' @param short_page_height_ratio The aspect ratio of the shorter first page.
+#' @param width The width of a page.
+#' @param debug If `TRUE` then a debugging grid will be added to the plot
+#'   layout.
+#' @param resolution The resolution for a png page.
+#' @param png_format If `TRUE` then the pages will be png instead of PDF.
+#' @param spp_file A version of the species name to be used when generating file
+#'   names.
+#' @param report_folder The folder in which to create the report.
+#' @param include_map_square If `TRUE` then a perfect square will be added to
+#'   the maps to help adjust the figure layout to get the aspect ratio of these
+#'   maps correct.
+#' @param map_xlim The X axis limits in UTM coordinates.
+#' @param map_ylim The Y axis limits in UTM coordinates.
+#' @param save_gg_objects If `TRUE` then the ggplot2 objects will be saved as a
+#'   list object in `file.path(report_folder, 'ggplot-objects')`.
+#' @param survey_cols A vector of colors for the surveys.
+#' @param survey_col_names A vector of names to associate with the colours.
+#'   Should match the survey abbreviations.
+#' @param mat_min_n The minimum number of samples before the maturity ogives are
+#'   plotted.
+#' @param survey_map_outlier A quantile above which of the colors in the map
+#'   should be squashed the same color. Useful to avoid a small number of
+#'   outlying cells from distorting the color scale.
+#'
+#' @return
+#' This function generates 2 png files with all of the plots for a given species.
 #'
 #' @export
 #' @importFrom grDevices dev.off pdf png
@@ -58,7 +79,8 @@ make_pages <- function(
   dat$age_precision <- dplyr::filter(dat$age_precision,
     species_code == unique(dat$survey_sets$species_code))
 
-  dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples, sampling_desc %in% "UNSORTED")
+  dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples,
+    sampling_desc %in% "UNSORTED")
   dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
 
   # TODO: temp:
@@ -67,11 +89,6 @@ make_pages <- function(
     ifelse(dat$survey_index$survey_series_desc ==
         "Hecate Strait Multispecies Assemblage Bottom Trawl", "MSA HS",
       dat$survey_index$survey_abbrev)
-
-  # TODO: temp:
-  # lookup <- unique(select(dat$survey_samples, survey_abbrev, survey_series_desc))
-  # dat$survey_sets$survey_abbrev <- NULL # in case
-  # dat$survey_sets <- left_join(dat$survey_sets, lookup)
 
   # File and folder setup: --------------------------
 
@@ -309,8 +326,7 @@ make_pages <- function(
   mat_age <- dat$combined_samples %>%
     fit_mat_ogive(
       type = "age",
-      months = 1:12)
-
+      months = seq(1, 12))
 
   type <- "none"
   if (!is.na(mat_age[[1]])) {
@@ -426,13 +442,6 @@ make_pages <- function(
   } else {
     syn_fits <- readRDS(map_cache_spp_synoptic)
   }
-
-  # nrow(pred_grid)
-  # m <- fit_survey_sets(dat, survey = "IPHC FISS", years = 2017,
-  #   model = "inla", mcmc_posterior_samples = 200, include_depth = TRUE,
-  #   verbose = TRUE,
-  #   premade_grid = pred_grid, density_column = "density_ppkm2"
-  # )
 
   if (!file.exists(map_cache_spp_iphc)) {
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,

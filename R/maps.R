@@ -1,3 +1,18 @@
+#' Fit geostatistical survey models and make maps
+#'
+#' `fit_survey_maps()` is a helper function that calls
+#' [gfplot::fit_survey_sets()] appropriately for the various surveys.
+#'
+#' @param dat Data from [gfplot::get_survey_sets()].
+#' @param species The species name.
+#' @param include_depth Logical for whether or not to include depth and depth
+#'   squared as predictors.
+#' @param model Whether to fit an INLA or glmmfields model.
+#' @param surveys Character vector describing the surveys to fit. Can include
+#'   multiple surveys if desired.
+#' @param years The years of survey data to use.
+#' @param ... Any other arguments to pass to [gfplot::fit_survey_sets()].
+#'
 #' @export
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
@@ -69,6 +84,28 @@ fit_survey_maps <- function(dat,
     species = species, include_depth = include_depth)
 }
 
+#' Plot survey maps
+#'
+#' `plot_survey_maps()` is a helper function that calls
+#' [gfplot::plot_survey_sets()] appropriately for the various surveys.
+#'
+#' @param pred_dat The `pred_dat` element from [fit_survey_maps()].
+#' @param raw_dat The `raw_dat` element from [fit_survey_maps()].
+#' @param show_axes Logical for whether or not to show axes.
+#' @param show_raw_data Logical for whether or not show the raw data.
+#' @param pos_pt_col The colour for the positive points.
+#' @param bin_pt_col The colour for the occurrence/binary points.
+#' @param pos_pt_fill The fill colour for the positive points.
+#' @param north_symbol Logical for whether or not to include the North symbol.
+#' @param fill_column A character object describing the fill column name.
+#' @param trans The transformation function to apply to the color scale. Passed
+#'   to [viridis::scale_fill_viridis()].
+#' @param show_model_predictions Logical for whether or not to show the model
+#'   predictions.
+#' @param annotations A character object describing which annotations to
+#'   include. These annotations include the relevent years on the map.
+#' @param ... Any other arguments to pass to [gfplot::plot_survey_sets()].
+#'
 #' @export
 plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   show_raw_data = TRUE, pos_pt_col = "#FFFFFF60",
@@ -93,7 +130,8 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
       viridis::scale_fill_viridis(trans = trans, option = "C"),
     colour_scale =
       viridis::scale_colour_viridis(trans = trans, option = "C"),
-    rotation_center = c(500, 5700), rotation_angle = 40, north_symbol = north_symbol,
+    rotation_center = c(500, 5700), rotation_angle = 40,
+    north_symbol = north_symbol,
     xlim = c(375, 680), ylim = c(5200, 6150), x_buffer = 0, y_buffer = 0,
     north_symbol_coord = c(130, 5975), show_axes = show_axes,
     extrapolate_depth = TRUE, ...
