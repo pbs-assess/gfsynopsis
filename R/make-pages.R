@@ -471,7 +471,7 @@ make_pages <- function(
       north_symbol = TRUE, annotations = "SYN") +
     coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
 
-  if (sum(iphc_fits$raw_dat$present) > 0.05 * nrow(iphc_fits$raw_dat))
+  if (sum(iphc_fits$raw_dat$present) > 0.02 * nrow(iphc_fits$raw_dat))
     show_model_predictions <- TRUE
   else
     show_model_predictions <- FALSE
@@ -481,7 +481,7 @@ make_pages <- function(
       show_model_predictions = show_model_predictions, annotations = "IPHC") +
     coord_cart + ggplot2::ggtitle("IPHC survey biomass")
 
-  if (sum(hbll_fits$raw_dat$present) > 0.05 * nrow(hbll_fits$raw_dat))
+  if (sum(hbll_fits$raw_dat$present) > 0.02 * nrow(hbll_fits$raw_dat))
     show_model_predictions <- TRUE
   else
     show_model_predictions <- FALSE

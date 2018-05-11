@@ -50,7 +50,7 @@ fit_survey_maps <- function(dat,
       model <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "inla", mcmc_posterior_samples = 800,
         density_column = density_column,
-        premade_grid = premade_grid,
+        premade_grid = premade_grid, required_obs_percent = 0.02,
         ...)
     } else {
       stop("NEED TO CHECK GLMMFIELDS")
