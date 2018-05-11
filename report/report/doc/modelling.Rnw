@@ -80,7 +80,7 @@ species in a certain number of tows across all years of interest, and to have
 passed a certain threshold of positive trips (trips that recorded some of the
 species) for a certain number of years. Our current implementation requires a
 vessel to have recorded at least 100 positive tows since 1996 and to have
-recorded at least 4 positive trips in at least 4 years since 1996. These
+recorded at least four positive trips in at least four years since 1996. These
 decisions are in line with recent BC groundfish stock assessments
 \citep[e.g.][]{starr2017pollock}.
 
@@ -95,7 +95,7 @@ regression:
 
 and $i$ represents a single tow, $y_i$ represents either a 1 if a tow caught the
 species or a 0 if it did not, $\bm{X^B_i}$ represents a vector of predictors,
-$\bm{\beta^B}$ represents a vector of coefficients, and $\mu_i^B$ represents the
+$\bm{\beta^B}$ represents a vector of coefficients, and $\pi_i^B$ represents the
 estimated probability of observing the species in a tow. Details to follow on
 the specific depth and latitude bands chosen.
 
@@ -114,7 +114,8 @@ error.
 We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as:
 
 \begin{equation}
-  \mu_t = \mathrm{logit}^{-1} \left(\bm{X}_r^B \bm{\beta}^B \right) \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
+  \mu_t = \mathrm{logit}^{-1} \left(\bm{X}_r^B 
+    \bm{\beta}^B \right) \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
 \end{equation}
 
 or
@@ -160,17 +161,17 @@ We fit maturity ogives as logistic regressions of maturity (mature vs.\ not
 mature) against length or age:
 
 \begin{align}
-y_i &\sim \mathrm{binomial}(\mu_i)\\
-\mathrm{logit}(\mu_i) &= \beta_0 + \beta_1 x_i + \beta_2 F_i
+y_i &\sim \mathrm{binomial}(\pi_i)\\
+\mathrm{logit} \left( \pi_i \right) &= \beta_0 + \beta_1 x_i + \beta_2 F_i
 \end{align}
 where $y_i$ represents a 1 if fish $i$ is considered mature and a 0 if fish $i$
 is considered immature. The $\beta$ parameters represent estimated coefficients,
 $x_i$ represents either the length or age of fish $i$, and $F_i$ represents
 a binary predictor that is 1 if the fish is female and 0 if the fish is male.
-The parameter $\mu_i$ represents the expected probability of fish $i$ being
+The variable $\pi_i$ represents the expected probability of fish $i$ being
 mature. We only fit these models if there are at least 20 mature males, 20
 immature males, 20 mature females, and 20 immature females to ensure reasonably
-representative sampling in sufficient sample sizes.
+representative sampling and sufficient sample sizes.
 
 \subsection{LENGTH-AGE MODELS} \label{sec:length-age-models}
 
@@ -188,9 +189,9 @@ parameters, and $\sigma$ represents the log standard deviation or scale
 parameter. We fit the models with the following priors:
 
 \begin{align}
-  k &\sim \mathcal{N}(0, 2)[0, \infty]\\
-  l_\mathrm{inf} &\sim  \mathcal{N}(0, \varphi)[0, \infty]\\
-  \sigma &\sim  \operatorname{Student-t}(3, 0, 2)[0, \infty]\\
+  k &\sim \mathrm{Normal}\left(0, 2\right)[0, \infty]\\
+  l_\mathrm{inf} &\sim  \mathrm{Normal} \left(0, \varphi \right)[0, \infty]\\
+  \sigma &\sim  \operatorname{Student-t}\left(3, 0, 2 \right)[0, \infty]\\
   t0 &\sim  \mathcal{N}(0, 20)
 \end{align}
 
@@ -219,7 +220,7 @@ representing error that is given some distribution such as lognormal or Gamma.
 The variables $a$ and $b$ represent the estimated length-weight parameters.
 Following the common convention, we fit the model as:
 \begin{equation}
-  \log (W_i) \sim \mathcal{N} (\log (a + b L_i), \sigma),
+  \log (W_i) \sim \mathrm{Normal} (\log (a + b L_i), \sigma),
 \end{equation}
 with a robust algorithm being substituted for the usual normal distribution as
 written here.
