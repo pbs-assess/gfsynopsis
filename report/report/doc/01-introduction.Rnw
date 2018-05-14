@@ -36,21 +36,23 @@ visually synthesize most available data for each species. The report focuses on
 the most important species to track for commercial and conservation concern, as
 outlined in the current BC groundfish strategic plan, and focuses on the surveys
 and data types applicable to the widest array of these fish stocks. Currently,
-we have focused on the A-level species, which are identified as the main species
+we have focused on the 31 A-level species, which are identified as the main species
 of commercial and conservation interest. The strategic plan also includes a set
-of B-level species, which could easily be included as well.
+of B-level species (number TODO), which may be added in a future update of the report. 
+
+% TODO: hake
+% TODO: add cosewic
 
 Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
-DFO species code, which usually corresponds to the page number referencing the species in
-\citet{hart1988}. We plan to include information on management of the stock and
-COSEWIC/SARA status soon. The figures themselves are laid out such that the
-first page has survey timeseries trends and spatial patterns on the left and
-commercial timeseries and spatial patterns on the right. The second page is
-focused on biological samples. It begins at the top with length and age data and
-their relationship with each other, then shows data on maturity, and finishes
-with an overview of available numbers of sampled fish across all survey and
-commercial samples for various biological measurements.
+DFO species code, which usually corresponds to the page number referencing the
+species in \citet{hart1988}. The figures themselves are laid out such
+that the first page has survey timeseries trends and spatial patterns on the
+left and commercial timeseries and spatial patterns on the right. The second
+page is focused on biological samples. This page begins at the top with length and age
+data and their relationship with each other, then shows data on maturity, and
+finishes with an overview of available numbers of sampled fish across all survey
+and commercial samples for various biological measurements.
 
 In terms of surveys, we have focused on the Synoptic Bottom Trawl surveys, the
 Outside Hard Bottom Long Line surveys (HBLL; alternatively referred to as the
@@ -59,7 +61,8 @@ Pacific Halibut Commission (IPHC) surveys because these provide the greatest
 spatial and taxonomic coverage of the stocks in this report. As an example, we
 are not showing biomass index trends or maps from the Sablefish trap surveys,
 since these are highly selective for Sablefish. However, we do include counts of
-available fish specimens from biological samples on all surveys.
+available fish specimens from biological samples on all surveys and fit
+biological models such as growth models to all available data. 
 
 Following the species-by-species visualizations, we include a section providing
 details on the data extraction from the relational databases that hold the raw
@@ -92,7 +95,7 @@ We made a number of overarching design decisions in structuring the report:
 
 \item Data on female fish are always shown in front of data on male fish and
   are either coloured or black whereas males are always indicated with light
-  gray. We did this to focus mainly on female fish, which are often more
+  grey. We did this to focus mainly on female fish, which are often more
   important in stock assessment models.
 
 \end{resdoclist}
