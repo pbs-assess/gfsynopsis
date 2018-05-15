@@ -142,7 +142,7 @@ having to derive a reasonable survey domain polygon.
 % opposed to the sample locations.
 
 % TODO: add units to the color scale or the caption on this and subsequent
-% figures 
+% figures
 
 <<example-survey-maps-syn, warning=FALSE, message=FALSE, fig.asp=1, fig.cap="Example delta-Gamma model components for spatial models fit to synoptic survey data for Petrale Sole. (a) The binary model --- this model predicts the probability of a survey tow catching the species. (b) The Gamma positive component model --- this model predicts the expected biomass density of the species conditional on a survey tow catching at least one fish of the species. (c) The combined model prediction as shown throughout the synopsis report --- the combined prediction is formed by multiplying the probability of observing the species by expected biomass if the species is observed (i.e. multiplying the first and second map predictions together).">>=
 library(ggplot2)

@@ -38,7 +38,7 @@ outlined in the current BC groundfish strategic plan, and focuses on the surveys
 and data types applicable to the widest array of these fish stocks. Currently,
 we have focused on the 31 A-level species, which are identified as the main species
 of commercial and conservation interest. The strategic plan also includes a set
-of B-level species (number TODO), which may be added in a future update of the report. 
+of B-level species (number TODO), which may be added in a future update of the report.
 
 % TODO: hake
 % TODO: add cosewic
@@ -62,7 +62,7 @@ spatial and taxonomic coverage of the stocks in this report. As an example, we
 are not showing biomass index trends or maps from the Sablefish trap surveys,
 since these are highly selective for Sablefish. However, we do include counts of
 available fish specimens from biological samples on all surveys and fit
-biological models such as growth models to all available data. 
+biological models such as growth models to all available data.
 
 Following the species-by-species visualizations, we include a section providing
 details on the data extraction from the relational databases that hold the raw
