@@ -125,6 +125,15 @@ transparently displaying the available data for all species.
 
 To be continued \ldots
 
+\subsection{UPDATE SCHEDULE}
+
+We plan to publish annual updates of this synopsis report as Science Response
+documents. These annual updates will include another year of data and any
+important corrections to the data, text, or visualizations. On a less frequent
+basis we will consider making any larger changes to the structure or content of
+the groundfish data synopsis report. We will consider these larger possible
+revisions approximately every three years.
+
 \subsection{GFPLOT AND GFSYNOPSIS R PACKAGES}
 
 As stated above, one goal of this report is to generate standardized data sets,
