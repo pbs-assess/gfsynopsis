@@ -93,12 +93,13 @@ values. See Figures~\ref{fig:example-survey-maps-syn} and
 and positive models and the combined model. We placed Normal(0, 5) priors on
 coefficients relating standardized depth and standardized depth squared to the
 responses and Normal(0, 20) priors on the intercepts. Note that our notation is
-Normal(mean, standard deviation) not Normal(mean, variance).
+Normal(mean, standard deviation) not Normal(mean, variance) following the
+convention used by the Bayesian software Stan \citep{rstan2018}.
 
 We fit the four synoptic survey data sets separately, because only two of the
 surveys are conducted each year and the surveys are disjointed in space. We
 combined the predictions to generate the map plots, but labelled the years the
-various surveys were conducted in. TODO Currently, we are fitting the HBLL
+various surveys were conducted in. Currently, we are fitting the HBLL
 surveys as one dataset, although we plan to separate the north and south surveys
 since they are also conducted in offset years. We have projected the IPCC model
 estimates back to the original station locations for simplicity and to avoid
