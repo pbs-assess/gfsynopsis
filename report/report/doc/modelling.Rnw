@@ -1,23 +1,19 @@
 \subsection{SURVEY RELATIVE BIOMASS INDEX TRENDS} \label{sec:survey-trend-models}
 
-The trawl and longline survey relative biomass index trends are derived from the
-same design-based bootstrap approach used in recent BC groundfish stock
-assessment reports. Details to follow.
-
 Details on the design of the various surveys referenced in this report can be
 found in the following documents:
 
 \begin{resdoclist}
 
-\item Synoptic Survey, Queen Charlotte Sound (SYN WCHG):  \citep{williams2018synqcs}
+\item Synoptic Survey, Queen Charlotte Sound (SYN QCS):  \citep{wyeth2018synqcs}
 
 \item Synoptic Survey, West Coast Vancouver Island (SYN WCVI):
-  \citep{williams2017synwcvi}
+  \citep{wyeth2017synwcvi}
 
-\item Synoptic Survey, Hecate Strait (SYN HS): \citep{nottingham2018synhs}
+\item Synoptic Survey, Hecate Strait (SYN HS): \citep{wyeth2018synhs}
 
 \item Synoptic Survey, West Coast Haida Gwaii (SYN WCHG):
-  \citep{nottingham2018synwchg}
+  \citep{wyeth2018synwchg}
 
 \item Hard Bottom Longline Survey, Outside (HBLL OUT): \citep{dfo2018ifmp}
 
@@ -29,8 +25,75 @@ found in the following documents:
 \item International Pacific Halibut Commission fishery independent survey (IPHC
   FISS): \citep{flemming2012iphc}
 
-
 \end{resdoclist}
+
+We calculated the trawl and longline survey relative biomass index trends from
+the same design-based bootstrap approach used in recent BC groundfish stock
+assessment reports. The code to perform the calculations was originally written
+by Norm Olsen at Pacific Biological Station and is automatically applied to the
+available survey data to populate the GFBio database. We extracted the relative
+biomass values directly from GFBio. Nonetheless, we have included the relevant
+equations below unwritten the methods in the first person for clarity.
+
+\subsubsection{TRAWL SURVEYS}
+
+For all trawl surveys, and for a given species, we calculated the relative
+biomass density $B$ in year $y$ as:
+
+\begin{equation}
+  B_y = \sum_{i = 1}^k C_{y,i} A_i
+\end{equation}
+
+where $C_{y,i}$ represents the mean CPUE in kg/km\textsuperscript{2} for the
+species in year $y$ and stratum $i$, $A_i$ represents the area of stratum $i$ in
+km\textsuperscript{2}, and $k$ represents the number of strata. We calculated
+the CPUE ($C_{y,i}$) for a given species in year $y$ and stratum $i$ as:
+
+\begin{equation}
+  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( W_{y,j} / D_{y,j} w_{y,j}\right)}{n_{y,i}}
+\end{equation}
+
+where $W_{y,j}$ represents the catch weight (kg) for the species in year $y$,
+stratum $i$, and tow $j$; $D_{y,j}$ represents the distance travelled in km by
+tow $j$ in year $y$; $w_{y,j}$ represents the net opening width in km for year
+$y$ and tow $j$; and $n_{y,i}$ represents the number of tows in year $y$ and
+stratum $i$.
+
+\subsubsection{LONG-LINE SURVEYS}
+
+For all long-line surveys, and for a given species, we calculated the relative
+biomass density $B$ in year $y$ as:
+
+\begin{equation}
+  B_y = \sum_{i = 1}^k C_{y,i} A_i
+\end{equation}
+
+where $C_{y,i}$ represents the mean CPUE in parts (fish) per
+km\textsuperscript{2} for the species in year $y$ and stratum $i$, $A_i$
+represents the area of stratum $i$ in km\textsuperscript{2}, and $k$ represents
+the number of strata. We calculated the CPUE ($C_{y,i}$) for a given species in
+year $y$ and stratum $i$ as:
+
+\begin{equation}
+  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( N_{y,j} / H_{y,j} w_{y,j}\right)}{n_{y,i}}
+\end{equation}
+
+where $N_{y,j}$ represents the number of fish caught for the species in year
+$y$, stratum $i$, and set $j$; $H_{y,j}$ represents the number of hooks $\times$
+the hook spacing in km in set $j$ in year $y$; $w_{y,j}$ represents an arbitrary
+swept width of 30 feet or 0.009144 km for year $y$ and tow $j$; and $n_{y,i}$
+represents the number of sets in year $y$ and stratum $i$. The hook spacing is
+18 feet or 0.0054864 km for the IPHC survey and 8 feet or 0.0024384 km for
+the inside and outside HBLL surveys.
+
+\subsubsection{BOOTSTRAPPED CONFIDENCE INTERVALS}
+
+We calculated bootstrap confidence intervals on $B_y$ by repeatedly calculating
+$B_y$ given the above equations but each time re-sampling, with replacement, from
+the available tows within each strata. We drew 1000 bootstrap replicates of
+$B_y$, $B_y^{\mathrm{rep}}$, and calculated 95\% quantile-based confidence
+intervals on $B_y^{\mathrm{rep}}$.
+
 
 \subsection{SPATIAL MODELLING OF SURVEY BIOMASS} \label{sec:spatial-modeling}
 
@@ -114,7 +177,7 @@ error.
 We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as:
 
 \begin{equation}
-  \mu_t = \mathrm{logit}^{-1} \left(\bm{X}_r^B 
+  \mu_t = \mathrm{logit}^{-1} \left(\bm{X}_r^B
     \bm{\beta}^B \right) \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
 \end{equation}
 
