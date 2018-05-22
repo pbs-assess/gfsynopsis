@@ -53,7 +53,7 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": \\citet{", spp$other_ref, "}"))
 
 # ------------------------------------------------------------
-# TODO: memory mapping problem:
+# TODO: memory mapping problem; load in global workspace first:
 tmb_cpp <- system.file("tmb", "deltalognormal.cpp", package = "gfplot")
 TMB::compile(tmb_cpp)
 dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))

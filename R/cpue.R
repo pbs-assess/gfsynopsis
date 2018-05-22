@@ -1,3 +1,18 @@
+#' Fit commercial catch per unit effort standardization models
+#'
+#' This function helps it fit the CPUE standardization models across multiple
+#' areas for a single species.
+#'
+#' @param dat A data frame from [gfplot::get_cpue_index()].
+#' @param species The species common name to fit.
+#' @param areas A vector of regular expressions representing the statistical
+#'   areas to fit.
+#' @param center Logical for whether or not the index should be centered on its
+#'   geometric mean.
+#' @param cache A folder in which to cache the model output if desired.
+#' @param save_model Logical for whether the model should be cached. Defaults to
+#'   `FALSE` to save space.
+#'
 #' @import gfplot
 #' @importFrom dplyr filter mutate summarise select group_by n arrange ungroup
 #' @importFrom dplyr inner_join left_join right_join anti_join full_join
@@ -16,7 +31,8 @@
 fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
-  center = TRUE, ...) {
+  center = TRUE, cache = file.path("report", "cpue-cache"),
+  save_model = FALSE) {
 
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
@@ -75,6 +91,9 @@ fit_cpue_indices <- function(dat,
       warning("TMB CPUE model for area ", area, " didn't converge.")
       return(NA)
     }
+
+    saveRDS(m_cpue, file =
+        file.path(cache, paste0(gsub(" ", "-", species), "-", area, "-model.rds")))
     list(model = m_cpue, fleet = fleet, area = gsub("\\[|\\]|\\+", "", area))
   })
 

@@ -20,7 +20,8 @@
 #' @param map_xlim The X axis limits in UTM coordinates.
 #' @param map_ylim The Y axis limits in UTM coordinates.
 #' @param save_gg_objects If `TRUE` then the ggplot2 objects will be saved as a
-#'   list object in `file.path(report_folder, 'ggplot-objects')`.
+#'   list object in `file.path(report_folder, 'ggplot-objects')`. This will also
+#'   cause the CPUE model to be cached.
 #' @param survey_cols A vector of colors for the surveys.
 #' @param survey_col_names A vector of names to associate with the colours.
 #'   Should match the survey abbreviations.
@@ -212,7 +213,8 @@ make_pages <- function(
   if (nrow(dat$catch) > 0) {
     if (!file.exists(cpue_cache_spp)) {
       cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
-        species = unique(dat$catch$species_common_name))
+        species = unique(dat$catch$species_common_name),
+        save_model = save_gg_objects)
       saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
     } else {
       cpue_index <- readRDS(cpue_cache_spp)
