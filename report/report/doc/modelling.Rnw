@@ -147,7 +147,6 @@ recorded at least four positive trips in at least four years since 1996. These
 decisions are in line with recent BC groundfish stock assessments
 \citep[e.g.][]{starr2017pollock}.
 
-
 We fit the binomial model (denoted with a superscript $B$) as a logistic
 regression:
 
@@ -204,19 +203,59 @@ by TMB on $\log (\mu_t)$ via the Delta method as is commonly done for such
 models \citep[e.g.][]{thorson2015}. We then calculated the 95\% confidence
 intervals as $\exp (\mu_t \pm 1.96 \mathrm{SE}_t)$.
 
+We calculated the `raw' unstandardized timeseries is calculated using a similar
+procedure but without any of the covariates other than a factor predictor for
+each year. This is equivalent to calculating the geometric mean of CPUE each
+year.
+
 We tested our implementation of this index standardization model against
 simulated data to ensure that (1) it can generate unbiased annual estimates and
 (2) the confidence intervals have the correct coverage, i.e. the confidence
 intervals contain the true known value at the expected frequency of 95\%. We
-also compared our estimates to recent estimates from similar models in published
-assessments to ensure we derived similar timeseries. (TODO link to code or
-include here.) The `raw' unstandardized timeseries is calculated using a similar
-procedure but without any of the covariates other than a factor predictor for
-each year. This is equivalent to calculating the geometric mean of CPUE each
-year averaging across all tows each year.
+also compared our estimates qualitatively to recent estimates from similar
+models in published assessments to ensure we derived similar timeseries.
 
-% First we present the
-% raw CPUE calculated as the geometric mean of total catch divided by total hours trawled
+For the simulation testing, as examples, we present results for two simulations
+with 10 vessels, each vessel recording data from 15 tows, 20 years of data, and
+lognormal observation error with standard deviation 0.35 (i.e., approximately
+a CV of 0.35). The standardization model then accounts for vessel ID in both
+a binary and positive component model. The delta model derives an unconditional
+estimate of CPUE after combining the two component models. The parameter
+estimates from the component models regularly fall along the one-to-one line of
+unbiased and accurate prediction (e.g. Fig.~\ref{fig:cpue-sim-cross-val}) and
+the unconditional estimates of CPUE and their confidence intervals regularly
+include the true values with correct coverage (e.g.
+Fig.~\ref{fig:cpue-sim-ts-val}).
+
+<<load-cpue-model>>=
+cpue_model <- readRDS("../../cpue-cache/petrale-sole-3[CD]+-model.rds")
+@
+
+<<cpue-coefs-eg, fig.cap="Example model coefficients for CPUE index standardization for Petrale Sole in area 3CD. ``Bin.'' (black) refers to the binary component model and ``Pos.'' (blue) refers to the positive component model. The white dots represent the parameter estimates and the thick and thin line segments represent 50\\% and 95\\% confidence intervals. Each panel represents a set of coefficients for each factor level. The reference level has been set to the most common bin and the shown coefficient estimates are effects with respect to this reference level. For example, The month effects represent differences between the indicated month and January (the omitted reference level).", fig.asp=1.1, warning=FALSE, message=FALSE, fig.width=13>>=
+gfplot::plot_cpue_index_coefs(cpue_model, regex = c(", base_[a-z]+", ""))
+@
+
+<<cpue-sim-eg, results='hide', message=FALSE, warning=FALSE>>=
+set.seed(123)
+fit1 <- gfplot:::sim_cpue_index(
+  make_plots = TRUE,
+  n_samples = 15,
+  n_vessels = 10
+)
+fit2 <- gfplot:::sim_cpue_index(
+  make_plots = TRUE,
+  n_samples = 15,
+  n_vessels = 10
+)
+@
+
+<<cpue-sim-cross-val, fig.cap="Parameter estimate validation for CPUE index standardization models fit to two example simulated data sets. Each panel shows the true simulated parameter value on the horizontal axis and the estimated parameter value along with a 95\\% confidence interval on the vertical axis. ``Bin.'' represents parameters from the binary model and ``Pos.'' represents parameters from the positive component model. The diagonal line indicates a one-to-one relationship.", fig.asp=0.55>>=
+cowplot::plot_grid(fit1$cross_val, fit2$cross_val, nrow = 1, align = "h")
+@
+
+<<cpue-sim-ts-val, fig.cap="Annual CPUE index validation for standardization models fit to two example simulated data sets. Red crosses indicate true values, open the black circles represent the estimated values, and vertical line segments represent 95\\% confidence intervals.", fig.asp=0.35>>=
+cowplot::plot_grid(fit1$ts_check, fit2$ts_check, nrow = 1, align = "h")
+@
 
 \subsection{MATURITY OGIVES} \label{sec:maturity-models}
 
@@ -224,7 +263,7 @@ We fit maturity ogives as logistic regressions of maturity (mature vs.\ not
 mature) against length or age:
 
 \begin{align}
-y_i &\sim \mathrm{binomial}(\pi_i)\\
+y_i &\sim \mathrm{Binomial}(\pi_i)\\
 \mathrm{logit} \left( \pi_i \right) &= \beta_0 + \beta_1 x_i + \beta_2 F_i
 \end{align}
 where $y_i$ represents a 1 if fish $i$ is considered mature and a 0 if fish $i$
@@ -242,7 +281,7 @@ We fit von Bertalanffy length-age growth models \citep{vonbertalanffy1938} with
 Stan \citep{rstan2018} as:
 
 \begin{equation}
-  L_i \sim \operatorname{log-normal}
+  L_i \sim \operatorname{Log-normal}
   \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))), \sigma \right)
 \end{equation}
 
@@ -255,7 +294,7 @@ parameter. We fit the models with the following priors:
   k &\sim \mathrm{Normal}\left(0, 2\right)[0, \infty]\\
   l_\mathrm{inf} &\sim  \mathrm{Normal} \left(0, \varphi \right)[0, \infty]\\
   \sigma &\sim  \operatorname{Student-t}\left(3, 0, 2 \right)[0, \infty]\\
-  t0 &\sim  \mathcal{N}(0, 20)
+  t0 &\sim  \mathrm{Normal}(0, 20)
 \end{align}
 
 where $\varphi$ was set to twice the 99\% quantile of observed lengths for that
