@@ -80,6 +80,10 @@ make_pages <- function(
   dat$age_precision <- dplyr::filter(dat$age_precision,
     species_code == unique(dat$survey_sets$species_code))
 
+  # TODO:
+  dat$survey_samples$maturity_convention_maxvalue <- 1e6
+  dat$comm_samples$maturity_convention_maxvalue <- 1e6
+
   dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples,
     sampling_desc %in% "UNSORTED")
   dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
