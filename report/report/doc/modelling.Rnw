@@ -33,7 +33,7 @@ assessment reports. The code to perform the calculations was originally written
 by Norm Olsen at Pacific Biological Station and is automatically applied to the
 available survey data to populate the GFBio database. We extracted the relative
 biomass values directly from GFBio. Nonetheless, we have included the relevant
-equations below unwritten the methods in the first person for clarity.
+equations below for clarity.
 
 \subsubsection{TRAWL SURVEYS}
 
