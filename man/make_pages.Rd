@@ -47,7 +47,8 @@ maps correct.}
 \item{map_ylim}{The Y axis limits in UTM coordinates.}
 
 \item{save_gg_objects}{If \code{TRUE} then the ggplot2 objects will be saved as a
-list object in \code{file.path(report_folder, 'ggplot-objects')}.}
+list object in \code{file.path(report_folder, 'ggplot-objects')}. This will also
+cause the CPUE model to be cached.}
 
 \item{survey_cols}{A vector of colors for the surveys.}
 

@@ -2,6 +2,7 @@
 
 export("%>%")
 export(fit_survey_maps)
+export(get_data)
 export(gg_color_hue)
 export(make_pages)
 export(plot_survey_maps)
