@@ -14,6 +14,6 @@ get_spp_names <- function() {
 
   spp <- spp[!duplicated(spp), ]
   spp$spp_w_hyphens <- gsub("/", "-", gsub(" ", "-", spp$species_common_name))
-  as.data.frame(spp)
+  dplyr::as.tbl(as.data.frame(spp))
 }
 
