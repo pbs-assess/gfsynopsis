@@ -71,7 +71,7 @@ make_pages <- function(
 
   dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
   dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp)
-  dat$comm_samples <- dplyr::filter(dat$comm_samples, species_common_name == spp)
+  dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == spp)
   dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
   dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
@@ -82,11 +82,11 @@ make_pages <- function(
 
   # TODO:
   dat$survey_samples$maturity_convention_maxvalue <- 1e6
-  dat$comm_samples$maturity_convention_maxvalue <- 1e6
+  dat$commercial_samples$maturity_convention_maxvalue <- 1e6
 
-  dat$comm_samples_no_keepers <- dplyr::filter(dat$comm_samples,
+  dat$commercial_samples_no_keepers <- dplyr::filter(dat$commercial_samples,
     sampling_desc %in% "UNSORTED")
-  dat$combined_samples <- bind_samples(dat$comm_samples, dat$survey_samples)
+  dat$combined_samples <- bind_samples(dat$commercial_samples, dat$survey_samples)
 
   # TODO: temp:
   dat$survey_index$survey_abbrev <- gsub("_", " ", dat$survey_index$survey_abbrev)
@@ -128,7 +128,7 @@ make_pages <- function(
 
   ss <- tidy_ages_raw(dat$survey_samples,
     sample_type = "survey")
-  sc <- tidy_ages_raw(dat$comm_samples_no_keepers,
+  sc <- tidy_ages_raw(dat$commercial_samples_no_keepers,
     sample_type = "commercial")
 
   if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
@@ -166,12 +166,12 @@ make_pages <- function(
   # Length compositions: -------------------------------
 
   bin_width1 <- diff(range(dat$survey_samples$length, na.rm = TRUE)) / 30
-  bin_width2 <- diff(range(dat$comm_samples_no_keepers$length, na.rm = TRUE)) / 30
+  bin_width2 <- diff(range(dat$commercial_samples_no_keepers$length, na.rm = TRUE)) / 30
   bin_width <- mean(bin_width1, bin_width2, na.rm = TRUE)
 
   ss <- tidy_lengths_raw(dat$survey_samples, bin_size = bin_width,
     sample_type = "survey")
-  sc <- tidy_lengths_raw(dat$comm_samples_no_keepers, bin_size = bin_width,
+  sc <- tidy_lengths_raw(dat$commercial_samples_no_keepers, bin_size = bin_width,
     sample_type = "commercial")
 
   if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
@@ -277,7 +277,7 @@ make_pages <- function(
   # Specimen numbers: -------------------------------
 
   suppressMessages({
-    g_comm_samples <- tidy_sample_avail(dat$comm_samples) %>%
+    g_comm_samples <- tidy_sample_avail(dat$commercial_samples) %>%
       plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
       # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
       viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey75") +
