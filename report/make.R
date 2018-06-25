@@ -35,6 +35,7 @@ meta <- gfplot::pbs_species %>%
   mutate(species_science_name = tolower(species_scientific_name)) %>%
   select(-species_scientific_name) %>%
   filter(species_common_name %in% spp$species_common_name) %>%
+  filter(species_code != "465") %>% # extra lingcod
   unique()
 
 spp <- left_join(spp, meta, by = "species_common_name")
@@ -96,10 +97,9 @@ temp <- lapply(spp$species_common_name, function(x) {
   resdoc <- spp$resdoc[spp$species_common_name == x]
   species_code <- spp$species_code[spp$species_common_name == x]
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
-  resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else
-    "Last Research Document: "
-  sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else
-    "Last Science Advisory Report: "
+
+  resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
+  sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
 
   i <- 1
   out[[i]] <- "\\clearpage"
