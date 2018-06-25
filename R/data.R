@@ -7,7 +7,7 @@
 get_data <- function(type = "A", path = ".", compress = FALSE) {
   dir.create(path, showWarnings = FALSE)
   .d <- get_spp_names()
-  .d <- dplyr::filter(.d, .data$type %in% type)
+  .d <- .d[.d$type %in% type, , drop = FALSE]
   gfplot::cache_pbs_data(species = .d$species_common_name,
     path = path, unsorted_only = FALSE, historic_cpue = FALSE,
     survey_sets = TRUE, verbose = FALSE, compress = compress)
