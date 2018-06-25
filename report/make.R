@@ -1,46 +1,40 @@
 devtools::load_all("../gfplot/")
 devtools::load_all(".")
 library("dplyr")
-# library("future")
-# future::plan(multiprocess, workers = 2)
-# options(future.globals.maxSize = 4000 * 1024 ^ 2) # 4GB
-# future::plan(sequential)
-# future::plan(transparent)
-# library("doParallel")
-# registerDoParallel(cores = 4L)
 
 # ------------------------------------------------------------
-dc                  <- file.path("report", "data-cache2")
-dat                 <- list()
-dat$survey_sets     <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
-dat$survey_samples  <- readRDS(file.path(dc, "pbs-survey-samples.rds"))
-dat$comm_samples    <- readRDS(file.path(dc, "pbs-comm-samples.rds"))
-dat$catch           <- readRDS(file.path(dc, "pbs-catch.rds"))
-dat$cpue_spatial    <- readRDS(file.path(dc, "pbs-cpue-spatial.rds"))
-dat$cpue_spatial_ll <- readRDS(file.path(dc, "pbs-cpue-spatial-ll.rds"))
-dat$survey_index    <- readRDS(file.path(dc, "pbs-survey-index.rds"))
-dat$age_precision   <- readRDS(file.path(dc, "pbs-age-precision.rds"))
-# dat$cpue_index    <- readRDS(file.path(dc, "pbs-cpue-index.rds"))
-# feather::write_feather(dat$cpue_index, file.path(dc, "pbs-cpue-index.feather"))
-dat$cpue_index      <- feather::read_feather(file.path(dc, "pbs-cpue-index.feather"))
-
-# TODO: temp:
-dat$catch$species_common_name <- gsub("^spiny dogfish$", "north pacific spiny dogfish",
-  dat$catch$species_common_name)
+dc <- file.path("report", "data-cache3-uncompressed")
+if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) {
+  gfsynopsis::get_data(type = "A", path = dc)
+}
+d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
+spp <- get_spp_names() %>% filter(type == "A")
 
 # ------------------------------------------------------------
-spp <- get_spp_names()
-spp <- filter(spp, type == "A")
-if (exists("N"))
+# used for hacked parallel processing from command line; ignore
+# e.g. from root project folder in Unix:
+# open new Terminal
+# make one
+# open new Terminal
+# make two
+# open new Terminal
+# make three
+#
+# unecessary, but speeds up rebuilding
+if (exists("N")) {
   spp <- spp[N, , drop = FALSE]
-# spp <- filter(spp, species_common_name != "sablefish")
-spp <- filter(spp, species_common_name != "pacific hake")
+}
+# ------------------------------------------------------------
 
+spp <- filter(spp, species_common_name != "pacific hake")
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
 
-meta <- dat$survey_sets %>%
-  select(species_common_name, species_science_name, species_code) %>%
+meta <- gfplot::pbs_species %>%
+  mutate(species_common_name = tolower(species_common_name)) %>%
+  mutate(species_science_name = tolower(species_scientific_name)) %>%
+  select(-species_scientific_name) %>%
+  filter(species_common_name %in% spp$species_common_name) %>%
   unique()
 
 spp <- left_join(spp, meta, by = "species_common_name")
@@ -48,7 +42,6 @@ spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
 spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("\\citet{", spp$resdoc, "}"))
 spp$sar <- ifelse(is.na(spp$sar), "", paste0("\\citet{", spp$sar, "}"))
-
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": \\citet{", spp$other_ref, "}"))
 
@@ -57,8 +50,6 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
 tmb_cpp <- system.file("tmb", "deltalognormal.cpp", package = "gfplot")
 TMB::compile(tmb_cpp)
 dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))
-model_file <- system.file("stan", "vb.stan", package = "gfplot")
-mod <- rstan::stan_model(model_file)
 
 # ------------------------------------------------------------
 system.time({
@@ -77,6 +68,8 @@ system.time({
       else
         save_gg_objects <- FALSE
 
+      dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
+      dat$cpue_index <- d_cpue
       make_pages(dat, spp$species_common_name[i],
         include_map_square = FALSE,
         resolution = 160,
@@ -103,8 +96,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   resdoc <- spp$resdoc[spp$species_common_name == x]
   species_code <- spp$species_code[spp$species_common_name == x]
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
-  resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
-  sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
+  resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else
+    "Last Research Document: "
+  sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else
+    "Last Science Advisory Report: "
 
   i <- 1
   out[[i]] <- "\\clearpage"
