@@ -13,3 +13,12 @@ The gfsynopsis package is *not* ready for use yet. However, it can be installed 
 devtools::install_github("pbs-assess/gfsynopsis")
 library("gfsynopsis")
 ```
+
+# Building the document
+
+Here's what Andy did to get things working (can move this somewhere else at some point, just want to keep track). In base folder
+
+```r
+cache_pbs_data(path="data-cache3-uncompressed")
+```
+which takes a while and created a 4.23Gb folder of 61 files (includes type A and B species, as listed in `inst\extdata\spp-of-interest.csv`, though looks like 5 might be missing [not loking into right now]). Using that pathname because that is what is used in `report\make.R` which is run next and creates `report\data-cache3-uncompressed` which is 4.02Gb and 32 files (just type A species).
