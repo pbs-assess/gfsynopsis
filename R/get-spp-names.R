@@ -1,3 +1,7 @@
+#' Get spp. names
+#'
+#' @export
+
 get_spp_names <- function() {
   file <- system.file("extdata", "spp-of-interest.csv", package = "gfsynopsis")
   spp <- readr::read_csv(file,
