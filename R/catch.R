@@ -1,5 +1,11 @@
-#test
-
+#' Plot catches
+#'
+#' @param dat The data
+#' @param blank_plot Whether or not the plot should be blank
+#' @param xlim x limit
+#' @param ... Other arguments to pass to [gfplot::plot_catch()].
+#'
+#' @export
 plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...) {
 
   if (!blank_plot) {

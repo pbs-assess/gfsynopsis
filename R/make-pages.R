@@ -38,7 +38,6 @@
 #' @importFrom grDevices dev.off pdf png
 #' @importFrom ggplot2 labeller theme element_blank ggtitle
 #' @importFrom grid unit
-#' @importFrom INLA inla.models inla.reorderings
 
 make_pages <- function(
   dat,

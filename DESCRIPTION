@@ -1,6 +1,5 @@
 Package: gfsynopsis
 Version: 0.0.0.9000
-Date: 2018-02-16
 Title: Data Synopsis Reports for PBS Groundfish
 Description: Facilitates the creation of reproducible data synopsis report for
     DFO PBS groundfish stocks in British Columbia, Canada.
@@ -23,7 +22,8 @@ Imports:
     rlang,
     grid,
     egg,
-    gridExtra
+    gridExtra,
+    purrr
 Remotes: github::seananderson/gfplot
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)

@@ -27,6 +27,7 @@
 #'   guide_legend geom_ribbon element_text scale_shape_manual element_line
 #'   geom_path geom_polygon coord_equal stat_summary_hex facet_grid
 #'   position_identity coord_fixed
+#' @export
 
 fit_cpue_indices <- function(dat,
   species = "pacific cod",
@@ -131,6 +132,13 @@ clean_area <- function(area) {
   gsub("\\||\\[|\\]|\\+", "", area)
 }
 
+#' Plot CPUE indices
+#'
+#' @param dat The data
+#' @param blank_plot Whether or not a blank plot should be generated
+#' @param xlim The x limits
+#'
+#' @export
 plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
 
   yrs <- xlim

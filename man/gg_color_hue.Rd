@@ -9,11 +9,11 @@ gg_color_hue(n, hue_min = 8, hue_max = 290, l = 52, c = 100)
 \arguments{
 \item{n}{Number of colours to return.}
 
-\item{hue_min}{Minimum hue value in the range \link{0,360}}
+\item{hue_min}{Minimum hue value in the range \code{(0,360)}}
 
-\item{hue_max}{Maximum hue value in the range \link{0,360}}
+\item{hue_max}{Maximum hue value in the range \code{(0,360)}}
 
-\item{l}{Luminance in the range \link{0,100}}
+\item{l}{Luminance in the range \code{(0,100)}}
 
 \item{c}{Chroma of the colour.}
 }

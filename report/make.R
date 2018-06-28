@@ -1,6 +1,6 @@
-devtools::load_all("../gfplot/")
-devtools::load_all(".")
-library("dplyr")
+library(gfplot)
+library(gfsynopsis)
+library(dplyr)
 
 # ------------------------------------------------------------
 dc <- file.path("report", "data-cache3-uncompressed")

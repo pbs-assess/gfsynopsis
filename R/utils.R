@@ -1,9 +1,9 @@
 #' ggplot2-like colour scale in HCL space
 #'
 #' @param n Number of colours to return.
-#' @param hue_min Minimum hue value in the range [0,360]
-#' @param hue_max Maximum hue value in the range [0,360]
-#' @param l Luminance in the range [0,100]
+#' @param hue_min Minimum hue value in the range `(0,360)`
+#' @param hue_max Maximum hue value in the range `(0,360)`
+#' @param l Luminance in the range `(0,100)`
 #' @param c Chroma of the colour.
 #' @details See the [grDevices::hcl()] function for details.
 #' @export
