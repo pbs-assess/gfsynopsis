@@ -4,21 +4,49 @@ The combination of fishery dependent data, such as catch and effort, and fishery
 
 This package uses the data extraction, data tidying, model fitting, and plotting functions from [gfplot](https://github.com/pbs-assess/gfplot).
 
-# Installation
-
 The gfsynopsis package is *not* ready for use yet. However, it can be installed with:
+
+# Building the document
+
+1. Install gfsynopsis:
 
 ```r
 # install.packages("devtools")
 devtools::install_github("pbs-assess/gfsynopsis")
-library("gfsynopsis")
+library(gfsynopsis)
 ```
 
-# Building the document
+2. Clone or download the gfsynpsis repository.
 
-Here's what Andy did to get things working (can move this somewhere else at some point, just want to keep track). In base folder
+3. With the R working directory set to the root folder of the project (e.g. open the RStudio `gfsynopsis.Rproj` file), run:
 
 ```r
-cache_pbs_data(path="data-cache3-uncompressed")
+source("report/make.R")
 ```
-which takes a while and created a 4.23Gb folder of 61 files (includes type A and B species, as listed in `inst\extdata\spp-of-interest.csv`, though looks like 5 might be missing [not loking into right now]). Using that pathname because that is what is used in `report\make.R` which is run next and creates `report\data-cache3-uncompressed` which is 4.02Gb and 32 files (just type A species).
+
+4. Wait for a very long time for all the data to download, all the models to fit, and all the plots to generate (maybe a few hours if starting from scratch).
+
+5. On Unix, open a Terminal window, `cd` to the `gfsynopsis/report/report/` folder, and run `make` (after installing `latexmk`, perhaps with `homebrew`). Alternatively, or if not on Unix, install `latexmk` and run the following in R after changing the working directory to the `gfsynopsis/report/report/` folder:
+
+```r
+knitr::knit("pbs-gf-synopsis.Rnw")
+```
+
+On a command line outside of R:
+
+```sh
+latexmk -pdf pbs-gf-synopsis.tex
+```
+
+If you don't have `latexmk`, then run:
+
+```sh
+pdflatex pbs-gf-synopsis.tex
+bibtex pbs-gf-synopsis.tex
+pdflatex pbs-gf-synopsis.tex
+pdflatex pbs-gf-synopsis.tex
+pdflatex pbs-gf-synopsis.tex
+pdflatex pbs-gf-synopsis.tex
+```
+
+(I may have under or over estimated the number of times you need to run `pdflatex pbs-gf-synopsis.tex`. Run it until the table of contents and all the references and figure references are up-to-date.)
