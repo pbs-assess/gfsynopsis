@@ -92,9 +92,10 @@ fit_cpue_indices <- function(dat,
       return(NA)
     }
 
-    saveRDS(m_cpue, file =
-        file.path(cache, paste0(gsub(" ", "-", species), "-", area, "-model.rds")))
-    list(model = m_cpue, fleet = fleet, area = gsub("\\[|\\]|\\+", "", area))
+    if (save_model)
+      saveRDS(m_cpue,
+        file = file.path(cache, paste0(gsub(" ", "-", species), "-", clean_area(area), "-model.rds")))
+    list(model = m_cpue, fleet = fleet, area = clean_area(area))
   })
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
@@ -126,6 +127,10 @@ fit_cpue_indices <- function(dat,
       by = c("year", "area"))
 }
 
+clean_area <- function(area) {
+  gsub("\\||\\[|\\]|\\+", "", area)
+}
+
 plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
 
   yrs <- xlim
@@ -142,7 +147,7 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
       ) %>%
       arrange(area) %>%
       ungroup() %>%
-      mutate(area = factor(area, levels = c("3CD|5ABCDE", "5CDE", "5AB", "3CD")))
+      mutate(area = factor(area, levels = c(clean_area("3CD|5ABCDE"), "5CDE", "5AB", "3CD")))
   }
   labs <- tibble(area = factor(levels(dat$area), levels = levels(dat$area)))
 
