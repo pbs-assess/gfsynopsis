@@ -16,7 +16,7 @@ devtools::install_github("pbs-assess/gfsynopsis")
 library(gfsynopsis)
 ```
 
-2. Clone or download the gfsynpsis repository.
+2. Clone or download the gfsynopsis repository.
 
 3. With the R working directory set to the root folder of the project (e.g. open the RStudio `gfsynopsis.Rproj` file), run:
 
@@ -26,19 +26,19 @@ source("report/make.R")
 
 4. Wait for a very long time for all the data to download, all the models to fit, and all the plots to generate (maybe a few hours if starting from scratch).
 
-5. On Unix, open a Terminal window, `cd` to the `gfsynopsis/report/report/` folder, and run `make` (after installing `latexmk`, perhaps with `homebrew`). Alternatively, or if not on Unix, install `latexmk` and run the following in R after changing the working directory to the `gfsynopsis/report/report/` folder:
+5. On Unix, open a Terminal window, `cd` to the `gfsynopsis/report/report/` folder, and run `make` (after installing `latexmk`, perhaps with `homebrew`). Alternatively, or if not on Unix, run the following in R after changing the working directory to the `gfsynopsis/report/report/` folder:
 
 ```r
 knitr::knit("pbs-gf-synopsis.Rnw")
 ```
 
-On a command line outside of R:
+Then install `latexmk` and on a command line outside of R:
 
 ```sh
 latexmk -pdf pbs-gf-synopsis.tex
 ```
 
-If you don't have `latexmk`, then run:
+Or, if you don't have `latexmk` installed, then run:
 
 ```sh
 pdflatex pbs-gf-synopsis.tex
@@ -49,4 +49,6 @@ pdflatex pbs-gf-synopsis.tex
 pdflatex pbs-gf-synopsis.tex
 ```
 
-(I may have under or over estimated the number of times you need to run `pdflatex pbs-gf-synopsis.tex`. Run it until the table of contents and all the references and figure references are up-to-date.)
+I may have under or over estimated the number of times you need to run `pdflatex pbs-gf-synopsis.tex`. Run it until the table of contents and all the references and figure references are up-to-date.
+
+Problems? Sorry! File an [issue](https://github.com/pbs-assess/gfsynopsis/issues).
