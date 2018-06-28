@@ -1,6 +1,7 @@
 library(gfplot)
 library(gfsynopsis)
 library(dplyr)
+library(INLA)
 
 # ------------------------------------------------------------
 dc <- file.path("report", "data-cache3-uncompressed")

@@ -8,7 +8,14 @@ The gfsynopsis package is *not* ready for use yet. However, it can be installed 
 
 # Building the document
 
-1. Install gfsynopsis:
+1. Make sure INLA is installed:
+
+```r
+install.packages("INLA", repos = c(getOption("repos"), 
+  INLA = "https://inla.r-inla-download.org/R/stable"), dep = TRUE)
+```
+
+2. Install gfsynopsis:
 
 ```r
 # install.packages("devtools")
@@ -16,17 +23,18 @@ devtools::install_github("pbs-assess/gfsynopsis")
 library(gfsynopsis)
 ```
 
-2. Clone or download the gfsynopsis repository.
 
-3. With the R working directory set to the root folder of the project (e.g. open the RStudio `gfsynopsis.Rproj` file), run:
+3. Clone or download the gfsynopsis repository.
+
+4. With the R working directory set to the root folder of the project (e.g. open the RStudio `gfsynopsis.Rproj` file), run:
 
 ```r
 source("report/make.R")
 ```
 
-4. Wait for a very long time for all the data to download, all the models to fit, and all the plots to generate (maybe a few hours if starting from scratch).
+5. Wait for a very long time for all the data to download, all the models to fit, and all the plots to generate (maybe a few hours if starting from scratch).
 
-5. On Unix, open a Terminal window, `cd` to the `gfsynopsis/report/report/` folder, and run `make` (after installing `latexmk`, perhaps with `homebrew`). Alternatively, or if not on Unix, run the following in R after changing the working directory to the `gfsynopsis/report/report/` folder:
+6. On Unix, open a Terminal window, `cd` to the `gfsynopsis/report/report/` folder, and run `make` (after installing `latexmk`, perhaps with `homebrew`). Alternatively, or if not on Unix, run the following in R after changing the working directory to the `gfsynopsis/report/report/` folder:
 
 ```r
 knitr::knit("pbs-gf-synopsis.Rnw")
