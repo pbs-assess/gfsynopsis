@@ -49,12 +49,12 @@ latexmk -pdf pbs-gf-synopsis.tex
 Or, if you don't have `latexmk` installed, then run:
 
 ```sh
-pdflatex pbs-gf-synopsis.tex
-bibtex pbs-gf-synopsis.tex
-pdflatex pbs-gf-synopsis.tex
-pdflatex pbs-gf-synopsis.tex
-pdflatex pbs-gf-synopsis.tex
-pdflatex pbs-gf-synopsis.tex
+pdflatex pbs-gf-synopsis
+bibtex pbs-gf-synopsis
+pdflatex pbs-gf-synopsis
+pdflatex pbs-gf-synopsis
+pdflatex pbs-gf-synopsis
+pdflatex pbs-gf-synopsis
 ```
 
 I may have under or over estimated the number of times you need to run `pdflatex pbs-gf-synopsis.tex`. Run it until the table of contents and all the references and figure references are up-to-date.
