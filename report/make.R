@@ -1,6 +1,7 @@
-library(gfplot)
-library(gfsynopsis)
+devtools::load_all("../gfplot")
+devtools::load_all(".")
 library(dplyr)
+library(Rcpp)
 library(INLA)
 
 # ------------------------------------------------------------
