@@ -1,12 +1,17 @@
-devtools::load_all("../gfplot")
-devtools::load_all(".")
+library(gfplot)
+library(gfsynopsis)
 library(dplyr)
-library(Rcpp)
-library(INLA)
+library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
+
+# ------------------------------------------------------------
+# TODO: memory mapping problem; load in global workspace first:
+tmb_cpp <- system.file("tmb", "deltalognormal.cpp", package = "gfplot")
+TMB::compile(tmb_cpp)
+dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))
 
 # ------------------------------------------------------------
 dc <- file.path("report", "data-cache3-uncompressed")
-if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) {
+if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
   gfsynopsis::get_data(type = "A", path = dc)
 }
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
@@ -47,12 +52,6 @@ spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("\\citet{", spp$resdoc, "}"))
 spp$sar <- ifelse(is.na(spp$sar), "", paste0("\\citet{", spp$sar, "}"))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": \\citet{", spp$other_ref, "}"))
-
-# ------------------------------------------------------------
-# TODO: memory mapping problem; load in global workspace first:
-tmb_cpp <- system.file("tmb", "deltalognormal.cpp", package = "gfplot")
-TMB::compile(tmb_cpp)
-dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))
 
 # ------------------------------------------------------------
 system.time({

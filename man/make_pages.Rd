@@ -13,7 +13,7 @@ make_pages(dat, spp, aspect = 1.35, short_page_height_ratio = 0.78,
   "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS",
   "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
   "HBLL INS N", "HBLL INS S", "MSA HS"), mat_min_n = 20,
-  survey_map_outlier = 0.999)
+  survey_map_outlier = 0.999, inla_knots_pos = 75, inla_knots_bin = 100)
 }
 \arguments{
 \item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
@@ -61,6 +61,12 @@ plotted.}
 \item{survey_map_outlier}{A quantile above which of the colors in the map
 should be squashed the same color. Useful to avoid a small number of
 outlying cells from distorting the color scale.}
+
+\item{inla_knots_pos}{The number of knots for the positive component model of
+survey biomass if fit with INLA. Passed to \code{\link[gfplot:fit_survey_sets]{gfplot::fit_survey_sets()}}.}
+
+\item{inla_knots_bin}{The number of knots for the binary component model of
+survey biomass if fit with INLA. Passed to \code{\link[gfplot:fit_survey_sets]{gfplot::fit_survey_sets()}}.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

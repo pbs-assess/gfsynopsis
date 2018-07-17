@@ -30,6 +30,10 @@
 #' @param survey_map_outlier A quantile above which of the colors in the map
 #'   should be squashed the same color. Useful to avoid a small number of
 #'   outlying cells from distorting the color scale.
+#' @param inla_knots_pos The number of knots for the positive component model of
+#'   survey biomass if fit with INLA. Passed to [gfplot::fit_survey_sets()].
+#' @param inla_knots_bin The number of knots for the binary component model of
+#'   survey biomass if fit with INLA. Passed to [gfplot::fit_survey_sets()].
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -60,7 +64,9 @@ make_pages <- function(
       "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
       "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
-  survey_map_outlier = 0.999
+  survey_map_outlier = 0.999,
+  inla_knots_pos = 75,
+  inla_knots_bin = 100
   ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -441,7 +447,8 @@ make_pages <- function(
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      verbose = FALSE, max_edge = c(20, 100))
+      verbose = FALSE, max_edge = c(20, 100),
+      inla_knots_pos = inla_knots_pos, inla_knots_bin = inla_knots_bin)
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -452,7 +459,8 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "IPHC FISS",
-      verbose = FALSE, max_edge = c(30, 100))
+      verbose = FALSE, max_edge = c(30, 100),
+      inla_knots_pos = inla_knots_pos, inla_knots_bin = inla_knots_bin)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -463,7 +471,8 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
       surveys = "HBLL OUT",
-      verbose = FALSE, max_edge = c(30, 100))
+      verbose = FALSE, max_edge = c(30, 100),
+      inla_knots_pos = inla_knots_pos, inla_knots_bin = inla_knots_bin)
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
