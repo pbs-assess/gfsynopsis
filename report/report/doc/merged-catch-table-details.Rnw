@@ -1,0 +1,9 @@
+To create GFFOS.GF_MERGED_CATCH
+To do: note about why mc exists
+In each database that is used in building the GF_MERGED_CATCH (MC) table in GFFOS, a series of views are created to build an official catch table (often called “D_Official_Catch”). The official catch tables from the various databases are then joined together to form the MC table.
+PacHarvest
+Vw_MrgCatchPivot (hail in number, species, retained and discarded catch weight) and vw_MrgCatchBySet (hail in number, set number, species, catch weight, major area, fishing event start date and catch utilization code) were combined to produce vw_MrgProportions (hail in number, set number, species, set catch weight proportion of hail in “trip” retained catch weight by species).
+Retained catch weights by hail in number are extracted from on-board observer logs. Retained catch weight per set are also extracted from observer logs. These two catches are combined to obtain a proportion of catch per set over catch per hail in number/trip. This proportion from the observer logs is then applied to the hail in catch weights in dockside records to obtain a more accurate catch per set. This value populates the “Landed_kg” field in the MC table. Landings and retained weights from fisher logs are combined to create a table “D_Merged_Catches”. This table is combined with other details per set to create the “D_Official_Catch” table for PacHarvest.
+
+GFFOS
+All catch for all species are extracted by fishing event (FE) with fishery ID 58 (“Groundfish all species”) and CDSRC_CDSRC_ID 105, 106, or 107 (observer log ?)
