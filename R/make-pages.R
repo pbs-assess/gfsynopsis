@@ -462,7 +462,7 @@ make_pages <- function(
   if (!file.exists(map_cache_spp_hbll)) {
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp, model = "inla",
-      surveys = "HBLL OUT",
+      surveys = c("HBLL OUT N", "HBLL OUT S"),
       verbose = FALSE, max_edge = c(30, 100))
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
