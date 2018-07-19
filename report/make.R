@@ -1,7 +1,7 @@
-library(gfplot)
-library(gfsynopsis)
-library(dplyr)
 library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
+devtools::load_all("../gfplot")
+devtools::load_all(".")
+library(dplyr)
 
 # ------------------------------------------------------------
 # TODO: memory mapping problem; load in global workspace first:
@@ -15,7 +15,7 @@ if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
   gfsynopsis::get_data(type = "A", path = dc)
 }
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
-spp <- get_spp_names() %>% filter(type == "A")
+spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
 
 # ------------------------------------------------------------
 # used for hacked parallel processing from command line; ignore
