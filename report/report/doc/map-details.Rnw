@@ -97,9 +97,9 @@ Normal(mean, standard deviation) not Normal(mean, variance) following the
 convention used by the Bayesian software Stan \citep{rstan2018}.
 
 We fit the four synoptic survey data sets separately, because only two of the
-surveys are conducted each year and the surveys are disjointed in space. We
-combined the predictions to generate the map plots, but labelled the years the
-various surveys were conducted in. Currently, we are fitting the HBLL
+surveys are conducted each year and the surveys are disjointed in space and
+time. We combined the predictions to generate the map plots, but labelled the
+years the various surveys were conducted in. Currently, we are fitting the HBLL
 surveys as one dataset, although we plan to separate the north and south surveys
 since they are also conducted in offset years. We have projected the IPCC model
 estimates back to the original station locations for simplicity and to avoid

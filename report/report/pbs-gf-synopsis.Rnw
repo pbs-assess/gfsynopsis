@@ -64,6 +64,25 @@ Nanaimo, British Columbia, V9T 6N7, Canada
 % Make the first few pages
 \frontmatter
 
+<<knitr-opts, echo=FALSE, cache=FALSE>>=
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "knitr-figs/",
+  cache.path = "knitr-cache/",
+  fig.asp = 0.618,
+  fig.width = 9,
+  echo = FALSE,
+  autodep = TRUE,
+  cache = TRUE,
+  cache.comments = FALSE,
+  dev = "png",
+  dpi = 200,
+  fig.align = "center",
+  fig.pos = "htb"
+)
+@
+
 \section{INTRODUCTION} \label{sec:introduction}
 
 <<introduction, child='doc/01-introduction.Rnw'>>=
