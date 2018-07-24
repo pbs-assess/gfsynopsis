@@ -25,18 +25,18 @@ fit_survey_maps <- function(dat,
 
   model <- match.arg(model)
   out <- lapply(surveys, function(surv) {
-    if (!surv %in% c("HBLL OUT", "IPHC FISS", "SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"))
+    if (!surv %in% c("HBLL OUT N", "HBLL OUT S", "IPHC FISS", "SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"))
       stop("survey value was '", surv, "' but must be one of ",
-        "c('HBLL OUT', 'IPHC FISS', 'SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')")
+        "c('HBLL OUT N', 'HBLL OUT S', 'IPHC FISS', 'SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')")
     message("Fitting model for the survey ", surv)
 
-    if (surv == "HBLL OUT") {
+    if (surv %in% c("HBLL OUT N", "HBLL OUT S")) {
       density_column <- "density_ppkm2"
-      .dat <- filter(dat, survey_abbrev %in% c("HBLL OUT N", "HBLL OUT S"))
-      .dat$survey_abbrev <- "HBLL OUT"
+      .dat <- filter(dat, survey_abbrev %in% surv)
+      .dat$survey_abbrev <- surv
       .dat$year <- years[2]
-      premade_grid <- gfplot::hbll_grid
-      raw_dat <- tidy_survey_sets(.dat, "HBLL OUT",
+      premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
+      raw_dat <- tidy_survey_sets(.dat, surv,
         years = years[2], density_column = density_column
       )
     }
