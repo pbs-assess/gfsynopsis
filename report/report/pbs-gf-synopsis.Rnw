@@ -106,7 +106,14 @@ according to DFO species codes.
 The table of contents at the beginning of the document includes links to the
 various species pages.
 
-<<plots, child='doc/02-plots.Rnw'>>=
+% <<plots, child='doc/02-plots.Rnw'>>=
+% @
+
+\clearpage
+
+\section{AGEING PRECISION} \label{sec:age-precision}
+
+<<precision, child='doc/age-precision.Rnw'>>=
 @
 
 \clearpage
