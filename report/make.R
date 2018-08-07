@@ -4,13 +4,7 @@ devtools::load_all(".")
 library(dplyr)
 
 # ------------------------------------------------------------
-# TODO: memory mapping problem; load in global workspace first:
-tmb_cpp <- system.file("tmb", "deltalognormal.cpp", package = "gfplot")
-TMB::compile(tmb_cpp)
-dyn.load(TMB::dynlib(sub("\\.cpp", "", tmb_cpp)))
-
-# ------------------------------------------------------------
-dc <- file.path("report", "data-cache3-uncompressed")
+dc <- file.path("report", "data-cache")
 if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
   gfsynopsis::get_data(type = "A", path = dc)
 }
@@ -54,39 +48,37 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": \\citet{", spp$other_ref, "}"))
 
 # ------------------------------------------------------------
-system.time({
-  for (i in seq_along(spp$species_common_name)) {
-    fig_check <- paste0(file.path("report", "figure-pages"), "/",
-      gfsynopsis:::clean_name(spp$species_common_name[i]))
-    fig_check1 <- paste0(fig_check, "-1.png")
-    fig_check2 <- paste0(fig_check, "-2.png")
+for (i in seq_along(spp$species_common_name)) {
+  fig_check <- paste0(file.path("report", "figure-pages"), "/",
+    gfsynopsis:::clean_name(spp$species_common_name[i]))
+  fig_check1 <- paste0(fig_check, "-1.png")
+  fig_check2 <- paste0(fig_check, "-2.png")
 
-    if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
-      cat(crayon::red(clisymbols::symbol$cross),
-        "Building figure pages for", spp$species_common_name[i], "\n")
+  if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
+    cat(crayon::red(clisymbols::symbol$cross),
+      "Building figure pages for", spp$species_common_name[i], "\n")
 
-      if (spp$species_common_name[i] %in% c("petrale sole"))
-        save_gg_objects <- TRUE
-      else
-        save_gg_objects <- FALSE
+    if (spp$species_common_name[i] %in% c("petrale sole"))
+      save_gg_objects <- TRUE
+    else
+      save_gg_objects <- FALSE
 
-      dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
-      dat$cpue_index <- d_cpue
-      make_pages(dat, spp$species_common_name[i],
-        include_map_square = FALSE,
-        resolution = 160,
-        save_gg_objects = save_gg_objects,
-        survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-          RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-          "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-      )
-
-    } else {
-      cat(crayon::green(clisymbols::symbol$tick),
-        "Figure pages for", spp$species_common_name[i], "already exist\n")
-    }
+    dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
+    dat$cpue_index <- d_cpue
+    make_pages(dat, spp$species_common_name[i],
+      include_map_square = FALSE,
+      resolution = 160,
+      save_gg_objects = save_gg_objects,
+      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+    )
+  } else {
+    cat(crayon::green(clisymbols::symbol$tick),
+      "Figure pages for", spp$species_common_name[i], "already exist\n")
   }
-})
+}
+
 
 # ------------------------------------------------------------
 temp <- lapply(spp$species_common_name, function(x) {

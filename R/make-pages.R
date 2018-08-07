@@ -72,6 +72,12 @@ make_pages <- function(
   dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp)
   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == spp)
   dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
+
+  # TODO: temp:
+  dat$catch$major_stat_area_description <- NULL # in case
+  dat$catch <- dplyr::inner_join(dat$catch, gfplot::pbs_areas, by = "major_stat_area_code")
+  dat$catch <- rename(dat$catch, major_stat_area_name = major_stat_area_description)
+
   dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
   dat$survey_index <- dplyr::filter(dat$survey_index, species_common_name == spp)
@@ -156,6 +162,7 @@ make_pages <- function(
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
       year = seq(2004, 2016, 2),
+      max_size = 8,
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
       year_range = c(2003, 2017)) +
       guides(fill = FALSE, colour = FALSE) +
@@ -164,14 +171,18 @@ make_pages <- function(
 
   # Length compositions: -------------------------------
 
-  bin_width1 <- diff(range(dat$survey_samples$length, na.rm = TRUE)) / 30
-  bin_width2 <- diff(range(dat$commercial_samples_no_keepers$length, na.rm = TRUE)) / 30
+  bin_width1 <- diff(quantile(dat$survey_samples$length, na.rm = TRUE,
+    probs = c(0.005, 0.995))) / 20
+  bin_width2 <- diff(quantile(dat$commercial_samples_no_keepers$length,
+    na.rm = TRUE, probs = c(0.005, 0.995))) / 20
   bin_width <- mean(bin_width1, bin_width2, na.rm = TRUE)
 
   ss <- tidy_lengths_raw(dat$survey_samples, bin_size = bin_width,
     sample_type = "survey")
-  sc <- tidy_lengths_raw(dat$commercial_samples_no_keepers, bin_size = bin_width,
-    sample_type = "commercial")
+  sc <- dat$commercial_samples_no_keepers %>%
+    mutate(sex = 2) %>%  # fake all sex as female for commercial samples; often not sexed
+    tidy_lengths_raw(dat$commercial_samples_no_keepers, bin_size = bin_width,
+      sample_type = "commercial", spp_cat_code = 1)
 
   if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
   if (is.data.frame(sc))
