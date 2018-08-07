@@ -61,7 +61,21 @@ fit_cpue_indices <- function(dat,
     if (length(unique(fleet$vessel_name)) < 10)
       return(NA)
 
+    not_enough_samples <- function(.d, column, threshold = 5) {
+      tb <- table(.d[[column]])
+      above <- tb >= threshold
+      names(tb)[!above]
+    }
+
     pos_catch_fleet <- dplyr::filter(fleet, pos_catch == 1)
+    fleet <- fleet[!fleet$depth %in% not_enough_samples(pos_catch_fleet, "depth"), , drop = FALSE]
+    fleet <- fleet[!fleet$month %in% not_enough_samples(pos_catch_fleet, "month"), , drop = FALSE]
+    fleet <- fleet[!fleet$latitude %in% not_enough_samples(pos_catch_fleet, "latitude"), , drop = FALSE]
+    fleet <- fleet[!fleet$vessel %in% not_enough_samples(pos_catch_fleet, "vessel"), , drop = FALSE]
+    fleet <- fleet[!fleet$locality %in% not_enough_samples(pos_catch_fleet, "locality"), , drop = FALSE]
+    fleet <- droplevels(fleet)
+    pos_catch_fleet <- dplyr::filter(fleet, pos_catch == 1)
+
     base_month    <- get_most_common_level(pos_catch_fleet$month)
     base_depth    <- get_most_common_level(pos_catch_fleet$depth)
     base_lat      <- get_most_common_level(pos_catch_fleet$latitude)
@@ -74,6 +88,7 @@ fit_cpue_indices <- function(dat,
       locality = f(locality, base_locality),
       latitude = f(latitude, base_lat)
     )
+    fleet$cpue <- fleet$spp_catch / fleet$hours_fished
 
     message("Fitting standardization model for area ", area, ".")
 
@@ -86,7 +101,7 @@ fit_cpue_indices <- function(dat,
           locality +
           depth +
           latitude,
-        formula_gamma = (spp_catch / hours_fished) ~
+        formula_gamma = cpue ~
           year_factor +
           month +
           vessel +
@@ -116,22 +131,21 @@ fit_cpue_indices <- function(dat,
   if (nrow(indices_centered) == 0) # none exist
     return(NA)
 
-  # coef_plots <- lapply(cpue_models, function(x) {
-  # if (is.na(x[[1]])[[1]]) return()
-  #   plot_cpue_index_coefs(x$model) + labs(title = x$area)
-  # })
-  # ignore <- lapply(coef_plots, print)
-
-  jks <- purrr::map_df(cpue_models, function(x) {
+  unstand_est <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
-    out <- plot_cpue_index_jk(x$model, terms = NULL, return_data = TRUE)
-    out$area <- x$area
-    out
+
+    fit_yr <- fit_cpue_index(x$fleet,
+      formula_binomial = pos_catch ~ year_factor,
+      formula_gamma = cpue ~ year_factor
+    )
+    p_yr <- predict_cpue_index(fit_yr, center = center)
+    p_yr$area <- x$area
+    dplyr::rename(p_yr, est_unstandardized = est) %>%
+      dplyr::filter(model == "Combined") %>%
+      dplyr::select(year, est_unstandardized, area)
   })
 
-  jks %>%
-    dplyr::filter(term == "Unstandardized") %>%
-    dplyr::rename(est_unstandardized = pred) %>%
+  unstand_est %>%
     dplyr::inner_join(dplyr::filter(indices_centered, model == "Combined"),
       by = c("year", "area"))
 }
