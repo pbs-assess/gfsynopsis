@@ -12,6 +12,10 @@
 #' @param cache A folder in which to cache the model output if desired.
 #' @param save_model Logical for whether the model should be cached. Defaults to
 #'   `FALSE` to save space.
+#' @param arith_cpue_comparison Logical: should the unstandardized comparison be
+#'   an arithmetic 'ratio estimator' CPUE (summed catch for this species divided
+#'   by summed effort for the entire fleet) (if `TRUE`) or a GLM / GLMM with
+#'   only a year predictor.
 #'
 #' @import gfplot
 #' @importFrom dplyr filter mutate summarise select group_by n arrange ungroup
@@ -33,21 +37,21 @@ fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
   center = TRUE, cache = file.path("report", "cpue-cache"),
-  save_model = FALSE) {
+  save_model = FALSE, arith_cpue_comparison = TRUE) {
 
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
 
-    if (species == "quillback rockfish") # TODO CONVERGENCE ISSUES
-      return(NA)
+    # if (species == "quillback rockfish") # TODO CONVERGENCE ISSUES
+    #   return(NA)
 
     fleet <- tidy_cpue_index(dat,
       year_range = c(1996, 2017),
       species_common = species,
       area_grep_pattern = area,
       min_positive_tows = 100,
-      min_positive_trips = 4,
-      min_yrs_with_trips = 4,
+      min_positive_trips = 5,
+      min_yrs_with_trips = 5,
       lat_band_width = 0.2,
       depth_band_width = 50,
       clean_bins = TRUE,
@@ -61,7 +65,7 @@ fit_cpue_indices <- function(dat,
     if (length(unique(fleet$vessel_name)) < 10)
       return(NA)
 
-    not_enough_samples <- function(.d, column, threshold = 5) {
+    not_enough_samples <- function(.d, column, threshold = 3) {
       tb <- table(.d[[column]])
       above <- tb >= threshold
       names(tb)[!above]
@@ -92,24 +96,15 @@ fit_cpue_indices <- function(dat,
 
     message("Fitting standardization model for area ", area, ".")
 
-    # invisible(capture.output(
-      # m_cpue <- try(fit_cpue_index(fleet,
-      m_cpue <- fit_cpue_index(fleet,
-        formula_binomial = pos_catch ~ year_factor +
+    invisible(capture.output(
+      m_cpue <- try(gfplot::fit_cpue_index_tweedie(fleet,
+        formula = cpue ~ year_factor +
           month +
           vessel +
           locality +
           depth +
-          latitude,
-        formula_gamma = cpue ~
-          year_factor +
-          month +
-          vessel +
-          locality +
-          depth +
-          latitude
-      )
-    # ))
+          latitude)
+      )))
 
     if (identical(class(m_cpue), "try-error")) {
       warning("TMB CPUE model for area ", area, " didn't converge.")
@@ -118,13 +113,14 @@ fit_cpue_indices <- function(dat,
 
     if (save_model)
       saveRDS(m_cpue,
-        file = file.path(cache, paste0(gsub(" ", "-", species), "-", clean_area(area), "-model.rds")))
+        file = file.path(cache, paste0(gsub(" ", "-", species),
+          "-", clean_area(area), "-model.rds")))
     list(model = m_cpue, fleet = fleet, area = clean_area(area))
   })
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
-    p <- predict_cpue_index(x$model, center = center)
+    p <- predict_cpue_index_tweedie(x$model, center = center)
     p$area <- x$area
     p
   })
@@ -134,15 +130,26 @@ fit_cpue_indices <- function(dat,
   unstand_est <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
 
-    fit_yr <- fit_cpue_index(x$fleet,
-      formula_binomial = pos_catch ~ year_factor,
-      formula_gamma = cpue ~ year_factor
-    )
-    p_yr <- predict_cpue_index(fit_yr, center = center)
-    p_yr$area <- x$area
-    dplyr::rename(p_yr, est_unstandardized = est) %>%
-      dplyr::filter(model == "Combined") %>%
-      dplyr::select(year, est_unstandardized, area)
+    if (arith_cpue_comparison) {
+      group_by(x$fleet, year_factor) %>%
+        summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) %>%
+        mutate(area = x$area) %>%
+        ungroup() %>%
+        rename(year = year_factor) %>%
+        mutate(year = as.numeric(as.character(year))) %>%
+        dplyr::select(year, est_unstandardized, area) %>%
+        mutate(est_unstandardized = est_unstandardized /
+            exp(mean(log(est_unstandardized))))
+    } else {
+      fit_yr <- fit_cpue_index_tweedie(x$fleet,
+        formula = cpue ~ year_factor
+      )
+      p_yr <- predict_cpue_index_tweedie(fit_yr, center = center)
+      p_yr$area <- x$area
+      dplyr::rename(p_yr, est_unstandardized = est) %>%
+        dplyr::filter(model == "Combined") %>%
+        dplyr::select(year, est_unstandardized, area)
+    }
   })
 
   unstand_est %>%

@@ -6,7 +6,7 @@
 \usage{
 fit_cpue_indices(dat, species = "pacific cod", areas = c("3[CD]+|5[ABCDE]+",
   "5[CDE]+", "5[AB]+", "3[CD]+"), center = TRUE, cache = file.path("report",
-  "cpue-cache"), save_model = FALSE)
+  "cpue-cache"), save_model = FALSE, arith_cpue_comparison = TRUE)
 }
 \arguments{
 \item{dat}{A data frame from \code{\link[gfplot:get_cpue_index]{gfplot::get_cpue_index()}}.}
@@ -23,6 +23,11 @@ geometric mean.}
 
 \item{save_model}{Logical for whether the model should be cached. Defaults to
 \code{FALSE} to save space.}
+
+\item{arith_cpue_comparison}{Logical: should the unstandardized comparison be
+an arithmetic 'ratio estimator' CPUE (summed catch for this species divided
+by summed effort for the entire fleet) (if \code{TRUE}) or a GLM / GLMM with
+only a year predictor.}
 }
 \description{
 This function helps it fit the CPUE standardization models across multiple
