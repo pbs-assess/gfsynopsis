@@ -68,25 +68,33 @@ fit_cpue_indices <- function(dat,
     base_vessel   <- get_most_common_level(pos_catch_fleet$vessel)
     base_locality <- get_most_common_level(pos_catch_fleet$locality)
 
+    fleet <- mutate(fleet,
+      month = f(month, base_month),
+      vessel = f(vessel, base_vessel),
+      locality = f(locality, base_locality),
+      latitude = f(latitude, base_lat)
+    )
+
     message("Fitting standardization model for area ", area, ".")
 
-    invisible(capture.output(
-      m_cpue <- try(fit_cpue_index(fleet,
+    # invisible(capture.output(
+      # m_cpue <- try(fit_cpue_index(fleet,
+      m_cpue <- fit_cpue_index(fleet,
         formula_binomial = pos_catch ~ year_factor +
-          f(month, base_month) +
-          f(vessel, base_vessel) +
-          f(locality, base_locality) +
-          f(depth, base_depth) +
-          f(latitude, base_lat),
-        formula_lognormal = log(spp_catch / hours_fished) ~
+          month +
+          vessel +
+          locality +
+          depth +
+          latitude,
+        formula_gamma = (spp_catch / hours_fished) ~
           year_factor +
-          f(month, base_month) +
-          f(vessel, base_vessel) +
-          f(locality, base_locality) +
-          f(depth, base_depth) +
-          f(latitude, base_lat)
-      ), silent = TRUE)
-    ))
+          month +
+          vessel +
+          locality +
+          depth +
+          latitude
+      )
+    # ))
 
     if (identical(class(m_cpue), "try-error")) {
       warning("TMB CPUE model for area ", area, " didn't converge.")
