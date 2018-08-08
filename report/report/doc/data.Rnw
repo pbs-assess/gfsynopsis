@@ -247,7 +247,7 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                               
 
 <<aging-method-table-setup>>=
 library(dplyr)
-dc <- "../../data-cache2"
+dc <- "../../data-cache"
 d_survey_sets <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
 meta <- d_survey_sets %>%
   select(species_common_name, species_science_name, species_code) %>%

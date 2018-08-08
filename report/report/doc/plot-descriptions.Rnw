@@ -32,7 +32,7 @@ Section~\ref{sec:plot-pages} We use \Sexpr{sp} as an example species.
 
 <<make-surv-abbrev-text, eval=TRUE>>=
 library(dplyr)
-dat_survey_index <- readRDS("../../data-cache2/pbs-survey-index.rds")
+dat_survey_index <- readRDS("../../data-cache/pbs-survey-index.rds")
 survs <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
   "HBLL OUT N",
