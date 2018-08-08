@@ -50,3 +50,4 @@ report/report/knit*
 report/report/*.rtf
 resdoc/
 inst/rockfish-map-*
+*.*~
