@@ -228,11 +228,11 @@ include the true values with correct coverage (e.g.
 Fig.~\ref{fig:cpue-sim-ts-val}).
 
 <<load-cpue-model>>=
-cpue_model <- readRDS("../../cpue-cache/petrale-sole-3[CD]+-model.rds")
+cpue_model <- readRDS("../../cpue-cache/petrale-sole-3CD-model.rds")
 @
 
 <<cpue-coefs-eg, fig.cap="Example model coefficients for CPUE index standardization for Petrale Sole in area 3CD. ``Bin.'' (black) refers to the binary component model and ``Pos.'' (blue) refers to the positive component model. The white dots represent the parameter estimates and the thick and thin line segments represent 50\\% and 95\\% confidence intervals. Each panel represents a set of coefficients for each factor level. The reference level has been set to the most common bin and the shown coefficient estimates are effects with respect to this reference level. For example, The month effects represent differences between the indicated month and January (the omitted reference level).", fig.asp=1.1, warning=FALSE, message=FALSE, fig.width=13>>=
-gfplot::plot_cpue_index_coefs(cpue_model, regex = c(", base_[a-z]+", ""))
+gfplot::plot_cpue_index_coefs(cpue_model, type = "tweedie")
 @
 
 <<cpue-sim-eg, results='hide', message=FALSE, warning=FALSE>>=

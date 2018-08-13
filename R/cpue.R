@@ -130,7 +130,7 @@ fit_cpue_indices <- function(dat,
 }
 
 clean_area <- function(area) {
-  gsub("\\||\\[|\\]|\\+", "", area)
+  gsub("\\^|\\[|\\]|\\+|\\|", "", area)
 }
 
 #' Plot CPUE indices
