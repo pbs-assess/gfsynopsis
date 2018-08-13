@@ -48,15 +48,16 @@ fit_cpue_indices <- function(dat,
     fleet <- tidy_cpue_index(dat,
       year_range = c(1996, 2017),
       species_common = species,
+      gear = "bottom trawl",
+      use_alt_year = FALSE,
       area_grep_pattern = area,
       min_positive_tows = 100,
       min_positive_trips = 5,
       min_yrs_with_trips = 5,
-      lat_band_width = 0.2,
-      depth_band_width = 50,
-      clean_bins = TRUE,
-      depth_bin_quantiles = c(0.02, 0.98),
-      lat_bin_quantiles = c(0.01, 0.99)
+      lat_band_width = 0.1,
+      depth_band_width = 25,
+      depth_bin_quantiles = c(0.001, 0.999),
+      lat_bin_quantiles = c(0.00001, 0.9999)
     )
 
     if (!is.data.frame(fleet))
@@ -64,35 +65,6 @@ fit_cpue_indices <- function(dat,
         return(NA)
     if (length(unique(fleet$vessel_name)) < 10)
       return(NA)
-
-    not_enough_samples <- function(.d, column, threshold = 3) {
-      tb <- table(.d[[column]])
-      above <- tb >= threshold
-      names(tb)[!above]
-    }
-
-    pos_catch_fleet <- dplyr::filter(fleet, pos_catch == 1)
-    fleet <- fleet[!fleet$depth %in% not_enough_samples(pos_catch_fleet, "depth"), , drop = FALSE]
-    fleet <- fleet[!fleet$month %in% not_enough_samples(pos_catch_fleet, "month"), , drop = FALSE]
-    fleet <- fleet[!fleet$latitude %in% not_enough_samples(pos_catch_fleet, "latitude"), , drop = FALSE]
-    fleet <- fleet[!fleet$vessel %in% not_enough_samples(pos_catch_fleet, "vessel"), , drop = FALSE]
-    fleet <- fleet[!fleet$locality %in% not_enough_samples(pos_catch_fleet, "locality"), , drop = FALSE]
-    fleet <- droplevels(fleet)
-    pos_catch_fleet <- dplyr::filter(fleet, pos_catch == 1)
-
-    base_month    <- get_most_common_level(pos_catch_fleet$month)
-    base_depth    <- get_most_common_level(pos_catch_fleet$depth)
-    base_lat      <- get_most_common_level(pos_catch_fleet$latitude)
-    base_vessel   <- get_most_common_level(pos_catch_fleet$vessel)
-    base_locality <- get_most_common_level(pos_catch_fleet$locality)
-
-    fleet <- mutate(fleet,
-      month = f(month, base_month),
-      vessel = f(vessel, base_vessel),
-      locality = f(locality, base_locality),
-      latitude = f(latitude, base_lat)
-    )
-    fleet$cpue <- fleet$spp_catch / fleet$hours_fished
 
     message("Fitting standardization model for area ", area, ".")
 
