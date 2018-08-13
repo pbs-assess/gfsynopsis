@@ -261,7 +261,6 @@ make_pages <- function(
   }
 
   # Commercial catch: -------------------------------
-
   if (nrow(dat$catch) > 0) {
     g_catch <- gfsynopsis::plot_catches(dat$catch)
   } else {
@@ -272,6 +271,7 @@ make_pages <- function(
       gear = "abc", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
+  g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line"))
 
   # Survey biomass indices: -------------------------------
 
