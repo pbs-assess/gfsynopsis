@@ -23,7 +23,8 @@ Imports:
     grid,
     egg,
     gridExtra,
-    purrr
+    purrr,
+    cowplot
 Remotes: github::seananderson/gfplot
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
