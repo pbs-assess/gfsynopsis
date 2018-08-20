@@ -72,6 +72,12 @@ make_pages <- function(
   dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp)
   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == spp)
   dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
+
+  # TODO: temp:
+  dat$catch$major_stat_area_description <- NULL # in case
+  dat$catch <- dplyr::inner_join(dat$catch, gfplot::pbs_areas, by = "major_stat_area_code")
+  dat$catch <- rename(dat$catch, major_stat_area_name = major_stat_area_description)
+
   dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
   dat$survey_index <- dplyr::filter(dat$survey_index, species_common_name == spp)
@@ -156,6 +162,7 @@ make_pages <- function(
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
       year = seq(2004, 2016, 2),
+      max_size = 8,
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
       year_range = c(2003, 2017)) +
       guides(fill = FALSE, colour = FALSE) +
@@ -164,14 +171,18 @@ make_pages <- function(
 
   # Length compositions: -------------------------------
 
-  bin_width1 <- diff(range(dat$survey_samples$length, na.rm = TRUE)) / 30
-  bin_width2 <- diff(range(dat$commercial_samples_no_keepers$length, na.rm = TRUE)) / 30
+  bin_width1 <- diff(quantile(dat$survey_samples$length, na.rm = TRUE,
+    probs = c(0.005, 0.995))) / 20
+  bin_width2 <- diff(quantile(dat$commercial_samples_no_keepers$length,
+    na.rm = TRUE, probs = c(0.005, 0.995))) / 20
   bin_width <- mean(bin_width1, bin_width2, na.rm = TRUE)
 
   ss <- tidy_lengths_raw(dat$survey_samples, bin_size = bin_width,
     sample_type = "survey")
-  sc <- tidy_lengths_raw(dat$commercial_samples_no_keepers, bin_size = bin_width,
-    sample_type = "commercial")
+  sc <- dat$commercial_samples_no_keepers %>%
+    mutate(sex = 2) %>%  # fake all sex as female for commercial samples; often not sexed
+    tidy_lengths_raw(dat$commercial_samples_no_keepers, bin_size = bin_width,
+      sample_type = "commercial", spp_cat_code = 1)
 
   if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
   if (is.data.frame(sc))
@@ -250,7 +261,6 @@ make_pages <- function(
   }
 
   # Commercial catch: -------------------------------
-
   if (nrow(dat$catch) > 0) {
     g_catch <- gfsynopsis::plot_catches(dat$catch)
   } else {
@@ -261,6 +271,7 @@ make_pages <- function(
       gear = "abc", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
+  g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line"))
 
   # Survey biomass indices: -------------------------------
 
@@ -339,6 +350,18 @@ make_pages <- function(
       summarise(N = n()) %>%
       group_by(female) %>%
       summarise(N_min = min(N))
+
+    # if prob. mature looks wrong, fake a low sample size to not plot it:
+    prob_mat <- mat_age$pred_data %>%
+      select(age_or_length, female, glmm_fe) %>%
+      unique() %>%
+      group_by(female) %>%
+      filter(age_or_length < quantile(age_or_length, probs = 0.1)) %>%
+      summarise(mean_mat = mean(glmm_fe))
+
+    sample_size <- left_join(sample_size, prob_mat, by = "female") %>%
+      mutate(N_min = ifelse(mean_mat > 0.5, 0, N_min))
+
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
       type <- "none"

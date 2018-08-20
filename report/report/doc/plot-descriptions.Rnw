@@ -32,7 +32,9 @@ Section~\ref{sec:plot-pages} We use \Sexpr{sp} as an example species.
 
 <<make-surv-abbrev-text, eval=TRUE>>=
 library(dplyr)
-dat_survey_index <- readRDS("../../data-cache2/pbs-survey-index.rds")
+# happens to have data for all the surveys:
+dat_survey_index <- readRDS("../../data-cache/canary-rockfish.rds")
+dat_survey_index <- dat_survey_index$survey_index
 survs <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
   "HBLL OUT N",
@@ -218,10 +220,6 @@ g$lengths
 
 <<ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as coloured (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts of fish through time. These are raw unweighted proportions at age; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference. See Figure \\ref{fig:survey-index} for survey abbreviations.")>>=
 g$ages
-@
-
-<<age-precisions, echo=FALSE, out.width="5in", fig.width=6, fig.cap=paste0("Example ageing precision plot for ", sp, ". Each dot and cross-hatch represents an individual fish that has been aged twice. The x-axis represents the age and confidence interval recorded by the initial (``primary'') individual aging the fish. The y-axis represents the age and confidence interval recorded by the second (``precision'') individual aging the fish. The dashed diagonal line represents a perfect one-to-one agreement between the two ages. Up to 200 fish have been randomly sampled from all fish precision-aged for a species, and a small amount of random jitter has been added to both axes to reduce overplotting with the same jitter value added to both the x and y axes for a given fish.")>>=
-g$age_precision
 @
 
 \clearpage

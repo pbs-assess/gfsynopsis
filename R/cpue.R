@@ -12,6 +12,10 @@
 #' @param cache A folder in which to cache the model output if desired.
 #' @param save_model Logical for whether the model should be cached. Defaults to
 #'   `FALSE` to save space.
+#' @param arith_cpue_comparison Logical: should the unstandardized comparison be
+#'   an arithmetic 'ratio estimator' CPUE (summed catch for this species divided
+#'   by summed effort for the entire fleet) (if `TRUE`) or a GLM / GLMM with
+#'   only a year predictor.
 #'
 #' @import gfplot
 #' @importFrom dplyr filter mutate summarise select group_by n arrange ungroup
@@ -33,26 +37,27 @@ fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
   center = TRUE, cache = file.path("report", "cpue-cache"),
-  save_model = FALSE) {
+  save_model = FALSE, arith_cpue_comparison = TRUE) {
 
   cpue_models <- lapply(areas, function(area) {
     message("Determining qualified fleet for area ", area, ".")
 
-    if (species == "quillback rockfish") # TODO CONVERGENCE ISSUES
-      return(NA)
+    # if (species == "quillback rockfish") # TODO CONVERGENCE ISSUES
+    #   return(NA)
 
     fleet <- tidy_cpue_index(dat,
       year_range = c(1996, 2017),
       species_common = species,
+      gear = "bottom trawl",
+      use_alt_year = FALSE,
       area_grep_pattern = area,
       min_positive_tows = 100,
-      min_positive_trips = 4,
-      min_yrs_with_trips = 4,
-      lat_band_width = 0.2,
-      depth_band_width = 50,
-      clean_bins = TRUE,
-      depth_bin_quantiles = c(0.02, 0.98),
-      lat_bin_quantiles = c(0.01, 0.99)
+      min_positive_trips = 5,
+      min_yrs_with_trips = 5,
+      lat_band_width = 0.1,
+      depth_band_width = 25,
+      depth_bin_quantiles = c(0.001, 0.999),
+      lat_bin_quantiles = c(0.00001, 0.9999)
     )
 
     if (!is.data.frame(fleet))
@@ -61,32 +66,17 @@ fit_cpue_indices <- function(dat,
     if (length(unique(fleet$vessel_name)) < 10)
       return(NA)
 
-    pos_catch_fleet <- dplyr::filter(fleet, pos_catch == 1)
-    base_month    <- get_most_common_level(pos_catch_fleet$month)
-    base_depth    <- get_most_common_level(pos_catch_fleet$depth)
-    base_lat      <- get_most_common_level(pos_catch_fleet$latitude)
-    base_vessel   <- get_most_common_level(pos_catch_fleet$vessel)
-    base_locality <- get_most_common_level(pos_catch_fleet$locality)
-
     message("Fitting standardization model for area ", area, ".")
 
     invisible(capture.output(
-      m_cpue <- try(fit_cpue_index(fleet,
-        formula_binomial = pos_catch ~ year_factor +
-          f(month, base_month) +
-          f(vessel, base_vessel) +
-          f(locality, base_locality) +
-          f(depth, base_depth) +
-          f(latitude, base_lat),
-        formula_lognormal = log(spp_catch / hours_fished) ~
-          year_factor +
-          f(month, base_month) +
-          f(vessel, base_vessel) +
-          f(locality, base_locality) +
-          f(depth, base_depth) +
-          f(latitude, base_lat)
-      ), silent = TRUE)
-    ))
+      m_cpue <- try(gfplot::fit_cpue_index_tweedie(fleet,
+        formula = cpue ~ year_factor +
+          month +
+          vessel +
+          locality +
+          depth +
+          latitude)
+      )))
 
     if (identical(class(m_cpue), "try-error")) {
       warning("TMB CPUE model for area ", area, " didn't converge.")
@@ -95,41 +85,52 @@ fit_cpue_indices <- function(dat,
 
     if (save_model)
       saveRDS(m_cpue,
-        file = file.path(cache, paste0(gsub(" ", "-", species), "-", clean_area(area), "-model.rds")))
+        file = file.path(cache, paste0(gsub(" ", "-", species),
+          "-", clean_area(area), "-model.rds")))
     list(model = m_cpue, fleet = fleet, area = clean_area(area))
   })
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
-    p <- predict_cpue_index(x$model, center = center)
+    p <- predict_cpue_index_tweedie(x$model, center = center)
     p$area <- x$area
     p
   })
   if (nrow(indices_centered) == 0) # none exist
     return(NA)
 
-  # coef_plots <- lapply(cpue_models, function(x) {
-  # if (is.na(x[[1]])[[1]]) return()
-  #   plot_cpue_index_coefs(x$model) + labs(title = x$area)
-  # })
-  # ignore <- lapply(coef_plots, print)
-
-  jks <- purrr::map_df(cpue_models, function(x) {
+  unstand_est <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
-    out <- plot_cpue_index_jk(x$model, terms = NULL, return_data = TRUE)
-    out$area <- x$area
-    out
+
+    if (arith_cpue_comparison) {
+      group_by(x$fleet, year_factor) %>%
+        summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) %>%
+        mutate(area = x$area) %>%
+        ungroup() %>%
+        rename(year = year_factor) %>%
+        mutate(year = as.numeric(as.character(year))) %>%
+        dplyr::select(year, est_unstandardized, area) %>%
+        mutate(est_unstandardized = est_unstandardized /
+            exp(mean(log(est_unstandardized))))
+    } else {
+      fit_yr <- fit_cpue_index_tweedie(x$fleet,
+        formula = cpue ~ year_factor
+      )
+      p_yr <- predict_cpue_index_tweedie(fit_yr, center = center)
+      p_yr$area <- x$area
+      dplyr::rename(p_yr, est_unstandardized = est) %>%
+        dplyr::filter(model == "Combined") %>%
+        dplyr::select(year, est_unstandardized, area)
+    }
   })
 
-  jks %>%
-    dplyr::filter(term == "Unstandardized") %>%
-    dplyr::rename(est_unstandardized = pred) %>%
+  unstand_est %>%
     dplyr::inner_join(dplyr::filter(indices_centered, model == "Combined"),
       by = c("year", "area"))
 }
 
 clean_area <- function(area) {
-  gsub("\\||\\[|\\]|\\+", "", area)
+  gsub("\\^|\\[|\\]|\\+|\\|", "", area)
 }
 
 #' Plot CPUE indices

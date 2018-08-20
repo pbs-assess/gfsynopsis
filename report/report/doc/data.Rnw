@@ -247,10 +247,13 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                               
 
 <<aging-method-table-setup>>=
 library(dplyr)
-dc <- "../../data-cache2"
-d_survey_sets <- readRDS(file.path(dc, "pbs-survey-sets.rds"))
-meta <- d_survey_sets %>%
-  select(species_common_name, species_science_name, species_code) %>%
+# dc <- "../../data-cache"
+meta <- gfplot::pbs_species %>%
+  mutate(species_common_name = tolower(species_common_name)) %>%
+  mutate(species_science_name = tolower(species_scientific_name)) %>%
+  select(-species_scientific_name) %>%
+  filter(species_common_name %in% spp$species_common_name) %>%
+  filter(species_code != "465") %>% # extra lingcod
   unique()
 f <- system.file("extdata", "ageing_methods.csv", package = "gfplot")
 age_methods <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)

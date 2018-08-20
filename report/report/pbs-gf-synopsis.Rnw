@@ -111,6 +111,13 @@ various species pages.
 
 \clearpage
 
+\section{AGEING PRECISION} \label{sec:age-precision}
+
+<<precision, child='doc/age-precision.Rnw'>>=
+@
+
+\clearpage
+
 \section{DATA EXTRACTION DETAILS} \label{sec:data}
 
 <<data, child='doc/data.Rnw'>>=
