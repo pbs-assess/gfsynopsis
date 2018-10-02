@@ -16,7 +16,7 @@
 #' @export
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
-  model = c("inla", "glmmfields"),
+  model = c("inla", "glmmfields", "sdmTMB"),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
   years = c(2016, 2017),
   ...) {
@@ -34,21 +34,24 @@ fit_survey_maps <- function(dat,
       density_column <- "density_ppkm2"
       .dat <- filter(dat, survey_abbrev %in% surv)
       .dat$survey_abbrev <- surv
-      .dat$year <- years[2]
+      # browser()
+      # .dat$year <- years[2]
       premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
       raw_dat <- tidy_survey_sets(.dat, surv,
-        years = years[2], density_column = density_column
+        years = years, density_column = density_column
       )
     }
     if (surv == "IPHC FISS") {
       density_column <- "density_ppkm2"
-      .dat <- filter(dat, year %in% years[2]) # just last year
+      # .dat <- filter(dat, year %in% years[2]) # just last year
+      .dat <- filter(dat, year %in% years)
       .dat <- filter(.dat, survey_abbrev %in% surv)
       raw_dat <- tidy_survey_sets(.dat, surv,
-        years = years[2], density_column = density_column
+        # years = years[2], density_column = density_column
+        years = years, density_column = density_column
       )
-
-      premade_grid <- select(raw_dat, lon, lat, depth) %>%
+      premade_grid <- filter(raw_dat, year == max(year)) %>%
+        select(lon, lat, depth) %>%
         rename(X = lon, Y = lat)
       premade_grid <- list(grid = premade_grid, cell_area = 1.0)
     }
@@ -67,11 +70,22 @@ fit_survey_maps <- function(dat,
         density_column = density_column,
         premade_grid = premade_grid, required_obs_percent = 0.02,
         ...)
-    } else {
+    }
+    if (model == "glmmfields") {
       stop("NEED TO CHECK GLMMFIELDS")
       model <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "glmmfields", chains = 1, iter = 800,
         mcmc_posterior_samples = 300, n_knots = 25, ...)
+    }
+    if (model == "sdmTMB") {
+      model <- fit_survey_sets(.dat, survey = surv, years = years,
+        model = "sdmTMB",
+        density_column = density_column, tmb_knots = 200,
+        premade_grid = premade_grid, required_obs_percent = 0.02,
+        ...)
+      # we fit all years, but just save last year for plotting:
+      raw_dat <- filter(model$data, year == max(model$data$year))
+      model$predictions <- filter(model$predictions, year == max(model$data$year))
     }
     list(model = model, raw_dat = raw_dat)
   })

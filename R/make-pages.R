@@ -74,7 +74,8 @@ make_pages <- function(
   dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
 
   # TODO: temp:
-  dat$catch$major_stat_area_description <- NULL # in case
+  dat$catch$major_stat_area_description <- NULL # in case; older version
+  dat$catch$major_stat_area_name <- NULL # in case; older version
   dat$catch <- dplyr::inner_join(dat$catch, gfplot::pbs_areas, by = "major_stat_area_code")
   dat$catch <- rename(dat$catch, major_stat_area_name = major_stat_area_description)
 
@@ -441,7 +442,9 @@ make_pages <- function(
       axis.title = element_blank(),
       axis.text = element_blank(),
       axis.ticks = element_blank()
-    )
+    ) +
+    ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
+    ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
 
   if (include_map_square)
     g_cpue_spatial <- g_cpue_spatial + checking_square
@@ -462,9 +465,9 @@ make_pages <- function(
   if (!file.exists(map_cache_spp_synoptic)) {
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "inla",
-      surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      verbose = FALSE, max_edge = c(30, 100))
+      species = spp, model = "sdmTMB",
+      surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"), silent = FALSE, years = 1:1e4)
+      # verbose = FALSE, max_edge = c(30, 100))
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -473,9 +476,9 @@ make_pages <- function(
 
   if (!file.exists(map_cache_spp_iphc)) {
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "inla",
-      surveys = "IPHC FISS",
-      verbose = FALSE, max_edge = c(30, 100))
+      species = spp, model = "sdmTMB",
+      surveys = "IPHC FISS", silent = FALSE, years = 1:1e4)
+      # verbose = FALSE, max_edge = c(30, 100))
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -484,9 +487,9 @@ make_pages <- function(
 
   if (!file.exists(map_cache_spp_hbll)) {
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "inla",
-      surveys = c("HBLL OUT N", "HBLL OUT S"),
-      verbose = FALSE, max_edge = c(30, 100))
+      species = spp, model = "sdmTMB",
+      surveys = c("HBLL OUT N", "HBLL OUT S"), silent = FALSE, years = 1:1e4)
+      # verbose = FALSE, max_edge = c(30, 100))
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
