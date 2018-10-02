@@ -10,6 +10,12 @@ if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
 }
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
+# spp <- bind_rows(spp, data.frame(
+#   species_common_name = c("black rockfish", "china rockfish", "pacific halibut", "tiger rockfish"),
+#   type = "B",
+#   spp_w_hyphens = c("black-rockfish", "china-rockfish", "pacific-halibut", "tiger-rockfish"),
+#   stringsAsFactors = FALSE
+# ))
 
 # ------------------------------------------------------------
 # used for hacked parallel processing from command line; ignore
@@ -42,13 +48,14 @@ meta <- gfplot::pbs_species %>%
 spp <- left_join(spp, meta, by = "species_common_name")
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
-spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("\\citet{", spp$resdoc, "}"))
-spp$sar <- ifelse(is.na(spp$sar), "", paste0("\\citet{", spp$sar, "}"))
+spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("@", spp$resdoc, ""))
+spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
-  paste0(spp$type_other_ref, ": \\citet{", spp$other_ref, "}"))
+  paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 
 # ------------------------------------------------------------
 for (i in seq_along(spp$species_common_name)) {
+# for (i in 13) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
   fig_check1 <- paste0(fig_check, "-1.png")
@@ -81,7 +88,7 @@ for (i in seq_along(spp$species_common_name)) {
 
 
 # ------------------------------------------------------------
-temp <- lapply(spp$species_common_name, function(x) {
+temp <- lapply(spp$species_common_name[1:2], function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   spp_title <- gfsynopsis:::all_cap(x)
   out <- list()
@@ -97,32 +104,32 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- 1
   out[[i]] <- "\\clearpage"
   i <- i + 1
-  out[[i]] <- "\\begin{minipage}[t][4cm][t]{\\textwidth}"
-  i <- i + 1
+  # out[[i]] <- "\\begin{minipage}[t][4cm][t]{\\textwidth}"
+  # i <- i + 1
   out[[i]] <- paste0("\\subsection{", spp_title, "}")
   i <- i + 1
   out[[i]] <- paste0(gfsynopsis:::emph(latin_name),
     "\\, / DFO species code: ", species_code, "\n")
   i <- i + 1
-  out[[i]] <- "\\vspace{8pt}"
-  i <- i + 1
+  # out[[i]] <- "\\vspace{8pt}"
+  # i <- i + 1
   out[[i]] <- paste0(resdoc_text, resdoc, "\n")
   i <- i + 1
-  out[[i]] <- "\\vspace{8pt}"
-  i <- i + 1
+  # out[[i]] <- "\\vspace{8pt}"
+  # i <- i + 1
   out[[i]] <- paste0(sar_text, sar)
   i <- i + 1
 
   if (other_ref != "") {
-    out[[i]] <- "\n \\vspace{8pt}"
-    i <- i + 1
+    # out[[i]] <- "\n \\vspace{8pt}"
+    # i <- i + 1
     out[[i]] <- paste0(other_ref)
     i <- i + 1
   }
 
-  out[[i]] <- "\\end{minipage}\n"
-  i <- i + 1
-  out[[i]] <- "\\begin{figure}[ht]"
+  # out[[i]] <- "\\end{minipage}\n"
+  # i <- i + 1
+  out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-1.png}")
   i <- i + 1
@@ -130,16 +137,16 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- "\\clearpage"
   i <- i + 1
-  out[[i]] <- "\\begin{figure}[ht]"
+  out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-2.png}")
   i <- i + 1
   out[[i]] <- "\\end{figure}\n"
   i <- i + 1
-  out[[i]] <- "% ---------------------------------------------------------------------------\n"
+  out[[i]] <- "\n"
   out
 })
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-writeLines(temp, con = "report/report/doc/02-plots.Rnw")
+writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")

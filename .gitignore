@@ -51,3 +51,8 @@ report/report/*.rtf
 resdoc/
 inst/rockfish-map-*
 *.*~
+pbs-gf-trawl.csv
+report/report-rmd/_bookdown_files/
+report/report-rmd/_book/
+report/report-rmd/knitr-cache*
+report/report-rmd/plot-pages.Rmd

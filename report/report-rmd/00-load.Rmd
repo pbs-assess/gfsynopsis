@@ -1,0 +1,30 @@
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = "knitr-figs/",
+  cache.path = if (knitr:::is_latex_output()) "knitr-cache-tex/" else "knitr-cache-docx/",
+  fig.asp = 0.618,
+  fig.width = 9,
+  out.width = "6in",
+  echo = FALSE,
+  autodep = TRUE,
+  cache = TRUE,
+  cache.comments = FALSE,
+  dev = if (knitr:::is_latex_output()) "pdf" else "png",
+  dpi = 200,
+  fig.align = "center",
+  fig.pos = "htb"
+)
+```
+
+```{r load-libraries, cache=FALSE}
+library(dplyr)
+library(ggplot2)
+library(gfplot)
+library(bookdown)
+library(kableExtra)
+```
+

@@ -1,0 +1,31 @@
+# COMPUTATIONAL ENVIRONMENT {-}
+
+This version of the document was generated on `r Sys.time()` with
+`r devtools::session_info()$platform$version` [@r2018] and R package versions:
+
+```{r env, echo = FALSE, results='asis', message=FALSE, warning=FALSE, eval=TRUE, cache=FALSE}
+library(TMB)
+library(rstan)
+library(bookdown)
+library(rmarkdown)
+pkgs <- sort(c("broom", "gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
+  "TMB", "broom.mixed", "scales", "purrr", "xtable", "kableExtra", "cowplot", "csasdown", "bookdown", "rmarkdown"))
+info <- devtools::session_info()$packages
+info %>% dplyr::filter(package %in% pkgs) %>%
+  dplyr::select(package, version, date, source) %>%
+  dplyr::rename(Package = package, Version = version, Date = date, Source = source) %>%
+  csasdown::csas_table() %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+In particular, most of the data extraction and many of the plots were made with
+the gfplot package version 0.1.1. The document was compiled with R package
+csasdown version 0.0.1. The specific versions used to generate this report can
+be installed with:
+
+```{r, eval=FALSE, echo=TRUE}
+devtools::install_github("pbs-assess/gfplot", ref = "f55710d")
+devtools::install_github("pbs-assess/csasdown", ref = "baf78d8")
+```
+
+\clearpage

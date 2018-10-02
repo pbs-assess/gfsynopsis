@@ -1,0 +1,353 @@
+# MODELLING DETAILS
+
+## SURVEY RELATIVE BIOMASS INDEX TRENDS {#sec:survey-trend-models}
+
+Details on the design of the various surveys referenced in this report can be
+found in the following documents:
+
+1. Synoptic Survey, Queen Charlotte Sound (SYN QCS):  [@wyeth2018synqcs]
+
+1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI):
+  [@wyeth2017synwcvi]
+
+1. Synoptic Survey, Hecate Strait (SYN HS): [@wyeth2018synhs]
+
+1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG):
+  [@wyeth2018synwchg]
+
+1. Hard Bottom Longline Survey, Outside (HBLL OUT): [@dfo2018ifmp]
+
+1. Hard Bottom Longline Survey, Inside (HBLL INS): [@lochead2004irf]
+
+1. Hecate Strait Multispecies Assemblage Survey (MSA HS):
+  [@fargo1984hsmsa,westrheim1984hsmsa]
+
+1. International Pacific Halibut Commission fishery independent survey (IPHC
+  FISS): [@flemming2012iphc]
+
+We calculated the trawl and longline survey relative biomass index trends from
+the same design-based bootstrap approach used in recent BC groundfish stock
+assessment reports. The code to perform the calculations was originally written
+by Norm Olsen at Pacific Biological Station and is automatically applied to the
+available survey data to populate the GFBio database. We extracted the relative
+biomass values directly from GFBio. Nonetheless, we have included the relevant
+equations below for clarity.
+
+### TRAWL SURVEYS
+
+For all trawl surveys, and for a given species, we calculated the relative
+biomass density $B$ in year $y$ as:
+
+\begin{equation}
+  B_y = \sum_{i = 1}^k C_{y,i} A_i
+\end{equation}
+
+where $C_{y,i}$ represents the mean CPUE in kg/km^2^ for the
+species in year $y$ and stratum $i$, $A_i$ represents the area of stratum $i$ in
+km^2^, and $k$ represents the number of strata. We calculated
+the CPUE ($C_{y,i}$) for a given species in year $y$ and stratum $i$ as:
+
+\begin{equation}
+  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( W_{y,j} / D_{y,j} w_{y,j}\right)}{n_{y,i}}
+\end{equation}
+
+where $W_{y,j}$ represents the catch weight (kg) for the species in year $y$,
+stratum $i$, and tow $j$; $D_{y,j}$ represents the distance travelled in km by
+tow $j$ in year $y$; $w_{y,j}$ represents the net opening width in km for year
+$y$ and tow $j$; and $n_{y,i}$ represents the number of tows in year $y$ and
+stratum $i$.
+
+### LONG-LINE SURVEYS
+
+For all long-line surveys, and for a given species, we calculated the relative
+biomass density $B$ in year $y$ as:
+
+\begin{equation}
+  B_y = \sum_{i = 1}^k C_{y,i} A_i
+\end{equation}
+
+where $C_{y,i}$ represents the mean CPUE in parts (fish) per
+km\textsuperscript{2} for the species in year $y$ and stratum $i$, $A_i$
+represents the area of stratum $i$ in km^2^, and $k$ represents
+the number of strata. We calculated the CPUE ($C_{y,i}$) for a given species in
+year $y$ and stratum $i$ as:
+
+\begin{equation}
+  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( N_{y,j} / H_{y,j} w_{y,j}\right)}{n_{y,i}}
+\end{equation}
+
+where $N_{y,j}$ represents the number of fish caught for the species in year
+$y$, stratum $i$, and set $j$; $H_{y,j}$ represents the number of hooks $\times$
+the hook spacing in km in set $j$ in year $y$; $w_{y,j}$ represents an arbitrary
+swept width of 30 feet or 0.009144 km for year $y$ and tow $j$; and $n_{y,i}$
+represents the number of sets in year $y$ and stratum $i$. The hook spacing is
+18 feet or 0.0054864 km for the IPHC survey and 8 feet or 0.0024384 km for
+the inside and outside HBLL surveys.
+
+### BOOTSTRAPPED CONFIDENCE INTERVALS
+
+We calculated bootstrap confidence intervals on $B_y$ by repeatedly calculating
+$B_y$ given the above equations but each time re-sampling, with replacement, from
+the available tows within each strata. We drew 1000 bootstrap replicates of
+$B_y$, $B_y^{\mathrm{rep}}$, and calculated 95% quantile-based confidence
+intervals on $B_y^{\mathrm{rep}}$.
+
+## SPATIAL MODELLING OF SURVEY BIOMASS {#sec:spatial-modeling}
+
+<!--
+<<map-details, child='map-details.Rnw'>>=
+@
+-->
+
+\clearpage
+
+## CPUE INDEX STANDARDIZATION {#sec:cpue-models}
+
+We present two commercial bottom trawl catch per unit effort (CPUE) indices in
+the synopsis report: a 'raw' unstandardized timeseries and a 'standardized' time
+series (e.g. Figure \@ref(fig:trawl-cpue-index). The standardized time series
+follows the approach commonly employed for British Columbia groundfish stock
+assessments of using a Generalized Linear Model (GLM) to account for the
+confounding effects of month, depth, latitude, vessel, and DFO locality
+(predesignated historical geographical locations) when calculating an annual
+index value. We do this by fitting two GLMs: one to data representing whether or
+not the species of interest (e.g. Pacific Cod for a Pacific Cod CPUE index) is
+caught in a given tow (the 'binary' model),
+and a second model to data representing the CPUE conditional on a tow having caught
+at least one of that species of interest (the 'lognormal' model). This approach is
+sometimes called a delta-lognormal GLM. These two model components can then be
+combined to derive the final estimate of CPUE for a given year at a consistent
+value for all the predictors, i.e. a consistent month, depth, latitude, vessel,
+and DFO locality.
+
+For depth and latitude, we binned the values into a sequence of bands to allow
+for nonlinear relationships between these predictors and the response. For
+latitude, we used bands that are 0.2 degrees wide, start at the 2% quantile of
+the latitude values for the specific region and end at the 98% quantile of the
+latitude values. We used this quantile method to algorithmically account for
+outlying values that were often data recording errors and could cause problems
+when fitting the models. We rounded the lowest latitude bin down to the nearest
+0.2 latitude value and rounded to the upper latitude bin up to the nearest 0.2
+latitude value. For depth, we used the fishing capture depth binned into bands
+that are 50m wide. The bins start at the 1% quantile of the depth values for
+the specific region and end at the 99% quantile of the depth values. We rounded
+the lowest and highest bin values to 50m values similarly to the process for
+the latitude bins as described above.
+
+Due to the multispecies nature of the BC groundfish fishery, it is necessary to
+define rules about which vessels should be considered part of a 'fleet'
+with which to calculate a CPUE index. We follow the approach used in a number of
+recent BC groundfish stock assessments by requiring vessels to have caught the
+species in a certain number of tows across all years of interest, and to have
+passed a certain threshold of positive trips (trips that recorded some of the
+species) for a certain number of years. Our current implementation requires a
+vessel to have recorded at least 100 positive tows since 1996 and to have
+recorded at least four positive trips in at least four years since 1996. These
+decisions are in line with recent BC groundfish stock assessments
+[e.g. @starr2017pollock].
+
+We fit the binomial model (denoted with a superscript $B$) as a logistic
+regression:
+
+\begin{align}
+  y_i^B &\sim \mathrm{Binomial}(\pi_i^B)\\
+  \mathrm{logit}\left(\pi_i^B\right) &= \bm{X}_i^B \bm{\beta}^B,
+\end{align}
+
+and $i$ represents a single tow, $y_i$ represents either a 1 if a tow caught the
+species or a 0 if it did not, $\bm{X^B_i}$ represents a vector of predictors,
+$\bm{\beta^B}$ represents a vector of coefficients, and $\pi_i^B$ represents the
+estimated probability of observing the species in a tow. Details to follow on
+the specific depth and latitude bands chosen.
+
+We fit the lognormal model (denoted with a superscript $L$) as a linear model
+fit to log-transformed response data:
+
+\begin{equation}
+  \log \left(y_i^L\right) \sim \mathrm{Normal} \left(\bm{X}_i^L \bm{\beta}^L, \sigma \right),
+\end{equation}
+
+where the symbols can be interpreted as before except that $y_i^L$ represents
+the CPUE in kg per hour towed for a tow that did catch at least one of the
+species, and $\sigma$ represents the standard deviation of unexplained residual
+error.
+
+We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as:
+
+\begin{equation}
+  \mu_t = \mathrm{logit}^{-1} \left(\bm{X}_r^B
+    \bm{\beta}^B \right) \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
+\end{equation}
+
+or
+
+\begin{equation}
+  \mu_t = \pi_t^B \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
+\end{equation}
+
+where $\bm{X_r}$ represents a vector of predictors set to the reference ($r$)
+levels with the year set to the year of interest. We chose the reference levels
+as the most frequent level of each predictor in the positive-only data
+[@maunder2004]. For example, we set the reference month as the most common
+month observed in the dataset filtered for only tows where the species was
+caught. This will have a minor effect on the shape of the final CPUE index
+because of the multiplication of the binary and positive components.
+
+Recent BC groundfish stock assessments have used a bootstrap approach to derive
+estimates of uncertainty around standardized CPUE timeseries. This proved to be
+computationally unfeasible to run for all the management areas and stocks in
+this synopsis report. Therefore we wrote the model in the statistical software
+TMB [@kristensen2016] and use standard errors ($\mathrm{SE}$) as calculated
+by TMB on $\log (\mu_t)$ via the Delta method as is commonly done for such
+models [e.g. @thorson2015]. We then calculated the 95% confidence
+intervals as $\exp (\mu_t \pm 1.96 \mathrm{SE}_t)$.
+
+We calculated the 'raw' unstandardized timeseries is calculated using a similar
+procedure but without any of the covariates other than a factor predictor for
+each year. This is equivalent to calculating the geometric mean of CPUE each
+year.
+
+We tested our implementation of this index standardization model against
+simulated data to ensure that (1) it can generate unbiased annual estimates and
+(2) the confidence intervals have the correct coverage, i.e. the confidence
+intervals contain the true known value at the expected frequency of 95%. We
+also compared our estimates qualitatively to recent estimates from similar
+models in published assessments to ensure we derived similar timeseries.
+
+For the simulation testing, as examples, we present results for two simulations
+with 10 vessels, each vessel recording data from 15 tows, 20 years of data, and
+lognormal observation error with standard deviation 0.35 (i.e., approximately
+a CV of 0.35). The standardization model then accounts for vessel ID in both
+a binary and positive component model. The delta model derives an unconditional
+estimate of CPUE after combining the two component models. The parameter
+estimates from the component models regularly fall along the one-to-one line of
+unbiased and accurate prediction (e.g. Fig. \@ref(fig:cpue-sim-cross-val)) and
+the unconditional estimates of CPUE and their confidence intervals regularly
+include the true values with correct coverage (e.g.
+Fig. \@ref(fig:cpue-sim-ts-val)).
+
+
+<!-- TODO: Make sure all figures are referenced as fig or figure -->
+
+<!-- TODO: Redo this cpue section with the Tweedie model -->
+
+<!--
+
+```{r load-cpue-model}
+# cpue_model <- readRDS("../../cpue-cache/petrale-sole-3CD-model.rds")
+```
+
+<<cpue-coefs-eg, fig.cap="Example model coefficients for CPUE index standardization for Petrale Sole in area 3CD. ``Bin.'' (black) refers to the binary component model and ``Pos.'' (blue) refers to the positive component model. The white dots represent the parameter estimates and the thick and thin line segments represent 50\\% and 95\\% confidence intervals. Each panel represents a set of coefficients for each factor level. The reference level has been set to the most common bin and the shown coefficient estimates are effects with respect to this reference level. For example, the month effects represent differences between the indicated month and January (the omitted reference level).", fig.asp=1.1, warning=FALSE, message=FALSE, fig.width=13>>=
+gfplot::plot_cpue_index_coefs(cpue_model, type = "tweedie")
+@
+
+<<cpue-sim-eg, results='hide', message=FALSE, warning=FALSE>>=
+set.seed(123)
+fit1 <- gfplot:::sim_cpue_index(
+  make_plots = TRUE,
+  n_samples = 15,
+  n_vessels = 10
+)
+fit2 <- gfplot:::sim_cpue_index(
+  make_plots = TRUE,
+  n_samples = 15,
+  n_vessels = 10
+)
+@
+
+<<cpue-sim-cross-val, fig.cap="Parameter estimate validation for CPUE index standardization models fit to two example simulated data sets. Each panel shows the true simulated parameter value on the horizontal axis and the estimated parameter value along with a 95\\% confidence interval on the vertical axis. ``Bin.'' represents parameters from the binary model and ``Pos.'' represents parameters from the positive component model. The diagonal line indicates a one-to-one relationship.", fig.asp=0.55>>=
+cowplot::plot_grid(fit1$cross_val, fit2$cross_val, nrow = 1, align = "h")
+@
+
+<<cpue-sim-ts-val, fig.cap="Annual CPUE index validation for standardization models fit to two example simulated data sets. Red crosses indicate true values, open the black circles represent the estimated values, and vertical line segments represent 95\\% confidence intervals.", fig.asp=0.35>>=
+cowplot::plot_grid(fit1$ts_check, fit2$ts_check, nrow = 1, align = "h")
+@
+
+-->
+
+## MATURITY OGIVES {#sec:maturity-models}
+
+We fit maturity ogives as logistic regressions of maturity (mature vs.\ not
+mature) against length or age:
+
+\begin{align}
+y_i &\sim \mathrm{Binomial}(\pi_i)\\
+\mathrm{logit} \left( \pi_i \right) &= \beta_0 + \beta_1 x_i + \beta_2 F_i
+\end{align}
+where $y_i$ represents a 1 if fish $i$ is considered mature and a 0 if fish $i$
+is considered immature. The $\beta$ parameters represent estimated coefficients,
+$x_i$ represents either the length or age of fish $i$, and $F_i$ represents
+a binary predictor that is 1 if the fish is female and 0 if the fish is male.
+The variable $\pi_i$ represents the expected probability of fish $i$ being
+mature. We only fit these models if there are at least 20 mature males, 20
+immature males, 20 mature females, and 20 immature females to ensure reasonably
+representative sampling and sufficient sample sizes.
+
+## LENGTH-AGE MODELS {#sec:length-age-models}
+
+We fit von Bertalanffy length-age growth models [@vonbertalanffy1938] with
+Stan [@rstan2018] as:
+
+\begin{equation}
+  L_i \sim \operatorname{Log-normal}
+  \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))), \sigma \right)
+\end{equation}
+
+where $L_i$ and $A_i$ represent the length and age of fish $i$,
+$l_\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth
+parameters, and $\sigma$ represents the log standard deviation or scale
+parameter. We fit the models with the following priors:
+
+\begin{align}
+  k &\sim \mathrm{Normal}\left(0, 2\right)[0, \infty]\\
+  l_\mathrm{inf} &\sim  \mathrm{Normal} \left(0, \varphi \right)[0, \infty]\\
+  \sigma &\sim  \operatorname{Student-t}\left(3, 0, 2 \right)[0, \infty]\\
+  t0 &\sim  \mathrm{Normal}(0, 20)
+\end{align}
+
+where $\varphi$ was set to twice the 99\% quantile of observed lengths for that
+species. This ensures that the $l_\mathrm{inf}$ prior is on an appropriate scale
+for a given species. These weakly informative priors were helpful when fitting
+these nonlinear models to a large number of species making it is difficult to
+adjust the optimization procedure on a species-by-species basis. For speed, the
+model fits shown in this synopsis report are derived from the mode of the
+marginal posterior distributions (MPD) as opposed to from full Markov chain
+Monte Carlo (MCMC) sampling.
+
+## LENGTH-WEIGHT MODELS {#sec:length-weight-models}
+
+We fit the length-weight models as robust linear regressions of log(length) on
+log(weight) using the `MASS::rlm()` function 'M'-estimator method
+[@venables2002]. This approach downweights the influence of outlying values
+and helps generate reasonable model fits across all species without handpicking
+outlying measurements to discard. The model can be written as:
+
+\begin{equation}
+  W_i = a \cdot L_i^b \cdot e_i,
+\end{equation}
+with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $e_i$
+representing error that is given some distribution such as lognormal or Gamma.
+The variables $a$ and $b$ represent the estimated length-weight parameters.
+Following the common convention, we fit the model as:
+\begin{equation}
+  \log (W_i) \sim \mathrm{Normal} (\log (a + b L_i), \sigma),
+\end{equation}
+with a robust algorithm being substituted for the usual normal distribution as
+written here.
+
+## GFPLOT PACKAGE
+
+We developed the gfplot R package to conduct all the data extraction, data
+manipulation, model fitting, and plotting in the data synopsis report. The
+package is designed to be modular so it can be used in various capacities for
+other groundfish analyses (Figure \ref{fig:gfplot-web}). For example, the
+package is intended to facilitate pulling data directly into analyses for the
+forthcoming management procedure framework for data-limited and data-moderate
+groundfish stocks. A brief summary will follow.
+
+```{r gfplot-web, fig.cap="An illustration of the gfplot functions and how they interact. \texttt{get} functions extract raw data from the relational databases, \texttt{tidy} and \texttt{fit} functions manipulate the data or fit statistical models, and \texttt{plot} functions take the output from the tidying or fitting functions to make visualizations.", out.width="4in"}
+knitr::include_graphics(here::here("report", "report-rmd", "figure",
+    "function-web.pdf"), dpi = NA)
+```
+
+\clearpage
