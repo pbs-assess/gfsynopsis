@@ -10,4 +10,4 @@ two:
 	Rscript -e "N <- 11:20; source('report/make.R')"
 
 three:
-	Rscript -e "N <- 21:31; source('report/make.R')"
+	Rscript -e "N <- 21:30; source('report/make.R')"
