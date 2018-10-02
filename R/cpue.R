@@ -57,7 +57,7 @@ fit_cpue_indices <- function(dat,
       lat_band_width = 0.1,
       depth_band_width = 25,
       depth_bin_quantiles = c(0.001, 0.999),
-      lat_bin_quantiles = c(0.00001, 0.9999)
+      min_bin_prop = 0.001
     )
 
     if (!is.data.frame(fleet))
@@ -68,18 +68,21 @@ fit_cpue_indices <- function(dat,
 
     message("Fitting standardization model for area ", area, ".")
 
-    invisible(capture.output(
-      m_cpue <- try(gfplot::fit_cpue_index_tweedie(fleet,
-        formula = cpue ~ year_factor +
-          month +
-          vessel +
-          locality +
-          depth +
-          latitude)
-      )))
+    fleet$year_locality <- paste(fleet$year, fleet$locality)
+    # invisible(capture.output(
+    m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
+      formula = cpue ~ 0 + year_factor +
+        depth +
+        month +
+        latitude +
+        (1 | locality) +
+        (1 | vessel) +
+        (1 | year_locality),
+    verbose = TRUE))
+    # ))
 
     if (identical(class(m_cpue), "try-error")) {
-      warning("TMB CPUE model for area ", area, " didn't converge.")
+      warning("TMB CPUE model for area ", area, " did not converge.")
       return(NA)
     }
 
@@ -113,8 +116,8 @@ fit_cpue_indices <- function(dat,
         mutate(est_unstandardized = est_unstandardized /
             exp(mean(log(est_unstandardized))))
     } else {
-      fit_yr <- fit_cpue_index_tweedie(x$fleet,
-        formula = cpue ~ year_factor
+      fit_yr <- gfplot::fit_cpue_index_glmmtmb(x$fleet,
+        formula = cpue ~ 0 + year_factor
       )
       p_yr <- predict_cpue_index_tweedie(fit_yr, center = center)
       p_yr$area <- x$area
