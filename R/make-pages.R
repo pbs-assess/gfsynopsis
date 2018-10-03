@@ -57,11 +57,11 @@ make_pages <- function(
   survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"),
     "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"),
   survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-      "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
-      "HBLL INS N", "HBLL INS S", "MSA HS"),
+    "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
+    "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 0.999
-  ) {
+) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
 
@@ -106,7 +106,6 @@ make_pages <- function(
   temp_survey_samples <- dat$survey_samples[,common_cols, drop = FALSE]
   dat$combined_samples <- rbind(temp_commercial_samples, temp_survey_samples)
 
-  # TODO: temp:
   dat$survey_index$survey_abbrev <- gsub("_", " ", dat$survey_index$survey_abbrev)
   dat$survey_index$survey_abbrev <-
     ifelse(dat$survey_index$survey_series_desc ==
@@ -232,8 +231,8 @@ make_pages <- function(
   # Aging precision: -----------------------------------------------------------
 
   if (nrow(dat$age_precision) > 0) {
-  g_age_precision <- tidy_age_precision(dat$age_precision) %>%
-    plot_age_precision()
+    g_age_precision <- tidy_age_precision(dat$age_precision) %>%
+      plot_age_precision()
   } else {
     g_age_precision <- ggplot() + theme_pbs()
   }
@@ -299,16 +298,17 @@ make_pages <- function(
       col = c("grey60", "grey20"), survey_cols = survey_cols,
       xlim = c(1984, 2017))
   }
-    g_survey_index <- g_survey_index +
-      theme(
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank()
-      ) + ggplot2::ggtitle("Survey relative biomass indices")
+  g_survey_index <- g_survey_index +
+    theme(
+      axis.title.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank()
+    ) + ggplot2::ggtitle("Survey relative biomass indices")
 
   # Specimen numbers: ----------------------------------------------------------
 
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, 2017))
+  # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, 2017)) +
     # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
@@ -324,15 +324,15 @@ make_pages <- function(
   # Maturity by month: ---------------------------------------------------------
 
   # TODO: should this include commercial?
-    dat_tidy_maturity_months <- tidy_maturity_months(dat$survey_samples)
-    if (nrow(dat_tidy_survey_index) > 0L) {
-      g_maturity_month <- ggplot() + theme_pbs() +
-        ggtitle("Maturity frequencies")
-    } else {
-      g_maturity_month <- dat_tidy_maturity_months %>%
-        plot_maturity_months() +
-        guides(colour = FALSE, fill = FALSE)
-    }
+  dat_tidy_maturity_months <- tidy_maturity_months(dat$survey_samples)
+  if (nrow(dat_tidy_survey_index) > 0L) {
+    g_maturity_month <- ggplot() + theme_pbs() +
+      ggtitle("Maturity frequencies")
+  } else {
+    g_maturity_month <- dat_tidy_maturity_months %>%
+      plot_maturity_months() +
+      guides(colour = FALSE, fill = FALSE)
+  }
 
   # Growth fits: ---------------------------------------------------------------
 
@@ -428,7 +428,8 @@ make_pages <- function(
       months = 1:12)
 
   type <- "none"
-  if (!is.na(mat_age[[1]])) {
+  if (!is.na(mat_age[[1]]) &&
+      length(unique(mat_age[[1]]$maturity_code)) == 2L) {
     sample_size <- mat_length$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
@@ -447,10 +448,11 @@ make_pages <- function(
       type <- "female"
   }
 
-  if (!is.na(mat_length[[1]])) {
+  if (!is.na(mat_length[[1]]) &&
+      length(unique(mat_length[[1]]$maturity_code)) == 2L) {
     g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
-      legend.key.width = grid::unit(1.8, units = "char")) +
+        legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
@@ -478,8 +480,8 @@ make_pages <- function(
       axis.text = element_blank(),
       axis.ticks = element_blank()
     )
-    # ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
-    # ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
+  # ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
+  # ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
 
   if (include_map_square)
     g_cpue_spatial <- g_cpue_spatial + checking_square
@@ -592,7 +594,7 @@ make_pages <- function(
   fg_cpue_spatial        <- egg::gtable_frame(gg_cpue_spatial, debug = debug)
   fg_cpue_spatial_ll     <- egg::gtable_frame(gg_cpue_spatial_ll, debug = debug)
   fg_cpue_index          <- egg::gtable_frame(gg_cpue_index, debug = debug,
-                                              width = grid::unit(0.7, "null"))
+    width = grid::unit(0.7, "null"))
   fg_survey_spatial_syn  <- egg::gtable_frame(gg_survey_spatial_syn, debug = debug)
   fg_survey_spatial_iphc <- egg::gtable_frame(gg_survey_spatial_iphc, debug = debug)
   fg_survey_spatial_hbll <- egg::gtable_frame(gg_survey_spatial_hbll, debug = debug)
