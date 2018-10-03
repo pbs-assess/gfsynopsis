@@ -1,9 +1,17 @@
 # library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
-devtools::load_all("../gfplot")
-devtools::load_all(".")
+# devtools::load_all("../gfplot") # for development
+# devtools::load_all(".")  # for development
 library(dplyr)
+library(gfplot)
+library(gfsynopsis)
 
-# ------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Settings:
+ext <- "pdf" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
+example_spp <- "petrale sole" # a species used as an example in the Res Doc
+
+# ------------------------------------------------------------------------------
+# Read in fresh data or load cached data if available:
 dc <- file.path("report", "data-cache")
 if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
   gfsynopsis::get_data(type = "A", path = dc)
@@ -11,10 +19,10 @@ if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis:::get_spp_names() # %>% filter(type == "A")
 
-# ------------------------------------------------------------
-# used for hacked parallel processing from command line
-# unecessary, but speeds up rebuilding
-# e.g. from root project folder in Unix:
+# ------------------------------------------------------------------------------
+# This section is used for hacked parallel processing from the command line.
+# Unecessary, but speeds up rebuilding.
+# e.g. from root project folder in macOS or Linux:
 # open new Terminal
 # make one
 # open new Terminal
@@ -22,8 +30,9 @@ spp <- gfsynopsis:::get_spp_names() # %>% filter(type == "A")
 # open new Terminal
 # make three
 if (exists("N")) spp <- spp[N, , drop = FALSE]
-# ------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
+# Parse metadata that will be used at the top of each species page:
 spp <- filter(spp, species_common_name != "pacific hake")
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
@@ -44,29 +53,23 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 
-# ------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# This is the guts of where the figure pages get made:
 for (i in seq_along(spp$species_common_name)) {
-# for (i in 1) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
-  fig_check1 <- paste0(fig_check, "-1.png")
-  fig_check2 <- paste0(fig_check, "-2.png")
-
+  fig_check1 <- paste0(fig_check, "-1.", ext)
+  fig_check2 <- paste0(fig_check, "-2.", ext)
   if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
-
-    if (spp$species_common_name[i] %in% c("petrale sole"))
-      save_gg_objects <- TRUE
-    else
-      save_gg_objects <- FALSE
-
     dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
     dat$cpue_index <- d_cpue
     make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
-      resolution = 160,
-      save_gg_objects = save_gg_objects,
+      resolution = 175, # balance size with resolution
+      png_format = if (ext == "png") TRUE else FALSE,
+      save_gg_objects = spp$species_common_name[i] %in% example_spp,
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
@@ -77,8 +80,8 @@ for (i in seq_along(spp$species_common_name)) {
   }
 }
 
-
-# ------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# This is the guts of where the .tex / .Rmd figure page code gets made
 temp <- lapply(spp$species_common_name[1:2], function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   spp_title <- gfsynopsis:::all_cap(x)
