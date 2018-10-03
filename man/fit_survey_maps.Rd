@@ -5,8 +5,8 @@
 \title{Fit geostatistical survey models and make maps}
 \usage{
 fit_survey_maps(dat, species = "pacific cod", include_depth = TRUE,
-  model = c("inla", "glmmfields"), surveys = c("SYN QCS", "SYN HS",
-  "SYN WCHG", "SYN WCVI"), years = c(2016, 2017), ...)
+  model = c("inla", "glmmfields", "sdmTMB"), surveys = c("SYN QCS",
+  "SYN HS", "SYN WCHG", "SYN WCVI"), years = c(2016, 2017), ...)
 }
 \arguments{
 \item{dat}{Data from \code{\link[gfplot:get_survey_sets]{gfplot::get_survey_sets()}}.}

@@ -7,13 +7,13 @@
 make_pages(dat, spp, aspect = 1.35, short_page_height_ratio = 0.78,
   width = 11.5, debug = FALSE, resolution = 180, png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp), report_folder = "report",
-  include_map_square = FALSE, map_xlim = c(360, 653), map_ylim = c(5275,
-  6155), save_gg_objects = FALSE,
-  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8",
-  "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS",
-  "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
-  "HBLL INS N", "HBLL INS S", "MSA HS"), mat_min_n = 20,
-  survey_map_outlier = 0.999)
+  include_map_square = FALSE, map_xlim = c(360, 653),
+  map_ylim = c(5275, 6155), save_gg_objects = FALSE,
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030",
+  "#a8a8a8", "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG",
+  "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS",
+  "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"), mat_min_n = 20,
+  survey_map_outlier = 0.999, parallel = FALSE)
 }
 \arguments{
 \item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
@@ -61,6 +61,8 @@ plotted.}
 \item{survey_map_outlier}{A quantile above which of the colors in the map
 should be squashed the same color. Useful to avoid a small number of
 outlying cells from distorting the color scale.}
+
+\item{parallel}{Parallel CPUE index fitting?}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

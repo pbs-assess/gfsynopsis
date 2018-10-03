@@ -4,9 +4,10 @@
 \alias{fit_cpue_indices}
 \title{Fit commercial catch per unit effort standardization models}
 \usage{
-fit_cpue_indices(dat, species = "pacific cod", areas = c("3[CD]+|5[ABCDE]+",
-  "5[CDE]+", "5[AB]+", "3[CD]+"), center = TRUE, cache = file.path("report",
-  "cpue-cache"), save_model = FALSE, arith_cpue_comparison = TRUE)
+fit_cpue_indices(dat, species = "pacific cod",
+  areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
+  center = TRUE, cache = file.path("report", "cpue-cache"),
+  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE)
 }
 \arguments{
 \item{dat}{A data frame from \code{\link[gfplot:get_cpue_index]{gfplot::get_cpue_index()}}.}
