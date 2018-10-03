@@ -65,7 +65,7 @@ make_pages <- function(
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
 
-  # Internal setup calculations: -------------
+  # Internal setup calculations: -----------------------------------------------
   height <- width * aspect
 
   dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
@@ -87,12 +87,14 @@ make_pages <- function(
     species_code == unique(dat$survey_sets$species_code))
 
   # TODO:
-  dat$survey_samples$maturity_convention_maxvalue <- 1e6
-  dat$commercial_samples$maturity_convention_maxvalue <- 1e6
+  if (nrow(dat$survey_samples) > 0L)
+    dat$survey_samples$maturity_convention_maxvalue <- 1e6
+  if (nrow(dat$commercial_samples) > 0L)
+    dat$commercial_samples$maturity_convention_maxvalue <- 1e6
 
   dat$commercial_samples_no_keepers <- dplyr::filter(dat$commercial_samples,
     sampling_desc %in% "UNSORTED")
-  dat$combined_samples <- bind_samples(dat$commercial_samples, dat$survey_samples)
+  dat$combined_samples <- rbind(dat$commercial_samples, dat$survey_samples)
 
   # TODO: temp:
   dat$survey_index$survey_abbrev <- gsub("_", " ", dat$survey_index$survey_abbrev)
@@ -101,7 +103,7 @@ make_pages <- function(
         "Hecate Strait Multispecies Assemblage Bottom Trawl", "MSA HS",
       dat$survey_index$survey_abbrev)
 
-  # File and folder setup: --------------------------
+  # File and folder setup: -----------------------------------------------------
 
   fig_folder <- file.path(report_folder, "figure-pages")
   ggplot_folder <- file.path(report_folder, "ggplot-objects")
@@ -130,7 +132,7 @@ make_pages <- function(
   samp_panels <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
     "HBLL OUT S", "IPHC FISS", "Commercial")
 
-  # Age compositions: -------------------------------
+  # Age compositions: ----------------------------------------------------------
 
   ss <- tidy_ages_raw(dat$survey_samples,
     sample_type = "survey")
@@ -170,13 +172,13 @@ make_pages <- function(
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
 
-  # Length compositions: -------------------------------
+  # Length compositions: -------------------------------------------------------
 
   bin_width1 <- diff(quantile(dat$survey_samples$length, na.rm = TRUE,
     probs = c(0.005, 0.995))) / 20
   bin_width2 <- diff(quantile(dat$commercial_samples_no_keepers$length,
     na.rm = TRUE, probs = c(0.005, 0.995))) / 20
-  bin_width <- mean(bin_width1, bin_width2, na.rm = TRUE)
+  bin_width <- mean(c(bin_width1, bin_width2), na.rm = TRUE)
 
   ss <- tidy_lengths_raw(dat$survey_samples, bin_size = bin_width,
     sample_type = "survey")
@@ -214,7 +216,7 @@ make_pages <- function(
     g_lengths <- ggplot() + theme_pbs() + ggtitle("Length frequencies")
   }
 
-  # Aging precision: -------------------------------
+  # Aging precision: -----------------------------------------------------------
 
   if (nrow(dat$age_precision) > 0) {
   g_age_precision <- tidy_age_precision(dat$age_precision) %>%
@@ -223,7 +225,7 @@ make_pages <- function(
     g_age_precision <- ggplot() + theme_pbs()
   }
 
-  # Commercial CPUE indices: -------------------------------
+  # Commercial CPUE indices: ---------------------------------------------------
 
   if (nrow(dat$catch) > 0) {
     if (!file.exists(cpue_cache_spp)) {
@@ -261,7 +263,7 @@ make_pages <- function(
         axis.ticks.y = element_blank())
   }
 
-  # Commercial catch: -------------------------------
+  # Commercial catch: ----------------------------------------------------------
   if (nrow(dat$catch) > 0) {
     g_catch <- gfsynopsis::plot_catches(dat$catch)
   } else {
@@ -274,7 +276,7 @@ make_pages <- function(
   }
   g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line"))
 
-  # Survey biomass indices: -------------------------------
+  # Survey biomass indices: ----------------------------------------------------
 
   g_survey_index <- tidy_survey_index(dat$survey_index) %>%
     plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols,
@@ -285,30 +287,30 @@ make_pages <- function(
       axis.ticks.y = element_blank()
     ) + ggplot2::ggtitle("Survey relative biomass indices")
 
-  # Specimen numbers: -------------------------------
+  # Specimen numbers: ----------------------------------------------------------
 
   suppressMessages({
-    g_comm_samples <- tidy_sample_avail(dat$commercial_samples) %>%
+    g_comm_samples <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, 2017)) %>%
       plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
       # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
       viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey75") +
       ggplot2::ggtitle("Commercial specimen counts")
 
-    g_survey_samples <- tidy_sample_avail(dat$survey_samples) %>%
+    g_survey_samples <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, 2017)) %>%
       plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
       # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
       viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey75") +
       ggplot2::ggtitle("Survey specimen counts")
   })
 
-  # Maturity by month: -------------------------------
+  # Maturity by month: ---------------------------------------------------------
 
   # TODO: should this include commercial?
   g_maturity_month <- tidy_maturity_months(dat$survey_samples) %>%
     plot_maturity_months() +
     guides(colour = FALSE, fill = FALSE)
 
-  # Growth fits: -------------------------------
+  # Growth fits: ---------------------------------------------------------------
 
   if (!file.exists(vb_cache_spp)) {
     vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd",
@@ -338,7 +340,7 @@ make_pages <- function(
     ggplot2::guides(lty =
         guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
 
-  # Maturity ogives: -------------------------------
+  # Maturity ogives: -----------------------------------------------------------
 
   mat_age <- dat$combined_samples %>%
     fit_mat_ogive(
@@ -424,7 +426,7 @@ make_pages <- function(
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
-  # Commercial CPUE maps -------------------------------
+  # Commercial CPUE maps -------------------------------------------------------
 
   coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
 
@@ -461,7 +463,7 @@ make_pages <- function(
       axis.ticks = element_blank()
     )
 
-  # Survey maps: -------------------------------
+  # Survey maps: ---------------------------------------------------------------
   if (!file.exists(map_cache_spp_synoptic)) {
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
@@ -533,7 +535,7 @@ make_pages <- function(
       show_model_predictions = show_model_predictions, annotations = "HBLL") +
     coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
 
-  # Page 1 layout: -------------------------------
+  # Page 1 layout: -------------------------------------------------------------
 
   gg_catch               <- ggplot2::ggplotGrob(g_catch)
   gg_survey_index        <- ggplot2::ggplotGrob(g_survey_index)
@@ -598,7 +600,7 @@ make_pages <- function(
   grid::grid.draw(f_all)
   dev.off()
 
-  # Page 2 layout: -------------------------------
+  # Page 2 layout: -------------------------------------------------------------
 
   gg_mat_age        <- ggplot2::ggplotGrob(g_mat_age)
   gg_mat_length     <- ggplot2::ggplotGrob(g_mat_length)
