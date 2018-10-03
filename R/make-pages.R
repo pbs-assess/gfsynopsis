@@ -278,14 +278,20 @@ make_pages <- function(
 
   # Survey biomass indices: ----------------------------------------------------
 
-  g_survey_index <- tidy_survey_index(dat$survey_index) %>%
-    plot_survey_index(col = c("grey60", "grey20"), survey_cols = survey_cols,
-      xlim = c(1984, 2017)) +
-    theme(
-      axis.title.y = element_blank(),
-      axis.text.y = element_blank(),
-      axis.ticks.y = element_blank()
-    ) + ggplot2::ggtitle("Survey relative biomass indices")
+  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
+  if (all(is.na(dat_tidy_survey_index$biomass))) {
+    g_survey_index <- ggplot() + theme_pbs()
+  } else {
+    g_survey_index <- plot_survey_index(dat_tidy_survey_index,
+      col = c("grey60", "grey20"), survey_cols = survey_cols,
+      xlim = c(1984, 2017))
+  }
+    g_survey_index <- g_survey_index +
+      theme(
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()
+      ) + ggplot2::ggtitle("Survey relative biomass indices")
 
   # Specimen numbers: ----------------------------------------------------------
 
@@ -306,9 +312,15 @@ make_pages <- function(
   # Maturity by month: ---------------------------------------------------------
 
   # TODO: should this include commercial?
-  g_maturity_month <- tidy_maturity_months(dat$survey_samples) %>%
-    plot_maturity_months() +
-    guides(colour = FALSE, fill = FALSE)
+    dat_tidy_maturity_months <- tidy_maturity_months(dat$survey_samples)
+    if (nrow(dat_tidy_survey_index) > 0L) {
+      g_maturity_month <- ggplot() + theme_pbs() +
+        ggtitle("Maturity frequencies")
+    } else {
+      g_maturity_month <- dat_tidy_maturity_months %>%
+        plot_maturity_months() +
+        guides(colour = FALSE, fill = FALSE)
+    }
 
   # Growth fits: ---------------------------------------------------------------
 
@@ -453,9 +465,9 @@ make_pages <- function(
       axis.title = element_blank(),
       axis.text = element_blank(),
       axis.ticks = element_blank()
-    ) +
-    ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
-    ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
+    )
+    # ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
+    # ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
 
   if (include_map_square)
     g_cpue_spatial <- g_cpue_spatial + checking_square
@@ -476,9 +488,10 @@ make_pages <- function(
   if (!file.exists(map_cache_spp_synoptic)) {
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "sdmTMB",
-      surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"), silent = FALSE, years = 1:1e4)
-      # verbose = FALSE, max_edge = c(30, 100))
+      species = spp, model = "inla",
+      surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
+      # silent = FALSE, years = 1:1e4)
+      verbose = FALSE, max_edge = c(30, 100))
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -487,9 +500,10 @@ make_pages <- function(
 
   if (!file.exists(map_cache_spp_iphc)) {
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "sdmTMB",
-      surveys = "IPHC FISS", silent = FALSE, years = 1:1e4)
-      # verbose = FALSE, max_edge = c(30, 100))
+      species = spp, model = "inla",
+      surveys = "IPHC FISS",
+      # silent = FALSE, years = 1:1e4)
+      verbose = FALSE, max_edge = c(30, 100))
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -498,9 +512,10 @@ make_pages <- function(
 
   if (!file.exists(map_cache_spp_hbll)) {
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "sdmTMB",
-      surveys = c("HBLL OUT N", "HBLL OUT S"), silent = FALSE, years = 1:1e4)
-      # verbose = FALSE, max_edge = c(30, 100))
+      species = spp, model = "inla",
+      surveys = c("HBLL OUT N", "HBLL OUT S"),
+      # silent = FALSE, years = 1:1e4)
+      verbose = FALSE, max_edge = c(30, 100))
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
@@ -517,9 +532,14 @@ make_pages <- function(
     hbll_fits$pred_dat$combined[hbll_fits$pred_dat$combined > qs] <- qs
   }
 
+  if (sum(syn_fits$raw_dat$present) > 0.02 * nrow(syn_fits$raw_dat))
+    show_model_predictions <- TRUE
+  else
+    show_model_predictions <- FALSE
   g_survey_spatial_syn <-
     gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
-      north_symbol = TRUE, annotations = "SYN") +
+      north_symbol = TRUE, annotations = "SYN",
+      show_model_predictions = show_model_predictions) +
     coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
 
   if (sum(iphc_fits$raw_dat$present) > 0.02 * nrow(iphc_fits$raw_dat))
