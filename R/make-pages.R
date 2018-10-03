@@ -215,12 +215,15 @@ make_pages <- function(
     sb <- NA
   }
 
-  if (!is.na(sb)) {
+  min_total <- 20
+  if (!is.na(sb) && max(sb$total) >= min_total) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", "Commercial"))
     sb$year <- factor(sb$year, levels = seq(2003, 2017))
-    g_lengths <- plot_lengths(sb, survey_cols = survey_cols, bin_size = bin_width) +
+
+    g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
+      bin_size = bin_width, min_total = min_total) +
       guides(colour = FALSE, fill = FALSE)
   } else {
     g_lengths <- ggplot() + theme_pbs() + ggtitle("Length frequencies")
