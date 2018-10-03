@@ -24,6 +24,7 @@
 #' @importFrom dplyr bind_rows case_when pull contains tibble rename as_tibble
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom dplyr "%>%"
+#' @importFrom foreach "%dopar%"
 #' @importFrom ggplot2 ggplot aes_string geom_hline geom_vline scale_fill_manual
 #'   scale_colour_manual scale_x_continuous scale_size_area coord_cartesian
 #'   guides geom_point facet_wrap xlab ylab geom_col ylim xlim geom_rect
@@ -37,15 +38,16 @@ fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
   center = TRUE, cache = file.path("report", "cpue-cache"),
-  save_model = FALSE, arith_cpue_comparison = TRUE) {
+  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE) {
 
-  cpue_models <- lapply(areas, function(area) {
+  cores <- if (parallel) parallel::detectCores()[1L] else 1L
+  cl <- parallel::makeCluster(min(c(cores, length(areas))))
+  doParallel::registerDoParallel(cl)
+  cpue_models <- foreach::foreach(area = areas,
+    .packages = c("gfplot", "gfsynopsis")) %dopar% {
     message("Determining qualified fleet for area ", area, ".")
 
-    # if (species == "quillback rockfish") # TODO CONVERGENCE ISSUES
-    #   return(NA)
-
-    fleet <- tidy_cpue_index(dat,
+    fleet <- gfplot::tidy_cpue_index(dat,
       year_range = c(1996, 2017),
       species_common = species,
       gear = "bottom trawl",
@@ -89,13 +91,13 @@ fit_cpue_indices <- function(dat,
     if (save_model)
       saveRDS(m_cpue,
         file = file.path(cache, paste0(gsub(" ", "-", species),
-          "-", clean_area(area), "-model.rds")))
+          "-", gfsynopsis:::clean_area(area), "-model.rds")))
     list(model = m_cpue, fleet = fleet, area = clean_area(area))
-  })
+  }
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
-    p <- predict_cpue_index_tweedie(x$model, center = center)
+    p <- gfplot::predict_cpue_index_tweedie(x$model, center = center)
     p$area <- x$area
     p
   })

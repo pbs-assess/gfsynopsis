@@ -24,7 +24,10 @@ Imports:
     egg,
     gridExtra,
     purrr,
-    cowplot
+    cowplot,
+    foreach,
+    doParallel,
+    parallel
 Remotes: github::seananderson/gfplot
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)

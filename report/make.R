@@ -9,6 +9,7 @@ library(gfsynopsis)
 # Settings:
 ext <- "pdf" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
+parallel <- TRUE # for CPUE index
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -69,6 +70,7 @@ for (i in seq_along(spp$species_common_name)) {
       include_map_square = FALSE,
       resolution = 175, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
+      parallel = parallel,
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],

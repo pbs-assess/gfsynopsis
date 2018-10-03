@@ -30,6 +30,7 @@
 #' @param survey_map_outlier A quantile above which of the colors in the map
 #'   should be squashed the same color. Useful to avoid a small number of
 #'   outlying cells from distorting the color scale.
+#' @param parallel Parallel CPUE index fitting?
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -60,7 +61,8 @@ make_pages <- function(
     "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
     "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
-  survey_map_outlier = 0.999
+  survey_map_outlier = 0.999,
+  parallel = FALSE
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -243,7 +245,7 @@ make_pages <- function(
     if (!file.exists(cpue_cache_spp)) {
       cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
         species = unique(dat$catch$species_common_name),
-        save_model = save_gg_objects)
+        save_model = save_gg_objects, parallel = parallel)
       saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
     } else {
       cpue_index <- readRDS(cpue_cache_spp)
