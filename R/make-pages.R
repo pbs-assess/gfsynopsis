@@ -312,33 +312,42 @@ make_pages <- function(
 
   # Growth fits: ---------------------------------------------------------------
 
-  if (!file.exists(vb_cache_spp)) {
-    vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd",
+  if (nrow(dat$combined_samples) >= 10) {
+    if (!file.exists(vb_cache_spp)) {
+      vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd",
+        too_high_quantile = 0.99)
+      vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd",
+        too_high_quantile = 0.99)
+      vb <- list()
+      vb$m <- vb_m
+      vb$f <- vb_f
+      saveRDS(vb, file = vb_cache_spp, compress = FALSE)
+    } else {
+      vb <- readRDS(vb_cache_spp)
+    }
+
+    g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
+      guides(colour = FALSE, fill = FALSE, lty = FALSE)
+
+    lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm",
       too_high_quantile = 0.99)
-    vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd",
+    lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm",
       too_high_quantile = 0.99)
-    vb <- list()
-    vb$m <- vb_m
-    vb$f <- vb_f
-    saveRDS(vb, file = vb_cache_spp, compress = FALSE)
+
+    g_length_weight <-
+      plot_length_weight(object_female = lw_f, object_male = lw_m) +
+      ggplot2::theme(legend.position = c(0.9, 0.2),
+        legend.key.width = grid::unit(1.8, units = "char")) +
+      ggplot2::guides(lty =
+          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
-    vb <- readRDS(vb_cache_spp)
+    g_vb <- ggplot2::ggplot() + theme_pbs() +
+      xlab("Age (years)") + ylab("Length (cm)") +
+      ggtitle("Growth")
+    g_length_weight <- ggplot2::ggplot() + theme_pbs() +
+      xlab("Length (cm)") + ylab("Weight (kg)") +
+      ggtitle("Length-weight relationship")
   }
-
-  g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
-    guides(colour = FALSE, fill = FALSE, lty = FALSE)
-
-  lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm",
-    too_high_quantile = 0.99)
-  lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm",
-    too_high_quantile = 0.99)
-
-  g_length_weight <-
-    plot_length_weight(object_female = lw_f, object_male = lw_m) +
-    ggplot2::theme(legend.position = c(0.9, 0.2),
-      legend.key.width = grid::unit(1.8, units = "char")) +
-    ggplot2::guides(lty =
-        guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
 
   # Maturity ogives: -----------------------------------------------------------
 
