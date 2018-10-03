@@ -85,7 +85,8 @@ fit_survey_maps <- function(dat,
         ...)
       # we fit all years, but just save last year for plotting:
       raw_dat <- filter(model$data, year == max(model$data$year))
-      model$predictions <- filter(model$predictions, year == max(model$data$year))
+      # TODO: correct?:
+      # model$predictions <- filter(model$predictions, year == max(model$data$year))
     }
     list(model = model, raw_dat = raw_dat)
   })
