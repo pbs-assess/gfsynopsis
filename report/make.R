@@ -18,7 +18,8 @@ spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
 # ))
 
 # ------------------------------------------------------------
-# used for hacked parallel processing from command line; ignore
+# used for hacked parallel processing from command line
+# unecessary, but speeds up rebuilding
 # e.g. from root project folder in Unix:
 # open new Terminal
 # make one
@@ -26,8 +27,6 @@ spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
 # make two
 # open new Terminal
 # make three
-#
-# unecessary, but speeds up rebuilding
 if (exists("N")) {
   spp <- spp[N, , drop = FALSE]
 }
@@ -55,7 +54,7 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
 
 # ------------------------------------------------------------
 for (i in seq_along(spp$species_common_name)) {
-# for (i in 13) {
+# for (i in 1) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
   fig_check1 <- paste0(fig_check, "-1.png")
@@ -104,31 +103,19 @@ temp <- lapply(spp$species_common_name[1:2], function(x) {
   i <- 1
   out[[i]] <- "\\clearpage"
   i <- i + 1
-  # out[[i]] <- "\\begin{minipage}[t][4cm][t]{\\textwidth}"
-  # i <- i + 1
   out[[i]] <- paste0("\\subsection{", spp_title, "}")
   i <- i + 1
   out[[i]] <- paste0(gfsynopsis:::emph(latin_name),
     " / DFO species code: ", species_code, "\n")
   i <- i + 1
-  # out[[i]] <- "\\vspace{8pt}"
-  # i <- i + 1
   out[[i]] <- paste0(resdoc_text, resdoc, "\n")
   i <- i + 1
-  # out[[i]] <- "\\vspace{8pt}"
-  # i <- i + 1
   out[[i]] <- paste0(sar_text, sar)
   i <- i + 1
-
   if (other_ref != "") {
-    # out[[i]] <- "\n \\vspace{8pt}"
-    # i <- i + 1
     out[[i]] <- paste0(other_ref)
     i <- i + 1
   }
-
-  # out[[i]] <- "\\end{minipage}\n"
-  # i <- i + 1
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-1.png}")
