@@ -500,10 +500,10 @@ make_pages <- function(
   if (!file.exists(map_cache_spp_synoptic)) {
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "inla",
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      # silent = FALSE, years = 1:1e4)
-      verbose = FALSE, max_edge = c(30, 100))
+      species = spp,
+      # model = "inla", verbose = FALSE, max_edge = c(30, 100))
+      model = "sdmTMB", silent = FALSE, years = 1:1e4)
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -512,10 +512,10 @@ make_pages <- function(
 
   if (!file.exists(map_cache_spp_iphc)) {
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "inla",
+      species = spp,
       surveys = "IPHC FISS",
-      # silent = FALSE, years = 1:1e4)
-      verbose = FALSE, max_edge = c(30, 100))
+      # model = "inla", verbose = FALSE, max_edge = c(30, 100))
+      model = "sdmTMB", silent = FALSE, years = 1:1e4)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -524,10 +524,10 @@ make_pages <- function(
 
   if (!file.exists(map_cache_spp_hbll)) {
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp, model = "inla",
+      species = spp,
       surveys = c("HBLL OUT N", "HBLL OUT S"),
-      # silent = FALSE, years = 1:1e4)
-      verbose = FALSE, max_edge = c(30, 100))
+      # model = "inla", verbose = FALSE, max_edge = c(30, 100))
+      model = "sdmTMB", silent = FALSE, years = 1:1e4)
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
