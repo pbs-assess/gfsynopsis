@@ -295,19 +295,18 @@ make_pages <- function(
 
   # Specimen numbers: ----------------------------------------------------------
 
-  suppressMessages({
-    g_comm_samples <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, 2017)) %>%
-      plot_sample_avail(title = "Commercial samples", year_range = c(1996, 2017)) +
-      # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
-      viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = "grey75") +
-      ggplot2::ggtitle("Commercial specimen counts")
-
-    g_survey_samples <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, 2017)) %>%
-      plot_sample_avail(title = "Survey samples", year_range = c(1996, 2017)) +
-      # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
-      viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = "grey75") +
-      ggplot2::ggtitle("Survey specimen counts")
-  })
+  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, 2017))
+  na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
+  g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, 2017)) +
+    # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
+    viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour) +
+    ggplot2::ggtitle("Commercial specimen counts")
+  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, 2017))
+  na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
+  g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, 2017)) +
+    # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
+    viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour) +
+    ggplot2::ggtitle("Survey specimen counts")
 
   # Maturity by month: ---------------------------------------------------------
 
