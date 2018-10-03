@@ -34,7 +34,6 @@ fit_survey_maps <- function(dat,
       density_column <- "density_ppkm2"
       .dat <- filter(dat, survey_abbrev %in% surv)
       .dat$survey_abbrev <- surv
-      # browser()
       # .dat$year <- years[2]
       premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
       raw_dat <- tidy_survey_sets(.dat, surv,

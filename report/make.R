@@ -1,4 +1,4 @@
-library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
+# library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
 devtools::load_all("../gfplot")
 devtools::load_all(".")
 library(dplyr)
@@ -21,9 +21,7 @@ spp <- gfsynopsis:::get_spp_names() # %>% filter(type == "A")
 # make two
 # open new Terminal
 # make three
-if (exists("N")) {
-  spp <- spp[N, , drop = FALSE]
-}
+if (exists("N")) spp <- spp[N, , drop = FALSE]
 # ------------------------------------------------------------
 
 spp <- filter(spp, species_common_name != "pacific hake")
