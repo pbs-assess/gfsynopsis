@@ -1,4 +1,4 @@
-# INTRODUCTION {#intro}
+# INTRODUCTION {#sec:intro}
 
 The combination of fishery dependent data, such as catch and effort, and
 fishery independent survey data, such as biomass indices and age

@@ -1,3 +1,186 @@
-# PLOT DESCRIPTIONS {#plot-descriptions}
+# PLOT DESCRIPTIONS {#sec:plot-descriptions}
+
+```{r install, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("pbs-assess/gfplot")
+```
+
+```{r libraries, cache=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(gfplot)
+library(gfsynopsis)
+```
+
+```{r load-example-figs}
+g <- readRDS(here::here("report/ggplot-objects/petrale-sole.rds"))
+sp <- "Petrale Sole"
+```
+
+<!-- A fake square to use to get the aspect ratio of the maps correct: -->
+
+```{r checking-square}
+checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
+  y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
+  inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
+```
+
+In this section we provide complete figure captions for each of the
+visualizations that form the species-by-species synopsis report in
+Section \@ref{sec:synopsis-pages} We use `r sp` as an example species.
+
+## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
+
+```{r make-surv-abbrev-text, eval=TRUE}
+library(dplyr)
+# happens to have data for all the surveys:
+dat_survey_index <- readRDS(here::here("report/data-cache/canary-rockfish.rds"))
+dat_survey_index <- dat_survey_index$survey_index
+survs <- c(
+  "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+  "HBLL OUT N",
+  "HBLL OUT S", "HBLL INS N", "HBLL INS S",
+  "MSA HS", "IPHC FISS")
+survs <- tibble(surv_order = seq_along(survs), survey_abbrev = survs)
+survey_descriptions <-
+  semi_join(dat_survey_index, survs, by = "survey_abbrev") %>%
+  select(survey_series_desc, survey_abbrev) %>%
+  unique()
+survey_descriptions <- bind_rows(survey_descriptions,
+  tibble(survey_series_desc =
+    "Hecate Straight Multispecies Assemblage Bottom Trawl",
+     survey_abbrev = "MSA HS"))
+x <- inner_join(survey_descriptions, survs, by = "survey_abbrev") %>%
+  arrange(surv_order)
+x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
+surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
+```
+
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or a less than 5\\% average positive sets (sets that caught the species of interest). All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. ", surv_abbrev_text, ".")}
+g$survey_index
+```
+
+\clearpage
+
+## MAPS OF RELATIVE BIOMASS FROM SURVEYS
+
+```{r map-text}
+map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the maps in the available space. Depth contours are shown at 100m, 200m, and 500m."
+```
+
+<!-- TODO: Add back the checking square and make sure these maps are still the right aspect ratio. -->
+
+```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="4.5in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", sp, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Colour shading indicates predictions from a spatial model that includes depth as a predictor. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows predicted biomass density at the survey stations. Years on the left side of each plot indicate the year of the respective survey. Surveys in which less than 5\\% of the sets contained the species are not modeled and are shown with raw data only (e.g., see the West Coast Haida Gwaii panel in the top left of the synoptic panel). See Section \\ref{sec:spatial-modeling} for details on the modeling approach. ", map_text)}
+
+trans <- "sqrt"
+
+p1 <- g$survey_spatial_syn +
+  labs(fill = "Predicted\nbiomass\ndensity\n(kg/m^2)") +
+  viridis::scale_fill_viridis(trans = trans, option = "C", breaks = c(0.1, 0.3, 0.5)) +
+  guides(fill = guide_colorbar(), size = FALSE)
+
+p2 <- g$survey_spatial_hbll +
+  labs(fill = "Predicted\nbiomass\ndensity\n(fish/km^2)") +
+  viridis::scale_fill_viridis(trans = trans, option = "C", breaks = c(5, 20, 40)) +
+  guides(fill = guide_colorbar(), size = FALSE)
+
+p3 <- g$survey_spatial_iphc +
+  labs(colour = "Predicted\nbiomass\ndensity\n(fish/km^2)") +
+  viridis::scale_colour_viridis(trans = trans, option = "C", breaks = c(2, 10, 20)) +
+  guides(colour = guide_colorbar(), size = FALSE)
+
+gridExtra::grid.arrange(
+  p1,
+  p2,
+  p3, # + checking_square,
+  nrow = 1)
+```
+
+\clearpage
+
+## COMMERCIAL FISHERY CATCHES
+
+<!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
+
+```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap=paste0("Example commercial fishery catches plot for ", sp, ". Catch from various gear types is indicated by colour shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, hook and line discards are mostly exluded from these data. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006.")}
+g$catch
+```
+
+\clearpage
+
+## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
+
+```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.6in", warning=FALSE, fig.cap=paste0("Example commercial bottom trawl catch per unit effort trends for ", sp, ". Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort trend standardized for depth, latitude, DFO locality region, vessel, and month of year (see details in Section \\ref{sec:cpue-models}). The line itself represents the estimate and the shaded ribbon represents a 95\\% confidence interval.")}
+g$cpue_index
+```
+
+\clearpage
+
+## MAPS OF COMMERCIAL CATCH PER UNIT EFFORT
+
+```{r cpue-maps, fig.asp=1.47, fig.width=4.1, out.width="3.4in", fig.cap=paste0("Example commercial trawl and hook and line catch per unit effort maps for ", sp, ". Lighter shading indicates higher levels of a geometric mean of catch per unit effort in a given hexagon cell. Cells are 7 km wide and are only shown in cases where there are at least 3 unique vessels in given cell for privacy reasons. For bottom trawl, catch per unit effort is calculated as the weight of catch (landings plus discards) divided by hours fished for all positive tows from the groundfish trawl sector. Trawl data are shown from 2013 onwards when the trawl footprint was frozen. For hook and line, catch per unit effort is shown as the number of fish recorded landed and discarded per set. Hook and line data are shown from 2008 onwards. ", map_text)}
+gridExtra::grid.arrange(
+  g$cpue_spatial, # + checking_square,
+  g$cpue_spatial_ll,
+  nrow = 1
+)
+```
+
+\clearpage
+
+## AVAILABLE BIOLOGICAL SAMPLES {#sec:bio-samples}
+
+```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Gray panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
+gridExtra::grid.arrange(
+  g$survey_samples,
+  g$comm_samples,
+  nrow = 2
+)
+```
+
+\clearpage
+
+## LENGTH COMPOSITION DATA
+
+<!-- % TODO: Is this min n for biosamples to be statistically significant? If so explain rationale. Which I may steal for my in-season halibut work! -->
+
+```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light gray bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. These are raw unweighted proportions within each length bin; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+g$lengths
+```
+
+<!-- TODO: Add something to the caption about the commercial length samples being combined across the sexes. -->
+
+\clearpage
+
+## AGE COMPOSITION DATA
+
+```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as coloured (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts of fish through time. These are raw unweighted proportions at age; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+g$ages
+```
+
+<!-- TODO: Implement of the weighted lengths and ages? If I do then adjust the caption accordingly and reference the original weighting. -->
+
+\clearpage
+
+## LENGTH-AGE AND LENGTH-WEIGHT MODEL FITS
+
+```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model (both models described further in text). Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and light dots represent individual fish that the models are fit to. See Sections \\ref{sec:length-age-models} and \\ref{sec:length-weight-models} for details on the models.")}
+cowplot::plot_grid(g$vb, g$length_weight, align = "v")
+```
+
+<!-- % TODO: I only fit models in cases where there were more than 100 fish samples for -->
+<!-- % a given species-sex combination. -->
+
+\clearpage
+
+## MATURITY
+
+```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity frequency by month plot for ", sp, ". Categories of maturity are listed from most immature to most mature from top to bottom. The area of the circles corresponds to the number of fish specimens in a given maturity category for a given month. Female fish are indicated by black circles and male fish are indicated by light gray circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot.")}
+g$maturity_month
+```
+
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age and length maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs.\ not mature. The solid black lines represent fits to the female fish and the dashed gray lines represent fits to the male fish. The vertical lines indicate the estimated age or at length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to samples from the entire year. See Section \\ref{sec:maturity-models} for details.")}
+cowplot::plot_grid(g$mat_age, g$mat_length, align = "v")
+```
 
 \clearpage
