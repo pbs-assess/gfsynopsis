@@ -15,7 +15,7 @@ parallel <- TRUE # for CPUE index
 # Read in fresh data or load cached data if available:
 dc <- file.path("report", "data-cache")
 if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
-  gfsynopsis::get_data(type = "A", path = dc)
+  gfsynopsis::get_data(type = c("A", "B"), path = dc)
 }
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis:::get_spp_names() # %>% filter(type == "A")
