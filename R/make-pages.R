@@ -94,6 +94,14 @@ make_pages <- function(
 
   dat$commercial_samples_no_keepers <- dplyr::filter(dat$commercial_samples,
     sampling_desc %in% "UNSORTED")
+
+  common_cols <- intersect(
+    colnames(dat$survey_samples),
+    colnames(dat$commercial_samples))
+  common_cols <- c(common_cols, "survey_abbrev")
+  dat$commercial_samples[["survey_abbrev"]] <- NA
+  dat$commercial_samples <- dat$commercial_samples[,common_cols, drop = FALSE]
+  dat$survey_samples <- dat$survey_samples[,common_cols, drop = FALSE]
   dat$combined_samples <- rbind(dat$commercial_samples, dat$survey_samples)
 
   # TODO: temp:
