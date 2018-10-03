@@ -100,7 +100,8 @@ make_pages <- function(
     colnames(dat$survey_samples),
     colnames(dat$commercial_samples))
   common_cols <- c(common_cols, "survey_abbrev")
-  dat$commercial_samples[["survey_abbrev"]] <- NA
+  dat$commercial_samples[["survey_abbrev"]] <-
+    character(length = nrow(dat$commercial_samples))
   temp_commercial_samples <- dat$commercial_samples[,common_cols, drop = FALSE]
   temp_survey_samples <- dat$survey_samples[,common_cols, drop = FALSE]
   dat$combined_samples <- rbind(temp_commercial_samples, temp_survey_samples)
