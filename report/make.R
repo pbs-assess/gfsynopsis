@@ -9,13 +9,7 @@ if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
   gfsynopsis::get_data(type = "A", path = dc)
 }
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
-spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
-# spp <- bind_rows(spp, data.frame(
-#   species_common_name = c("black rockfish", "china rockfish", "pacific halibut", "tiger rockfish"),
-#   type = "B",
-#   spp_w_hyphens = c("black-rockfish", "china-rockfish", "pacific-halibut", "tiger-rockfish"),
-#   stringsAsFactors = FALSE
-# ))
+spp <- gfsynopsis:::get_spp_names() # %>% filter(type == "A")
 
 # ------------------------------------------------------------
 # used for hacked parallel processing from command line
