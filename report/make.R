@@ -82,7 +82,7 @@ for (i in seq_along(spp$species_common_name)) {
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
-temp <- lapply(spp$species_common_name[1:2], function(x) {
+temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   spp_title <- gfsynopsis:::all_cap(x)
   out <- list()
@@ -113,7 +113,7 @@ temp <- lapply(spp$species_common_name[1:2], function(x) {
   }
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
-  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-1.png}")
+  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-1.", ext, "}")
   i <- i + 1
   out[[i]] <- "\\end{figure}"
   i <- i + 1
@@ -121,7 +121,7 @@ temp <- lapply(spp$species_common_name[1:2], function(x) {
   i <- i + 1
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
-  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-2.png}")
+  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-2.", ext, "}")
   i <- i + 1
   out[[i]] <- "\\end{figure}\n"
   i <- i + 1
