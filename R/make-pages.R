@@ -507,7 +507,7 @@ make_pages <- function(
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
       species = spp,
       # model = "inla", verbose = FALSE, max_edge = c(30, 100))
-      model = "sdmTMB", silent = TRUE, years = 1:1e4)
+      model = "sdmTMB", silent = TRUE, years = 2016:2017)
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -519,7 +519,7 @@ make_pages <- function(
       species = spp,
       surveys = "IPHC FISS",
       # model = "inla", verbose = FALSE, max_edge = c(30, 100))
-      model = "sdmTMB", silent = TRUE, years = 1:1e4)
+      model = "sdmTMB", silent = TRUE, years = 2016:2017)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -531,7 +531,7 @@ make_pages <- function(
       species = spp,
       surveys = c("HBLL OUT N", "HBLL OUT S"),
       # model = "inla", verbose = FALSE, max_edge = c(30, 100))
-      model = "sdmTMB", silent = TRUE, years = 1:1e4)
+      model = "sdmTMB", silent = TRUE, years = 2016:2017)
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
