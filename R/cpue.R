@@ -65,7 +65,7 @@ fit_cpue_indices <- function(dat,
     if (!is.data.frame(fleet))
       if (is.na(fleet[[1]]))
         return(NA)
-    if (length(unique(fleet$vessel_name)) < 10)
+    if (length(unique(fleet$vessel_name)) < 5L)
       return(NA)
 
     message("Fitting standardization model for area ", area, ".")
@@ -80,7 +80,7 @@ fit_cpue_indices <- function(dat,
         (1 | locality) +
         (1 | vessel) +
         (1 | year_locality),
-    verbose = TRUE))
+    verbose = FALSE))
     # ))
 
     if (identical(class(m_cpue), "try-error")) {
@@ -88,10 +88,11 @@ fit_cpue_indices <- function(dat,
       return(NA)
     }
 
+    clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
     if (save_model)
       saveRDS(m_cpue,
         file = file.path(cache, paste0(gsub(" ", "-", species),
-          "-", gfsynopsis:::clean_area(area), "-model.rds")))
+          "-", clean_area(area), "-model.rds")))
     list(model = m_cpue, fleet = fleet, area = clean_area(area))
   }
 
