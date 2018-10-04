@@ -109,9 +109,11 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0(sar_text, sar)
   i <- i + 1
-  if (other_ref != "") {
-    out[[i]] <- paste0(other_ref)
-    i <- i + 1
+  if (!is.na(other_ref)) {
+    if (other_ref != "") {
+      out[[i]] <- paste0(other_ref)
+      i <- i + 1
+    }
   }
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
