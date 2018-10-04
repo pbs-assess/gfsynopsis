@@ -8,6 +8,7 @@ get_spp_names <- function() {
     col_types = list(species_common_name = readr::col_character(),
       type = readr::col_character()))
   spp$species_common_name <- tolower(gsub(" $", "", spp$species_common_name))
+  # Not in databases at all:
   spp <- dplyr::filter(spp, !.data$species_common_name %in% c(
     "sixgill shark",
     "soupfin shark",
@@ -15,9 +16,7 @@ get_spp_names <- function() {
     "lamp grenadier",
     "pearly prickleback"
   ))
-
   spp <- spp[!duplicated(spp), ]
   spp$spp_w_hyphens <- gsub("/", "-", gsub(" ", "-", spp$species_common_name))
   dplyr::as.tbl(as.data.frame(spp))
 }
-
