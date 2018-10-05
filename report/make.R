@@ -1,9 +1,9 @@
 # library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
 # devtools::load_all("../gfplot") # for development
-# devtools::load_all(".")  # for development
+devtools::load_all(".")  # for development
 library(dplyr)
 library(gfplot)
-library(gfsynopsis)
+# library(gfsynopsis)
 
 # ------------------------------------------------------------------------------
 # Settings:
@@ -14,11 +14,9 @@ parallel <- TRUE # for CPUE index
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
 dc <- file.path("report", "data-cache")
-if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
-  gfsynopsis::get_data(type = c("A", "B"), path = dc)
-}
+gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
-spp <- gfsynopsis:::get_spp_names() # %>% filter(type == "A")
+spp <- gfsynopsis:::get_spp_names()
 
 # ------------------------------------------------------------------------------
 # This section is used for hacked parallel processing from the command line.
@@ -54,6 +52,8 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 
+spp <- spp[-c(40, 45),] # FIXME
+spp <- spp[-c(54),] # FIXME
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
 for (i in seq_along(spp$species_common_name)) {
@@ -70,7 +70,7 @@ for (i in seq_along(spp$species_common_name)) {
       include_map_square = FALSE,
       resolution = 175, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
-      parallel = parallel,
+      parallel = FALSE,
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
@@ -82,6 +82,7 @@ for (i in seq_along(spp$species_common_name)) {
   }
 }
 
+spp <- spp[-c(31, 32),] # FIXME basking
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
 temp <- lapply(spp$species_common_name, function(x) {
@@ -98,9 +99,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
 
   i <- 1
-  out[[i]] <- "\\clearpage"
+  out[[i]] <- "\\clearpage\n"
   i <- i + 1
-  out[[i]] <- paste0("\\subsection{", spp_title, "}")
+  # out[[i]] <- paste0("\\subsection{", spp_title, "}")
+  out[[i]] <- paste0("## ", spp_title, "\n")
   i <- i + 1
   out[[i]] <- paste0(gfsynopsis:::emph(latin_name),
     " / DFO species code: ", species_code, "\n")

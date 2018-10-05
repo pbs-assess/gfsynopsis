@@ -12,6 +12,8 @@ get_data(type = "A", path = ".", compress = FALSE)
 \item{path}{Path}
 
 \item{compress}{TRUE or FALSE to compress .rds}
+
+\item{force}{Should data be downloaded even if already cached data exists?}
 }
 \description{
 Get all data
