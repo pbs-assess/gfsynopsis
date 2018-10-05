@@ -24,7 +24,7 @@
 #' @importFrom dplyr bind_rows case_when pull contains tibble rename as_tibble
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom dplyr "%>%"
-#' @importFrom foreach "%dopar%"
+#' @importFrom foreach "%dopar%" "%do%"
 #' @importFrom ggplot2 ggplot aes_string geom_hline geom_vline scale_fill_manual
 #'   scale_colour_manual scale_x_continuous scale_size_area coord_cartesian
 #'   guides geom_point facet_wrap xlab ylab geom_col ylim xlim geom_rect
@@ -44,7 +44,7 @@ fit_cpue_indices <- function(dat,
   cl <- parallel::makeCluster(min(c(cores, length(areas))))
   doParallel::registerDoParallel(cl)
   cpue_models <- foreach::foreach(area = areas,
-    .packages = c("gfplot", "gfsynopsis")) %dopar% {
+    .packages = c("gfplot", "gfsynopsis")) %do% {
     message("Determining qualified fleet for area ", area, ".")
 
     fleet <- gfplot::tidy_cpue_index(dat,
@@ -61,6 +61,7 @@ fit_cpue_indices <- function(dat,
       depth_bin_quantiles = c(0.001, 0.999),
       min_bin_prop = 0.001
     )
+    # fleet <- NA
 
     if (!is.data.frame(fleet))
       if (is.na(fleet[[1]]))
@@ -89,7 +90,7 @@ fit_cpue_indices <- function(dat,
     }
 
     clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
-    if (save_model)
+    # if (save_model)
       saveRDS(m_cpue,
         file = file.path(cache, paste0(gsub(" ", "-", species),
           "-", clean_area(area), "-model.rds")))

@@ -4,7 +4,8 @@
 \alias{get_data}
 \title{Get all data}
 \usage{
-get_data(type = "A", path = ".", compress = FALSE)
+get_data(type = c("A", "B"), path = ".", compress = FALSE,
+  force = FALSE)
 }
 \arguments{
 \item{type}{A or B}
