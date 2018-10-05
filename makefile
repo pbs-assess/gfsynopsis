@@ -13,7 +13,10 @@ three:
 	Rscript -e "N <- 21:30; source('report/make.R')"
 
 four:
-	Rscript -e "N <- 31:40; source('report/make.R')"
+	Rscript -e "N <- 32:60; source('report/make.R')"
 
 five:
-	Rscript -e "N <- 41:50; source('report/make.R')"
+	Rscript -e "N <- 61:90; source('report/make.R')"
+
+six:
+	Rscript -e "N <- 91:1000; source('report/make.R')"
