@@ -64,6 +64,7 @@ for (i in seq_along(spp$species_common_name)) {
       resolution = 175, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
       parallel = FALSE,
+
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
@@ -129,4 +130,4 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
+if (!exists("N")) writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
