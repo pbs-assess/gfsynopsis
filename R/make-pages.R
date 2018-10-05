@@ -377,10 +377,14 @@ make_pages <- function(
 
   # Maturity ogives: -----------------------------------------------------------
 
-  mat_age <- dat$combined_samples %>%
-    fit_mat_ogive(
-      type = "age",
-      months = seq(1, 12))
+  if (length(!is.na(dat$combined_samples$maturity_code)) > 10) {
+    mat_age <- dat$combined_samples %>%
+      fit_mat_ogive(
+        type = "age",
+        months = seq(1, 12))
+  } else {
+    mat_age <- NA
+  }
 
   type <- "none"
   if (!is.na(mat_age[[1]])) {
@@ -424,14 +428,18 @@ make_pages <- function(
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
-  mat_length <- dat$combined_samples %>%
-    fit_mat_ogive(
-      type = "length",
-      months = 1:12)
+  if (length(!is.na(dat$combined_samples$maturity_code)) > 10) {
+    mat_length <- dat$combined_samples %>%
+      fit_mat_ogive(
+        type = "length",
+        months = 1:12)
+  } else {
+    mat_length <- NA
+  }
 
   type <- "none"
   if (!is.na(mat_age[[1]]) &&
-      length(unique(mat_age[[1]]$maturity_code)) == 2L) {
+      length(unique(mat_length[[1]]$maturity_code)) == 2L) {
     sample_size <- mat_length$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
@@ -539,45 +547,42 @@ make_pages <- function(
   }
 
   # squash massive outlying cells for colour scale goodness:
-  if (!is.null(syn_fits$pred_dat$combined)) {
-    qs <- quantile(syn_fits$pred_dat$combined, probs = survey_map_outlier, na.rm = TRUE)[[1]]
-    syn_fits$pred_dat$combined[syn_fits$pred_dat$combined > qs] <- qs
+  if ("combined" %in% names(syn_fits$pred_dat)) {
+    if (!is.null(syn_fits$pred_dat$combined)) {
+      qs <- quantile(syn_fits$pred_dat$combined, probs = survey_map_outlier, na.rm = TRUE)[[1]]
+      syn_fits$pred_dat$combined[syn_fits$pred_dat$combined > qs] <- qs
+    }
   }
-  if (!is.null(hbll_fits$pred_dat$combined)) {
-    qs <- quantile(hbll_fits$pred_dat$combined, probs = survey_map_outlier, na.rm = TRUE)[[1]]
-    hbll_fits$pred_dat$combined[hbll_fits$pred_dat$combined > qs] <- qs
+  if ("combined" %in% names(hbll_fits$pred_dat)) {
+    if (!is.null(hbll_fits$pred_dat$combined)) {
+      qs <- quantile(hbll_fits$pred_dat$combined, probs = survey_map_outlier, na.rm = TRUE)[[1]]
+      hbll_fits$pred_dat$combined[hbll_fits$pred_dat$combined > qs] <- qs
+    }
   }
 
-  if (sum(syn_fits$raw_dat$present) > 0.02 * nrow(syn_fits$raw_dat))
-    show_model_predictions <- TRUE
-  else
-    show_model_predictions <- FALSE
+  # if (sum(syn_fits$raw_dat$present) > 0.02 * nrow(syn_fits$raw_dat))
   g_survey_spatial_syn <-
     gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
       north_symbol = TRUE, annotations = "SYN",
-      show_model_predictions = show_model_predictions) +
+      show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
     coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
 
-  if (sum(iphc_fits$raw_dat$present) > 0.02 * nrow(iphc_fits$raw_dat))
-    show_model_predictions <- TRUE
-  else
-    show_model_predictions <- FALSE
+  # if (sum(iphc_fits$raw_dat$present) > 0.02 * nrow(iphc_fits$raw_dat))
   g_survey_spatial_iphc <-
     gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
       show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
-      show_model_predictions = show_model_predictions, annotations = "IPHC") +
+      show_model_predictions = "combined" %in% names(iphc_fits$pred_dat),
+        annotations = "IPHC") +
     coord_cart + ggplot2::ggtitle("IPHC survey biomass")
 
-  if (sum(hbll_fits$raw_dat$present) > 0.02 * nrow(hbll_fits$raw_dat))
-    show_model_predictions <- TRUE
-  else
-    show_model_predictions <- FALSE
+  # if (sum(hbll_fits$raw_dat$present) > 0.02 * nrow(hbll_fits$raw_dat))
   g_survey_spatial_hbll <-
     gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
       pos_pt_col = "#FFFFFF35",
       bin_pt_col = "#FFFFFF12",
       pos_pt_fill = "#FFFFFF03",
-      show_model_predictions = show_model_predictions, annotations = "HBLL") +
+      show_model_predictions = "combined" %in% names(iphc_fits$pred_dat),
+        annotations = "HBLL") +
     coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
 
   # Page 1 layout: -------------------------------------------------------------
