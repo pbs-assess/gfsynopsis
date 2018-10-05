@@ -1,8 +1,8 @@
 # library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
-# devtools::load_all("../gfplot") # for development
+devtools::load_all("../gfplot") # for development
 devtools::load_all(".")  # for development
 library(dplyr)
-library(gfplot)
+# library(gfplot)
 # library(gfsynopsis)
 
 # ------------------------------------------------------------------------------
@@ -16,7 +16,8 @@ parallel <- TRUE # for CPUE index
 dc <- file.path("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
-spp <- gfsynopsis:::get_spp_names()
+spp <- gfsynopsis::get_spp_names() %>%
+  select(species_common_name, species_code, species_science_name, spp_w_hyphens)
 
 # ------------------------------------------------------------------------------
 # This section is used for hacked parallel processing from the command line.
@@ -32,19 +33,9 @@ if (exists("N")) spp <- spp[N, , drop = FALSE]
 
 # ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
-spp <- filter(spp, species_common_name != "pacific hake")
+# spp <- filter(spp, species_common_name != "pacific hake")
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
-
-meta <- gfplot::pbs_species %>%
-  mutate(species_common_name = tolower(species_common_name)) %>%
-  mutate(species_science_name = tolower(species_scientific_name)) %>%
-  select(-species_scientific_name) %>%
-  filter(species_common_name %in% spp$species_common_name) %>%
-  filter(species_code != "465") %>% # extra lingcod
-  unique()
-
-spp <- left_join(spp, meta, by = "species_common_name")
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
 spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("@", spp$resdoc, ""))
@@ -52,10 +43,12 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 
-spp <- spp[-c(40, 45),] # FIXME
-spp <- spp[-c(54),] # FIXME
+# spp <- spp[-c(40, 45),] # FIXME
+# spp <- spp[-c(54),] # FIXME
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
+
+# i <- which(spp$species_common_name  ==  'roughtail skate')
 for (i in seq_along(spp$species_common_name)) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
@@ -82,7 +75,6 @@ for (i in seq_along(spp$species_common_name)) {
   }
 }
 
-spp <- spp[-c(31, 32),] # FIXME basking
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
 temp <- lapply(spp$species_common_name, function(x) {

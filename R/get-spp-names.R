@@ -1,22 +1,15 @@
 #' Get spp. names
 #'
 #' @export
-
 get_spp_names <- function() {
   file <- system.file("extdata", "spp-of-interest.csv", package = "gfsynopsis")
-  spp <- readr::read_csv(file,
-    col_types = list(species_common_name = readr::col_character(),
-      type = readr::col_character()))
+  spp <- read.csv(file, strip.white = TRUE, stringsAsFactors = FALSE)
+  spp <- dplyr::filter(spp, !is.na(species_code))
+  spp$species_code <- sprintf(paste0("%0", 3L, "d"), spp$species_code)
   spp$species_common_name <- tolower(gsub(" $", "", spp$species_common_name))
   # Not in databases at all:
-  spp <- dplyr::filter(spp, !.data$species_common_name %in% c(
-    "sixgill shark",
-    "soupfin shark",
-    "pectoral rattail",
-    "lamp grenadier",
-    "pearly prickleback"
-  ))
-  spp <- spp[!duplicated(spp), ]
+  spp <- spp[!duplicated(spp), , drop = FALSE]
   spp$spp_w_hyphens <- gsub("/", "-", gsub(" ", "-", spp$species_common_name))
-  dplyr::as.tbl(as.data.frame(spp))
+  stopifnot(sum(duplicated(spp$species_common_name)) == 0)
+  dplyr::as.tbl(spp)
 }
