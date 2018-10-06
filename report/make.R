@@ -48,7 +48,7 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
 
-# i <- which(spp$species_common_name  ==  'roughtail skate')
+# i <- which(spp$species_common_name  ==  'insert common name here for debugging')
 for (i in seq_along(spp$species_common_name)) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
