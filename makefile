@@ -19,4 +19,4 @@ five:
 	Rscript -e "N <- 61:90; source('report/make.R')"
 
 six:
-	Rscript -e "N <- 91:1000; source('report/make.R')"
+	Rscript -e "N <- 91:108; source('report/make.R')"
