@@ -581,7 +581,7 @@ make_pages <- function(
       pos_pt_col = "#FFFFFF35",
       bin_pt_col = "#FFFFFF12",
       pos_pt_fill = "#FFFFFF03",
-      show_model_predictions = "combined" %in% names(iphc_fits$pred_dat),
+      show_model_predictions = "combined" %in% names(hbll_fits$pred_dat),
         annotations = "HBLL") +
     coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
 
