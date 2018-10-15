@@ -411,8 +411,8 @@ make_pages <- function(
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
       type <- "all"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+    if (sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n)
       type <- "male"
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
@@ -450,8 +450,8 @@ make_pages <- function(
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
       type <- "all"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+    if (sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n)
       type <- "male"
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
