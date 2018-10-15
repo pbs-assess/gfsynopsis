@@ -438,8 +438,7 @@ make_pages <- function(
   }
 
   type <- "none"
-  if (!is.na(mat_age[[1]]) &&
-      length(unique(mat_length[[1]]$maturity_code)) == 2L) {
+  if (!is.na(mat_length[[1]])) {
     sample_size <- mat_length$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
@@ -458,8 +457,7 @@ make_pages <- function(
       type <- "female"
   }
 
-  if (!is.na(mat_length[[1]]) &&
-      length(unique(mat_length[[1]]$maturity_code)) == 2L) {
+  if (!is.na(mat_length[[1]])) {
     g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
