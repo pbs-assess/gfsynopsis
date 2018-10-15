@@ -563,29 +563,35 @@ make_pages <- function(
   }
 
   # if (sum(syn_fits$raw_dat$present) > 0.02 * nrow(syn_fits$raw_dat))
-  g_survey_spatial_syn <-
-    gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
-      north_symbol = TRUE, annotations = "SYN",
-      show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
-    coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
+  suppressMessages({
+    g_survey_spatial_syn <-
+      gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
+        north_symbol = TRUE, annotations = "SYN",
+        show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
+      coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
+  })
 
-  # if (sum(iphc_fits$raw_dat$present) > 0.02 * nrow(iphc_fits$raw_dat))
-  g_survey_spatial_iphc <-
-    gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
-      show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
-      show_model_predictions = "combined" %in% names(iphc_fits$pred_dat),
+  suppressMessages({
+    # if (sum(iphc_fits$raw_dat$present) > 0.02 * nrow(iphc_fits$raw_dat))
+    g_survey_spatial_iphc <-
+      gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
+        show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
+        show_model_predictions = "combined" %in% names(iphc_fits$pred_dat),
         annotations = "IPHC") +
-    coord_cart + ggplot2::ggtitle("IPHC survey biomass")
+      coord_cart + ggplot2::ggtitle("IPHC survey biomass")
+  })
 
-  # if (sum(hbll_fits$raw_dat$present) > 0.02 * nrow(hbll_fits$raw_dat))
-  g_survey_spatial_hbll <-
-    gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
-      pos_pt_col = "#FFFFFF35",
-      bin_pt_col = "#FFFFFF12",
-      pos_pt_fill = "#FFFFFF03",
-      show_model_predictions = "combined" %in% names(hbll_fits$pred_dat),
+  suppressMessages({
+    # if (sum(hbll_fits$raw_dat$present) > 0.02 * nrow(hbll_fits$raw_dat))
+    g_survey_spatial_hbll <-
+      gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
+        pos_pt_col = "#FFFFFF35",
+        bin_pt_col = "#FFFFFF12",
+        pos_pt_fill = "#FFFFFF03",
+        show_model_predictions = "combined" %in% names(hbll_fits$pred_dat),
         annotations = "HBLL") +
-    coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
+      coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
+  })
 
   # Page 1 layout: -------------------------------------------------------------
 
