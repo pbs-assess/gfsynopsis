@@ -9,7 +9,7 @@ library(dplyr)
 # Settings:
 ext <- "pdf" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
-parallel <- TRUE # for CPUE index
+parallel <- FALSE # for CPUE index
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -38,10 +38,13 @@ refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
+spp$resdoc <- gsub(", ", ", @", spp$resdoc)
 spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("@", spp$resdoc, ""))
+spp$sar <- gsub(", ", ", @", spp$sar)
 spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
+spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 
 # spp <- spp[-c(40, 45),] # FIXME
 # spp <- spp[-c(54),] # FIXME
@@ -49,6 +52,13 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
 # This is the guts of where the figure pages get made:
 
 # i <- which(spp$species_common_name  ==  'insert common name here for debugging')
+
+# cores <- if (parallel) parallel::detectCores()[1L] - 1L else 1L
+# cl <- parallel::makeCluster(min(c(cores, length(areas))))
+# doParallel::registerDoParallel(cl)
+# foreach::foreach(i = seq_along(spp$species_common_name),
+#   .packages = c("gfplot", "gfsynopsis")) %dopar% {
+
 for (i in seq_along(spp$species_common_name)) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
@@ -59,7 +69,7 @@ for (i in seq_along(spp$species_common_name)) {
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
     dat$cpue_index <- d_cpue
-    make_pages(dat, spp$species_common_name[i],
+    gfsynopsis::make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
       resolution = 175, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
