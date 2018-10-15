@@ -327,9 +327,8 @@ make_pages <- function(
 
   # Maturity by month: ---------------------------------------------------------
 
-  # TODO: should this include commercial?
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples)
-  if (nrow(dat_tidy_survey_months) == 0L) {
+  if (nrow(dat_tidy_maturity_months) == 0L) {
     g_maturity_month <- ggplot() + theme_pbs() +
       ggtitle("Maturity frequencies")
   } else {
