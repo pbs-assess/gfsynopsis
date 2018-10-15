@@ -29,7 +29,7 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...) {
     scale_x_continuous(breaks = seq(0, yrs[2], 10))
 
   if (blank_plot)
-    g <- g + ylim(0, 1)
+    suppressMessages(g <- g + ylim(0, 1))
 
   gdat <- ggplot2::ggplot_build(g)$data
   # data_element <- which(unlist(lapply(lapply(gdat, names),
