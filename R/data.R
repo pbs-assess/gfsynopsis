@@ -13,10 +13,11 @@ get_data <- function(type = c("A", "B"), path = ".",
   already_exists <- gsub("\\.rds", "", list.files(dc))
   if (!force)
     .d <- filter(.d, !spp_w_hyphens %in% already_exists)
-  gfplot::cache_pbs_data(species = .d$species_code,
-    file_name = .d$spp_w_hyphens,
-    path = path, unsorted_only = FALSE, historic_cpue = FALSE,
-    survey_sets = TRUE, verbose = FALSE, compress = compress)
+  if (nrow(.d) > 0L)
+    gfplot::cache_pbs_data(species = .d$species_code,
+      file_name = .d$spp_w_hyphens,
+      path = path, unsorted_only = FALSE, historic_cpue = FALSE,
+      survey_sets = TRUE, verbose = FALSE, compress = compress)
 
   if (force || !file.exists(file.path(path, "cpue-index-dat.rds"))) {
     .dat <- gfplot::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
