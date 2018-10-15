@@ -314,14 +314,16 @@ make_pages <- function(
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, 2017)) +
     # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
-    viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour) +
     ggplot2::ggtitle("Commercial specimen counts")
+  suppressMessages({g_comm_samples <- g_comm_samples +
+    viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, 2017))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, 2017)) +
     # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
-    viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour) +
     ggplot2::ggtitle("Survey specimen counts")
+  suppressMessages({g_survey_samples <- g_survey_samples +
+    viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
 
   # Maturity by month: ---------------------------------------------------------
 
@@ -482,19 +484,21 @@ make_pages <- function(
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       rotation_angle = 40, xlim = map_xlim, ylim = map_ylim) +
     ggplot2::ggtitle("Commercial trawl CPUE") +
-    theme(legend.position = "none") +
+    theme(legend.position = "none")
+  suppressMessages({g_cpue_spatial <- g_cpue_spatial +
     coord_cart + theme(
       axis.title = element_blank(),
       axis.text = element_blank(),
       axis.ticks = element_blank()
-    )
+    )})
   # ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
   # ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
 
   if (include_map_square)
     g_cpue_spatial <- g_cpue_spatial + checking_square
 
-  g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
+  suppressMessages({
+    g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
       fill_lab = "CPUE (kg/fe)") +
@@ -505,6 +509,7 @@ make_pages <- function(
       axis.text = element_blank(),
       axis.ticks = element_blank()
     )
+  })
 
   # Survey maps: ---------------------------------------------------------------
   if (!file.exists(map_cache_spp_synoptic)) {
