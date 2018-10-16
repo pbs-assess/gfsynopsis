@@ -132,15 +132,19 @@ temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
 writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
 
-# setwd("report/figure-pages")
-# fi <- list.files(".", "*.png")
-# plyr::l_ply(fi, function(i) {
-#   system(paste0("optipng -strip all ", i))
-# }, .parallel = TRUE)
-# setwd("../..")
+# ------------------------------------------------------------------------------
+# Optimize png files for TeX
 
 cores <- parallel::detectCores()
 files_per_core <- ceiling(length(spp$species_common_name)*2/cores)
-if (!gfplot:::is_windows())
+setwd("report/figure-pages")
+if (!gfplot:::is_windows()) {
   system(paste0("find -X . -name '*.png' -print0 | xargs -0 -n ",
     files_per_core, " -P ", cores, " optipng -strip all"))
+} else {
+  registerDoParallel(cores = cores)
+  fi <- list.files(".", "*.png")
+  plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
+    .parallel = TRUE)
+}
+setwd("../..")
