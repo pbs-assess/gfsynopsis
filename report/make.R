@@ -1,15 +1,16 @@
 # library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
-devtools::load_all("../gfplot") # for development
-devtools::load_all(".")  # for development
+# devtools::load_all("../gfplot") # for development
+# devtools::load_all(".")  # for development
+library(gfplot)
+library(gfsynopsis)
 library(dplyr)
-# library(gfplot)
-# library(gfsynopsis)
 
 # ------------------------------------------------------------------------------
 # Settings:
-ext <- "pdf" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
+ext <- "png" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
-parallel <- FALSE # for CPUE index
+parallel <- TRUE
+if (parallel) library(doParallel)
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -18,18 +19,6 @@ gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
   select(species_common_name, species_code, species_science_name, spp_w_hyphens)
-
-# ------------------------------------------------------------------------------
-# This section is used for hacked parallel processing from the command line.
-# Unecessary, but speeds up rebuilding.
-# e.g. from root project folder in macOS or Linux:
-# open new Terminal
-# make one
-# open new Terminal
-# make two
-# open new Terminal
-# make three
-if (exists("N")) spp <- spp[N, , drop = FALSE]
 
 # ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
@@ -49,7 +38,7 @@ spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
 
-# i <- which(spp$species_common_name  ==  'blue shark')
+# i <- which(spp$species_common_name  ==  'kelp greenling')
 
 # cores <- if (parallel) parallel::detectCores()[1L] - 1L else 1L
 # cl <- parallel::makeCluster(cores)
@@ -58,7 +47,9 @@ spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 # ignore <- foreach::foreach(i = seq_along(spp$species_common_name),
 #   .packages = c("gfplot", "gfsynopsis")) %dopar% {
 
-for (i in seq_along(spp$species_common_name)) {
+if (parallel) registerDoParallel(cores = parallel::detectCores() - 1L)
+plyr::l_ply(seq_along(spp$species_common_name), function(i) {
+# for (i in seq_along(spp$species_common_name)) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
   fig_check1 <- paste0(fig_check, "-1.", ext)
@@ -70,7 +61,7 @@ for (i in seq_along(spp$species_common_name)) {
     dat$cpue_index <- d_cpue
     gfsynopsis::make_pages(dat, spp$species_common_name[i],
       include_map_square = FALSE,
-      resolution = 175, # balance size with resolution
+      resolution = 160, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
       parallel = FALSE,
 
@@ -83,7 +74,7 @@ for (i in seq_along(spp$species_common_name)) {
     cat(crayon::green(clisymbols::symbol$tick),
       "Figure pages for", spp$species_common_name[i], "already exist\n")
   }
-}
+}, .parallel = parallel)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
@@ -139,4 +130,17 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-if (!exists("N")) writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
+writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
+
+# setwd("report/figure-pages")
+# fi <- list.files(".", "*.png")
+# plyr::l_ply(fi, function(i) {
+#   system(paste0("optipng -strip all ", i))
+# }, .parallel = TRUE)
+# setwd("../..")
+
+cores <- parallel::detectCores()
+files_per_core <- ceiling(length(spp$species_common_name)*2/cores)
+if (!gfplot:::is_windows())
+  system(paste0("find -X . -name '*.png' -print0 | xargs -0 -n ",
+    files_per_core, " -P ", cores, " optipng -strip all"))
