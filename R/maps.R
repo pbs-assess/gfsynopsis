@@ -88,8 +88,8 @@ fit_survey_maps <- function(dat,
     list(model = model, raw_dat = raw_dat)
   })
 
-  pred_dat <- purrr::map_df(out, function(x) x$model$predictions)
-  raw_dat  <- purrr::map_df(out, function(x) x$raw_dat)
+  pred_dat <- purrr::map_df(out, function(x) data.frame(x$model$predictions, survey = x$model$survey, stringsAsFactors = FALSE))
+  raw_dat  <- purrr::map_df(out, function(x) data.frame(x$raw_dat, survey = x$model$survey, stringsAsFactors = FALSE))
   models   <- purrr::map(out,    function(x) x$model)
 
   list(pred_dat = pred_dat, models = models, raw_dat = raw_dat,
@@ -131,6 +131,18 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   ...) {
 
   annotations <- match.arg(annotations)
+
+  # Manually avoid extrapolating within each survey:
+  raw_dat_depth_ranges <- group_by(raw_dat, survey) %>%
+    summarize(min_raw_depth = min(depth, na.rm = TRUE),
+      max_raw_depth = max(depth, na.rm = TRUE)) %>%
+    mutate(
+      min_raw_depth = ifelse(!is.na(min_raw_depth), min_raw_depth, Inf),
+      max_raw_depth = ifelse(!is.na(max_raw_depth), max_raw_depth, -Inf))
+
+  # Set to NA predictions outside of the range within that survey and year:
+  pred_dat <- left_join(pred_dat, raw_dat_depth_ranges)
+  pred_dat[pred_dat$akima_depth < pred_dat$min_raw_depth | pred_dat$akima_depth > pred_dat$max_raw_depth, fill_column] <- NA
 
   g <- plot_survey_sets(pred_dat, raw_dat,
     fill_column = fill_column, show_model_predictions = show_model_predictions,

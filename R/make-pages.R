@@ -61,7 +61,7 @@ make_pages <- function(
     "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
     "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
-  survey_map_outlier = 0.999,
+  survey_map_outlier = 1,
   parallel = FALSE
 ) {
 
