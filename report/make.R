@@ -46,17 +46,16 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 
-# spp <- spp[-c(40, 45),] # FIXME
-# spp <- spp[-c(54),] # FIXME
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
 
-# i <- which(spp$species_common_name  ==  'insert common name here for debugging')
+# i <- which(spp$species_common_name  ==  'blue shark')
 
 # cores <- if (parallel) parallel::detectCores()[1L] - 1L else 1L
-# cl <- parallel::makeCluster(min(c(cores, length(areas))))
+# cl <- parallel::makeCluster(cores)
+# library(foreach)
 # doParallel::registerDoParallel(cl)
-# foreach::foreach(i = seq_along(spp$species_common_name),
+# ignore <- foreach::foreach(i = seq_along(spp$species_common_name),
 #   .packages = c("gfplot", "gfsynopsis")) %dopar% {
 
 for (i in seq_along(spp$species_common_name)) {
