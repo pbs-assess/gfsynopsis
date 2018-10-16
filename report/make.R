@@ -9,7 +9,7 @@ library(dplyr)
 # Settings:
 ext <- "png" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
-parallel <- TRUE
+parallel <- FALSE
 if (parallel) library(doParallel)
 
 # ------------------------------------------------------------------------------
