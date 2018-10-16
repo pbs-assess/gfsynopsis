@@ -1,4 +1,4 @@
-# SYNOPSIS PLOTS {#synopsis-plots}
+# SYNOPSIS PLOTS: TYPE A SPECIES {#sec:synopsis-plots-A}
 
 This section contains the main species-by-species data visualizations. Each
 species is shown on two pages with the same layout used throughout. See

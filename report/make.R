@@ -18,7 +18,7 @@ dc <- file.path("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
-  select(species_common_name, species_code, species_science_name, spp_w_hyphens)
+  select(species_common_name, species_code, species_science_name, spp_w_hyphens, type)
 
 # ------------------------------------------------------------------------------
 # This section is used for hacked parallel processing from the command line.
@@ -83,27 +83,33 @@ plyr::l_ply(seq_along(spp$species_common_name), function(i) {
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
+spp$b_section <- c(FALSE, diff(as.numeric(as.factor(spp$type))) == 1)
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   spp_title <- gfsynopsis:::all_cap(x)
+  spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()
   latin_name <- spp$species_science_name[spp$species_common_name == x]
   sar <- spp$sar[spp$species_common_name == x]
   resdoc <- spp$resdoc[spp$species_common_name == x]
   species_code <- spp$species_code[spp$species_common_name == x]
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
+  .b_section <- spp$b_section[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
 
   i <- 1
   out[[i]] <- "\\clearpage\n"
+  if (.b_section) {
+    i <- i + 1
+    out[[i]] <- "# SYNOPSIS PLOTS: TYPE B SPECIES {#sec:synopsis-plots-B}\n"
+  }
   i <- i + 1
-  # out[[i]] <- paste0("\\subsection{", spp_title, "}")
-  out[[i]] <- paste0("## ", spp_title, "\n")
+  out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(gfsynopsis:::emph(latin_name),
-    " / DFO species code: ", species_code, "\n")
+    " | DFO species code: ", species_code, "\n")
   i <- i + 1
   out[[i]] <- paste0(resdoc_text, resdoc, "\n")
   i <- i + 1
@@ -136,6 +142,21 @@ temp <- lapply(spp$species_common_name, function(x) {
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
 if (!exists("N")) writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
+
+# ------------------------------------------------------------------------------
+# Make alphabetical index
+# Now in .Rmd files
+
+# spp_sorted <- arrange(spp, species_common_name)
+# temp_ind <- lapply(spp_sorted$species_common_name, function(x) {
+#   spp_title <- gfsynopsis:::first_cap(x)
+#   spp_latin <- spp$species_science_name[spp$species_common_name == x]
+#   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
+#   paste0(spp_title, " (*", spp_latin, "*):", " \\@ref(", spp_hyphen, ")\n")
+# })
+# temp_ind <- c("# INDEX (SORTED BY COMMON NAME)\n", temp_ind)
+# temp_ind <- paste(temp_ind, collapse = "")
+# if (!exists("N")) writeLines(temp_ind, con = "report/report-rmd/alpha-index.Rmd")
 
 # ------------------------------------------------------------------------------
 # Optimize png files for TeX
