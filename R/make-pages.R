@@ -377,7 +377,7 @@ make_pages <- function(
 
   # Maturity ogives: -----------------------------------------------------------
 
-  if (length(!is.na(dat$combined_samples$maturity_code)) > 10) {
+  if (sum(!is.na(dat$combined_samples$maturity_code)) > 10) {
     mat_age <- dat$combined_samples %>%
       fit_mat_ogive(
         type = "age",
@@ -387,6 +387,7 @@ make_pages <- function(
   }
 
   type <- "none"
+
   if (length(mat_age) > 1L) {
     sample_size <- mat_age$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
@@ -428,7 +429,7 @@ make_pages <- function(
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
-  if (length(!is.na(dat$combined_samples$maturity_code)) > 10) {
+  if (sum(!is.na(dat$combined_samples$maturity_code)) > 10) {
     mat_length <- dat$combined_samples %>%
       fit_mat_ogive(
         type = "length",
