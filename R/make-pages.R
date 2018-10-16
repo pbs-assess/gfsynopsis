@@ -388,7 +388,7 @@ make_pages <- function(
   }
 
   type <- "none"
-  if (!is.na(mat_age[[1]])) {
+  if (length(mat_age) > 1L) {
     sample_size <- mat_age$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
@@ -411,15 +411,15 @@ make_pages <- function(
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
       type <- "all"
-    if (sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n)
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
       type <- "male"
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
       type <- "female"
   }
 
-  if (!is.na(mat_age[[1]])) {
+  if (length(mat_age) > 1L) {
     g_mat_age <- plot_mat_ogive(mat_age, prediction_type = type) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE) +
       ggplot2::guides(lty = FALSE, colour = FALSE)
@@ -439,7 +439,7 @@ make_pages <- function(
   }
 
   type <- "none"
-  if (!is.na(mat_length[[1]])) {
+  if (length(mat_length) > 1L) {
     sample_size <- mat_length$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
@@ -450,16 +450,16 @@ make_pages <- function(
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
       type <- "all"
-    if (sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n)
+    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
       type <- "male"
     if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
         sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
       type <- "female"
   }
 
-  if (!is.na(mat_length[[1]])) {
-    g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
+  if (length(mat_length) > 1L) {
+   g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =
