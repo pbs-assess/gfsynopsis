@@ -326,9 +326,8 @@ make_pages <- function(
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
 
   # Maturity by month: ---------------------------------------------------------
-
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples)
-  if (nrow(dat_tidy_maturity_months) == 0L) {
+  if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
     g_maturity_month <- ggplot() + theme_pbs() +
       ggtitle("Maturity frequencies")
   } else {
@@ -419,7 +418,7 @@ make_pages <- function(
       type <- "female"
   }
 
-  if (length(mat_age) > 1L) {
+  if (length(mat_age) > 1L && type != "none") {
     g_mat_age <- plot_mat_ogive(mat_age, prediction_type = type) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE) +
       ggplot2::guides(lty = FALSE, colour = FALSE)
@@ -458,7 +457,7 @@ make_pages <- function(
       type <- "female"
   }
 
-  if (length(mat_length) > 1L) {
+  if (length(mat_length) > 1L && type != "none") {
    g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
