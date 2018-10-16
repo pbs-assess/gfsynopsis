@@ -21,6 +21,18 @@ spp <- gfsynopsis::get_spp_names() %>%
   select(species_common_name, species_code, species_science_name, spp_w_hyphens)
 
 # ------------------------------------------------------------------------------
+# This section is used for hacked parallel processing from the command line.
+# Unecessary, but speeds up rebuilding.
+# e.g. from root project folder in macOS or Linux:
+# open new Terminal
+# make one
+# open new Terminal
+# make two
+# open new Terminal
+# make three
+if (exists("N")) spp <- spp[N, , drop = FALSE]
+
+# ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
 # spp <- filter(spp, species_common_name != "pacific hake")
 refs <- readr::read_csv("report/spp-refs.csv")
@@ -40,14 +52,7 @@ spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 
 # i <- which(spp$species_common_name  ==  'kelp greenling')
 
-# cores <- if (parallel) parallel::detectCores()[1L] - 1L else 1L
-# cl <- parallel::makeCluster(cores)
-# library(foreach)
-# doParallel::registerDoParallel(cl)
-# ignore <- foreach::foreach(i = seq_along(spp$species_common_name),
-#   .packages = c("gfplot", "gfsynopsis")) %dopar% {
-
-if (parallel) registerDoParallel(cores = parallel::detectCores() - 1L)
+if (parallel) registerDoParallel(cores = floor(parallel::detectCores()/2))
 plyr::l_ply(seq_along(spp$species_common_name), function(i) {
 # for (i in seq_along(spp$species_common_name)) {
   fig_check <- paste0(file.path("report", "figure-pages"), "/",
@@ -130,21 +135,23 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
+if (!exists("N")) writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
 
 # ------------------------------------------------------------------------------
 # Optimize png files for TeX
 
-cores <- parallel::detectCores()
-files_per_core <- ceiling(length(spp$species_common_name)*2/cores)
-setwd("report/figure-pages")
-if (!gfplot:::is_windows()) {
-  system(paste0("find -X . -name '*.png' -print0 | xargs -0 -n ",
-    files_per_core, " -P ", cores, " optipng -strip all"))
-} else {
-  registerDoParallel(cores = cores)
-  fi <- list.files(".", "*.png")
-  plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
-    .parallel = TRUE)
+if (!exists("N")) {
+  cores <- parallel::detectCores()
+  files_per_core <- ceiling(length(spp$species_common_name)*2/cores)
+  setwd("report/figure-pages")
+  if (!gfplot:::is_windows()) {
+    system(paste0("find -X . -name '*.png' -print0 | xargs -0 -n ",
+      files_per_core, " -P ", cores, " optipng -strip all"))
+  } else {
+    registerDoParallel(cores = cores)
+    fi <- list.files(".", "*.png")
+    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
+      .parallel = TRUE)
+  }
+  setwd("../..")
 }
-setwd("../..")
