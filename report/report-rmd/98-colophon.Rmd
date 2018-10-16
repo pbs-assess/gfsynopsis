@@ -15,7 +15,7 @@ info <- info %>% dplyr::filter(package %in% pkgs) %>%
   dplyr::select(package, version, date, source) %>%
   dplyr::rename(Package = package, Version = version, Date = date, Source = source) %>%
   csasdown::csas_table()
-suppressWarnings({info %>% kable_styling(latex_options = c("hold_position"))})
+info
 ```
 
 In particular, most of the data extraction and many of the plots were made with
