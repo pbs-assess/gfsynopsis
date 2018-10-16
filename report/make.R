@@ -46,6 +46,7 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
+spp <- arrange(spp, species_code)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
