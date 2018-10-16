@@ -11,11 +11,11 @@ library(rmarkdown)
 pkgs <- sort(c("broom", "gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
   "TMB", "broom.mixed", "scales", "purrr", "xtable", "kableExtra", "cowplot", "csasdown", "bookdown", "rmarkdown"))
 info <- devtools::session_info()$packages
-info %>% dplyr::filter(package %in% pkgs) %>%
+info <- info %>% dplyr::filter(package %in% pkgs) %>%
   dplyr::select(package, version, date, source) %>%
   dplyr::rename(Package = package, Version = version, Date = date, Source = source) %>%
-  csasdown::csas_table() %>%
-  kable_styling(latex_options = c("hold_position"))
+  csasdown::csas_table()
+suppressWarnings({info %>% kable_styling(latex_options = c("hold_position"))})
 ```
 
 In particular, most of the data extraction and many of the plots were made with
