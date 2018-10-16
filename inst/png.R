@@ -6,8 +6,14 @@ doParallel::registerDoParallel(cl)
 
 setwd("report/figure-pages")
 fi <- list.files(".", "*.png")
-out <- foreach::foreach(i = fi) %dopar% {
+library(doParallel)
+registerDoParallel(cores = cores)
+
+# out <- foreach::foreach(i = fi) %do% {
+plyr::l_ply(fi, function(i) {
   system(paste0("optipng -strip all ", i))
-}
+}, .parallel = TRUE)
+
+setwd("../..")
 
 # fast: optipng -o2 -strip all <image.png>
