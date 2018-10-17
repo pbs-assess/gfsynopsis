@@ -67,11 +67,11 @@ available metadata including PFMA, fishery, gear type, SSID and survey
 identification code (SID, only available for research survey data), survey
 sampling types, and sampling protocol codes for maturity and ageing data. Data
 are filtered by the `TRIP_SUBTYPE_CODE` to extract either survey (Table
-\@ref(tab:sql-surv-samp)) or commercial (Table \@ref{tab:sql-comm-samp))
+\@ref(tab:sql-surv-samp)) or commercial (Table \@ref(tab:sql-comm-samp))
 samples. In addition, samples are designated as one of three sample
 descriptions based on combinations of two codes relating to sampling protocols:
-`SPECIES_CATEGORY_CODE` (Table \@ref{tab:spp-cat)) and `SAMPLE_SOURCE_CODE`
-(Table \@ref{tab:samp-source)). Samples can be designated as 'unsorted samples'
+`SPECIES_CATEGORY_CODE` (Table \@ref(tab:spp-cat)) and `SAMPLE_SOURCE_CODE`
+(Table \@ref(tab:samp-source)). Samples can be designated as 'unsorted samples'
 in which data were collected for all specimens in the sample, or 'sorted
 samples' where specimens were sorted or selected into 'keepers', which were
 sampled, and 'discards' which were not sampled:
@@ -109,7 +109,7 @@ a combination of maturity convention, maturity code and sex.
 
 The ageing precision data are extracted with `get-age-precision.sql`. Data are
 filtered to bring in only records for which a secondary (precision) reading was
-performed by a different technician in addition to the primary reading 
+performed by a different technician in addition to the primary reading
 (Table \@ref(tab:sql-age-precision)).
 
 \clearpage
@@ -229,13 +229,7 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                               
 \end{table}
 
 ```{r aging-method-table-setup, eval=FALSE}
-meta <- gfsynopsis::get_spp_names() %>% 
-  mutate(species_common_name = tolower(species_common_name)) %>%
-  mutate(species_science_name = tolower(species_scientific_name)) %>%
-  select(-species_scientific_name) %>%
-  filter(species_common_name %in% spp$species_common_name) %>%
-  filter(species_code != "465") %>% # extra lingcod
-  unique()
+meta <- gfsynopsis::get_spp_names()
 f <- system.file("extdata", "ageing_methods.csv", package = "gfplot")
 age_methods <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
 names(age_methods) <- tolower(names(age_methods))
