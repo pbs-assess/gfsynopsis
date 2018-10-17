@@ -14,7 +14,7 @@ if (parallel) library(doParallel)
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
-dc <- file.path("report", "data-cache")
+dc <- here::here("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
