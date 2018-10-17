@@ -99,6 +99,74 @@ intervals on $B_y^{\mathrm{rep}}$.
 @
 -->
 
+```{r sdmTMB-data}
+library(dplyr)
+library(ggplot2)
+library(sdmTMB)
+d <- readRDS(here::here("report/data-cache/pacific-cod.rds"))
+d <- d$survey_sets
+dat <- gfplot:::tidy_survey_sets(d, "SYN QCS", years = 2017)
+dat <- mutate(dat, density = density*1000*1000)
+dat <- filter(dat, !is.na(depth))
+dat <- gfplot:::scale_survey_predictors(dat)
+dat <- select(dat, -X10, -Y10)
+
+grid_locs <- gfplot:::make_prediction_grid(filter(dat, year == 2017),
+  survey = "SYN QCS", cell_width = 2)$grid
+grid_locs <- rename(grid_locs, depth = akima_depth)
+grid_locs$year <- NULL
+```
+
+```{r sdmTMB-spde, fig.width=9, out.width="4in", fig.cap="TODO"}
+spde <- make_spde(dat$X, dat$Y, n_knots = 200)
+plot_spde(spde)
+```
+
+```{r sdmTMB-model}
+m <- sdmTMB(
+  data = dat, formula = density ~ depth_scaled + depth_scaled2,
+  time = "year", spde = spde, family = tweedie(link = "log"),
+  silent = TRUE, anisotropy = FALSE
+)
+```
+
+```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="TODO"}
+dat$resids <- residuals(m) # randomized quantile residuals
+# hist(dat$resids)
+# qqnorm(dat$resids);abline(a = 0, b = 1)
+ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
+  geom_point() + facet_wrap(~year)
+```
+
+```{r sdmTMB-preds, fig.width=6, out.width="4in", fig.cap="TODO"}
+predictions <- predict(m, newdata = grid_locs)
+plot_map <- function(dat, column) {
+  ggplot(dat, aes_string("X", "Y", fill = column)) +
+    geom_raster() +
+    facet_wrap(~year) +
+    coord_fixed()
+}
+```
+
+```{r sdmTMB-plot, fig.width=6, out.width="4in", fig.cap="TODO"}
+plot_map(predictions$data, "exp(est)") +
+  scale_fill_viridis_c(trans = "sqrt", option = "C") +
+  ggtitle("Prediction (fixed effects + spatial random effects)")
+
+```
+
+```{r sdmTMB-plot-fe, fig.width=6, out.width="4in", fig.cap="TODO"}
+plot_map(predictions$data, "exp(est_fe)") +
+  ggtitle("Prediction (fixed effects only)") +
+  scale_fill_viridis_c(trans = "sqrt", option = "D")
+```
+
+```{r sdmTMB-plot-re, fig.width=6, out.width="4in", fig.cap="TODO"}
+plot_map(predictions$data, "est_re_s") +
+  ggtitle("Spatial random effects only") +
+  scale_fill_gradient2()
+```
+
 \clearpage
 
 ## CPUE INDEX STANDARDIZATION {#sec:cpue-models}
@@ -241,7 +309,7 @@ if (file.exists(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds")))
 ```{r cpue-int-lines, fig.width=6, out.width="4in", fig.cap="Locality-specific CPUE index trends for a standardization model that allows for locality-year (space-time) interactions. The coloured lines indicate the locality-specific estimates with all other predictors set to their base levels. The black line and shaded ribbon indicate the overall average annual CPUE."}
 if (exists("d_fleet"))
   plot_cpue_spaghetti(
-    model = cpue_model, 
+    model = cpue_model,
     fleet = d_fleet,
     index_data = d_cpue_pred,
     era = "modern")
@@ -283,8 +351,8 @@ gfplot::plot_qres_histogram(qr)
 ```
 
 ```{r, fig.cap="3CD eg."}
-readRDS(here::here("report/cpue-cache/petrale-sole-3CD-model.rds")) %>% 
-  gfplot::qres_tweedie(response = "cpue") %>% 
+readRDS(here::here("report/cpue-cache/petrale-sole-3CD-model.rds")) %>%
+  gfplot::qres_tweedie(response = "cpue") %>%
   gfplot::plot_qres_histogram()
 ```
 
