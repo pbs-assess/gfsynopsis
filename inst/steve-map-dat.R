@@ -4,7 +4,7 @@ dir.create("inst/rockfish-map-dat", showWarnings = FALSE)
 
 for (i in spp) {
   for (j in surv) {
-  d <- readRDS(paste0("report/map-cache/synoptic/", i, ".rds"))
+  d <- readRDS(paste0("report/map-cache/", j, "/", i, ".rds"))
   d <- d$pred_dat
   d <- dplyr::rename(d, depth = akima_depth)
   d <- dplyr::select(d, -depth_scaled, -depth_scaled2)

@@ -1,0 +1,33 @@
+---
+title: "A data synopsis for over 100 British Columbia groundfish species"
+author: |
+  Sean C. Anderson^1^,
+  Elise A. Keppel^1^, and
+  Andrew M. Edwards^1^
+author_list: "Anderson, S.C., Keppel, E.A., Edwards, A.M."
+address: |
+  ^1^Pacific Biological Station\
+     Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+     Nanaimo, British Columbia, V9T 6N7, Canada
+year: "2018"
+report_number: "nnn"
+abstract: |
+  TODO: Here is the abstract text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  
+  Start new paragraphs after a blank line and with 2 spaces indent. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+output:
+ csasdown::resdoc_pdf
+  # csasdown::resdoc_word
+# ------------
+# End of options to set
+knit: bookdown::render_book
+site: bookdown::bookdown_site
+link-citations: true
+bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
+csl: csl/csas.csl
+lot: true
+lof: true
+# Any extra LaTeX code for the header:
+# header-includes:
+# - \usepackage{tikz}
+---

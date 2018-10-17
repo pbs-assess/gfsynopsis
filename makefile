@@ -1,6 +1,6 @@
 all:
 	Rscript -e "source('report/make.R')"
-	cd report/report
+	cd report/report-rmd/
 	make
 
 one:
@@ -10,4 +10,16 @@ two:
 	Rscript -e "N <- 11:20; source('report/make.R')"
 
 three:
-	Rscript -e "N <- 21:31; source('report/make.R')"
+	Rscript -e "N <- 21:30; source('report/make.R')"
+
+four:
+	Rscript -e "N <- 31:45; source('report/make.R')"
+
+five:
+	Rscript -e "N <- 46:70; source('report/make.R')"
+
+six:
+	Rscript -e "N <- 71:90; source('report/make.R')"
+
+seven:
+	Rscript -e "N <- 91:108; source('report/make.R')"

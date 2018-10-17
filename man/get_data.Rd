@@ -4,7 +4,8 @@
 \alias{get_data}
 \title{Get all data}
 \usage{
-get_data(type = "A", path = ".", compress = FALSE)
+get_data(type = c("A", "B"), path = ".", compress = FALSE,
+  force = FALSE)
 }
 \arguments{
 \item{type}{A or B}
@@ -12,6 +13,8 @@ get_data(type = "A", path = ".", compress = FALSE)
 \item{path}{Path}
 
 \item{compress}{TRUE or FALSE to compress .rds}
+
+\item{force}{Should data be downloaded even if already cached data exists?}
 }
 \description{
 Get all data

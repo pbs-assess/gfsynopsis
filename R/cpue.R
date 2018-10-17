@@ -24,6 +24,7 @@
 #' @importFrom dplyr bind_rows case_when pull contains tibble rename as_tibble
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom dplyr "%>%"
+#' @importFrom foreach "%dopar%" "%do%"
 #' @importFrom ggplot2 ggplot aes_string geom_hline geom_vline scale_fill_manual
 #'   scale_colour_manual scale_x_continuous scale_size_area coord_cartesian
 #'   guides geom_point facet_wrap xlab ylab geom_col ylim xlim geom_rect
@@ -37,15 +38,16 @@ fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
   center = TRUE, cache = file.path("report", "cpue-cache"),
-  save_model = FALSE, arith_cpue_comparison = TRUE) {
+  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE) {
 
-  cpue_models <- lapply(areas, function(area) {
+  cores <- if (parallel) parallel::detectCores()[1L] else 1L
+  cl <- parallel::makeCluster(min(c(cores, length(areas))))
+  doParallel::registerDoParallel(cl)
+  cpue_models <- foreach::foreach(area = areas,
+    .packages = c("gfplot", "gfsynopsis")) %do% {
     message("Determining qualified fleet for area ", area, ".")
 
-    # if (species == "quillback rockfish") # TODO CONVERGENCE ISSUES
-    #   return(NA)
-
-    fleet <- tidy_cpue_index(dat,
+    fleet <- gfplot::tidy_cpue_index(dat,
       year_range = c(1996, 2017),
       species_common = species,
       gear = "bottom trawl",
@@ -57,42 +59,52 @@ fit_cpue_indices <- function(dat,
       lat_band_width = 0.1,
       depth_band_width = 25,
       depth_bin_quantiles = c(0.001, 0.999),
-      lat_bin_quantiles = c(0.00001, 0.9999)
+      min_bin_prop = 0.001
     )
+    # fleet <- NA
 
     if (!is.data.frame(fleet))
       if (is.na(fleet[[1]]))
         return(NA)
-    if (length(unique(fleet$vessel_name)) < 10)
+    if (length(unique(fleet$vessel_name)) < 5L)
       return(NA)
 
     message("Fitting standardization model for area ", area, ".")
 
-    invisible(capture.output(
-      m_cpue <- try(gfplot::fit_cpue_index_tweedie(fleet,
-        formula = cpue ~ year_factor +
-          month +
-          vessel +
-          locality +
-          depth +
-          latitude)
-      )))
+    fleet$year_locality <- paste(fleet$year, fleet$locality)
+
+    if (save_model && area == "5[AB]+") # example for report
+      saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
+        "-", clean_area(area), "-fleet.rds")))
+
+    # invisible(capture.output(
+    m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
+      formula = cpue ~ 0 + year_factor +
+        depth +
+        month +
+        latitude +
+        (1 | locality) +
+        (1 | vessel) +
+        (1 | year_locality),
+    verbose = FALSE))
+    # ))
 
     if (identical(class(m_cpue), "try-error")) {
-      warning("TMB CPUE model for area ", area, " didn't converge.")
+      warning("TMB CPUE model for area ", area, " did not converge.")
       return(NA)
     }
 
-    if (save_model)
+    clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
+    # if (save_model)
       saveRDS(m_cpue,
         file = file.path(cache, paste0(gsub(" ", "-", species),
           "-", clean_area(area), "-model.rds")))
     list(model = m_cpue, fleet = fleet, area = clean_area(area))
-  })
+  }
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
-    p <- predict_cpue_index_tweedie(x$model, center = center)
+    p <- gfplot::predict_cpue_index_tweedie(x$model, center = center)
     p$area <- x$area
     p
   })
@@ -113,8 +125,8 @@ fit_cpue_indices <- function(dat,
         mutate(est_unstandardized = est_unstandardized /
             exp(mean(log(est_unstandardized))))
     } else {
-      fit_yr <- fit_cpue_index_tweedie(x$fleet,
-        formula = cpue ~ year_factor
+      fit_yr <- gfplot::fit_cpue_index_glmmtmb(x$fleet,
+        formula = cpue ~ 0 + year_factor
       )
       p_yr <- predict_cpue_index_tweedie(fit_yr, center = center)
       p_yr$area <- x$area

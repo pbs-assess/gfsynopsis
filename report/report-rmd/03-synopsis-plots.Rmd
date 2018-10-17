@@ -1,0 +1,8 @@
+# SYNOPSIS PLOTS: TYPE A SPECIES {#sec:synopsis-plots-A}
+
+This section contains the main species-by-species data visualizations. Each
+species is shown on two pages with the same layout used throughout. See
+Section \@ref(sec:plot-descriptions) for figure captions. The species are ordered
+according to DFO species codes.
+The table of contents at the beginning of the document includes links to the
+various species pages.

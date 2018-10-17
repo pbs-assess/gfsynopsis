@@ -16,7 +16,7 @@
 #' @export
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
-  model = c("inla", "glmmfields"),
+  model = c("inla", "glmmfields", "sdmTMB"),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
   years = c(2016, 2017),
   ...) {
@@ -34,21 +34,23 @@ fit_survey_maps <- function(dat,
       density_column <- "density_ppkm2"
       .dat <- filter(dat, survey_abbrev %in% surv)
       .dat$survey_abbrev <- surv
-      .dat$year <- years[2]
+      # .dat$year <- years[2]
       premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
       raw_dat <- tidy_survey_sets(.dat, surv,
-        years = years[2], density_column = density_column
+        years = years, density_column = density_column
       )
     }
     if (surv == "IPHC FISS") {
       density_column <- "density_ppkm2"
-      .dat <- filter(dat, year %in% years[2]) # just last year
+      # .dat <- filter(dat, year %in% years[2]) # just last year
+      .dat <- filter(dat, year %in% years)
       .dat <- filter(.dat, survey_abbrev %in% surv)
       raw_dat <- tidy_survey_sets(.dat, surv,
-        years = years[2], density_column = density_column
+        # years = years[2], density_column = density_column
+        years = years, density_column = density_column
       )
-
-      premade_grid <- select(raw_dat, lon, lat, depth) %>%
+      premade_grid <- filter(raw_dat, year == max(year)) %>%
+        select(lon, lat, depth) %>%
         rename(X = lon, Y = lat)
       premade_grid <- list(grid = premade_grid, cell_area = 1.0)
     }
@@ -67,17 +69,27 @@ fit_survey_maps <- function(dat,
         density_column = density_column,
         premade_grid = premade_grid, required_obs_percent = 0.02,
         ...)
-    } else {
+    }
+    if (model == "glmmfields") {
       stop("NEED TO CHECK GLMMFIELDS")
       model <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "glmmfields", chains = 1, iter = 800,
         mcmc_posterior_samples = 300, n_knots = 25, ...)
     }
+    if (model == "sdmTMB") {
+      model <- fit_survey_sets(.dat, survey = surv, years = years,
+        model = "sdmTMB",
+        density_column = density_column, tmb_knots = 200,
+        premade_grid = premade_grid, required_obs_percent = 0.02,
+        ...)
+      # we fit all years, but just save last year for plotting:
+      raw_dat <- filter(model$data, year == max(model$data$year))
+    }
     list(model = model, raw_dat = raw_dat)
   })
 
-  pred_dat <- purrr::map_df(out, function(x) x$model$predictions)
-  raw_dat  <- purrr::map_df(out, function(x) x$raw_dat)
+  pred_dat <- purrr::map_df(out, function(x) data.frame(x$model$predictions, survey = x$model$survey, stringsAsFactors = FALSE))
+  raw_dat  <- purrr::map_df(out, function(x) data.frame(x$raw_dat, survey = x$model$survey, stringsAsFactors = FALSE))
   models   <- purrr::map(out,    function(x) x$model)
 
   list(pred_dat = pred_dat, models = models, raw_dat = raw_dat,
@@ -119,6 +131,18 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   ...) {
 
   annotations <- match.arg(annotations)
+
+  # Manually avoid extrapolating within each survey:
+  raw_dat_depth_ranges <- group_by(raw_dat, survey) %>%
+    summarize(min_raw_depth = min(depth, na.rm = TRUE),
+      max_raw_depth = max(depth, na.rm = TRUE)) %>%
+    mutate(
+      min_raw_depth = ifelse(!is.na(min_raw_depth), min_raw_depth, Inf),
+      max_raw_depth = ifelse(!is.na(max_raw_depth), max_raw_depth, -Inf))
+
+  # Set to NA predictions outside of the range within that survey and year:
+  pred_dat <- left_join(pred_dat, raw_dat_depth_ranges)
+  pred_dat[pred_dat$akima_depth < pred_dat$min_raw_depth | pred_dat$akima_depth > pred_dat$max_raw_depth, fill_column] <- NA
 
   g <- plot_survey_sets(pred_dat, raw_dat,
     fill_column = fill_column, show_model_predictions = show_model_predictions,

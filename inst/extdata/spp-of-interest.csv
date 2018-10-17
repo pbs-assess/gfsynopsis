@@ -1,66 +1,113 @@
-species_common_name,type
-North Pacific Spiny dogfish,A
-Big skate,A
-Longnose skate,A
-Pacific cod,A
-Pacific hake,A
-Walleye pollock,A
-Rougheye/blackspotted rockfish complex,A
-Pacific ocean perch,A
-Redbanded rockfish,A
-Shortraker rockfish,A
-Silvergray rockfish,A
-Copper rockfish,A
-Darkblotched rockfish,A
-Widow rockfish,A
-Yellowtail rockfish,A
-Quillback rockfish,A
-Bocaccio,A
-Canary rockfish,A
-Redstripe rockfish,A
-Yellowmouth rockfish,A
-Yelloweye rockfish,A
-Shortspine thornyhead,A
-Longspine thornyhead,A
-Sablefish,A
-Lingcod,A
-Arrowtooth flounder,A
-Petrale sole,A
-Rex sole,A
-Southern rock sole,A
-Dover sole,A
-English sole,A
-Sixgill shark,B
-Basking Shark,B
-Salmon shark,B
-Brown cat shark,B
-Soupfin shark,B
-Blue shark,B
-Pacific sleeper shark,B
-Aleutian skate,B
-Abyssal skate,B
-Broad Skate,B
-Roughtail skate,B
-Sandpaper skate,B
-Alaska skate,B
-Spotted ratfish,B
-Whitebait smelt,B
-Pacific flatnose,B
-Pacific tomcod,B
-Bigfin eelpout,B
-Twoline eelpout,B
-Shortfin eelpout,B
-Black eelpout,B
-Wattled eelpout,B
-Blackbelly eelpout,B
-Pacific grenadier,B
-Threadfin grenadier,B
-Giant grenadier,B
-Pectoral rattail,B
-Lamp Grenadier,B
-Shiner perch,B
-Pearly prickleback,B
-Snake prickleback,B
-Whitebarred prickleback,B
-Wolf eel,B
-Giant wrymouth,B
+species_common_name,type,species_code,species_science_name,itis_tsn,taxonomic_rank,parent_taxonomic_unit
+north pacific spiny dogfish,A,44,squalus suckleyi,160617,species,squalidae(dogfish sharks)
+big skate,A,56,beringraja binoculata,160848,species,rajidae(skates)
+longnose skate,A,59,raja rhina,160851,species,rajidae(skates)
+pacific cod,A,222,gadus macrocephalus,164711,species,gadidae
+walleye pollock,A,228,gadus chalcogrammus,934083,species,gadidae
+rougheye/blackspotted rockfish complex,A,394,sebastes aleutianus/melanostictus complex,166706,"not a taxonomic classification, old historic codes",sebastes
+pacific ocean perch,A,396,sebastes alutus,166707,species,sebastes
+redbanded rockfish,A,401,sebastes babcocki,166710,species,sebastes
+shortraker rockfish,A,403,sebastes borealis,166712,species,sebastes
+silvergray rockfish,A,405,sebastes brevispinis,166711,species,sebastes
+copper rockfish,A,407,sebastes caurinus,166713,species,sebastes
+darkblotched rockfish,A,410,sebastes crameri,166715,species,sebastes
+widow rockfish,A,417,sebastes entomelas,166719,species,sebastes
+yellowtail rockfish,A,418,sebastes flavidus,166720,species,sebastes
+quillback rockfish,A,424,sebastes maliger,166726,species,sebastes
+bocaccio,A,435,sebastes paucispinis,166733,species,sebastes
+canary rockfish,A,437,sebastes pinniger,166734,species,sebastes
+redstripe rockfish,A,439,sebastes proriger,166736,species,sebastes
+yellowmouth rockfish,A,440,sebastes reedi,166737,species,sebastes
+yelloweye rockfish,A,442,sebastes ruberrimus,166740,species,sebastes
+shortspine thornyhead,A,451,sebastolobus alascanus,166783,species,sebastolobus(thornyheads)
+longspine thornyhead,A,453,sebastolobus altivelis,166784,species,sebastolobus(thornyheads)
+sablefish,A,455,anoplopoma fimbria,167123,species,anoplopomatidae(sablefishes)
+lingcod,A,467,ophiodon elongatus,167116,species,hexagrammidae(greenlings)
+arrowtooth flounder,A,602,atheresthes stomias,172862,species,pleuronectidae(righteye flounders)
+petrale sole,A,607,eopsetta jordani,172868,species,pleuronectidae(righteye flounders)
+rex sole,A,610,glyptocephalus zachirus,172978,species,pleuronectidae(righteye flounders)
+southern rock sole,A,621,lepidopsetta bilineata,172917,species,pleuronectidae(righteye flounders)
+dover sole,A,626,microstomus pacificus,172887,species,pleuronectidae(righteye flounders)
+english sole,A,628,parophrys vetulus,172921,species,pleuronectidae(righteye flounders)
+bluntnose sixgill shark,B,27,hexanchus griseus,159819,species,hexanchidae(cow sharks)
+basking shark,B,34,cetorhinus maximus,159907,species,cetorhinidae(basking shark)
+salmon shark,B,36,lamna ditropis,159910,species,lamnidae(mackerel sharks)
+brown cat shark,B,38,apristurus brunneus,159988,species,scyliorhinidae(cat sharks)
+soupfin shark,B,NA,NA,NA,NA,NA
+blue shark,B,41,prionace glauca,160424,species,carcharhinidae(requiem sharks)
+pacific sleeper shark,B,43,somniosus pacificus,160610,species,somniosidae
+aleutian skate,B,52,bathyraja aleutica,160935,species,bathyraja
+abyssal skate,B,54,bathyraja abyssicola,564114,species,bathyraja
+broad skate,B,55,amblyraja badia,564124,species,rajidae(skates)
+roughtail skate,B,57,bathyraja trachura,160942,species,bathyraja
+sandpaper skate,B,58,bathyraja interrupta,160937,species,bathyraja
+alaska skate,B,61,bathyraja parmifera,160939,species,bathyraja
+spotted ratfish,B,66,hydrolagus colliei,161015,species,chimaeridae(ratfishes)
+whitebait smelt,B,138,allosmerus elongatus,162053,species,osmeridae(smelts)
+pacific flatnose,B,220,antimora microlepis,164673,species,moridae(deepsea cods)
+pacific tomcod,B,226,microgadus proximus,164719,species,gadidae
+bigfin eelpout,B,233,lycodes cortezianus,550588,species,zoarcidae(eelpouts)
+twoline eelpout,B,235,bothrocara brunneum,165219,species,zoarcidae(eelpouts)
+shortfin eelpout,B,242,lycodes brevipes,165258,species,zoarcidae(eelpouts)
+black eelpout,B,243,lycodes diapterus,165261,species,zoarcidae(eelpouts)
+wattled eelpout,B,244,lycodes palearis,165265,species,zoarcidae(eelpouts)
+blackbelly eelpout,B,245,lycodes pacificus,630999,species,zoarcidae(eelpouts)
+pacific grenadier,B,251,coryphaenoides acrolepis,165334,species,macrouridae(grenadiers)
+threadfin grenadier,B,254,coryphaenoides filifer,649753,species,macrouridae(grenadiers)
+giant grenadier,B,256,albatrossia pectoralis,165427,species,macrouridae(grenadiers)
+pectoral rattail,B,NA,NA,NA,NA,NA
+lamp grenadier,B,NA,NA,NA,NA,NA
+shiner perch,B,304,cymatogaster aggregata,169739,species,embiotocidae(surfperches)
+pearly prickleback,B,331,bryozoichthys marjorius,171576,species,stichaeidae(pricklebacks)
+snake prickleback,B,337,lumpenus sagitta,171583,species,stichaeidae(pricklebacks)
+whitebarred prickleback,B,340,poroclinus rothrocki,171594,species,stichaeidae(pricklebacks)
+wolf eel,B,351,anarrhichthys ocellatus,171345,species,anarhichadidae(wolffishes)
+giant wrymouth,B,355,cryptacanthodes giganteus,171612,species,cryptacanthodidae(wrymouths)
+dwarf wrymouth,B,356,cryptacanthodes aleutensis,171610,species,cryptacanthodidae(wrymouths)
+prowfish,B,359,zaprora silenus,171659,species,zaproridae(prowfishes)
+pacific sand lance,B,361,ammodytes personatus,630414,species,ammodytidae(sand lances)
+ragfish,B,386,icosteus aenigmaticus,171663,species,icosteidae(ragfishes)
+aurora rockfish,B,400,sebastes aurora,166709,species,sebastes
+dusky rockfish,B,409,sebastes variabilis,644604,species,sebastes
+splitnose rockfish,B,412,sebastes diploproa,166716,species,sebastes
+greenstriped rockfish,B,414,sebastes elongatus,166717,species,sebastes
+puget sound rockfish,B,415,sebastes emphaeus,166718,species,sebastes
+chilipepper,B,420,sebastes goodei,166722,species,sebastes
+rosethorn rockfish,B,421,sebastes helvomaculatus,166723,species,sebastes
+black rockfish,B,426,sebastes melanops,166727,species,sebastes
+blackgill rockfish,B,427,sebastes melanostomus,166728,species,sebastes
+vermilion rockfish,B,428,sebastes miniatus,166729,species,sebastes
+blue rockfish,B,NA,NA,NA,NA,NA
+china rockfish,B,431,sebastes nebulosus,166731,species,sebastes
+tiger rockfish,B,433,sebastes nigrocinctus,166732,species,sebastes
+stripetail rockfish,B,444,sebastes saxicola,166741,species,sebastes
+harlequin rockfish,B,446,sebastes variegatus,166742,species,sebastes
+pygmy rockfish,B,448,sebastes wilsoni,166743,species,sebastes
+sharpchin rockfish,B,450,sebastes zacentrus,166744,species,sebastes
+kelp greenling,B,461,hexagrammos decagrammus,167110,species,hexagrammidae(greenlings)
+whitespotted greenling,B,466,hexagrammos stelleri,167113,species,hexagrammidae(greenlings)
+spinyhead sculpin,B,497,dasycottus setiger,167265,species,cottidae(sculpins)
+buffalo sculpin,B,499,enophrys bison,167267,species,cottidae(sculpins)
+red irish lord,B,502,hemilepidotus hemilepidotus,167279,species,hemilepidotus
+bigmouth sculpin,B,505,hemitripterus bolini,167287,species,cottidae(sculpins)
+threadfin sculpin,B,510,icelinus filamentosus,167293,species,icelinus
+spotfin sculpin,B,513,icelinus tenuis,167294,species,icelinus
+pacific staghorn sculpin,B,518,leptocottus armatus,167302,species,cottidae(sculpins)
+blackfin sculpin,B,519,malacocottus kincaidi,167304,species,cottidae(sculpins)
+great sculpin,B,521,myoxocephalus polyacanthocephalus,167315,species,cottidae(sculpins)
+thornback sculpin,B,532,paricelinus hopliticus,167338,species,cottidae(sculpins)
+giant blobsculpin,B,534,psychrolutes phrictus,167414,species,cottidae(sculpins)
+slim sculpin,B,535,radulinus asprellus,167347,species,radulinus
+cabezon,B,540,scorpaenichthys marmoratus,692068,species,cottidae(sculpins)
+sturgeon poacher,B,550,podothecus accipenserinus,644358,species,agonidae(poachers)
+smootheye poacher,B,555,xeneretmus leiops,167469,species,agonidae(poachers)
+blacktail snailfish,B,574,careproctus melanurus,167504,species,careproctus
+pacific sanddab,B,596,citharichthys sordidus,172716,species,paralichthyidae(lefteye flounders)
+deepsea sole,B,605,embassichthys bathybius,172866,species,pleuronectidae(righteye flounders)
+flathead sole,B,612,hippoglossoides elassodon,172875,species,pleuronectidae(righteye flounders)
+butter sole,B,619,isopsetta isolepis,172919,species,pleuronectidae(righteye flounders)
+slender sole,B,625,lyopsetta exilis,172871,species,pleuronectidae(righteye flounders)
+starry flounder,B,631,platichthys stellatus,172893,species,pleuronectidae(righteye flounders)
+c-o sole,B,633,pleuronichthys coenosus,172923,species,pleuronectidae(righteye flounders)
+curlfin sole,B,635,pleuronichthys decurrens,172924,species,pleuronectidae(righteye flounders)
+sand sole,B,636,psettichthys melanostictus,172928,species,pleuronectidae(righteye flounders)

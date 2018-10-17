@@ -28,12 +28,15 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...) {
     ) +
     scale_x_continuous(breaks = seq(0, yrs[2], 10))
 
+  if (blank_plot)
+    suppressMessages(g <- g + ylim(0, 1))
+
   gdat <- ggplot2::ggplot_build(g)$data
   # data_element <- which(unlist(lapply(lapply(gdat, names),
   #   function(x) "ymax" %in% x)))[[1]]
   # gdat <- gdat[[data_element]]
   # max_val <- max(gdat$ymax)
-  max_val <- max(gdat[[5]]$ymax)
+  max_val <- if (!blank_plot) max(gdat[[5]]$ymax) else 1
 
   labs <- unique(select(catch, area))
   g <- g + geom_text(

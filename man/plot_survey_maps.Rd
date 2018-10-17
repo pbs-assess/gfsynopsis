@@ -4,11 +4,12 @@
 \alias{plot_survey_maps}
 \title{Plot survey maps}
 \usage{
-plot_survey_maps(pred_dat, raw_dat, show_axes = FALSE, show_raw_data = TRUE,
-  pos_pt_col = "#FFFFFF60", bin_pt_col = "#FFFFFF40",
-  pos_pt_fill = "#FFFFFF05", north_symbol = FALSE,
-  fill_column = "combined", trans = "sqrt", show_model_predictions = TRUE,
-  annotations = c("SYN", "IPHC", "HBLL"), ...)
+plot_survey_maps(pred_dat, raw_dat, show_axes = FALSE,
+  show_raw_data = TRUE, pos_pt_col = "#FFFFFF60",
+  bin_pt_col = "#FFFFFF40", pos_pt_fill = "#FFFFFF05",
+  north_symbol = FALSE, fill_column = "combined", trans = "sqrt",
+  show_model_predictions = TRUE, annotations = c("SYN", "IPHC",
+  "HBLL"), ...)
 }
 \arguments{
 \item{pred_dat}{The \code{pred_dat} element from \code{\link[=fit_survey_maps]{fit_survey_maps()}}.}
