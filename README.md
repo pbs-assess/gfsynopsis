@@ -4,59 +4,32 @@ The combination of fishery dependent data, such as catch and effort, and fishery
 
 This package uses the data extraction, data tidying, model fitting, and plotting functions from [gfplot](https://github.com/pbs-assess/gfplot).
 
-The gfsynopsis package is *not* ready for use yet. However, it can be installed with:
-
 # Building the document
 
-1. Make sure INLA is installed:
-
-```r
-install.packages("INLA", repos = c(getOption("repos"), 
-  INLA = "https://inla.r-inla-download.org/R/stable"), dep = TRUE)
-```
-
-2. Install gfsynopsis:
+1. Install gfsynopsis and csasdown:
 
 ```r
 # install.packages("devtools")
 devtools::install_github("pbs-assess/gfsynopsis")
-library(gfsynopsis)
+devtools::install_github("pbs-assess/csasdown")
 ```
 
+2. Clone or download the gfsynopsis GitHub repository.
 
-3. Clone or download the gfsynopsis repository.
-
-4. With the R working directory set to the root folder of the project (e.g. open the RStudio `gfsynopsis.Rproj` file), run:
+3. With the R working directory set to the root folder of the project (e.g. open the RStudio `gfsynopsis.Rproj` file), run:
 
 ```r
 source("report/make.R")
 ```
 
-5. Wait for a very long time for all the data to download, all the models to fit, and all the plots to generate (maybe a few hours if starting from scratch).
+4. Wait for a long time for all the data to download, all the models to fit, and all the plots to generate. If you are starting from scratch that it may take a day or so to fit all the commercial CPUE index standardization models. If you already have these results cached, then it could take anywhere from ~10 minutes to a couple hours depending what needs to be built.
 
-6. On Unix, open a Terminal window, `cd` to the `gfsynopsis/report/report/` folder, and run `make` (after installing `latexmk`, perhaps with `homebrew`). Alternatively, or if not on Unix, run the following in R after changing the working directory to the `gfsynopsis/report/report/` folder:
+5. In RStudio, open `gfsynopsis/report/report-rmd/index.Rmd` and click the "Knit" button, or in any R console run:
 
 ```r
-knitr::knit("pbs-gf-synopsis.Rnw")
+setwd("report/report-rmd")
+bookdown::render_book("index.Rmd")
+setwd("../../")
 ```
-
-Then install `latexmk` and on a command line outside of R:
-
-```sh
-latexmk -pdf pbs-gf-synopsis.tex
-```
-
-Or, if you don't have `latexmk` installed, then run:
-
-```sh
-pdflatex pbs-gf-synopsis
-bibtex pbs-gf-synopsis
-pdflatex pbs-gf-synopsis
-pdflatex pbs-gf-synopsis
-pdflatex pbs-gf-synopsis
-pdflatex pbs-gf-synopsis
-```
-
-I may have under or over estimated the number of times you need to run `pdflatex pbs-gf-synopsis.tex`. Run it until the table of contents and all the references and figure references are up-to-date.
 
 Problems? Sorry! File an [issue](https://github.com/pbs-assess/gfsynopsis/issues).
