@@ -72,6 +72,11 @@ fit_cpue_indices <- function(dat,
     message("Fitting standardization model for area ", area, ".")
 
     fleet$year_locality <- paste(fleet$year, fleet$locality)
+
+    if (save_model && area == "5[AB]+") # example for report
+      saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
+        "-", clean_area(area), "-fleet.rds")))
+
     # invisible(capture.output(
     m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
       formula = cpue ~ 0 + year_factor +
