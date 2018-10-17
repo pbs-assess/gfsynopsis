@@ -1,0 +1,6 @@
+"Filters", "Rationale"
+"Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)", "To extract only commercial"
+"Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total)", "To extract only those records of sample type 'random' or 'total'"
+"Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7}", "To remove samples sorted on unknown criteria"
+"Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}", "To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples)"
+
