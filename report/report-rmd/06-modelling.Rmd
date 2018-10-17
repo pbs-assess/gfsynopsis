@@ -226,6 +226,71 @@ the unconditional estimates of CPUE and their confidence intervals regularly
 include the true values with correct coverage (e.g.
 Fig. \@ref(fig:cpue-sim-ts-val)).
 
+```{r cpue-model-load}
+cpue_model <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-model.rds"))
+```
+
+```{r cpue-fleet-load}
+# d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
+d_cpue_pred <- gfplot::predict_cpue_index_tweedie(cpue_model, center = FALSE)
+d_cpue_pred$formula_version <- "Full standardization"
+if (file.exists(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds")))
+  d_fleet <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds"))
+```
+
+```{r cpue-int-lines, fig.width=6, out.width="4in", fig.cap="Locality-specific CPUE index trends for a standardization model that allows for locality-year (space-time) interactions. The coloured lines indicate the locality-specific estimates with all other predictors set to their base levels. The black line and shaded ribbon indicate the overall average annual CPUE."}
+if (exists("d_fleet"))
+  plot_cpue_spaghetti(
+    model = cpue_model, 
+    fleet = d_fleet,
+    index_data = d_cpue_pred,
+    era = "modern")
+```
+
+```{r cpue-tweedie-ex, fig.asp=0.7, fig.cap="Example density functions for the Tweedie distribution. The symbol $\\phi$ (written as phi in this figure) represents the dispersion parameter, $p$ represents the power parameter, and $\\mu$ represents the mean. Note that the spike in density that is seen towards the left of the panels is at a value of 0 on the x axis."}
+plot_tweedie_ex <- function(df, max = 15) {
+  xx <- seq(0, max, length.out = 1000)
+  out <- plyr::mdply(df, function(mu, power, phi) {
+    data.frame(x = xx,
+      y = tweedie::dtweedie(y = xx, mu = mu, power = power, phi = phi))
+  }) %>%
+    mutate(phi = paste("phi =", phi)) %>%
+    mutate(power = paste("p =", power)) %>%
+    mutate(mu = paste("μ =", mu))
+
+  ggplot(out, aes(x, y, colour = mu)) +
+    geom_line() +
+    facet_grid(power~phi, scales = "free") +
+    gfplot::theme_pbs() +
+    labs(colour = "μ") +
+    xlab("Value") + ylab("Density") +
+    coord_cartesian(expand = FALSE, xlim = c(-0.2, max(out$x))) +
+    scale_colour_brewer(palette = "Dark2") +
+    scale_fill_brewer(palette = "Dark2")
+}
+
+df <- expand.grid(power = c(1.2, 1.6, 1.8), mu = c(1, 3, 6), phi = c(0.5, 1, 2))
+plot_tweedie_ex(df)
+```
+
+\clearpage
+
+(ref:caption-cpue-quantile-residuals) Histograms of randomized quantile residuals [@dunn1996] for the CPUE GLMM standardization models. The histograms illustrate the actual density distribution of 10,000 randomly selected randomized quantile residuals. The dashed lines show the probability density for a normal distribution with the same standard deviation.
+
+```{r cpue-quantile-residuals, fig.cap="(ref:caption-cpue-quantile-residuals)"}
+qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
+gfplot::plot_qres_histogram(qr)
+```
+
+```{r, fig.cap="3CD eg."}
+readRDS(here::here("report/cpue-cache/petrale-sole-3CD-model.rds")) %>% 
+  gfplot::qres_tweedie(response = "cpue") %>% 
+  gfplot::plot_qres_histogram()
+```
+
+
+\clearpage
+
 
 <!-- TODO: Make sure all figures are referenced as fig or figure -->
 
@@ -233,9 +298,7 @@ Fig. \@ref(fig:cpue-sim-ts-val)).
 
 <!--
 
-```{r load-cpue-model}
-# cpue_model <- readRDS("../../cpue-cache/petrale-sole-3CD-model.rds")
-```
+
 
 <<cpue-coefs-eg, fig.cap="Example model coefficients for CPUE index standardization for Petrale Sole in area 3CD. ``Bin.'' (black) refers to the binary component model and ``Pos.'' (blue) refers to the positive component model. The white dots represent the parameter estimates and the thick and thin line segments represent 50\\% and 95\\% confidence intervals. Each panel represents a set of coefficients for each factor level. The reference level has been set to the most common bin and the shown coefficient estimates are effects with respect to this reference level. For example, the month effects represent differences between the indicated month and January (the omitted reference level).", fig.asp=1.1, warning=FALSE, message=FALSE, fig.width=13>>=
 gfplot::plot_cpue_index_coefs(cpue_model, type = "tweedie")
