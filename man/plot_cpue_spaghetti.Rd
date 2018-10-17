@@ -5,7 +5,7 @@
 \title{Plot locality specific estimates from a CPUE standardization model}
 \usage{
 plot_cpue_spaghetti(model, fleet, index_data, era = c("modern",
-  "historical"), the_formula_version = "Full standardization")
+  "historical"))
 }
 \arguments{
 \item{model}{Output from \code{\link[gfplot:fit_cpue_index_glmmtmb]{gfplot::fit_cpue_index_glmmtmb()}}.}
@@ -17,9 +17,6 @@ plot_cpue_spaghetti(model, fleet, index_data, era = c("modern",
 \code{\link[gfplot:predict_cpue_index_tweedie]{gfplot::predict_cpue_index_tweedie()}}.}
 
 \item{era}{Modern or historical.}
-
-\item{the_formula_version}{A formula version to filter from \code{index_data} if
-there is than one.}
 }
 \description{
 Plot locality specific estimates from a CPUE standardization model
