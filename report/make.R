@@ -110,11 +110,11 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(gfsynopsis:::emph(latin_name),
-    " | DFO species code: ", species_code, "\n")
+    ", DFO species code: ", species_code, "\n")
   i <- i + 1
   out[[i]] <- paste0(resdoc_text, resdoc, "\n")
   i <- i + 1
-  out[[i]] <- paste0(sar_text, sar)
+  out[[i]] <- paste0(sar_text, sar, "\n")
   i <- i + 1
   if (!is.na(other_ref)) {
     if (other_ref != "") {
