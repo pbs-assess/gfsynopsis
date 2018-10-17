@@ -134,7 +134,7 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
 
   # Manually avoid extrapolating within each survey:
   raw_dat_depth_ranges <- group_by(raw_dat, survey) %>%
-    summarize(min_raw_depth = min(depth, na.rm = TRUE),
+    summarise(min_raw_depth = min(depth, na.rm = TRUE),
       max_raw_depth = max(depth, na.rm = TRUE)) %>%
     mutate(
       min_raw_depth = ifelse(!is.na(min_raw_depth), min_raw_depth, Inf),

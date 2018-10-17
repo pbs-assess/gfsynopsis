@@ -174,7 +174,7 @@ a 2x2km spatial grid, $\mu_\mathbf{s}$ as:
 $$\mu_\mathbf{s} = \pi_\mathbf{s}^B \cdot \mu_\mathbf{s}^G.$$
 
 For the purposes of the maps, we summarized the posteriors by their median
-values. See Figures TODO and TODO for examples of these sub-component binary
+values. See Figures TODO and TODO for examples of these sub-component binary
 and positive models and the combined model. We placed Normal(0, 5) priors on
 coefficients relating standardized depth and standardized depth squared to the
 responses and Normal(0, 20) priors on the intercepts. Note that our notation is
@@ -203,12 +203,12 @@ dat <- gfplot:::scale_survey_predictors(dat)
 dat <- select(dat, -X10, -Y10)
 
 grid_locs <- gfplot:::make_prediction_grid(filter(dat, year == 2017),
-  survey = "SYN QCS", cell_width = 2)$grid
+  survey = "SYN QCS", cell_width = 1.5)$grid
 grid_locs <- rename(grid_locs, depth = akima_depth)
 grid_locs$year <- NULL
 ```
 
-```{r sdmTMB-spde, fig.width=9, out.width="4in", fig.cap="TODO"}
+```{r sdmTMB-spde, fig.width=9, out.width="3.7in", fig.cap="Red indicates knots. Open circles represent the locations of the survey sets. TODO"}
 spde <- make_spde(dat$X, dat$Y, n_knots = 200)
 plot_spde(spde)
 ```
@@ -221,42 +221,69 @@ m <- sdmTMB(
 )
 ```
 
-```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="TODO"}
+```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Spatial residuals TODO"}
 dat$resids <- residuals(m) # randomized quantile residuals
 # hist(dat$resids)
 # qqnorm(dat$resids);abline(a = 0, b = 1)
 ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
-  geom_point() + facet_wrap(~year)
+  geom_point() + coord_fixed() +
+  xlab("Easting") + ylab("Northing") +
+  scale_colour_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  labs(colour = 'Residual')
 ```
 
-```{r sdmTMB-preds, fig.width=6, out.width="4in", fig.cap="TODO"}
+```{r sdmTMB-preds, fig.width=6, out.width="4in"}
 predictions <- predict(m, newdata = grid_locs)
-plot_map <- function(dat, column) {
-  ggplot(dat, aes_string("X", "Y", fill = column)) +
+plot_map <- function(.dat, column) {
+  ggplot(.dat, aes_string("X", "Y", fill = column)) +
     geom_raster() +
-    facet_wrap(~year) +
-    coord_fixed()
+    coord_fixed(expand = FALSE) +
+    xlab("Easting") + ylab("Northing") +
+    theme(legend.position = "bottom") +
+    geom_point(data = dat, aes(X, Y, size = density), pch = 21, inherit.aes = FALSE) +
+    scale_size_area() +
+    guides(size = FALSE)
 }
 ```
 
-```{r sdmTMB-plot, fig.width=6, out.width="4in", fig.cap="TODO"}
-plot_map(predictions$data, "exp(est)") +
+```{r sdmTMB-plot-depth}
+g_depth <- plot_map(grid_locs, "depth") +
+  scale_fill_viridis_c(trans = "sqrt", option = "A", direction = -1) +
+  ggtitle("Depth") +
+  labs(fill = 'Depth (m)')
+```
+
+```{r sdmTMB-plot-combined}
+g_sdm1 <- plot_map(predictions$data, "exp(est)") +
   scale_fill_viridis_c(trans = "sqrt", option = "C") +
-  ggtitle("Prediction (fixed effects + spatial random effects)")
-
+  ggtitle("Prediction (depth effects + spatial random effects)") +
+  labs(fill = 'Biomass estimate\nkg/km^2')
 ```
 
-```{r sdmTMB-plot-fe, fig.width=6, out.width="4in", fig.cap="TODO"}
-plot_map(predictions$data, "exp(est_fe)") +
-  ggtitle("Prediction (fixed effects only)") +
-  scale_fill_viridis_c(trans = "sqrt", option = "D")
+```{r sdmTMB-plot-fe}
+g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
+  ggtitle("Prediction (depth effects only)") +
+  scale_fill_viridis_c(trans = "sqrt", option = "D") +
+  labs(fill = 'Biomass estimate\nkg/km^2')
 ```
 
-```{r sdmTMB-plot-re, fig.width=6, out.width="4in", fig.cap="TODO"}
-plot_map(predictions$data, "est_re_s") +
-  ggtitle("Spatial random effects only") +
-  scale_fill_gradient2()
+```{r sdmTMB-plot-re}
+g_sdm3 <- plot_map(predictions$data, "est_re_s") +
+  ggtitle("Spatial random effects") +
+  scale_fill_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  labs(fill = 'Deviation from expected\nbiomass in log space')
 ```
+
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod."}
+cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
+```
+
 
 \clearpage
 
@@ -441,7 +468,7 @@ qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
 gfplot::plot_qres_histogram(qr)
 ```
 
-```{r, fig.cap="3CD eg."}
+```{r, fig.cap="3CD eg.", eval=FALSE}
 readRDS(here::here("report/cpue-cache/petrale-sole-3CD-model.rds")) %>%
   gfplot::qres_tweedie(response = "cpue") %>%
   gfplot::plot_qres_histogram()

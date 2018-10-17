@@ -16,6 +16,8 @@
 #'   an arithmetic 'ratio estimator' CPUE (summed catch for this species divided
 #'   by summed effort for the entire fleet) (if `TRUE`) or a GLM / GLMM with
 #'   only a year predictor.
+#' @param parallel Should the various areas be fit in parallel? Make sure you
+#'   have enough memory.
 #'
 #' @import gfplot
 #' @importFrom dplyr filter mutate summarise select group_by n arrange ungroup
@@ -45,57 +47,57 @@ fit_cpue_indices <- function(dat,
   doParallel::registerDoParallel(cl)
   cpue_models <- foreach::foreach(area = areas,
     .packages = c("gfplot", "gfsynopsis")) %do% {
-    message("Determining qualified fleet for area ", area, ".")
+      message("Determining qualified fleet for area ", area, ".")
 
-    fleet <- gfplot::tidy_cpue_index(dat,
-      year_range = c(1996, 2017),
-      species_common = species,
-      gear = "bottom trawl",
-      use_alt_year = FALSE,
-      area_grep_pattern = area,
-      min_positive_tows = 100,
-      min_positive_trips = 5,
-      min_yrs_with_trips = 5,
-      lat_band_width = 0.1,
-      depth_band_width = 25,
-      depth_bin_quantiles = c(0.001, 0.999),
-      min_bin_prop = 0.001
-    )
-    # fleet <- NA
+      fleet <- gfplot::tidy_cpue_index(dat,
+        year_range = c(1996, 2017),
+        species_common = species,
+        gear = "bottom trawl",
+        use_alt_year = FALSE,
+        area_grep_pattern = area,
+        min_positive_tows = 100,
+        min_positive_trips = 5,
+        min_yrs_with_trips = 5,
+        lat_band_width = 0.1,
+        depth_band_width = 25,
+        depth_bin_quantiles = c(0.001, 0.999),
+        min_bin_prop = 0.001
+      )
+      # fleet <- NA
 
-    if (!is.data.frame(fleet))
-      if (is.na(fleet[[1]]))
+      if (!is.data.frame(fleet))
+        if (is.na(fleet[[1]]))
+          return(NA)
+      if (length(unique(fleet$vessel_name)) < 5L)
         return(NA)
-    if (length(unique(fleet$vessel_name)) < 5L)
-      return(NA)
 
-    message("Fitting standardization model for area ", area, ".")
+      message("Fitting standardization model for area ", area, ".")
 
-    fleet$year_locality <- paste(fleet$year, fleet$locality)
+      fleet$year_locality <- paste(fleet$year, fleet$locality)
 
-    if (save_model && area == "5[AB]+") # example for report
-      saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
-        "-", clean_area(area), "-fleet.rds")))
+      if (save_model && area == "5[AB]+") # example for report
+        saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
+          "-", clean_area(area), "-fleet.rds")))
 
-    # invisible(capture.output(
-    m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
-      formula = cpue ~ 0 + year_factor +
-        depth +
-        month +
-        latitude +
-        (1 | locality) +
-        (1 | vessel) +
-        (1 | year_locality),
-    verbose = FALSE))
-    # ))
+      # invisible(capture.output(
+      m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
+        formula = cpue ~ 0 + year_factor +
+          depth +
+          month +
+          latitude +
+          (1 | locality) +
+          (1 | vessel) +
+          (1 | year_locality),
+        verbose = FALSE))
+      # ))
 
-    if (identical(class(m_cpue), "try-error")) {
-      warning("TMB CPUE model for area ", area, " did not converge.")
-      return(NA)
-    }
+      if (identical(class(m_cpue), "try-error")) {
+        warning("TMB CPUE model for area ", area, " did not converge.")
+        return(NA)
+      }
 
-    clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
-    # if (save_model)
+      clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
+      # if (save_model)
       saveRDS(m_cpue,
         file = file.path(cache, paste0(gsub(" ", "-", species),
           "-", clean_area(area), "-model.rds")))

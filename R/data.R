@@ -10,7 +10,7 @@ get_data <- function(type = c("A", "B"), path = ".",
   dir.create(path, showWarnings = FALSE)
   .d <- get_spp_names()
   .d <- .d[.d$type %in% type, , drop = FALSE]
-  already_exists <- gsub("\\.rds", "", list.files(dc))
+  already_exists <- gsub("\\.rds", "", list.files(path))
   if (!force)
     .d <- filter(.d, !spp_w_hyphens %in% already_exists)
   if (nrow(.d) > 0L)
@@ -24,16 +24,3 @@ get_data <- function(type = c("A", "B"), path = ".",
     saveRDS(.dat, file = file.path(path, "cpue-index-dat.rds"), compress = compress)
   }
 }
-#
-# dc
-# setwd(dc)
-# l <- list.files()
-# l <- l[1:45]
-#
-# for (i in seq_along(l))  {
-#   num <- substr(l[i], 1, 3)
-#   sp_name <- spp[spp$species_code == num, "spp_w_hyphens", drop=TRUE]
-#   sp_name <- paste0(sp_name, '.rds')
-#     file.rename(l[i], sp_name)
-# }
-# spp$species_code
