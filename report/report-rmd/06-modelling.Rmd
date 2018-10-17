@@ -253,7 +253,7 @@ plot_map <- function(.dat, column) {
 g_depth <- plot_map(grid_locs, "depth") +
   scale_fill_viridis_c(trans = "sqrt", option = "A", direction = -1) +
   ggtitle("Depth") +
-  labs(fill = 'Biomass estimate\nkg/km^2')
+  labs(fill = 'Depth (m)')
 ```
 
 ```{r sdmTMB-plot-combined}
