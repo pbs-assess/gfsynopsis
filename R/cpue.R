@@ -16,6 +16,8 @@
 #'   an arithmetic 'ratio estimator' CPUE (summed catch for this species divided
 #'   by summed effort for the entire fleet) (if `TRUE`) or a GLM / GLMM with
 #'   only a year predictor.
+#' @param parallel Should the various areas be fit in parallel? Make sure you
+#'   have enough memory.
 #'
 #' @import gfplot
 #' @importFrom dplyr filter mutate summarise select group_by n arrange ungroup

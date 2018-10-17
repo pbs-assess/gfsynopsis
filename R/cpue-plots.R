@@ -37,7 +37,7 @@ plot_cpue_spaghetti <- function(model, fleet, index_data,
   newdata$cpue <- NA
   newdata <- newdata[ ,names(model$frame)]
 
-  pp <- predict(model, newdata = newdata, allow.new.levels = TRUE)
+  pp <- stats::predict(model, newdata = newdata, allow.new.levels = TRUE)
 
   newdata$loc_pred <- pp
   newdata <- rename(newdata, year = year_factor) %>%

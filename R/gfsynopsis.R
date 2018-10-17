@@ -21,6 +21,7 @@ if (getRversion() >= "2.15.1") {
     "N", "area", "depth", "est", "est_unstandardized", "female", "lat", "lon", "lwr",
     "mature", "max_value", "model", "pos_catch", "pred", "sampling_desc",
     "species_code", "species_common_name", "survey_abbrev", "term", "tidy_survey_sets",
-    "upr", "year"
+    "upr", "year", "min_raw_depth", "year_factor", "spp_w_hyphens",
+    "spp_catch", "hours_fished"
   ))
 }
