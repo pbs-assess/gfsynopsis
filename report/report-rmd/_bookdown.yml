@@ -7,7 +7,7 @@ rmd_files: [
   "01-intro.Rmd",
   "02-plot-descriptions.Rmd",
   "03-synopsis-plots.Rmd",
-  # "plot-pages.Rmd",
+  "plot-pages.Rmd",
   "04-aging-precision.Rmd",
   "05-data.Rmd",
   "06-modelling.Rmd",
