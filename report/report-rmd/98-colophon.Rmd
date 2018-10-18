@@ -10,12 +10,11 @@ library(bookdown)
 library(rmarkdown)
 pkgs <- sort(c("broom", "gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
   "TMB", "broom.mixed", "scales", "purrr", "xtable", "kableExtra", "cowplot", "csasdown", "bookdown", "rmarkdown"))
-info <- devtools::session_info()$packages
-info <- info %>% dplyr::filter(package %in% pkgs) %>%
-  dplyr::select(package, version, date, source) %>%
-  dplyr::rename(Package = package, Version = version, Date = date, Source = source) %>%
+devtools::session_info()$packages %>% 
+  dplyr::filter(package %in% pkgs) %>%
+  dplyr::select(package, version, date) %>%
+  dplyr::rename(Package = package, Version = version, Date = date) %>%
   csasdown::csas_table()
-info
 ```
 
 In particular, most of the data extraction and many of the plots were made with

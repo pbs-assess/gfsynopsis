@@ -7,7 +7,9 @@
 spp_table <- .spp %>%
   mutate(species_common_name = gfsynopsis:::first_cap(species_common_name)) %>%
   mutate(section = paste0("\\@ref(sec:", spp_w_hyphens, ")")) %>%
-  mutate(species_science_name = paste0("*", gfplot:::firstup(species_science_name), "*"))
+  mutate(species_science_name = paste0("*", gfplot:::firstup(species_science_name), "*")) %>% 
+  mutate(species_science_name = gsub("Sebastes aleutianus/melanostictus complex", 
+    "S. aleutianus/melanostictus complex", species_science_name))
 
 spp_table %>% arrange(species_common_name) %>%
   select(species_common_name, species_science_name, section) %>% 

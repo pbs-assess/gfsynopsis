@@ -25,5 +25,6 @@ library(dplyr)
 library(ggplot2)
 library(gfplot)
 library(csasdown)
+ggplot2::theme_set(gfplot::theme_pbs())
 ```
 

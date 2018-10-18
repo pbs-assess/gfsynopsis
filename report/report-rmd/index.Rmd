@@ -1,5 +1,5 @@
 ---
-title: "A Data Synopsis Report for British Columbia Groundfish"
+title: "A data synopsis for over 100 British Columbia groundfish species"
 author: |
   Sean C. Anderson^1^,
   Elise A. Keppel^1^, and

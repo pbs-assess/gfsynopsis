@@ -13,7 +13,7 @@ make_pages(dat, spp, aspect = 1.35, short_page_height_ratio = 0.78,
   "#a8a8a8", "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG",
   "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS",
   "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"), mat_min_n = 20,
-  survey_map_outlier = 0.999, parallel = FALSE)
+  survey_map_outlier = 1, parallel = FALSE)
 }
 \arguments{
 \item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}

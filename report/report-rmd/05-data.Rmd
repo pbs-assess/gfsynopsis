@@ -121,17 +121,24 @@ performed by a different technician in addition to the primary reading
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                       & Rationale                                                                                                                                 \\
+Filters & Rationale \\
 \midrule
-Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)                      & To extract only commercial data                                                                                                           \\
-Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total)             & To extract only those records of sample type 'random' or 'total'                                                                          \\
-Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7}              & To remove samples sorted on unknown criteria                                                                                              \\
-Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}                             & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples)                  \\
+Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips) & To extract only commercial data \\
+Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total) & To extract only those records of sample type 'random' or 'total' \\
+Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7} & To remove samples sorted on unknown criteria \\
+Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3} & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples) \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
-
+```{r}
+# pdf <- knitr:::is_latex_output()
+# read.csv(here::here("report/report-rmd/tables/sql-comm-samp.csv"),
+#   stringsAsFactors = FALSE, strip.white = TRUE) %>%
+#   csas_table(format = if (pdf) "latex" else "pandoc", escape = FALSE) %>%
+#   kableExtra::column_spec(1, width = "2.8in") %>%
+#   kableExtra::column_spec(2, width = "3.2in")
+```
 
 \begin{table}[htpb]
 \centering
@@ -140,12 +147,12 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}               
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                              & Rationale                                                                                                                                          \\
+Filters & Rationale \\
 \midrule
-Filtered for \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips)                      & To extract only research data                                                                                                             \\
-Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total)             & To extract only those records of sample type 'random' or 'total'                                                                          \\
-Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7}              & To remove samples sorted on unknown criteria                                                                                              \\
-Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}                             & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples)                  \\
+Filtered for \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips) & To extract only research data \\
+Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total) & To extract only those records of sample type 'random' or 'total' \\
+Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7} & To remove samples sorted on unknown criteria \\
+Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3} & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples) \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -157,10 +164,10 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3}               
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                                                            & Rationale                                                                 \\
+Filters & Rationale \\
 \midrule
-Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL}                                        & To remove records with missing date                                       \\
-Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \texttt{FE\_END\_DATE} > \texttt{FE\_START\_DATE}   & To remove records with erroneous dates                                    \\
+Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL} & To remove records with missing date \\
+Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \texttt{FE\_END\_DATE} > \texttt{FE\_START\_DATE} & To remove records with erroneous dates \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -172,13 +179,13 @@ Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                                            & Rationale                                                                 \\
+Filters & Rationale \\
 \midrule
-Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122                               & To remove erroneous location records                                      \\
-Filtered for \texttt{YEAR(BEST\_DATE)} greater than 2012                                                           & To extract only records since the trawl fishery footprint was established \\
-Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE}   & To remove records with erroneous dates                                    \\
-Filtered for \texttt{FISHERY\_SECTOR} = \texttt{GROUNDFISH TRAWL}                                                   & To extract only records in the groundfish trawl fishery                   \\
-Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND\_KG,0)} > 0                            & To extract only records with positive catch                               \\
+Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122 & To remove erroneous location records \\
+Filtered for \texttt{YEAR(BEST\_DATE)} greater than 2012 & To extract only records since the trawl fishery footprint was established \\
+Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE} & To remove records with erroneous dates \\
+Filtered for \texttt{FISHERY\_SECTOR} = \texttt{GROUNDFISH TRAWL} & To extract only records in the groundfish trawl fishery \\
+Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND\_KG,0)} > 0 & To extract only records with positive catch \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -190,12 +197,12 @@ Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                                            & Rationale                                                                 \\
+Filters & Rationale \\
 \midrule
-Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122                               & To remove erroneous location records                                      \\
-Filtered for \texttt{YEAR(BEST\_DATE)} greater than or equal to 2008                                               & To extract only records since 2008 after implementation of IFMP           \\
-Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE}   & To remove records with erroneous dates                                    \\
-Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK AND LINE)}                        & To extract only records in the hook and line fishery                      \\
+Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122 & To remove erroneous location records \\
+Filtered for \texttt{YEAR(BEST\_DATE)} greater than or equal to 2008 & To extract only records since 2008 after implementation of IFMP \\
+Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE} & To remove records with erroneous dates \\
+Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK AND LINE)} & To extract only records in the hook and line fishery \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -207,9 +214,9 @@ Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                                            & Rationale                                                                \\
+Filters & Rationale \\
 \midrule
-Filter for \texttt{ACTIVE\_IND} 1                                                                                  & To extract only active (useable) bootstrapped index records              \\
+Filter for \texttt{ACTIVE\_IND} 1 & To extract only active (useable) bootstrapped index records \\
 \bottomrule
 \end{tabu}}
 \end{table}
@@ -221,22 +228,25 @@ Filter for \texttt{ACTIVE\_IND} 1                                               
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
-Filters                                                                                                            & Rationale                                                                \\
+Filters & Rationale \\
 \midrule
-Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3                                                                     & To extract primary and precision test readings                           \\
+Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & To extract primary and precision test readings \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
-```{r aging-method-table-setup, eval=FALSE}
+\clearpage
+
+```{r aging-method-table-setup}
 meta <- gfsynopsis::get_spp_names()
 f <- system.file("extdata", "ageing_methods.csv", package = "gfplot")
 age_methods <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
+age_methods$type <- NULL
 names(age_methods) <- tolower(names(age_methods))
 age_methods$species_common_name <- tolower(age_methods$species_common_name)
 age_methods <- left_join(age_methods, meta, by = "species_common_name")
 age_methods$species_common_name <- gfsynopsis:::first_cap(age_methods$species_common_name)
-age_methods <- filter(age_methods, type == "A")
+# age_methods <- filter(age_methods, type == "A")
 age_methods$species_common_name <- gsub("Rockfish Complex", "", age_methods$species_common_name)
 age_methods$species_science_name <- gsub(" complex", "", age_methods$species_science_name)
 age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianusu",
@@ -244,16 +254,20 @@ age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianusu"
 age_methods <- select(age_methods, species_common_name, species_science_name,
   species_code, ageing_method_codes)
 age_methods <- arrange(age_methods, species_code)
-age_methods$species_science_name <- paste0("\\emph{",
-  gfplot:::firstup(age_methods$species_science_name), "}")
+age_methods$species_science_name <- paste0("*",
+  gfplot:::firstup(age_methods$species_science_name), "*")
+age_methods <- filter(age_methods, ageing_method_codes != "na")
+age_methods <- filter(age_methods, !is.na(species_code))
 names(age_methods) <- c("Common name", "Scientific name", "Species code", "Aging codes")
 ```
 
-```{r aging-method-table, results='asis', eval=FALSE}
+```{r aging-method-table, results='asis'}
 csasdown::csas_table(age_methods, caption = "Ageing method codes from GFBio considered valid throughout the synopsis document for groundfish species in British Columbia. The ageing method codes were chosen with the help of the PBS Schlerochronology Lab. 1 = 'Otolith Surface Only', 3 = 'Otolith Broken and Burnt', 17 = 'Otolith Broken and Baked (Break and Bake)', 6 = 'Dorsal Fin XS', 11 = 'Dorsal Spine', 12 = 'Vertebrae'.")
 ```
 
-```{r maturity-table, results='asis', eval=FALSE}
+\clearpage
+
+```{r maturity-table, results='asis'}
 f <- system.file("extdata", "maturity_assignment.csv", package = "gfplot")
 mat <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
 names(mat) <- tolower(names(mat))
@@ -272,7 +286,9 @@ mat <- filter(mat, !grepl("SABLEFISH", `Maturity convention description`))
 csasdown::csas_table(mat, caption = "Maturity convention codes ('Mat. conv. code'), maturity convention descriptions, sex, and the maturity convention value at which a fish is deemed to be mature for the purposes of the synopsis report. Note that fish may be considered mature at other maturity convention values in particular stock assessments where other values are chosen for specific reasons.")
 ```
 
-```{r spp-cat, results='asis', eval=FALSE}
+\clearpage
+
+```{r spp-cat, results='asis'}
 spp_cat <- readr::read_csv(here::here("report/report-rmd/tables/spp-category.csv"))
 spp_cat$`Species Category Description` <-
   gfplot:::firstup(tolower(spp_cat$`Species Category Description`))
@@ -284,10 +300,12 @@ csasdown::csas_table(spp_cat, caption = "Species category codes lookup table, wh
   describes sampling protocols at the catch level.")
 ```
 
-```{r samp-source, results='asis', eval=FALSE}
+```{r samp-source, results='asis'}
 samp_source <- readr::read_csv(here::here("report/report-rmd/tables/sample-source.csv"))
 samp_source$`Sample Source Description` <-
   gfplot:::firstup(tolower(samp_source$`Sample Source Description`))
 csasdown::csas_table(samp_source, caption = "Sample source codes lookup table, which
   describes sampling protocols at the sample level.")
 ```
+
+\clearpage
