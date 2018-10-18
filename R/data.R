@@ -27,7 +27,7 @@ get_data <- function(type = c("A", "B"), path = ".",
 }
 
 #' Get the IPHC data for all years, should get merged into get_data at some point
-#'
+#'  but before gfsynopsis meeting we don't want to re-get all the non-IPHC data
 #' @param type A or B
 #' @param path Path
 #' @param compress TRUE or FALSE to compress .rds
