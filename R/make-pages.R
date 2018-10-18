@@ -293,6 +293,8 @@ make_pages <- function(
   # Survey biomass indices: ----------------------------------------------------
 
   dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
+    # AME - if have IPHC data for this species, insert it here and remove
+    #  existing IPHC ones. If no IPHC data then this will be NA's anyway.
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() + theme_pbs()
   } else {

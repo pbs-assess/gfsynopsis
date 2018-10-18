@@ -1,10 +1,11 @@
+# Run this from gfsynopsis/
 # library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
-devtools::load_all("../gfplot") # for development
-devtools::load_all(".")  # for development
-# library(gfplot)
-# library(gfsynopsis)
+# devtools::load_all("../gfplot") # for development
+# devtools::load_all(".")  # for development
+library(gfplot)
+library(gfsynopsis)
 library(dplyr)
-
+library(doParallel)  # needed in 'optimize png files', even for Windows
 # ------------------------------------------------------------------------------
 # Settings:
 ext <- "png" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
@@ -15,7 +16,7 @@ if (parallel) library(doParallel)
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
 dc <- file.path("report", "data-cache")
-gfsynopsis::get_data(type = c("A"), path = dc, force = FALSE)
+gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
   select(species_common_name, species_code, species_science_name, spp_w_hyphens, type)
