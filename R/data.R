@@ -45,10 +45,6 @@ get_data_iphc <- function(type = c("A", "B"), path = ".",
   if (nrow(.d) > 0L)
     gfplot::cache_pbs_data_iphc(species = .d$species_code,
       file_name = .d$spp_w_hyphens,
-      path = path, unsorted_only = FALSE, verbose = FALSE, compress = compress)
-#  if (force || !file.exists(file.path(path, "cpue-index-dat.rds"))) {
-#    .dat <- gfplot::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
-#    saveRDS(.dat, file = file.path(path, "cpue-index-dat.rds"), compress = compress)
-#  }
+      path = path, compress = compress)
 }
 
