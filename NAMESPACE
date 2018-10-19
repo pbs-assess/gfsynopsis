@@ -2,6 +2,7 @@
 
 export("%>%")
 export(fit_cpue_indices)
+export(fit_sdmTMB_westcoast)
 export(fit_survey_maps)
 export(get_data)
 export(get_spp_names)
