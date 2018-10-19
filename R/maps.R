@@ -64,7 +64,7 @@ fit_survey_maps <- function(dat,
     }
 
     if (model == "inla") {
-      model <- fit_survey_sets(.dat, survey = surv, years = years,
+      m <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "inla", mcmc_posterior_samples = 800,
         density_column = density_column,
         premade_grid = premade_grid, required_obs_percent = 0.02,
@@ -72,12 +72,12 @@ fit_survey_maps <- function(dat,
     }
     if (model == "glmmfields") {
       stop("NEED TO CHECK GLMMFIELDS")
-      model <- fit_survey_sets(.dat, survey = surv, years = years,
+      m <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "glmmfields", chains = 1, iter = 800,
         mcmc_posterior_samples = 300, n_knots = 25, ...)
     }
     if (model == "sdmTMB") {
-      model <- fit_survey_sets(.dat, survey = surv, years = years,
+      m <- fit_survey_sets(.dat, survey = surv, years = years,
         model = "sdmTMB",
         density_column = density_column, tmb_knots = 200,
         premade_grid = premade_grid, required_obs_percent = 0.02,
@@ -85,7 +85,7 @@ fit_survey_maps <- function(dat,
       # we fit all years, but just save last year for plotting:
       raw_dat <- filter(model$data, year == max(model$data$year))
     }
-    list(model = model, raw_dat = raw_dat)
+    list(model = m, raw_dat = raw_dat)
   })
 
   pred_dat <- purrr::map_df(out, function(x) data.frame(x$model$predictions, survey = x$model$survey, stringsAsFactors = FALSE))
