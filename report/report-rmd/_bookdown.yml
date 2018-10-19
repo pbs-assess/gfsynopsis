@@ -10,7 +10,10 @@ rmd_files: [
   "plot-pages.Rmd",
   "04-aging-precision.Rmd",
   "05-data.Rmd",
-  "06-modelling.Rmd",
+  "06-survey-biomass.Rmd",
+  "07-survey-spatial.Rmd",
+  "08-cpue.Rmd",
+  "09-growth-modelling.Rmd",
   "98-colophon.Rmd",
   "99-references.Rmd"
   ]

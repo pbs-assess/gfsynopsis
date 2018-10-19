@@ -1,0 +1,189 @@
+# CPUE INDEX STANDARDIZATION {#sec:cpue-models}
+
+We present two commercial bottom trawl catch per unit effort (CPUE) indices in
+the synopsis report: a 'raw' unstandardized timeseries and a 'standardized' time
+series (e.g. Figure \@ref(fig:trawl-cpue-index). The standardized time series
+follows the approach commonly employed for British Columbia groundfish stock
+assessments of using a Generalized Linear Model (GLM) to account for the
+confounding effects of month, depth, latitude, vessel, and DFO locality
+(predesignated historical geographical locations) when calculating an annual
+index value. We do this by fitting two GLMs: one to data representing whether or
+not the species of interest (e.g. Pacific Cod for a Pacific Cod CPUE index) is
+caught in a given tow (the 'binary' model),
+and a second model to data representing the CPUE conditional on a tow having caught
+at least one of that species of interest (the 'lognormal' model). This approach is
+sometimes called a delta-lognormal GLM. These two model components can then be
+combined to derive the final estimate of CPUE for a given year at a consistent
+value for all the predictors, i.e. a consistent month, depth, latitude, vessel,
+and DFO locality.
+
+For depth and latitude, we binned the values into a sequence of bands to allow
+for nonlinear relationships between these predictors and the response. For
+latitude, we used bands that are 0.2 degrees wide, start at the 2% quantile of
+the latitude values for the specific region and end at the 98% quantile of the
+latitude values. We used this quantile method to algorithmically account for
+outlying values that were often data recording errors and could cause problems
+when fitting the models. We rounded the lowest latitude bin down to the nearest
+0.2 latitude value and rounded to the upper latitude bin up to the nearest 0.2
+latitude value. For depth, we used the fishing capture depth binned into bands
+that are 50m wide. The bins start at the 1% quantile of the depth values for
+the specific region and end at the 99% quantile of the depth values. We rounded
+the lowest and highest bin values to 50m values similarly to the process for
+the latitude bins as described above.
+
+Due to the multispecies nature of the BC groundfish fishery, it is necessary to
+define rules about which vessels should be considered part of a 'fleet'
+with which to calculate a CPUE index. We follow the approach used in a number of
+recent BC groundfish stock assessments by requiring vessels to have caught the
+species in a certain number of tows across all years of interest, and to have
+passed a certain threshold of positive trips (trips that recorded some of the
+species) for a certain number of years. Our current implementation requires a
+vessel to have recorded at least 100 positive tows since 1996 and to have
+recorded at least four positive trips in at least four years since 1996. These
+decisions are in line with recent BC groundfish stock assessments
+[e.g. @starr2017pollock].
+
+We fit the binomial model (denoted with a superscript $B$) as a logistic
+regression:
+
+\begin{align}
+  y_i^B &\sim \mathrm{Binomial}(\pi_i^B)\\
+  \mathrm{logit}\left(\pi_i^B\right) &= \bm{X}_i^B \bm{\beta}^B,
+\end{align}
+
+and $i$ represents a single tow, $y_i$ represents either a 1 if a tow caught the
+species or a 0 if it did not, $\bm{X^B_i}$ represents a vector of predictors,
+$\bm{\beta^B}$ represents a vector of coefficients, and $\pi_i^B$ represents the
+estimated probability of observing the species in a tow. Details to follow on
+the specific depth and latitude bands chosen.
+
+We fit the lognormal model (denoted with a superscript $L$) as a linear model
+fit to log-transformed response data:
+
+\begin{equation}
+  \log \left(y_i^L\right) \sim \mathrm{Normal} \left(\bm{X}_i^L \bm{\beta}^L, \sigma \right),
+\end{equation}
+
+where the symbols can be interpreted as before except that $y_i^L$ represents
+the CPUE in kg per hour towed for a tow that did catch at least one of the
+species, and $\sigma$ represents the standard deviation of unexplained residual
+error.
+
+We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$ as:
+
+\begin{equation}
+  \mu_t = \mathrm{logit}^{-1} \left(\bm{X}_r^B
+    \bm{\beta}^B \right) \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
+\end{equation}
+
+or
+
+\begin{equation}
+  \mu_t = \pi_t^B \cdot \exp \left(\bm{X}_r^L \bm{\beta}^L \right)
+\end{equation}
+
+where $\bm{X_r}$ represents a vector of predictors set to the reference ($r$)
+levels with the year set to the year of interest. We chose the reference levels
+as the most frequent level of each predictor in the positive-only data
+[@maunder2004]. For example, we set the reference month as the most common
+month observed in the dataset filtered for only tows where the species was
+caught. This will have a minor effect on the shape of the final CPUE index
+because of the multiplication of the binary and positive components.
+
+Recent BC groundfish stock assessments have used a bootstrap approach to derive
+estimates of uncertainty around standardized CPUE timeseries. This proved to be
+computationally unfeasible to run for all the management areas and stocks in
+this synopsis report. Therefore we wrote the model in the statistical software
+TMB [@kristensen2016] and use standard errors ($\mathrm{SE}$) as calculated
+by TMB on $\log (\mu_t)$ via the Delta method as is commonly done for such
+models [e.g. @thorson2015]. We then calculated the 95% confidence
+intervals as $\exp (\mu_t \pm 1.96 \mathrm{SE}_t)$.
+
+We calculated the 'raw' unstandardized timeseries is calculated using a similar
+procedure but without any of the covariates other than a factor predictor for
+each year. This is equivalent to calculating the geometric mean of CPUE each
+year.
+
+We tested our implementation of this index standardization model against
+simulated data to ensure that (1) it can generate unbiased annual estimates and
+(2) the confidence intervals have the correct coverage, i.e. the confidence
+intervals contain the true known value at the expected frequency of 95%. We
+also compared our estimates qualitatively to recent estimates from similar
+models in published assessments to ensure we derived similar timeseries.
+
+For the simulation testing, as examples, we present results for two simulations
+with 10 vessels, each vessel recording data from 15 tows, 20 years of data, and
+lognormal observation error with standard deviation 0.35 (i.e., approximately
+a CV of 0.35). The standardization model then accounts for vessel ID in both
+a binary and positive component model. The delta model derives an unconditional
+estimate of CPUE after combining the two component models. The parameter
+estimates from the component models regularly fall along the one-to-one line of
+unbiased and accurate prediction (e.g. Fig. \@ref(fig:cpue-sim-cross-val)) and
+the unconditional estimates of CPUE and their confidence intervals regularly
+include the true values with correct coverage (e.g.
+Fig. \@ref(fig:cpue-sim-ts-val)).
+
+```{r cpue-model-load}
+cpue_model <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-model.rds"))
+```
+
+```{r cpue-fleet-load}
+# d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
+d_cpue_pred <- gfplot::predict_cpue_index_tweedie(cpue_model, center = FALSE)
+d_cpue_pred$formula_version <- "Full standardization"
+if (file.exists(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds")))
+  d_fleet <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds"))
+```
+
+```{r cpue-int-lines, fig.width=6, out.width="4in", fig.cap="Locality-specific CPUE index trends for a standardization model that allows for locality-year (space-time) interactions. The coloured lines indicate the locality-specific estimates with all other predictors set to their base levels. The black line and shaded ribbon indicate the overall average annual CPUE."}
+if (exists("d_fleet"))
+  plot_cpue_spaghetti(
+    model = cpue_model,
+    fleet = d_fleet,
+    index_data = d_cpue_pred,
+    era = "modern")
+```
+
+```{r cpue-tweedie-ex, fig.asp=0.7, fig.cap="Example density functions for the Tweedie distribution. The symbol $\\phi$ (written as phi in this figure) represents the dispersion parameter, $p$ represents the power parameter, and $\\mu$ represents the mean. Note that the spike in density that is seen towards the left of the panels is at a value of 0 on the x axis."}
+plot_tweedie_ex <- function(df, max = 15) {
+  xx <- seq(0, max, length.out = 1000)
+  out <- plyr::mdply(df, function(mu, power, phi) {
+    data.frame(x = xx,
+      y = tweedie::dtweedie(y = xx, mu = mu, power = power, phi = phi))
+  }) %>%
+    mutate(phi = paste("phi =", phi)) %>%
+    mutate(power = paste("p =", power)) %>%
+    mutate(mu = paste("μ =", mu))
+
+  ggplot(out, aes(x, y, colour = mu)) +
+    geom_line() +
+    facet_grid(power~phi, scales = "free") +
+    gfplot::theme_pbs() +
+    labs(colour = "μ") +
+    xlab("Value") + ylab("Density") +
+    coord_cartesian(expand = FALSE, xlim = c(-0.2, max(out$x))) +
+    scale_colour_brewer(palette = "Dark2") +
+    scale_fill_brewer(palette = "Dark2")
+}
+
+df <- expand.grid(power = c(1.2, 1.6, 1.8), mu = c(1, 3, 6), phi = c(0.5, 1, 2))
+plot_tweedie_ex(df)
+```
+
+\clearpage
+
+(ref:caption-cpue-quantile-residuals) Histograms of randomized quantile residuals [@dunn1996] for the CPUE GLMM standardization models. The histograms illustrate the actual density distribution of 10,000 randomly selected randomized quantile residuals. The dashed lines show the probability density for a normal distribution with the same standard deviation.
+
+```{r cpue-quantile-residuals, fig.cap="(ref:caption-cpue-quantile-residuals)"}
+qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
+gfplot::plot_qres_histogram(qr)
+```
+
+```{r, fig.cap="3CD eg.", eval=FALSE}
+readRDS(here::here("report/cpue-cache/petrale-sole-3CD-model.rds")) %>%
+  gfplot::qres_tweedie(response = "cpue") %>%
+  gfplot::plot_qres_histogram()
+```
+
+\clearpage
+

@@ -1,0 +1,193 @@
+# SPATIAL MODELLING OF SURVEY BIOMASS {#sec:spatial-modeling}
+
+We modelled the expected biomass density in space for each species using
+geostatistical models applied to data from the fisheries independent bottom
+trawl and long line surveys (e.g. Figure TODO). Our modeling approach is
+consistent with recent models used for spatiotemporal index standardization of
+fish populations [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016].
+Such models have been shown, for example, to improve estimates of rockfish
+abundance and distribution [@shelton2014] and improve precision when estimating
+relative abundance indices for groundfish [@thorson2015]. Our specific model
+follows the implementation in @shelton2018 closely and is implemented with INLA
+[@rue2009; @lindgren2015] via R [@rcoreteam2018], which enables rapid Bayesian
+model fitting for these large spatial data sets via the integrated nested
+Laplace approximation of the posterior distribution.
+
+At a high level, these models predict relative biomass in space as a continuous
+process with a quadratic effect for bottom depth, a random effect spatial
+surface that represents an amalgamation of spatial processes not explicitly
+included in the model, and an observation error component. After fitting the
+model to survey sets from trawl or longline surveys, the model is then
+projected to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive
+estimates of biomass throughout the survey domain.
+
+Similarly to the catch per unit effort index standardization (explained in
+Section TODO), we fit these models as 'delta' models that combine a model
+explaining the probability of occurrence of a species in a set with a model
+explaining the expected biomass in a set given that the species has been
+caught. The probability from the first model is multiplied by the expected
+biomass from the second model to derive the overall estimate of relative
+biomass.
+
+We fit the binomial occurrence models (denoted with a superscript $B$), which
+predict the probability of occurrence of a given species at location $s$,
+$\pi_s^B$ as a logistic GLMM (Generalized Linear Mixed-effects Model):
+
+$$\begin{aligned}
+  y_\mathbf{s}^B &\sim \mathrm{Binomial}(\pi_\mathbf{s}^B)\\
+  \mathrm{logit} \left(\pi_\mathbf{s}^B \right) &= \bm{X}_\mathbf{s}^B \bm{\beta}^B + \epsilon_\mathbf{s}^B,\end{aligned}$$
+
+where
+
+$$\mathrm{logit}\left(\pi \right) = \log \left( \frac{\pi}{1 - \pi} \right).$$
+
+The spatial random effects $\epsilon_\mathbf{s}^B$ are assumed to be drawn from
+a multivariate normal distribution with covariance matrix
+$\bm{\Phi}_\mathbf{s}^B$ that is centered on zero:
+
+$$\epsilon_\mathbf{s}^B \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^B \right).$$
+
+We fit the positive model (denoted with a superscript $G$ for Gamma) as a Gamma
+GLMM with a similar structure for the spatial random effects:
+
+$$\begin{aligned}
+  y_\mathbf{s}^G &\sim \mathrm{Gamma} \left( \bm{\mu}_\mathbf{s}^G, \phi^G \right)\\
+  \log \left( \bm{\mu}_\mathbf{s}^G \right) &= \bm{X}_\mathbf{s}^G \bm{\beta}^G + \epsilon_\mathbf{s}^G\\
+  \epsilon_\mathbf{s}^G &\sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^G \right)\end{aligned}$$
+
+We modeled the covariance for the spatial random effects in both the occurrence
+and positive models as a function of distance with the Mat\'ern function. The
+Mat\'ern function describes the covariance between spatial locations $s_j$ and
+$s_k$ as:
+
+$$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
+    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
+
+where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma
+function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the
+Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents
+a scaling parameter that is estimated. The parameter $\nu$ controls the
+smoothness of the covariance function. We set $\nu = 3/2$, as is commonly done
+when fitting similar spatial models [e.g. @ward2015; @thorson2015; @ono2016;
+@shelton2018], which lets the covariance function be more flexible than an
+exponential covariance function but still be differentiable [@rasmussen2004].
+
+At this stage we drew 1000 samples from the posterior distributions of
+$\pi_\mathbf{s}^B$ and $\mu_\mathbf{s}^G$ and combined them to estimate the
+unconditional posterior distribution of expected biomass in each point on
+a 2x2km spatial grid, $\mu_\mathbf{s}$ as:
+
+$$\mu_\mathbf{s} = \pi_\mathbf{s}^B \cdot \mu_\mathbf{s}^G.$$
+
+For the purposes of the maps, we summarized the posteriors by their median
+values. See Figures TODO and TODO for examples of these sub-component binary
+and positive models and the combined model. We placed Normal(0, 5) priors on
+coefficients relating standardized depth and standardized depth squared to the
+responses and Normal(0, 20) priors on the intercepts. Note that our notation is
+Normal(mean, standard deviation) not Normal(mean, variance) following the
+convention used by the Bayesian software Stan [@rstan2018].
+
+We fit the four synoptic survey data sets separately, because only two of the
+surveys are conducted each year and the surveys are disjointed in space and
+time. We combined the predictions to generate the map plots, but labelled the
+years the various surveys were conducted in. Currently, we are fitting the HBLL
+surveys as one dataset, although we plan to separate the north and south
+surveys since they are also conducted in offset years. We have projected the
+IPCC model estimates back to the original station locations for simplicity and
+to avoid having to derive a reasonable survey domain polygon.
+
+```{r sdmTMB-data}
+library(dplyr)
+library(ggplot2)
+library(sdmTMB)
+d <- readRDS(here::here("report/data-cache/pacific-cod.rds"))
+d <- d$survey_sets
+dat <- gfplot:::tidy_survey_sets(d, "SYN QCS", years = 2017)
+dat <- mutate(dat, density = density*1000*1000)
+dat <- filter(dat, !is.na(depth))
+dat <- gfplot:::scale_survey_predictors(dat)
+dat <- select(dat, -X10, -Y10)
+
+grid_locs <- gfplot:::make_prediction_grid(filter(dat, year == 2017),
+  survey = "SYN QCS", cell_width = 1.5)$grid
+grid_locs <- rename(grid_locs, depth = akima_depth)
+grid_locs$year <- NULL
+```
+
+```{r sdmTMB-spde, fig.width=9, out.width="3.7in", fig.cap="Red indicates knots. Open circles represent the locations of the survey sets. TODO"}
+spde <- make_spde(dat$X, dat$Y, n_knots = 200)
+plot_spde(spde)
+```
+
+```{r sdmTMB-model}
+m <- sdmTMB(
+  data = dat, formula = density ~ depth_scaled + depth_scaled2,
+  time = "year", spde = spde, family = tweedie(link = "log"),
+  silent = TRUE, anisotropy = FALSE
+)
+```
+
+```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Spatial residuals TODO"}
+dat$resids <- residuals(m) # randomized quantile residuals
+# hist(dat$resids)
+# qqnorm(dat$resids);abline(a = 0, b = 1)
+ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
+  geom_point() + coord_fixed() +
+  xlab("Easting") + ylab("Northing") +
+  scale_colour_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  labs(colour = 'Residual')
+```
+
+```{r sdmTMB-preds, fig.width=6, out.width="4in"}
+predictions <- predict(m, newdata = grid_locs)
+plot_map <- function(.dat, column) {
+  ggplot(.dat, aes_string("X", "Y", fill = column)) +
+    geom_raster() +
+    coord_fixed(expand = FALSE) +
+    xlab("Easting") + ylab("Northing") +
+    theme(legend.position = "bottom") +
+    geom_point(data = dat, aes(X, Y, size = density), pch = 21, inherit.aes = FALSE) +
+    scale_size_area() +
+    guides(size = FALSE)
+}
+```
+
+```{r sdmTMB-plot-depth}
+g_depth <- plot_map(grid_locs, "depth") +
+  scale_fill_viridis_c(trans = "sqrt", option = "A", direction = -1) +
+  ggtitle("Depth") +
+  labs(fill = 'Depth (m)')
+```
+
+```{r sdmTMB-plot-combined}
+g_sdm1 <- plot_map(predictions$data, "exp(est)") +
+  scale_fill_viridis_c(trans = "sqrt", option = "C") +
+  ggtitle("Prediction (depth effects + spatial random effects)") +
+  labs(fill = 'Biomass estimate\nkg/km^2')
+```
+
+```{r sdmTMB-plot-fe}
+g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
+  ggtitle("Prediction (depth effects only)") +
+  scale_fill_viridis_c(trans = "sqrt", option = "D") +
+  labs(fill = 'Biomass estimate\nkg/km^2')
+```
+
+```{r sdmTMB-plot-re}
+g_sdm3 <- plot_map(predictions$data, "est_re_s") +
+  ggtitle("Spatial random effects") +
+  scale_fill_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  labs(fill = 'Deviation from expected\nbiomass in log space')
+```
+
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod."}
+cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
+
+\clearpage
+

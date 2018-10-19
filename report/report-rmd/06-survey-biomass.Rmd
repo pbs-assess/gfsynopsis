@@ -1,0 +1,93 @@
+# SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
+
+Details on the design of the various surveys referenced in this report can be
+found in the following documents:
+
+1. Synoptic Survey, Queen Charlotte Sound (SYN QCS):  [@wyeth2018synqcs]
+
+1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI):
+  [@wyeth2017synwcvi]
+
+1. Synoptic Survey, Hecate Strait (SYN HS): [@wyeth2018synhs]
+
+1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG):
+  [@wyeth2018synwchg]
+
+1. Hard Bottom Longline Survey, Outside (HBLL OUT): [@dfo2018ifmp]
+
+1. Hard Bottom Longline Survey, Inside (HBLL INS): [@lochead2004irf]
+
+1. Hecate Strait Multispecies Assemblage Survey (MSA HS):
+  [@fargo1984hsmsa,westrheim1984hsmsa]
+
+1. International Pacific Halibut Commission fishery independent survey (IPHC
+  FISS): [@flemming2012iphc]
+
+We calculated the trawl and longline survey relative biomass index trends from
+the same design-based bootstrap approach used in recent BC groundfish stock
+assessment reports. The code to perform the calculations was originally written
+by Norm Olsen at Pacific Biological Station and is automatically applied to the
+available survey data to populate the GFBio database. We extracted the relative
+biomass values directly from GFBio. Nonetheless, we have included the relevant
+equations below for clarity.
+
+## TRAWL SURVEYS {#sec:trawl-methods}
+
+For all trawl surveys, and for a given species, we calculated the relative
+biomass density $B$ in year $y$ as:
+
+\begin{equation}
+  B_y = \sum_{i = 1}^k C_{y,i} A_i
+\end{equation}
+
+where $C_{y,i}$ represents the mean CPUE in kg/km^2^ for the
+species in year $y$ and stratum $i$, $A_i$ represents the area of stratum $i$ in
+km^2^, and $k$ represents the number of strata. We calculated
+the CPUE ($C_{y,i}$) for a given species in year $y$ and stratum $i$ as:
+
+\begin{equation}
+  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( W_{y,j} / D_{y,j} w_{y,j}\right)}{n_{y,i}}
+\end{equation}
+
+where $W_{y,j}$ represents the catch weight (kg) for the species in year $y$,
+stratum $i$, and tow $j$; $D_{y,j}$ represents the distance travelled in km by
+tow $j$ in year $y$; $w_{y,j}$ represents the net opening width in km for year
+$y$ and tow $j$; and $n_{y,i}$ represents the number of tows in year $y$ and
+stratum $i$.
+
+## LONG-LINE SURVEYS {#sec:ll-methods}
+
+For all long-line surveys, and for a given species, we calculated the relative
+biomass density $B$ in year $y$ as:
+
+\begin{equation}
+  B_y = \sum_{i = 1}^k C_{y,i} A_i
+\end{equation}
+
+where $C_{y,i}$ represents the mean CPUE in parts (fish) per
+km\textsuperscript{2} for the species in year $y$ and stratum $i$, $A_i$
+represents the area of stratum $i$ in km^2^, and $k$ represents
+the number of strata. We calculated the CPUE ($C_{y,i}$) for a given species in
+year $y$ and stratum $i$ as:
+
+\begin{equation}
+  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( N_{y,j} / H_{y,j} w_{y,j}\right)}{n_{y,i}}
+\end{equation}
+
+where $N_{y,j}$ represents the number of fish caught for the species in year
+$y$, stratum $i$, and set $j$; $H_{y,j}$ represents the number of hooks $\times$
+the hook spacing in km in set $j$ in year $y$; $w_{y,j}$ represents an arbitrary
+swept width of 30 feet or 0.009144 km for year $y$ and tow $j$; and $n_{y,i}$
+represents the number of sets in year $y$ and stratum $i$. The hook spacing is
+18 feet or 0.0054864 km for the IPHC survey and 8 feet or 0.0024384 km for
+the inside and outside HBLL surveys.
+
+## BOOTSTRAPPED CONFIDENCE INTERVALS
+
+We calculated bootstrap confidence intervals on $B_y$ by repeatedly calculating
+$B_y$ given the above equations but each time re-sampling, with replacement, from
+the available tows within each strata. We drew 1000 bootstrap replicates of
+$B_y$, $B_y^{\mathrm{rep}}$, and calculated 95% quantile-based confidence
+intervals on $B_y^{\mathrm{rep}}$.
+
+\clearpage
