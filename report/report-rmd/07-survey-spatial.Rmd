@@ -188,6 +188,7 @@ g_sdm3 <- plot_map(predictions$data, "est_re_s") +
 
 ```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod."}
 cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
+```
 
 \clearpage
 
