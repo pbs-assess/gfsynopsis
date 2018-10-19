@@ -302,6 +302,47 @@ make_pages <- function(
       col = c("grey60", "grey20"), survey_cols = survey_cols,
       xlim = c(1984, 2017))
   }
+
+  d_geostat_index <-
+    readRDS(here::here("report", "geostat-cache", "geostat-index-estimates.rds")) %>%
+    rename(survey_abbrev = survey, biomass_scaled = est,
+      lowerci_scaled = lwr, upperci_scaled = upr) %>%
+    filter(type == 'Spatiotemporal') %>%
+    filter(species == spp_file) %>%
+    group_by(survey_abbrev) %>%
+    mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) %>%
+    ungroup() %>%
+    mutate(survey_abbrev =
+        factor(survey_abbrev,
+          levels = levels(g_survey_index$data$survey_abbrev)))
+
+  if (nrow(d_geostat_index) > 0L) {
+    design_index_geo_means <- group_by(g_survey_index$data, survey_abbrev) %>%
+      summarise(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE)))
+    d_geostat_index <-
+      suppressWarnings(left_join(d_geostat_index, design_index_geo_means,
+        by = "survey_abbrev"))
+    d_geostat_index <- group_by(d_geostat_index, survey_abbrev) %>%
+      mutate(
+        lowerci_scaled = lowerci_scaled * (design_geo_mean / st_geo_mean),
+        upperci_scaled = upperci_scaled * (design_geo_mean / st_geo_mean),
+        biomass_scaled = biomass_scaled * (design_geo_mean / st_geo_mean)
+      )
+
+    g_survey_index <- g_survey_index +
+      ggplot2::geom_line(data = d_geostat_index, lty = 1, size = 0.9,
+        colour = "#00000060") +
+      ggplot2::geom_point(data = d_geostat_index, stroke = 0.8, size = 1.1,
+        pch = 21, fill = "#00000060",
+        colour = "#00000060") +
+      ggplot2::geom_ribbon(data = d_geostat_index,
+        ggplot2::aes_string(ymin = 'lowerci_scaled', ymax = 'upperci_scaled'),
+        fill = "#00000025", lty = "12", size = 0.25, colour = "#00000060")
+    g_survey_index <- suppressMessages({
+      g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
+        xlim = c(1984, 2017) + c(-0.5, 0.5), expand = FALSE)})
+  }
+
   g_survey_index <- g_survey_index +
     theme(
       axis.title.y = element_blank(),
