@@ -65,8 +65,10 @@ plyr::l_ply(seq_along(spp$species_common_name), function(i) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
+    dat_iphc <- readRDS(paste0(file.path(paste0(dc, "/iphc"),
+                                         spp$spp_w_hyphens[i]), ".rds"))
     dat$cpue_index <- d_cpue
-    gfsynopsis::make_pages(dat, spp$species_common_name[i],
+    gfsynopsis::make_pages(dat, dat_iphc, spp$species_common_name[i],
       include_map_square = FALSE,
       resolution = 160, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,

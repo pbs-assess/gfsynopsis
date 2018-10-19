@@ -292,9 +292,15 @@ make_pages <- function(
 
   # Survey biomass indices: ----------------------------------------------------
 
-  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
-    # AME - if have IPHC data for this species, insert it here and remove
-    #  existing IPHC ones. If no IPHC data then this will be NA's anyway.
+  # Get new IPHC calculations
+  iphc_set_counts_sp <- calc_iphc_full_res(dat_iphc$set_counts)
+  iphc_set_counts_sp_format <-
+                        format_iphc_longest(iphc_set_counts_sp$ser_longest)
+  # Remove existing (GFbio) based IPHC series with longer ones from new calcs
+  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index) %>%
+                           filter(survey_abbrev != "IPHC FISS") %>%
+                           rbind(iphc_set_counts_sp_format)
+
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() + theme_pbs()
   } else {
