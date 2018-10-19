@@ -1,5 +1,7 @@
 # SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
 
+<!-- TODO: Add a blurb here about the surveys in general. -->
+
 Details on the design of the various surveys referenced in this report can be
 found in the following documents:
 
@@ -89,5 +91,7 @@ $B_y$ given the above equations but each time re-sampling, with replacement, fro
 the available tows within each strata. We drew 1000 bootstrap replicates of
 $B_y$, $B_y^{\mathrm{rep}}$, and calculated 95% quantile-based confidence
 intervals on $B_y^{\mathrm{rep}}$.
+
+<!-- TODO: Add a bit about spatiotemporal index standardization and future work. Mention it is essentially the same model as the spatial model reviewed here. -->
 
 \clearpage
