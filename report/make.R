@@ -1,17 +1,15 @@
-# Run this from gfsynopsis/
-# library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
 # devtools::load_all("../gfplot") # for development
 # devtools::load_all(".")  # for development
 library(gfplot)
 library(gfsynopsis)
 library(dplyr)
 library(doParallel)  # needed in 'optimize png files', even for Windows
+
 # ------------------------------------------------------------------------------
 # Settings:
-ext <- "png" # PDF vs. PNG figs; PNG for CSAS, PDF for fast LaTeX
+ext <- "png" # PDF vs. PNG figs; PNG for CSAS
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
 parallel <- FALSE
-if (parallel) library(doParallel)
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -29,13 +27,11 @@ spp <- gfsynopsis::get_spp_names() %>%
 # make one
 # open new Terminal
 # make two
-# open new Terminal
-# make three
+# etc.
 if (exists("N")) spp <- spp[N, , drop = FALSE]
 
 # ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
-# spp <- filter(spp, species_common_name != "pacific hake")
 refs <- readr::read_csv("report/spp-refs.csv")
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
@@ -143,22 +139,8 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
+temp <- c("<!-- This page has been automatically generated. Do not edited by hand! -->\n", temp)
 if (!exists("N")) writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
-
-# ------------------------------------------------------------------------------
-# Make alphabetical index
-# Now in .Rmd files
-
-# spp_sorted <- arrange(spp, species_common_name)
-# temp_ind <- lapply(spp_sorted$species_common_name, function(x) {
-#   spp_title <- gfsynopsis:::first_cap(x)
-#   spp_latin <- spp$species_science_name[spp$species_common_name == x]
-#   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
-#   paste0(spp_title, " (*", spp_latin, "*):", " \\@ref(", spp_hyphen, ")\n")
-# })
-# temp_ind <- c("# INDEX (SORTED BY COMMON NAME)\n", temp_ind)
-# temp_ind <- paste(temp_ind, collapse = "")
-# if (!exists("N")) writeLines(temp_ind, con = "report/report-rmd/alpha-index.Rmd")
 
 # ------------------------------------------------------------------------------
 # Optimize png files for TeX
