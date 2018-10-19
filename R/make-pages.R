@@ -3,6 +3,7 @@
 #' This is the main workhorse function that creates the synopsis pages.
 #'
 #' @param dat A data list object from [gfplot::cache_pbs_data()].
+#' @param dat_iphc A data list object from [gfplot::cache_pbs_data_iphc()].
 #' @param spp A species common name.
 #' @param aspect The aspect ratio of the 2nd page.
 #' @param short_page_height_ratio The aspect ratio of the shorter first page.
@@ -42,6 +43,7 @@
 
 make_pages <- function(
   dat,
+  dat_iphc,
   spp,
   aspect = 1.35,
   short_page_height_ratio = 0.78,
