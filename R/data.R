@@ -43,7 +43,7 @@ get_data_iphc <- function(type = c("A", "B"), path = ".",
   if (!force)
     .d <- filter(.d, !spp_w_hyphens %in% already_exists)
   if (nrow(.d) > 0L)
-    gfplot::cache_pbs_data_iphc(species = .d$species_code,
+    gfplot::cache_pbs_data_iphc(species = .d$species_common_name,
       file_name = .d$spp_w_hyphens,
       path = path, compress = compress)
 }
