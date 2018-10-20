@@ -48,8 +48,7 @@ cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
     schedule, sara_status) %>%
   mutate(species_science_name = tolower(species_science_name))
 
-inner_join(spp, cosewic, by = "species_science_name") %>% View
-
+# inner_join(spp, cosewic, by = "species_science_name") %>% View
 cosewic <- filter(cosewic, !grepl("Atlantic", population))
 cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", population))
 spp <- left_join(spp, cosewic, by = "species_science_name")

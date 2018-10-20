@@ -37,6 +37,7 @@ Suggests:
     here,
     clisymbols,
     tibble,
-    taxize
+    taxize,
+    plyr
 URL: https://github.com/seananderson/gfsynopsis
 BugReports: https://github.com/seananderson/gfsynopsis/issues
