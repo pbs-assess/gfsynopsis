@@ -302,6 +302,47 @@ make_pages <- function(
       col = c("grey60", "grey20"), survey_cols = survey_cols,
       xlim = c(1984, 2017))
   }
+
+  d_geostat_index <-
+    readRDS(here::here("report", "geostat-cache", "geostat-index-estimates.rds")) %>%
+    rename(survey_abbrev = survey, biomass_scaled = est,
+      lowerci_scaled = lwr, upperci_scaled = upr) %>%
+    filter(type == 'Spatiotemporal') %>%
+    filter(species == spp_file) %>%
+    group_by(survey_abbrev) %>%
+    mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) %>%
+    ungroup() %>%
+    mutate(survey_abbrev =
+        factor(survey_abbrev,
+          levels = levels(g_survey_index$data$survey_abbrev)))
+
+  if (nrow(d_geostat_index) > 0L) {
+    design_index_geo_means <- group_by(g_survey_index$data, survey_abbrev) %>%
+      summarise(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE)))
+    d_geostat_index <-
+      suppressWarnings(left_join(d_geostat_index, design_index_geo_means,
+        by = "survey_abbrev"))
+    d_geostat_index <- group_by(d_geostat_index, survey_abbrev) %>%
+      mutate(
+        lowerci_scaled = lowerci_scaled * (design_geo_mean / st_geo_mean),
+        upperci_scaled = upperci_scaled * (design_geo_mean / st_geo_mean),
+        biomass_scaled = biomass_scaled * (design_geo_mean / st_geo_mean)
+      )
+
+    g_survey_index <- g_survey_index +
+      ggplot2::geom_line(data = d_geostat_index, lty = 1, size = 0.85,
+        colour = "#00000050") +
+      ggplot2::geom_point(data = d_geostat_index, stroke = 0.8, size = 1.05,
+        pch = 21, fill = "grey70",
+        colour = "grey45") +
+      ggplot2::geom_ribbon(data = d_geostat_index,
+        ggplot2::aes_string(ymin = 'lowerci_scaled', ymax = 'upperci_scaled'),
+        fill = "#00000025", lty = "12", size = 0.25, colour = "#00000060")
+    g_survey_index <- suppressMessages({
+      g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
+        xlim = c(1984, 2017) + c(-0.5, 0.5), expand = FALSE)})
+  }
+
   g_survey_index <- g_survey_index +
     theme(
       axis.title.y = element_blank(),
@@ -518,7 +559,7 @@ make_pages <- function(
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
       species = spp,
-      # model = "inla", verbose = FALSE, max_edge = c(30, 100))
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
       model = "sdmTMB", silent = TRUE, years = 2016:2017)
     syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
@@ -530,7 +571,7 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = "IPHC FISS",
-      # model = "inla", verbose = FALSE, max_edge = c(30, 100))
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
       model = "sdmTMB", silent = TRUE, years = 2016:2017)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
@@ -542,7 +583,7 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = c("HBLL OUT N", "HBLL OUT S"),
-      # model = "inla", verbose = FALSE, max_edge = c(30, 100))
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
       model = "sdmTMB", silent = TRUE, years = 2016:2017)
     hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
