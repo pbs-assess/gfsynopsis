@@ -18,6 +18,8 @@ gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
   select(species_common_name, species_code, species_science_name, spp_w_hyphens, type)
+dat_geostat_index <- readRDS(here::here("report", "geostat-cache",
+  "geostat-index-estimates.rds"))
 
 # ------------------------------------------------------------------------------
 # This section is used for hacked parallel processing from the command line.
@@ -63,6 +65,7 @@ plyr::l_ply(seq_along(spp$species_common_name), function(i) {
     dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
     dat$cpue_index <- d_cpue
     gfsynopsis::make_pages(dat, spp$species_common_name[i],
+      d_geostat_index = dat_geostat_index,
       include_map_square = FALSE,
       resolution = 160, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,

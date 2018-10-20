@@ -4,6 +4,7 @@
 #'
 #' @param dat A data list object from [gfplot::cache_pbs_data()].
 #' @param spp A species common name.
+#' @param d_geostat_index d_geostat_index
 #' @param aspect The aspect ratio of the 2nd page.
 #' @param short_page_height_ratio The aspect ratio of the shorter first page.
 #' @param width The width of a page.
@@ -43,6 +44,7 @@
 make_pages <- function(
   dat,
   spp,
+  d_geostat_index,
   aspect = 1.35,
   short_page_height_ratio = 0.78,
   width = 11.5,
@@ -303,8 +305,7 @@ make_pages <- function(
       xlim = c(1984, 2017))
   }
 
-  d_geostat_index <-
-    readRDS(here::here("report", "geostat-cache", "geostat-index-estimates.rds")) %>%
+  d_geostat_index <- d_geostat_index %>%
     rename(survey_abbrev = survey, biomass_scaled = est,
       lowerci_scaled = lwr, upperci_scaled = upr) %>%
     filter(type == 'Spatiotemporal') %>%
