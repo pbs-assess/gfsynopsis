@@ -139,8 +139,6 @@ temp <- lapply(spp$species_common_name, function(x) {
   if (.b_section) {
     i <- i + 1
     out[[i]] <- "# SYNOPSIS PLOTS: TYPE B SPECIES {#sec:synopsis-plots-B}\n"
-    i <- i + 1
-    out[[i]] <- "\\clearpage\n"
   }
   i <- i + 1
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
