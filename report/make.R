@@ -1,9 +1,9 @@
 # Run this from gfsynopsis/
 # library(INLA) # FIXME: could not find function "inla.models" on Windows? #31
-# devtools::load_all("../gfplot") # for development
-# devtools::load_all(".")  # for development
-library(gfplot)
-library(gfsynopsis)
+devtools::load_all("../gfplot") # for development
+devtools::load_all(".")  # for development
+# library(gfplot)
+# library(gfsynopsis)
 library(dplyr)
 library(doParallel)  # needed in 'optimize png files', even for Windows
 # ------------------------------------------------------------------------------
