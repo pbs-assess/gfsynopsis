@@ -29,6 +29,9 @@ geometric mean.}
 an arithmetic 'ratio estimator' CPUE (summed catch for this species divided
 by summed effort for the entire fleet) (if \code{TRUE}) or a GLM / GLMM with
 only a year predictor.}
+
+\item{parallel}{Should the various areas be fit in parallel? Make sure you
+have enough memory.}
 }
 \description{
 This function helps it fit the CPUE standardization models across multiple
