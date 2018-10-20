@@ -25,7 +25,4 @@ bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 csl: csl/csas.csl
 lot: true
 lof: true
-# Any extra LaTeX code for the header:
-# header-includes:
-# - \usepackage{tikz}
 ---

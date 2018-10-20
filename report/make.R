@@ -17,10 +17,42 @@ dc <- here::here("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
-  select(species_common_name, species_code, species_science_name, spp_w_hyphens, type)
+  select(species_common_name, species_code, species_science_name, spp_w_hyphens,
+    type, itis_tsn)
 dat_geostat_index <- readRDS(here::here("report", "geostat-cache",
   "geostat-index-estimates.rds"))
 
+# ------------------------------------------------------------------------------
+
+if (!file.exists(here::here("report", "itis.rds"))) {
+  cls <- taxize::classification(spp$itis_tsn, db = 'itis')
+  saveRDS(cls, file = here::here("report", "itis.rds"))
+} else {
+  cls <- readRDS(here::here("report", "itis.rds"))
+}
+cls <- plyr::ldply(cls) %>%
+  rename(itis_tsn = .id) %>%
+  filter(rank %in% c('order', 'family')) %>%
+  reshape2::dcast(itis_tsn ~ rank, value.var = 'name')
+spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
+  by = "itis_tsn")
+
+if (!file.exists(here::here("report", "cosewic.rds"))) {
+  cosewic <- gfplot::get_sara_dat()
+  saveRDS(cosewic, file = here::here("report", "cosewic.rds"))
+} else {
+  cosewic <- readRDS(here::here("report", "cosewic.rds"))
+}
+cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
+  select(species_science_name, population, range, cosewic_status,
+    schedule, sara_status) %>%
+  mutate(species_science_name = tolower(species_science_name))
+
+inner_join(spp, cosewic, by = "species_science_name") %>% View
+
+cosewic <- filter(cosewic, !grepl("Atlantic", population))
+cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", population))
+spp <- left_join(spp, cosewic, by = "species_science_name")
 # ------------------------------------------------------------------------------
 # This section is used for hacked parallel processing from the command line.
 # Unecessary, but speeds up rebuilding.
@@ -45,6 +77,7 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
+
 spp <- arrange(spp, type, species_code)
 
 # ------------------------------------------------------------------------------
@@ -95,6 +128,8 @@ temp <- lapply(spp$species_common_name, function(x) {
   resdoc <- spp$resdoc[spp$species_common_name == x]
   species_code <- spp$species_code[spp$species_common_name == x]
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
+  sara_status <- spp$sara_status[spp$species_common_name == x]
+  cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   .b_section <- spp$b_section[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
@@ -105,21 +140,39 @@ temp <- lapply(spp$species_common_name, function(x) {
   if (.b_section) {
     i <- i + 1
     out[[i]] <- "# SYNOPSIS PLOTS: TYPE B SPECIES {#sec:synopsis-plots-B}\n"
+    i <- i + 1
+    out[[i]] <- "\\clearpage\n"
   }
   i <- i + 1
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
-  out[[i]] <- paste0(gfsynopsis:::emph(latin_name),
-    ", DFO species code: ", species_code, "\n")
+  out[[i]] <- paste0(
+    gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
+    "Order: ", spp$order[spp$species_common_name == x], ", ",
+    "Family: ", spp$family[spp$species_common_name == x],
+    # "Species code: ", species_code,
+    "\n")
   i <- i + 1
-  out[[i]] <- paste0(resdoc_text, resdoc, "\n")
+  out[[i]] <- paste0(resdoc_text, resdoc, "\\")
   i <- i + 1
-  out[[i]] <- paste0(sar_text, sar, "\n")
+  out[[i]] <- paste0(sar_text, sar, "\\")
   i <- i + 1
   if (!is.na(other_ref)) {
     if (other_ref != "") {
       out[[i]] <- paste0(other_ref)
+      if (!is.na(cosewic_status) && cosewic_status != "")
+        out[[i]] <- paste0(out[[i]], "\\")
       i <- i + 1
+    }
+  }
+  if (!is.na(cosewic_status)) {
+    if (cosewic_status != "") {
+      out[[i]] <- paste0("COSEWIC status: ", cosewic_status)
+      if (!is.na(sara_status))
+        if (sara_status != "")
+          out[[i]] <- paste0(out[[i]], ", SARA status: ", sara_status)
+        out[[i]] <- paste0(out[[i]], "\n")
+        i <- i + 1
     }
   }
   out[[i]] <- "\\begin{figure}[b!]"

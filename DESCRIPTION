@@ -36,6 +36,7 @@ Suggests:
     csasdown (>= 0.0.3),
     here,
     clisymbols,
-    tibble
+    tibble,
+    taxize
 URL: https://github.com/seananderson/gfsynopsis
 BugReports: https://github.com/seananderson/gfsynopsis/issues
