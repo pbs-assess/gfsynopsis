@@ -330,11 +330,11 @@ make_pages <- function(
       )
 
     g_survey_index <- g_survey_index +
-      ggplot2::geom_line(data = d_geostat_index, lty = 1, size = 0.9,
-        colour = "#00000060") +
-      ggplot2::geom_point(data = d_geostat_index, stroke = 0.8, size = 1.1,
-        pch = 21, fill = "#00000060",
-        colour = "#00000060") +
+      ggplot2::geom_line(data = d_geostat_index, lty = 1, size = 0.85,
+        colour = "#00000050") +
+      ggplot2::geom_point(data = d_geostat_index, stroke = 0.8, size = 1.05,
+        pch = 21, fill = "grey70",
+        colour = "grey45") +
       ggplot2::geom_ribbon(data = d_geostat_index,
         ggplot2::aes_string(ymin = 'lowerci_scaled', ymax = 'upperci_scaled'),
         fill = "#00000025", lty = "12", size = 0.25, colour = "#00000060")
