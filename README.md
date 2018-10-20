@@ -22,7 +22,7 @@ devtools::install_github("pbs-assess/csasdown")
 source("report/make.R")
 ```
 
-4. Wait for a long time for all the data to download, all the models to fit, and all the plots to generate. If you are starting from scratch that it may take a day or so to fit all the commercial CPUE index standardization models. If you already have these results cached, then it could take anywhere from ~10 minutes to a couple hours depending what needs to be built.
+4. Wait for a long time for all the data to download, all the models to fit, and all the plots to generate. If you are starting from scratch then it may take a day or so to fit all the commercial CPUE index standardization models. If you already have these results cached, then it could take anywhere from ~10 minutes to a couple hours depending what needs to be built.
 
 5. In RStudio, open `gfsynopsis/report/report-rmd/index.Rmd` and click the "Knit" button, or in any R console run:
 
