@@ -42,10 +42,27 @@ the gfplot package version 0.1.1. The document was compiled with R package
 csasdown version 0.0.1. The specific versions used to generate this report can
 be installed with:
 
-```{r, eval=FALSE, echo=TRUE}
-devtools::install_github("pbs-assess/gfplot", ref = "f55710d")
-devtools::install_github("pbs-assess/csasdown", ref = "baf78d8")
+```{r get-git-hashes}
+get_sha <- function(path) {
+  suppressWarnings({
+    sha <- system(paste0("git ls-remote git@github.com:", path, ".git"), 
+      intern = TRUE, ignore.stderr = TRUE)
+  })
+  if (is.null(attr(sha, "status")))
+    substr(sha[grepl("HEAD", sha)], 1, 7)
+  else
+    ""
+}
+sha_gfplot <- get_sha("pbs-assess/gfplot")
+sha_gfsynopsis <- get_sha("pbs-assess/gfsynopsis")
+sha_sdmTMB <- get_sha("seananderson/sdmTMB")
+sha_csasdown <- get_sha("pbs-assess/csasdown")
 ```
+
+`devtools::install_github('pbs-assess/gfplot', ref = '`r sha_gfplot`')`\
+`devtools::install_github('pbs-assess/gfsynopsis', ref = '`r sha_gfsynopsis`')`\
+`devtools::install_github('pbs-assess/sdmTMB', ref = '`r sha_sdmTMB`')`\
+`devtools::install_github('pbs-assess/csasdown', ref = '`r sha_csasdown`')`\
 
 \clearpage
 
