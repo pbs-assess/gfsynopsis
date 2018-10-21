@@ -100,7 +100,7 @@ for (i in seq_along(spp$species_common_name)) {
   if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
-    dat <- readRDS(paste0(dc, spp$spp_w_hyphens[i]), ".rds")
+    dat <- readRDS(paste0(dc, spp$spp_w_hyphens[i], ".rds"))
     dat$cpue_index <- d_cpue
     gfsynopsis::make_pages(
       dat = dat,
