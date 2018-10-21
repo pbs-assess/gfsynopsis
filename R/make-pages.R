@@ -52,7 +52,7 @@ make_pages <- function(
   resolution = 170,
   png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp),
-  report_folder = here::here("report"),
+  report_folder = "report",
   include_map_square = FALSE,
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
