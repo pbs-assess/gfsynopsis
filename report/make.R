@@ -1,34 +1,42 @@
-devtools::load_all("../gfplot") # for development
-devtools::load_all(".")  # for development
+# This file generates all the main synopsis figures in `report/figure-pages`.
+# It must be run before the report can be rendered.
+library(here)
+library(dplyr)
+
+# for rapid development:
+if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
+if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
+devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
+devtools::install(quick = TRUE, dependencies = FALSE)
+
+# for production use:
 # library(gfplot)
 # library(gfsynopsis)
-library(dplyr)
-library(doParallel)  # needed in 'optimize png files', even for Windows
 
 # ------------------------------------------------------------------------------
 # Settings:
-ext <- "png" # PDF vs. PNG figs; PNG for CSAS
+ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
-parallel <- FALSE
+optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
-dc <- here::here("report", "data-cache")
+dc <- here("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
   select(species_common_name, species_code, species_science_name, spp_w_hyphens,
     type, itis_tsn)
-dat_geostat_index <- readRDS(here::here("report", "geostat-cache",
+dat_geostat_index <- readRDS(here("report", "geostat-cache",
   "geostat-index-estimates.rds"))
 
 # ------------------------------------------------------------------------------
 
-if (!file.exists(here::here("report", "itis.rds"))) {
+if (!file.exists(here("report", "itis.rds"))) {
   cls <- taxize::classification(spp$itis_tsn, db = 'itis')
-  saveRDS(cls, file = here::here("report", "itis.rds"))
+  saveRDS(cls, file = here("report", "itis.rds"))
 } else {
-  cls <- readRDS(here::here("report", "itis.rds"))
+  cls <- readRDS(here("report", "itis.rds"))
 }
 cls <- plyr::ldply(cls) %>%
   rename(itis_tsn = .id) %>%
@@ -37,11 +45,11 @@ cls <- plyr::ldply(cls) %>%
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
 
-if (!file.exists(here::here("report", "cosewic.rds"))) {
+if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
-  saveRDS(cosewic, file = here::here("report", "cosewic.rds"))
+  saveRDS(cosewic, file = here("report", "cosewic.rds"))
 } else {
-  cosewic <- readRDS(here::here("report", "cosewic.rds"))
+  cosewic <- readRDS(here("report", "cosewic.rds"))
 }
 cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
   select(species_science_name, population, range, cosewic_status,
@@ -52,20 +60,23 @@ cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
 cosewic <- filter(cosewic, !grepl("Atlantic", population))
 cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", population))
 spp <- left_join(spp, cosewic, by = "species_science_name")
+
 # ------------------------------------------------------------------------------
 # This section is used for hacked parallel processing from the command line.
-# Unecessary, but speeds up rebuilding.
-# e.g. from root project folder in macOS or Linux:
+# Unecessary, but speeds up rebuilding and no proper form of parallel processing
+# seems to work in the figure building.
+# e.g. from root project folder in macOS or Linux or maybe Cygwin on Windows:
 # open new Terminal
 # make one
 # open new Terminal
 # make two
 # etc.
+if (exists("N")) warning("A global variable `N` exists; filtering by N.")
 if (exists("N")) spp <- spp[N, , drop = FALSE]
 
 # ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
-refs <- readr::read_csv("report/spp-refs.csv")
+refs <- readr::read_csv(here("report/spp-refs.csv"))
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
@@ -76,33 +87,29 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
-
 spp <- arrange(spp, type, species_code)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
-
-# i <- which(spp$species_common_name  ==  'kelp greenling')
-
-if (parallel) registerDoParallel(cores = floor(parallel::detectCores()/2))
-plyr::l_ply(seq_along(spp$species_common_name), function(i) {
-# for (i in seq_along(spp$species_common_name)) {
-  fig_check <- paste0(file.path("report", "figure-pages"), "/",
+# i <- which(spp$species_common_name  ==  'kelp greenling') # for debugging
+for (i in seq_along(spp$species_common_name)) {
+  fig_check <- paste0(here("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
   fig_check1 <- paste0(fig_check, "-1.", ext)
   fig_check2 <- paste0(fig_check, "-2.", ext)
   if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
-    dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
+    dat <- readRDS(paste0(here(dc, spp$spp_w_hyphens[i]), ".rds"))
     dat$cpue_index <- d_cpue
-    gfsynopsis::make_pages(dat, spp$species_common_name[i],
+    gfsynopsis::make_pages(
+      dat = dat,
+      spp = spp$species_common_name[i],
       d_geostat_index = dat_geostat_index,
       include_map_square = FALSE,
-      resolution = 160, # balance size with resolution
+      resolution = 170, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
-      parallel = FALSE,
-
+      parallel = FALSE, # for CPUE fits; need a lot of memory if true!
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
@@ -112,11 +119,15 @@ plyr::l_ply(seq_along(spp$species_common_name), function(i) {
     cat(crayon::green(clisymbols::symbol$tick),
       "Figure pages for", spp$species_common_name[i], "already exist\n")
   }
-}, .parallel = parallel)
+}
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
+
+# Set a flag for the first Type B species to create a new section:
 spp$b_section <- c(FALSE, diff(as.numeric(as.factor(spp$type))) == 1)
+
+# Generate `plot-pages.Rmd`:
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   spp_title <- gfsynopsis:::all_cap(x)
@@ -147,12 +158,16 @@ temp <- lapply(spp$species_common_name, function(x) {
     gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
-    # "Species code: ", species_code,
     "\n")
-  i <- i + 1
-  out[[i]] <- paste0(resdoc_text, resdoc, "\\")
-  i <- i + 1
-  out[[i]] <- paste0(sar_text, sar, "\\")
+  print(resdoc)
+  if (resdoc != "") {
+    i <- i + 1
+    out[[i]] <- paste0(resdoc_text, resdoc, "\\")
+  }
+  if (sar != "") {
+    i <- i + 1
+    out[[i]] <- paste0(sar_text, sar, "\\")
+  }
   i <- i + 1
   if (!is.na(other_ref)) {
     if (other_ref != "") {
@@ -174,7 +189,8 @@ temp <- lapply(spp$species_common_name, function(x) {
   }
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
-  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-1.", ext, "}")
+  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/",
+    spp_file, "-1.", ext, "}")
   i <- i + 1
   out[[i]] <- "\\end{figure}"
   i <- i + 1
@@ -182,7 +198,8 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
-  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/", spp_file, "-2.", ext, "}")
+  out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/",
+    spp_file, "-2.", ext, "}")
   i <- i + 1
   out[[i]] <- "\\end{figure}\n"
   i <- i + 1
@@ -193,23 +210,25 @@ temp <- lapply(spp$species_common_name, function(x) {
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
 temp <- c("<!-- This page has been automatically generated. Do not edited by hand! -->\n", temp)
-if (!exists("N")) writeLines(temp, con = "report/report-rmd/plot-pages.Rmd")
+if (!exists("N"))
+  writeLines(temp, con = here("report", "report-rmd", "plot-pages.Rmd"))
 
 # ------------------------------------------------------------------------------
 # Optimize png files for TeX
 
-if (!exists("N")) {
+if (!exists("N") && optimize_png) {
   cores <- parallel::detectCores()
   files_per_core <- ceiling(length(spp$species_common_name)*2/cores)
-  setwd("report/figure-pages")
+  setwd(here("report/figure-pages"))
   if (!gfplot:::is_windows()) {
     system(paste0("find -X . -name '*.png' -print0 | xargs -0 -n ",
       files_per_core, " -P ", cores, " optipng -strip all"))
   } else {
-    registerDoParallel(cores = cores)
+    library(doParallel)
+    doParallel::registerDoParallel(cores = cores)
     fi <- list.files(".", "*.png")
     plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
       .parallel = TRUE)
   }
-  setwd("../..")
+  setwd(here())
 }
