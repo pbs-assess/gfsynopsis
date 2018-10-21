@@ -1,100 +1,38 @@
 # SPATIAL MODELLING OF SURVEY BIOMASS {#sec:spatial-modeling}
 
-We modelled the expected biomass density in space for each species using
-geostatistical models applied to data from the fisheries independent bottom
-trawl and long line surveys (e.g. Figure TODO). Our modeling approach is
-consistent with recent models used for spatiotemporal index standardization of
-fish populations [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016].
-Such models have been shown, for example, to improve estimates of rockfish
-abundance and distribution [@shelton2014] and improve precision when estimating
-relative abundance indices for groundfish [@thorson2015]. Our specific model
-follows the implementation in @shelton2018 closely and is implemented with INLA
-[@rue2009; @lindgren2015] via R [@rcoreteam2018], which enables rapid Bayesian
-model fitting for these large spatial data sets via the integrated nested
-Laplace approximation of the posterior distribution.
+We modelled the expected biomass density in space for each species using geostatistical models applied to data from the fisheries independent bottom trawl and long line surveys (e.g. Figure \@ref(fig:survey-maps)). Our modeling approach is consistent with recent models used for spatiotemporal index standardization of fish populations [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been shown, for example, to improve estimates of rockfish abundance and distribution [@shelton2014] and improve precision when estimating relative abundance indices for groundfish [@thorson2015]. Our specific model is implemented with INLA [@rue2009; @lindgren2015] and TMB (REF) via R [@rcoreteam2018], which enables rapid model fitting for these large spatial data sets.
 
-At a high level, these models predict relative biomass in space as a continuous
-process with a quadratic effect for bottom depth, a random effect spatial
-surface that represents an amalgamation of spatial processes not explicitly
-included in the model, and an observation error component. After fitting the
-model to survey sets from trawl or longline surveys, the model is then
-projected to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive
-estimates of biomass throughout the survey domain.
+At a high level, these models predict relative biomass in space as a continuous process with a quadratic effect for bottom depth, a random effect spatial surface that represents an amalgamation of spatial processes not explicitly included in the model, and an observation error component. After fitting the model to survey sets from trawl or longline surveys, we then project the model predictions on to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive estimates of biomass throughout the survey domain.
 
-Similarly to the catch per unit effort index standardization (explained in
-Section TODO), we fit these models as 'delta' models that combine a model
-explaining the probability of occurrence of a species in a set with a model
-explaining the expected biomass in a set given that the species has been
-caught. The probability from the first model is multiplied by the expected
-biomass from the second model to derive the overall estimate of relative
-biomass.
+Similarly to the commercial catch per unit effort standardization models, these models can be represented as Tweedie GLMMs (Generalized Linear Mixed-effects Models) with a log link:
 
-We fit the binomial occurrence models (denoted with a superscript $B$), which
-predict the probability of occurrence of a given species at location $s$,
-$\pi_s^B$ as a logistic GLMM (Generalized Linear Mixed-effects Model):
+\begin{align}
+  y_s &\sim \mathrm{Tweedie}(\mu_s, p, \phi), \quad 1 < p < 2,\\
+  \mu_s &= \exp \left( \bm{X}_s \bm{\beta} + \omega_s \right),
+\end{align}
 
-$$\begin{aligned}
-  y_\mathbf{s}^B &\sim \mathrm{Binomial}(\pi_\mathbf{s}^B)\\
-  \mathrm{logit} \left(\pi_\mathbf{s}^B \right) &= \bm{X}_\mathbf{s}^B \bm{\beta}^B + \epsilon_\mathbf{s}^B,\end{aligned}$$
+where $s$ represents a spatial location, $y_s$ represents observed fish density for a survey set, $\mu_s$ represents expected fish density, $p$ represents the Tweedie power parameter, and $\phi$ represents the Tweedie dispersion parameter. The vector $\bm{X_s}$ represents a vector of predictors (here a 1 for an intercept, depth, and depth squared) and $\bm{\beta}$ represents a corresponding vector of coefficients. The spatial random effects $\omega_s$ are assumed to be drawn from a multivariate normal distribution with a covariance matrix $\bm{\Sigma}_\omega$ that is centered on zero:
 
-where
+$$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
 
-$$\mathrm{logit}\left(\pi \right) = \log \left( \frac{\pi}{1 - \pi} \right).$$
+We constrain the spatial random effects to follow a Mat\'ern covariance function... TODO
 
-The spatial random effects $\epsilon_\mathbf{s}^B$ are assumed to be drawn from
-a multivariate normal distribution with covariance matrix
-$\bm{\Phi}_\mathbf{s}^B$ that is centered on zero:
 
-$$\epsilon_\mathbf{s}^B \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^B \right).$$
+<!-- The Mat\'ern function describes the covariance between spatial locations $s_j$ and $s_k$ as: -->
 
-We fit the positive model (denoted with a superscript $G$ for Gamma) as a Gamma
-GLMM with a similar structure for the spatial random effects:
+<!-- $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1} -->
+<!--     (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$ -->
 
-$$\begin{aligned}
-  y_\mathbf{s}^G &\sim \mathrm{Gamma} \left( \bm{\mu}_\mathbf{s}^G, \phi^G \right)\\
-  \log \left( \bm{\mu}_\mathbf{s}^G \right) &= \bm{X}_\mathbf{s}^G \bm{\beta}^G + \epsilon_\mathbf{s}^G\\
-  \epsilon_\mathbf{s}^G &\sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Phi}_\mathbf{s}^G \right)\end{aligned}$$
+<!-- where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents a scaling parameter that is estimated.  -->
 
-We modeled the covariance for the spatial random effects in both the occurrence
-and positive models as a function of distance with the Mat\'ern function. The
-Mat\'ern function describes the covariance between spatial locations $s_j$ and
-$s_k$ as:
+<!-- The parameter $\nu$ controls the smoothness of the covariance function. We set $\nu = 3/2$, as is commonly done when fitting similar spatial models [e.g. @ward2015; @thorson2015; @ono2016; @shelton2018], which lets the covariance function be more flexible than an exponential covariance function but still be differentiable [@rasmussen2004]. -->
 
-$$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
-    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
-
-where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma
-function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the
-Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents
-a scaling parameter that is estimated. The parameter $\nu$ controls the
-smoothness of the covariance function. We set $\nu = 3/2$, as is commonly done
-when fitting similar spatial models [e.g. @ward2015; @thorson2015; @ono2016;
-@shelton2018], which lets the covariance function be more flexible than an
-exponential covariance function but still be differentiable [@rasmussen2004].
-
-At this stage we drew 1000 samples from the posterior distributions of
-$\pi_\mathbf{s}^B$ and $\mu_\mathbf{s}^G$ and combined them to estimate the
-unconditional posterior distribution of expected biomass in each point on
-a 2x2km spatial grid, $\mu_\mathbf{s}$ as:
-
-$$\mu_\mathbf{s} = \pi_\mathbf{s}^B \cdot \mu_\mathbf{s}^G.$$
-
-For the purposes of the maps, we summarized the posteriors by their median
-values. See Figures TODO and TODO for examples of these sub-component binary
-and positive models and the combined model. We placed Normal(0, 5) priors on
-coefficients relating standardized depth and standardized depth squared to the
-responses and Normal(0, 20) priors on the intercepts. Note that our notation is
-Normal(mean, standard deviation) not Normal(mean, variance) following the
-convention used by the Bayesian software Stan [@rstan2018].
+Instead of directly using depth and depth squared, we first centre the log -ransformed depth covariate by subtracting its mean and scaling it by its standard deviation. We then calculate "depth squared" from this centred and scaled variable. This ensures the covariate values are not too big or small to avoid computational issues and the centering separates the linear and quadratic predictor components.
 
 We fit the four synoptic survey data sets separately, because only two of the
 surveys are conducted each year and the surveys are disjointed in space and
-time. We combined the predictions to generate the map plots, but labelled the
-years the various surveys were conducted in. Currently, we are fitting the HBLL
-surveys as one dataset, although we plan to separate the north and south
-surveys since they are also conducted in offset years. We have projected the
-IPCC model estimates back to the original station locations for simplicity and
-to avoid having to derive a reasonable survey domain polygon.
+time. Similarly, we fit the North and South HBLL surveys independently. We combined the predictions to generate the map plots, but labelled the
+years the various surveys were conducted in.
 
 ```{r sdmTMB-data}
 library(dplyr)
