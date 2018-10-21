@@ -6,7 +6,6 @@ Description: Facilitates the creation of reproducible data synopsis report for
 Authors@R: c(person("Sean", "Anderson",
     email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
     person("Elise", "Keppel", role = "aut"))
-Encoding: UTF-8
 ByteCompile: true
 Depends: R (>= 3.2.0)
 License: GPL (>=2)
