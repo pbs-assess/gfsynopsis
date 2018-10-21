@@ -1,6 +1,8 @@
 \clearpage
 
-# MATURITY OGIVES {#sec:maturity-models}
+# GROWTH AND MATURITY {#sec:growth-and-maturity}
+
+## MATURITY OGIVES {#sec:maturity-models}
 
 We fit maturity ogives as logistic regressions of maturity (mature vs.\ not
 mature) against length or age:
@@ -18,7 +20,7 @@ mature. We only fit these models if there are at least 20 mature males, 20
 immature males, 20 mature females, and 20 immature females to ensure reasonably
 representative sampling and sufficient sample sizes.
 
-# LENGTH-AGE MODELS {#sec:length-age-models}
+## LENGTH-AGE MODELS {#sec:length-age-models}
 
 We fit von Bertalanffy length-age growth models [@vonbertalanffy1938] with
 Stan [@rstan2018] as:
@@ -49,7 +51,7 @@ model fits shown in this synopsis report are derived from the mode of the
 marginal posterior distributions (MPD) as opposed to from full Markov chain
 Monte Carlo (MCMC) sampling.
 
-# LENGTH-WEIGHT MODELS {#sec:length-weight-models}
+## LENGTH-WEIGHT MODELS {#sec:length-weight-models}
 
 We fit the length-weight models as robust linear regressions of log(length) on
 log(weight) using the `MASS::rlm()` function 'M'-estimator method
