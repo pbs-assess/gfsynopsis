@@ -209,7 +209,7 @@ plot_map_spt(predictions$data, "exp(est)") +
   labs(fill = 'Biomass estimate\nkg/km^2')
 ```
 
-```{r sdmTMB-spt-plot-all-effects-sqrt, fig.width=8, fig.cap='Predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a square-root-distributed colour scale. The square root transformation generates what is probably a realistic representation of the distribution of expected biomass and is used throughout the report.'}
+```{r sdmTMB-spt-plot-all-effects-sqrt, fig.width=8, fig.cap='Predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a square-root-distributed colour scale. The square root transformation generates what is probably a more realistic visual representation of the distribution of expected biomass and is used throughout the report.'}
 plot_map_spt(predictions$data, "exp(est)") +
   ggtitle("Prediction (fixed effects + all random effects)") +
   scale_fill_viridis_c(trans = "sqrt", option = "C") +
