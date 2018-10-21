@@ -124,7 +124,7 @@ We chose to not include depth and depth squared as predictors in this model beca
 
 We find there was little difference in the predicted index for most stocks (e.g. Figure \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)). The main difference lies in the model with depth predictors having slightly less smooth productions of biomass and space.
 
-We can look at the individual components of the model. For the models without fixed effect predictors for depth, the fixed effect predictions each year are constant spatially (Figure \@ref(fig:sdmTMB-spt-plot-fix-defects)).
+We can look at the individual components of the model. For the models without fixed effect predictors for depth, the fixed effect predictions each year are constant spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)).
 
 The spatial random effects are constant across years (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)) and the spatiotemporal random effects vary across years (Figure \@ref(fig:sdmTMB-spt-plot-spatiotemporal-effects)).
 
