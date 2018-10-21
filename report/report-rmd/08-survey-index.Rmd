@@ -27,7 +27,7 @@ found in the following documents:
 
 The main biomass index trends illustrated on the figure pages represent the
 design-based index trends that have historically been used in Pacific Biological
-Station groundfish dock assessments. We calculated the trawl and longline survey
+Station groundfish stock assessments. We calculated the trawl and longline survey
 relative biomass index trends from the same design-based bootstrap approach used
 in recent BC groundfish stock assessment reports. The code to perform the
 calculations was originally written by Norm Olsen at Pacific Biological Station
