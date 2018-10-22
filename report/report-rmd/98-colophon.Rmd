@@ -45,7 +45,7 @@ be installed with:
 ```{r get-git-hashes}
 get_sha <- function(path) {
   suppressWarnings({
-    sha <- tryCatch(system(paste0("gtlit ls-remote git@github.com:", path, ".git"), 
+    sha <- tryCatch(system(paste0("git ls-remote git@github.com:", path, ".git"), 
       intern = TRUE, ignore.stderr = TRUE), error = function(e) " ")
   })
   if (is.null(attr(sha, "status")))
