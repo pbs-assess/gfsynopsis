@@ -4,7 +4,7 @@
 \alias{make_pages}
 \title{Make synopsis pages}
 \usage{
-make_pages(dat, spp, d_geostat_index, aspect = 1.35,
+make_pages(dat, dat_iphc, spp, d_geostat_index, aspect = 1.35,
   short_page_height_ratio = 0.78, width = 11.5, debug = FALSE,
   resolution = 170, png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp), report_folder = "report",
@@ -18,6 +18,8 @@ make_pages(dat, spp, d_geostat_index, aspect = 1.35,
 }
 \arguments{
 \item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
+
+\item{dat_iphc}{A data list object from \code{\link[gfplot:cache_pbs_data_iphc]{gfplot::cache_pbs_data_iphc()}}.}
 
 \item{spp}{A species common name.}
 

@@ -10,8 +10,8 @@ devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
 devtools::install(quick = TRUE, dependencies = FALSE)
 
 # for production use:
-# library(gfplot)
-# library(gfsynopsis)
+library(gfplot)
+library(gfsynopsis)
 
 # ------------------------------------------------------------------------------
 # Settings:
@@ -101,9 +101,11 @@ for (i in seq_along(spp$species_common_name)) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
     dat$cpue_index <- d_cpue
     gfsynopsis::make_pages(
       dat = dat,
+      dat_iphc = dat_iphc,
       spp = spp$species_common_name[i],
       d_geostat_index = dat_geostat_index,
       include_map_square = FALSE,

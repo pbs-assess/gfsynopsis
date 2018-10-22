@@ -3,6 +3,7 @@
 #' This is the main workhorse function that creates the synopsis pages.
 #'
 #' @param dat A data list object from [gfplot::cache_pbs_data()].
+#' @param dat_iphc A data list object from [gfplot::cache_pbs_data_iphc()].
 #' @param spp A species common name.
 #' @param d_geostat_index d_geostat_index
 #' @param aspect The aspect ratio of the 2nd page.
@@ -43,6 +44,7 @@
 
 make_pages <- function(
   dat,
+  dat_iphc,
   spp,
   d_geostat_index,
   aspect = 1.35,
@@ -123,6 +125,7 @@ make_pages <- function(
   cpue_cache <- file.path(report_folder, "cpue-cache")
   survey_map_cache <- file.path(report_folder, "map-cache")
   vb_cache <- file.path(report_folder, "vb-cache")
+  iphc_index_cache <- file.path(report_folder, "iphc-cache")
 
   dir.create(fig_folder, showWarnings = FALSE, recursive = TRUE)
   dir.create(ggplot_folder, showWarnings = FALSE, recursive = TRUE)
@@ -132,6 +135,7 @@ make_pages <- function(
   dir.create(file.path(survey_map_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
   dir.create(vb_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
 
   gg_folder_spp <- paste0(file.path(ggplot_folder, spp_file), ".rds")
   fig_folder_spp1 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-1.png" else "-1.pdf")
@@ -141,6 +145,7 @@ make_pages <- function(
   map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
   map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
   vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
+  iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_file), ".rds")
 
   samp_panels <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
     "HBLL OUT S", "IPHC FISS", "Commercial")
@@ -294,9 +299,21 @@ make_pages <- function(
 
   # Survey biomass indices: ----------------------------------------------------
 
-  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
-    # AME - if have IPHC data for this species, insert it here and remove
-    #  existing IPHC ones. If no IPHC data then this will be NA's anyway.
+  # Get new IPHC calculations
+  if (!file.exists(iphc_index_cache_spp)) {
+    iphc_set_counts_sp <- gfplot::calc_iphc_full_res(dat_iphc$set_counts)
+    saveRDS(iphc_set_counts_sp, file = iphc_index_cache_spp, compress = FALSE)
+  } else {
+    iphc_set_counts_sp <- readRDS(iphc_index_cache_spp)
+  }
+
+  iphc_set_counts_sp_format <-
+    gfplot::format_iphc_longest(iphc_set_counts_sp)
+  # Remove existing (GFbio) based IPHC series with longer ones from new calcs
+  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index) %>%
+    filter(survey_abbrev != "IPHC FISS") %>%
+    rbind(iphc_set_counts_sp_format)
+
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() + theme_pbs()
   } else {
@@ -305,6 +322,7 @@ make_pages <- function(
       xlim = c(1984, 2017))
   }
 
+  # Get geostatistical index calculations
   d_geostat_index <- d_geostat_index %>%
     rename(survey_abbrev = survey, biomass_scaled = est,
       lowerci_scaled = lwr, upperci_scaled = upr) %>%
@@ -317,6 +335,7 @@ make_pages <- function(
         factor(survey_abbrev,
           levels = levels(g_survey_index$data$survey_abbrev)))
 
+  # Add the geostatistical index calculations to the existing data and plot
   if (nrow(d_geostat_index) > 0L) {
     design_index_geo_means <- group_by(g_survey_index$data, survey_abbrev) %>%
       summarise(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE)))
@@ -338,7 +357,7 @@ make_pages <- function(
         colour = "grey45") +
       ggplot2::geom_ribbon(data = d_geostat_index,
         ggplot2::aes_string(ymin = 'lowerci_scaled', ymax = 'upperci_scaled'),
-        fill = "#00000025", lty = "12", size = 0.25, colour = "#00000060")
+        fill = NA, lty = "12", size = 0.35, colour = "grey40")
     g_survey_index <- suppressMessages({
       g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
         xlim = c(1984, 2017) + c(-0.5, 0.5), expand = FALSE)})
