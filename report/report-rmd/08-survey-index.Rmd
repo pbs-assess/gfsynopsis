@@ -5,22 +5,22 @@
 Details on the design of the various surveys referenced in this report can be
 found in the following documents:
 
-1. Synoptic Survey, Queen Charlotte Sound (SYN QCS):  [@wyeth2018synqcs]
+1. Synoptic Survey, Queen Charlotte Sound (SYN QCS):  [@williams2018synqcs]
 
 1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI):
-  [@wyeth2017synwcvi]
+  [@nottingham2017synwcvi]
 
 1. Synoptic Survey, Hecate Strait (SYN HS): [@wyeth2018synhs]
 
 1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG):
-  [@wyeth2018synwchg]
+  [@williams2018synwchg]
 
 1. Hard Bottom Longline Survey, Outside (HBLL OUT): [@dfo2018ifmp]
 
-1. Hard Bottom Longline Survey, Inside (HBLL INS): [@lochead2004irf]
+1. Hard Bottom Longline Survey, Inside (HBLL INS): [@lochead2007irf]
 
 1. Hecate Strait Multispecies Assemblage Survey (MSA HS):
-  [@fargo1984hsmsa,westrheim1984hsmsa]
+  [@choromanski2004hsmsa]
 
 1. International Pacific Halibut Commission fishery independent survey (IPHC
   FISS): [@flemming2012iphc]

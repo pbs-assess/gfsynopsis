@@ -6,8 +6,8 @@ library(dplyr)
 # for rapid development:
 if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
 if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
-devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
-devtools::install(quick = TRUE, dependencies = FALSE)
+#devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
+#devtools::install(quick = TRUE, dependencies = FALSE)
 
 # for production use:
 library(gfplot)
@@ -47,6 +47,8 @@ spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
 
 if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
+  if (any(grepl("on_schedule", names(cosewic))))
+    names(cosewic)[7] <- "schedule"
   saveRDS(cosewic, file = here("report", "cosewic.rds"))
 } else {
   cosewic <- readRDS(here("report", "cosewic.rds"))
