@@ -55,4 +55,5 @@ tidy_ages_raw(d$survey_samples) %>%
   plot_ages()
 
 make_pages(d, sn, output_path = "report/figs",
-  ageing_method_codes = ageing_method_codes)
+           ageing_method_codes = ageing_method_codes)  #AME: don't this file is used anymore but make_pages now
+                                                       #  needs dat_iphc as second argument

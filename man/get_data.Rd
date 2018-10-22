@@ -2,7 +2,8 @@
 % Please edit documentation in R/data.R
 \name{get_data}
 \alias{get_data}
-\title{Get all data}
+\title{Get all data (includes some IPHC data that will get over-written
+in Survey biomass indices section of make-pages.R)}
 \usage{
 get_data(type = c("A", "B"), path = ".", compress = FALSE,
   force = FALSE)
@@ -17,5 +18,6 @@ get_data(type = c("A", "B"), path = ".", compress = FALSE,
 \item{force}{Should data be downloaded even if already cached data exists?}
 }
 \description{
-Get all data
+Get all data (includes some IPHC data that will get over-written
+in Survey biomass indices section of make-pages.R)
 }
