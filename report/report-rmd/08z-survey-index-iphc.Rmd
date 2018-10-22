@@ -2,17 +2,14 @@
 
 
 <!-- Copying in from AppD-SurveysHookYYR15rev2.tex, simplifying down first in
- simplify.tex, then convert to simplify.Rmd-->
+ simplify.tex, then copying in what I want to here and converting to .Rmd-->
 
 The International Pacific Halibut Commission (IPHC) conducts an annual stock
 assessment longline survey in waters from California to Alaska, including
 British Columbia waters [@flemming2012iphc]. The survey's main goal is to
 provide data on Pacific Halibut (*Hippoglosus stenolepis*) for stock
-assessment purposes.
+assessment purposes. 
 
-```{r early-exit}
-knitr::knit_exit()
-```
 At each station, the fishing gear consists of a set of skates each of about 100
 hooks. Up to eight skates are on each set, with the number of skates per set
 varying between years. For each set the IPHC calculates an 'effective skate
@@ -23,22 +20,33 @@ data in years when the number of hooks, hook spacing, or hook type varied"
 REF{yocld08}. An effective skate of one represents a skate of 100 circle
 hooks with 18-foot spacing REF{yocld08}.
 
-The index 'Series AB' for \spName~constructed below from the IPHC surveys
-consists of the mean catch rate for each year. The mean for a year is the mean
-of the catch rates of all sets within that year. The catch rate of a set has
-units of `number of \spName~caught per effective skate'. The catch rates within
-a year are bootstrapped, to give bootstrapped means, bias-corrected and adjusted
+For British Columbia waters, the survey has enumerated non-halibut species
+since 1995 (to varying degrees of species identification). 
+For each species, the catch rate of a set is the number of individuals caught 
+per effective skate.
+The catch rates within
+a year are then bootstrapped, to give bootstrapped means, bias-corrected and adjusted
 (BCa) bootstrapped 95\% confidence intervals, and bootstrapped coefficients of
-variation (CV).  % The bootstrapped means and CVs are used as an input for the
-assessment model.
+variation (CV).
 
+However, complications arise because of differing data
+collection protocols in different years. 
 We would like a survey index that spans as long a time period as possible, and,
 ideally, also covers all the coastwide waters off British Columbia (excluding
-the Strait of Georgia which this assessment does not consider). Although the
+the Strait of Georgia which the IPHC survey does not enter). Although the
 spatial coverage and the technical details of the survey are not consistent from
-year to year (as described below), we are able to construct a survey index for
-\spName~that can be considered representative of all British Columbia waters
-from 1995-2014.
+year to year (as described below), we attempt to construct a survey index for
+as many species as possible for as long a time period as possible. We also 
+determine whether each index can be considered representative of all British 
+Columbia waters. 
+
+
+\clearpage
+```{r early-exit, cache=FALSE}
+knitr::knit_exit()
+```
+
+
 
 The approach taken is described below, and extends that developed for a recent
 Redbanded Rockfish assessment \citep{ehs17}. That assessment was the first to
