@@ -2,7 +2,7 @@
 
 
 <!-- Copying in from AppD-SurveysHookYYR15rev2.tex, simplifying down first in
- simplify.tex, then copying in what I want to here and converting to .Rmd-->
+ simplify.tex, then incrementally copying in what I want to here and converting to .Rmd-->
 
 The International Pacific Halibut Commission (IPHC) conducts an annual stock
 assessment longline survey in waters from California to Alaska, including
@@ -38,32 +38,88 @@ spatial coverage and the technical details of the survey are not consistent from
 year to year (as described below), we attempt to construct a survey index for
 as many species as possible for as long a time period as possible. We also 
 determine whether each index can be considered representative of all British 
-Columbia waters. 
+Columbia waters.   TODO - check those results and mention somewhere.
+
+The approach taken is described below, and builds on that developed for
+assessments
+of Redbanded Rockfish [@edwards2017redbanded] and Yelloweye Rockfish
+[@yamanaka2015yelloweyeoutside]. The Redbanded assessment was the first to
+develop an abundance index from the IPHC survey that went back to 1995, and
+included data up to 2012. For the Yelloweye assessment the methods
+were extended to demonstrate that the index based on waters north of Vancouver
+Island could be considered representative of the coastwide population. 
+
+TODO  decide what to do The Yelloweye
+assessment also considered a model of hook competition TODO **mention Marie's if
+I don't get anything in. Note, however, that this work was not directly
+incorporated into the analysis in Appendix~C that was used as the survey index
+in the assessment model.
+
+
+Not needed? This work demonstrates that a consistent index can be constructed despite the
+survey design changing through the years. 
+
+## IPHC DATA 
+
+In British Columbia waters (IPHC area 2B), since 2003 a third observer has been
+deployed on the IPHC survey to identify all catch to the species level on a
+hook-by-hook basis and to conduct biological sampling [@flemming2012iphc], although
+in 2013 there was no such observer. Observers were also deployed prior to 2003,
+although data are not available in such detail, as summarised in
+Table \ref{tab:IPHCdata}. For some years only the first 20&nbsp;hooks from each skate
+were enumerated, and for other years all hooks were enumerated but the data are
+only available at the set level (i.e.&nbsp;we do not know which hook caught which
+species, only how many individuals from each species were caught on the whole
+set). The data were extracted from various spreadsheets and the DFO database
+`GFBio`, and all originally came from the IPHC. For only some of the years
+were the locations off the west coast of Vancouver Island (WCVI) sampled. Note
+that, for simplicity we use the term 'first 20&nbsp;hooks' since samplers on the
+vessels generally targetted the first 20&nbsp;hooks from each skate. However, for
+operational reasons (particularly in areas of high catch rates), sometimes the
+20&nbsp;hooks would come from elsewhere within a skate, but would always consist of
+20 consecutive hooks (e.g.&nbsp;REF dvr02, dvr03).
+
+\begin{table}[t] \centering
+\caption{Summary of available data from the IPHC stock assessment longline
+surveys. 'Data resolution' indicates at what level the data are available, and
+'WCVI?' indicates whether or not the survey included locations off the west
+coast of Vancouver Island. 'Location of data' indicates where the data were
+accessed from, either our DFO {\tt GFBio} database or from spreadsheets. $^1$For
+1995, the biological data were in the file
+"1995\_IPHC\_SSA\_Rockfish\_catch\_from\_Kelly\_Ames.xls" on DFO's Inshore
+Rockfish shared drive, and effective skates were obtained from Aaron Ranta
+(IPHC) in the file "1995EffSktValues by Station.xlsx". $^2$For 1996-2002, the
+data were in the file "2B AllSpecies 96-02 roundIII.xls", which originally
+came from the IPHC. $^3$For 2013 the data were in the file "2013 20-Hook
+Data.xls", which originally came from the IPHC. For easier access, the data from
+spreadsheets are now all included in our ```gfplot``` package.}
+\label{tab:IPHCdata}
+\begin{tabular}{llllc}
+  \hline
+Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
+  \hline
+1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
+1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
+1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2003-2011 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2012 & All (bait experiment)      & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
+2014-2017 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+
+
+
 
 
 \clearpage
 ```{r early-exit, cache=FALSE}
 knitr::knit_exit()
 ```
-
-
-
-The approach taken is described below, and extends that developed for a recent
-Redbanded Rockfish assessment \citep{ehs17}. That assessment was the first to
-develop an abundance index from the IPHC survey that went back to 1995, and
-included data up to 2012. Here we also include 2013 and 2014 data, and
-demonstrate that the index based on waters north of Vancouver Island can be
-considered representative of the coastwide population.
-
-This work demonstrates that a consistent index can be constructed despite the
-survey design changing through the years. The methods could be used for other
-species caught by the survey. Note, however, that this work was not directly
-incorporated into the analysis in Appendix~C that was used as the survey index
-in the assessment model.
-
-
-
-
 
 <!-- TODO: Add a blurb here about the surveys in general. -->
 
