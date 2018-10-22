@@ -162,7 +162,6 @@ temp <- lapply(spp$species_common_name, function(x) {
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
     "\n")
-  print(resdoc)
   if (resdoc != "") {
     i <- i + 1
     out[[i]] <- paste0(resdoc_text, resdoc, "\\")
