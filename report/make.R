@@ -10,8 +10,8 @@ devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
 devtools::install(quick = TRUE, dependencies = FALSE)
 
 # for production use:
-# library(gfplot)
-# library(gfsynopsis)
+library(gfplot)
+library(gfsynopsis)
 
 # ------------------------------------------------------------------------------
 # Settings:
