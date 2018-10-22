@@ -126,6 +126,14 @@ for (i in seq_along(spp$species_common_name)) {
   }
 }
 
+rougheye_split <- function(x) {
+  spl <- strsplit(x, "/")[[1]]
+  first <- strsplit(spl, " ")[[1]][[1]]
+  second <- strsplit(spl, " ")[[1]][[2]]
+  third <- strsplit(spl, " ")[[2]][[1]]
+  c(paste(first, second, sep = "-"), paste(first, third, sep = "-"))
+}
+
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
 
@@ -146,6 +154,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   sara_status <- spp$sara_status[spp$species_common_name == x]
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   .b_section <- spp$b_section[spp$species_common_name == x]
+  # .fishbase <- spp$fishbase[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
@@ -163,7 +172,22 @@ temp <- lapply(spp$species_common_name, function(x) {
     gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
-    "\n")
+    "\\")
+
+  i <- i + 1
+  out[[i]] <- paste0("[FishBase link]",
+    "(http://www.fishbase.org/summary/",
+    gsub(" ", "-", gfplot:::firstup(latin_name)), ")\\")
+
+  if (species_code == '394') { # Sebastes aleutianus/melanostictus
+    .names <- rougheye_split(gfplot:::firstup(latin_name))
+    out[[i]] <- paste0("[FishBase link 1]",
+      "(http://www.fishbase.org/summary/", .names[1], "),")
+    i <- i + 1
+    out[[i]] <- paste0("[FishBase link 2]",
+      "(http://www.fishbase.org/summary/", .names[2], ")\\")
+  }
+
   if (resdoc != "") {
     i <- i + 1
     out[[i]] <- paste0(resdoc_text, resdoc, "\\")
