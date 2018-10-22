@@ -3,12 +3,12 @@
 We developed the gfplot R package to conduct all the data extraction, data
 manipulation, model fitting, and plotting in the data synopsis report. The
 package is designed to be modular so it can be used in various capacities for
-other groundfish analyses (Figure \ref{fig:gfplot-web}). For example, the
+other groundfish analyses (Figure \@ref(fig:gfplot-web)). For example, the
 package is intended to facilitate pulling data directly into analyses for the
 forthcoming management procedure framework for data-limited and data-moderate
 groundfish stocks. A brief summary will follow.
 
-TODO expand substantially on this. Mention the other R packages. Mention the
+TODO expand on this. Mention the other R packages. Mention thes
 data caching. Mention how to generate the report.
 
 \clearpage
@@ -45,8 +45,8 @@ be installed with:
 ```{r get-git-hashes}
 get_sha <- function(path) {
   suppressWarnings({
-    sha <- system(paste0("git ls-remote git@github.com:", path, ".git"), 
-      intern = TRUE, ignore.stderr = TRUE)
+    sha <- tryCatch(system(paste0("gtlit ls-remote git@github.com:", path, ".git"), 
+      intern = TRUE, ignore.stderr = TRUE), error = function(e) " ")
   })
   if (is.null(attr(sha, "status")))
     substr(sha[grepl("HEAD", sha)], 1, 7)
