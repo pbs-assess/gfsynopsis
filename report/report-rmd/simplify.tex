@@ -1,0 +1,1066 @@
+
+\section{INTRODUCTION}
+
+The International Pacific Halibut Commission (IPHC) conducts an annual stock
+assessment longline survey in waters from California to Alaska, including
+British Columbia waters (e.g.~\citealt{fycd12}). The survey's main goal is to
+provide data on Pacific Halibut (\emph{Hippoglosus stenolepis}) for stock
+assessment purposes.
+
+At each station, the fishing gear consists of a set of skates each of about 100
+hooks. Up to eight skates are on each set, with the number of skates per set
+varying between years. For each set the IPHC calculates an `effective skate
+number', which we use here to scale the count of \spName~and obtain a catch rate
+for each set (described below). The effective skate number ``standardizes survey
+data in years when the number of hooks, hook spacing, or hook type varied''
+\citep{yocld08}. An effective skate of one represents a skate of 100 circle
+hooks with 18-foot spacing \citep{yocld08}.
+
+The index `Series AB' for \spName~constructed below from the IPHC surveys
+consists of the mean catch rate for each year. The mean for a year is the mean
+of the catch rates of all sets within that year. The catch rate of a set has
+units of `number of \spName~caught per effective skate'. The catch rates within
+a year are bootstrapped, to give bootstrapped means, bias-corrected and adjusted
+(BCa) bootstrapped 95\% confidence intervals, and bootstrapped coefficients of
+variation (CV).  % The bootstrapped means and CVs are used as an input for the
+assessment model.
+
+We would like a survey index that spans as long a time period as possible, and,
+ideally, also covers all the coastwide waters off British Columbia (excluding
+the Strait of Georgia which this assessment does not consider). Although the
+spatial coverage and the technical details of the survey are not consistent from
+year to year (as described below), we are able to construct a survey index for
+\spName~that can be considered representative of all British Columbia waters
+from 1995-2014.
+
+The approach taken is described below, and extends that developed for a recent
+Redbanded Rockfish assessment \citep{ehs17}. That assessment was the first to
+develop an abundance index from the IPHC survey that went back to 1995, and
+included data up to 2012. Here we also include 2013 and 2014 data, and
+demonstrate that the index based on waters north of Vancouver Island can be
+considered representative of the coastwide population.
+
+This work demonstrates that a consistent index can be constructed despite the
+survey design changing through the years. The methods could be used for other
+species caught by the survey. Note, however, that this work was not directly
+incorporated into the analysis in Appendix~C that was used as the survey index
+in the assessment model.
+
+\section{DATA}
+
+In British Columbia waters (IPHC area 2B), since 2003 a third observer has been
+deployed on the IPHC survey to identify all catch to the species level on a
+hook-by-hook basis and to conduct biological sampling \citep{fycd12}, although
+in 2013 there was no such observer. Observers were also deployed prior to 2003,
+although data are not available in such detail, as summarised in
+Table~\ref{tab:IPHCdata}. For some years only the first 20~hooks from each skate
+were enumerated, and for other years all hooks were enumerated but the data are
+only available at the set level (i.e.~we do not know which hook caught which
+species, only how many individuals from each species were caught on the whole
+set). The data were extracted from various spreadsheets and the DFO database
+{\tt GFBio}, and all originally came from the IPHC. For only some of the years
+were the locations off the west coast of Vancouver Island (WCVI) sampled. Note
+that, for simplicity we use the term `first 20~hooks' since samplers on the
+vessels generally targetted the first 20~hooks from each skate. However, for
+operational reasons (particularly in areas of high catch rates), sometimes the
+20~hooks would come from elsewhere within a skate, but would always consist of
+20 consecutive hooks (e.g.~\citealt{dvr02, dvr03}).
+\begin{table}[t] \centering
+\caption{Summary of available data from the IPHC stock assessment longline
+surveys. `Data resolution' indicates at what level the data are available, and
+`WCVI?' indicates whether or not the survey included locations off the west
+coast of Vancouver Island. `Location of data' indicates where the data were
+accessed from, either our DFO {\tt GFBio} database or from spreadsheets. $^1$For
+1995, the biological data were in the file
+``1995\_IPHC\_SSA\_Rockfish\_catch\_from\_Kelly\_Ames.xls'' on DFO's Inshore
+Rockfish shared drive, and effective skates were obtained from Aaron Ranta
+(IPHC) in the file ``1995EffSktValues by Station.xlsx''. $^2$For 1996-2002, the
+data were in the file ``2B AllSpecies 96-02 roundIII.xls'', which originally
+came from the IPHC. $^3$For 2013 the data were in the file ``2013 20-Hook
+Data.xls'', which originally came from the IPHC.}
+\label{tab:IPHCdata}
+\begin{tabular}{llllc}
+  \hline
+Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
+  \hline
+1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
+1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
+1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2003-2011 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2012 & All (bait experiment)      & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
+2014 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+
+From Table \ref{tab:IPHCdata}, four issues are apparent: 
+
+\begin{resdoclist}
+
+\item For 1997-2002 and 2013 only the first 20~hooks of each skate were
+enumerated, whereas for all other years all hooks were enumerated. Thus, the
+data from each year cannot simply be considered as comparable and analysed as
+one consecutive time series.
+
+\item For the datasets for 1995, 1996, 1997-2002 and 2013, data are only
+available at the set-by-set level, in terms of numbers of a given species per
+effective skate. Which species was caught on each hook is not available, unlike
+for 2003-2012 and 2014. Thus, for 1995 and 1996 we cannot calculate catch rates
+based on the first 20~hooks (because we only have set-by-set level data),
+whereas we can do that for 2003-2012 and 2014, and the 20-hook data is the only
+information we have for 1997-2002 and 2013.
+
+\item In 2012 a bait experiment was conducted such that data from all skates
+could not be used; see Section \ref{sec:chum}.
+
+\item The WCVI was not visited in every year, so the spatial coverage is not
+consistent across years.
+
+\end{resdoclist}
+
+
+To address issues 1, 2 and 4 we therefore construct four time series (whose
+structure is summarised in Table \ref{tab:seriesSumm}):
+
+\begin{table}[t] \centering
+\caption{Summary of how the four Series {\bf A}, {\bf B}, {\bf C} and {\bf D}
+are constructed. Numbers in parentheses indicate the number of years for which
+data for each Series are available. `Only north of WCVI' indicates Series that
+only consider stations north of Vancouver Island (thus excluding those off the
+WCVI), `Full coast' indicates Series that use all stations from the whole
+coast. The rows indicate how many hooks the catch rates for each Series are
+based on.}
+\label{tab:seriesSumm}
+\begin{tabular}{rcc}
+\hline
+ & Only north of WCVI & Full coast \\
+\hline
+First 20 hooks from each skate & {\bf A}(18) & {\bf D}(15)\\
+All hooks from each skate & {\bf B}(13) & {\bf C}(11)\\
+\hline
+~\\    % to add some whitespace before text carries on
+\end{tabular}
+\end{table}
+
+{\bf Series A} -- 1997-2014 stations north of WCVI, with catch rates based on
+first 20~hooks only (which is all we have for 1997-2002 and 2013).  % 1997-2002,
+2003-2012, 2013 and 2014
+ 
+{\bf Series B} -- 1995, 1996, 2003-2012 and 2014 stations north of WCVI, with
+catch rates based on all hooks (which is all we have for 1995 and 1996).
+
+{\bf Series C} -- 2003-2012 and 2014 stations coastwide (including WCVI), with
+catch rates based on all hooks.
+
+{\bf Series D} -- 1999 and 2001-2014 stations coastwide (including WCVI), with
+catch rates based on first 20~hooks only (which is all we have for 1999,
+2001-2002 and 2013).
+
+We would like to obtain an index series with as long a timespan as possible,
+and, ideally, over as broad a geographic region as possible. Since Series~A is
+the longest time series, we take this and expand it to Series~AB, defined as:
+
+{\bf Series AB} -- for stations north of WCVI, combine the 1995 and 1996 values
+from Series B, based on all hooks, with the 1997-2014 values from Series A that
+are based on first 20 hooks only. See Section~\ref{sec:combine}.
+
+The resulting Series~AB covers the stations north of WCVI. In
+Sections~\ref{sec:compareAD} and~\ref{sec:compareBC} we show why we can consider
+this series to be representative of the full coast (i.e.~including the WCVI), by
+comparing the series that exclude stations off the WCVI (Series~A and~B) with
+those that include the stations off the WCVI (Series~D and~B, respectively).
+
+The absolute catch rate index for Series~AB could therefore be justified as
+being an input to an assessment model, and be considered to be an index for the
+whole coast of British Columbia. Though recall that the model for this stock
+assessment uses the output from Appendix~C, rather than from this Appendix.
+
+\section{SPATIAL LOCATIONS OF STATIONS}
+
+The maps in Figures \ref{fig:stations1995mapA}-\ref{fig:stations2013mapAkeep}
+show the locations of the stations of the IPHC survey since 1995. Early on,
+stations were not fixed between years, with the main difference being whether or
+not the waters off the west coast of Vancouver Island were surveyed (as
+summarised in Table \ref{tab:seriesSumm}).
+
+From 1995-1997 (Figures
+\ref{fig:stations1995mapA}-\ref{fig:stations1997mapAkeep}) stations were
+arranged in Y-shapes; they were not exactly the same locations each year, but
+fairly close to each other. From 1998 onwards (Figures
+\ref{fig:stations1998mapAkeep}-\ref{fig:stations2013mapAkeep}) the stations have
+been positioned equidistant from one another on a 10-nautical-mile square grid
+\citep{fycd12}. In 1999 (Figure \ref{fig:stations1999mapAkeep}) the survey first
+went to the WCVI. From 2001 onwards, the survey was consistently conducted at
+170 regular fixed (non-random) stations (Figures
+\ref{fig:stations2001mapAkeep}-\ref{fig:stations2013mapAkeep}).
+
+Given the difference in coverage between years, for Series~A and~B we exclude
+those stations south of 50.6$^{\circ}$ latitude, which is near the northern tip
+of Vancouver Island (black line in Figure~\ref{fig:stations1995mapA}). This
+latitude was chosen so that all the stations from 1995-1997 are included
+(Figures~\ref{fig:stations1995mapA}-\ref{fig:stations1997mapAkeep}). The
+stations for 1995-1997 show good overlap (north of Vancouver Island) with the
+stations from 1998 onwards
+(Figures~\ref{fig:stations1998mapAkeep}-\ref{fig:stations2013mapAkeep}).
+
+For 1999 (Figure~\ref{fig:stations1999mapAkeep}) and 2001 onwards
+(Figures~\ref{fig:stations2001mapAkeep}-\ref{fig:stations2013mapAkeep}), the
+black crosses indicate the stations off the WCVI that are below 50.6$^{\circ}$
+latitude and are therefore excluded from Series~A and~B. Series~C and~D use all
+stations coastwide.
+
+For Series A~and~D we only consider the first 20 hooks from each skate. For
+2003-2012 and 2014 we have data for all hooks, and so in
+Figure~\ref{fig:allBlocks0314map} we illustrate the stations where a \spName~was
+never caught (in any year from 2003-2012 and 2014) on any hook, as well as the
+stations that caught \spName~in some years but never in the first 20 hooks, and
+the stations that did catch it in the first 20 hooks of each skate (for at least
+one year).
+
+% From iphcSerBallHooksYYR.tex
+% \onefig{stations1995mapA}{Locations of the 120 stations in 1995, of which 81 did not catch Yelloweye Rockfish (red open circles), 34 stations did catch it (red closed circles), and 5 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series~A and~B; for this year no stations (black crosses) are excluded, since the cut-off was chosen so as to include all stations for 1995, 1996 and 1997.}{stations1995mapA}{5}
+
+\section{CHUM SALMON BAIT EXPERIMENT}\label{sec:chum}
+
+Prior to 2012, Chum Salmon (\emph{Oncorhynchus keta}) was used for bait. But in
+2012, a bait experiment was conducted \citep{hsdgr13}. At each station three
+different bait types were used on the same set: a consecutive four-skate Chum
+Salmon treatment, a one-skate Pink Salmon (\emph{Oncorhynchus gorbuscha})
+treatment, and a one-skate Walleye Pollock (\emph{Theragra chalcogramma})
+treatment. The location of the three treatments on each set was randomized
+throughout the survey, and each treatment was separated by one skate (1,800 ft)
+of hookless groundline. For consistency with previous years, we only consider
+the four skates that used Chum Salmon as bait.
+
+The effective skate number provided by the IPHC is for all skates used, which in
+2012 will include skates that were not baited with Chum Salmon (Eric Soderlund,
+IPHC, Seattle, WA, USA, pers.~comm.). But we wish to only include the Chum
+Salmon baited skates, and so we need to modify the effective skate number (see
+below). The effective skate number depends on the number of observed hooks (Eric
+Soderlund, IPHC, Seattle, WA, USA, pers.~comm.), rather than the number of hooks
+that were deployed. The bait experiment was not continued for 2013 or 2014.
+
+% \clearpage
+
+\section{CATCH RATE EQUATIONS}\label{sec:notation}
+
+\subsection{CATCH RATE BASED ON ALL CHUM-BAIT HOOKS}
+
+We wish to obtain a catch rate index which, for each year, will be the mean
+catch rate across all sets that year. The units will be numbers of
+\spName~caught per effective skate. We only want to consider hooks that used
+Chum Salmon as bait (hereafter `chum-bait hooks'), because we have no
+information as to how catch rates of \spName~may change depending on the bait
+used. For our data, 2012 was the only year that hooks were not exclusively
+chum-bait hooks.
+
+Define:
+
+$H_{it}$ -- number of observed chum-bait hooks in set $i$ in year
+$t$, % {\tt H\_itObsChum}$=${\tt H\_it} later,
+
+$H_{it}^*$ -- number of observed hooks for all bait types
+($H_{it} \neq H_{it}^*$ only for 2012), % {\tt H\_itObs},
+
+$E_{it}$ -- effective skate number of set $i$ in year $t$, which needs to be
+based on observed chum-bait
+hooks, %so is {\tt effSkateChum}$=${\tt E\_it} later.
+
+$E_{it}'$ -- effective skate number from IPHC, which is based on all observed
+hooks (regardless of bait). % {\tt effSkate} .
+
+Thus, $E_{it}$ is
+\eb
+E_{it} = \dfrac{H_{it}}{H_{it}^*} E_{it}'.
+\ee
+
+Adapting equations on page 3 of \citet{yocld08}, define:
+
+$N_{it}$ -- the number of fish of a given species caught on set $i=1,2,...,n_t$
+in year $t$, based on observed chum-bait hooks, % {\tt N\_itChum}$=${\tt N\_it}.
+
+$n_t$ -- the number of sets in year
+$t$, % only including sets which ever catch the species (so not 170 for all years)
+
+$C_{it}$ -- catch rate (with units of numbers per effective skate) of
+\spName~for set $i$ in year $t$, based on observed chum-bait hooks, given by
+\eb
+C_{it} = \frac{N_{it}}{E_{it}}.
+\label{catchPerSet}
+\ee
+The catch rate index for year $t$, $I_t$ (numbers per effective skate), is then
+the mean catch rate across all sets:
+\eb
+I_{t} = \frac{1}{n_t} \sum_{i=1}^{n_t} C_{it} = \frac{1}{n_t} \sum_{i=1}^{n_t} \frac{N_{it}}{E_{it}}.
+\label{index}
+\ee
+
+\subsection{CATCH RATE BASED THE FIRST 20 CHUM-BAIT HOOKS OF EACH SKATE}
+
+Let $\tilde{X}$ indicate a calculation of some value $X$ that is based only on
+the first 20 hooks of each skate. These are the first 20 \emph{numbered} hooks,
+not the first 20 \emph{observed} hooks (so not all of the numbered hooks may
+have been observed). Thus we have: % For R variables, appending 20 to the
+variable names. So notation is:
+
+$\tilde{H}_{it}$ -- number of observed chum-bait hooks in the first 20 hooks of
+all skates in set $i$ in year $t$, % {\tt H\_itObsChum20}$=${\tt H\_it20}
+later. **May not have available easily and so set to $20 K_{it}$, which is
+probably pretty good since snarls etc. happen later in skates.
+
+$\tilde{E}_{it}$ -- effective skate number of set $i$ in year $t$ based on the
+first 20 chum-bait hooks that were sent out on each skate. % {\tt
+effSkateChum20}$=${\tt E\_it20}.
+
+Since effective skate number is a linear function of the number of hooks in a
+set \citep{yocld08}, we have
+\eb
+\tilde{E}_{it} = \dfrac{\tilde{H}_{it}}{H_{it}} E_{it} \left( = \dfrac{\tilde{H}_{it}}{H_{it}^*} E_{it}' \right).
+\label{effSkateScale}
+\ee
+
+The resulting notation for the index will be:
+
+$\tilde{I}_{t}$ -- catch rate index for year $t$ (in numbers of \spName~per
+effective skate) based on only the first 20 hooks sent out for each skate, %{\tt
+I\_tg20},
+
+$\tilde{N}_{it}$ -- the number of \spName~caught on set $i=1,2,...,n_t$ in year
+$t$, based on observed chum-bait hooks and only the first 20 hooks sent out for
+each skate, % {\tt N\_itChum20}$=${\tt N\_it20} later.
+
+$\tilde{C}_{it}$ -- catch rate (with units of numbers per effective skate) for
+set $i$ in year $t$, based only on the first 20 hooks of each skate (and only
+skates with chum as bait), such that % {\tt C\_it20}, \eb \tilde{C}_{it} =
+\frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
+\label{catchPerSet20} \ee The catch rate index for year $t$,
+$\tilde{I}_{t\survey}$ (in units of numbers per effective skate), based on only
+the first 20 hooks of each skate, is then the mean catch rate across all sets:
+\eb
+\tilde{I}_{t\survey} = \frac{1}{\tilde{n}_t} \sum_{i=1}^{\tilde{n}_t} \tilde{C}_{it} = \frac{1}{\tilde{n}_t} \sum_{i=1}^{\tilde{n}_t} \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
+% Trying \raisebox, no since that needs $..$ I think:
+% \tilde{I}_{t\survey} = \frac{1}{\tilde{n}_t} \raisebox{\depth}{\sum_{i=1}^{\tilde{n}_t}} \tilde{C}_{it} = \frac{1}{\tilde{n}_t} \sum_{i=1}^{\tilde{n}_t} \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
+% Tried this to look better with \sum, but needs work. Leave as is.
+% \tilde{I}_{t\survey} = \frac{1}{\tilde{n}_t} \underset{i=1}{\overset{\tilde{n}_t}{\sum}} \tilde{C}_{it} = \frac{1}{\tilde{n}_t} \sum_{i=1}^{\tilde{n}_t} \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
+\label{index20}
+\ee
+  
+\subsection{EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS}
+
+Equation (\ref{catchPerSet20}) can be written as 
+\eb
+\tilde{C}_{it} = \frac{\tilde{N}_{it}}{\tilde{E}_{it}} =  \frac{H_{it}}{\tilde{H}_{it}} \frac{\tilde{N}_{it}}{E_{it}}.
+\label{tildeCatchPerSet}
+\ee
+If all hooks are equally likely to catch a \spName, then the catch rates based
+on the first 20 hooks of each skate should be an unbiased sample of the catch
+rates based on all the hooks.
+%
+% If the catch rates on the first 20 hooks of each skate are a perfect sample of 
+%
+The ratio of fish caught, $\tilde{N}_{it} / N_{it}$, should equal (on average)
+the ratio of hook numbers, $\tilde{H}_{it} / H_{it}$, because a proportionally
+reduced number of fish are caught on the proportionally fewer hooks. Thus
+\eb
+\dfrac{\tilde{H}_{it}}{H_{it}} = \dfrac{\tilde{N}_{it}}{N_{it}}
+\ee
+such that
+\eb
+\tilde{C}_{it} = \dfrac{N_{it}}{\tilde{N}_{it}} \frac{\tilde{N}_{it}}{E_{it}} = \frac{N_{it}}{E_{it}} = C_{it}.
+\ee
+If the catch rates are greatly different, then this suggests that the catch
+rates from the first 20~hooks are not equivalent to the catch rates based on all
+the hooks. This is why we compare Series~A and Series~B below.
+
+\section{RESULTS}\label{sec:combine}
+
+\subsection{DETAILS OF SERIES~A AND SERIES~B}
+
+Tables \ref{tab:effSummA} and \ref{tab:effSummB} show the effective skate
+numbers for Series~A and~B. The values are lower for Series~A because they are
+only based on 20~hooks per skate, compared to all skates for Series~B (see
+equation \ref{effSkateScale}). 
+%
+% Think could have taken both tables straight from iphcCombineAB-YYR.tex
+% From iphcSerA20hooksYYR.tex, manually fixing some of the text from the RBR
+%  .tex write up.
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Thu Mar 05 15:22:59 2015
+\begin{table}[p]
+\centering
+\caption{For series A, summary of effective skate numbers, 
+     $E_{it}$, for each
+     year. Lower and Higher are the 2.5\% and 97.5\% quantiles, 
+     respectively.} 
+\label{tab:effSummA}
+\begin{tabular}{rrrr}
+  \hline
+Year & Lower & Mean & Higher \\ 
+  \hline
+1997 & 1.00 & 1.20 & 1.20 \\ 
+  1998 & 1.42 & 1.59 & 1.62 \\ 
+  1999 & 1.59 & 1.60 & 1.61 \\ 
+  2000 & 1.35 & 1.40 & 1.42 \\ 
+  2001 & 0.96 & 1.00 & 1.02 \\ 
+  2002 & 0.96 & 1.00 & 1.01 \\ 
+  2003 & 1.59 & 1.61 & 1.64 \\ 
+  2004 & 1.60 & 1.60 & 1.65 \\ 
+  2005 & 1.40 & 1.41 & 1.43 \\ 
+  2006 & 1.19 & 1.21 & 1.24 \\ 
+  2007 & 0.98 & 1.01 & 1.03 \\ 
+  2008 & 0.99 & 1.01 & 1.03 \\ 
+  2009 & 1.38 & 1.40 & 1.42 \\ 
+  2010 & 1.59 & 1.61 & 1.63 \\ 
+  2011 & 1.18 & 1.20 & 1.24 \\ 
+  2012 & 0.79 & 0.80 & 0.83 \\ 
+  2013 & 1.18 & 1.20 & 1.21 \\ 
+  2014 & 1.38 & 1.41 & 1.43 \\ 
+   \hline
+\end{tabular}
+\end{table}
+% And from iphcSerBallhooksYYR.tex:
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Fri Apr 17 14:28:12 2015
+\begin{table}[p]
+\centering
+\caption{For series B, summary of effective skate numbers, 
+     $E_{it}$, for each
+     year. Lower and Higher are the 2.5\% and 97.5\% quantiles, 
+     respectively.} 
+\label{tab:effSummB}
+\begin{tabular}{rrrr}
+  \hline
+Year & Lower & Mean & Higher \\ 
+  \hline
+1995 & 4.76 & 4.99 & 5.08 \\ 
+  1996 & 4.82 & 4.93 & 5.00 \\ 
+  2003 & 7.90 & 7.99 & 8.11 \\ 
+  2004 & 7.90 & 7.90 & 8.03 \\ 
+  2005 & 6.96 & 7.00 & 7.03 \\ 
+  2006 & 5.84 & 5.96 & 6.08 \\ 
+  2007 & 4.87 & 4.98 & 5.02 \\ 
+  2008 & 4.92 & 4.98 & 5.02 \\ 
+  2009 & 6.89 & 6.98 & 7.10 \\ 
+  2010 & 7.95 & 8.01 & 8.11 \\ 
+  2011 & 5.90 & 5.93 & 6.02 \\ 
+  2012 & 3.89 & 4.01 & 4.10 \\ 
+  2014 & 6.92 & 7.01 & 7.17 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+For the overlapping years 2003-2012 and 2014, the mean effective skate numbers
+for series A are slightly over 20\% of those for series B. This is because
+skates had a mean of just under 100~observed hooks, and so the first 20~hooks in
+each skate comprise just over 20\% of the observed hooks. Thus the scaling ratio
+$\tilde{H}_{it} /H_{it}$ in (\ref{effSkateScale}) is just over 0.2.
+% Checked by doing 
+% summary(filter(skateUniqHooksKeep, chumObsHooksPerSkate > 0)$chumObsHooksPerSkate)      in IPHCjoin6.Snw:
+%    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+%   19.00   98.00  100.00   99.18  100.00  120.00 
+The lowest value, for 2012, is due to only four skates (those with Chum Salmon
+as bait) being usable for this analysis.
+
+ 
+% Start of text and figures from iphcCombineAB-YYR.tex:
+
+The resulting bootstrapped catch rate indices for the two Series are shown in
+Figure~\ref{fig:bcaKeepSerA}. For Series~A, the highest mean catch rate is at
+the start of the series (1997), followed by four constant years, then a drop in
+2002. This is unlike the equivalent Series~A for Redbanded Rockfish, which
+exhibited an increase in catch rates in the early years (1997-1999), followed
+later by a decline in 2002 to a lower level \citep{ehs17}. For Yelloweye, there
+is a period of overall increase from 2002-2010, followed by a decline that
+results in 2014 having the lowest average catch rate. For Series~B,
+Figure~\ref{fig:bcaKeepSerA}(b) shows 1995 and 1996 to be the highest years,
+with 2014 the lowest.
+
+Values for the indices for Series~A and Series~B are given in
+Tables~\ref{tab:bcaKeepSerA} and \ref{tab:bcaKeepSerB}, respectively, as well as
+the number of sets each year and the proportion of sets in each year that did
+not catch Yelloweye Rockfish. The early years have slightly fewer sets than the
+135 that occurred from 2001 onwards. Year 2008 has only 134 sets because for
+station number 2113 the hook-tally sheet was lost overboard
+\citep{yfcd11}.  % a wasted afternoon sorting that one out.
+
+\twofig{bcaKeepSerA}{bcaKeepSerB}{Catch rate index (number of individual
+  Yelloweye Rockfish caught per skate) for (a) Series A and (b) Series B. For a
+  given year, the catch rate for each set is calculated from (\ref{catchPerSet})
+  or (\ref{catchPerSet20}) as appropriate. These catch rates are then resampled
+  for 10,000 bootstrap values, from which a bootstrapped mean (open circles) and
+  95\% bias-corrected and adjusted confidence intervals (bars) are
+  calculated. Small black closed circles are sample means (not bootstrapped),
+  and essentially equal the bootstrapped means.}
+
+
+
+% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Thu Mar 05 16:20:35 2015
+\begin{table}[tp]
+\centering
+\caption{Catch rates by year for Series A.
+     `Sample $\bar{I}_t$' is the sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the 95\% bias-corrected and adjusted (BCa)
+     confidence intervals.} 
+\label{tab:bcaKeepSerA}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+1997 & 121 & 0.66 & 2.31 & 2.31 & 1.58 & 3.37 & 0.19 \\ 
+  1998 & 128 & 0.66 & 1.85 & 1.85 & 1.21 & 3.08 & 0.23 \\ 
+  1999 & 134 & 0.62 & 1.73 & 1.72 & 1.18 & 2.56 & 0.20 \\ 
+  2000 & 129 & 0.64 & 1.75 & 1.75 & 1.21 & 2.51 & 0.18 \\ 
+  2001 & 135 & 0.70 & 1.77 & 1.77 & 1.20 & 2.60 & 0.19 \\ 
+  2002 & 135 & 0.75 & 0.92 & 0.92 & 0.61 & 1.53 & 0.23 \\ 
+  2003 & 135 & 0.67 & 1.07 & 1.06 & 0.72 & 1.69 & 0.22 \\ 
+  2004 & 135 & 0.69 & 1.28 & 1.28 & 0.87 & 1.92 & 0.20 \\ 
+  2005 & 135 & 0.69 & 1.17 & 1.16 & 0.79 & 1.75 & 0.20 \\ 
+  2006 & 135 & 0.76 & 1.16 & 1.16 & 0.74 & 1.80 & 0.22 \\ 
+  2007 & 135 & 0.76 & 1.05 & 1.05 & 0.66 & 1.65 & 0.23 \\ 
+  2008 & 134 & 0.77 & 1.16 & 1.16 & 0.72 & 1.98 & 0.26 \\ 
+  2009 & 135 & 0.71 & 1.45 & 1.45 & 0.95 & 2.24 & 0.22 \\ 
+  2010 & 135 & 0.68 & 1.67 & 1.67 & 1.10 & 2.68 & 0.23 \\ 
+  2011 & 135 & 0.71 & 1.06 & 1.06 & 0.71 & 1.57 & 0.20 \\ 
+  2012 & 135 & 0.77 & 0.88 & 0.88 & 0.57 & 1.45 & 0.24 \\ 
+  2013 & 135 & 0.77 & 0.98 & 0.97 & 0.62 & 1.57 & 0.24 \\ 
+  2014 & 135 & 0.76 & 0.68 & 0.68 & 0.43 & 1.15 & 0.25 \\ 
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Thu Mar 05 16:20:35 2015
+\begin{table}[tbp]
+\centering
+\caption{Catch rates by year for Series B.
+     `Sample $\bar{I}_t$' is the sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the 95\% bias-corrected and adjusted (BCa)
+     confidence intervals.} 
+\label{tab:bcaKeepSerB}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+1995 & 115 & 0.70 & 2.17 & 2.17 & 1.37 & 3.53 & 0.24 \\ 
+  1996 & 120 & 0.61 & 1.87 & 1.87 & 1.26 & 2.79 & 0.20 \\ 
+  2003 & 135 & 0.55 & 1.05 & 1.05 & 0.70 & 1.69 & 0.22 \\ 
+  2004 & 135 & 0.59 & 1.24 & 1.24 & 0.86 & 1.80 & 0.19 \\ 
+  2005 & 135 & 0.57 & 1.11 & 1.11 & 0.76 & 1.60 & 0.19 \\ 
+  2006 & 135 & 0.61 & 1.10 & 1.11 & 0.72 & 1.66 & 0.21 \\ 
+  2007 & 135 & 0.67 & 0.90 & 0.90 & 0.60 & 1.34 & 0.21 \\ 
+  2008 & 134 & 0.60 & 1.07 & 1.07 & 0.69 & 1.69 & 0.23 \\ 
+  2009 & 135 & 0.57 & 1.27 & 1.26 & 0.87 & 1.89 & 0.20 \\ 
+  2010 & 135 & 0.59 & 1.49 & 1.49 & 0.99 & 2.36 & 0.22 \\ 
+  2011 & 135 & 0.61 & 1.06 & 1.06 & 0.73 & 1.58 & 0.20 \\ 
+  2012 & 135 & 0.69 & 0.99 & 0.98 & 0.65 & 1.55 & 0.22 \\ 
+  2014 & 135 & 0.62 & 0.66 & 0.66 & 0.44 & 1.03 & 0.22 \\ 
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+
+\clearpage
+
+\subsection{CONSTRUCTING SERIES~AB THAT COVERS ALL 20~YEARS}
+
+We wish to join up the 1995 and 1996 data from Series B (Figure
+\ref{fig:bcaKeepSerA}(b)) to the 1997-2014 data from Series A (Figure
+\ref{fig:bcaKeepSerA}(a)). The 1995 and 1996 data are only available as numbers
+of \spName~caught for all hooks, and not as numbers caught in the first 20 hooks
+(Table~\ref{tab:IPHCdata}). For 1997-2002 we only have numbers caught for the
+first 20 hooks. But for 2003-2012 and 2014 we have hook-by-hook data, and so can
+compute catch rates for all hooks or based on just the first 20 hooks
+(i.e.~these overlapping years are the only years that contribute to both
+Series~A and Series~B).
+
+For Series A, define $G_A$ to be the geometric mean of the bootstrapped annual
+means, with the geometric mean based only on the overlapping years (2003-2012
+and 2014). Define $G_B$ similarly for Series B. By dividing the bootstrapped
+values for each series by their respective geometric means, we obtain Figure
+\ref{fig:bcaKeepSerAB1}(a). This shows that the rescaled Series A and Series B
+are very similar for the overlapping years. Thus, on this scale, the 1995 and
+1996 values from Series B can be compared to the full Series A data.
+
+We can therefore append the 1995 and 1996 values from the rescaled Series~B in
+Figure \ref{fig:bcaKeepSerAB1}(a) to the original Series A values (Figure
+\ref{fig:bcaKeepSerA}(a)) by multiplying them by $G_A$, to yield the index
+series in Figure \ref{fig:bcaKeepSerAB1}(b) that has units of `numbers per
+effective skate'. Equivalently, the original 1995 and 1996 values from
+Figure~\ref{fig:bcaKeepSerA}(b) have thus been multiplied by $G_A / G_B$ to give
+those in Figure~\ref{fig:bcaKeepSerAB1}(b).
+
+The values for the merged Series AB are given in Table~\ref{tab:serAB}. We next show that Series~AB can be considered as a coastwide index (despite not including the WCVI). % Series~AB is consequently what we use as an input in the population model.
+
+\twofig{bcaKeepSerAB1}{bcaKeepSerAB2}{(a) Each of the two catch rate series from Figure \ref{fig:bcaKeepSerA} is divided by the geometric mean of its bootstrapped annual means (with the geometric mean based on the overlapping years only). (b) The catch rate index Series~AB that could be used as a model input (although the index in Appendix~C was used in this stock assessment). Series~AB extends the original Series~A by incorporating the suitably scaled 1995 and 1996 values from Series~B (see text).}
+
+% Thu Mar 05 16:20:35 2015
+\begin{table}[tp]
+\centering
+\caption{Catch rates by year for Series~AB, constructed by combining 
+     1995 and 1996 data
+     from Series B with the full data for Series A. The 1995 and 1996 values
+     were rescaled by multiplying them by the ratio of the geometric means
+     of the bootstrapped means for the two series for the overlapping 
+     years, $G_A / G_B$. Values are
+     $G_A=$ 1.12  and $G_B$= 1.06 such that $G_A / G_B=$ 1.05 `Sample $\bar{I}_t$' is the sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName
+     ~that year. Lower and higher are the 
+     lower and upper bounds of the 95\% bias-corrected and adjusted (BCa)
+     confidence intervals.} 
+\label{tab:serAB}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+1995 & 115 & 0.70 & 2.28 & 2.28 & 1.44 & 3.71 & 0.24 \\ 
+  1996 & 120 & 0.61 & 1.96 & 1.97 & 1.32 & 2.93 & 0.20 \\ 
+  1997 & 121 & 0.66 & 2.31 & 2.31 & 1.58 & 3.37 & 0.19 \\ 
+  1998 & 128 & 0.66 & 1.85 & 1.85 & 1.21 & 3.08 & 0.23 \\ 
+  1999 & 134 & 0.62 & 1.73 & 1.72 & 1.18 & 2.56 & 0.20 \\ 
+  2000 & 129 & 0.64 & 1.75 & 1.75 & 1.21 & 2.51 & 0.18 \\ 
+  2001 & 135 & 0.70 & 1.77 & 1.77 & 1.20 & 2.60 & 0.19 \\ 
+  2002 & 135 & 0.75 & 0.92 & 0.92 & 0.61 & 1.53 & 0.23 \\ 
+  2003 & 135 & 0.67 & 1.07 & 1.06 & 0.72 & 1.69 & 0.22 \\ 
+  2004 & 135 & 0.69 & 1.28 & 1.28 & 0.87 & 1.92 & 0.20 \\ 
+  2005 & 135 & 0.69 & 1.17 & 1.16 & 0.79 & 1.75 & 0.20 \\ 
+  2006 & 135 & 0.76 & 1.16 & 1.16 & 0.74 & 1.80 & 0.22 \\ 
+  2007 & 135 & 0.76 & 1.05 & 1.05 & 0.66 & 1.65 & 0.23 \\ 
+  2008 & 134 & 0.77 & 1.16 & 1.16 & 0.72 & 1.98 & 0.26 \\ 
+  2009 & 135 & 0.71 & 1.45 & 1.45 & 0.95 & 2.24 & 0.22 \\ 
+  2010 & 135 & 0.68 & 1.67 & 1.67 & 1.10 & 2.68 & 0.23 \\ 
+  2011 & 135 & 0.71 & 1.06 & 1.06 & 0.71 & 1.57 & 0.20 \\ 
+  2012 & 135 & 0.77 & 0.88 & 0.88 & 0.57 & 1.45 & 0.24 \\ 
+  2013 & 135 & 0.77 & 0.98 & 0.97 & 0.62 & 1.57 & 0.24 \\ 
+  2014 & 135 & 0.76 & 0.68 & 0.68 & 0.43 & 1.15 & 0.25 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+% End of text and figures from iphcCombineAB-YYR.tex
+
+
+% ****** Series D and Series A *****
+
+\subsection{CONSTRUCTING SERIES~D (20 HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES~A (20 HOOKS, NORTH OF VANCOUVER ISLAND)}\label{sec:compareAD}
+
+% From CST-YYR/seriesD-YYR/compareA-D.tex, pretty much straight in and taking out the first figure:
+
+We now construct Series~D, which is for the first 20~hooks of each skate (like for Series~A) but covers the whole coast, including the WCVI (unlike Series~A), as was summarised in Table~\ref{tab:seriesSumm}. We then show that Series~A (north of Vancouver Island (VI)) and Series~D (whole coast) show similar relative changes over the overlapping years, and so Series~A can be considered representative of the whole coast, i.e.~the population off the WCVI is not showing a different relative trend to the rest of the coast. % For B and C it turns out the absolute catch rates were different, but the relative year-to-year changes looked the same.
+
+Figure~\ref{fig:CST-YYR/seriesD-YYR/bcaKeepSerAD1}(a) shows the absolute catch
+rate index for Series~A (first 20~hooks from each skate, north of VI, as in
+Figure \ref{fig:bcaKeepSerA}(a)), together with the shorter time series for
+Series~D (first 20~hooks, coastwide, for 1999 and 2001-2014). For all
+overlapping years, the Series~D means and confidence intervals are less than
+those for Series~A.
+
+For Series~A, define $G'_{A}$ to be the geometric mean of the bootstrapped
+annual means, with the geometric mean based only the years that overlap with
+Series~D (i.e.~1999 and 2001-2014). Define $G_D$ similarly for Series~D. By
+dividing the bootstrapped values for each series by their respective geometric
+means, we obtain Figure~\ref{fig:CST-YYR/seriesD-YYR/bcaKeepSerAD1}(b). The
+rescaled means are very close to each other, such that for the overlapping years
+the temporal patterns for Series~A and Series~D are very similar. (Values for
+Series A and Series D are given in Tables \ref{tab:bcaKeepSerA}
+and~\ref{tab:bcaKeepSerD}, respectively, and for the rescaled series in
+Tables~\ref{tab:serAscaled} and~\ref{tab:serDscaled}).
+% Tue Apr 21 10:26:48 2015
+\begin{table}[tp]
+\centering
+\caption{Catch rates by year for Series~D, which is first 20~hooks
+      for all stations (coastwide) for 1999 and 2001-2014.
+     `Sample $\bar{I}_t$' is the sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the 95\% bias-corrected and adjusted (BCa)
+     confidence intervals.} 
+\label{tab:bcaKeepSerD}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+1999 & 168 & 0.64 & 1.55 & 1.55 & 1.09 & 2.22 & 0.18 \\ 
+  2001 & 170 & 0.71 & 1.64 & 1.64 & 1.16 & 2.32 & 0.18 \\ 
+  2002 & 170 & 0.76 & 0.80 & 0.80 & 0.54 & 1.27 & 0.21 \\ 
+  2003 & 170 & 0.70 & 0.91 & 0.91 & 0.63 & 1.42 & 0.20 \\ 
+  2004 & 170 & 0.70 & 1.15 & 1.15 & 0.80 & 1.70 & 0.19 \\ 
+  2005 & 170 & 0.70 & 1.02 & 1.02 & 0.72 & 1.50 & 0.19 \\ 
+  2006 & 170 & 0.77 & 0.99 & 0.99 & 0.66 & 1.51 & 0.21 \\ 
+  2007 & 170 & 0.78 & 0.92 & 0.92 & 0.61 & 1.40 & 0.21 \\ 
+  2008 & 169 & 0.77 & 1.08 & 1.08 & 0.72 & 1.71 & 0.22 \\ 
+  2009 & 170 & 0.71 & 1.33 & 1.33 & 0.93 & 1.98 & 0.19 \\ 
+  2010 & 170 & 0.71 & 1.41 & 1.41 & 0.95 & 2.20 & 0.22 \\ 
+  2011 & 170 & 0.71 & 0.98 & 0.98 & 0.69 & 1.39 & 0.18 \\ 
+  2012 & 170 & 0.78 & 0.80 & 0.81 & 0.53 & 1.24 & 0.22 \\ 
+  2013 & 170 & 0.79 & 0.85 & 0.85 & 0.56 & 1.33 & 0.22 \\ 
+  2014 & 170 & 0.77 & 0.62 & 0.62 & 0.40 & 0.97 & 0.22 \\ 
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+
+Thus the relative patterns for Series~A and Series~D appear similar for the
+overlapping years. But the absolute catch rates in
+Figure~\ref{fig:CST-YYR/seriesD-YYR/bcaKeepSerAD1}(a) show that inclusion of the
+WCVI stations in Series~D consistently reduces the catch rates from those of
+Series~A (that did not include the WCVI stations). So while inclusion of the
+WCVI stations does not appear to change the \emph{relative} pattern of the index
+of the population, it does change the absolute values. Therefore the stations
+off the WCVI have to be included or excluded consistently to construct an index
+series; since we have more years that do not have stations off the WCVI
+(Table~\ref{tab:seriesSumm}), we consistently exclude these stations (giving
+Series~A).
+
+The stations off the WCVI have lower average catch rates than the remaining
+stations. Excluding them in Series~A increases the (geometric and arithmetic)
+means of the catch rates by 12\% (Table~\ref{tab:serDscaled}) compared to
+Series~D. Thus, in Figure~\ref{fig:CST-YYR/seriesD-YYR/bcaKeepSerAD1}(a) we
+cannot simply join up the 1997, 1998 and 1999 Series~A values with the Series~D
+values for the other years, because the 1997, 1998 and 1999 values exclude
+stations off the WCVI that appear to have lower catch rates.
+% (at least for the later years that we have data for)
+
+So the population off the WCVI appears to be changing in the same way as the
+rest of the coast for the overlapping years (1999, 2001-2014), it just has lower
+catch rates in the IPHC survey than for the rest of the coast. Thus, Series~A
+can be considered to be an index of the coastwide population for the overlapping
+years.
+
+
+% Did have this after 'input to the assessment model.' but I think will just create confusion:
+% The model actually uses this as a relative (not absolute) index because it scales it by a catchability parameter -- the fact that we had to rescale Series~AB and Series~C in Figure~\ref{fig:bcaKeepSerAD1}(b) to show that they have the same pattern does not preclude using the absolute Series~AB in the model. The absolute series is preferable because it has interpretable units (numbers of \spName~caught per effective skate).
+
+\twofig{CST-YYR/seriesD-YYR/bcaKeepSerAD1}{CST-YYR/seriesD-YYR/bcaKeepSerAD2}{(a)
+  Catch rate index (number of individual Yelloweye Rockfish caught per effective
+  skate) for Series~A (20~hooks, north of Vancouver Island) and Series~D
+  (20~hooks, coastwide) for 1999 and 2001-2014 (plus 1997, 1998 and 2000 for
+  Series~A). For a given year, the catch rate for each set is calculated from
+  (\ref{catchPerSet20}). These catch rates are then resampled for 10,000
+  bootstrap values, from which a bootstrapped mean (open circles) and 95\%
+  bias-corrected and adjusted confidence intervals (bars) are calculated. (b)
+  Each series is divided by the geometric mean of its bootstrapped annual means
+  (with the geometric mean based on the overlapping years only), to enable
+  comparison in the overlapping years.}
+
+
+% Tue Apr 21 10:26:48 2015
+\begin{table}[tp]
+\centering
+\caption{As for Table \ref{tab:bcaKeepSerA} for Series A, 
+     but with catch rates rescaled by dividing
+     by $G'_{A}=$ 1.16 , 
+     the geometric mean of the bootstrapped means for the years that overlap
+     with Series D, for plotting in 
+     Figure~\ref{fig:CST-YYR/seriesD-YYR/bcaKeepSerAD1}(b).
+     `Sample $\bar{I}_t$' is the rescaled sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the rescaled 
+     95\% bias-corrected and adjusted (BCa)
+     confidence intervals.} 
+\label{tab:serAscaled}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+1997 & 121 & 0.66 & 1.99 & 1.99 & 1.36 & 2.90 & 0.19 \\ 
+  1998 & 128 & 0.66 & 1.59 & 1.60 & 1.04 & 2.65 & 0.23 \\ 
+  1999 & 134 & 0.62 & 1.49 & 1.49 & 1.01 & 2.20 & 0.20 \\ 
+  2000 & 129 & 0.64 & 1.50 & 1.51 & 1.04 & 2.16 & 0.18 \\ 
+  2001 & 135 & 0.70 & 1.53 & 1.53 & 1.04 & 2.24 & 0.19 \\ 
+  2002 & 135 & 0.75 & 0.79 & 0.79 & 0.52 & 1.32 & 0.23 \\ 
+  2003 & 135 & 0.67 & 0.92 & 0.92 & 0.62 & 1.46 & 0.22 \\ 
+  2004 & 135 & 0.69 & 1.10 & 1.11 & 0.75 & 1.65 & 0.20 \\ 
+  2005 & 135 & 0.69 & 1.01 & 1.00 & 0.68 & 1.51 & 0.20 \\ 
+  2006 & 135 & 0.76 & 1.00 & 1.00 & 0.64 & 1.55 & 0.22 \\ 
+  2007 & 135 & 0.76 & 0.90 & 0.90 & 0.57 & 1.42 & 0.23 \\ 
+  2008 & 134 & 0.77 & 1.00 & 1.00 & 0.62 & 1.70 & 0.26 \\ 
+  2009 & 135 & 0.71 & 1.25 & 1.25 & 0.82 & 1.93 & 0.22 \\ 
+  2010 & 135 & 0.68 & 1.44 & 1.44 & 0.94 & 2.31 & 0.23 \\ 
+  2011 & 135 & 0.71 & 0.92 & 0.91 & 0.61 & 1.36 & 0.20 \\ 
+  2012 & 135 & 0.77 & 0.76 & 0.76 & 0.49 & 1.25 & 0.24 \\ 
+  2013 & 135 & 0.77 & 0.84 & 0.84 & 0.53 & 1.35 & 0.24 \\ 
+  2014 & 135 & 0.76 & 0.58 & 0.59 & 0.37 & 0.99 & 0.25 \\ 
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Tue Apr 21 10:26:48 2015
+\begin{table}[tp]
+\centering
+\caption{As for Table \ref{tab:bcaKeepSerD} for Series D, 
+     but with catch rates rescaled by dividing
+     by $G_{D}=$ 1.03 , 
+     the geometric mean of the bootstrapped means for the years that overlap
+     with Series A, for plotting in 
+     Figure~\ref{fig:CST-YYR/seriesD-YYR/bcaKeepSerAD1}(b).
+     `Sample $\bar{I}_t$' is the rescaled sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the rescaled 
+     95\% bias-corrected and adjusted (BCa)
+     confidence intervals. The ratio of the geometric means is
+     $G'_{A}/G_{D}=$ 1.12 ; the respective arithmetic means 
+     are 1.20 and 1.07, with a ratio of  1.12.} 
+\label{tab:serDscaled}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+1999 & 168 & 0.64 & 1.50 & 1.50 & 1.06 & 2.15 & 0.18 \\ 
+  2001 & 170 & 0.71 & 1.58 & 1.58 & 1.12 & 2.25 & 0.18 \\ 
+  2002 & 170 & 0.76 & 0.77 & 0.77 & 0.52 & 1.23 & 0.21 \\ 
+  2003 & 170 & 0.70 & 0.88 & 0.88 & 0.60 & 1.37 & 0.20 \\ 
+  2004 & 170 & 0.70 & 1.11 & 1.11 & 0.78 & 1.64 & 0.19 \\ 
+  2005 & 170 & 0.70 & 0.99 & 0.99 & 0.70 & 1.45 & 0.19 \\ 
+  2006 & 170 & 0.77 & 0.96 & 0.95 & 0.64 & 1.46 & 0.21 \\ 
+  2007 & 170 & 0.78 & 0.89 & 0.89 & 0.59 & 1.36 & 0.21 \\ 
+  2008 & 169 & 0.77 & 1.04 & 1.04 & 0.69 & 1.66 & 0.22 \\ 
+  2009 & 170 & 0.71 & 1.28 & 1.29 & 0.90 & 1.92 & 0.19 \\ 
+  2010 & 170 & 0.71 & 1.37 & 1.36 & 0.92 & 2.13 & 0.22 \\ 
+  2011 & 170 & 0.71 & 0.95 & 0.95 & 0.67 & 1.35 & 0.18 \\ 
+  2012 & 170 & 0.78 & 0.78 & 0.78 & 0.52 & 1.20 & 0.22 \\ 
+  2013 & 170 & 0.79 & 0.82 & 0.82 & 0.54 & 1.29 & 0.22 \\ 
+  2014 & 170 & 0.77 & 0.60 & 0.60 & 0.39 & 0.94 & 0.22 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+% End of from compareA-D.tex
+
+
+\clearpage
+
+% ****** Series B and Series C *****
+
+\subsection{CONSTRUCTING SERIES~C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES~B (ALL HOOKS, NORTH OF VANCOUVER ISLAND)}\label{sec:compareBC}
+
+% From CST-YYR/compareB-C.tex, pretty much straight in and taking out the first figure, and adding in directory name for figures.
+
+We now construct Series~C, which is for all hooks from each skate (like for
+Series~B) but covers the whole coast, including the WCVI (unlike Series~B), as
+was summarised in Table~\ref{tab:seriesSumm}. We then show that Series~B (north
+of VI) and Series~C (whole coast) are similar over the overlapping years, and so
+Series~B can be considered representative of the whole coast, i.e.~the
+population off the WCVI is not showing a different relative trend to the rest of
+the coast, as demonstrated above for Series~A
+and~D. % For B and C it turns out the absolute catch rates were different, but the relative year-to-year changes looked the same.
+
+Figure~\ref{fig:CST-YYR/bcaKeepSerBC1}(a) shows the absolute catch rate index
+for Series~B (all hooks, north of VI), together with the shorter time series for
+Series C (all hooks, coastwide, for 2003-2012 and 2014). For all overlapping
+years, the Series~C means and confidence intervals are less than those for
+Series~B.
+
+For Series~B, define $G'_{B}$ to be the geometric mean of the bootstrapped
+annual means, with the geometric mean based only the years that overlap with
+Series~C (i.e.~2003 to 2012 and 2014). Define $G_C$ similarly for Series C. By
+dividing the bootstrapped values for each series by their respective geometric
+means, we obtain Figure~\ref{fig:CST-YYR/bcaKeepSerBC1}(b). The rescaled means
+are very close to each other, such that for the overlapping years the temporal
+patterns for Series~B and Series~C are very similar. (Values for Series B and
+Series C are given in Tables \ref{tab:bcaKeepSerB} and~\ref{tab:bcaKeepSerC},
+respectively, and for the rescaled series in Tables~\ref{tab:serBscaled}
+and~\ref{tab:serCscaled}).
+
+% Tue Apr 21 11:15:46 2015
+\begin{table}[bp]    % b here since new subsection
+\centering
+\caption{Catch rates by year for Series C, which is all hooks for 
+      all stations (coastwide) from 2003-2012 and 2014.
+     `Sample $\bar{I}_t$' is the sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the 95\% bias-corrected and adjusted (BCa)
+     confidence intervals.} 
+\label{tab:bcaKeepSerC}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+2003 & 170 & 0.58 & 0.90 & 0.90 & 0.62 & 1.43 & 0.21 \\ 
+  2004 & 170 & 0.59 & 1.13 & 1.13 & 0.81 & 1.60 & 0.17 \\ 
+  2005 & 170 & 0.59 & 1.00 & 1.00 & 0.71 & 1.40 & 0.17 \\ 
+  2006 & 170 & 0.61 & 0.99 & 0.99 & 0.69 & 1.44 & 0.19 \\ 
+  2007 & 170 & 0.67 & 0.82 & 0.82 & 0.56 & 1.18 & 0.19 \\ 
+  2008 & 169 & 0.62 & 1.00 & 1.00 & 0.68 & 1.49 & 0.20 \\ 
+  2009 & 170 & 0.56 & 1.18 & 1.17 & 0.85 & 1.69 & 0.18 \\ 
+  2010 & 170 & 0.61 & 1.28 & 1.28 & 0.88 & 1.98 & 0.21 \\ 
+  2011 & 170 & 0.62 & 0.94 & 0.94 & 0.66 & 1.37 & 0.19 \\ 
+  2012 & 170 & 0.71 & 0.89 & 0.89 & 0.61 & 1.34 & 0.20 \\ 
+  2014 & 170 & 0.64 & 0.60 & 0.60 & 0.42 & 0.89 & 0.19 \\ 
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+
+
+Thus the relative patterns for Series~B and Series~C appear similar for the
+overlapping years. But the absolute catch rates in
+Figure~\ref{fig:CST-YYR/bcaKeepSerBC1}(a) show that inclusion of the WCVI
+stations in Series~C consistently reduces the catch rates from those of Series~B
+(that did not include the WCVI stations). So while inclusion of the WCVI
+stations does not appear to change the \emph{relative} pattern of the index of
+the population, it does change the absolute values. Therefore the stations off
+the WCVI have to be included or excluded consistently to construct an index
+series; since we have more years that do not have stations off the WCVI
+(Table~\ref{tab:seriesSumm}), we consistently exclude these stations (giving
+Series~B).
+
+The stations off the WCVI have lower average catch rates than the remaining
+stations. Excluding them in Series~B increases the (geometric and arithmetic)
+means of the catch rates by 11\% (Table~\ref{tab:serCscaled}) compared to
+Series~C. Thus, in Figure~\ref{fig:CST-YYR/bcaKeepSerBC1}(a) we cannot simply
+join up the 1995 and 1996 Series~B values with the Series~C values for the other
+years, because the 1995 and 1996 values exclude stations off the WCVI that
+appear (at least for the later years that we have data for) to have lower catch
+rates.
+
+So the population off the WCVI appears to be changing in the same way as the
+rest of the coast for the overlapping years (2003-2012 and 2014), it just has
+lower catch rates in the IPHC survey than for the rest of the coast. Thus,
+Series~B can be considered to be an index of the coastwide population for the
+overlapping years.
+
+\twofig{CST-YYR/bcaKeepSerBC1}{CST-YYR/bcaKeepSerBC2}{(a) Catch rate index
+  (number of individual Yelloweye Rockfish caught per effective skate) for
+  Series~B (all hooks, north of Vancouver Island) and Series~C (all hooks,
+  coastwide) from 2003-2012 and 2014 (plus 1995 and 1996 for Series~B). For a
+  given year, the catch rate for each set is calculated from
+  (\ref{catchPerSet}). These catch rates are then resampled for 10,000 bootstrap
+  values, from which a bootstrapped mean (open circles) and 95\% bias-corrected
+  and adjusted confidence intervals (bars) are calculated. (b) Each series is
+  divided by the geometric mean of its bootstrapped annual means (with the
+  geometric mean based on the overlapping years only), to enable comparison in
+  the overlapping years.}
+
+% Tue Apr 21 11:15:46 2015
+\begin{table}[tp]
+\centering
+\caption{As for Table \ref{tab:bcaKeepSerB} for Series B, 
+     but with catch rates rescaled by dividing
+     by $G'_{B}=$ 1.06 , 
+     the geometric mean of the bootstrapped means for the years that overlap
+     with Series C, for plotting in Figure~\ref{fig:CST-YYR/bcaKeepSerBC1}(b).
+     `Sample $\bar{I}_t$' is the rescaled sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the rescaled 
+     95\% bias-corrected and adjusted (BCa)
+     confidence intervals.} 
+\label{tab:serBscaled}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+1995 & 115 & 0.70 & 2.04 & 2.04 & 1.29 & 3.32 & 0.24 \\ 
+  1996 & 120 & 0.61 & 1.76 & 1.76 & 1.18 & 2.62 & 0.20 \\ 
+  2003 & 135 & 0.55 & 0.98 & 0.98 & 0.66 & 1.59 & 0.22 \\ 
+  2004 & 135 & 0.59 & 1.16 & 1.16 & 0.81 & 1.69 & 0.19 \\ 
+  2005 & 135 & 0.57 & 1.04 & 1.04 & 0.72 & 1.51 & 0.19 \\ 
+  2006 & 135 & 0.61 & 1.04 & 1.04 & 0.68 & 1.56 & 0.21 \\ 
+  2007 & 135 & 0.67 & 0.84 & 0.84 & 0.56 & 1.26 & 0.21 \\ 
+  2008 & 134 & 0.60 & 1.01 & 1.01 & 0.65 & 1.59 & 0.23 \\ 
+  2009 & 135 & 0.57 & 1.19 & 1.19 & 0.82 & 1.78 & 0.20 \\ 
+  2010 & 135 & 0.59 & 1.40 & 1.40 & 0.93 & 2.21 & 0.22 \\ 
+  2011 & 135 & 0.61 & 1.00 & 0.99 & 0.68 & 1.49 & 0.20 \\ 
+  2012 & 135 & 0.69 & 0.93 & 0.92 & 0.61 & 1.45 & 0.22 \\ 
+  2014 & 135 & 0.62 & 0.62 & 0.62 & 0.41 & 0.97 & 0.22 \\ 
+   \hline
+\end{tabular}
+\end{table}% latex table generated in R 3.1.0 by xtable 1.7-3 package
+% Tue Apr 21 11:15:46 2015
+\begin{table}[tp]
+\centering
+\caption{As for Table \ref{tab:bcaKeepSerC} for Series C, 
+     but with catch rates rescaled by dividing
+     by $G_{C}=$ 0.96 , 
+     the geometric mean of the bootstrapped means for the years that overlap
+     with Series B, for plotting in Figure~\ref{fig:CST-YYR/bcaKeepSerBC1}(b).
+     `Sample $\bar{I}_t$' is the rescaled sample mean. B'ed means bootstrapped 
+     value. `No YYR' is the proportion of sets that did not catch \spName~that
+     year. Lower and higher are the 
+     lower and upper bounds of the rescaled 
+     95\% bias-corrected and adjusted (BCa)
+     confidence intervals. The ratio of the geometric means is $G'_{B}/G_{C}=$ 1.11 ; the respective arithmetic means are  1.08  and 
+      0.98 , with a ratio of  1.11 .} 
+\label{tab:serCscaled}
+\begin{tabular}{rrrrrrrr}
+  \hline
+Year & Sets, $n_t$ & No YYR & Sample $\bar{I}_t$ & B'ed $I_t$ & B'ed $I_t$ lower & B'ed $I_t$ higher & B'ed $I_t$ CV \\ 
+  \hline
+2003 & 170 & 0.58 & 0.94 & 0.94 & 0.64 & 1.49 & 0.21 \\ 
+  2004 & 170 & 0.59 & 1.18 & 1.18 & 0.85 & 1.67 & 0.17 \\ 
+  2005 & 170 & 0.59 & 1.05 & 1.05 & 0.74 & 1.46 & 0.17 \\ 
+  2006 & 170 & 0.61 & 1.04 & 1.04 & 0.72 & 1.51 & 0.19 \\ 
+  2007 & 170 & 0.67 & 0.86 & 0.86 & 0.58 & 1.23 & 0.19 \\ 
+  2008 & 169 & 0.62 & 1.04 & 1.04 & 0.70 & 1.55 & 0.20 \\ 
+  2009 & 170 & 0.56 & 1.23 & 1.22 & 0.88 & 1.76 & 0.18 \\ 
+  2010 & 170 & 0.61 & 1.34 & 1.33 & 0.92 & 2.07 & 0.21 \\ 
+  2011 & 170 & 0.62 & 0.98 & 0.98 & 0.69 & 1.43 & 0.19 \\ 
+  2012 & 170 & 0.71 & 0.93 & 0.93 & 0.63 & 1.40 & 0.20 \\ 
+  2014 & 170 & 0.64 & 0.63 & 0.62 & 0.44 & 0.93 & 0.19 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+% End of from CST-YYR/compareB-C.tex, pretty much straight in and taking out the first figure.
+
+\clearpage
+
+\section{CONCLUSION -- SERIES~AB IS THE LONGEST IPHC SERIES WE CAN CONSTRUCT AND CAN BE CONSIDERED A COASTWIDE INDEX}
+
+For all years that comparisons could be made, the two Series that exclude
+stations off the WCVI (Series~A and~B) demonstrated the same relative temporal
+patterns as the two Series that included the stations off the WCVI (Series~D
+and~B, respectively), and so we assume that the same holds for the few years for
+which we are unable to make such a comparison (namely 1995-1998 and 2000). Since
+Series~AB is the longest that we are able to construct it would be a suitable
+index for the assessment model, and we consider it to be an index of the
+coastwide population for all years.
+
+We would therefore recommend that the absolute catch rate index for Series AB in
+Figure~\ref{fig:bcaKeepSerAB1}(b), with values in Table~\ref{tab:serAB}, could
+be used an input to an assessment model. But for this stock assessment of
+\spName~the index from Appendix~C was used.
+
+We note that Series~AB does show a somewhat abrupt drop in catch rates between
+2001 and 2002 (a 48\% drop in the sample mean from 1.77 to 0.92). The survey
+report for 2002 \citep{dvr03} suggests no methodological reason for such a
+decline, since `survey station design and most sampling protocols were left
+unchanged from 2001'. Indeed, when comparing the design and sampling protocols
+with those from 2001 \citep{dvr02}, we see no alterations that would lead to a
+drop in catch rates of \spName. For Pacific Halibut, Figure~2 of \citet{dvr03}
+only shows an 8\% drop in catch rates (pounds per skate) from 2001 to 2002 (and
+a 6\% increase from 1999 to 2002), further suggesting that there is not a
+methodological reason for the survey to have lower catch rates (in general) in
+2002 compared to 2001.
+
+\section{DISCUSSION}
+% \section{From IPHChookanalysis.tex:}
+
+Future uses of the IPHC survey data for Canadian Pacific groundfish stock
+assessments could investigate the use of, for example, generalised linear
+models. There was not time to do so for this assessment, but the extensive data
+processing and associated R code developed for this work should prove useful for
+such work.
+
+Also, further methods could be considered, such as the delta-gamma method
+(e.g. \citealt{lbaebp13}) that would explicitly model the zero catch rates seen
+for some sets. For the Redbanded Rockfish assessment, it was not clear \emph{a
+  priori} whether or not the delta-gamma method would lead to reduced
+coefficients of variation for the catch rates (Jean-Baptiste Lecomte, Pacific
+Biological Station, Nanaimo, BC, pers.~comm.). The method used here does not
+explicitly account for the expected increased number of sets with zero catches
+in 2012 compared to other years (recall that the bait experiment in 2012 meant
+that only four skates could be used from each set). However, 2012 did not have
+the highest proportion of zero catches (Table~\ref{tab:serAB}) and does not look
+anomalous (Figure \ref{fig:bcaKeepSerAB1}), and so the methods used here appear
+to be suitable.
+
+
+\clearpage

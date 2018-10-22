@@ -13,6 +13,7 @@ rmd_files: [
   "06-cpue.Rmd",
   "07-survey-spatial.Rmd",
   "08-survey-index.Rmd",
+  "08a-survey-index-iphc.Rmd",
   "09-growth-modelling.Rmd",
   "98-colophon.Rmd",
   "99-references.Rmd"
