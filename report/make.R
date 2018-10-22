@@ -101,7 +101,7 @@ for (i in seq_along(spp$species_common_name)) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-    dat_iphc <- readRDS(file.path(dc, paste0("/iphc", spp$spp_w_hyphens[i], ".rds")))
+    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
     dat$cpue_index <- d_cpue
     gfsynopsis::make_pages(
       dat = dat,
