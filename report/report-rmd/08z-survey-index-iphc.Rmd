@@ -17,15 +17,15 @@ number', which we use here to scale the count of each species of interest
 and obtain a catch rate
 for each set (described below). The effective skate number "standardizes survey
 data in years when the number of hooks, hook spacing, or hook type varied"
-REF{yocld08}. An effective skate of one represents a skate of 100 circle
-hooks with 18-foot spacing REF{yocld08}.
+[@yamanaka2008iphc]. An effective skate of one represents a skate of 100 circle
+hooks with 18-foot spacing [@yamanaka2008iphc].
 
 For British Columbia waters, the survey has enumerated non-halibut species
 since 1995 (to varying degrees of species identification). 
 For each species, the catch rate of a set is the number of individuals caught 
 per effective skate.
-The catch rates within
-a year are then bootstrapped, to give bootstrapped means, bias-corrected and adjusted
+We bootstrap these catch rates within each year to
+to give annual bootstrapped means, bias-corrected and adjusted
 (BCa) bootstrapped 95\% confidence intervals, and bootstrapped coefficients of
 variation (CV).
 
@@ -38,7 +38,11 @@ spatial coverage and the technical details of the survey are not consistent from
 year to year (as described below), we attempt to construct a survey index for
 as many species as possible for as long a time period as possible. We also 
 determine whether each index can be considered representative of all British 
-Columbia waters.   TODO - check those results and mention somewhere.
+Columbia waters. For each species, the resulting index gives what we term
+the International Pacific Halibut Commission fishery independent survey series
+(IPHC FISS).
+
+TODO - check those results and mention somewhere.
 
 The approach taken is described below, and builds on that developed for
 assessments
@@ -49,14 +53,7 @@ included data up to 2012. For the Yelloweye assessment the methods
 were extended to demonstrate that the index based on waters north of Vancouver
 Island could be considered representative of the coastwide population. 
 
-TODO  decide what to do The Yelloweye
-assessment also considered a model of hook competition TODO **mention Marie's if
-I don't get anything in. Note, however, that this work was not directly
-incorporated into the analysis in Appendix~C that was used as the survey index
-in the assessment model.
-
-
-Not needed? This work demonstrates that a consistent index can be constructed despite the
+TODO: Put in main text: This work demonstrates that a consistent index can be constructed despite the
 survey design changing through the years. 
 
 ## IPHC DATA 
@@ -284,7 +281,7 @@ Thus, $E_{it}$ is
 E_{it} = \dfrac{H_{it}}{H_{it}^*} E_{it}'.
 \end{equation}
 
-Adapting equations on page 3 of REF yocld08, define:
+Adapting equations on page 3 of [@yamanaka2008iphc], define:
 
 $N_{it}$ -- the number of fish of a given species caught on set $i=1,2,...,n_t$
 in year $t$, based on observed chum-bait hooks,
@@ -318,7 +315,7 @@ $\tilde{E}_{it}$ -- effective skate number of set&nbsp;$i$ in year&nbsp;$t$ base
 first 20 chum-bait hooks that were sent out on each skate.
 
 Since effective skate number is a linear function of the number of hooks in a
-set REF yocld08, we have
+set [@yamanaka2008iphc], we have
 \begin{equation}
 \tilde{E}_{it} = \dfrac{\tilde{H}_{it}}{H_{it}} E_{it} 
   \left( = \dfrac{\tilde{H}_{it}}{H_{it}^*} E_{it}' \right).
@@ -400,7 +397,7 @@ Series&nbsp;A and Series&nbsp;B).
 Figure caption from YYR:  \twofig{bcaKeepSerAB1}{bcaKeepSerAB2}{(a) Each of the two catch rate series from Figure \ref{fig:bcaKeepSerA} is divided by the geometric mean of its bootstrapped annual means (with the geometric mean based on the overlapping years only). (b) The catch rate index Series&nbsp;AB that could be used as a model input (although the index in Appendix&nbsp;C was used in this stock assessment). Series&nbsp;AB extends the original Series&nbsp;A by incorporating the suitably scaled 1995 and 1996 values from Series&nbsp;B (see text).}
 -->
 
-For Series A, define $G_A$ to be the geometric mean of the bootstrapped annual
+For Series&nbsp;A, define $G_A$ to be the geometric mean of the bootstrapped annual
 means, with the geometric mean based only on the overlapping years (2003-2012
 and 2014 onwards). Define $G_B$ similarly for Series B. By dividing the bootstrapped
 values for each series by their respective geometric means, we obtain Figure
@@ -411,9 +408,9 @@ are very similar for the overlapping years. Thus, on this scale, the 1995 and
 
 We statistically test the comparability by conducting a 
 paired t-test REFcrawley on the scaled annual means for the overlapping years, to test the null
-hypothesis that there is no difference between the scaled annual means.
-If the resulting
-$p$-value is $\geq 0.05$ then we cannot reject the null hypothesis. Then we join
+hypothesis that there is no difference between the scaled annual means, with 
+resulting $p$-value defined as $p_{AB}.
+If $p_{AB} \geq 0.05$ then we cannot reject the null hypothesis. Then we join
 up the two series in FigureTODO(a) by taking the rescaled 1995 and 1996 values
 from Series&nbsp;B and joining to the rescaled Series&nbsp;A. Equivalently,
 we just multiply the original Series-B means and confidence intervals for 1995 
@@ -423,7 +420,7 @@ the longest time series possible, based on the first 20&nbsp;hooks from each
 skate, rescaled for 1995 and 1996 for which numbers for the first 20&nbsp;hooks
 are not available.
 
-If the resulting $p<0.05$ then we cannot join the series, and so we stick with
+If $p_{AB} < 0.05$ then we cannot join the series, and so we stick with
 Series&nbsp;A as being the longest. 
 
 TODO t-test.
@@ -448,8 +445,10 @@ skate (like for Series&nbsp;A) but covers the whole coast, including the WCVI
 In the same way that we just compared Series&nbsp;A and Series&nbsp;B, we
 divide each series by its geometric mean ($G_A$ or $G_D$, based on the
 overlapping years of A and&nbsp;D) and conduct
-a paired t-test on the scaled annual bootstrapped means for the overlapping years.
-Again, if $p\geq 0.05$ then we consider the two series comparable.
+a paired t-test on the scaled annual bootstrapped means for the overlapping
+years
+to give a $p$-value ($p_{AD}$).
+Again, if $p_{AD} \geq 0.05$ then we consider the two series comparable.
 
 For Series&nbsp;A and Series&nbsp;D this means that we can consider
 the relative changes in Series&nbsp;A (that excludes WCVI) to be the same as
@@ -459,7 +458,7 @@ WCVI is not showing a different relative trend to the rest of the coast.
 
 We do not need to join up the two series, we just wish to verify whether the
 relative changes in Series&nbsp;A can be considered representative of the full
-coast. If $p<0.05$ then this is not the case.
+coast. If $p_{AD}<0.05$ then this is not the case.
 
 For the last Yelloweye Rockfish assessment [@yamanaka2018yelloweyeoutside],
 the relative scaled patterns for Series&nbsp;A and Series&nbsp;D appeared similar for the
@@ -481,7 +480,7 @@ series; since we have more years that do not have stations off the WCVI
 (Table&nbsp;\ref{tab:seriesSumm}), we consistently exclude these stations (giving
 Series&nbsp;A).
 
-### CONSTRUCTING SERIES&nbsp;C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;B (ALL HOOKS, NORTH OF VANCOUVER ISLAND
+### CONSTRUCTING SERIES&nbsp;C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;B (ALL HOOKS, NORTH OF VANCOUVER ISLAND)
 
 Similarly, we also construct Series&nbsp;C, which is for all hooks from each 
 skate (like for
@@ -490,8 +489,10 @@ was summarised in Table&nbsp;\ref{tab:seriesSumm}.
 
 We again compare each series scaled by its geometric mean of the overlapping
 years and conduct
-a paired t-test on the scaled annual bootstrapped means for the overlapping years,
-and if $p\geq 0.05$ then we consider the two series comparable.
+a paired t-test on the scaled annual bootstrapped means for the overlapping
+years,
+giving a $p$-value $p_{BC}$.
+If $p_{BC}\geq 0.05$ then we consider the two series comparable.
 This means that we can consider the relative changes in Series&nbsp;B to reflect
 those of the full coast (Series&nbsp;C).
 
@@ -509,322 +510,34 @@ So the stations off the WCVI had lower average catch rates of Yelloweye Rockfish
 than the remaining stations. This holds whether we look at all hooks (here) 
 or just the first 20 by comparing Series&nbsp;A and&nbsp;D (above). 
 
+### RESULTING LONGEST INDEX FROM THE IPHC SURVEY
+
+So, if $p_{AB} \geq 0.05$ then Series&nbsp;AB can be created and that is the 
+longest IPHC survey index that can be constructed. If $p_{AD} \geq 0.05$ and
+$p_{BC} \geq 0.05$ then Series&nbsp;A and Series&nbsp;B can be considered
+representatitive of the full coast, and thus so can Series&nbsp;AB.
+
+If if $p_{AB} \geq 0.05$ but either 
+$p_{AD} < 0.05$ or
+$p_{BC} < 0.05$
+then Series&nbsp;AB is still the longest time series possible, but can
+only be considered to represent the waters north of Vancouver Island, not
+the full coast.
+
+For some special cases of species that are rarely caught (or that weren't
+specifically enumerated in 1995 and 1996, for example), then Series&nbsp;A may
+be the longest, or even possibly Series&nbsp;C or&nbsp;D if the species was not
+caught in some years. Some rare special cases may not yet be fully accounted for
+in our code, and may need to be verified on a species-by-species basis,
+particularly
+to ascertain whether a given species was being actively identified in a given
+year (resulting in a zero catch rate rather than 'no data').
+
+TODO  decide what to do The Yelloweye
+assessment also considered a model of hook competition TODO **mention Marie's if
+I don't get anything in. Note, however, that this work was not directly
+incorporated into the analysis in Appendix~C that was used as the survey index
+in the assessment model.
 
-\clearpage
-```{r early-exit, cache=FALSE}
-knitr::knit_exit()
-```
-
-<!-- TODO: Add a blurb here about the surveys in general. -->
-
-Details on the design of the various surveys referenced in this report can be
-found in the following documents:
-
-1. Synoptic Survey, Queen Charlotte Sound (SYN QCS):  [@wyeth2018synqcs]
-
-1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI):
-  [@wyeth2017synwcvi]
-
-1. Synoptic Survey, Hecate Strait (SYN HS): [@wyeth2018synhs]
-
-1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG):
-  [@wyeth2018synwchg]
-
-1. Hard Bottom Longline Survey, Outside (HBLL OUT): [@dfo2018ifmp]
-
-1. Hard Bottom Longline Survey, Inside (HBLL INS): [@lochead2004irf]
-
-1. Hecate Strait Multispecies Assemblage Survey (MSA HS):
-  [@fargo1984hsmsa,westrheim1984hsmsa]
-
-1. International Pacific Halibut Commission fishery independent survey (IPHC
-  FISS): [@flemming2012iphc]
-
-The main biomass index trends illustrated on the figure pages represent the
-design-based index trends that have historically been used in Pacific Biological
-Station groundfish stock assessments. We calculated the trawl and longline survey
-relative biomass index trends from the same design-based bootstrap approach used
-in recent BC groundfish stock assessment reports. The code to perform the
-calculations was originally written by Norm Olsen at Pacific Biological Station
-and is automatically applied to the available survey data to populate the GFBio
-database. We extracted the relative biomass values directly from GFBio.
-Nonetheless, we have included the relevant equations below for clarity.
-
-## TRAWL SURVEYS {#sec:trawl-methods}
-
-For all trawl surveys, and for a given species, we calculated the relative
-biomass density $B$ in year $y$ as:
-
-\begin{equation}
-  B_y = \sum_{i = 1}^k C_{y,i} A_i
-\end{equation}
-
-where $C_{y,i}$ represents the mean CPUE in kg/km^2^ for the
-species in year $y$ and stratum $i$, $A_i$ represents the area of stratum $i$ in
-km^2^, and $k$ represents the number of strata. We calculated
-the CPUE ($C_{y,i}$) for a given species in year $y$ and stratum $i$ as:
-
-\begin{equation}
-  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( W_{y,j} / D_{y,j} w_{y,j}\right)}{n_{y,i}}
-\end{equation}
-
-where $W_{y,j}$ represents the catch weight (kg) for the species in year $y$,
-stratum $i$, and tow $j$; $D_{y,j}$ represents the distance travelled in km by
-tow $j$ in year $y$; $w_{y,j}$ represents the net opening width in km for year
-$y$ and tow $j$; and $n_{y,i}$ represents the number of tows in year $y$ and
-stratum $i$.
-
-## LONG-LINE SURVEYS {#sec:ll-methods}
-
-For the HBLL surveys, and for a given species, we calculated the relative
-biomass density $B$ in year $y$ as:
-
-\begin{equation}
-  B_y = \sum_{i = 1}^k C_{y,i} A_i
-\end{equation}
-
-where $C_{y,i}$ represents the mean CPUE in parts (fish) per
-km\textsuperscript{2} for the species in year $y$ and stratum $i$, $A_i$
-represents the area of stratum $i$ in km^2^, and $k$ represents
-the number of strata. We calculated the CPUE ($C_{y,i}$) for a given species in
-year $y$ and stratum $i$ as:
-
-\begin{equation}
-  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( N_{y,j} / H_{y,j} w_{y,j}\right)}{n_{y,i}}
-\end{equation}
-
-where $N_{y,j}$ represents the number of fish caught for the species in year
-$y$, stratum $i$, and set $j$; $H_{y,j}$ represents the number of hooks $\times$
-the hook spacing in km in set $j$ in year $y$; $w_{y,j}$ represents an arbitrary
-swept width of 30 feet or 0.009144 km for year $y$ and tow $j$; and $n_{y,i}$
-represents the number of sets in year $y$ and stratum $i$. The hook spacing is
-8 feet or 0.0024384 km for
-the inside and outside HBLL surveys.
-
-## BOOTSTRAPPED CONFIDENCE INTERVALS
-
-We calculated bootstrap confidence intervals on $B_y$ by repeatedly calculating
-$B_y$ given the above equations but each time re-sampling, with replacement, from
-the available tows within each strata. We drew 1000 bootstrap replicates of
-$B_y$, $B_y^{\mathrm{rep}}$, and calculated 95% quantile-based confidence
-intervals on $B_y^{\mathrm{rep}}$.
-
-## GEOSTATISTICAL SPATIOTEMPORAL BIOMASS INDEX TRENDS
-
-TODO: Bring these notes together into cohesive paragraphs.
-
-In recent years there has been a movement towards model-based standardization of survey biomass index trends (e.g. REFS). This approach has a theoretical advantage a design-based approach for a number of reasons ... TODO.
-
-For comparison, we include model-based index trends for the synoptic trawl surveys.
-
-We include them as a point of comparison so the reader can gauge when the two approaches most differ. Large differences are likely a result of the random positioning of the survey sets for a given year, which can lead to occasional biomass deviation or large a large CV.
-
-Authors of groundfish stock assessments may want to consider model-based index standardization on a case-by-case basis.
-
-We use the geostatistical model as described in Section (\@ref(sec:spatial-modeling)) with the addition of annual predictors for the mean biomass and spatiotemporal random effects.
-
-TODO: add equations here
-
-The spatial random effects account for spatial factors that are constant through year, for example, depth and substrate type. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, circulation patterns, species interactions, and species movement.
-
-The approach therefore includes the same generation of spatial 'knots' to make the problem computationally feasible through the SPDE (stochastic partial differential equation) approximation and a predictive process model (Figure \@ref(fig:sdmTMB-spt-spde)). Here, we use 200 knots, which for spatial coverage of the synoptic trawl surveys, seems to be adequately high resolution to capture the spatial and spatiotemporal variation. We tested this assumption by increasing the number of knots for a selection of example species and ensuring that the estimated trends did not qualitatively diffef.
-
-We use Pacific Cod as an example species to illustrate the model components.
-
-We can project predictions from the model to a fine-scale (2 by 2 km) grid using the covariance projection matrix generated by INLA... (Figures \@ref(fig:sdmTMB-spt-plot-all-effects-log), \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt)). We found through experimentation that finer-resolution grids made little difference qualitatively to the index estimates but had higher computational costs.
-
-We can look at residuals through space and time to check if there appears to be remaining spatial or spatiotemporal autocorrelation (Figure \@ref(fig:sdmTMB-spt-spatial-residuals)).
-
-We chose to not include depth and depth squared as predictors in this model because... in nearly all cases it generates a similar index and in a few cases it generates what appeared to be unrealistic estimates of biomass when a combination of the quadratic shape of the relationship between depth and biomass combined to generate exceedingly high estimates of biomass on the border of the survey polygons. This may be a function of the underlying bathymetry layer used and will be investigated by the authors in the future.
-
-We find there was little difference in the predicted index for most stocks (e.g. Figure \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)). The main difference lies in the model with depth predictors having slightly less smooth productions of biomass and space.
-
-We can look at the individual components of the model. For the models without fixed effect predictors for depth, the fixed effect predictions each year are constant spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)).
-
-The spatial random effects are constant across years (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)) and the spatiotemporal random effects vary across years (Figure \@ref(fig:sdmTMB-spt-plot-spatiotemporal-effects)).
-
-By summing the predicted biomass across all grid cells within the survey boundary, we can generate a biomass estimate through time (Figure \@ref(fig:sdmTMB-plot-index)). 
-
-We generate standard errors on the annual estimates of log biomass via the generalized Delta method as implemented in TMB.
-
-Often, but not always, the model-based biomass index trends have lower CVs than the design-based index trends and often reduce years with outlying estimates of biomass in the design-based Index trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
-
-\clearpage
-
-<!-- We can look at the spatial random effects but represent consistent deviations in space through time that are not accounted for by our fixed effects of depth. In other words, these deviations represent consistent biotic and abiotic factors that are affecting biomass density but are not accounted for in the model. -->
-
-<!-- And finally we can look at the spatiotemporal random effects that represent deviation from the fixed effect predictions and the spatial random effect deviations. These represent biotic and abiotic factors that are changing through time and are not accounted for in the model. -->
-
-```{r sdmTMB-spt-data}
-library(dplyr)
-library(ggplot2)
-library(sdmTMB)
-
-survey <- "SYN QCS"
-n_knots <- 200
-bias_correct <- FALSE
-# dat <- readRDS(here::here("report/data-cache/walleye-pollock.rds"))
-dat <- readRDS(here::here("report/data-cache/pacific-cod.rds"))
-dat <- gfplot:::tidy_survey_sets(dat$survey_sets, survey, years = seq(1, 1e6),
-  density_column = "density_kgpm2")
-dat <- mutate(dat, density = density * 1000 * 1000)
-dat <- gfplot:::interp_survey_bathymetry(dat)$data
-dat <- gfplot:::scale_survey_predictors(dat)
-
-grid_locs <- gfplot:::make_prediction_grid(
-  filter(dat, year == max(dat$year)), survey = survey,
-  cell_width = 2)$grid
-grid_locs <- rename(grid_locs, depth = akima_depth)
-grid_locs$year <- NULL
-```
-
-```{r sdmTMB-spt-spde, fig.cap='SPDE approximation mesh. Red dots represent the knot locations and open black circles represent the location of the survey sets. Survey data across all years is shown in the same panel here.', fig.width=9, out.width="3.7in"}
-spde <- make_spde(dat$X, dat$Y, n_knots = n_knots)
-plot_spde(spde)
-```
-
-```{r sdmTMB-spt-model}
-m_st <- sdmTMB(
-  formula = density ~ 0 + as.factor(year),
-  data = dat, time = "year", spde = spde, family = tweedie(link = "log"), 
-  silent = TRUE)
-predictions <- predict(m_st, newdata = grid_locs)
-```
-
-```{r sdmTMB-spt-model-depth}
-m_st_depth <- sdmTMB(
-  formula = density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2,
-  data = dat, time = "year", spde = spde, family = tweedie(link = "log"), 
-  silent = TRUE)
-predictions_depth <- predict(m_st_depth, newdata = grid_locs)
-```
-
-```{r sdmTMB-spt-residuals, fig.cap='Randomized quintile residual histogram.'}
-dat$resids <- residuals(m_st) # randomized quantile residuals
-# gfplot::plot_qres_histogram(dat$resids)
-
-dat$resids_depth <- residuals(m_st_depth) # randomized quantile residuals
-# gfplot::plot_qres_histogram(dat$resids_depth)
-```
-
-```{r sdmTMB-spt-plot-function}
-plot_map_spt <- function(dat, column) {
-  ggplot(dat, aes_string("X", "Y", fill = column)) +
-    geom_raster() +
-    facet_wrap(~year) +
-    coord_fixed() +
-    labs(x = 'Easting', y = 'Northing')
-}
-```
-
-```{r sdmTMB-spt-plot-all-effects-log, fig.width=8, fig.cap='Predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a log-distributed colour scale here. The log transformation makes it easier to see the full variability predicted by the model.'}
-plot_map_spt(predictions$data, "exp(est)") +
-  ggtitle("Prediction (fixed effects + all random effects)") +
-  scale_fill_viridis_c(trans = "log10", option = "C") +
-  labs(fill = 'Biomass estimate\nkg/km^2')
-```
-
-```{r sdmTMB-spt-plot-all-effects-sqrt, fig.width=8, fig.cap='Predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a square-root-distributed colour scale. The square root transformation generates what is probably a more realistic visual representation of the distribution of expected biomass and is used throughout the report.'}
-plot_map_spt(predictions$data, "exp(est)") +
-  ggtitle("Prediction (fixed effects + all random effects)") +
-  scale_fill_viridis_c(trans = "sqrt", option = "C") +
-  labs(fill = 'Biomass estimate\nkg/km^2')
-```
-
-
-```{r sdmTMB-spt-plot-all-effects-sqrt-depth, fig.width=8, fig.cap='Predictions from geostatistical spatiotemporal model that includes the effects of depth and depth squared for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a square-root-distributed colour scale. Note the similarity to the previous figure which does not include the depth predictors.'}
-plot_map_spt(predictions_depth$data, "exp(est)") +
-  ggtitle("Prediction (fixed effects + all random effects)") +
-  scale_fill_viridis_c(trans = "sqrt", option = "C") +
-  labs(fill = 'Biomass estimate\nkg/km^2')
-```
-
-\clearpage
-
-```{r sdmTMB-spt-spatial-residuals, fig.cap='Spatial residuals.'}
-ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
-  geom_point() + facet_wrap(~year) + coord_fixed() +
-  labs(x = 'Easting', y = 'Northing')
-```
-
-\clearpage
-
-```{r sdmTMB-spt-plot-fixed-effects, fig.width = 8, fig.cap='Fixed effect predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Here the only fixed effects are the factor effects for each year resulting in fixed effect predictions that are same throughout the spatial region for each year.'}
-plot_map_spt(predictions$data, "exp(est_fe)") +
-  ggtitle("Prediction (fixed effects only)") +
-  scale_fill_viridis_c(trans = "sqrt", option = "C") +
-  labs(fill = 'Biomass estimate\nkg/km^2')
-```
-
-\clearpage
-
-```{r sdmTMB-spt-plot-spatial-effects, fig.width = 8, fig.cap='Spatial random effect predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatial random effects account for spatial factors that are constant through year, for example, depth and substrate type.'}
-red_blue_fill <- scale_fill_gradient2(midpoint = 0,
-    high = scales::muted("red"),
-    mid = "white",
-    low = scales::muted("blue"))
-
-plot_map_spt(predictions$data, "est_re_s") +
-  ggtitle("Spatial random effects only") +
-  red_blue_fill +
-  labs(fill = 'Deviation from expected\nbiomass in log space')
-```
-
-\clearpage
-
-```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.width = 8, fig.cap='Spatiotemporal random effect predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, circulation patterns, and species interactions.'}
-plot_map_spt(predictions$data, "est_re_st") +
-  ggtitle("Spatiotemporal random effects only") +
-  red_blue_fill
-  labs(fill = 'Deviation from expected\nbiomass in log space')
-```
-
-\clearpage
-
-```{r sdmTMB-get-index}
- # not bias correcting for speed:
-ind <- get_index(predictions, bias_correct = FALSE)
-ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
-```
-
-\clearpage
-
-```{r sdmTMB-plot-index, fig.cap='Relative biomass index predictions from the design based approach, the geostatistical approach without covariance, and the geostatistical approach with depth covariates. Note the similarity between the two geostatistical models.'}
-# ind_design <- readRDS(here::here('report/data-cache/walleye-pollock.rds'))
-ind_design <- readRDS(here::here('report/data-cache/pacific-cod.rds'))
-ind_design <- ind_design$survey_index
-ind_design <- ind_design %>%
-  filter(survey_abbrev  == 'SYN QCS') %>% 
-  mutate(
-    est = biomass / exp(mean(log(biomass))),
-    lwr = lowerci / exp(mean(log(biomass))),
-    upr = upperci / exp(mean(log(biomass))),
-    type = 'Design based'
-  )
-
-ind_geo <- ind %>%
-  mutate(
-    lwr = lwr / exp(mean(log(est))),
-    upr = upr / exp(mean(log(est))),
-    est = est / exp(mean(log(est))),
-    type = "Geostatistical"
-  )
-
-ind_geo_depth <- ind_depth %>%
-  mutate(
-    lwr = lwr / exp(mean(log(est))),
-    upr = upr / exp(mean(log(est))),
-    est = est / exp(mean(log(est))),
-    type = "Geostatistical (depth)"
-  )
-
-ind_combined <- bind_rows(ind_design, ind_geo) %>% bind_rows(ind_geo_depth)
-ggplot(ind_combined, aes(year, est, fill = type)) + 
-  geom_line(aes(colour = type)) +
-  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.4) +
-  xlab('Year') + 
-  ylab('Biomass estimate divided by geometric mean') +
-  labs(fill = 'Type', colour = 'Type')
-```
 
 \clearpage
