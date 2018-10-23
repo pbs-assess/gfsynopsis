@@ -55,7 +55,7 @@ blackbelly eelpout,B,245,lycodes pacificus,630999,species,zoarcidae(eelpouts)
 pacific grenadier,B,251,coryphaenoides acrolepis,165334,species,macrouridae(grenadiers)
 threadfin grenadier,B,254,coryphaenoides filifer,649753,species,macrouridae(grenadiers)
 giant grenadier,B,256,albatrossia pectoralis,165427,species,macrouridae(grenadiers)
-california grenadier,B,NA,nezumia stelgidolepis,NA,species,macrouridae(grenadiers)
+california grenadier,B,257,nezumia stelgidolepis,165400,species,macrouridae(grenadiers)
 shiner perch,B,304,cymatogaster aggregata,169739,species,embiotocidae(surfperches)
 pearly prickleback,B,331,bryozoichthys marjorius,171576,species,stichaeidae(pricklebacks)
 snake prickleback,B,337,lumpenus sagitta,171583,species,stichaeidae(pricklebacks)
@@ -76,7 +76,7 @@ rosethorn rockfish,B,421,sebastes helvomaculatus,166723,species,sebastes
 black rockfish,B,426,sebastes melanops,166727,species,sebastes
 blackgill rockfish,B,427,sebastes melanostomus,166728,species,sebastes
 vermilion rockfish,B,428,sebastes miniatus,166729,species,sebastes
-deacon rockfish,B,NA,sebastes diaconus,NA,species,sebastes
+deacon rockfish,B,429,sebastes diaconus,NA,species,sebastes
 china rockfish,B,431,sebastes nebulosus,166731,species,sebastes
 tiger rockfish,B,433,sebastes nigrocinctus,166732,species,sebastes
 stripetail rockfish,B,444,sebastes saxicola,166741,species,sebastes

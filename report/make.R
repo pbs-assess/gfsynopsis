@@ -6,8 +6,8 @@ library(dplyr)
 # for rapid development:
 if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
 if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
-devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
-devtools::install(quick = TRUE, dependencies = FALSE)
+#devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
+#devtools::install(quick = TRUE, dependencies = FALSE)
 
 # for production use:
 library(gfplot)
@@ -33,7 +33,7 @@ dat_geostat_index <- readRDS(here("report", "geostat-cache",
 # ------------------------------------------------------------------------------
 
 if (!file.exists(here("report", "itis.rds"))) {
-  cls <- taxize::classification(spp$itis_tsn, db = 'itis')
+  cls <- taxize::classification(spp$itis_tsn[!is.na(spp$itis_tsn)], db = 'itis')
   saveRDS(cls, file = here("report", "itis.rds"))
 } else {
   cls <- readRDS(here("report", "itis.rds"))
@@ -45,8 +45,14 @@ cls <- plyr::ldply(cls) %>%
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
 
+# Missing from ITIS:
+spp$order[spp$species_common_name == "deacon rockfish"] <- spp$order[spp$species_common_name == "vermilion rockfish"]
+spp$family[spp$species_common_name == "deacon rockfish"] <- spp$family[spp$species_common_name == "vermilion rockfish"]
+
 if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
+  if (any(grepl("on_schedule", names(cosewic))))
+    names(cosewic)[7] <- "schedule"
   saveRDS(cosewic, file = here("report", "cosewic.rds"))
 } else {
   cosewic <- readRDS(here("report", "cosewic.rds"))
@@ -62,15 +68,16 @@ cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", pop
 spp <- left_join(spp, cosewic, by = "species_science_name")
 
 # ------------------------------------------------------------------------------
-# This section is used for hacked parallel processing from the command line.
-# Unecessary, but speeds up rebuilding and no proper form of parallel processing
-# seems to work in the figure building.
-# e.g. from root project folder in macOS or Linux or maybe Cygwin on Windows:
-# open new Terminal
-# make one
-# open new Terminal
-# make two
-# etc.
+# # This section is used for hacked parallel processing from the command line.
+# # Unecessary, but speeds up rebuilding and no proper form of parallel processing
+# # seems to work in the figure building.
+# # e.g. from root project folder:
+# N <- 1:10
+# source("report/make.R")
+# # Open another console, then:
+# N <- 11:20
+# source("report/make.R")
+# # etc.
 if (exists("N")) warning("A global variable `N` exists; filtering by N.")
 if (exists("N")) spp <- spp[N, , drop = FALSE]
 
@@ -124,6 +131,14 @@ for (i in seq_along(spp$species_common_name)) {
   }
 }
 
+rougheye_split <- function(x) {
+  spl <- strsplit(x, "/")[[1]]
+  first <- strsplit(spl, " ")[[1]][[1]]
+  second <- strsplit(spl, " ")[[1]][[2]]
+  third <- strsplit(spl, " ")[[2]][[1]]
+  c(paste(first, second, sep = "-"), paste(first, third, sep = "-"))
+}
+
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
 
@@ -144,6 +159,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   sara_status <- spp$sara_status[spp$species_common_name == x]
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   .b_section <- spp$b_section[spp$species_common_name == x]
+  # .fishbase <- spp$fishbase[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
@@ -158,10 +174,25 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(
-    gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
+    gfsynopsis:::emph(latin_name), " (", species_code, ")", "\\\n",
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
-    "\n")
+    ",")
+
+  i <- i + 1
+  out[[i]] <- paste0("[FishBase link]",
+    "(http://www.fishbase.org/summary/",
+    gsub(" ", "-", gfplot:::firstup(latin_name)), ")\\")
+
+  if (species_code == '394') { # Sebastes aleutianus/melanostictus
+    .names <- rougheye_split(gfplot:::firstup(latin_name))
+    out[[i]] <- paste0("[FishBase link 1]",
+      "(http://www.fishbase.org/summary/", .names[1], "),")
+    i <- i + 1
+    out[[i]] <- paste0("[FishBase link 2]",
+      "(http://www.fishbase.org/summary/", .names[2], ")\\")
+  }
+
   if (resdoc != "") {
     i <- i + 1
     out[[i]] <- paste0(resdoc_text, resdoc, "\\")
