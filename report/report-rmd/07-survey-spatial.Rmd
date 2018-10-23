@@ -15,7 +15,7 @@ where $s$ represents a spatial location, $y_s$ represents observed fish density 
 
 $$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
 
-We constrain the spatial random effects to follow a \mbox{Mat\'ern} covariance function, which simply defines the shape with which spatial correlation decays with distance. The \mbox{Mat\'ern} function describes the covariance between spatial locations $s_j$ and $s_k$ as:
+We constrain the spatial random effects to follow a \mbox{Mat\'ern} covariance function, which simply defines the shape with which spatial correlation decays with distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern} function describes the covariance between spatial locations $s_j$ and $s_k$ as:
 
 $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
     (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
@@ -34,6 +34,30 @@ TODO:
 - compared to glmmfields, VAST
 - note the spatial residual example (Figure \@ref(fig:sdmTMB-resids))
 - note the multipanel plot: (Figure \@ref(fig:sdmTMB-maps-combined)) that includes depth, fixed effects, spatial random effects, and combined fixed and random effect predictions in that order
+
+```{r sdmTMB-matern-demo, fig.asp=0.3, fig.width=8, fig.cap="An illustration of the effect of the $\\kappa$ parameter ('kappa') on the shape of the \\mbox{Mat\\'ern} correlation function with $\\nu = 1$. The vertical dashed line illustrates $\\sqrt{8\\nu} / \\kappa$, referred to as the 'range', which is a point at which the correlation decreases below 0.1."}
+library(dplyr)
+library(ggplot2)
+dist <- seq(0, 13, length = 200)
+kappa <- c(0.3, 0.5, 1.1)
+nu <- 1.0
+plyr::ldply(kappa, function(k) {
+  data.frame(
+    Correlation = k * dist * base::besselK(k * dist, nu),
+    kappa = paste("kappa =", k),
+    Distance = dist,
+    range = sqrt(8 * 1) / k
+  )
+}) %>%
+  mutate(Correlation = ifelse(is.na(Correlation), 1, Correlation)) %>%
+  ggplot(aes(Distance, Correlation)) +
+  geom_line() +
+  facet_wrap(~kappa) +
+  geom_vline(aes(xintercept = range), lty = 2) +
+  coord_cartesian(expand = FALSE, ylim = c(0, 1)) +
+  theme(strip.text.x = element_text(colour = "grey20", size = rel(1.1)))
+```
+
 
 ```{r sdmTMB-data}
 library(dplyr)
