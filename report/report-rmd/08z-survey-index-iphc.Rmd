@@ -115,7 +115,7 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
 
 From Table \@ref(tab:IPHCdata), four issues are apparent: 
 
-1. For 1997-2002 and 2013 only the first 20~hooks of each skate were
+1. For 1997-2002 and 2013 only the first 20&nbsp;hooks of each skate were
 enumerated, whereas for all other years all hooks were enumerated. Thus, the
 data from each year cannot simply be considered as comparable and analysed as
 one consecutive time series.
@@ -124,7 +124,7 @@ one consecutive time series.
 available at the set-by-set level, in terms of numbers of a given species per
 effective skate. Which species was caught on each hook is not available, unlike
 for 2003-2012 and 2014-2107. Thus, for 1995 and 1996 we cannot calculate catch rates
-based on the first 20~hooks (because we only have set-by-set level data),
+based on the first 20&nbsp;hooks (because we only have set-by-set level data),
 whereas we can do that for 2003-2012 and 2014-2017, and the 20-hook data is the only
 information we have for 1997-2002 and 2013.
 
@@ -150,43 +150,43 @@ based on.}
 First 20 hooks from each skate & {\bf A}(21) & {\bf D}(18)\\
 All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
 \hline
-~\\    % to add some whitespace before text carries on
+&nbsp;\\    % to add some whitespace before text carries on
 \end{tabular}
 \end{table}
 
 To address issues 1, 2 and 4 we therefore construct four time series (whose
 structure is summarised in Table \@ref(tab:seriesSumm)):
   
-{\bf Series A} -- 1997-2017 stations north of WCVI, with catch rates based on
-first 20~hooks only (which is all we have for 1997-2002 and 2013).
+**Series A** -- 1997-2017 stations north of WCVI, with catch rates based on
+first 20&nbsp;hooks only (which is all we have for 1997-2002 and 2013).
  
-{\bf Series B} -- 1995, 1996, 2003-2012 and 2014-2017 stations north of WCVI, with
+**Series B** -- 1995, 1996, 2003-2012 and 2014-2017 stations north of WCVI, with
 catch rates based on all hooks (which is all we have for 1995 and 1996).
 
-{\bf Series C} -- 2003-2012 and 2014-2017 stations coastwide (including WCVI), with
+**Series C** -- 2003-2012 and 2014-2017 stations coastwide (including WCVI), with
 catch rates based on all hooks.
 
-{\bf Series D} -- 1999 and 2001-2017 stations coastwide (including WCVI), with
-catch rates based on first 20~hooks only (which is all we have for 1999,
+**Series D** -- 1999 and 2001-2017 stations coastwide (including WCVI), with
+catch rates based on first 20&nbsp;hooks only (which is all we have for 1999,
 2001-2002 and 2013).
 
 We would like to obtain an index series with as long a timespan as possible,
-and, ideally, over as broad a geographic region as possible. Since Series~A is
-the longest time series, we take this and expand it to Series~AB, defined as:
+and, ideally, over as broad a geographic region as possible. Since Series&nbsp;A is
+the longest time series, we take this and expand it to Series&nbsp;AB, defined as:
 
-{\bf Series AB} -- for stations north of WCVI, combine the 1995 and 1996 values
+**Series AB** -- for stations north of WCVI, combine the 1995 and 1996 values
 from Series B, based on all hooks, with the 1997-2017 values from Series A that
-are based on first 20 hooks only. See Section~\ref{sec:combine}.
+are based on first 20 hooks only. See Section&nbsp;\ref{sec:combine}.
 
-The resulting Series~AB covers the stations north of WCVI. In
-Sections~\ref{sec:compareAD} and~\ref{sec:compareBC} we how we determine, for
+The resulting Series&nbsp;AB covers the stations north of WCVI. In
+Sections&nbsp;\ref{sec:compareAD} and&nbsp;\ref{sec:compareBC} we how we determine, for
 each species, 
 whether we can consider
-this series to be representative of the full coast (i.e.~including the WCVI), by
-comparing the series that exclude stations off the WCVI (Series~A and~B) with
-those that include the stations off the WCVI (Series~D and~B, respectively).
+this series to be representative of the full coast (i.e.&nbsp;including the WCVI), by
+comparing the series that exclude stations off the WCVI (Series&nbsp;A and&nbsp;B) with
+those that include the stations off the WCVI (Series&nbsp;D and&nbsp;B, respectively).
 
-TODO - The absolute catch rate index for Series~AB could therefore be justified as
+TODO - The absolute catch rate index for Series&nbsp;AB could therefore be justified as
 being an input to an assessment model, and be considered to be an index for the
 whole coast of British Columbia.
 
