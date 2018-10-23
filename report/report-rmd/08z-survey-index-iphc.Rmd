@@ -42,8 +42,6 @@ Columbia waters. For each species, the resulting index gives what we term
 the International Pacific Halibut Commission fishery independent survey series
 (IPHC FISS).
 
-TODO - check those results and mention somewhere.
-
 The approach taken is described below, and builds on that developed for
 assessments
 of Redbanded Rockfish [@edwards2017redbanded] and Yelloweye Rockfish
@@ -152,7 +150,7 @@ All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
 \end{table}
 
 To address issues 1, 2 and 4 we therefore construct four time series (whose
-structure is summarised in Table \@ref(tab:seriesSumm)):
+structure is summarised in Table \@ref(tab:seriesSumm)) for each species:
   
 **Series A** -- 1997-2017 stations north of WCVI, with catch rates based on
 first 20&nbsp;hooks only (which is all we have for 1997-2002 and 2013).
@@ -173,33 +171,19 @@ the longest time series, we take this and expand it to Series&nbsp;AB, defined a
 
 **Series AB** -- for stations north of WCVI, combine the 1995 and 1996 values
 from Series B, based on all hooks, with the 1997-2017 values from Series A that
-are based on first 20 hooks only. See Section&nbsp;\ref{sec:combine}.
+are based on first 20 hooks only. See Section&nbsp;\@ref(sec:iphc-equations).
 
 The resulting Series&nbsp;AB covers the stations north of WCVI. In
-Sections&nbsp;\ref{sec:compareAD} and&nbsp;\ref{sec:compareBC} we how we determine, for
+Sections&nbsp;\@ref(sec:iphc-AD) and&nbsp;\@ref(sec:iphc-BC) we show how we determine, for
 each species, 
 whether we can consider
 this series to be representative of the full coast (i.e.&nbsp;including the WCVI), by
 comparing the series that exclude stations off the WCVI (Series&nbsp;A and&nbsp;B) with
-those that include the stations off the WCVI (Series&nbsp;D and&nbsp;B, respectively).
+those that include the stations off the WCVI (Series&nbsp;C and&nbsp;D, respectively).
 
-TODO - The absolute catch rate index for Series&nbsp;AB could therefore be justified as
-being an input to an assessment model, and be considered to be an index for the
-whole coast of British Columbia.
-
-TODO Caveat at end? For some species that are only occasionally caught, or were
-not identified in the earleir years) sampled the
-longest time series may be Series A (if no data are available for 1995 and
-1996), Series D (if .....). 
-
-TODO Verify Table values for an example species (e.g. YYR).
+TODO Verify Table 4 values for an example species (e.g. YYR).
 
 ## SPATIAL LOCATIONS OF STATIONS
-
-TODO: In the early years
-stations were not fixed between years, with the main difference being whether or
-not the waters off the west coast of Vancouver Island were surveyed (as
-summarised in Table&nbsp;\ref{tab:seriesSumm}).
 
 For the IPHC survey, from 1995-1997 the stations were
 arranged in Y-shapes; they were not exactly the same locations each year, but
@@ -250,7 +234,7 @@ that were deployed. The bait experiment has not been repeated.
 
 
 
-## CATCH RATE EQUATIONS {#sec:notation}
+## CATCH RATE EQUATIONS {#sec:iphc-equations}
 
 ### CATCH RATE BASED ON ALL CHUM-BAIT HOOKS
 
@@ -436,7 +420,7 @@ mean effective skate number based on all hooks and based on
 first 20, and mean hook competition adjustment factor if I calculate it.
 
 
-### CONSTRUCTING SERIES&nbsp;D (20 HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;A (20 HOOKS, NORTH OF VANCOUVER ISLAND
+### CONSTRUCTING SERIES&nbsp;D (20 HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;A (20 HOOKS, NORTH OF VANCOUVER ISLAND) {#sec:iphc-AD}
 
 We now consider Series&nbsp;D, which is for the first 20&nbsp;hooks of each
 skate (like for Series&nbsp;A) but covers the whole coast, including the WCVI
@@ -480,7 +464,7 @@ series; since we have more years that do not have stations off the WCVI
 (Table&nbsp;\ref{tab:seriesSumm}), we consistently exclude these stations (giving
 Series&nbsp;A).
 
-### CONSTRUCTING SERIES&nbsp;C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;B (ALL HOOKS, NORTH OF VANCOUVER ISLAND)
+### CONSTRUCTING SERIES&nbsp;C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;B (ALL HOOKS, NORTH OF VANCOUVER ISLAND) {#sec:iphc-BC}
 
 Similarly, we also construct Series&nbsp;C, which is for all hooks from each 
 skate (like for
