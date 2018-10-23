@@ -250,10 +250,59 @@ below). The effective skate number depends on the number of observed hooks (Eric
 Soderlund, IPHC, Seattle, WA, USA, pers.&nbsp;comm.), rather than the number of hooks
 that were deployed. The bait experiment has not been repeated.
 
-% \clearpage
 
 
 
+## CATCH RATE EQUATIONS {#sec:notation}
+
+### CATCH RATE BASED ON ALL CHUM-BAIT HOOKS
+
+For each species of interest, we wish to obtain a catch rate index which, 
+for each year, will be the mean catch rate across all sets that year.
+The units will be numbers of individuals
+caught per effective skate. We only want to consider hooks that used
+Chum Salmon as bait (hereafter 'chum-bait hooks'), because we have no
+information as to how catch rates change depending on the bait
+used. For our data, 2012 was the only year that hooks were not exclusively
+chum-bait hooks.
+
+Define:
+
+$H_{it}$ -- number of observed chum-bait hooks in set $i$ in year $t$,
+
+$H_{it}^*$ -- number of observed hooks for all bait types
+($H_{it} \neq H_{it}^*$ only for 2012),
+
+$E_{it}$ -- effective skate number of set $i$ in year $t$, which needs to be
+based on observed chum-bait hooks,
+
+$E_{it}'$ -- effective skate number from IPHC, which is based on all observed
+hooks (regardless of bait).
+
+Thus, $E_{it}$ is
+$$
+E_{it} = \dfrac{H_{it}}{H_{it}^*} E_{it}'.
+$$
+
+Adapting equations on page 3 of REF yocld08, define:
+
+$N_{it}$ -- the number of fish of a given species caught on set $i=1,2,...,n_t$
+in year $t$, based on observed chum-bait hooks,
+
+$n_t$ -- the number of sets in year $t$,
+
+$C_{it}$ -- catch rate (with units of numbers per effective skate) for set $i$
+in year $t$, based on observed chum-bait hooks, given by
+$$
+C_{it} = \frac{N_{it}}{E_{it}}.
+\label{catchPerSet}
+$$
+The catch rate index for year $t$, $I_t$ (numbers per effective skate), is then
+the mean catch rate across all sets:
+$$
+I_{t} = \frac{1}{n_t} \sum_{i=1}^{n_t} C_{it} = \frac{1}{n_t} \sum_{i=1}^{n_t} \frac{N_{it}}{E_{it}}.
+\label{index}
+$$
 
 \clearpage
 ```{r early-exit, cache=FALSE}
