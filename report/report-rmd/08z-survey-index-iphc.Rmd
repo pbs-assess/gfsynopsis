@@ -481,6 +481,35 @@ series; since we have more years that do not have stations off the WCVI
 (Table&nbsp;\ref{tab:seriesSumm}), we consistently exclude these stations (giving
 Series&nbsp;A).
 
+### CONSTRUCTING SERIES&nbsp;C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;B (ALL HOOKS, NORTH OF VANCOUVER ISLAND
+
+Similarly, we also construct Series&nbsp;C, which is for all hooks from each 
+skate (like for
+Series&nbsp;B) but covers the whole coast, including the WCVI (unlike Series&nbsp;B), as
+was summarised in Table&nbsp;\ref{tab:seriesSumm}. 
+
+We again compare each series scaled by its geometric mean of the overlapping
+years and conduct
+a paired t-test on the scaled annual bootstrapped means for the overlapping years,
+and if $p\geq 0.05$ then we consider the two series comparable.
+This means that we can consider the relative changes in Series&nbsp;B to reflect
+those of the full coast (Series&nbsp;C).
+
+For the last Yelloweye Rockfish assessment [@yamanaka2018yelloweyeoutside],
+similarly to Series&nbsp;A and&nbsp;D just discussed, the relative scaled patterns for Series&nbsp;B and Series&nbsp;C appeared similar for the
+overlapping years.
+But the *absolute* catch rates were different, 
+with inclusion of the WCVI stations in Series&nbsp;C consistently reducing
+the mean annual catch rates from those of Series&nbsp;B
+(that did not include the WCVI stations),
+with $G_B/G_C=1.11$ for the
+overlapping years.
+
+So the stations off the WCVI had lower average catch rates of Yelloweye Rockfish
+than the remaining stations. This holds whether we look at all hooks (here) 
+or just the first 20 by comparing Series&nbsp;A and&nbsp;D (above). 
+
+
 \clearpage
 ```{r early-exit, cache=FALSE}
 knitr::knit_exit()
