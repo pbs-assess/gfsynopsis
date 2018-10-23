@@ -280,9 +280,9 @@ $E_{it}'$ -- effective skate number from IPHC, which is based on all observed
 hooks (regardless of bait).
 
 Thus, $E_{it}$ is
-$$
+\begin{equation}
 E_{it} = \dfrac{H_{it}}{H_{it}^*} E_{it}'.
-$$
+\end{equation}
 
 Adapting equations on page 3 of REF yocld08, define:
 
@@ -293,16 +293,16 @@ $n_t$ -- the number of sets in year $t$,
 
 $C_{it}$ -- catch rate (with units of numbers per effective skate) for set $i$
 in year $t$, based on observed chum-bait hooks, given by
-$$
+\begin{equation}
 C_{it} = \frac{N_{it}}{E_{it}}.
 \label{catchPerSet}
-$$
+\end{equation}
 The catch rate index for year $t$, $I_t$ (numbers per effective skate), is then
 the mean catch rate across all sets:
-$$
+\begin{equation}
 I_{t} = \frac{1}{n_t} \sum_{i=1}^{n_t} C_{it} = \frac{1}{n_t} \sum_{i=1}^{n_t} \frac{N_{it}}{E_{it}}.
 \label{index}
-$$
+\end{equation}
 
 ### CATCH RATE BASED THE FIRST 20 CHUM-BAIT HOOKS OF EACH SKATE
 
@@ -319,11 +319,11 @@ first 20 chum-bait hooks that were sent out on each skate.
 
 Since effective skate number is a linear function of the number of hooks in a
 set REF yocld08, we have
-$$
+\begin{equation}
 \tilde{E}_{it} = \dfrac{\tilde{H}_{it}}{H_{it}} E_{it} 
   \left( = \dfrac{\tilde{H}_{it}}{H_{it}^*} E_{it}' \right).
 \label{effSkateScale}
-$$
+\end{equation}
 
 The resulting notation for the index will be:
 
@@ -337,42 +337,42 @@ each skate,
 $\tilde{C}_{it}$ -- catch rate (with units of numbers per effective skate) for
 set $i$ in year $t$, based only on the first 20 hooks of each skate (and only
 skates with chum as bait), such that 
-\eb
+\begin{equation}
 \tilde{C}_{it} =
   \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
 (\#eq:catchPerSet20)
-\ee
+\end{equation}
 The catch rate index for year $t$,
 $\tilde{I}_t$ (in units of numbers per effective skate), based on only
 the first 20 hooks of each skate, is then the mean catch rate across all sets:
-$$
+\begin{equation}
 \tilde{I}_t = \frac{1}{\tilde{n}_t} 
   \sum_{i=1}^{\tilde{n}_t} \tilde{C}_{it} 
   = \frac{1}{\tilde{n}_t} \sum_{i=1}^{\tilde{n}_t} \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
 \label{index20}
-$$
+\end{equation}
   
 ### EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS
 
 Equation \@ref(eq:catchPerSet20) can be written as 
-$$
+\begin{equation}
 \tilde{C}_{it} = \frac{\tilde{N}_{it}}{\tilde{E}_{it}} = 
   \frac{H_{it}}{\tilde{H}_{it}} \frac{\tilde{N}_{it}}{E_{it}}.
 \label{tildeCatchPerSet}
-$$
+\end{equation}
 If all hooks are equally likely to catch an individual of the given species,
 then the catch rates based on the first 20 hooks of each skate should be an 
 unbiased sample of the catch rates based on all the hooks.
 The ratio of individuals caught, $\tilde{N}_{it} / N_{it}$, should equal (on average)
 the ratio of hook numbers, $\tilde{H}_{it} / H_{it}$, because a proportionally
 reduced number of fish are caught on the proportionally fewer hooks. Thus
-$$
+\begin{equation}
 \dfrac{\tilde{H}_{it}}{H_{it}} = \dfrac{\tilde{N}_{it}}{N_{it}}
-$$
+\end{equation}
 such that
-$$
+\begin{equation}
 \tilde{C}_{it} = \dfrac{N_{it}}{\tilde{N}_{it}} \frac{\tilde{N}_{it}}{E_{it}} = \frac{N_{it}}{E_{it}} = C_{it}.
-$$
+\end{equation}
 If the catch rates are greatly different, then this suggests that the catch
 rates from the first 20&nbsp;hooks are not equivalent to the catch rates based on all
 the hooks. This is why we compare Series&nbsp;A and Series&nbsp;B.
