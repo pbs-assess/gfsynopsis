@@ -1,10 +1,10 @@
 # SPATIAL MODELLING OF SURVEY BIOMASS {#sec:spatial-modeling}
 
-We modelled the expected biomass density in space for each species using geostatistical models applied to data from the fisheries independent bottom trawl and long line surveys (e.g. Figure \@ref(fig:survey-maps)). Our modeling approach is consistent with recent models used for spatiotemporal index standardization of fish populations [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been shown, for example, to improve estimates of rockfish abundance and distribution [@shelton2014] and improve precision when estimating relative abundance indices for groundfish [@thorson2015]. Our specific model is implemented with INLA [@rue2009; @lindgren2015] and TMB (REF) via R [@rcoreteam2018], which enables rapid model fitting for these large spatial data sets.
+We modelled the expected biomass density in space for each species using geostatistical models applied to data from the fisheries independent bottom trawl and long line surveys (e.g. Figure \@ref(fig:survey-maps)). Our modeling approach is consistent with recent models used for spatiotemporal index standardization of fish populations [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been shown, for example, to improve estimates of rockfish abundance and distribution [@shelton2014] and improve precision when estimating relative abundance indices for groundfish [@thorson2015]. Our specific model is implemented with INLA [@rue2009; @lindgren2015] and TMB [@kristensen2016] via R [@rcoreteam2018], which enables rapid model fitting for these large spatial data sets.
 
-At a high level, these models predict relative biomass in space as a continuous process with a quadratic effect for bottom depth, a random effect spatial surface that represents an amalgamation of spatial processes not explicitly included in the model, and an observation error component. After fitting the model to survey sets from trawl or longline surveys, we then project the model predictions on to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive estimates of biomass throughout the survey domain.
+At a high level, these models predict relative biomass in space as a continuous process with a quadratic effect for bottom depth, spatial random effects that represent an amalgamation of spatial processes not explicitly included in the model, and an observation error component. After fitting the model to survey sets from trawl or longline surveys, we then project the model predictions on to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive estimates of biomass throughout the survey domain.
 
-Similarly to the commercial catch per unit effort standardization models, these models can be represented as Tweedie GLMMs (Generalized Linear Mixed-effects Models) with a log link:
+Similarly to the commercial catch per unit effort standardization models (Section (\@ref(sec:cpue-models))), these models can be represented as Tweedie GLMMs (generalized linear mixed-effects models) with a log link:
 
 \begin{align}
   y_s &\sim \mathrm{Tweedie}(\mu_s, p, \phi), \quad 1 < p < 2,\\
@@ -15,24 +15,25 @@ where $s$ represents a spatial location, $y_s$ represents observed fish density 
 
 $$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
 
-We constrain the spatial random effects to follow a Mat\'ern covariance function... TODO
+We constrain the spatial random effects to follow a \mbox{Mat\'ern} covariance function, which simply defines the shape with which spatial correlation decays with distance. The \mbox{Mat\'ern} function describes the covariance between spatial locations $s_j$ and $s_k$ as:
 
+$$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
+    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
 
-<!-- The Mat\'ern function describes the covariance between spatial locations $s_j$ and $s_k$ as: -->
+where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents a scaling parameter that is estimated [e.g. @lindgren2011]. The parameter $\nu$ controls the smoothness of the covariance function. We set $\nu = 1$, which lets us take advantage of the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian Markov Random Fields (GMRF) [@lindgren2011] to greatly increase computational efficiency.
 
-<!-- $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1} -->
-<!--     (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$ -->
+Instead of directly modelling the effects of depth and depth squared, we first centred the log-transformed depth covariate by subtracting its mean and scaling it by its standard deviation. We then calculate "depth squared" from this centred and scaled variable. This ensures the covariate values are not too big or small to avoid computational issues and the centering separates the linear and quadratic predictor components.
 
-<!-- where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents a scaling parameter that is estimated.  -->
+We fit the four synoptic survey data sets separately, because only two of the surveys are conducted each year and the surveys are disjointed in space and time. Similarly, we fit the North and South HBLL surveys independently. We combined the predictions to generate the map plots, but labelled the years the various surveys were conducted in.
 
-<!-- The parameter $\nu$ controls the smoothness of the covariance function. We set $\nu = 3/2$, as is commonly done when fitting similar spatial models [e.g. @ward2015; @thorson2015; @ono2016; @shelton2018], which lets the covariance function be more flexible than an exponential covariance function but still be differentiable [@rasmussen2004]. -->
-
-Instead of directly using depth and depth squared, we first centre the log -ransformed depth covariate by subtracting its mean and scaling it by its standard deviation. We then calculate "depth squared" from this centred and scaled variable. This ensures the covariate values are not too big or small to avoid computational issues and the centering separates the linear and quadratic predictor components.
-
-We fit the four synoptic survey data sets separately, because only two of the
-surveys are conducted each year and the surveys are disjointed in space and
-time. Similarly, we fit the North and South HBLL surveys independently. We combined the predictions to generate the map plots, but labelled the
-years the various surveys were conducted in.
+TODO: 
+- how many knots and why
+- what the triangular mesh shows
+- the projec-tion matrix from INLA
+- how this differs from VAST
+- compared to glmmfields, VAST
+- note the spatial residual example (Figure \@ref(fig:sdmTMB-resids))
+- note the multipanel plot: (Figure \@ref(fig:sdmTMB-maps-combined)) that includes depth, fixed effects, spatial random effects, and combined fixed and random effect predictions in that order
 
 ```{r sdmTMB-data}
 library(dplyr)
@@ -190,7 +191,7 @@ g_sdm3 <- plot_map(predictions$data, "est_re_s") +
   labs(fill = 'Deviation from expected\nbiomass in log space')
 ```
 
-```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod."}
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (Top left) Bottom depth data that is used as a predictor. (Top right) Predicted biomass density from the quadratic effect of depth only. (Lower left) Spatial random effect deviations. These deviations represent on modelled correlated spatial effects. (Lower right) Model productions that include both the depth fixed effects and the spatial random effects."}
 cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
 ```
 

@@ -33,9 +33,9 @@ in recent BC groundfish stock assessment reports. The code to perform the
 calculations was originally written by Norm Olsen at Pacific Biological Station
 and is automatically applied to the available survey data to populate the GFBio
 database. We extracted the relative biomass values directly from GFBio.
-Nonetheless, we have included the relevant equations below for clarity.
+Nonetheless, we have included the relevant equations below for clarity. We also present geostatistical model based estimates of biomass index trends for the trawl surveys for comparison Section (\@ref(#sec:geostatistical)).
 
-## TRAWL SURVEYS {#sec:trawl-methods}
+## TRAWL SURVEY DESIGN-BASED ESTIMATION {#sec:trawl-methods}
 
 For all trawl surveys, and for a given species, we calculated the relative
 biomass density $B$ in year $y$ as:
@@ -59,7 +59,7 @@ tow $j$ in year $y$; $w_{y,j}$ represents the net opening width in km for year
 $y$ and tow $j$; and $n_{y,i}$ represents the number of tows in year $y$ and
 stratum $i$.
 
-## LONG-LINE SURVEYS {#sec:ll-methods}
+## LONG-LINE SURVEY DESIGN-BASED ESTIMATION {#sec:ll-methods}
 
 For the HBLL surveys, and for a given species, we calculated the relative
 biomass density $B$ in year $y$ as:
@@ -86,7 +86,9 @@ represents the number of sets in year $y$ and stratum $i$. The hook spacing is
 8 feet or 0.0024384 km for
 the inside and outside HBLL surveys.
 
-## BOOTSTRAPPED CONFIDENCE INTERVALS
+Details on the design-based estimation of biomass density index for the IPHC survey are shown in Section (TODO).
+
+## DESIGN-BASED-INDEX CONFIDENCE INTERVALS
 
 We calculated bootstrap confidence intervals on $B_y$ by repeatedly calculating
 $B_y$ given the above equations but each time re-sampling, with replacement, from
@@ -94,7 +96,7 @@ the available tows within each strata. We drew 1000 bootstrap replicates of
 $B_y$, $B_y^{\mathrm{rep}}$, and calculated 95% quantile-based confidence
 intervals on $B_y^{\mathrm{rep}}$.
 
-## GEOSTATISTICAL SPATIOTEMPORAL BIOMASS INDEX TRENDS
+## GEOSTATISTICAL SPATIOTEMPORAL BIOMASS INDEX TRENDS {#sec:geostatistical}
 
 TODO: Bring these notes together into cohesive paragraphs.
 
@@ -252,7 +254,7 @@ red_blue_fill <- scale_fill_gradient2(midpoint = 0,
 plot_map_spt(predictions$data, "est_re_s") +
   ggtitle("Spatial random effects only") +
   red_blue_fill +
-  labs(fill = 'Deviation from expected\nbiomass in log space')
+  labs(fill = 'Deviation from\nexpected biomass\nin log space')
 ```
 
 \clearpage
@@ -260,8 +262,8 @@ plot_map_spt(predictions$data, "est_re_s") +
 ```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.width = 8, fig.cap='Spatiotemporal random effect predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, circulation patterns, and species interactions.'}
 plot_map_spt(predictions$data, "est_re_st") +
   ggtitle("Spatiotemporal random effects only") +
-  red_blue_fill
-  labs(fill = 'Deviation from expected\nbiomass in log space')
+  red_blue_fill +
+  labs(fill = 'Deviation from\nexpected biomass\nin log space')
 ```
 
 \clearpage
