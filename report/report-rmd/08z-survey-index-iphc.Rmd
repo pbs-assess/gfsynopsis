@@ -352,6 +352,11 @@ the first 20 hooks of each skate, is then the mean catch rate across all sets:
 \label{index20}
 \end{equation}
   
+We base calculations on bootstrapped means, and so $I_t$ and $\tilde{I}_t$ are 
+calculate, for each year, by resampling the catch rates ($C_{it}$ 
+or $\tilde{C}_{it}$) 10,000 times, and calculating a bootstrapped mean and
+95\% bias-corected and adjusted confidence interval. 
+
 ### EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS
 
 Equation \@ref(eq:catchPerSet20) can be written as 
@@ -378,11 +383,59 @@ If the catch rates are greatly different, then this suggests that the catch
 rates from the first 20&nbsp;hooks are not equivalent to the catch rates based on all
 the hooks. This is why we compare Series&nbsp;A and Series&nbsp;B.  
 
+### CONSTRUCTING SERIES AB
+
+For each species, we wish to join up the 1995 and 1996 data from Series&nbsp;B (based on all
+hooks) to the 1997-2017 data from Series&nbsp;A. 
+The 1995 and 1996 data are only available as numbers
+of individuals caught for all hooks, and not as numbers caught in the first 20
+hooks. For 1997-2002 and 2013 we only have numbers caught for the
+first 20 hooks. But for 2003-2012 and 2014 onwards we have hook-by-hook data,
+and so can
+compute catch rates for all hooks or based on just the first 20 hooks
+(i.e.&nbsp;these overlapping years are the only years that contribute to both
+Series&nbsp;A and Series&nbsp;B).
+
+For Series A, define $G_A$ to be the geometric mean of the bootstrapped annual
+means, with the geometric mean based only on the overlapping years (2003-2012
+and 2014 onwards). Define $G_B$ similarly for Series B. By dividing the bootstrapped
+values for each series by their respective geometric means, we obtain Figure
+TODO for TODOexample. see the example in Figure&nbsp;TODO(a) for dogfish??. 
+This shows that the rescaled Series A and Series B
+are very similar for the overlapping years. Thus, on this scale, the 1995 and
+1996 values from Series B look comparable to the full Series A data.
+
+We statistically test the comparability by conducting a 
+paired t-test REFcrawley on the scaled annual means for the overlapping years, to test the null
+hypothesis that there is no difference between the scaled annual means.
+If the resulting
+$p$-value is $\geq 0.05$ then we cannot reject the null hypothesis. Then we join
+up the two series in FigureTODO(a) by taking the rescaled 1995 and 1996 values
+from Series&nbsp;B and joining to the rescaled Series&nbsp;A. Equivalently,
+we just multiply the original Series-B means and confidence intervals for 1995 
+and 1996 by 
+$G_A/G_B$, and then join them up to the original Series&nbsp;A, as in Figure TODO(b), to get
+the longest time series possible, based on the first 20&nbsp;hooks from each
+skate, rescaled for 1995 and 1996 for which numbers for the first 20&nbsp;hooks
+are not available.
+
+If the resulting $p<0.05$ then we cannot join the series, and so we stick with
+Series&nbsp;A as being the longest. 
 
 TODO t-test.
 
-For a worked example see @yamanaka2018yelloweyeoutside, or the output for any
+TODO equivalent of YYR Figure B.13 for an example species (dogfish?).
+
+For worked examples see @edwards2017redbanded and @yamanaka2018yelloweyeoutside, or the output for any
 species TODO give command. Do one to check years in table. 
+
+TODO Too much to go through a species, but show summary information table for
+each year, number of usable sets coastwide and north of VI, 
+mean effective skate number based on all hooks and based on
+first 20, and mean hook competition adjustment factor if I calculate it.
+
+
+
 
 \clearpage
 ```{r early-exit, cache=FALSE}
