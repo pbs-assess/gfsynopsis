@@ -213,7 +213,7 @@ been positioned equidistant from one another on a fixed 10-nautical-mile square 
 went to the WCVI, did not go there in 2000, but has since 2001 onwards. See 
 @edwards2017redbanded and 
 @yamanaka2018yelloweyeoutside for maps that demonstrate the different coverage
-(and that show stations that caught Yelloweye and Redbanded Rockfish, respectively)
+(and that show stations that caught Yelloweye and Redbanded Rockfish, respectively).
 
 Given the difference in coverage between years, for Series&nbsp;A and&nbsp;B we exclude
 those stations south of 50.6$^{\circ}$ latitude, which is near the northern tip
@@ -373,12 +373,16 @@ such that
 \begin{equation}
 \tilde{C}_{it} = \dfrac{N_{it}}{\tilde{N}_{it}} \frac{\tilde{N}_{it}}{E_{it}} = \frac{N_{it}}{E_{it}} = C_{it}.
 \end{equation}
+
 If the catch rates are greatly different, then this suggests that the catch
 rates from the first 20&nbsp;hooks are not equivalent to the catch rates based on all
-the hooks. This is why we compare Series&nbsp;A and Series&nbsp;B.
+the hooks. This is why we compare Series&nbsp;A and Series&nbsp;B.  
 
-TODO t-test
 
+TODO t-test.
+
+For a worked example see @yamanaka2018yelloweyeoutside, or the output for any
+species TODO give command. Do one to check years in table. 
 
 \clearpage
 ```{r early-exit, cache=FALSE}
