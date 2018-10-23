@@ -202,7 +202,7 @@ TODO Verify Table values for an example species (e.g. YYR).
 TODO: In the early years
 stations were not fixed between years, with the main difference being whether or
 not the waters off the west coast of Vancouver Island were surveyed (as
-summarised in Table \ref{tab:seriesSumm}).
+summarised in Table&nbsp;\ref{tab:seriesSumm}).
 
 For the IPHC survey, from 1995-1997 the stations were
 arranged in Y-shapes; they were not exactly the same locations each year, but
@@ -337,9 +337,11 @@ each skate,
 $\tilde{C}_{it}$ -- catch rate (with units of numbers per effective skate) for
 set $i$ in year $t$, based only on the first 20 hooks of each skate (and only
 skates with chum as bait), such that 
-$$ \tilde{C}_{it} =
-\frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
-\label{catchPerSet20} $$
+\eb
+\tilde{C}_{it} =
+  \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
+(\#eq:catchPerSet20)
+\ee
 The catch rate index for year $t$,
 $\tilde{I}_t$ (in units of numbers per effective skate), based on only
 the first 20 hooks of each skate, is then the mean catch rate across all sets:
@@ -350,6 +352,32 @@ $$
 \label{index20}
 $$
   
+### EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS
+
+Equation \@ref(eq:catchPerSet20) can be written as 
+$$
+\tilde{C}_{it} = \frac{\tilde{N}_{it}}{\tilde{E}_{it}} = 
+  \frac{H_{it}}{\tilde{H}_{it}} \frac{\tilde{N}_{it}}{E_{it}}.
+\label{tildeCatchPerSet}
+$$
+If all hooks are equally likely to catch an individual of the given species,
+then the catch rates based on the first 20 hooks of each skate should be an 
+unbiased sample of the catch rates based on all the hooks.
+The ratio of individuals caught, $\tilde{N}_{it} / N_{it}$, should equal (on average)
+the ratio of hook numbers, $\tilde{H}_{it} / H_{it}$, because a proportionally
+reduced number of fish are caught on the proportionally fewer hooks. Thus
+$$
+\dfrac{\tilde{H}_{it}}{H_{it}} = \dfrac{\tilde{N}_{it}}{N_{it}}
+$$
+such that
+$$
+\tilde{C}_{it} = \dfrac{N_{it}}{\tilde{N}_{it}} \frac{\tilde{N}_{it}}{E_{it}} = \frac{N_{it}}{E_{it}} = C_{it}.
+$$
+If the catch rates are greatly different, then this suggests that the catch
+rates from the first 20&nbsp;hooks are not equivalent to the catch rates based on all
+the hooks. This is why we compare Series&nbsp;A and Series&nbsp;B.
+
+TODO t-test
 
 
 \clearpage
