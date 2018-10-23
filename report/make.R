@@ -33,7 +33,7 @@ dat_geostat_index <- readRDS(here("report", "geostat-cache",
 # ------------------------------------------------------------------------------
 
 if (!file.exists(here("report", "itis.rds"))) {
-  cls <- taxize::classification(spp$itis_tsn, db = 'itis')
+  cls <- taxize::classification(spp$itis_tsn[!is.na(spp$itis_tsn)], db = 'itis')
   saveRDS(cls, file = here("report", "itis.rds"))
 } else {
   cls <- readRDS(here("report", "itis.rds"))
@@ -44,6 +44,10 @@ cls <- plyr::ldply(cls) %>%
   reshape2::dcast(itis_tsn ~ rank, value.var = 'name')
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
+
+# Missing from ITIS:
+spp$order[spp$species_common_name == "deacon rockfish"] <- spp$order[spp$species_common_name == "vermilion rockfish"]
+spp$family[spp$species_common_name == "deacon rockfish"] <- spp$family[spp$species_common_name == "vermilion rockfish"]
 
 if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
@@ -64,15 +68,16 @@ cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", pop
 spp <- left_join(spp, cosewic, by = "species_science_name")
 
 # ------------------------------------------------------------------------------
-# This section is used for hacked parallel processing from the command line.
-# Unecessary, but speeds up rebuilding and no proper form of parallel processing
-# seems to work in the figure building.
-# e.g. from root project folder in macOS or Linux or maybe Cygwin on Windows:
-# open new Terminal
-# make one
-# open new Terminal
-# make two
-# etc.
+# # This section is used for hacked parallel processing from the command line.
+# # Unecessary, but speeds up rebuilding and no proper form of parallel processing
+# # seems to work in the figure building.
+# # e.g. from root project folder:
+# N <- 1:10
+# source("report/make.R")
+# # Open another console, then:
+# N <- 11:20
+# source("report/make.R")
+# # etc.
 if (exists("N")) warning("A global variable `N` exists; filtering by N.")
 if (exists("N")) spp <- spp[N, , drop = FALSE]
 
@@ -169,10 +174,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(
-    gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
+    gfsynopsis:::emph(latin_name), " (", species_code, ")", "\\\n",
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
-    "\\")
+    ",")
 
   i <- i + 1
   out[[i]] <- paste0("[FishBase link]",
