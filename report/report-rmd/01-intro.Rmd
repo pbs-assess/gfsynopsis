@@ -167,6 +167,12 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
+TODO: something here or elsewhere on the management areas and perhaps something about how will they line up with the survey areas.
+
+```{r fig-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="4in"}
+knitr::include_graphics("figure/3CD5ABCDE.png")
+```
+
 Following the species-by-species visualizations, we include a section
 providing details on the data extraction from the relational databases
 that hold the raw data, a section providing details on the models that
