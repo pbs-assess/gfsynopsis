@@ -396,6 +396,10 @@ compute catch rates for all hooks or based on just the first 20 hooks
 (i.e.&nbsp;these overlapping years are the only years that contribute to both
 Series&nbsp;A and Series&nbsp;B).
 
+<!-- 
+Figure caption from YYR:  \twofig{bcaKeepSerAB1}{bcaKeepSerAB2}{(a) Each of the two catch rate series from Figure \ref{fig:bcaKeepSerA} is divided by the geometric mean of its bootstrapped annual means (with the geometric mean based on the overlapping years only). (b) The catch rate index Series&nbsp;AB that could be used as a model input (although the index in Appendix&nbsp;C was used in this stock assessment). Series&nbsp;AB extends the original Series&nbsp;A by incorporating the suitably scaled 1995 and 1996 values from Series&nbsp;B (see text).}
+-->
+
 For Series A, define $G_A$ to be the geometric mean of the bootstrapped annual
 means, with the geometric mean based only on the overlapping years (2003-2012
 and 2014 onwards). Define $G_B$ similarly for Series B. By dividing the bootstrapped
@@ -435,7 +439,47 @@ mean effective skate number based on all hooks and based on
 first 20, and mean hook competition adjustment factor if I calculate it.
 
 
+### CONSTRUCTING SERIES&nbsp;D (20 HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;A (20 HOOKS, NORTH OF VANCOUVER ISLAND
 
+We now consider Series&nbsp;D, which is for the first 20&nbsp;hooks of each
+skate (like for Series&nbsp;A) but covers the whole coast, including the WCVI
+(unlike Series&nbsp;A), as was summarised in Table&nbsp;\ref{tab:seriesSumm}. 
+
+In the same way that we just compared Series&nbsp;A and Series&nbsp;B, we
+divide each series by its geometric mean ($G_A$ or $G_D$, based on the
+overlapping years of A and&nbsp;D) and conduct
+a paired t-test on the scaled annual bootstrapped means for the overlapping years.
+Again, if $p\geq 0.05$ then we consider the two series comparable.
+
+For Series&nbsp;A and Series&nbsp;D this means that we can consider
+the relative changes in Series&nbsp;A (that excludes WCVI) to be the same as
+those in Series&nbsp;D (that includes the full coast), and hence we can consider
+Series&nbsp;A to be representative of the full coast. So the population off the 
+WCVI is not showing a different relative trend to the rest of the coast.
+
+We do not need to join up the two series, we just wish to verify whether the
+relative changes in Series&nbsp;A can be considered representative of the full
+coast. If $p<0.05$ then this is not the case.
+
+For the last Yelloweye Rockfish assessment [@yamanaka2018yelloweyeoutside],
+the relative scaled patterns for Series&nbsp;A and Series&nbsp;D appeared similar for the
+overlapping years (though no statistical test was done).
+But the *absolute* catch rates were different, 
+with inclusion of the WCVI stations in Series&nbsp;D consistently reducing
+the mean annual catch rates from those of Series&nbsp;A
+(that did not include the WCVI stations),
+with $G_A/G_D=1.12$ for the
+overlapping years (it would equal 1 if the catch rates were the same).
+The stations off the WCVI had lower average catch rates of Yelloweye Rockfish
+than the remaining stations. 
+
+So while inclusion of the
+WCVI stations does not appear to change the \emph{relative} pattern of the index
+of the population, it does change the absolute values. Therefore the stations
+off the WCVI have to be included or excluded consistently to construct an index
+series; since we have more years that do not have stations off the WCVI
+(Table&nbsp;\ref{tab:seriesSumm}), we consistently exclude these stations (giving
+Series&nbsp;A).
 
 \clearpage
 ```{r early-exit, cache=FALSE}
