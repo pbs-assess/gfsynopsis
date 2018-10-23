@@ -81,27 +81,27 @@ longline surveys. 'Data resolution' indicates at what level the data are
 available, and 'WCVI?' indicates whether or not the survey included locations
 off the west coast of Vancouver Island. 'Location of data' indicates where the
 data were accessed from, either our DFO GFBio database or from spreadsheets.
-$^1$For 1995, the biological data were in the file
+^1^For 1995, the biological data were in the file
 `1995_IPHC_SSA_Rockfish_catch_from_Kelly_Ames.xls` on DFO's Inshore
 Rockfish shared drive, and effective skates were obtained from Aaron Ranta
-(IPHC) in the file `1995EffSktValues by Station.xlsx`. $^2$For 1996-2002, the
+(IPHC) in the file `1995EffSktValues by Station.xlsx`. ^2^For 1996-2002, the
 data were in the file `2B AllSpecies 96-02 roundIII.xls`, which originally
-came from the IPHC. $^3$For 2013 the data were in the file `2013 20-Hook
+came from the IPHC. ^3^For 2013 the data were in the file `2013 20-Hook
 Data.xls`, which originally came from the IPHC. For easier access, the data
 from spreadsheets are now all included in our gfplot R package.
 
 Year        Hooks enumerated         Data resolution   Location of data      WCVI?
 ----------- ------------------------ ----------------- -------------------- -------
-1995        All                      Set-by-set        Spreadsheets$^1$        N
-1996        All                      Set-by-set        Spreadsheet$^2$         N
-1997-1998   First 20 of each skate   Set-by-set        Spreadsheet$^2$         N
-1999        First 20 of each skate   Set-by-set        Spreadsheet$^2$         Y
-2000        First 20 of each skate   Set-by-set        Spreadsheet$^2$         N
-2001-2002   First 20 of each skate   Set-by-set        Spreadsheet$^2$         Y
-2003-2011   All                      Hook-by-hook      DFO database `GFBio`    Y
-2012        All (bait experiment)    Hook-by-hook      DFO database `GFBio`    Y
-2013        First 20 of each skate   Set-by-set        Spreadsheet$^3$         Y
-2014-2017   All                      Hook-by-hook      DFO database `GFBio`    Y
+1995        All                      Set-by-set        Spreadsheets^1^        N
+1996        All                      Set-by-set        Spreadsheet^2^         N
+1997-1998   First 20 of each skate   Set-by-set        Spreadsheet^2^         N
+1999        First 20 of each skate   Set-by-set        Spreadsheet^2^         Y
+2000        First 20 of each skate   Set-by-set        Spreadsheet^2^         N
+2001-2002   First 20 of each skate   Set-by-set        Spreadsheet^2^         Y
+2003-2011   All                      Hook-by-hook      DFO database `GFBio`   Y
+2012        All (bait experiment)    Hook-by-hook      DFO database `GFBio`   Y
+2013        First 20 of each skate   Set-by-set        Spreadsheet^3^         Y
+2014-2017   All                      Hook-by-hook      DFO database `GFBio`   Y
 
 From Table \@ref(tab:IPHCdata), four issues are apparent: 
 
