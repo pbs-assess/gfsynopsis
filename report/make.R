@@ -169,10 +169,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(
-    gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
+    gfsynopsis:::emph(latin_name), " (", species_code, ")", "\\\n",
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
-    "\\")
+    ",")
 
   i <- i + 1
   out[[i]] <- paste0("[FishBase link]",
