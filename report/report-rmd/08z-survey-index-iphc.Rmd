@@ -150,7 +150,7 @@ based on.}
 First 20 hooks from each skate & {\bf A}(21) & {\bf D}(18)\\
 All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
 \hline
-&nbsp;\\    % to add some whitespace before text carries on
+~\\    % to add some whitespace before text carries on
 \end{tabular}
 \end{table}
 
@@ -194,6 +194,73 @@ TODO Caveat at end? For some species that are only occasionally caught, or were
 not identified in the earleir years) sampled the
 longest time series may be Series A (if no data are available for 1995 and
 1996), Series D (if .....). 
+
+TODO Verify Table values for an example species (e.g. YYR).
+
+## SPATIAL LOCATIONS OF STATIONS
+
+TODO: In the early years
+stations were not fixed between years, with the main difference being whether or
+not the waters off the west coast of Vancouver Island were surveyed (as
+summarised in Table \ref{tab:seriesSumm}).
+
+For the IPHC survey, from 1995-1997 the stations were
+arranged in Y-shapes; they were not exactly the same locations each year, but
+fairly close to each other. Since 1998 
+the stations have
+been positioned equidistant from one another on a fixed 10-nautical-mile square grid
+[@flemming2012iphc]. In 1999 the survey first
+went to the WCVI, did not go there in 2000, but has since 2001 onwards. See 
+@edwards2017redbanded and 
+@yamanaka2015yelloweyeoutside for maps that demonstrate the different coverage
+(and that show stations that caught Yelloweye and Redbanded Rockfish, respectively)
+
+Given the difference in coverage between years, for Series&nbsp;A and&nbsp;B we exclude
+those stations south of 50.6$^{\circ}$ latitude, which is near the northern tip
+of Vancouver Island. This
+latitude was chosen so that all the stations from 1995-1997 are included. The
+stations for 1995-1997 show good overlap (north of Vancouver Island) with the
+stations from 1998 onwards, despite not being on the exact same 1-nautical-mile
+square grid [@yamanaka2015yelloweyeoutside].
+
+For 1999 (Figure&nbsp;\ref{fig:stations1999mapAkeep}) and 2001 onwards
+(Figures&nbsp;\ref{fig:stations2001mapAkeep}-\ref{fig:stations2013mapAkeep}), the
+black crosses indicate the stations off the WCVI that are below 50.6$^{\circ}$
+latitude and are therefore excluded from Series&nbsp;A and&nbsp;B. Series&nbsp;C and&nbsp;D use all
+stations coastwide.
+
+For Series A&nbsp;and&nbsp;D we only consider the first 20 hooks from each skate. For
+2003-2012 and 2014 we have data for all hooks, and so in
+Figure&nbsp;\ref{fig:allBlocks0314map} we illustrate the stations where a \spName&nbsp;was
+never caught (in any year from 2003-2012 and 2014) on any hook, as well as the
+stations that caught \spName&nbsp;in some years but never in the first 20 hooks, and
+the stations that did catch it in the first 20 hooks of each skate (for at least
+one year).
+
+% From iphcSerBallHooksYYR.tex
+% \onefig{stations1995mapA}{Locations of the 120 stations in 1995, of which 81 did not catch Yelloweye Rockfish (red open circles), 34 stations did catch it (red closed circles), and 5 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series&nbsp;A and&nbsp;B; for this year no stations (black crosses) are excluded, since the cut-off was chosen so as to include all stations for 1995, 1996 and 1997.}{stations1995mapA}{5}
+
+\section{CHUM SALMON BAIT EXPERIMENT}\label{sec:chum}
+
+Prior to 2012, Chum Salmon (\emph{Oncorhynchus keta}) was used for bait. But in
+2012, a bait experiment was conducted \citep{hsdgr13}. At each station three
+different bait types were used on the same set: a consecutive four-skate Chum
+Salmon treatment, a one-skate Pink Salmon (\emph{Oncorhynchus gorbuscha})
+treatment, and a one-skate Walleye Pollock (\emph{Theragra chalcogramma})
+treatment. The location of the three treatments on each set was randomized
+throughout the survey, and each treatment was separated by one skate (1,800 ft)
+of hookless groundline. For consistency with previous years, we only consider
+the four skates that used Chum Salmon as bait.
+
+The effective skate number provided by the IPHC is for all skates used, which in
+2012 will include skates that were not baited with Chum Salmon (Eric Soderlund,
+IPHC, Seattle, WA, USA, pers.&nbsp;comm.). But we wish to only include the Chum
+Salmon baited skates, and so we need to modify the effective skate number (see
+below). The effective skate number depends on the number of observed hooks (Eric
+Soderlund, IPHC, Seattle, WA, USA, pers.&nbsp;comm.), rather than the number of hooks
+that were deployed. The bait experiment was not continued for 2013 or 2014.
+
+% \clearpage
 
 
 
