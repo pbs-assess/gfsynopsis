@@ -537,7 +537,6 @@ $D_{its}$ -- true local density of species $s$ around set $i$ in year $t$,
 $F_{its}$ -- the local rate of capture of bait by species $s$ around set $i$ in
 year $t$.
 
-
 The number $N_{its}^{(0)}$ is proportional to the true local density, $D_{its}$, and so
 is what we wish to use as an index of abundance. And, by definition,
 \begin{equation}
@@ -556,7 +555,7 @@ different fisheries and natural predators". Each species removes a certain
 proportion of the baits per unit time, so the Baranov catch equation can be used
 to give
 \begin{equation}
-N_{its} = F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}}
+N_{its} = F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}},
 \label{eq:Nits}
 \end{equation}
 where $Z_{it}$ is the sum of the instantaneous rates of capture by all species, i.e.
@@ -577,13 +576,38 @@ N_{its}^{(0)} = \frac{N_{its} Z_{it}}{1 - \mathrm{e}^{- Z_{it}}},
 \label{eq:Nits0rearrange}
 \end{equation}
 
+Define $H_{it}^{(\mathrm{P})}$ to be the proportion of observed chum-bait hooks
+(for set $i$ in year $t$) that still have the bait on them (and are therefore
+assumed to be continuously actively fishing). The remaining baits are either 
+captured by a fish or lost TODO plus other options from table  ,  and considering
+lost bait to be another 'species', 
+\begin{equation}
+H_{it}^{(\mathrm{P})} = 1 - \frac{\sum_s N_{its}}{H_{it}}
+\end{equation}
+such that 
+\begin{equation}
+\sum_s N_{its} = {H_{it}} \left(1 -  H_{it}^{(\mathrm{P})} \right).
+\label{eq:sumsNits}
+\end{equation}
 
 
 Now, summing \@ref(eq:Nits) over all species $s$ gives
 \begin{equation}
 \sum_s N_{its} = \sum_s F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}}
-
 \end{equation}
+Substituting from \@ref(eq:sumsNits) and \@ref(eq:Zit) gives
+\begin{align}
+{{H_{it}}} \left(1 -  H_{it}^{(\mathrm{P})} \right) & = Z_{it} H_{it}
+  \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}} \\
+1 -  H_{it}^{(\mathrm{P})} & = 
+  1 - \mathrm{e}^{- Z_{it}} \\
+Z_{it} & = - \ln H_{it}^{(\mathrm{P})}.
+\end{align}
+
+....Sub 19 and 20 into 14, to give the competition adjustment factor...... do in morning....
+
+\@ref(eq:Nits)
+
 
 Each 
 
