@@ -514,11 +514,148 @@ particularly
 to ascertain whether a given species was being actively identified in a given
 year (resulting in a zero catch rate rather than 'no data').
 
+## HOOK COMPETITION
+
+TODO (whole section) Hook competition occurs ...... REF Webster and Clark...
+
 TODO  decide what to do The Yelloweye
 assessment also considered a model of hook competition TODO **mention Marie's if
 I don't get anything in. Note, however, that this work was not directly
 incorporated into the analysis in Appendix~C that was used as the survey index
 in the assessment model.
+
+From page 6 of my notes..... define
+
+species $s$ (not $i$, which was from following Webster etc.'s notation)
+
+$N_{its}^{(0)}$ -- the number of fish of species $s$ that we would expect to
+catch *in the absence of hook competition* on set $i=1,2,...,n_t$
+in year $t$, based on observed chum-bait hooks,
+
+$D_{its}$ -- true local density of species $s$ around set $i$ in year $t$,
+
+$F_{its}$ -- the local rate of capture of bait by species $s$ around set $i$ in
+year $t$.
+
+The number $N_{its}^{(0)}$ is proportional to the true local density, $D_{its}$, and so
+is what we wish to use as an index of abundance. And, by definition,
+\begin{equation}
+N_{its}^{(0)} = F_{its} H_{it},
+\label{eq:Nits0}
+\end{equation}
+where, as earlier, $H_{it}$ is the number of observed chum-bait hooks in set $i$
+in year $t$.
+
+
+Based on Clark:
+
+"Mathematically the process of baits being removed from a longline by different
+species is the same as the process of fish being removed from a population by
+different fisheries and natural predators". Each species removes a certain
+proportion of the baits per unit time, so the Baranov catch equation can be used
+to give
+\begin{equation}
+N_{its} = F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}},
+\label{eq:Nits}
+\end{equation}
+where $Z_{it}$ is the sum of the instantaneous rates of capture by all species, i.e.
+\begin{equation}
+Z_{it} = \sum_s F_{its},
+\label{eq:Zit}
+\end{equation}
+and the soak time can be left out because there is no significant difference
+between shorter and longer soak times (the sets soak for at least five hours).
+
+Substituting $F_{its} H_{it}$ into \@ref(eq:Nits) from \@ref(eq:Nits0) gives
+\begin{equation}
+N_{its} = \frac{N_{its}^{(0)} \left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}},
+\end{equation}
+which upon rearranging gives
+\begin{equation}
+N_{its}^{(0)} = \frac{N_{its} Z_{it}}{1 - \mathrm{e}^{- Z_{it}}},
+\label{eq:Nits0rearrange}
+\end{equation}
+
+Define $P_{it}$ to be the proportion of observed chum-bait hooks
+(for set $i$ in year $t$) that still have the bait on them (and are therefore
+assumed to be continuously actively fishing). The remaining baits are either 
+captured by a fish or lost TODO plus other options from table  ,  and considering
+lost bait to be another 'species', 
+\begin{equation}
+P_{it} = 1 - \frac{\sum_s N_{its}}{H_{it}}
+\end{equation}
+such that 
+\begin{equation}
+\sum_s N_{its} = {H_{it}} \left(1 -  P_{it} \right).
+\label{eq:sumsNits}
+\end{equation}
+
+
+Now, summing \@ref(eq:Nits) over all species $s$ gives
+\begin{equation}
+\sum_s N_{its} = \sum_s F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}}
+\end{equation}
+Substituting from \@ref(eq:sumsNits) and \@ref(eq:Zit) gives
+\begin{align}
+{{H_{it}}} \left(1 -  P_{it} \right) & = Z_{it} H_{it}
+  \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}} \\
+1 -  P_{it} & = 
+  1 - \mathrm{e}^{- Z_{it}} \\
+Z_{it} & = - \ln P_{it}.
+\end{align}
+
+....Sub 19 and 20 into 14, to give the competition adjustment factor...... do in morning....
+
+\begin{equation}
+N_{its}^{(0)} = \frac{-\ln P_{it}}{1 - P_{it}} N_{its}.
+\label{eq:Nits0rearrange}
+\end{equation}
+
+So the competition adjustment factor 
+\begin{equation}
+\frac{-\ln P_{it}}{1 - P_{it}}
+\end{equation}
+scales up the
+observed number of each species caught to give the expected number (accounting
+for hook competition), depending on the proportion $P_{it}$ of observed hooks
+that are returned still with bait on them.
+
+Note that, by definition, $0 \leq P_{it} \leq 1$, and so $\ln P_{it} \leq 0$. As
+$P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule REF
+\begin{align}
+\lim_{P_{it} \rightarrow 1} \frac{-\ln P_{it}}{1 - P_{it}} & = 
+  \dfrac{\lim_{P_{it} \rightarrow 1} (-1 / P_{it})}{\lim_{P_{it} \rightarrow 1} (-1)}\\
+  & = 1,
+\end{align}
+such that $N_{its}^{(0)} = N_{its}$, which equals $0$ (because if all 
+all hooks are returned with bait on then $N_{its} = 0$ 
+for all species $s$).  
+
+\ 
+
+As $P_{it} \rightarrow 0$, the competition adjustment factor $\rightarrow
+\infty$, which blows up the expected number $N_{its}^{(0)}$. TODO - in practice
+this happens **CHECK HOW OFTEN, IF EVER**. 
+
+For a set with 800 hooks, the smallest possible value is $P_{it} = 1/800$, for
+which the adjustment factor is 6.69.
+
+TODO plot of competition adjustmen factor.
+
+
+check that, see notes on p6, plot if time, code into gfplot..... save as separate folder
+
+
+No: And $F_{its}$ is also
+proportional to $D_{its}$, such that
+
+
+
+
+
+
+The
+
 
 
 \clearpage
