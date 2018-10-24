@@ -538,11 +538,62 @@ $F_{its}$ -- the local rate of capture of bait by species $s$ around set $i$ in
 year $t$.
 
 
-$N_{its}^{(0)}$ is proportional to the true local density, $D_{its}$, and so
-is what we wish to use as an index of abundance.
+The number $N_{its}^{(0)}$ is proportional to the true local density, $D_{its}$, and so
+is what we wish to use as an index of abundance. And, by definition,
+\begin{equation}
+N_{its}^{(0)} = F_{its} H_{it},
+\label{eq:Nits0}
+\end{equation}
+where, as earlier, $H_{it}$ is the number of observed chum-bait hooks in set $i$
+in year $t$.
 
-The ies $i$ in year $t$, $F_{it}$ is also
-proportional to $D_{it}$.
+
+Based on Clark:
+
+"Mathematically the process of baits being removed from a longline by different
+species is the same as the process of fish being removed from a population by
+different fisheries and natural predators". Each species removes a certain
+proportion of the baits per unit time, so the Baranov catch equation can be used
+to give
+\begin{equation}
+N_{its} = F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}}
+\label{eq:Nits}
+\end{equation}
+where $Z_{it}$ is the sum of the instantaneous rates of capture by all species, i.e.
+\begin{equation}
+Z_{it} = \sum_s F_{its},
+\label{eq:Zit}
+\end{equation}
+and the soak time can be left out because there is no significant difference
+between shorter and longer soak times (the sets soak for at least five hours).
+
+Substituting $F_{its} H_{it}$ into \@ref(eq:Nits) from \@ref(eq:Nits0) gives
+\begin{equation}
+N_{its} = \frac{N_{its}^{(0)} \left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}},
+\end{equation}
+which upon rearranging gives
+\begin{equation}
+N_{its}^{(0)} = \frac{N_{its} Z_{it}}{1 - \mathrm{e}^{- Z_{it}}},
+\label{eq:Nits0rearrange}
+\end{equation}
+
+
+
+Now, summing \@ref(eq:Nits) over all species $s$ gives
+\begin{equation}
+\sum_s N_{its} = \sum_s F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}}
+
+\end{equation}
+
+Each 
+
+
+
+No: And $F_{its}$ is also
+proportional to $D_{its}$, such that
+
+
+
 
 
 
