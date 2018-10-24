@@ -27,7 +27,8 @@ Imports:
     cowplot,
     foreach,
     doParallel,
-    parallel
+    parallel,
+    scales
 Remotes: github::seananderson/gfplot
 RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
