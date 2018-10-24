@@ -46,3 +46,11 @@ fourth_root_power_trans <- function() {
     inverse = function(x) x^4,
     domain = c(0, Inf))
 }
+
+find_length_outliers <- function(xx) {
+  yy <-  stats::pnorm(xx, mean = stats:mean(xx, na.rm = TRUE),
+    sd = stats::sd(xx, na.rm = TRUE), log.p = TRUE)
+  zz <- stats::qnorm(yy, log.p = TRUE)
+  out <- zz[zz > 4 & !is.na(zz)]
+  xx[zz == out & !is.na(zz)]
+}

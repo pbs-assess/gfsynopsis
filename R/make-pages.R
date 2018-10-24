@@ -192,17 +192,22 @@ make_pages <- function(
 
   # Length compositions: -------------------------------------------------------
 
-  bin_width1 <- diff(quantile(dat$survey_samples$length, na.rm = TRUE,
-    probs = c(0.005, 0.995))) / 20
-  bin_width2 <- diff(quantile(dat$commercial_samples_no_keepers$length,
-    na.rm = TRUE, probs = c(0.005, 0.995))) / 20
+  length_samples_survey <- filter(dat$survey_samples,
+    !length %in% find_length_outliers(dat$survey_samples$length))
+  length_samples_commercial <- filter(dat$commercial_samples_no_keepers,
+    !length %in% find_length_outliers(dat$commercial_samples_no_keepers$length))
+
+  bin_width1 <- diff(quantile(length_samples_survey$length, na.rm = TRUE,
+    probs = c(0.001, 0.999))) / 20
+  bin_width2 <- diff(quantile(length_samples_commercial$length,
+    na.rm = TRUE, probs = c(0.001, 0.999))) / 20
   bin_width <- mean(c(bin_width1, bin_width2), na.rm = TRUE)
 
-  ss <- tidy_lengths_raw(dat$survey_samples, bin_size = bin_width,
+  ss <- tidy_lengths_raw(length_samples_survey, bin_size = bin_width,
     sample_type = "survey")
-  sc <- dat$commercial_samples_no_keepers %>%
+  sc <- length_samples_commercial %>%
     mutate(sex = 2) %>%  # fake all sex as female for commercial samples; often not sexed
-    tidy_lengths_raw(dat$commercial_samples_no_keepers, bin_size = bin_width,
+    tidy_lengths_raw(bin_size = bin_width,
       sample_type = "commercial", spp_cat_code = 1)
 
   if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
@@ -399,7 +404,7 @@ make_pages <- function(
       ggtitle("Maturity frequencies")
   } else {
     g_maturity_month <- dat_tidy_maturity_months %>%
-      plot_maturity_months() +
+      plot_maturity_months(min_fish = 0) +
       guides(colour = FALSE, fill = FALSE)
   }
 
