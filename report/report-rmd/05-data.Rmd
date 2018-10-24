@@ -10,7 +10,10 @@ in GFFOS, a groundfish-specific view of the Fishery Operations System (FOS)
 database (Fisheries and Oceans Canada, Fisheries and Aquaculture Management,
 Pacific Region). Research survey data and commercial biological data from the
 1940s to present are housed in GFBio, the Groundfish Biological Samples
-database.
+database. Additional historic commercial sales slips records may exist from the 
+Halibut, Sablefish and Dogfish-Lingcod fisheries in the PacHarv3 
+database. These data require more detailed analysis for inclusion in catch 
+reconstructions.
 
 ## `GF_MERGED_CATCH` for commercial catch and effort data
 
