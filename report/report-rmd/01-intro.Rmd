@@ -169,7 +169,7 @@ gridExtra::grid.arrange(g, g2, nrow = 1)
 
 TODO: something here or elsewhere on the management areas and perhaps something about how will they line up with the survey areas.
 
-```{r fig-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="4in"}
+```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="4in"}
 knitr::include_graphics("figure/3CD5ABCDE.png")
 ```
 
@@ -269,15 +269,18 @@ We are grateful for the ongoing collaboration between DFO, commercial
 fishers, First Nations, and non-governmental organizations, which has
 made the collection of the valuable data that underlies this report
 possible. We thank the project's steering committee (Greg Workman, Robyn
-Forrest, Dana Haggarty, Andrew Edwards, Chris Grandin, and Rob Kronlund)
+Forrest, Dana Haggarty, Chris Grandin, and Rob Kronlund)
 for invaluable input into the report design and feedback throughout its
 production. We thank Christie Whelan for her support initiating this
 project. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for
 providing support on data extraction and general database structure and
 content. We thank the participants of the peer review meeting on tiered
-approaches in May 2016, which included a data scorecard by Norm Olsen,
+approaches in May 2016 [@macdougall2016], 
+which included a data scorecard by Norm Olsen,
 from which this report takes inspiration. We also thank Norm Olsen for
-his work on GFASTeR, which parts of the code for this project are based
-on.
+his work on GFASTeR, which this project also takes inspiration from
+and borrows some of the data queries.
+We thank Rowan Haigh for his work maintaining the PBSmapping and PBSdata R
+packages.
 
 \clearpage

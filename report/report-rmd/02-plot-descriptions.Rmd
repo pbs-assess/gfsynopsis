@@ -105,7 +105,7 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
 
-(ref:catches-cap) Example commercial fishery catches plot for `r sp`. Catch from various gear types is indicated by colour shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, longline discards are considered less reliable prior to 100% observer coverage in 2006, are often included as discard counts without a reported discard weight, and are mostly exluded from these data. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006.
+(ref:catches-cap) Example commercial fishery catches plot for `r sp`. Catch from various gear types is indicated by colour shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, longline discards are considered less reliable prior to 100% observer coverage in 2006, are often included as discard counts without a reported discard weight, and are mostly exluded from these data. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
 g$catch
@@ -115,9 +115,9 @@ g$catch
 
 ## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
 
-(ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort trends for `r sp`. Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort (CPUE) trend standardized with a Tweedie GLMM (generalized linear mixed effects model) for depth, latitude, DFO locality region, vessel, and month of year (see details in Section (\@ref(sec:cpue-models))). The line itself represents the estimate and the shaded ribbon represents a 95\% confidence interval. The dashed line represents an unstandardized commercial CPUE index calculated as the sum of catch divided by the sum of effort.
+(ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort trends for `r sp`. Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort (CPUE) trend standardized with a Tweedie GLMM (generalized linear mixed effects model) for depth, latitude, DFO locality region, vessel, and month of year (see details in Section (\@ref(sec:cpue-models))). The line itself represents the estimate and the shaded ribbon represents a 95\% confidence interval. The dashed line represents an unstandardized commercial CPUE index calculated as the sum of catch divided by the sum of effort. Standardized timeseries are scaled to have the same maximum 95\% confidence interval. Unstandardized timeseries are scaled to have the same geometric mean. These are relative index values --- the absolute value of the timeseries is not particularly useful because it depends on arbitrary levels that the standardization variables are set to. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
 
-```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.6in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
+```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.5in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
 g$cpue_index
 ```
 
