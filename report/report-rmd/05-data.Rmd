@@ -14,7 +14,7 @@ database.
 
 ## `GF_MERGED_CATCH` for commercial catch and effort data
 
-All commercial catch and effort data for the synopsis report and all gfplot functions are sourced from the table `GF_MERGED_CATCH` in the `GFFOS` database. In each commercial database there is an official catch table that provides the best available estimate of landed catch per location by applying the proportion of catch per set or area to trip-level landing data. Since 2015, the official catch tables from the various databases have been merged together into `GF_MERGED_CATCH` to facilitate and standardize commercial data extraction.
+Commercial catch and effort data for the synopsis report and gfplot functions are sourced from the table `GF_MERGED_CATCH` in the `GFFOS` database. In each commercial database there is an official catch table that provides the best available estimate of landed catch per location by applying the proportion of catch per set or area to trip-level landing data. Since 2015, the official catch tables from the various databases have been merged together into `GF_MERGED_CATCH` to facilitate and standardize commercial data extraction.
 
 Catch proportions are calculated from the most spatially detailed information available on how much of each species was harvested per set or per area (as granular as possible). In most cases this will be catch reported in observer logs or fisher logs. Older data contain records where set-level information was rolled up, for example, by area (see [@rutherford1999] for details on how catch was recorded in databases). The proportions are applied to the best available information on how much of each species was harvested on a trip. In most cases this will be the landed weight as recorded by the Dockside Monitoring Program (DMP). Earlier harvest data are recorded from sales slips or observer or fisher logs (see [@rutherford1999] for details on data sources).
 
@@ -65,19 +65,20 @@ filtered in any further way.
 
 We extracted commercial trawl catch per unit effort (CPUE) index data using
 `get-cpue-index.sql` and we filter the data to include only records with valid
-start and end dates (Table \@ref(tab:sql-cpue-index)). Catch (kg) and effort
-(expressed in hours), year, gear type and Pacific Fishery Management Area
+start and end dates (Table \@ref(tab:sql-cpue-index)) which include set start and 
+end time and are later used to calculate effort (expressed in hours). Catch 
+(kg), year, gear type and Pacific Fishery Management Area
 (PFMA) are extracted for each tow. Gear type, PFMA and minimum year are given
 as arguments and are set at defaults of bottom trawl, all areas, and 1996,
 respectively.
 
 We extracted commercial trawl spatial CPUE data using `get-cpue-spatial.sql`,
-pulling out latitude, longitude, gear type, catch (kg) and tow time (hours) for
-every tow by species. The data are filtered to extract only records with valid
-start and end dates, to remove records with erroneous latitude and longitude
-values, and to include only records from the groundfish trawl sector with
-positive tows since 2012 when the trawl footprint was implemented (Table
-\@ref(tab:sql-cpue-spatial)).
+pulling out latitude, longitude, gear type, catch (kg) and CPUE (total catch/
+effort in kg/hour) for every tow by species. The data are filtered to extract 
+only records with valid start and end dates, to remove records with erroneous 
+latitude and longitude values, and to include only records from the groundfish 
+trawl sector with positive tows since 2012 when the trawl footprint was 
+implemented (Table \@ref(tab:sql-cpue-spatial)).
 
 We extracted commercial hook and line spatial CPUE data using
 `get-cpue-spatial-ll.sql`, which pulls out latitude and longitude, gear type,
@@ -94,7 +95,7 @@ in all years. Species names are given as an argument to the function.
 We extracted survey biomass index data `get-survey-index.sql`. Calculated
 bootstrapped biomass, year and survey series identification code (SSID) are
 filtered for active records of the calculated biomass in the database
-(Table  \@ref(tab:sql-survey-index)). Species and SSID codes are given as
+(Table \@ref(tab:sql-survey-index)). Species and SSID codes are given as
 arguments to the function.
 
 We extracted biological data using `get-survey-samples.sql` and
@@ -138,8 +139,9 @@ Age data extracted with the biological sample queries are filtered by
 lab at the Pacific Biological Station in order to remove experimental ageing
 methods that may also be recorded in the database.
 
-Maturity codes are assigned at the time of sampling following one of
-conventions. The various conventions have different scales and classifications.
+Maturity codes are assigned at the time of sampling following a chosen
+convention. The various conventions have different scales and classifications
+appropriate for different species or species groups.
 We worked with the survey staff, data team and biologists for the various taxa
 to select which codes at and above which an individual fish is considered
 'mature' in order to assign a maturity status to each specimen based on
