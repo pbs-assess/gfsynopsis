@@ -249,12 +249,12 @@ if (!exists("N") && optimize_png) {
   setwd(here("report/figure-pages"))
   if (!gfplot:::is_windows()) {
     system(paste0("find -X . -name '*.png' -print0 | xargs -0 -n ",
-      files_per_core, " -P ", cores, " optipng -strip all -o0 -clobber -quiet"))
+      files_per_core, " -P ", cores, " optipng -strip all"))
   } else {
     library(doParallel)
     doParallel::registerDoParallel(cores = cores)
     fi <- list.files(".", "*.png")
-    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all -o0 -clobber -quiet", i)),
+    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all", i)),
       .parallel = TRUE)
   }
   setwd(here())
