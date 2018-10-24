@@ -404,7 +404,7 @@ make_pages <- function(
       ggtitle("Maturity frequencies")
   } else {
     g_maturity_month <- dat_tidy_maturity_months %>%
-      plot_maturity_months() +
+      plot_maturity_months(min_fish = 0) +
       guides(colour = FALSE, fill = FALSE)
   }
 
