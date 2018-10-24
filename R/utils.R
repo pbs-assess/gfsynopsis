@@ -35,3 +35,14 @@ rougheye_split <- function(x) {
   second <- strsplit(spl, " ")[[1]][[2]]
   third <- strsplit(spl, " ")[[2]][[1]]
   c(paste(first, second, sep = "-"), paste(first, third, sep = "-"))
+}
+#' Fourth route power transformation
+#'
+#' @export
+fourth_root_power_trans <- function() {
+  scales::trans_new(
+    name = "fourth root power",
+    transform = function(x) x^0.25,
+    inverse = function(x) x^4,
+    domain = c(0, Inf))
+}
