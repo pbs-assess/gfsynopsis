@@ -52,5 +52,8 @@ find_length_outliers <- function(xx) {
     sd = stats::sd(xx, na.rm = TRUE), log.p = TRUE)
   zz <- stats::qnorm(yy, log.p = TRUE)
   out <- zz[zz > 4 & !is.na(zz)]
-  xx[zz == out & !is.na(zz)]
+  if (length(out) > 1L)
+    return(xx[which(zz > 4)])
+  else
+    return(numeric(0))
 }
