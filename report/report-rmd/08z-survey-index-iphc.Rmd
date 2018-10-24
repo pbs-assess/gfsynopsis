@@ -576,17 +576,17 @@ N_{its}^{(0)} = \frac{N_{its} Z_{it}}{1 - \mathrm{e}^{- Z_{it}}},
 \label{eq:Nits0rearrange}
 \end{equation}
 
-Define $H_{it}^{(\mathrm{B})}$ to be the proportion of observed chum-bait hooks
+Define $P_{it}$ to be the proportion of observed chum-bait hooks
 (for set $i$ in year $t$) that still have the bait on them (and are therefore
 assumed to be continuously actively fishing). The remaining baits are either 
 captured by a fish or lost TODO plus other options from table  ,  and considering
 lost bait to be another 'species', 
 \begin{equation}
-H_{it}^{(\mathrm{B})} = 1 - \frac{\sum_s N_{its}}{H_{it}}
+P_{it} = 1 - \frac{\sum_s N_{its}}{H_{it}}
 \end{equation}
 such that 
 \begin{equation}
-\sum_s N_{its} = {H_{it}} \left(1 -  H_{it}^{(\mathrm{B})} \right).
+\sum_s N_{its} = {H_{it}} \left(1 -  P_{it} \right).
 \label{eq:sumsNits}
 \end{equation}
 
@@ -597,28 +597,50 @@ Now, summing \@ref(eq:Nits) over all species $s$ gives
 \end{equation}
 Substituting from \@ref(eq:sumsNits) and \@ref(eq:Zit) gives
 \begin{align}
-{{H_{it}}} \left(1 -  H_{it}^{(\mathrm{B})} \right) & = Z_{it} H_{it}
+{{H_{it}}} \left(1 -  P_{it} \right) & = Z_{it} H_{it}
   \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}} \\
-1 -  H_{it}^{(\mathrm{B})} & = 
+1 -  P_{it} & = 
   1 - \mathrm{e}^{- Z_{it}} \\
-Z_{it} & = - \ln H_{it}^{(\mathrm{B})}.
+Z_{it} & = - \ln P_{it}.
 \end{align}
 
 ....Sub 19 and 20 into 14, to give the competition adjustment factor...... do in morning....
 
 \begin{equation}
-N_{its}^{(0)} = \frac{- \ln H_{it}^{(\mathrm{B})} N_{its}}{1 - H_{it}^{(\mathrm{B})}},
+N_{its}^{(0)} = \frac{-\ln P_{it}}{1 - P_{it}} N_{its}.
 \label{eq:Nits0rearrange}
 \end{equation}
 
+So the competition adjustment factor 
+\begin{equation}
+\frac{-\ln P_{it}}{1 - P_{it}}
+\end{equation}
+scales up the
+observed number of each species caught to give the expected number (accounting
+for hook competition), depending on the proportion $P_{it}$ of observed hooks
+that are returned still with bait on them.
+
+Note that, by definition, $0 \leq P_{it} \leq 1$, and so $\ln P_{it} \leq 0$. As
+$P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule REF
+\begin{align}
+\lim_{P_{it} \rightarrow 1} \frac{-\ln P_{it}}{1 - P_{it}} & = 
+  \dfrac{\lim_{P_{it} \rightarrow 1} (-1 / P_{it})}{\lim_{P_{it} \rightarrow 1} (-1)}\\
+  & = 1,
+\end{align}
+such that $N_{its}^{(0)} = N_{its}$, which equals $0$ (because if all 
+all hooks are returned with bait on then $N_{its} = 0$ 
+for all species $s$).  
+
+\ 
+
+As $P_{it} \rightarrow 0$, the competition adjustment factor $\rightarrow
+\infty$, which blows up the expected number $N_{its}^{(0)}$. TODO - in practice
+this happens **CHECK HOW OFTEN, IF EVER**. 
+
+TODO plot of competition adjustmen factor.
+
 
 check that, see notes on p6, plot if time, code into gfplot..... save as separate folder
-
-\@ref(eq:Nits)
-
-
-Each 
-
 
 
 No: And $F_{its}$ is also
