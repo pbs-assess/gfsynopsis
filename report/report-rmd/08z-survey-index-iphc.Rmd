@@ -576,17 +576,17 @@ N_{its}^{(0)} = \frac{N_{its} Z_{it}}{1 - \mathrm{e}^{- Z_{it}}},
 \label{eq:Nits0rearrange}
 \end{equation}
 
-Define $H_{it}^{(\mathrm{P})}$ to be the proportion of observed chum-bait hooks
+Define $H_{it}^{(\mathrm{B})}$ to be the proportion of observed chum-bait hooks
 (for set $i$ in year $t$) that still have the bait on them (and are therefore
 assumed to be continuously actively fishing). The remaining baits are either 
 captured by a fish or lost TODO plus other options from table  ,  and considering
 lost bait to be another 'species', 
 \begin{equation}
-H_{it}^{(\mathrm{P})} = 1 - \frac{\sum_s N_{its}}{H_{it}}
+H_{it}^{(\mathrm{B})} = 1 - \frac{\sum_s N_{its}}{H_{it}}
 \end{equation}
 such that 
 \begin{equation}
-\sum_s N_{its} = {H_{it}} \left(1 -  H_{it}^{(\mathrm{P})} \right).
+\sum_s N_{its} = {H_{it}} \left(1 -  H_{it}^{(\mathrm{B})} \right).
 \label{eq:sumsNits}
 \end{equation}
 
@@ -597,14 +597,22 @@ Now, summing \@ref(eq:Nits) over all species $s$ gives
 \end{equation}
 Substituting from \@ref(eq:sumsNits) and \@ref(eq:Zit) gives
 \begin{align}
-{{H_{it}}} \left(1 -  H_{it}^{(\mathrm{P})} \right) & = Z_{it} H_{it}
+{{H_{it}}} \left(1 -  H_{it}^{(\mathrm{B})} \right) & = Z_{it} H_{it}
   \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}} \\
-1 -  H_{it}^{(\mathrm{P})} & = 
+1 -  H_{it}^{(\mathrm{B})} & = 
   1 - \mathrm{e}^{- Z_{it}} \\
-Z_{it} & = - \ln H_{it}^{(\mathrm{P})}.
+Z_{it} & = - \ln H_{it}^{(\mathrm{B})}.
 \end{align}
 
 ....Sub 19 and 20 into 14, to give the competition adjustment factor...... do in morning....
+
+\begin{equation}
+N_{its}^{(0)} = \frac{- \ln H_{it}^{(\mathrm{B})} N_{its}}{1 - H_{it}^{(\mathrm{B})}},
+\label{eq:Nits0rearrange}
+\end{equation}
+
+
+check that, see notes on p6, plot if time, code into gfplot..... save as separate folder
 
 \@ref(eq:Nits)
 
