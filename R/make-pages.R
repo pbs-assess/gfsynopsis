@@ -307,12 +307,16 @@ make_pages <- function(
     iphc_set_counts_sp <- readRDS(iphc_index_cache_spp)
   }
 
-  iphc_set_counts_sp_format <-
+  iphc_set_counts_sp_format <- tryCatch({
     gfplot::format_iphc_longest(iphc_set_counts_sp)
+  }, error = function(e) NA)
+  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
   # Remove existing (GFbio) based IPHC series with longer ones from new calcs
-  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index) %>%
-    filter(survey_abbrev != "IPHC FISS") %>%
-    rbind(iphc_set_counts_sp_format)
+  if (!is.na(iphc_set_counts_sp_format)) {
+    dat_tidy_survey_index <- dat_tidy_survey_index %>%
+      filter(survey_abbrev != "IPHC FISS") %>%
+      rbind(iphc_set_counts_sp_format)
+  }
 
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() + theme_pbs()
@@ -544,7 +548,10 @@ make_pages <- function(
 
   g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
-      rotation_angle = 40, xlim = map_xlim, ylim = map_ylim) +
+      rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+      fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
+      colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D")
+      ) +
     ggplot2::ggtitle("Commercial trawl CPUE") +
     theme(legend.position = "none")
   suppressMessages({g_cpue_spatial <- g_cpue_spatial +
@@ -563,6 +570,8 @@ make_pages <- function(
     g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+      fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
+      colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
       fill_lab = "CPUE (kg/fe)") +
     ggplot2::ggtitle("Commercial H & L CPUE") +
     theme(legend.position = "none") +
@@ -625,27 +634,35 @@ make_pages <- function(
     }
   }
 
-  # if (sum(syn_fits$raw_dat$present) > 0.02 * nrow(syn_fits$raw_dat))
   suppressMessages({
     g_survey_spatial_syn <-
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
         north_symbol = TRUE, annotations = "SYN",
         show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
-      coord_cart + ggplot2::ggtitle("Synoptic survey biomass")
+      coord_cart + ggplot2::ggtitle("Synoptic survey biomass") +
+      ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
+      ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
   })
 
+  iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
+    final_year = 2017)
+  iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
+  iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
+    iphc_map_dat$combined)
   suppressMessages({
-    # if (sum(iphc_fits$raw_dat$present) > 0.02 * nrow(iphc_fits$raw_dat))
     g_survey_spatial_iphc <-
-      gfsynopsis::plot_survey_maps(iphc_fits$pred_dat, iphc_fits$raw_dat,
+      gfsynopsis::plot_survey_maps(iphc_map_dat, iphc_fits$raw_dat,
         show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
         show_model_predictions = "combined" %in% names(iphc_fits$pred_dat),
         annotations = "IPHC") +
-      coord_cart + ggplot2::ggtitle("IPHC survey biomass")
+      coord_cart + ggplot2::ggtitle("IPHC survey catch rate") +
+      ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+        na.value = 'white') +
+      ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
+        na.value = 'grey35')
   })
 
   suppressMessages({
-    # if (sum(hbll_fits$raw_dat$present) > 0.02 * nrow(hbll_fits$raw_dat))
     g_survey_spatial_hbll <-
       gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
         pos_pt_col = "#FFFFFF35",
@@ -653,7 +670,9 @@ make_pages <- function(
         pos_pt_fill = "#FFFFFF03",
         show_model_predictions = "combined" %in% names(hbll_fits$pred_dat),
         annotations = "HBLL") +
-      coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass")
+      coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass") +
+      ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
+      ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
   })
 
   # Page 1 layout: -------------------------------------------------------------

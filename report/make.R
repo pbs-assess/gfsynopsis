@@ -39,15 +39,17 @@ if (!file.exists(here("report", "itis.rds"))) {
   cls <- readRDS(here("report", "itis.rds"))
 }
 cls <- plyr::ldply(cls) %>%
-  rename(itis_tsn = .id) %>%
-  filter(rank %in% c('order', 'family')) %>%
+  dplyr::rename(itis_tsn = .id) %>%
+  dplyr::filter(rank %in% c('order', 'family')) %>%
   reshape2::dcast(itis_tsn ~ rank, value.var = 'name')
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
 
 # Missing from ITIS:
-spp$order[spp$species_common_name == "deacon rockfish"] <- spp$order[spp$species_common_name == "vermilion rockfish"]
-spp$family[spp$species_common_name == "deacon rockfish"] <- spp$family[spp$species_common_name == "vermilion rockfish"]
+spp$order[spp$species_common_name == "deacon rockfish"] <-
+  spp$order[spp$species_common_name == "vermilion rockfish"]
+spp$family[spp$species_common_name == "deacon rockfish"] <-
+  spp$family[spp$species_common_name == "vermilion rockfish"]
 
 if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
@@ -129,14 +131,6 @@ for (i in seq_along(spp$species_common_name)) {
     cat(crayon::green(clisymbols::symbol$tick),
       "Figure pages for", spp$species_common_name[i], "already exist\n")
   }
-}
-
-rougheye_split <- function(x) {
-  spl <- strsplit(x, "/")[[1]]
-  first <- strsplit(spl, " ")[[1]][[1]]
-  second <- strsplit(spl, " ")[[1]][[2]]
-  third <- strsplit(spl, " ")[[2]][[1]]
-  c(paste(first, second, sep = "-"), paste(first, third, sep = "-"))
 }
 
 # ------------------------------------------------------------------------------

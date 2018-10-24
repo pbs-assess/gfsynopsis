@@ -188,14 +188,14 @@ plot_map <- function(.dat, column) {
 
 ```{r sdmTMB-plot-depth}
 g_depth <- plot_map(grid_locs, "depth") +
-  scale_fill_viridis_c(trans = "sqrt", option = "A", direction = -1) +
+  scale_fill_viridis_c(trans = "fourth_root_power", option = "A", direction = -1) +
   ggtitle("Depth") +
   labs(fill = 'Depth (m)')
 ```
 
 ```{r sdmTMB-plot-combined}
 g_sdm1 <- plot_map(predictions$data, "exp(est)") +
-  scale_fill_viridis_c(trans = "sqrt", option = "C") +
+  scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
   ggtitle("Prediction (depth effects + spatial random effects)") +
   labs(fill = 'Biomass estimate\nkg/km^2')
 ```
@@ -203,7 +203,7 @@ g_sdm1 <- plot_map(predictions$data, "exp(est)") +
 ```{r sdmTMB-plot-fe}
 g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
   ggtitle("Prediction (depth effects only)") +
-  scale_fill_viridis_c(trans = "sqrt", option = "D") +
+  scale_fill_viridis_c(trans = "fourth_root_power", option = "D") +
   labs(fill = 'Biomass estimate\nkg/km^2')
 ```
 

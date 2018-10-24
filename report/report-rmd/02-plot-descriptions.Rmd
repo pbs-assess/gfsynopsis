@@ -70,23 +70,26 @@ map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the m
 
 <!-- TODO: Add back the checking square and make sure these maps are still the right aspect ratio. -->
 
-```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="4.5in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", sp, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Colour shading indicates predictions from a spatial model that includes depth as a predictor. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows the raw unmodelled data for set locations. Years on the left side of each plot indicate the year of the respective survey. Surveys in which less than 2\\% of the sets contained the species are not modeled and are shown with raw data only. ", map_text)}
+```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="4.5in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", sp, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Colour shading indicates predictions from a spatial model that includes depth as a predictor. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows the raw unmodelled data for station locations --- stations without any observations for a given species are plotted with empty circles (none here). Years on the left side of each plot indicate the year of the respective survey. Surveys in which less than 2\\% of the sets contained the species are not modeled and are shown with raw data only. ", map_text)}
 
-trans <- "sqrt"
+trans <- "fourth_root_power"
 
 p1 <- g$survey_spatial_syn +
   labs(fill = "Predicted\nbiomass\ndensity\n(kg/m^2)") +
-  viridis::scale_fill_viridis(trans = trans, option = "C", breaks = c(0.1, 0.3, 0.5)) +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(0.1, 0.6)) +
   guides(fill = guide_colorbar(), size = FALSE)
 
 p2 <- g$survey_spatial_hbll +
   labs(fill = "Predicted\nbiomass\ndensity\n(fish/km^2)") +
-  viridis::scale_fill_viridis(trans = trans, option = "C", breaks = c(5, 20, 40)) +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
   guides(fill = guide_colorbar(), size = FALSE)
 
 p3 <- g$survey_spatial_iphc +
   labs(colour = "Predicted\nbiomass\ndensity\n(fish/km^2)") +
-  viridis::scale_colour_viridis(trans = trans, option = "C", breaks = c(2, 10, 20)) +
+  ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    na.value = 'white', breaks = c(2, 50, 150)) +
+  ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
+    na.value = 'grey35', breaks = c(2, 50, 150)) +
   guides(colour = guide_colorbar(), size = FALSE)
 
 gridExtra::grid.arrange(

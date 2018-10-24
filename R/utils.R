@@ -27,3 +27,22 @@ first_cap <- function(s, strict = FALSE) {
     sep = "", collapse = " " )
   sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
 }
+
+#' @export
+rougheye_split <- function(x) {
+  spl <- strsplit(x, "/")[[1]]
+  first <- strsplit(spl, " ")[[1]][[1]]
+  second <- strsplit(spl, " ")[[1]][[2]]
+  third <- strsplit(spl, " ")[[2]][[1]]
+  c(paste(first, second, sep = "-"), paste(first, third, sep = "-"))
+}
+#' Fourth route power transformation
+#'
+#' @export
+fourth_root_power_trans <- function() {
+  scales::trans_new(
+    name = "fourth root power",
+    transform = function(x) x^0.25,
+    inverse = function(x) x^4,
+    domain = c(0, Inf))
+}

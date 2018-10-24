@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 ```{r load-libraries, cache=FALSE}
 library(dplyr)
 library(ggplot2)
+library(gfsynopsis)
 library(gfplot)
 library(csasdown)
 ggplot2::theme_set(gfplot::theme_pbs())
