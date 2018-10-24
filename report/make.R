@@ -131,14 +131,6 @@ for (i in seq_along(spp$species_common_name)) {
   }
 }
 
-rougheye_split <- function(x) {
-  spl <- strsplit(x, "/")[[1]]
-  first <- strsplit(spl, " ")[[1]][[1]]
-  second <- strsplit(spl, " ")[[1]][[2]]
-  third <- strsplit(spl, " ")[[2]][[1]]
-  c(paste(first, second, sep = "-"), paste(first, third, sep = "-"))
-}
-
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
 
