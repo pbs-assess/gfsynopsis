@@ -12,12 +12,17 @@ This version of the document was generated on `r Sys.time()` with
 `r devtools::session_info()$platform$version` [@r2018] and R package versions:
 
 ```{r env, echo = FALSE, results='asis', message=FALSE, warning=FALSE, eval=TRUE, cache=FALSE}
-library(TMB)
-library(rstan)
-library(bookdown)
-library(rmarkdown)
-pkgs <- sort(c("broom", "gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
-  "TMB", "broom.mixed", "purrr", "xtable", "kableExtra", "cowplot", 
+suppressWarnings({suppressMessages({
+  library(TMB)
+  library(rstan)
+  library(bookdown)
+  library(rmarkdown)
+  library(gfsynopsis)
+  library(sdmTMB)
+  library(INLA)
+})})
+pkgs <- sort(c("gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
+  "TMB", "broom.mixed", "purrr", "xtable", "kableExtra",
   "csasdown", "bookdown", "rmarkdown", "INLA", "sdmTMB", "gfsynopsis"))
 devtools::session_info()$packages %>%
   dplyr::filter(package %in% pkgs) %>%
