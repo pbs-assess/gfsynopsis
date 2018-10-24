@@ -307,12 +307,16 @@ make_pages <- function(
     iphc_set_counts_sp <- readRDS(iphc_index_cache_spp)
   }
 
-  iphc_set_counts_sp_format <-
+  iphc_set_counts_sp_format <- tryCatch({
     gfplot::format_iphc_longest(iphc_set_counts_sp)
+  }, error = function(e) NA)
+  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
   # Remove existing (GFbio) based IPHC series with longer ones from new calcs
-  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index) %>%
-    filter(survey_abbrev != "IPHC FISS") %>%
-    rbind(iphc_set_counts_sp_format)
+  if (!is.na(iphc_set_counts_sp_format)) {
+    dat_tidy_survey_index <- dat_tidy_survey_index %>%
+      filter(survey_abbrev != "IPHC FISS") %>%
+      rbind(iphc_set_counts_sp_format)
+  }
 
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() + theme_pbs()
