@@ -39,15 +39,17 @@ if (!file.exists(here("report", "itis.rds"))) {
   cls <- readRDS(here("report", "itis.rds"))
 }
 cls <- plyr::ldply(cls) %>%
-  rename(itis_tsn = .id) %>%
-  filter(rank %in% c('order', 'family')) %>%
+  dplyr::rename(itis_tsn = .id) %>%
+  dplyr::filter(rank %in% c('order', 'family')) %>%
   reshape2::dcast(itis_tsn ~ rank, value.var = 'name')
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
 
 # Missing from ITIS:
-spp$order[spp$species_common_name == "deacon rockfish"] <- spp$order[spp$species_common_name == "vermilion rockfish"]
-spp$family[spp$species_common_name == "deacon rockfish"] <- spp$family[spp$species_common_name == "vermilion rockfish"]
+spp$order[spp$species_common_name == "deacon rockfish"] <-
+  spp$order[spp$species_common_name == "vermilion rockfish"]
+spp$family[spp$species_common_name == "deacon rockfish"] <-
+  spp$family[spp$species_common_name == "vermilion rockfish"]
 
 if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
