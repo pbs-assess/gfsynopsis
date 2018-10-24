@@ -637,6 +637,9 @@ As $P_{it} \rightarrow 0$, the competition adjustment factor $\rightarrow
 \infty$, which blows up the expected number $N_{its}^{(0)}$. TODO - in practice
 this happens **CHECK HOW OFTEN, IF EVER**. 
 
+For a set with 800 hooks, the smallest possible value is $P_{it} = 1/800$, for
+which the adjustment factor is 6.69.
+
 TODO plot of competition adjustmen factor.
 
 
