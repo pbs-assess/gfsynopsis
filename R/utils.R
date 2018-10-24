@@ -48,7 +48,7 @@ fourth_root_power_trans <- function() {
 }
 
 find_length_outliers <- function(xx) {
-  yy <-  stats::pnorm(xx, mean = stats:mean(xx, na.rm = TRUE),
+  yy <-  stats::pnorm(xx, mean = mean(xx, na.rm = TRUE),
     sd = stats::sd(xx, na.rm = TRUE), log.p = TRUE)
   zz <- stats::qnorm(yy, log.p = TRUE)
   out <- zz[zz > 4 & !is.na(zz)]
