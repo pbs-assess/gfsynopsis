@@ -14,21 +14,19 @@ locality_count <- d_cpue %>%
   arrange(-n)
 ```
 
-# COMMERCIAL CPUE STANDARDIZATION
-
-We sought to generate an index of abundance from commercial trawl catch per
-unit effort data that was standardized for depth, fishing locality (defined
-spatial regions; Figure \@ref(fig:cpue-locality-map)) month, vessel, and
-latitude, when available. Before fitting a standardization model, we had to
-filter and manipulate the available catch and effort data to generate a dataset
-appropriate for model fitting. In the following sections we describe those
-decisions for the 'modern' data (1996--2017). We then describe our index
-standardization model, explore the contribution of the various standardization
-components, and identify the effect of including or ignoring space-time
-interactions. This model and the following description draws heavily from
-a recent assessment of Pacific Cod (in parts copied verbatim), where this model
-was first developed and applied (REF). For clarity, we include the full
-description in this document since the Pacific Cod report remains in press.
+We sought to generate an index of abundance from commercial trawl catch per unit
+effort data that was standardized for depth, fishing locality (defined spatial
+regions; Figure \@ref(fig:cpue-locality-map)) month, vessel, and latitude, when
+available. Before fitting a standardization model, we had to filter and
+manipulate the available catch and effort data to generate a dataset appropriate
+for model fitting. In the following sections we describe those decisions for the
+'modern' data (1996--2017). We then describe our index standardization model,
+explore the contribution of the various standardization components, and identify
+the effect of including or ignoring space-time interactions. This model and the
+following description draws heavily from a recent assessment of Pacific Cod (in
+parts copied verbatim), where this model was first developed and applied
+[@forrest2018pcod]. For clarity, we include the full description in this
+document since the Pacific Cod report remains in press.
 
 ## DEFINING THE 1996--2017 FLEET
 
@@ -162,12 +160,12 @@ as
 where $\bm{X_t}$ represents a vector of predictors set to the reference ($r$)
 levels with the year set to the year of interest. Because each of the $\alpha$
 random intercepts is set to zero, the index is predicted for an average
-locality, locality-year, and vessel (for modern data). We estimated the fixed
-effects with maximum marginal likelihood while integrating over the random
-effects with the statistical software TMB via the R package glmmTMB. We used
-standard errors ($\mathrm{SE}$) as calculated by TMB on $\log (\mu_t)$ via the
-generalized delta method. We then calculated the 95\% Wald confidence intervals
-as $\exp (\mu_t \pm 1.96 \mathrm{SE}_t)$. For comparison, we calculated an
+locality, locality-year, and vessel. We estimated the fixed effects with
+maximum marginal likelihood while integrating over the random effects with the
+statistical software TMB via the R package glmmTMB. We used standard errors
+($\mathrm{SE}$) as calculated by TMB on $\log (\mu_t)$ via the generalized
+delta method. We then calculated the 95\% Wald confidence intervals as $\exp
+(\mu_t \pm 1.96 \mathrm{SE}_t)$. For comparison, we calculated an
 unstandardized timeseries by summing the catch each year and dividing it by the
 summed effort each year (the dashed lines on the figure pages).
 

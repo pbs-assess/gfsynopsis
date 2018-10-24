@@ -1,6 +1,8 @@
+\clearpage
+
 # SPATIAL MODELLING OF SURVEY BIOMASS {#sec:spatial-modeling}
 
-We modelled the expected biomass density in space for each species using geostatistical models applied to data from the fisheries independent bottom trawl and long line surveys (e.g. Figure \@ref(fig:survey-maps)). Our modeling approach is consistent with recent models used for spatiotemporal index standardization of fish populations [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been shown, for example, to improve estimates of rockfish abundance and distribution [@shelton2014] and improve precision when estimating relative abundance indices for groundfish [@thorson2015]. Our specific model is implemented with INLA [@rue2009; @lindgren2015] and TMB [@kristensen2016] via R [@r2018], which enables rapid model fitting for these large spatial data sets.
+We modelled the expected biomass density in space for each species using geostatistical models applied to data from the fisheries independent bottom trawl and long line surveys (e.g. Figure \@ref(fig:survey-maps)). Our modeling approach is consistent with recent models used for spatial modelling and spatiotemporal index standardization of groundfish populations [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been shown, for example, to improve estimates of rockfish abundance and distribution [@shelton2014] and improve precision when estimating relative abundance indices for groundfish [@thorson2015]. Our specific model is implemented with INLA [@rue2009; @lindgren2015] and TMB [@kristensen2016] via R [@r2018], which enables rapid model fitting for these large spatial data sets.
 
 At a high level, these models predict relative biomass in space as a continuous process with a quadratic effect for bottom depth, spatial random effects that represent an amalgamation of spatial processes not explicitly included in the model, and an observation error component. After fitting the model to survey sets from trawl or longline surveys, we then project the model predictions on to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive estimates of biomass throughout the survey domain.
 
@@ -26,7 +28,7 @@ Instead of directly modelling the effects of depth and depth squared, we first c
 
 We fit the four synoptic survey data sets separately, because only two of the surveys are conducted each year and the surveys are disjointed in space and time. Similarly, we fit the North and South HBLL surveys independently. We combined the predictions to generate the map plots, but labelled the years the various surveys were conducted in.
 
-TODO: 
+TODO:
 - how many knots and why
 - what the triangular mesh shows
 - the projec-tion matrix from INLA
@@ -97,7 +99,7 @@ idx <- order(x)
 i <- 1:3
 y <- m$model$par[[i[1]]] + x * m$model$par[[i[2]]] + x2 * m$model$par[[i[3]]]
 out <- data.frame(
-  depth = -1*exp(x[idx] * m$data$depth_sd[1] + m$data$depth_mean[1]), 
+  depth = -1*exp(x[idx] * m$data$depth_sd[1] + m$data$depth_mean[1]),
   y = exp(y[idx]))
 ggplot(out, aes(depth, y)) + geom_line() +
   coord_cartesian(xlim = c(-300, 0)) +
@@ -112,21 +114,21 @@ out <- purrr::map_df(fi, function(i) {
   out <- purrr::map_df(1:4, function(ii) {
     if (length(mm$models[[ii]]$models) > 1L) {
       rd <- dplyr::filter(mm$raw_dat, survey == surveys[ii])
-      # x <- seq(min(rd$depth_scaled, na.rm = TRUE), 
+      # x <- seq(min(rd$depth_scaled, na.rm = TRUE),
       #   max(rd$depth_scaled, na.rm = TRUE), length.out = 200)
-      range_d <- -1 * exp(rd$depth_mean[1] + 
+      range_d <- -1 * exp(rd$depth_mean[1] +
           range(rd$depth_scaled, na.rm = TRUE) * rd$depth_sd[1])
       x <- seq(-3, 4, length.out = 300)
       x2 <- x^2
       B <- mm$models[[ii]]$models$model$par
       y <- B[[1]] + x * B[[2]] + x2 * B[[3]]
       out <- data.frame(
-        depth = -1*exp(x * rd$depth_sd[1] + rd$depth_mean[1]), 
-        y = exp(y), survey = surveys[ii], 
+        depth = -1*exp(x * rd$depth_sd[1] + rd$depth_mean[1]),
+        y = exp(y), survey = surveys[ii],
         species = gsub("-", " ", gsub(".rds", "", i)),
         stringsAsFactors = FALSE)
-      out <- mutate(out, 
-        extrapolated = depth < min(range_d) * 1 | 
+      out <- mutate(out,
+        extrapolated = depth < min(range_d) * 1 |
           depth > max(range_d) * 1)
       out
     }
@@ -135,20 +137,20 @@ out <- purrr::map_df(fi, function(i) {
 })
 library(ggplot2)
 library(dplyr)
-dd <- out %>% group_by(species, survey) %>% 
+dd <- out %>% group_by(species, survey) %>%
   # mutate(y = y / max(y))
-  mutate(max_y = max(y[!extrapolated])) %>% 
-  mutate(y = ifelse(y < max_y * 1.15, y, NA)) %>% 
-  mutate(mode_depth = depth[y == max(y)[1]]) %>% 
+  mutate(max_y = max(y[!extrapolated])) %>%
+  mutate(y = ifelse(y < max_y * 1.15, y, NA)) %>%
+  mutate(mode_depth = depth[y == max(y)[1]]) %>%
   group_by(species) %>%
   mutate(mean_mode_depth = mean(mode_depth))
 
-ggplot(dd, aes(depth, y, colour = survey)) + 
+ggplot(dd, aes(depth, y, colour = survey)) +
   geom_line(lty = 2) +
   coord_cartesian(xlim = c(-800, 0), ylim = ) +
   labs(x = 'Depth (m)', y = 'Biomass density (TODO)') +
-  # facet_wrap(~forcats::fct_reorder(species, 
-  #   mean_mode_depth), 
+  # facet_wrap(~forcats::fct_reorder(species,
+  #   mean_mode_depth),
   facet_wrap(~species, scales = "free_y") +
   geom_line(data = filter(dd, !extrapolated), lwd = 0.9) +
   scale_color_brewer(palette = "Dark2") +

@@ -56,7 +56,7 @@ x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
-```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or less than 5\\% average positive sets (sets that caught the species of interest). All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Timeseries with light grey dots and dotted upper and lower confidence intervals represent an index that has been standardized with a geostatistical model.", surv_abbrev_text, ". See Section \\ref{sec:survey-trend-models} for details on the calculations and modelling.")}
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. Shaded panels indicate survey trends with a mean CV greater than 0.4 or less than 5\\% average positive sets (sets that caught the species of interest). All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Timeseries with light grey dots and dotted upper and lower confidence intervals represent an index that has been standardized with a geostatistical model. ", surv_abbrev_text, ".")}
 g$survey_index
 ```
 
@@ -70,7 +70,7 @@ map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the m
 
 <!-- TODO: Add back the checking square and make sure these maps are still the right aspect ratio. -->
 
-```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="4.5in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", sp, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Colour shading indicates predictions from a spatial model that includes depth as a predictor. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows the raw unmodelled data for set locations. Years on the left side of each plot indicate the year of the respective survey. Surveys in which less than 2\\% of the sets contained the species are not modeled and are shown with raw data only. See Section \\ref{sec:spatial-modeling} for details on the modeling approach. ", map_text)}
+```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="4.5in", fig.cap=paste0("Example maps of relative biomass from trawl and longline surveys from the last available years of each survey for ", sp, ". Shown are the synoptic trawl surveys (left), the outside hard bottom long line (PHMA) surveys (middle), and the IPHC longline survey (right). Individual sets are shown in the two left panels as faint crosses (none of the species), or circles with the area of the circle proportional to the species density from the set. Colour shading indicates predictions from a spatial model that includes depth as a predictor. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows the raw unmodelled data for set locations. Years on the left side of each plot indicate the year of the respective survey. Surveys in which less than 2\\% of the sets contained the species are not modeled and are shown with raw data only. ", map_text)}
 
 trans <- "sqrt"
 
@@ -102,7 +102,9 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
 
-```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap=paste0("Example commercial fishery catches plot for ", sp, ". Catch from various gear types is indicated by colour shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, hook and line discards are mostly exluded from these data. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006.")}
+(ref:catches-cap) Example commercial fishery catches plot for `r sp`. Catch from various gear types is indicated by colour shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, hook and line discards are mostly exluded from these data. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006.
+
+```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
 g$catch
 ```
 
@@ -110,7 +112,9 @@ g$catch
 
 ## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
 
-```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.6in", warning=FALSE, fig.cap=paste0("Example commercial bottom trawl catch per unit effort trends for ", sp, ". Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort trend standardized for depth, latitude, DFO locality region, vessel, and month of year (see details in Section \\ref{sec:cpue-models}). The line itself represents the estimate and the shaded ribbon represents a 95\\% confidence interval.")}
+(ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort trends for `r sp`. Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort (CPUE) trend standardized with a Tweedie GLMM (generalized linear mixed effects model) for depth, latitude, DFO locality region, vessel, and month of year (see details in Section (\@ref(sec:cpue-models))). The line itself represents the estimate and the shaded ribbon represents a 95\% confidence interval. The dashed line represents an unstandardized commercial CPUE index calculated as the sum of catch divided by the sum of effort.
+
+```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.6in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
 g$cpue_index
 ```
 
@@ -144,7 +148,7 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Is this min n for biosamples to be statistically significant? If so explain rationale. Which I may steal for my in-season halibut work! -->
 
-```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light gray bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. These are raw unweighted proportions within each length bin; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light gray bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. The commercial male and female samples are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
 g$lengths
 ```
 
@@ -154,7 +158,7 @@ g$lengths
 
 ## AGE COMPOSITION DATA
 
-```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as coloured (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts of fish through time. These are raw unweighted proportions at age; however, proportions weighted by survey stratum area and biomass density or commercial catch will be substituted --- this makes a minor difference. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as coloured (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
 g$ages
 ```
 
