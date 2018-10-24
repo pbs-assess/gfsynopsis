@@ -20,10 +20,13 @@ suppressWarnings({suppressMessages({
   library(gfsynopsis)
   library(sdmTMB)
   library(INLA)
+  library(PBSmapping)
+  library(PBSdata)
 })})
 pkgs <- sort(c("gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
   "TMB", "broom.mixed", "purrr", "xtable", "kableExtra",
-  "csasdown", "bookdown", "rmarkdown", "INLA", "sdmTMB", "gfsynopsis"))
+  "csasdown", "bookdown", "rmarkdown", "INLA", "sdmTMB", "gfsynopsis",
+  "PBSdata", "PBSmapping"))
 devtools::session_info()$packages %>%
   dplyr::filter(package %in% pkgs) %>%
   dplyr::select(package, version, date) %>%
