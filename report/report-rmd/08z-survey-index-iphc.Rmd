@@ -514,11 +514,40 @@ particularly
 to ascertain whether a given species was being actively identified in a given
 year (resulting in a zero catch rate rather than 'no data').
 
+## HOOK COMPETITION
+
+TODO (whole section) Hook competition occurs ...... REF Webster and Clark...
+
 TODO  decide what to do The Yelloweye
 assessment also considered a model of hook competition TODO **mention Marie's if
 I don't get anything in. Note, however, that this work was not directly
 incorporated into the analysis in Appendix~C that was used as the survey index
 in the assessment model.
+
+From page 6 of my notes..... define
+
+species $s$ (not $i$, which was from following Webster etc.'s notation)
+
+$N_{its}^{(0)}$ -- the number of fish of species $s$ that we would expect to
+catch *in the absence of hook competition* on set $i=1,2,...,n_t$
+in year $t$, based on observed chum-bait hooks,
+
+$D_{its}$ -- true local density of species $s$ around set $i$ in year $t$,
+
+$F_{its}$ -- the local rate of capture of bait by species $s$ around set $i$ in
+year $t$.
+
+
+$N_{its}^{(0)}$ is proportional to the true local density, $D_{its}$, and so
+is what we wish to use as an index of abundance.
+
+The ies $i$ in year $t$, $F_{it}$ is also
+proportional to $D_{it}$.
+
+
+
+The
+
 
 
 \clearpage
