@@ -69,9 +69,9 @@ not showing biomass index trends or maps from the Sablefish trap
 surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
-available data. A brief description these surveys is included in TO DO (ref
-Appendix E) along with associated refences for detailed survey descriptions and 
-designs.
+available data. A brief description these surveys is included in 
+(\@ref(sec:survey-trend-models)) along with associated refences for 
+detailed survey descriptions and designs.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report.", fig.pos="htbp"}
 xlim <- c(122, 890)
@@ -167,7 +167,6 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
-TODO: something here or elsewhere on the management areas and perhaps something about how will they line up with the survey areas.
 
 ```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="4in"}
 knitr::include_graphics("figure/3CD5ABCDE.png")
@@ -274,10 +273,5 @@ Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
 for his work on GFASTeR, which this project also takes inspiration from and
 borrows some of the data queries. We thank Rowan Haigh for his work maintaining
 the PBSmapping and PBSdata R packages.
-
-TODO: impossible without databases...
-
-TODO: note colour scales relative in maps...
-
 
 \clearpage

@@ -24,9 +24,9 @@ for (i in seq_along(spp$species_common_name)) {
 }
 ```
 
-<!-- TODO: Make sure these aging precision plots are in a one to one aspect ratio -->
+<!-- TODO: Make sure these ageing precision plots are in a one to one aspect ratio -->
 
-```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.0, out.width="5.8in", fig.cap="Ageing precision plots for all species in the report with data. Each dot and cross-hatch represents an individual fish that has been aged twice. The x-axis represents the age and confidence interval recorded by the initial (``primary'') individual aging the fish. The y-axis represents the age and confidence interval recorded by the second (``precision'') individual aging the fish. The dashed diagonal line represents a perfect one-to-one agreement between the two ages. Up to 300 fish have been randomly sampled from all fish precision-aged for a species, and a small amount of random jitter has been added to both axes to reduce overplotting with the same jitter value added to both the x and y axes for a given fish."}
+```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.0, out.width="5.8in", fig.cap="Ageing precision plots for all species in the report with data. Each dot and cross-hatch represents an individual fish that has been aged twice. The x-axis represents the age and confidence interval recorded by the initial (``primary'') individual ageing the fish. The y-axis represents the age and confidence interval recorded by the second (``precision'') individual ageing the fish. The dashed diagonal line represents a perfect one-to-one agreement between the two ages. Up to 300 fish have been randomly sampled from all fish precision-aged for a species, and a small amount of random jitter has been added to both axes to reduce overplotting with the same jitter value added to both the x and y axes for a given fish."}
 out <- bind_rows(out_dat)
 set.seed(42)
 jitter <- 0.2
