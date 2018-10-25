@@ -175,7 +175,7 @@ locality_count <- d_cpue %>%
 gfplot:::plot_dfo_localities(top_n(locality_count, 75)$locality_code)
 ```
 
-```{r cpue-tweedie-ex, fig.asp=0.7, fig.cap="Example density functions for the Tweedie distribution. The symbol $\\phi$ (written as phi in this figure) represents the dispersion parameter, $p$ represents the power parameter, and $\\mu$ represents the mean. Note that the spike in density that is seen towards the left of the panels is at a value of 0 on the x axis."}
+```{r cpue-tweedie-ex, fig.asp=0.7, fig.with=8, out.width="5.5in", fig.cap="Example density functions for the Tweedie distribution. The symbol $\\phi$ (written as phi in this figure) represents the dispersion parameter, $p$ represents the power parameter, and $\\mu$ represents the mean. Note that the spike in density that is seen towards the left of the panels is at a value of 0 on the x axis."}
 plot_tweedie_ex <- function(df, max = 15) {
   xx <- seq(0, max, length.out = 1000)
   out <- plyr::mdply(df, function(mu, power, phi) {
