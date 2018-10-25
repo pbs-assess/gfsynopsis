@@ -272,22 +272,34 @@ in theGFBio database.}
 Description & HOOK\_YIELD\_CODE\\
 \hline
 Unknown & 0\\
-\hline
 Empty hook & 1\\
-\hline
 Bait on hook & 2\\
-\hline
 Animal on hook (fish or invertebrate) & 3\\
-\hline
 Species head on hook & 4\\
-\hline
 Species droped off hook & 5\\
-\hline
 Bait skin on hook & 6\\
-\hline
 Hook not observed & 7\\
-\hline
 Eaten or bitten (by shark, etc.) & 8\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[tbp]
+\centering
+\caption{Description of classification of IPHC sets, and indication
+of which we include in our analyses.}
+\label{tab:iphc-set-codes}
+\begin{tabular}{lcc}
+\hline
+Description & U.USABILITY\_CODE & Included here? \\
+\hline
+Fully usable & 1 & Y\\
+Usable but omit from swept area calculations & 21 & N\\
+Usable but removed due to re-definition of survey area & 22 & N\\
+Usable but omit from any biomass calculations & 27 & N\\
+Usable but omit from any geospatial analysis & 52 & Y\\
 \hline
 \end{tabular}
 \end{table}
