@@ -6,8 +6,8 @@ library(dplyr)
 # for rapid development:
 if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
 if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
-#devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
-#devtools::install(quick = TRUE, dependencies = FALSE)
+devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
+devtools::install(quick = TRUE, dependencies = FALSE)
 
 # for production use:
 library(gfplot)
@@ -17,7 +17,7 @@ library(gfsynopsis)
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
-optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
+optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -33,23 +33,17 @@ dat_geostat_index <- readRDS(here("report", "geostat-cache",
 # ------------------------------------------------------------------------------
 
 if (!file.exists(here("report", "itis.rds"))) {
-  cls <- taxize::classification(spp$itis_tsn[!is.na(spp$itis_tsn)], db = 'itis')
+  cls <- taxize::classification(spp$itis_tsn, db = 'itis')
   saveRDS(cls, file = here("report", "itis.rds"))
 } else {
   cls <- readRDS(here("report", "itis.rds"))
 }
 cls <- plyr::ldply(cls) %>%
-  dplyr::rename(itis_tsn = .id) %>%
-  dplyr::filter(rank %in% c('order', 'family')) %>%
+  rename(itis_tsn = .id) %>%
+  filter(rank %in% c('order', 'family')) %>%
   reshape2::dcast(itis_tsn ~ rank, value.var = 'name')
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
-
-# Missing from ITIS:
-spp$order[spp$species_common_name == "deacon rockfish"] <-
-  spp$order[spp$species_common_name == "vermilion rockfish"]
-spp$family[spp$species_common_name == "deacon rockfish"] <-
-  spp$family[spp$species_common_name == "vermilion rockfish"]
 
 if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
@@ -70,16 +64,15 @@ cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", pop
 spp <- left_join(spp, cosewic, by = "species_science_name")
 
 # ------------------------------------------------------------------------------
-# # This section is used for hacked parallel processing from the command line.
-# # Unecessary, but speeds up rebuilding and no proper form of parallel processing
-# # seems to work in the figure building.
-# # e.g. from root project folder:
-# N <- 1:10
-# source("report/make.R")
-# # Open another console, then:
-# N <- 11:20
-# source("report/make.R")
-# # etc.
+# This section is used for hacked parallel processing from the command line.
+# Unecessary, but speeds up rebuilding and no proper form of parallel processing
+# seems to work in the figure building.
+# e.g. from root project folder in macOS or Linux or maybe Cygwin on Windows:
+# open new Terminal
+# make one
+# open new Terminal
+# make two
+# etc.
 if (exists("N")) warning("A global variable `N` exists; filtering by N.")
 if (exists("N")) spp <- spp[N, , drop = FALSE]
 
@@ -153,7 +146,6 @@ temp <- lapply(spp$species_common_name, function(x) {
   sara_status <- spp$sara_status[spp$species_common_name == x]
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   .b_section <- spp$b_section[spp$species_common_name == x]
-  # .fishbase <- spp$fishbase[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
@@ -168,25 +160,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(
-    gfsynopsis:::emph(latin_name), " (", species_code, ")", "\\\n",
+    gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
-    ",")
-
-  i <- i + 1
-  out[[i]] <- paste0("[FishBase link]",
-    "(http://www.fishbase.org/summary/",
-    gsub(" ", "-", gfplot:::firstup(latin_name)), ")\\")
-
-  if (species_code == '394') { # Sebastes aleutianus/melanostictus
-    .names <- rougheye_split(gfplot:::firstup(latin_name))
-    out[[i]] <- paste0("[FishBase link 1]",
-      "(http://www.fishbase.org/summary/", .names[1], "),")
-    i <- i + 1
-    out[[i]] <- paste0("[FishBase link 2]",
-      "(http://www.fishbase.org/summary/", .names[2], ")\\")
-  }
-
+    "\n")
   if (resdoc != "") {
     i <- i + 1
     out[[i]] <- paste0(resdoc_text, resdoc, "\\")
@@ -254,7 +231,7 @@ if (!exists("N") && optimize_png) {
     library(doParallel)
     doParallel::registerDoParallel(cores = cores)
     fi <- list.files(".", "*.png")
-    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all", i)),
+    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
       .parallel = TRUE)
   }
   setwd(here())

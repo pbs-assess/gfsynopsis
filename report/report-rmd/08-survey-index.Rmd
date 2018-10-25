@@ -3,7 +3,15 @@
 <!-- TODO: Add a blurb here about the surveys in general. -->
 Fisheries and Oceans, Canada (DFO) conducts various fishery-independent 
 multispecies research surveys annually or biannually. These include four 
-synoptic bottom trawl surveys and two longline hook surveys.
+synoptic bottom trawl surveys and two longline hook surveys. The survey areas 
+generally correspond with Groundfish Management areas that fishery quotas are 
+allocated by British Columbia waters. For the synoptic trawl surveys, the 
+West Coast Vancouver Island survey corresponds to management areas 3CD, Queen 
+Charlotte Strait survey corresponds to areas 5AB, Hecate Strait surveys to 
+areas 5C--5D and West Coast Haida Gwaii surveys to area 5E. The Hard 
+Bottom Longline survey is split into northern and southern segments. The 
+southern survey area corresponds to management areas 3CD and 5AB while the 
+northern survey area corresponds to areas 5CDE.
 
 ## Synoptic Bottom Trawl Surveys
 DFO together with the Canadian Groundfish Research and Conservation Society implemented a coordinated set of bottom trawl surveys that together cover the continental shelf and upper slope of most of the BC coast. The surveys all follow a random depth stratified design and use the same bottom trawl fishing gear and fishing protocols [@sinclair2003syn]. The surveys were designed to provide a synopsis of all species available to bottom trawl gear as opposed to focusing on certain species. There are a total of four synoptic surveys: 1 Hecate Strait (HS); 2 West Coast Vancouver Island (WCVI); 3 Queen Charlotte Sound (QCS); and 4 West Coast Haida Gwaii (WCHG). Surveys have been conducted on both chartered commercial vessels and government research vessels. The Hecate Strait survey and West Coast Vancouver Island survey have been conducted on the Canadian Coast Guard research trawler WE Ricker while the Queen Charlotte Sound survey has been conducted on chartered commercial fishing vessels. Two of the synoptic surveys are conducted each year on an alternating basis so that each survey is conducted every two years.
