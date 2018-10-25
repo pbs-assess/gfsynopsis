@@ -246,9 +246,10 @@ Series&nbsp;C and&nbsp;D use all stations coastwide (by definition).
 
 Each year, a few stations may be declared unusable by the IPHC and are excluded 
 from our analyses (e.g. the 
-hook-tally sheet got blown overboard for station 2113 in the year 2008).
-Stations that were declared TODO-check-name 
-'unusable for spatiotemporal analysis' are more common and are included.
+hook-tally sheet got blown overboard for station 2113 in the year 2008), with
+usability codes described in Table\ \@ref(tab:iphc-set-codes). In particular,
+we include stations deemed as 'Usable but omit from any geospatial analysis',
+but these should be exluded for complex spatial analyses.
 
 <!--
 ```{r iphc-hook-codes, tab.cap="Description of hook observation classifications and corresponding codes in theGFBio database."}
@@ -488,7 +489,7 @@ are very similar for the overlapping years. Thus, on this scale, the 1995 and
 1996 values from Series B look comparable to the full Series A data.
 
 We statistically test the comparability by conducting a 
-paired t-test REFcrawley on the scaled annual means for the overlapping years, to test the null
+paired t-test [@crawley2002] on the scaled annual means for the overlapping years, to test the null
 hypothesis that there is no difference between the scaled annual means, with 
 resulting $p$-value defined as $p_{AB}$.
 If $p_{AB} \geq 0.05$ then we cannot reject the null hypothesis. Then we join
@@ -614,7 +615,12 @@ year (resulting in a zero catch rate rather than 'no data').
 
 ## HOOK COMPETITION
 
-TODO (whole section) Hook competition occurs ...... REF Webster and Clark...
+TODO Hook competition occurs ...... 
+
+
+[@clark2008iphc]
+
+[@webster2011iphc]
 
 TODO  decide what to do The Yelloweye
 assessment also considered a model of hook competition TODO **mention Marie's if
@@ -719,7 +725,8 @@ of species caught (accounting for hook competition), depending on the proportion
 that are returned still with bait on them.
 
 Note that, by definition, $0 \leq P_{it} \leq 1$, and so $\ln P_{it} \leq 0$. As
-$P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule REF
+$P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule 
+<!--may need a REF, Kreyszig doesn't have it-->
 \begin{align}
 \lim_{P_{it} \rightarrow 1} A_{it} & = \lim_{P_{it} \rightarrow 1} \frac{-\ln P_{it}}{1 - P_{it}}\\
  & = \dfrac{\lim_{P_{it} \rightarrow 1} (-1 / P_{it})}{\lim_{P_{it} \rightarrow 1} (-1)}\\
