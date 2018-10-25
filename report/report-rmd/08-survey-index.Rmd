@@ -268,7 +268,7 @@ plot_map_spt(predictions_depth$data, "exp(est)") +
 
 \clearpage
 
-```{r sdmTMB-spt-spatial-residuals, fig.cap='Spatial residuals.'}
+```{r sdmTMB-spt-spatial-residuals, fig.cap='Spatial residuals plotted through time on the link (log) scale.'}
 ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
   geom_point() + facet_wrap(~year) + coord_fixed() +
   labs(x = 'Easting', y = 'Northing')
@@ -276,7 +276,7 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-fixed-effects, fig.width = 8, fig.cap='Fixed effect predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Here the only fixed effects are the factor effects for each year resulting in fixed effect predictions that are same throughout the spatial region for each year.'}
+```{r sdmTMB-spt-plot-fixed-effects, fig.width = 8, fig.cap='Fixed effect predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Here the only fixed effects are the mean effects for each year resulting in fixed effect predictions that are same throughout the spatial region for each year.'}
 plot_map_spt(predictions$data, "exp(est_fe)") +
   ggtitle("Prediction (fixed effects only)") +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
@@ -299,7 +299,7 @@ plot_map_spt(predictions$data, "est_re_s") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.width = 8, fig.cap='Spatiotemporal random effect predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, circulation patterns, and species interactions.'}
+```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.width = 8, fig.cap='Spatiotemporal random effect predictions from the geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, water circulation patterns, and species interactions.'}
 plot_map_spt(predictions$data, "est_re_st") +
   ggtitle("Spatiotemporal random effects only") +
   red_blue_fill +
@@ -316,7 +316,7 @@ ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
 
 \clearpage
 
-```{r sdmTMB-plot-index, fig.cap='Relative biomass index predictions from the design based approach, the geostatistical approach without covariance, and the geostatistical approach with depth covariates. Note the similarity between the two geostatistical models.'}
+```{r sdmTMB-plot-index, fig.cap='Relative biomass index predictions from the design based approach, the geostatistical approach without covariates, and the geostatistical approach with depth covariates. Note the similarity between the two geostatistical models.'}
 # ind_design <- readRDS(here::here('report/data-cache/walleye-pollock.rds'))
 ind_design <- readRDS(here::here('report/data-cache/pacific-cod.rds'))
 ind_design <- ind_design$survey_index
@@ -351,8 +351,9 @@ ggplot(ind_combined, aes(year, est, fill = type)) +
   geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.4) +
   xlab('Year') +
   ylab('Biomass estimate divided by geometric mean') +
-  labs(fill = 'Type', colour = 'Type')
+  labs(fill = 'Type', colour = 'Type') +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_colour_brewer(palette = "Dark2")
 ```
-
 
 \clearpage

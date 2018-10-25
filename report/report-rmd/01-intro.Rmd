@@ -21,7 +21,7 @@ Document in its first year and to update the report annually as a CSAS
 Science Response in subsequent years. The report generation is fully
 automated --- pulling data from databases, fitting models, generating
 visualizations, and stitching the document together to facilitate rapid
-publication.
+publication, reproducibility, and transparency.
 
 <!-- TODO: Fix proceedings reference should be DFO as author -->
 
@@ -38,16 +38,13 @@ First Nations, non-governmental organizations, and the general public.
 
 ## REPORT STRUCTURE
 
-The synopsis report is comprised of two-page species-by-species
-subsections that visually synthesize most available data for each
-species. The report focuses on the most important species to track for
-commercial and conservation concern, as outlined in the current BC
-groundfish strategic plan, and focuses on the surveys and data types
-applicable to the widest array of these fish stocks. Currently, we have
-focused on the 31 A-level species, which are identified as the main
-species of commercial and conservation interest. The strategic plan also
-includes a set of B-level species (number TODO), which may be added in a
-future update of the report.
+The synopsis report is comprised of two-page species-by-species subsections
+that visually synthesize most available data for each species. The report
+focuses on the 110 species listed in the current BC groundfish strategic plan,
+and focuses on the surveys and data types applicable to the widest array of
+these fish stocks. The report includes 30 'A-level' species, which are
+identified as the main species of commercial and conservation interest followed
+by 80 'B-level' species.
 
 Each set of pages for a single species is laid out in the same way. A
 set of pages starts with the species common name, the species scientific
@@ -232,7 +229,7 @@ reasons why commercial CPUE trends may not represent underlying trends
 in abundance [e.g. @harley2001]. Nonetheless, we think there is value in
 transparently displaying the available data for all species.
 
-To be continued ...
+TODO: build on this section
 
 ## UPDATE SCHEDULE
 
@@ -256,31 +253,27 @@ data-to-document workflows that go straight from databases to the final
 report via code and can be quickly updated in future years. To that end,
 all data extraction, data manipulation, model fitting, and visualization
 for this report is accomplished via the R package gfplot, which the
-authors developed for this purpose. The specific layout and tools needed
-to make this report are created with a second R package, gfsynopsis.
-Both packages (but not the data itself) are publicly available on
-GitHub:\
+authors developed for this purpose. The specific layout and tools needed to
+make this report are created with a second R package, gfsynopsis. Both packages
+(but not caches of the datasets themselves) are publicly available on GitHub:\
 <https://github.com/pbs-assess/gfplot>\
 <https://github.com/pbs-assess/gfsynopsis>.
 
 ## ACKNOWLEDGEMENTS
 
-We are grateful for the ongoing collaboration between DFO, commercial
-fishers, First Nations, and non-governmental organizations, which has
-made the collection of the valuable data that underlies this report
-possible. We thank the project's steering committee (Greg Workman, Robyn
-Forrest, Dana Haggarty, Chris Grandin, and Rob Kronlund)
-for invaluable input into the report design and feedback throughout its
-production. We thank Christie Whelan for her support initiating this
-project. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for
-providing support on data extraction and general database structure and
-content. We thank the participants of the peer review meeting on tiered
-approaches in May 2016 [@macdougall2016], 
-which included a data scorecard by Norm Olsen,
-from which this report takes inspiration. We also thank Norm Olsen for
-his work on GFASTeR, which this project also takes inspiration from
-and borrows some of the data queries.
-We thank Rowan Haigh for his work maintaining the PBSmapping and PBSdata R
-packages.
+We are grateful for the ongoing collaboration between DFO, commercial fishers,
+First Nations, and non-governmental organizations, which has made the
+collection of the valuable data that underlies this report possible. We thank
+the project's steering committee (Greg Workman, Robyn Forrest, Dana Haggarty,
+Chris Grandin, and Rob Kronlund) for invaluable input into the report design
+and feedback throughout its production. We thank Christie Whelan for her
+support initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm
+Wyeth for providing support on data extraction and general database structure
+and content. We thank the participants of the peer review meeting on tiered
+approaches in May 2016 [@macdougall2016], which included a data scorecard by
+Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
+for his work on GFASTeR, which this project also takes inspiration from and
+borrows some of the data queries. We thank Rowan Haigh for his work maintaining
+the PBSmapping and PBSdata R packages.
 
 \clearpage

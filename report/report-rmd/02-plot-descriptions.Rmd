@@ -27,7 +27,7 @@ checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
 
 In this section we provide complete figure captions for each of the
 visualizations that form the species-by-species synopsis report in
-Section \@ref{sec:synopsis-pages} We use `r sp` as an example species.
+Section (\@ref(sec:synopsis-pages)). We use `r sp` as an example species.
 
 ## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
 
@@ -84,13 +84,15 @@ p2 <- g$survey_spatial_hbll +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
   guides(fill = guide_colorbar(), size = FALSE)
 
+# TODO: what are the units for the new IPHC data?
 p3 <- g$survey_spatial_iphc +
-  labs(colour = "Predicted\nbiomass\ndensity\n(fish/km^2)") +
+  labs(colour = "Catch rate\n(fish/set)") +
   ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'white', breaks = c(2, 50, 150)) +
   ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'grey35', breaks = c(2, 50, 150)) +
-  guides(colour = guide_colorbar(), size = FALSE)
+  guides(colour = guide_colorbar(), size = FALSE) +
+  ggtitle("IPHC catch rate")
 
 gridExtra::grid.arrange(
   p1,
@@ -115,7 +117,7 @@ g$catch
 
 ## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
 
-(ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort trends for `r sp`. Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort (CPUE) trend standardized with a Tweedie GLMM (generalized linear mixed effects model) for depth, latitude, DFO locality region, vessel, and month of year (see details in Section (\@ref(sec:cpue-models))). The line itself represents the estimate and the shaded ribbon represents a 95\% confidence interval. The dashed line represents an unstandardized commercial CPUE index calculated as the sum of catch divided by the sum of effort. Standardized timeseries are scaled to have the same maximum 95\% confidence interval. Unstandardized timeseries are scaled to have the same geometric mean. These are relative index values --- the absolute value of the timeseries is not particularly useful because it depends on arbitrary levels that the standardization variables are set to. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
+(ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort trends for `r sp`. Dashed lines represent the unstandardized geometric mean of catch divided by hours trawled. The solid line represents a catch per unit effort (CPUE) trend standardized with a Tweedie GLMM (generalized linear mixed effects model) for depth, latitude, DFO locality region, vessel, and month of year (see details in Section (\@ref(sec:cpue-models))). The line itself represents the estimate and the shaded ribbon represents a 95\% confidence interval. The dashed line represents an unstandardized commercial CPUE index calculated as the sum of catch divided by the sum of effort each year. Standardized timeseries are scaled to have the same maximum 95\% confidence interval. Unstandardized timeseries are scaled to have the same geometric mean. These are relative index values --- the absolute value of the timeseries is not particularly useful because it depends on arbitrary levels that the standardization variables are set to. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
 
 ```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.5in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
 g$cpue_index
@@ -137,7 +139,7 @@ gridExtra::grid.arrange(
 
 ## AVAILABLE BIOLOGICAL SAMPLES {#sec:bio-samples}
 
-```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Gray panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
+```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
 gridExtra::grid.arrange(
   g$survey_samples,
   g$comm_samples,
@@ -151,7 +153,7 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Is this min n for biosamples to be statistically significant? If so explain rationale. Which I may steal for my in-season halibut work! -->
 
-```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light gray bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. The commercial male and female samples are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light gray bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
 g$lengths
 ```
 
