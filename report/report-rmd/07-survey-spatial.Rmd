@@ -24,7 +24,7 @@ of biomass throughout the survey domain.
 
 Similarly to the commercial catch per unit effort standardization models
 (Section (\@ref(sec:cpue-models))), these models can be represented as Tweedie
-GLMMs (generalized linear mixed-effects models) with a log link:
+GLMMs with a log link:
 
 \begin{align}
   y_s &\sim \mathrm{Tweedie}(\mu_s, p, \phi), \quad 1 < p < 2,\\
@@ -43,7 +43,7 @@ a covariance matrix $\bm{\Sigma}_\omega$ that is centered on zero:
 $$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
 
 We constrain the spatial random effects to follow a \mbox{Mat\'ern} covariance
-function, which simply defines the shape with which spatial correlation decays
+function, which defines the rate with which spatial correlation decays
 with distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern}
 function describes the covariance between spatial locations $s_j$ and $s_k$ as:
 
@@ -59,28 +59,50 @@ lets us take advantage of the Stochastic Partial Differential Equation (SPDE)
 approximation to Gaussian Markov Random Fields (GMRF) [@lindgren2011] to
 greatly increase computational efficiency.
 
+Our spatial model falls into the general category of "predictive process"
+models [e.g. @latimer2009; @shelton2014; @anderson2018], in which the model
+keeps track of a limited number of "knots" that approximate unexplained spatial
+variation (Figure \@ref(fig:sdmTMB-spde)). By keeping track of a smaller number
+of knots than the full spatial data set, we can greatly increase computational
+efficiency. The model predictions can be projected to the original data
+locations or any new set of locations as long as an appropriate covariance
+matrix can be calculated. Higher numbers of knots result in a better
+approximation of the special random effects at a greater computational cost. We
+fit the spatial models with one less knot than the number of observations if
+there were greater than 200 observations and 200 knots otherwise. Following
+common practice [e.g. @thorson2017b; @anderson2018] we chose the location of
+the knots with a k-means clustering algorithm with a fixed random seed to
+ensure reproducible results.
+
 Instead of directly modelling the effects of depth and depth squared, we first
 centred the log-transformed depth covariate by subtracting its mean and scaling
 it by its standard deviation. We then calculate "depth squared" from this
-centred and scaled variable. This ensures the covariate values are not too big
-or small to avoid computational issues and the centering separates the linear
-and quadratic predictor components.
+centred and scaled variable. This ensures the covariate values are not too
+large or small to avoid computational issues and the centering separates the
+linear and quadratic predictor components.
 
 We fit the four synoptic survey data sets separately, because only two of the
 surveys are conducted each year and the surveys are disjointed in space and
 time. Similarly, we fit the North and South HBLL surveys independently. We
-combined the predictions to generate the map plots, but labelled the years the
-various surveys were conducted in.
+combined the predictions to generate the map plots, but labelled the years in
+which the various surveys were conducted.
 
-TODO:
-
-- how many knots and why
-- what the triangular mesh shows
-- the projection matrix from INLA
-- how this differs from VAST
-- compared to glmmfields, VAST
-- note the spatial residual example (Figure \@ref(fig:sdmTMB-resids))
-- note the multipanel plot: (Figure \@ref(fig:sdmTMB-maps-combined)) that includes depth, fixed effects, spatial random effects, and combined fixed and random effect predictions in that order
+As an example, we illustrate the model components for Pacific Cod in Queen
+Charlotte Sound (Figure \@ref(fig:sdmTMB-maps-combined)). We begin with
+a bathymetry layer and biomass density value for each survey set in space
+(Figure \@ref(fig:sdmTMB-maps-combined)A). After fitting the model, we can
+inspect the effect of the bottom depth quadratic fixed effect predictors
+(Figure \@ref(fig:sdmTMB-maps-combined)B) as well as the spatial random effects
+(Figure \@ref(fig:sdmTMB-maps-combined)C). If we add the fixed effect
+predictions to the spatial random effects in link (log) space and exponentiate
+the result we derive model predictions that include both the fixed and random
+effects (Figure \@ref(fig:sdmTMB-maps-combined)D). We can inspect randomized
+quantile residuals in space to check for any remaining spatial correlation
+(Figure \@ref(fig:sdmTMB-resids)). We can also look at the predicted
+relationship between depth and biomass density across all the species (Figures
+\@ref(fig:sdmTMB-depth-all-plots1), \@ref(fig:sdmTMB-depth-all-plots2)). These
+plots provide some indication about which surveys encompass the entirety of the
+depth distribution for particular species.
 
 ```{r sdmTMB-matern-demo, fig.asp=0.3, fig.width=8, fig.cap="An illustration of the effect of the $\\kappa$ parameter ('kappa') on the shape of the \\mbox{Mat\\'ern} correlation function with $\\nu = 1$. The vertical dashed line illustrates $\\sqrt{8\\nu} / \\kappa$, referred to as the 'range', which is a point at which the correlation decreases below 0.1."}
 library(dplyr)
@@ -121,7 +143,7 @@ grid_locs <- rename(grid_locs, depth = akima_depth)
 grid_locs$year <- NULL
 ```
 
-```{r sdmTMB-spde, fig.width=9, out.width="3.7in", fig.cap="Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey in 2017. The red dots indicate knot locations. The open grey circles in the background represent the locations of the observed data. The lines show the triangularization mesh used in the SPDE approximation. In this case, many of the knots overlap the observed data. A greater number of knots will increase the accuracy of the approximation at the expense of computational time."}
+```{r sdmTMB-spde, fig.width=9, out.width="3.5in", fig.cap="Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey in 2017. The red dots indicate knot locations. The open grey circles in the background represent the locations of the observed data. The lines show the triangularization mesh used in the SPDE approximation. In this case, many of the knots overlap the observed data. A greater number of knots will increase the accuracy of the approximation at the expense of computational time."}
 spde <- make_spde(dat$X, dat$Y, n_knots = 200)
 plot_spde(spde)
 ```
@@ -134,7 +156,29 @@ m <- sdmTMB(
 )
 ```
 
-```{r sdmTMB-depth-eg, eval=TRUE, fig.width=6, out.width="4in", fig.cap='Predicted relationship between depth and biomass density for Pacific Cod based on the quadratic depth predictors. These are predictions for a mean spatial location effect.'}
+\clearpage
+
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent on modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
+cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
+```
+
+\clearpage
+
+```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Spatial randomized quantile residuals on the link (log) scale."}
+dat$resids <- residuals(m) # randomized quantile residuals
+# hist(dat$resids)
+# qqnorm(dat$resids);abline(a = 0, b = 1)
+ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
+  geom_point() + coord_fixed() +
+  xlab("Easting") + ylab("Northing") +
+  scale_colour_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  labs(colour = 'Residual')
+```
+
+```{r sdmTMB-depth-eg, eval=FALSE, fig.width=6, out.width="4in", fig.cap='Predicted relationship between depth and biomass density for Pacific Cod based on the quadratic depth predictors. These are predictions for a mean spatial location effect.'}
 x <- seq(min(dat$depth_scaled), max(dat$depth_scaled), length.out = 200)
 x2 <- x^2
 idx <- order(x)
@@ -237,7 +281,7 @@ plot_map <- function(.dat, column) {
 g_depth <- plot_map(grid_locs, "depth") +
   scale_fill_distiller(trans = "fourth_root_power", palette = "Blues", direction = 1,
     breaks = c(50, 200, 600)) +
-  ggtitle("Depth") +
+  ggtitle("(A) Depth") +
   labs(fill = 'Depth (m)')
 ```
 
@@ -247,13 +291,13 @@ breaks <- c(1, 20, 150)
 g_sdm1 <- plot_map(predictions$data, "exp(est)") +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = breaks, limits = limits) +
-  ggtitle("Prediction (depth effects + spatial random effects)") +
+  ggtitle("(D) Prediction (depth effects + spatial random effects)") +
   labs(fill = 'Biomass estimate\nkg/km^2')
 ```
 
 ```{r sdmTMB-plot-fe}
 g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
-  ggtitle("Prediction (depth effects only)") +
+  ggtitle("(B) Prediction (depth effects only)") +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = breaks, limits = limits) +
   labs(fill = 'Biomass estimate\nkg/km^2')
@@ -261,7 +305,7 @@ g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
 
 ```{r sdmTMB-plot-re}
 g_sdm3 <- plot_map(predictions$data, "est_re_s") +
-  ggtitle("Spatial random effects") +
+  ggtitle("(C) Spatial random effects") +
   scale_fill_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
@@ -269,23 +313,6 @@ g_sdm3 <- plot_map(predictions$data, "est_re_s") +
   labs(fill = 'Deviation from expected\nbiomass in log space')
 ```
 
-```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (Top left) Bottom depth data that is used as a predictor. (Top right) Predicted biomass density from the quadratic effect of depth only. (Lower left) Spatial random effect deviations. These deviations represent on modelled correlated spatial effects. (Lower right) Model predictions that include both the depth fixed effects and the spatial random effects."}
-cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
-```
-
-```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Spatial randomized quantile residuals on the link (log) scale."}
-dat$resids <- residuals(m) # randomized quantile residuals
-# hist(dat$resids)
-# qqnorm(dat$resids);abline(a = 0, b = 1)
-ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
-  geom_point() + coord_fixed() +
-  xlab("Easting") + ylab("Northing") +
-  scale_colour_gradient2(midpoint = 0,
-    high = scales::muted("red"),
-    mid = "white",
-    low = scales::muted("blue")) +
-  labs(colour = 'Residual')
-```
 
 \clearpage
 
