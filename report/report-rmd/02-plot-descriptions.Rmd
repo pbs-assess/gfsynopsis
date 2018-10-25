@@ -162,7 +162,7 @@ g$lengths
 
 ## AGE COMPOSITION DATA
 
-```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as coloured (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap=paste0("Example age frequency plot for ", sp, ". Female fish are shown as coloured (or black) circles and male fish are shown behind as light gray circles. The area of the circles is scaled such that the largest circle for each survey-year combination (across males and females combined) is consistent. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. See Figure \\ref{fig:survey-index} for survey abbreviations. Ageing precision plots comparing precision of readings by two individuals ageing the fish are provided for all species for which age data exist in \\ref{sec:age-precision}.")}
 g$ages
 ```
 

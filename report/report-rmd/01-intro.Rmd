@@ -69,7 +69,7 @@ not showing biomass index trends or maps from the Sablefish trap
 surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
-available data. A brief description these surveys is included in 
+available data. A brief description the included surveys is included in 
 (\@ref(sec:survey-trend-models)) along with associated refences for 
 detailed survey descriptions and designs.
 
@@ -241,7 +241,7 @@ including implementation of management measures. The discards in the catch
 plot do not include those from the hook and line fisheries. Longline discards 
 are considered less reliable prior to 100% observer coverage in 2006 and are 
 often reported as discard counts without a reported weight. These discards 
-are not therefore not included in catch shown here.
+are therefore not included in catch shown here.
 
 
 
