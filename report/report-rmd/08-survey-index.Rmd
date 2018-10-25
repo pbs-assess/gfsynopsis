@@ -225,7 +225,7 @@ grid_locs <- rename(grid_locs, depth = akima_depth)
 grid_locs$year <- NULL
 ```
 
-```{r sdmTMB-spt-spde, fig.cap='SPDE approximation mesh. Red dots represent the knot locations and open black circles represent the location of the survey sets. Survey data across all years is shown in the same panel here.', fig.width=9, out.width="3.7in"}
+```{r sdmTMB-spt-spde, fig.cap='Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey across all years. Red dots represent the knot locations and open black circles represent the location of the survey sets.', fig.width=9, out.width="3.7in"}
 spde <- make_spde(dat$X, dat$Y, n_knots = n_knots)
 plot_spde(spde)
 ```
@@ -264,7 +264,7 @@ plot_map_spt <- function(dat, column) {
 }
 ```
 
-```{r sdmTMB-spt-plot-all-effects-sqrt, fig.width=8, fig.cap='Predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a fourth-root-distributed colour scale.'}
+```{r sdmTMB-spt-plot-all-effects-sqrt, fig.cap='Predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a fourth-root-distributed colour scale.'}
 ticks <- c(100, 500, 1000, 2000)
 limits <- c(0, max(exp(predictions$data$est))*1.001)
 plot_map_spt(predictions$data, "exp(est)") +
@@ -276,7 +276,7 @@ plot_map_spt(predictions$data, "exp(est)") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-all-effects-sqrt-depth, fig.width=8, fig.cap='Predictions from a geostatistical spatiotemporal model that includes the effects of depth and depth squared for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a fourth-root-distributed colour scale. Note the similarity to the previous figure which does not include the depth predictors.'}
+```{r sdmTMB-spt-plot-all-effects-sqrt-depth, fig.cap='Predictions from a geostatistical spatiotemporal model that includes the effects of depth and depth squared for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a fourth-root-distributed colour scale. Note the similarity to the previous figure which does not include the depth predictors.'}
 plot_map_spt(predictions_depth$data, "exp(est)") +
   ggtitle("Prediction (fixed effects + all random effects)") +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
