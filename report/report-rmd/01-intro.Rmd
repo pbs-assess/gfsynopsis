@@ -68,7 +68,9 @@ not showing biomass index trends or maps from the Sablefish trap
 surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
-available data.
+available data. A brief description these surveys is included in TO DO (ref
+Appendix E) along with associated refences for detailed survey descriptions and 
+designs.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report.", fig.pos="htbp"}
 xlim <- c(122, 890)
@@ -213,21 +215,35 @@ For example, although relative biomass indices from surveys can indicate
 the biomass trend for a species in an area, such information is best
 combined with other information such as removals by commercial catches
 and information on the age- or length-composition of the stock to make
-conclusions about about the status of a stock. Second, biomass indices
+conclusions about the status of a stock. Second, biomass indices
 from trawl or longline surveys and commercial catch per unit effort
 indices need careful interpretation on a stock-by-stock basis. We have
 attempted to flag survey index trends that may be especially suspect
-either because of high survey variability or because of a small fraction
-of trawl or long line sets containing the species, but this is not a
+either because of high survey variability or because only a small fraction
+of trawl or longline sets containing the species, but this is not a
 guarantee in itself. Survey indices are not always representative of
 abundance for a variety of reasons --- changes through time, including
 fish behavioural changes, could also result in biases through time.
+
 Commercial catch per unit effort (CPUE) timeseries, even when
 standardized for consistent time of year, depth, latitude, and vessel
 need to be considered even more carefully. There are a multitude of
 reasons why commercial CPUE trends may not represent underlying trends
 in abundance [e.g. @harley2001]. Nonetheless, we think there is value in
 transparently displaying the available data for all species.
+The commercial catch presented here may not be the best representation and 
+won't necessarily match reconstructed timeseries in stock assessments. 
+Historic catch reconstructions require careful species-specific 
+consideration and analysis. Fluctuations in commercial catch, specifically 
+recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't 
+necessarily reflect declines in stock abundance and may be due to other factors 
+including implementation of management measures. The discards in the catch 
+plot do not include those from the hook and line fisheries. Longline discards 
+are considered less reliable prior to 100% observer coverage in 2006 and are 
+often reported as discard counts without a reported weight. These discards 
+are not therefore not included in catch shown here.
+
+
 
 TODO: build on this section
 
