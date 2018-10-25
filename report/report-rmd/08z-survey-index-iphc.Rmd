@@ -615,22 +615,20 @@ year (resulting in a zero catch rate rather than 'no data').
 
 ## HOOK COMPETITION
 
-TODO Hook competition occurs ...... 
+TODO Hook competition occurs ......
 
 
 [@clark2008iphc]
 
 [@webster2011iphc]
 
-TODO  decide what to do The Yelloweye
+TODO The Yelloweye
 assessment also considered a model of hook competition TODO **mention Marie's if
 I don't get anything in. Note, however, that this work was not directly
 incorporated into the analysis in Appendix~C that was used as the survey index
 in the assessment model.
 
-From page 6 of my notes..... define
-
-species $s$ (not $i$, which was from following Webster etc.'s notation)
+Extending the earlier notation, define:
 
 $N_{its}^{(0)}$ -- the number of fish of species $s$ that we would expect to
 catch *in the absence of hook competition* on set $i=1,2,...,n_t$
