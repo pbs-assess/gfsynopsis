@@ -85,6 +85,7 @@ operational reasons (particularly in areas of high catch rates), sometimes the
 20 consecutive hooks (e.g. @dykstra2002iphc, @dykstra2002iphc).
 TODO - force new paragraph.
 
+<!-- 
 Table:  (\#tab:IPHCdata) Summary of available data from the IPHC stock assessment
 longline surveys. 'Data resolution' indicates at what level the data are
 available, and 'WCVI?' indicates whether or not the survey included locations
@@ -111,6 +112,42 @@ Year        Hooks enumerated         Data resolution   Location of data      WCV
 2012        All (bait experiment)    Hook-by-hook      DFO database `GFBio`   Y
 2013        First 20 of each skate   Set-by-set        Spreadsheet^3^         Y
 2014-2017   All                      Hook-by-hook      DFO database `GFBio`   Y
+-->
+
+\begin{table}[t]
+\centering
+\caption{Summary of available data from the IPHC stock assessment longline
+surveys. 'Data resolution' indicates at what level the data are available, and
+'WCVI?' indicates whether or not the survey included locations off the west
+coast of Vancouver Island. 'Location of data' indicates where the data were
+accessed from, either our DFO {\tt GFBio} database or from spreadsheets. $^1$For
+1995, the biological data were in the file
+"1995\_IPHC\_SSA\_Rockfish\_catch\_from\_Kelly\_Ames.xls" on DFO's Inshore
+Rockfish shared drive, and effective skates were obtained from Aaron Ranta
+(IPHC) in the file "1995EffSktValues by Station.xlsx". $^2$For 1996-2002, the
+data were in the file "2B AllSpecies 96-02 roundIII.xls", which originally
+came from the IPHC. $^3$For 2013 the data were in the file "2013 20-Hook
+Data.xls", which originally came from the IPHC. For easier access, the data from
+spreadsheets are now all included in our ```gfplot``` package.}
+\label{tab:IPHCdata}
+\begin{tabular}{llllc}
+  \hline
+Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
+  \hline
+1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
+1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
+1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2003-2011 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2012 & All (bait experiment)      & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
+2014-2017 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+   \hline
+\end{tabular}
+\end{table}
+
 
 From Table \@ref(tab:IPHCdata), four issues are apparent: 
 
@@ -213,6 +250,7 @@ hook-tally sheet got blown overboard for station 2113 in the year 2008).
 Stations that were declared TODO-check-name 
 'unusable for spatiotemporal analysis' are more common and are included.
 
+<!--
 ```{r iphc-hook-codes, tab.cap="Description of hook observation classifications and corresponding codes in theGFBio database."}
 
 hookCodes = cbind("Description"=c("Unknown", "Empty hook", 
@@ -223,6 +261,38 @@ hookCodes = cbind("Description"=c("Unknown", "Empty hook",
     "HOOK_YIELD_CODE" = 0:8)      # from iphc0314.Snw
 kable(hookCodes)
 ```
+-->
+
+\begin{table}[t] \centering
+\caption{Description of hook observation classifications and corresponding codes
+in theGFBio database.}
+\label{tab:seriesSumm}
+\begin{tabular}{lc}
+\hline
+Description & HOOK\_YIELD\_CODE\\
+\hline
+Unknown & 0\\
+\hline
+Empty hook & 1\\
+\hline
+Bait on hook & 2\\
+\hline
+Animal on hook (fish or invertebrate) & 3\\
+\hline
+Species head on hook & 4\\
+\hline
+Species droped off hook & 5\\
+\hline
+Bait skin on hook & 6\\
+\hline
+Hook not observed & 7\\
+\hline
+Eaten or bitten (by shark, etc.) & 8\\
+\hline
+\end{tabular}
+\end{table}
+
+
 
 ## CHUM SALMON BAIT EXPERIMENT {#sec:chum}
 
