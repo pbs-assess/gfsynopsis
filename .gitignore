@@ -57,3 +57,8 @@ report/report-rmd/_book/
 report/report-rmd/knitr-cache*
 report/report-rmd/plot-pages.Rmd
 cpue-cache.zip
+report/report-rmd/resdoc.Rmd
+report/report-rmd/resdoc_cache/
+report/report-rmd/resdoc.utf8.md
+report/report-rmd/resdoc.tex
+report/report-rmd/resdoc.knit.md

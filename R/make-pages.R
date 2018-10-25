@@ -198,9 +198,9 @@ make_pages <- function(
     !length %in% find_length_outliers(dat$commercial_samples_no_keepers$length))
 
   bin_width1 <- diff(quantile(length_samples_survey$length, na.rm = TRUE,
-    probs = c(0.001, 0.999))) / 20
+    probs = c(0, 1))) / 20
   bin_width2 <- diff(quantile(length_samples_commercial$length,
-    na.rm = TRUE, probs = c(0.001, 0.999))) / 20
+    na.rm = TRUE, probs = c(0, 1))) / 20
   bin_width <- mean(c(bin_width1, bin_width2), na.rm = TRUE)
 
   ss <- tidy_lengths_raw(length_samples_survey, bin_size = bin_width,

@@ -1,5 +1,22 @@
 # REPRODUCIBILITY {#sec:reproducibility}
 
+One goal of this report is to generate standardized data sets, model fits, and
+visualizations to facilitate stock assessment. We intend for the data
+extraction and plots developed here to be useful for the upcoming
+management-procedure framework for data-limited and data-moderate groundfish
+stocks in BC, but also for the preparation of other groundfish stock
+assessments and to facilitate data-to-document workflows that go straight from
+databases to the final report via code and can be quickly updated in future
+years. To that end, all data extraction, data manipulation, model fitting, and
+visualization for this report is accomplished via the R package gfplot, which
+the authors developed for this purpose (Figure \@ref(fig:gfplot-web)). The
+specific layout and tools needed to make this report are created with a second
+R package, gfsynopsis. Both packages (but not caches of the datasets
+themselves) are publicly available on GitHub:\
+<https://github.com/pbs-assess/gfplot>\
+<https://github.com/pbs-assess/gfsynopsis>.
+
+<!--
 We developed the gfplot R package to conduct all the data extraction, data
 manipulation, model fitting, and plotting in the data synopsis report. The
 package is designed to be modular so it can be used in various capacities for
@@ -7,6 +24,7 @@ other groundfish analyses (Figure \@ref(fig:gfplot-web)). For example, the
 package is intended to facilitate pulling data directly into analyses for the
 forthcoming management procedure framework for data-limited and data-moderate
 groundfish stocks. TODO a few more details on the utility of this.
+-->
 
 This version of the document was generated on `r Sys.time()` with
 `r devtools::session_info()$platform$version` [@r2018] and R package versions:
@@ -20,10 +38,14 @@ suppressWarnings({suppressMessages({
   library(gfsynopsis)
   library(sdmTMB)
   library(INLA)
+  library(PBSmapping)
+  library(PBSdata)
+  library(egg)
 })})
 pkgs <- sort(c("gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
   "TMB", "broom.mixed", "purrr", "xtable", "kableExtra",
-  "csasdown", "bookdown", "rmarkdown", "INLA", "sdmTMB", "gfsynopsis"))
+  "csasdown", "bookdown", "rmarkdown", "INLA", "sdmTMB", "gfsynopsis",
+  "PBSdata", "PBSmapping", "egg"))
 devtools::session_info()$packages %>%
   dplyr::filter(package %in% pkgs) %>%
   dplyr::select(package, version, date) %>%
@@ -34,7 +56,7 @@ devtools::session_info()$packages %>%
 ```{r get-git-hashes}
 get_sha <- function(path) {
   suppressWarnings({
-    sha <- tryCatch(system(paste0("git ls-remote git@github.com:", path, ".git"), 
+    sha <- tryCatch(system(paste0("git ls-remote git@github.com:", path, ".git"),
       intern = TRUE, ignore.stderr = TRUE), error = function(e) " ")
   })
   if (is.null(attr(sha, "status")))
@@ -50,23 +72,26 @@ sha_csasdown <- get_sha("pbs-assess/csasdown")
 
 The data extraction and many of the plots were made with
 the gfplot package Git SHA (Secure Hash Algorithm) version ``r sha_gfplot``.
-The spatial and spatiotemporal models were fit with the sdmTMB package Git SHA version ``r sha_sdmTMB``.
-The plots were assembled on figure pages and this text was written with the package gfsynopsis Git SHA version ``r sha_gfsynopsis``.
-The document was compiled with the csasdown package Git SHA version ``r sha_csasdown``. 
+The spatial and spatiotemporal models were fit with the sdmTMB package Git SHA
+version ``r sha_sdmTMB``.
+The plots were assembled on figure pages and this text was written with the
+package gfsynopsis Git SHA version ``r sha_gfsynopsis``.
+The document was compiled with the csasdown package Git SHA
+version ``r sha_csasdown``.
 
 The specific versions used to generate this report can be installed with:
 
 `devtools::install_github('pbs-assess/gfplot', ref = '`r sha_gfplot`')`\
-`devtools::install_github('pbs-assess/gfsynopsis', ref = '`r sha_gfsynopsis`')`\
 `devtools::install_github('pbs-assess/sdmTMB', ref = '`r sha_sdmTMB`')`\
+`devtools::install_github('pbs-assess/gfsynopsis', ref = '`r sha_gfsynopsis`')`\
 `devtools::install_github('pbs-assess/csasdown', ref = '`r sha_csasdown`')`\
 
 \vspace{5mm}
 Versions used to render the final report will be placed on an archival server.
 
-\clearpage
-
-The figure pages can be built while on the PBS network by (1) installing the above packages, (2) cloning the gfsynopsis repository, and (3) running, with the `gfsynopsis` folder as the working directory:
+The figure pages can be built while on the PBS network by (1) installing the
+above packages, (2) cloning the gfsynopsis repository, and (3) running, with the
+`gfsynopsis` folder as the working directory:
 
 ```r
 source("report/make.R")
@@ -79,9 +104,7 @@ setwd("report/report-rmd")
 bookdown::render_book("index.Rmd")
 ```
 
-\clearpage
-
-```{r gfplot-web, fig.cap="An illustration of the gfplot functions and how they interact. \texttt{get} functions extract raw data from the relational databases, \texttt{tidy} and \texttt{fit} functions manipulate the data or fit statistical models, and \texttt{plot} functions take the output from the tidying or fitting functions to make visualizations.", out.width="4in"}
+```{r gfplot-web, fig.cap="An illustration of the gfplot functions and how they interact. \\texttt{get} functions extract raw data from the relational databases, \\texttt{tidy} and \\texttt{fit} functions manipulate the data or fit statistical models, and \\texttt{plot} functions take the output from the tidying or fitting functions to make visualizations.", out.width="4in"}
 knitr::include_graphics(here::here("report", "report-rmd", "figure",
     "function-web.pdf"), dpi = NA)
 ```

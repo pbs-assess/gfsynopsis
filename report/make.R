@@ -17,7 +17,7 @@ library(gfsynopsis)
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
-optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
+optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -254,7 +254,7 @@ if (!exists("N") && optimize_png) {
     library(doParallel)
     doParallel::registerDoParallel(cores = cores)
     fi <- list.files(".", "*.png")
-    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
+    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all", i)),
       .parallel = TRUE)
   }
   setwd(here())
