@@ -60,10 +60,7 @@ get_data_iphc <- function(type = c("A", "B"), path = ".",
 get_data_iphc_hook_with_bait <- function(path = ".",
   compress = FALSE, force = FALSE) {
   dir.create(path, showWarnings = FALSE)
-  .d <- "hook-with-bait"
-#  .d <- .d[.d$type %in% type, , drop = FALSE]
-  already_exists <- gsub("\\.rds", "", list.files(path))
-  if (!force & file.exists(paste0(path, "hook-with-bait.rds"))) {
+  if (!force & file.exists(paste0(path, "/hook-with-bait.rds"))) {
      return() } else {
   gfplot::cache_pbs_data_iphc(species = "hook with bait",
     file_name = "hook-with-bait",
