@@ -1,32 +1,19 @@
 # CPUE INDEX STANDARDIZATION {#sec:cpue-models}
 
-```{r cpue-loaded-data}
-library(dplyr)
-d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
-d_cpue$locality_code <- paste(d_cpue$major_stat_area_code,
-  d_cpue$minor_stat_area_code, d_cpue$locality_code, sep = "-")
-locality_count <- d_cpue %>%
-  filter(latitude >= 45) %>%
-  mutate(year = lubridate::year(best_date)) %>%
-  filter(year >= 1996, year <= 2017) %>%
-  group_by(locality_code) %>%
-  summarize(n = n()) %>%
-  arrange(-n)
-```
-
-We sought to generate an index of abundance from commercial trawl catch per unit
-effort data that was standardized for depth, fishing locality (defined spatial
-regions; Figure \@ref(fig:cpue-locality-map)) month, vessel, and latitude, when
-available. Before fitting a standardization model, we had to filter and
-manipulate the available catch and effort data to generate a dataset appropriate
-for model fitting. In the following sections we describe those decisions for the
-'modern' data (1996--2017). We then describe our index standardization model,
-explore the contribution of the various standardization components, and identify
-the effect of including or ignoring space-time interactions. This model and the
-following description draws heavily from a recent assessment of Pacific Cod (in
-parts copied verbatim), where this model was first developed and applied
-[@forrest2018pcod]. For clarity, we include the full description in this
-document since the Pacific Cod report remains in press.
+We sought to generate an index of abundance from commercial trawl catch per
+unit effort data that was standardized for depth, fishing locality (defined
+spatial regions; Figure \@ref(fig:cpue-locality-map)) month, vessel, and
+latitude. Before fitting a standardization model, we had to filter and
+manipulate the available catch and effort data to generate a dataset
+appropriate for model fitting. In the following sections we describe those
+decisions for the data from 1996--2017. We then describe our index
+standardization model, explore the contribution of the various standardization
+components, and identify the effect of including or ignoring space-time
+interactions. This model and the following description draws heavily from
+a recent assessment of Pacific Cod (in parts copied verbatim), where this model
+was first developed and applied [@forrest2018pcod]. For clarity, we include the
+full description in this document since the Pacific Cod report remains in
+press.
 
 ## DEFINING THE 1996--2017 FLEET
 
@@ -39,7 +26,7 @@ useful in the assessment of some species, but we have restricted the
 presentation of commercial CPUE data in this report to the higher-quality
 1996-onwards data to avoid exploring the numerous caveats that would need to be
 considered on a species-by-species and decade-by-decade basis. We think the
-presentation of historical CPUE maybe better left to species-specific stock
+presentation of historical CPUE is better left to species-specific stock
 assessments that can more thoroughly consider these data.
 
 Since we have data on individual vessels for this modern fleet, and in keeping
@@ -111,13 +98,13 @@ glmmTMB R package [@brooks2017].
 In addition to a mean parameter, the Tweedie distribution has two other
 parameters: a power parameter $p$ and a dispersion parameter $\phi$. If $1
 > p > 2$ then the Tweedie distribution represents a compound distribution
-between the Poisson ($p = 1$) and the Gamma distribution ($p = 2$) (Figure
-\@ref(fig:cpue-tweedie-ex)). In fact, the Tweedie is alternatively referred to
-as the compound-Poisson-Gamma distribution in this bounded case. We note,
-however, that the compound-Poisson-Gamma distribution is often used to refer to
-a re-parameterization in which the Poisson and Gamma components are fit so that
-they are not assumed to have the same predictive coefficients as they are in
-the Tweedie distribution [e.g. @foster2013; @lecomte2013].
+between the Poisson ($p = 1$) and the Gamma distribution ($p = 2$)
+(Figure&quot;\@ref(fig:cpue-tweedie-ex)). In fact, the Tweedie is alternatively
+referred to as the compound-Poisson-Gamma distribution in this bounded case. We
+note, however, that the compound-Poisson-Gamma distribution is often used to
+refer to a re-parameterization in which the Poisson and Gamma components are
+fit so that they are not assumed to have the same predictive coefficients as
+they are in the Tweedie distribution [e.g. @foster2013; @lecomte2013].
 
 We fit the Tweedie GLMM (generalized linear mixed effect model) as
 
@@ -169,29 +156,99 @@ delta method. We then calculated the 95\% Wald confidence intervals as $\exp
 unstandardized timeseries by summing the catch each year and dividing it by the
 summed effort each year (the dashed lines on the figure pages).
 
-```{r cpue-locality-map, fig.cap="Top 100 DFO localities (by fishing event account) used in the commercial CPUE standardization models.", fig.asp=0.9}
+<!--
+## COMMERCIAL CPUE STANDARDIZATION EXAMPLE
+
+The Tweedie GLMM index standardization models fit the data relatively well
+(Figure \@ref(fig:cpue-quantile-residuals)). The Tweedie $p$ parameters tended
+to be around $1.6$, indicating a distribution roughly midway between the Poisson
+and Gamma distributions and the $\phi$ parameters indicated relatively dispersed
+observations (Table \@ref(tab:cpue-pars)). There was considerably more
+variability across the locality and locality-year random effects than the vessel
+random effects (Table \@ref(tab:cpue-pars)).
+
+For the 1956--1995 time period, depth and locality had a moderate effect on the
+standardized CPUE index for 3CD, but the standardized and unstandardized series
+differed little in 5ABCD (Figure \@ref(fig:cpue-index-ts-hist)). Accounting for
+either depth or locality reduced the 3CD CPUE in the 1970s and increased the
+CPUE from the mid 1980s to 1995. Accounting for depth also reduced a spike in
+CPUE in 3CD in the mid 1960s. For the 1996--2017 time period, depth and
+latitude had the largest effect on the standardized index, and again had
+a larger effect in 3CD than 5ABCD (Figure \@ref(fig:cpue-index-ts-modern)).
+Accounting for depth or latitude somewhat decreased the CPUE index for two to
+three years before and after 2010 and this effect carried through to the
+standardization model with all covariates.
+
+Accounting for locality-year interactions had little effect on the shape of the
+standardized indices with the exception of a slight change in shape 2014--2015
+for the modern dataset in 5ABCD (Figure \@ref(fig:cpue-int-test-plot)). The
+main effect of including the locality-year random effect interactions was to
+increase the width of the confidence intervals in all areas and time periods.
+We can examine the contribution of all the fixed and random effect parameters
+via coefficient plots (historical: Figures \@ref(fig:cpue-coef-plot1),
+\@ref(fig:cpue-coef-plot2), \@ref(fig:cpue-coef-plot3); modern: Figures
+\@ref(fig:cpue-coef-plot1-modern), \@ref(fig:cpue-coef-plot2-modern),
+\@ref(fig:cpue-coef-plot3-modern)).
+
+## SPACE-TIME (LOCALITY-YEAR) INTERACTIONS
+
+To test the effect of including or not including space-time interactions when
+such interactions are or are not present, we performed a simulation test. While
+a full simulation test with many stochastic iterations and a range of parameter
+values is beyond the scope of this appendix, we think this simple simulation
+remains instructive. We parameterized our simulation to approximately match the
+parameters estimated from observed data. Our simulation included 20 years of
+data; 12 localities with their effects ($\alpha^\mathrm{locality}_{j}$) in log
+space drawn from a normal distribution with a standard deviation of 0.3 and
+mean 0; optional year-locality random effects
+($\alpha^\mathrm{locality-year}_{j}$)  drawn from a distribution with
+a standard deviation of 0.5 and mean of 0; 10 observations per year per
+locality; a true known CPUE index that, in log space, followed an
+auto-regressive process with correlation of 0.3 at lag 1, standard deviation of
+1 and a mean of 2; and Tweedie parameters of $p = 1.6$ and $\phi = 5$. We
+generated versions of this dataset with and without the locality-year
+interactions and then fit standardization models to those datasets that either
+allowed for or ignored locality-year interactions.
+
+For the real data, including locality-year random effects allowed for each
+locality to have a trend that deviates slightly from the overall trend (Figure
+\@ref(fig:cpue-re-int-ts)). Omitting these locality-by-year random effects, on
+the other hand, assumed that the CPUE trend is identical in shape and only
+deviated in magnitude across localities (Figure \@ref(fig:cpue-re-no-int-ts)).
+Ignoring these space-time interactions can result in confidence intervals that
+are substantially too narrow if the trends are not in fact identical across
+space (Figure \@ref(fig:cpue-sim-test-tweedie-glmm-plot)). Furthermore,
+allowing for the interactions has no qualitative effect on model performance or
+coverage if the interactions are not present (Figure
+\@ref(fig:cpue-sim-test-tweedie-glmm-plot)).
+
+Fitting a proper geostatistical spatiotemporal standardization model would be
+an alternative to these locality-year random effects [e.g. @thorson2015b;
+@monnahan2018]. For this assessment, we chose to model spatial variation
+through the DFO localities to maintain consistency with previous assessments in
+this region. However, in the future we may explore a spatiotemporal
+standardization model.
+
+-->
+
+```{r cpue-loaded-data}
+library(dplyr)
+d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
+d_cpue$locality_code <- paste(d_cpue$major_stat_area_code,
+  d_cpue$minor_stat_area_code, d_cpue$locality_code, sep = "-")
+locality_count <- d_cpue %>%
+  filter(latitude >= 45) %>%
+  mutate(year = lubridate::year(best_date)) %>%
+  filter(year >= 1996, year <= 2017) %>%
+  group_by(locality_code) %>%
+  summarize(n = n()) %>%
+  arrange(-n)
+```
+
+(ref:cpue-locality-map-cap) Top 100 DFO localities (by fishing event account) used in the commercial CPUE standardization models. In total there are `r nrow(locality_count)` possible localities recorded in the data set.
+
+```{r cpue-locality-map, fig.cap="(ref:cpue-locality-map-cap)", fig.asp=0.9}
 gfplot:::plot_dfo_localities(top_n(locality_count, 75)$locality_code)
-```
-
-```{r cpue-model-load}
-cpue_model <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-model.rds"))
-```
-
-```{r cpue-fleet-load}
-# d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
-d_cpue_pred <- gfplot::predict_cpue_index_tweedie(cpue_model, center = FALSE)
-d_cpue_pred$formula_version <- "Full standardization"
-if (file.exists(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds")))
-  d_fleet <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds"))
-```
-
-```{r cpue-int-lines, fig.width=6, out.width="4in", fig.cap="Locality-specific CPUE index trends for a standardization model that allows for locality-year (space-time) interactions. The coloured lines indicate the locality-specific estimates with all other predictors set to their base levels. The black line and shaded ribbon indicate the overall average annual CPUE and 95\\% CI, respectively."}
-if (exists("d_fleet"))
-  plot_cpue_spaghetti(
-    model = cpue_model,
-    fleet = d_fleet,
-    index_data = d_cpue_pred,
-    era = "modern")
 ```
 
 ```{r cpue-tweedie-ex, fig.asp=0.7, fig.cap="Example density functions for the Tweedie distribution. The symbol $\\phi$ (written as phi in this figure) represents the dispersion parameter, $p$ represents the power parameter, and $\\mu$ represents the mean. Note that the spike in density that is seen towards the left of the panels is at a value of 0 on the x axis."}
@@ -220,23 +277,37 @@ df <- expand.grid(power = c(1.2, 1.6, 1.8), mu = c(1, 3, 6), phi = c(0.5, 1, 2))
 plot_tweedie_ex(df)
 ```
 
-\clearpage
+
+```{r cpue-model-load}
+cpue_model <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-model.rds"))
+```
+
+```{r cpue-fleet-load}
+# d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
+d_cpue_pred <- gfplot::predict_cpue_index_tweedie(cpue_model, center = FALSE)
+d_cpue_pred$formula_version <- "Full standardization"
+if (file.exists(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds")))
+  d_fleet <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds"))
+```
+
+```{r cpue-int-lines, fig.width=6, out.width="4in", fig.cap="Locality-specific CPUE index trends for a standardization model that allows for locality-year (space-time) interactions. The coloured lines indicate the locality-specific estimates with all other predictors set to their base levels. The black line and shaded ribbon indicate the overall average annual CPUE and 95\\% CI, respectively."}
+if (exists("d_fleet"))
+  plot_cpue_spaghetti(
+    model = cpue_model,
+    fleet = d_fleet,
+    index_data = d_cpue_pred,
+    era = "modern")
+```
 
 (ref:caption-cpue-quantile-residuals) Histograms of randomized quantile
 residuals [@dunn1996] for the CPUE GLMM standardization models. The histograms
-illustrate the actual density distribution of 10,000 randomly selected
-randomized quantile residuals. The dashed lines show the probability density
-for a normal distribution with the same standard deviation.
+illustrate the distribution of 10,000 randomly selected randomized quantile
+residuals. The dashed lines show the probability density for a normal
+distribution with the same standard deviation.
 
-```{r cpue-quantile-residuals, fig.cap="(ref:caption-cpue-quantile-residuals)"}
+```{r cpue-quantile-residuals, fig.width=6, out.width="4in", fig.cap="(ref:caption-cpue-quantile-residuals)"}
 qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
 gfplot::plot_qres_histogram(qr)
-```
-
-```{r, fig.cap="3CD eg.", eval=FALSE}
-readRDS(here::here("report/cpue-cache/petrale-sole-3CD-model.rds")) %>%
-  gfplot::qres_tweedie(response = "cpue") %>%
-  gfplot::plot_qres_histogram()
 ```
 
 \clearpage
