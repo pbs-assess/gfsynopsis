@@ -156,6 +156,56 @@ m <- sdmTMB(
 )
 ```
 
+```{r sdmTMB-preds, fig.width=6, out.width="4in"}
+predictions <- predict(m, newdata = grid_locs)
+plot_map <- function(.dat, column) {
+  ggplot(.dat, aes_string("X", "Y", fill = column)) +
+    geom_raster() +
+    coord_fixed(expand = FALSE) +
+    xlab("Easting") + ylab("Northing") +
+    theme(legend.position = "bottom") +
+    geom_point(data = dat, aes(X, Y, size = density), pch = 21, inherit.aes = FALSE) +
+    scale_size_area() +
+    guides(size = FALSE)
+}
+```
+
+```{r sdmTMB-plot-depth}
+g_depth <- plot_map(grid_locs, "depth") +
+  scale_fill_distiller(trans = "fourth_root_power", palette = "Blues", direction = 1,
+    breaks = c(50, 200, 600)) +
+  ggtitle("(A) Depth") +
+  labs(fill = 'Depth (m)')
+```
+
+```{r sdmTMB-plot-combined}
+limits <- c(0, max(exp(predictions$data$est))*1.001)
+breaks <- c(1, 20, 150)
+g_sdm1 <- plot_map(predictions$data, "exp(est)") +
+  scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    breaks = breaks, limits = limits) +
+  ggtitle("(D) Prediction (depth effects + spatial random effects)") +
+  labs(fill = 'Biomass estimate\nkg/km^2')
+```
+
+```{r sdmTMB-plot-fe}
+g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
+  ggtitle("(B) Prediction (depth effects only)") +
+  scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    breaks = breaks, limits = limits) +
+  labs(fill = 'Biomass estimate\nkg/km^2')
+```
+
+```{r sdmTMB-plot-re}
+g_sdm3 <- plot_map(predictions$data, "est_re_s") +
+  ggtitle("(C) Spatial random effects") +
+  scale_fill_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  labs(fill = 'Deviation from expected\nbiomass in log space')
+```
+
 \clearpage
 
 ```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent on modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
@@ -260,59 +310,6 @@ filter(dd, species %in% .sp[1:36]) %>%
 filter(dd, species %in% .sp[37:length(.sp)]) %>%
   make_depth_plot()
 ```
-
-\clearpage
-
-```{r sdmTMB-preds, fig.width=6, out.width="4in"}
-predictions <- predict(m, newdata = grid_locs)
-plot_map <- function(.dat, column) {
-  ggplot(.dat, aes_string("X", "Y", fill = column)) +
-    geom_raster() +
-    coord_fixed(expand = FALSE) +
-    xlab("Easting") + ylab("Northing") +
-    theme(legend.position = "bottom") +
-    geom_point(data = dat, aes(X, Y, size = density), pch = 21, inherit.aes = FALSE) +
-    scale_size_area() +
-    guides(size = FALSE)
-}
-```
-
-```{r sdmTMB-plot-depth}
-g_depth <- plot_map(grid_locs, "depth") +
-  scale_fill_distiller(trans = "fourth_root_power", palette = "Blues", direction = 1,
-    breaks = c(50, 200, 600)) +
-  ggtitle("(A) Depth") +
-  labs(fill = 'Depth (m)')
-```
-
-```{r sdmTMB-plot-combined}
-limits <- c(0, max(exp(predictions$data$est))*1.001)
-breaks <- c(1, 20, 150)
-g_sdm1 <- plot_map(predictions$data, "exp(est)") +
-  scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
-    breaks = breaks, limits = limits) +
-  ggtitle("(D) Prediction (depth effects + spatial random effects)") +
-  labs(fill = 'Biomass estimate\nkg/km^2')
-```
-
-```{r sdmTMB-plot-fe}
-g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
-  ggtitle("(B) Prediction (depth effects only)") +
-  scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
-    breaks = breaks, limits = limits) +
-  labs(fill = 'Biomass estimate\nkg/km^2')
-```
-
-```{r sdmTMB-plot-re}
-g_sdm3 <- plot_map(predictions$data, "est_re_s") +
-  ggtitle("(C) Spatial random effects") +
-  scale_fill_gradient2(midpoint = 0,
-    high = scales::muted("red"),
-    mid = "white",
-    low = scales::muted("blue")) +
-  labs(fill = 'Deviation from expected\nbiomass in log space')
-```
-
 
 \clearpage
 
