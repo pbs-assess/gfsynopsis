@@ -84,13 +84,12 @@ p2 <- g$survey_spatial_hbll +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
   guides(fill = guide_colorbar(), size = FALSE)
 
-# TODO: what are the units for the new IPHC data?
 p3 <- g$survey_spatial_iphc +
-  labs(colour = "Catch rate\n(fish/set)") +
-  ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
-    na.value = 'white', breaks = c(2, 50, 150)) +
-  ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
-    na.value = 'grey35', breaks = c(2, 50, 150)) +
+  labs(colour = "Catch\nrate\n(fish/effective\nskate)") +
+  # ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    # na.value = 'white', breaks = c(2, 50, 150)) +
+  # ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
+    # na.value = 'grey35', breaks = c(2, 50, 150)) +
   guides(colour = guide_colorbar(), size = FALSE) +
   ggtitle("IPHC catch rate")
 
