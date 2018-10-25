@@ -251,18 +251,16 @@ usability codes described in Table\ \@ref(tab:iphc-set-codes). In particular,
 we include stations deemed as 'Usable but omit from any geospatial analysis',
 but these should be exluded for complex spatial analyses.
 
-<!--
-```{r iphc-hook-codes, tab.cap="Description of hook observation classifications and corresponding codes in theGFBio database."}
+```{r iphc-hook-codes, tab.cap="Description of hook observation classifications and corresponding codes in theGFBio database.", eval=FALSE}
 
-hookCodes = cbind("Description"=c("Unknown", "Empty hook", 
-    "Bait on hook", 
-    "Animal on hook (fish or invertebrate)", "Species head on hook", 
+hookCodes = cbind("Description"=c("Unknown", "Empty hook",
+    "Bait on hook",
+    "Animal on hook (fish or invertebrate)", "Species head on hook",
     "Species droped off hook", "Bait skin on hook", "Hook not observed",
     "Eaten or bitten (by shark, etc.)"),
     "HOOK_YIELD_CODE" = 0:8)      # from iphc0314.Snw
-kable(hookCodes)
+csasdown::csas_table(hookCodes)
 ```
--->
 
 \begin{table}[t] \centering
 \caption{Description of hook observation classifications and corresponding codes
