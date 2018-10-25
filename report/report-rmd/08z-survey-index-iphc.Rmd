@@ -633,12 +633,29 @@ for all species $s$).
 
 \ 
 
-As $P_{it} \rightarrow 0$, the competition adjustment factor $\rightarrow
-\infty$, which blows up the expected number $N_{its}^{(0)}$. TODO - in practice
-this happens **CHECK HOW OFTEN, IF EVER**. 
 
-For a set with 800 hooks, the smallest possible positive value is $P_{it} = 1/800$, for
-which the adjustment factor is 6.69.
+```{r iphc-hook-with-bait-counts}
+bait_set_counts <- readRDS(paste0(file.path(dc, "iphc/hook-with-bait.rds")))$set_counts
+
+```
+
+As $P_{it} \rightarrow 0$, the competition adjustment factor $\rightarrow
+\infty$, which blows up the expected number $N_{its}^{(0)}$. In practice this
+happens fairly often. There are 
+`r nrow(bait_set_counts)`
+sets in the data. Of the 
+`r nrow(filter(bait_set_counts, !is.na(N_it)))` 
+for which all hooks on each skate were enumerated,
+`r nrow(filter(bait_set_counts, N_it == 0))`
+had $P_{it} = 0$. Considering the 
+`r nrow(filter(bait_set_counts, !is.na(N_it20)))`
+sets for which we can calculate catch rates based on the first 20\ hooks of each
+skate (i.e.\ all years except 1995 and 1996),
+`r nrow(filter(bait_set_counts, N_it20 == 0))`
+had $P_{it}=0$ for the first 20\ hooks.
+
+For a set with 800 hooks, the smallest possible positive value is $P_{it} =
+1/800$, for which the adjustment factor is 6.69.
 
 ```{r iphc-hook-comp-adjustment, fig.cap="Plot of how the hook competition adjustment factor varies with the proportion of hooks that are returned with bait, with the lowest proportion set to 1/800."}
 Pit <- c( seq(1/800, 0.1, length=200), seq(0.1  , 0.99, 0.01) )
@@ -648,11 +665,26 @@ plot(Pit, hook_adjust, ylim=c(0, max(hook_adjust)), type="l",
      ylab = "Hook competition adjustment factor")
 ````
 
-```{r iphc-hook-with-bait, fig.cap="Histograms of number of hooks returned with baits in each set, for each year. TODO xlab"}
-bait_set_counts <- readRDS(paste0(file.path(dc, "iphc/hook-with-bait.rds")))$set_counts
-ggplot(data=bait_set_counts, aes(N_it), xName="P_it") + geom_histogram() + facet_wrap(. ~ year, ncol=4)
+```{r iphc-hook-with-bait, width=5, fig.cap="Histograms of number of hooks returned with baits in each set, for each year in which all hooks were enumerated. TODO Be better to have proportion - do if time."}
+ggplot(data=bait_set_counts,
+       aes(N_it) ) +
+    xlab("Number of hooks returned each year") +
+    ylab("Frequency") +    
+    geom_histogram() +
+    facet_wrap(. ~ year, ncol=4)
 # be good to have the 20 hook ones in different colour, or just do all N_it20 except for 1995 and 1996
 ```
+
+```{r iphc-hook-with-bait-twenty, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait, for each year (except 1995 and 1996 for which this cannot be calculated). TODO Be better to have proportion - do if time."}
+ggplot(data=bait_set_counts,
+       aes(N_it20)) +
+    xlab("Number of hooks returned each year") +
+    ylab("Frequency") +    
+    geom_histogram() +
+    facet_wrap(. ~ year, ncol=4)
+# be good to have the 20 hook ones in different colour, or just do all N_it20 except for 1995 and 1996
+```
+
 
 check that, see notes on p6, plot if time, code into gfplot..... save as separate folder
 
