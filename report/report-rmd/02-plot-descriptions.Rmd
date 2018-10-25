@@ -27,7 +27,7 @@ checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
 
 In this section we provide complete figure captions for each of the
 visualizations that form the species-by-species synopsis report in
-Section (\@ref(sec:synopsis-pages)). We use `r sp` as an example species.
+Section (\@ref(sec:synopsis-plots-A)) and (\@ref(sec:synopsis-plots-B)). We use `r sp` as an example species.
 
 ## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
 
