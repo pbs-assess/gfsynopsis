@@ -4,6 +4,15 @@
 <!-- Copying in from AppD-SurveysHookYYR15rev2.tex, simplifying down first in
  simplify.tex, then incrementally copying in what I want to here and converting to .Rmd-->
 
+```{r iphc-examples}
+yyr_set_counts <- readRDS(paste0(file.path(dc, "iphc/yelloweye-rockfish.rds")))$set_counts
+dog_set_counts <- readRDS(paste0(file.path(dc, "iphc/north-pacific-spiny-dogfish.rds")))$set_counts
+
+bait_set_counts <- readRDS(paste0(file.path(dc, "iphc/hook-with-bait.rds")))$set_counts
+
+```
+
+
 The International Pacific Halibut Commission (IPHC) conducts an annual stock
 assessment longline survey in waters from California to Alaska, including
 British Columbia waters [@flemming2012iphc]. The survey's main goal is to
@@ -176,8 +185,6 @@ this series to be representative of the full coast (i.e.&nbsp;including the WCVI
 comparing the series that exclude stations off the WCVI (Series&nbsp;A and&nbsp;B) with
 those that include the stations off the WCVI (Series&nbsp;C and&nbsp;D, respectively).
 
-TODO Verify Table 4 values for an example species (e.g. YYR).
-
 ## SPATIAL LOCATIONS OF STATIONS
 
 For the IPHC survey, from 1995-1997 the stations were
@@ -200,13 +207,22 @@ stations from 1998 onwards, despite not being on the exact same 10-nautical-mile
 square grid [@yamanaka2018yelloweyeoutside].
 Series&nbsp;C and&nbsp;D use all stations coastwide (by definition).
 
-Each year, some stations may be declared unusable by the IPHC and so are
-excluded from our analyses. Stations that were declared as 
-
-...TODO-check-name 
+Each year, a few stations may be declared unusable by the IPHC and are excluded 
+from our analyses (e.g. the 
+hook-tally sheet got blown overboard for station 2113 in the year 2008).
+Stations that were declared TODO-check-name 
 'unusable for spatiotemporal analysis' are more common and are included.
 
-TODO include code tables (in my hooks .Snw)
+```{r iphc-hook-codes, tab.cap="Description of hook observation classifications and corresponding codes in theGFBio database."}
+
+hookCodes = cbind("Description"=c("Unknown", "Empty hook", 
+    "Bait on hook", 
+    "Animal on hook (fish or invertebrate)", "Species head on hook", 
+    "Species droped off hook", "Bait skin on hook", "Hook not observed",
+    "Eaten or bitten (by shark, etc.)"),
+    "HOOK_YIELD_CODE" = 0:8)      # from iphc0314.Snw
+kable(hookCodes)
+```
 
 ## CHUM SALMON BAIT EXPERIMENT {#sec:chum}
 
@@ -606,25 +622,25 @@ Z_{it} & = - \ln P_{it}.
 
 ....Sub 19 and 20 into 14, to give the competition adjustment factor...... do in morning....
 
-\begin{equation}
-N_{its}^{(0)} = \frac{-\ln P_{it}}{1 - P_{it}} N_{its}.
+\begin{align}
+N_{its}^{(0)} & = \frac{-\ln P_{it}}{1 - P_{it}} N_{its} \\
+              & = A_{it} N_{its},
 \label{eq:Nits0rearrange}
-\end{equation}
-
-So the competition adjustment factor 
+\end{align}
+where 
 \begin{equation}
-\frac{-\ln P_{it}}{1 - P_{it}}
+A_{it} = \frac{-\ln P_{it}}{1 - P_{it}},
 \end{equation}
-scales up the
-observed number of each species caught to give the expected number (accounting
-for hook competition), depending on the proportion $P_{it}$ of observed hooks
+is the competition adjustment factor for each set in each year. It
+scales up the observed number of each species caught to give the expected number
+of species caught (accounting for hook competition), depending on the proportion $P_{it}$ of observed hooks
 that are returned still with bait on them.
 
 Note that, by definition, $0 \leq P_{it} \leq 1$, and so $\ln P_{it} \leq 0$. As
 $P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule REF
 \begin{align}
-\lim_{P_{it} \rightarrow 1} \frac{-\ln P_{it}}{1 - P_{it}} & = 
-  \dfrac{\lim_{P_{it} \rightarrow 1} (-1 / P_{it})}{\lim_{P_{it} \rightarrow 1} (-1)}\\
+\lim_{P_{it} \rightarrow 1} A_{it} & = \lim_{P_{it} \rightarrow 1} \frac{-\ln P_{it}}{1 - P_{it}}\\
+ & = \dfrac{\lim_{P_{it} \rightarrow 1} (-1 / P_{it})}{\lim_{P_{it} \rightarrow 1} (-1)}\\
   & = 1,
 \end{align}
 such that $N_{its}^{(0)} = N_{its}$, which equals $0$ (because if all 
@@ -634,13 +650,9 @@ for all species $s$).
 \ 
 
 
-```{r iphc-hook-with-bait-counts}
-bait_set_counts <- readRDS(paste0(file.path(dc, "iphc/hook-with-bait.rds")))$set_counts
-
-```
-
-As $P_{it} \rightarrow 0$, the competition adjustment factor $\rightarrow
-\infty$, which blows up the expected number $N_{its}^{(0)}$. In practice this
+However, as $P_{it} \rightarrow 0$, $A_{it} \rightarrow
+\infty$, such that the expected number $N_{its}^{(0)} \rightarrow \infty$.
+In practice this
 happens fairly often. There are 
 `r nrow(bait_set_counts)`
 sets in the data. Of the 
@@ -654,8 +666,11 @@ skate (i.e.\ all years except 1995 and 1996),
 `r nrow(filter(bait_set_counts, N_it20 == 0))`
 had $P_{it}=0$ for the first 20\ hooks.
 
-For a set with 800 hooks, the smallest possible positive value is $P_{it} =
-1/800$, for which the adjustment factor is 6.69.
+Therefore the choice of what to use for $A_{it}$ when $P_{it} = 0$ is important.
+One option would be to set it to the value obtained if only one hook with bait
+is returned for a set. For a set with 800 observed hooks (essentially the
+maximum), the smallest possible positive value is $P_{it} = 1/800$, which gives
+$A_{it} = 6.69$.
 
 ```{r iphc-hook-comp-adjustment, fig.cap="Plot of how the hook competition adjustment factor varies with the proportion of hooks that are returned with bait, with the lowest proportion set to 1/800."}
 Pit <- c( seq(1/800, 0.1, length=200), seq(0.1  , 0.99, 0.01) )
@@ -665,17 +680,16 @@ plot(Pit, hook_adjust, ylim=c(0, max(hook_adjust)), type="l",
      ylab = "Hook competition adjustment factor")
 ````
 
-```{r iphc-hook-with-bait, width=5, fig.cap="Histograms of number of hooks returned with baits in each set, for each year in which all hooks were enumerated. TODO Be better to have proportion - do if time."}
+```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set, for each year in which all hooks were enumerated."}
 ggplot(data=bait_set_counts,
        aes(N_it) ) +
     xlab("Number of hooks returned each year") +
     ylab("Frequency") +    
     geom_histogram() +
     facet_wrap(. ~ year, ncol=4)
-# be good to have the 20 hook ones in different colour, or just do all N_it20 except for 1995 and 1996
 ```
 
-```{r iphc-hook-with-bait-twenty, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait, for each year (except 1995 and 1996 for which this cannot be calculated). TODO Be better to have proportion - do if time."}
+```{r iphc-hook-with-bait-twenty, warning=FALSE, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait, for each year (except 1995 and 1996 for which this cannot be calculated)."}
 ggplot(data=bait_set_counts,
        aes(N_it20)) +
     xlab("Number of hooks returned each year") +
