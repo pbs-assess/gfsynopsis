@@ -84,13 +84,12 @@ p2 <- g$survey_spatial_hbll +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
   guides(fill = guide_colorbar(), size = FALSE)
 
-# TODO: what are the units for the new IPHC data?
 p3 <- g$survey_spatial_iphc +
-  labs(colour = "Catch rate\n(fish/set)") +
-  ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
-    na.value = 'white', breaks = c(2, 50, 150)) +
-  ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
-    na.value = 'grey35', breaks = c(2, 50, 150)) +
+  labs(colour = "Catch\nrate\n(fish/effective\nskate)") +
+  # ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    # na.value = 'white', breaks = c(2, 50, 150)) +
+  # ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
+    # na.value = 'grey35', breaks = c(2, 50, 150)) +
   guides(colour = guide_colorbar(), size = FALSE) +
   ggtitle("IPHC catch rate")
 
@@ -188,7 +187,7 @@ cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 g$maturity_month
 ```
 
-```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age and length maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs.\ not mature. The solid black lines represent fits to the female fish and the dashed gray lines represent fits to the male fish. The vertical lines indicate the estimated age or at length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to samples from the entire year. See Section \\ref{sec:maturity-models} for details.")}
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age and length maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed gray lines represent fits to the male fish. The vertical lines indicate the estimated age or at length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to samples from the entire year. See Section \\ref{sec:maturity-models} for details.")}
 cowplot::plot_grid(g$mat_age, g$mat_length, align = "v")
 ```
 

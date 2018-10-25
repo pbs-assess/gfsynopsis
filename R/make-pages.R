@@ -658,7 +658,7 @@ make_pages <- function(
     g_survey_spatial_iphc <-
       gfsynopsis::plot_survey_maps(iphc_map_dat, iphc_fits$raw_dat,
         show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
-        show_model_predictions = "combined" %in% names(iphc_fits$pred_dat),
+        show_model_predictions = "combined" %in% names(iphc_map_dat),
         annotations = "IPHC") +
       coord_cart + ggplot2::ggtitle("IPHC survey catch rate") +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",

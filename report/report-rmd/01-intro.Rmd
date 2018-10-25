@@ -275,4 +275,9 @@ for his work on GFASTeR, which this project also takes inspiration from and
 borrows some of the data queries. We thank Rowan Haigh for his work maintaining
 the PBSmapping and PBSdata R packages.
 
+TODO: impossible without databases...
+
+TODO: note colour scales relative in maps...
+
+
 \clearpage
