@@ -241,24 +241,6 @@ the structure or content of the groundfish data synopsis report. We will
 consider these larger possible revisions approximately every three
 years.
 
-## GFPLOT AND GFSYNOPSIS R PACKAGES
-
-As stated above, one goal of this report is to generate standardized
-data sets, model fits, and visualizations to facilitate stock
-assessment. We intend for the data extraction and plots developed here
-to be useful for the upcoming management-procedure framework for
-data-limited and data-moderate groundfish stocks in BC, but also for the
-preparation of other groundfish stock assessments and to facilitate
-data-to-document workflows that go straight from databases to the final
-report via code and can be quickly updated in future years. To that end,
-all data extraction, data manipulation, model fitting, and visualization
-for this report is accomplished via the R package gfplot, which the
-authors developed for this purpose. The specific layout and tools needed to
-make this report are created with a second R package, gfsynopsis. Both packages
-(but not caches of the datasets themselves) are publicly available on GitHub:\
-<https://github.com/pbs-assess/gfplot>\
-<https://github.com/pbs-assess/gfsynopsis>.
-
 ## ACKNOWLEDGEMENTS
 
 We are grateful for the ongoing collaboration between DFO, commercial fishers,
