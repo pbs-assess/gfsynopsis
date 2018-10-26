@@ -188,30 +188,40 @@ knitr::include_graphics("figure/3CD5ABCDE.png")
 Following the species-by-species visualizations, we include the following
 appendices:
 
-1. Appendix \@ref(sec:age-precision) shows precision of age determination for
-the species for
-which ageing data exist and that are included in this report.
-2. Appendix \@ref(sec:data) provides details on the data extraction from the relational
-databases that hold the raw data.
-3. Appendix \@ref(sec:cpue-models) provides details on the catch per unit effort
-(CPUE) model that underlies the CPUE visualizations.
-4. Appendix \@ref(sec:spatial-modeling) provides details on the spatial modeling behind
-the spatial survey biomass visualizations.
-5. Appendix \@ref(sec:survey-trend-models) provides details on the survey
-   biomass index modeling (except for the IPHC survey).
-6. Appendix \@ref(sec:iphc-survey-index) provides details on the
-modelling for the IPHC survey time series.
-7. Appendix \@ref(sec:growth-and-maturity) provides details on modeling
-biological parameters.
-8. Appendix \@ref(sec:reproducibility) discusses the computational environment that
-enables reproducibility from data extraction, data manipulation, model fitting
-and visualization to the generation of this report.
-9. Appendix \@ref(sec:references) contains the bibliography, including those references listed on the figure pages.
+1. Appendix \@ref(sec:age-precision) shows ageing precision plots.
 
-In navigating the report, we suggest that the report is best viewed in a
-PDF two-page view so that all the plots for a single species can be
-viewed at once. We also note that the table of contents and references
-are clickable hyperlinks to facilitate navigation.
+1. Appendix \@ref(sec:depth-curves) shows the predict relationships between
+   depth and survey biomass density for the synoptic trawl surveys.
+
+1. Appendix \@ref(sec:data) provides details on the data extraction from the
+   relational databases that hold the raw data.
+
+1. Appendix \@ref(sec:cpue-models) provides details on the catch per unit
+   effort (CPUE) model that underlies the CPUE visualizations.
+
+1. Appendix \@ref(sec:spatial-modeling) provides details on the spatial
+   modeling behind the spatial survey biomass visualizations.
+
+1. Appendix \@ref(sec:survey-trend-models) provides details on the survey
+   biomass index modeling (except for the IPHC survey).
+
+1. Appendix \@ref(sec:iphc-survey-index) provides details on the modelling for
+   the IPHC survey time series.
+
+1. Appendix \@ref(sec:growth-and-maturity) provides details on modeling
+   biological parameters.
+
+1. Appendix \@ref(sec:reproducibility) discusses the computational environment
+   that enables reproducibility from data extraction, data manipulation, model
+   fitting and visualization to the generation of this report.
+
+1. The final section contains the bibliography, including those references
+   listed on the figure pages.
+
+In navigating the report, we suggest that the report is best viewed in a PDF
+two-page view so that all the plots for a single species can be viewed at once.
+We also note that the table of contents and references are clickable hyperlinks
+to facilitate navigation.
 
 <!--
  #sec:plot-descriptions
@@ -290,7 +300,7 @@ are considered less reliable prior to 100% observer coverage in 2006 and are
 often reported as discard counts without a reported weight. These discards
 are therefore not included in catch shown here.
 
-One important species that is not included here is Pacific Hake 
+One important species that is not included here is Pacific Hake
 (*Merluccius productus*), because it has its own dedicated biennial acoustic
 survey and an annual stock assessment [e.g. @edwards2018hake].
 
@@ -330,7 +340,7 @@ approaches in May 2016 [@macdougall2016], which included a data scorecard by
 Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
 for his work on GFASTeR, which this project also takes inspiration from and
 borrows some of the data queries. We thank Rowan Haigh for his work maintaining
-the PBSmapping and PBSdata R packages, and indeed the authors of all the R 
+the PBSmapping and PBSdata R packages, and indeed the authors of all the R
 packages necessary to build this report.
 
 \clearpage
