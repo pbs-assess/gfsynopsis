@@ -1,4 +1,5 @@
 \clearpage
+\vspace{0mm}
 
 # SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
 

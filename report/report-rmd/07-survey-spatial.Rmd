@@ -1,3 +1,4 @@
+\vspace{0mm}
 \clearpage
 
 # SPATIAL MODELLING OF SURVEY BIOMASS {#sec:spatial-modeling}

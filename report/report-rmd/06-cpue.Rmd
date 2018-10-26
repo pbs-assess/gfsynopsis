@@ -1,3 +1,6 @@
+\clearpage
+\vspace{0mm}
+
 # CPUE INDEX STANDARDIZATION {#sec:cpue-models}
 
 We sought to generate an index of abundance from commercial trawl catch per

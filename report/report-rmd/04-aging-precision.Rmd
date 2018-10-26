@@ -3,6 +3,7 @@
 `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
 
 # AGEING PRECISION {#sec:age-precision}
+
 ```{r age-precision-make-data, warning=FALSE, message=FALSE}
 dc <- here::here("report", "data-cache")
 spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
