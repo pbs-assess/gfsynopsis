@@ -459,6 +459,21 @@ If the catch rates are greatly different, then this suggests that the catch
 rates from the first 20&nbsp;hooks are not equivalent to the catch rates based on all
 the hooks. This is why we compare Series&nbsp;A and Series&nbsp;B.  
 
+**GET FIGS IN THEN MOVE THEM**
+
+
+<!-- Hard-wired ref here but fig and caption will get updated anyway for Res -->
+<!-- Doc. No time to create figure for working paper. -->
+
+```{r iphc-ser-plots, fig.nrow=2, fig.cap=c("Catch rate index (number of individual Yelloweye Rockfish caught per skate) for Series A from the Yelloweye Rockfish assessment (Yamanaka et al., 2018); updated automated figures will be produced for our final report. For a given year, the catch rate for each set is calculated from (\\ref{eq:catchPerSet}). These catch rates were then resampled for 10,000 bootstrap values, from which a bootstrapped mean (open circles) and 95% bias-corrected and adjusted confidence intervals (bars) were calculated. Small black closed circles are sample means (not bootstrapped), and essentially equal the bootstrapped means.", "Series B from the Yelloweye Rockfish assessment."), out.width="3.5in", fig.pos="tb"}
+knitr::include_graphics(c("figure/bcaKeepSerA.png", "figure/bcaKeepSerB.png"))
+```
+
+
+
+
+
+
 ### CONSTRUCTING SERIES AB
 
 For each species, we wish to join up the 1995 and 1996 data from Series&nbsp;B (based on all
