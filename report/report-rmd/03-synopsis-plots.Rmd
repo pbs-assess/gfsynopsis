@@ -1,10 +1,11 @@
 # SYNOPSIS PLOTS: TYPE A SPECIES {#sec:synopsis-plots-A}
 
-This section contains the main species-by-species data visualizations. Each
-species is shown on two pages with the same layout used throughout. See Section
-\@ref(sec:plot-descriptions) for detailed figure captions. The species are
-ordered according to DFO species codes. The table of contents at the beginning
-of the document includes links to the various species pages in order of species
-codes, and Section (\@ref(sec:common-name-index)) and Section
-(\@ref(sec:scientific-name-index)) provide links to the various pages sorted by
-common name alphabetically and scientific name alphabetically, respectively.
+The following two sections contain the main species-by-species data
+visualizations. Each species is shown on two pages with the same layout used
+throughout. See the previous section (Section (\@ref(sec:plot-descriptions))
+for detailed figure captions. The species are ordered according to DFO species
+codes. The table of contents at the beginning of the document includes links to
+the species pages in order of species codes, and Sections
+(\@ref(sec:common-name-index)) and Section (\@ref(sec:scientific-name-index))
+provide links to the pages sorted alphabetically by common and scientific name
+alphabetically, respectively.
