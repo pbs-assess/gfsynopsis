@@ -178,9 +178,25 @@ standardization on a case-by-case basis.
 
 We use the geostatistical model as described in Section
 (\@ref(sec:spatial-modeling)) with the addition of spatiotemporal random
-effects and annual predictors for the mean biomass each year.
+effects ($\epsilon_{s,t}$) and annual predictors for the mean biomass each year:
 
-TODO: add equations here
+\begin{align}
+  y_{s,t} &\sim \mathrm{Tweedie}(\mu_{s,t}, p, \phi), \quad 1 < p < 2,\\
+  \mu_{s,t} &= \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right),
+\end{align}
+
+as with the spatial model, the spatial random effects ($\omega_s$) are assumed
+drawn from a multivariate normal distribution with some covariance matrix
+$\bm{\Sigma}_\omega$:
+
+$$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right),$$
+
+and we assume the same for the spatiotemporal random effects, with each time
+slice being given its own independent set of random effects:
+
+$$\bm{\epsilon_t} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_{\epsilon,t} \right).$$
+
+TODO: Describe equations
 
 The spatial random effects account for spatial factors that are constant
 through year, for example, depth and substrate type. The spatiotemporal random
