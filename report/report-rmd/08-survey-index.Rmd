@@ -130,7 +130,7 @@ For the HBLL surveys, and for a given species, we calculated the relative
 biomass density $B$ in year $t$ as:
 
 \begin{equation}
-  B_t = \sum_{i = 1}^k C_{yt,i} A_i
+  B_t = \sum_{i = 1}^k C_{t,i} A_i
 \end{equation}
 
 where $C_{t,i}$ represents the mean CPUE in parts (fish) per
@@ -140,7 +140,7 @@ the number of strata. We calculated the CPUE ($C_{t,i}$) for a given species in
 year $y$ and stratum $i$ as:
 
 \begin{equation}
-  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( N_{y,j} / H_{y,j} w_{y,j}\right)}{n_{y,i}}
+  C_{t,i} = \frac{\sum_{j = 1}^{n_{t,i}} \left( N_{t,j} / H_{t,j} w_{t,j}\right)}{n_{t,i}}
 \end{equation}
 
 where $N_{t,j}$ represents the number of fish caught for the species in year
