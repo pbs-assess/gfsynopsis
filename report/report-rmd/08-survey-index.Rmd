@@ -1,3 +1,5 @@
+\clearpage
+
 # SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
 
 Fisheries and Oceans, Canada (DFO) conducts a number of fishery-independent
