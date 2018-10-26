@@ -1,51 +1,89 @@
 # SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
 
-<!-- TODO: Add a blurb here about the surveys in general. -->
-Fisheries and Oceans, Canada (DFO) conducts various fishery-independent 
-multispecies research surveys annually or biannually. These include four 
-synoptic bottom trawl surveys and two longline hook surveys. The survey areas 
-generally correspond with Groundfish Management areas that fishery quotas are 
-allocated by British Columbia waters. For the synoptic trawl surveys, the 
-West Coast Vancouver Island survey corresponds to management areas 3CD, Queen 
-Charlotte Strait survey corresponds to areas 5AB, Hecate Strait surveys to 
-areas 5C--5D and West Coast Haida Gwaii surveys to area 5E. The Hard 
-Bottom Longline survey is split into northern and southern segments. The 
-southern survey area corresponds to management areas 3CD and 5AB while the 
-northern survey area corresponds to areas 5CDE.
+Fisheries and Oceans, Canada (DFO) conducts various fishery-independent
+multispecies research surveys annually or biannually. These include four
+synoptic bottom trawl surveys and two longline hook surveys. The survey areas
+correspond roughly with Groundfish Management areas that fishery quotas are
+allocated by British Columbia waters. For the synoptic trawl surveys, the West
+Coast Vancouver Island survey corresponds to management areas 3CD, the Queen
+Charlotte Strait survey corresponds to areas 5AB, the Hecate Strait surveys
+correspond to areas 5CD, and the West Coast Haida Gwaii surveys corresponds to
+area 5E. The Hard Bottom Longline survey is split into northern and southern
+segments. The southern survey area corresponds to management areas 3CD and 5AB
+while the northern survey area corresponds to areas 5CDE.
 
 ## SYNOPTIC BOTTOM TRAWL SURVEYS
-DFO together with the Canadian Groundfish Research and Conservation Society implemented a coordinated set of bottom trawl surveys that together cover the continental shelf and upper slope of most of the BC coast. The surveys all follow a random depth stratified design and use the same bottom trawl fishing gear and fishing protocols [@sinclair2003syn]. The surveys were designed to provide a synopsis of all species available to bottom trawl gear as opposed to focusing on certain species. There are a total of four synoptic surveys: 1 Hecate Strait (HS); 2 West Coast Vancouver Island (WCVI); 3 Queen Charlotte Sound (QCS); and 4 West Coast Haida Gwaii (WCHG). Surveys have been conducted on both chartered commercial vessels and government research vessels. The Hecate Strait survey and West Coast Vancouver Island survey have been conducted on the Canadian Coast Guard research trawler WE Ricker while the Queen Charlotte Sound survey has been conducted on chartered commercial fishing vessels. Two of the synoptic surveys are conducted each year on an alternating basis so that each survey is conducted every two years.
+
+DFO, together with the Canadian Groundfish Research and Conservation Society,
+implemented a coordinated set of bottom trawl surveys that together cover the
+continental shelf and upper slope of most of the BC coast. The surveys follow
+a random depth stratified design and use the same bottom trawl fishing gear and
+fishing protocols [@sinclair2003syn]. The surveys were designed to provide
+a synopsis of all species available to bottom trawl gear as opposed to focusing
+on specific species. There are a total of four synoptic (SYN) surveys: Hecate Strait
+(HS), West Coast Vancouver Island (WCVI), Queen Charlotte Sound (QCS), and West
+Coast Haida Gwaii (WCHG) (Figure \@ref(fig:intro-maps)). Surveys have been
+conducted on both chartered commercial vessels and government research vessels.
+The Hecate Strait survey and West Coast Vancouver Island survey have been
+conducted on the Canadian Coast Guard research trawler WE Ricker while the
+Queen Charlotte Sound survey has been conducted on chartered commercial fishing
+vessels. Two of the synoptic surveys are conducted each year on an alternating
+basis so that each survey is conducted every two years.
 
 ## HARD BOTTOM LONGLINE SURVEYS
-The Pacific Halibut Management Association, in consultation with DFO, initiated a depth-stratified, random design research longline survey conducted with chartered commercial fishing vessels in 2006. The survey employs standardized longline snap gear and fishing methods and alternates annually between the northern and southern portions of BC. The survey is designed to provide catch rates of all species and biological samples of rockfish from the outside coastal waters of BC for stock assessment, alternating between northern and southern areas.
+
+The Pacific Halibut Management Association, in consultation with DFO, initiated
+a depth-stratified, random design research longline survey conducted with
+chartered commercial fishing vessels in 2006. The survey employs standardized
+longline snap gear and fishing methods and alternates annually between the
+northern and southern portions of BC. The survey is designed to provide catch
+rates of all species and biological samples of rockfish from the outside
+coastal waters of BC for stock assessment, alternating between northern and
+southern areas.
+
+TODO: INSIDE
 
 ## INTERNATIONAL PACIFIC HALIBUT COMMISSION FISHERY INDEPENDENT SURVEY
-The International Pacific Halibut Commission’s (IPHC) fishery independent survey is the longest times series of longline survey data in BC. This survey is a fixed station survey that has been conducted annually, with chartered commercial fishing vessels deploying fixed gear, in Canadian waters (IPHC Area 2B), since 1963. It provides distribution, biomass, age, growth and maturity data that are used in the annual assessment of Pacific Halibut (\emph{Hippoglossus stenolepis}). In 2003, the IPHC provided the opportunity to deploy an additional technician to enumerate and identify catch to species on a hook by hook basis and to collect biological data on rockfishes during their 2B survey operations (e.g. [@flemming2012iphc]). The complete enumeration of species during the IPHC survey was recorded in 1995, 1996, and in all survey years beginning in 2003. In the years between 1995 and 2003, and in 2013, regular species composition sampling occurred over the first 20 hooks (20%) on each survey skate of gear. 
 
-It should be noted that the IPHC survey targets Halibut and the survey timing is aligned with when Halibut are growing, which may increase hook competition and could produce potential biases. Furthermore, when a set line is longer (made up of more skates) it may fall outside of the targeted bottom type and therefore may have a different catch composition than directly on the targeted station.
+The International Pacific Halibut Commission’s (IPHC) fishery independent
+survey is the longest times series of longline survey data in BC. This survey
+is a fixed station survey that has been conducted annually, with chartered
+commercial fishing vessels deploying fixed gear, in Canadian waters (IPHC Area
+2B), since 1963. It provides distribution, biomass, age, growth and maturity
+data that are used in the annual assessment of Pacific Halibut
+(\emph{Hippoglossus stenolepis}). In 2003, the IPHC provided the opportunity to
+deploy an additional technician to enumerate and identify catch to species on
+a hook-by-hook basis and to collect biological data on rockfishes during their
+2B survey operations (e.g. [@flemming2012iphc]). The complete enumeration of
+species during the IPHC survey was recorded in 1995, 1996, and in all survey
+years beginning in 2003. In the years between 1995 and 2003, and in 2013,
+regular species composition sampling occurred over the first 20 hooks (20%) on
+each survey skate of gear.
+
+We note that the IPHC survey targets Halibut and the survey timing is aligned
+with when Halibut are growing, which may increase hook competition and could
+produce potential biases. Furthermore, when a set line is longer (made up of
+more skates) it may fall outside of the targeted bottom type and therefore may
+have a different catch composition than directly on the targeted station.
 
 Details on the design of the various surveys referenced in this report can be
 found in the following documents:
 
-1. Synoptic Survey, Queen Charlotte Sound (SYN QCS):  [@williams2018synqcs]
+1. Synoptic Survey, Queen Charlotte Sound (SYN QCS): @williams2018synqcs
 
-1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI):
-  [@nottingham2017synwcvi]
+1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI): @nottingham2017synwcvi
 
-1. Synoptic Survey, Hecate Strait (SYN HS): [@wyeth2018synhs]
+1. Synoptic Survey, Hecate Strait (SYN HS): @wyeth2018synhs
 
-1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG):
-  [@williams2018synwchg]
+1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG): @williams2018synwchg
 
-1. Hard Bottom Longline Survey, Outside (HBLL OUT): [@dfo2018ifmp]
+1. Hard Bottom Longline Survey, Outside (HBLL OUT): @dfo2018ifmp
 
-1. Hard Bottom Longline Survey, Inside (HBLL INS): [@lochead2007irf]
+1. Hard Bottom Longline Survey, Inside (HBLL INS): @lochead2007irf
 
-1. Hecate Strait Multispecies Assemblage Survey (MSA HS):
-  [@choromanski2004hsmsa]
+1. Hecate Strait Multispecies Assemblage Survey (MSA HS): @choromanski2004hsmsa
 
-1. International Pacific Halibut Commission fishery independent survey (IPHC
-  FISS): [@flemming2012iphc]
+1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
 
 The main biomass index trends illustrated on the figure pages represent the
 design-based index trends that have historically been used in Pacific
@@ -104,12 +142,11 @@ year $y$ and stratum $i$ as:
 \end{equation}
 
 where $N_{y,j}$ represents the number of fish caught for the species in year
-$y$, stratum $i$, and set $j$; $H_{y,j}$ represents the number of hooks $\times$
-the hook spacing in km in set $j$ in year $y$; $w_{y,j}$ represents an arbitrary
-swept width of 30 feet or 0.009144 km for year $y$ and tow $j$; and $n_{y,i}$
-represents the number of sets in year $y$ and stratum $i$. The hook spacing is
-8 feet or 0.0024384 km for
-the inside and outside HBLL surveys.
+$y$, stratum $i$, and set $j$; $H_{y,j}$ represents the number of hooks
+$\times$ the hook spacing in km in set $j$ in year $y$; $w_{y,j}$ represents an
+arbitrary swept width of 30 feet or 0.009144 km for year $y$ and tow $j$; and
+$n_{y,i}$ represents the number of sets in year $y$ and stratum $i$. The hook
+spacing is 8 feet or 0.0024384 km for the inside and outside HBLL surveys.
 
 Details on the design-based estimation of biomass density index for the IPHC
 survey are shown in Section (TODO).
@@ -142,9 +179,29 @@ standardization on a case-by-case basis.
 
 We use the geostatistical model as described in Section
 (\@ref(sec:spatial-modeling)) with the addition of spatiotemporal random
-effects and annual predictors for the mean biomass each year.
+effects ($\epsilon_{s,t}$) and annual predictors for the mean biomass each year:
 
-TODO: add equations here
+\begin{align}
+  y_{s,t} &\sim \mathrm{Tweedie}(\mu_{s,t}, p, \phi), \quad 1 < p < 2,\\
+  \mu_{s,t} &= \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right),
+\end{align}
+
+as with the spatial model, the spatial random effects ($\omega_s$) are assumed
+drawn from a multivariate normal distribution with some covariance matrix
+$\bm{\Sigma}_\omega$:
+
+\begin{equation}
+\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right),
+\end{equation}
+
+and we assume the same for the spatiotemporal random effects, with each time
+slice being given its own independent set of random effects:
+
+\begin{equation}
+\bm{\epsilon}_t \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_{\epsilon,t} \right).
+\end{equation}
+
+TODO: Describe equations
 
 The spatial random effects account for spatial factors that are constant
 through year, for example, depth and substrate type. The spatiotemporal random
@@ -161,15 +218,12 @@ capture the spatial and spatiotemporal variation. We tested this assumption by
 increasing the number of knots for a selection of species and ensuring that the
 estimated trends did not qualitatively differ.
 
+
 We use Pacific Cod as an example species to illustrate the model components.
 
 We can project predictions from the model to a fine-scale (2 $\times$ 2 km) grid
 using the covariance projection matrix generated by INLA... (Figures
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt)).
-
-We can look at residuals through space and time to check if there appears to be
-remaining spatial or spatiotemporal autocorrelation (Figure
-\@ref(fig:sdmTMB-spt-spatial-residuals)).
 
 We chose to not include depth and depth squared as predictors in this model for
 simplicity and because it made little difference to the biomass index
@@ -180,28 +234,44 @@ relationship between depth and biomass combined to generate exceedingly high
 estimates of biomass on the border of the survey polygons. This remains a topic
 of research and will be investigated by the authors in the future.
 
-
 We can look at the individual components of the model. For the models without
 fixed effect predictors for depth, the fixed effect predictions each year are
 constant spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)). The
 spatial random effects are constant across years (Figure
 \@ref(fig:sdmTMB-spt-plot-fixed-effects)) and the spatiotemporal random effects
 vary across years (Figure \@ref(fig:sdmTMB-spt-plot-spatiotemporal-effects)).
+
+We can look at residuals through space and time to check if there appears to be
+remaining spatial or spatiotemporal autocorrelation (Figure
+\@ref(fig:sdmTMB-spt-spatial-residuals)).
+
 By summing the predicted biomass across all grid cells within the survey
 boundary, we can generate a biomass estimate through time (Figure
-\@ref(fig:sdmTMB-plot-index)). We generated the standard errors on the annual
+\@ref(fig:sdmTMB-plot-index)).
+
+We then calculate expected biomass $b_t$ in year $t$ as:
+
+\begin{equation}
+b_t = \sum\limits_{s=1}^n_s
+  w_s \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right),
+\end{equation}
+
+where ...
+
+We generated the standard errors on the annual
 estimates of log biomass via the generalized Delta method as implemented in
 TMB.
 
-Similar to the findings of @thorson2015, we find that the model-based
-biomass index trends often have lower CVs than the design-based index trends
-and often help stabilize biomass estimates for outlying years in the
-design-based index trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
+Similar to the findings of @thorson2015, we find that the model-based biomass
+index trends often have lower CVs than the design-based index trends and often
+help stabilize biomass estimates for outlying years in the design-based index
+trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
 
-We find little difference in the predicted biomass index for most stocks (e.g.
-Figure \@ref(fig:sdmTMB-plot-index)). The main difference lies in the model
-with depth predictors having slightly more spatially resolved estimates of
-biomass in space (Figure \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure
+We find little difference in the predicted biomass index for most stocks when
+comparing... (e.g. Figure \@ref(fig:sdmTMB-plot-index)). The main difference
+lies in the model with depth predictors having slightly more spatially resolved
+estimates of biomass in space (Figure
+\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)).
 
 \clearpage
