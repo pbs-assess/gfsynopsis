@@ -37,8 +37,9 @@ data-limited and data-moderate groundfish stocks; and (3) increase data
 transparency between Fisheries and Oceans Canada, the fishing industry,
 First Nations, non-governmental organizations, and the general public.
 
-A major caveat of this work is that it is not feasible for us to properly
-review the results for all 110 species. To use the results for a particular
+A major caveat of this work is that it is not feasible for us to individually
+assess the results for all 110 species in a detailed manner.
+To use the results for a particular
 species in future assessments, or to make other inferences),
 we highly recommend that users carefully look at the data and model results.
 **TODO: not sure if that sounds like a bit of a cop-out?**
