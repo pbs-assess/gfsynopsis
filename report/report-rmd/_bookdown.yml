@@ -9,6 +9,7 @@ rmd_files: [
   "03-synopsis-plots.Rmd",
   "plot-pages.Rmd",
   "04-aging-precision.Rmd",
+  "04a-depth.Rmd",
   "05-data.Rmd",
   "06-cpue.Rmd",
   "07-survey-spatial.Rmd",
