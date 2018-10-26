@@ -1,4 +1,5 @@
 \clearpage
+\vspace{0mm}
 
 # IPHC SURVEY INDEX {#sec:iphc-survey-index}
 
