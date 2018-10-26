@@ -225,7 +225,7 @@ estimated trends did not qualitatively differ.
 
 We can project predictions from the model to a fine-scale (2 km $\times$ 2 km)
 grid using the covariance projection matrix (Figures
-\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt), \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth). We can also look at the
+\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt), \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)). We can also look at the
 individual components of the model. For the models without fixed effect
 predictors for depth, the fixed effect predictions each year are constant
 spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)). The spatial random
@@ -236,10 +236,10 @@ We can look at residuals through space and time to check if there appears to be
 remaining spatial or spatiotemporal autocorrelation (Figure
 \@ref(fig:sdmTMB-spt-spatial-residuals)).
 
-We can then calculate expected biomass $b_t$ in year $t$ as:
+We can then calculate expected biomass $B_t$ in year $t$ as:
 
 \begin{equation}
-b_t = \sum_{j = 1}^{n_j}
+B_t = \sum_{j = 1}^{n_j}
   w_j \cdot \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right),
 \end{equation}
 
