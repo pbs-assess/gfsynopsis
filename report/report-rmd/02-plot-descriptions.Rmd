@@ -166,7 +166,7 @@ gridExtra::grid.arrange(
 
 ## AVAILABLE BIOLOGICAL SAMPLES {#sec:bio-samples}
 
-```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
+```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest appropriate round number.")}
 gridExtra::grid.arrange(
   g$survey_samples,
   g$comm_samples,
