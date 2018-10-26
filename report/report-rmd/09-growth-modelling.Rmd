@@ -1,7 +1,7 @@
 \clearpage
 \vspace{0mm}
 
-# GROWTH AND MATURITY {#sec:growth-and-maturity}
+# GROWTH AND MATURITY {#app:growth-and-maturity}
 
 ## MATURITY OGIVES {#sec:maturity-models}
 

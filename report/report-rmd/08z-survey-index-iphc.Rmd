@@ -1,7 +1,7 @@
 \clearpage
 \vspace{0mm}
 
-# IPHC SURVEY INDEX {#sec:iphc-survey-index}
+# IPHC SURVEY INDEX {#app:iphc-survey-index}
 
 ```{r iphc-examples}
 yyr_set_counts <- readRDS(paste0(file.path(dc, "iphc/yelloweye-rockfish.rds")))$set_counts

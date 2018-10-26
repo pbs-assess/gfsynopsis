@@ -1,7 +1,7 @@
 \clearpage
 \vspace{0mm}
 
-# DEPTH-DENSITY RELATIONSHIPS FOR THE SYNOPTIC SURVEYS {#sec:depth-curves}
+# DEPTH-DENSITY RELATIONSHIPS FOR THE SYNOPTIC SURVEYS {#app:depth-curves}
 
 ```{r sdmTMB-depth-all-calculations}
 surveys <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
@@ -57,7 +57,7 @@ make_depth_plot <- function(.data) {
 }
 ```
 
-\vspace{0mm}
+\vspace{-2mm}
 
 (ref:depth-relationship1) Predicted relationships between depth and biomass
 density for all species across the four synoptic surveys (Part 1 of 2). Solid
@@ -67,10 +67,10 @@ These relationships are derived from the depth coefficients in the spatial
 models that generate the map plots (e.g. Figure \@ref(fig:survey-maps)). These
 plots provide some indication about which surveys encompass the entirety of the
 depth distribution for particular species. See Appendix
-\@ref(sec:spatial-modeling) for details on the models underlying these
+\@ref(app:spatial-modeling) for details on the models underlying these
 predictions.
 
-```{r sdmTMB-depth-all-plots1, fig.width=10, fig.asp=1.15, out.width="\\textwidth", fig.cap="(ref:depth-relationship1)", fig.pos="H"}
+```{r sdmTMB-depth-all-plots1, fig.width=10, fig.asp=1.14, out.width="\\textwidth", fig.cap="(ref:depth-relationship1)", fig.pos="H"}
 .sp <- sort(unique(dd$species))
 filter(dd, species %in% .sp[1:36]) %>%
   make_depth_plot()

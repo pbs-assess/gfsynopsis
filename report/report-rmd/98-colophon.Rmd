@@ -1,7 +1,7 @@
 \clearpage
 \vspace{0mm}
 
-# REPRODUCIBILITY {#sec:reproducibility}
+# REPRODUCIBILITY {#app:reproducibility}
 
 One goal of this report is to generate standardized data sets, model fits, and
 visualizations to facilitate stock assessment. We intend for the data

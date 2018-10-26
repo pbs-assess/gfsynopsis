@@ -83,7 +83,7 @@ surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
 available data. A brief description of the included surveys is included in
-Appendix\ \@ref(sec:survey-trend-models) along with associated references for
+Appendix\ \@ref(app:survey-trend-models) along with associated references for
 detailed survey descriptions and designs.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report. The coverage of the IPHC survey is shown later.", fig.pos="tb"}
@@ -188,30 +188,30 @@ knitr::include_graphics("figure/3CD5ABCDE.png")
 Following the species-by-species visualizations, we include the following
 appendices:
 
-1. Appendix \@ref(sec:age-precision) shows ageing precision plots.
+1. Appendix \@ref(app:age-precision) shows ageing precision plots.
 
-1. Appendix \@ref(sec:depth-curves) shows the predict relationships between
+1. Appendix \@ref(app:depth-curves) shows the predict relationships between
    depth and survey biomass density for the synoptic trawl surveys.
 
-1. Appendix \@ref(sec:data) provides details on the data extraction from the
+1. Appendix \@ref(app:data) provides details on the data extraction from the
    relational databases that hold the raw data.
 
-1. Appendix \@ref(sec:cpue-models) provides details on the catch per unit
+1. Appendix \@ref(app:cpue-models) provides details on the catch per unit
    effort (CPUE) model that underlies the CPUE visualizations.
 
-1. Appendix \@ref(sec:spatial-modeling) provides details on the spatial
+1. Appendix \@ref(app:spatial-modeling) provides details on the spatial
    modelling behind the spatial survey biomass visualizations.
 
-1. Appendix \@ref(sec:survey-trend-models) provides details on the survey
-   biomass index modelling (except for the IPHC survey).
+1. Appendix \@ref(app:survey-trend-models) provides details on the survey
+   biomass index modeling (except for the IPHC survey).
 
-1. Appendix \@ref(sec:iphc-survey-index) provides details on the modelling for
+1. Appendix \@ref(app:iphc-survey-index) provides details on the modelling for
    the IPHC survey time series.
 
-1. Appendix \@ref(sec:growth-and-maturity) provides details on modelling
+1. Appendix \@ref(app:growth-and-maturity) provides details on modeling
    biological parameters.
 
-1. Appendix \@ref(sec:reproducibility) discusses the computational environment
+1. Appendix \@ref(app:reproducibility) discusses the computational environment
    that enables reproducibility from data extraction, data manipulation, model
    fitting and visualization to the generation of this report.
 
@@ -222,20 +222,6 @@ In navigating the report, we suggest that the report is best viewed in a PDF
 two-page view so that all the plots for a single species can be viewed at once.
 We also note that the table of contents and references are clickable hyperlinks
 to facilitate navigation.
-
-<!--
- #sec:plot-descriptions
-
- #sec:synopsis-plots-A
-
- #sec:synopsis-plots-B
-
- #sec:age-precision
- #sec:data
-
-
- #sec:cpue-models
--->
 
 We made a number of overarching design decisions in structuring the
 report:

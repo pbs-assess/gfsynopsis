@@ -1,7 +1,7 @@
 \vspace{0mm}
 \clearpage
 
-# SPATIAL MODELLING OF SURVEY BIOMASS {#sec:spatial-modeling}
+# SPATIAL MODELLING OF SURVEY BIOMASS {#app:spatial-modeling}
 
 We modelled the expected biomass density in space for each species using
 geostatistical models applied to data from the fisheries independent bottom
@@ -23,7 +23,7 @@ project the model predictions onto a 2 $\times$ 2 km grid in a UTM 9 projection
 to derive estimates of biomass throughout the survey domain.
 
 Similarly to the commercial catch per unit effort standardization models
-(Section \@ref(sec:cpue-models)), these models can be represented as Tweedie
+(Appendix \@ref(app:cpue-models)), these models can be represented as Tweedie
 GLMMs with a log link:
 
 \begin{align}

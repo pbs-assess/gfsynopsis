@@ -1,7 +1,7 @@
 \clearpage
 \vspace{0mm}
 
-# DATA SOURCES {#sec:data}
+# DATA SOURCES {#app:data}
 
 Commercial and research catch, effort, and biological data for groundfish are
 archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science

@@ -1,7 +1,7 @@
 \clearpage
 \vspace{0mm}
 
-# CPUE INDEX STANDARDIZATION {#sec:cpue-models}
+# CPUE INDEX STANDARDIZATION {#app:cpue-models}
 
 We sought to generate an index of abundance from commercial trawl catch per
 unit effort data that was standardized for depth, fishing locality (defined

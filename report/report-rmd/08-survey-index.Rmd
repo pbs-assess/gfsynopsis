@@ -1,7 +1,7 @@
 \clearpage
 \vspace{0mm}
 
-# SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
+# SURVEY BIOMASS INDEX TRENDS {#app:survey-trend-models}
 
 Fisheries and Oceans Canada conducts a number of fishery-independent
 multispecies research surveys annually or biannually. These include four
@@ -152,7 +152,7 @@ $n_{t,i}$ represents the number of sets in year $t$ and stratum $i$. The hook
 spacing is 8 feet or 0.0024384 km for the inside and outside HBLL surveys.
 
 Details on the design-based estimation of biomass density index for the IPHC
-survey are shown in Appendix \@ref(sec:iphc-survey-index).
+survey are shown in Appendix \@ref(app:iphc-survey-index).
 
 ## DESIGN-BASED-INDEX CONFIDENCE INTERVALS
 
@@ -181,7 +181,7 @@ species. Authors of groundfish stock assessments may want to consider
 model-based index standardization on a case-by-case basis.
 
 We use the geostatistical model as described in Appendix
-\@ref(sec:spatial-modeling) with the addition of spatiotemporal random
+\@ref(app:spatial-modeling) with the addition of spatiotemporal random
 effects ($\epsilon_{s,t}$; defined for locations in space $s$ and time $t$)
 and annual predictors for the mean biomass each year:
 
@@ -214,7 +214,7 @@ movement.
 
 Here we use Pacific Cod as an example species to illustrate the model
 components. The approach includes the same generation of spatial "knots" as in
-the spatial model described in Appendix \@ref(sec:spatial-modeling) to make the
+the spatial model described in Appendix \@ref(app:spatial-modeling) to make the
 problem computationally feasible through the SPDE (stochastic partial
 differential equation) approximation and a predictive process model (Figure
 \@ref(fig:sdmTMB-spt-spde)). We use 200 knots, which for spatial coverage of
