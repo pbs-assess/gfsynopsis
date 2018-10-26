@@ -79,7 +79,7 @@ not showing biomass index trends or maps from the Sablefish trap
 surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
-available data. A brief description the included surveys is included in
+available data. A brief description of the included surveys is included in
 Appendix\ \@ref(sec:survey-trend-models) along with associated refences for
 detailed survey descriptions and designs.  
 
@@ -181,6 +181,8 @@ gridExtra::grid.arrange(g, g2, nrow = 1)
 ```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="4in"}
 knitr::include_graphics("figure/3CD5ABCDE.png")
 ```
+  
+\   
 
 Following the species-by-species visualizations, we include a section
 providing details on the data extraction from the relational databases
