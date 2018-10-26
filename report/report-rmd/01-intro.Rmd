@@ -265,10 +265,13 @@ basis. We have attempted to flag survey index trends that may be especially
 suspect either because of high survey variability or because only a small
 fraction of trawl or longline sets containing the species, but this is not
 a guarantee in itself. Survey indices are not always representative of
-abundance for a variety of reasons --- changes through time, including fish
-behavioural changes or range shifts, could also result in biases through time.
+abundance for a variety of reasons, and a lack of data for a species does
+not necessarily indicate a small population --- the surveys may simply not
+be suitable for sampling that species. Furthermore, changes through time,
+including fish behavioural changes or range shifts, could result in biases
+through time even for well-sampled species.
 
-Commercial catch per unit effort timeseries, even when
+Commercial CPUE timeseries, even when
 standardized for consistent time of year, depth, latitude, and vessel
 need to be considered even more carefully. There are a multitude of
 reasons why commercial CPUE trends may not represent underlying trends
@@ -281,10 +284,14 @@ consideration and analysis. Fluctuations in commercial catch, for example
 recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't
 necessarily reflect declines in stock abundance and may be due to other factors
 including implementation of management measures. The discards in the catch
-plot do not include those from the hook and line fisheries. Longline discards
+plot do not include those from the hook-and-line fisheries. Longline discards
 are considered less reliable prior to 100% observer coverage in 2006 and are
 often reported as discard counts without a reported weight. These discards
 are therefore not included in catch shown here.
+
+One important species that is not included here is Pacific Hake 
+(*Merluccius productus*), because it has its own dedicated biennial acoustic
+survey and an annual stock assessment [e.g. @edwards2018hake].
 
 TODO: build on this section
 
@@ -304,14 +311,14 @@ We plan to publish annual updates of this synopsis report as Science
 Response documents. These annual updates will include another year of
 data and any important corrections to the data, text, or visualizations.
 On a less frequent basis we will consider making larger changes to the
-structure or content of the report. We will consider these larger
+structure, methods or content of the report. We will consider these larger
 possible revisions approximately every three years.
 
 ## ACKNOWLEDGEMENTS
 
 We are grateful for the ongoing collaboration between DFO, commercial fishers,
-First Nations, and non-governmental organizations, which has made the
-collection of the valuable data that underlies this report possible. We thank
+First Nations, and non-governmental organizations, which has made possible the
+collection of the valuable data that underlies this report. We thank
 the project's steering committee (Greg Workman, Robyn Forrest, Dana Haggarty,
 Chris Grandin, and Rob Kronlund) for invaluable input into the report design
 and feedback throughout its production. We thank Christie Whelan for her
@@ -322,6 +329,7 @@ approaches in May 2016 [@macdougall2016], which included a data scorecard by
 Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
 for his work on GFASTeR, which this project also takes inspiration from and
 borrows some of the data queries. We thank Rowan Haigh for his work maintaining
-the PBSmapping and PBSdata R packages.
+the PBSmapping and PBSdata R packages, and indeed the authors of all the R 
+packages necessary to build this report.
 
 \clearpage
