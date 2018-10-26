@@ -4,10 +4,10 @@ library(here)
 library(dplyr)
 
 # for rapid development:
-if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
-if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
-devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
-devtools::install(quick = TRUE, dependencies = FALSE)
+# if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
+# if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
+# devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
+# devtools::install(quick = TRUE, dependencies = FALSE)
 
 # for production use:
 library(gfplot)
@@ -17,7 +17,7 @@ library(gfsynopsis)
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- "petrale sole" # a species used as an example in the Res Doc
-optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
+optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -112,7 +112,7 @@ for (i in seq_along(spp$species_common_name)) {
       d_geostat_index = dat_geostat_index,
       include_map_square = FALSE,
       report_folder = here("report"),
-      resolution = 170, # balance size with resolution
+      resolution = 150, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
       parallel = FALSE, # for CPUE fits; need a lot of memory if true!
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
