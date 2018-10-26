@@ -37,14 +37,23 @@ basis so that each survey is conducted every two years.
 
 The Pacific Halibut Management Association, in consultation with DFO, initiated
 a depth-stratified, random design research longline survey conducted with
-chartered commercial fishing vessels in 2006. The survey employs standardized
+chartered commercial fishing vessels in 2006. These are referred to as the Hard 
+Bottom Longline Outside surveys. The survey employs standardized
 longline snap gear and fishing methods and alternates annually between the
 northern and southern portions of BC. The survey is designed to provide catch
 rates of all species and biological samples of rockfish from the outside
 coastal waters of BC for stock assessment, alternating between northern and
 southern areas.
 
-TODO: INSIDE
+Hard Bottom Longline Inside surveys are conducted within management area 4B. 
+These surveys were designed to provide fishery independent indices of 
+abundance together with biological samples to improve the assessment of 
+Yelloweye (*Sebastes ruberrimus*) and Quillback (*S. maliger*) Rockfish 
+for the 4B management region. They began in the northern Strait of Georgia 
+in Pacific Fishery Managment areas 12 and 13 in 2003 and 2004, and now
+alternate years to cover the northern (areas 12 and 13) and southern 
+(areas 14-20, 28, 29) portions of the inside waters. These surveys also emply
+standartdized longline snap gear and fishing methods.
 
 ## INTERNATIONAL PACIFIC HALIBUT COMMISSION FISHERY INDEPENDENT SURVEY
 
