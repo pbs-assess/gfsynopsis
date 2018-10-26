@@ -1,6 +1,6 @@
 \clearpage
 
-# SPECIES COMMON NAME INDEX {#sec:common-name-index}
+# SPECIES INDEX BY COMMON NAME {#sec:common-name-index}
 
 ```{r index-alpha-common, results='asis', cache=FALSE}
 .spp <- gfsynopsis::get_spp_names()
@@ -19,7 +19,7 @@ spp_table %>% arrange(species_common_name) %>%
 
 \clearpage
 
-# SPECIES SCIENTIFIC NAME INDEX {#sec:scientific-name-index}
+# SPECIES INDEX BY SCIENTIFIC NAME {#sec:scientific-name-index}
 
 ```{r index-alpha-latin, results='asis', cache=FALSE}
 spp_table %>% arrange(species_science_name) %>%

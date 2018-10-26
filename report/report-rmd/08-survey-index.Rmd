@@ -252,7 +252,7 @@ boundary, we can generate a biomass estimate through time (Figure
 We then calculate expected biomass $b_t$ in year $t$ as:
 
 \begin{equation}
-b_t = \sum\limits_{s=1}^{n_s}
+b_t = \sum_{s = 1}^{n_s}
   w_s \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right),
 \end{equation}
 
