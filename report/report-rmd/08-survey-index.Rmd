@@ -1,51 +1,87 @@
 # SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
 
-<!-- TODO: Add a blurb here about the surveys in general. -->
-Fisheries and Oceans, Canada (DFO) conducts various fishery-independent 
-multispecies research surveys annually or biannually. These include four 
-synoptic bottom trawl surveys and two longline hook surveys. The survey areas 
-generally correspond with Groundfish Management areas that fishery quotas are 
-allocated by British Columbia waters. For the synoptic trawl surveys, the 
-West Coast Vancouver Island survey corresponds to management areas 3CD, Queen 
-Charlotte Strait survey corresponds to areas 5AB, Hecate Strait surveys to 
-areas 5C--5D and West Coast Haida Gwaii surveys to area 5E. The Hard 
-Bottom Longline survey is split into northern and southern segments. The 
-southern survey area corresponds to management areas 3CD and 5AB while the 
-northern survey area corresponds to areas 5CDE.
+Fisheries and Oceans, Canada (DFO) conducts various fishery-independent
+multispecies research surveys annually or biannually. These include four
+synoptic bottom trawl surveys and two longline hook surveys. The survey areas
+correspond roughly with Groundfish Management areas that fishery quotas are
+allocated by British Columbia waters. For the synoptic trawl surveys, the West
+Coast Vancouver Island survey corresponds to management areas 3CD, the Queen
+Charlotte Strait survey corresponds to areas 5AB, the Hecate Strait surveys
+correspond to areas 5CD, and the West Coast Haida Gwaii surveys corresponds to
+area 5E. The Hard Bottom Longline survey is split into northern and southern
+segments. The southern survey area corresponds to management areas 3CD and 5AB
+while the northern survey area corresponds to areas 5CDE.
 
 ## SYNOPTIC BOTTOM TRAWL SURVEYS
-DFO together with the Canadian Groundfish Research and Conservation Society implemented a coordinated set of bottom trawl surveys that together cover the continental shelf and upper slope of most of the BC coast. The surveys all follow a random depth stratified design and use the same bottom trawl fishing gear and fishing protocols [@sinclair2003syn]. The surveys were designed to provide a synopsis of all species available to bottom trawl gear as opposed to focusing on certain species. There are a total of four synoptic surveys: 1 Hecate Strait (HS); 2 West Coast Vancouver Island (WCVI); 3 Queen Charlotte Sound (QCS); and 4 West Coast Haida Gwaii (WCHG). Surveys have been conducted on both chartered commercial vessels and government research vessels. The Hecate Strait survey and West Coast Vancouver Island survey have been conducted on the Canadian Coast Guard research trawler WE Ricker while the Queen Charlotte Sound survey has been conducted on chartered commercial fishing vessels. Two of the synoptic surveys are conducted each year on an alternating basis so that each survey is conducted every two years.
+
+DFO, together with the Canadian Groundfish Research and Conservation Society,
+implemented a coordinated set of bottom trawl surveys that together cover the
+continental shelf and upper slope of most of the BC coast. The surveys follow
+a random depth stratified design and use the same bottom trawl fishing gear and
+fishing protocols [@sinclair2003syn]. The surveys were designed to provide
+a synopsis of all species available to bottom trawl gear as opposed to focusing
+on specific species. There are a total of four synoptic (SYN) surveys: Hecate Strait
+(HS), West Coast Vancouver Island (WCVI), Queen Charlotte Sound (QCS), and West
+Coast Haida Gwaii (WCHG) (Figure \@ref(fig:intro-maps)). Surveys have been
+conducted on both chartered commercial vessels and government research vessels.
+The Hecate Strait survey and West Coast Vancouver Island survey have been
+conducted on the Canadian Coast Guard research trawler WE Ricker while the
+Queen Charlotte Sound survey has been conducted on chartered commercial fishing
+vessels. Two of the synoptic surveys are conducted each year on an alternating
+basis so that each survey is conducted every two years.
 
 ## HARD BOTTOM LONGLINE SURVEYS
-The Pacific Halibut Management Association, in consultation with DFO, initiated a depth-stratified, random design research longline survey conducted with chartered commercial fishing vessels in 2006. The survey employs standardized longline snap gear and fishing methods and alternates annually between the northern and southern portions of BC. The survey is designed to provide catch rates of all species and biological samples of rockfish from the outside coastal waters of BC for stock assessment, alternating between northern and southern areas.
+
+The Pacific Halibut Management Association, in consultation with DFO, initiated
+a depth-stratified, random design research longline survey conducted with
+chartered commercial fishing vessels in 2006. The survey employs standardized
+longline snap gear and fishing methods and alternates annually between the
+northern and southern portions of BC. The survey is designed to provide catch
+rates of all species and biological samples of rockfish from the outside
+coastal waters of BC for stock assessment, alternating between northern and
+southern areas.
 
 ## INTERNATIONAL PACIFIC HALIBUT COMMISSION FISHERY INDEPENDENT SURVEY
-The International Pacific Halibut Commission’s (IPHC) fishery independent survey is the longest times series of longline survey data in BC. This survey is a fixed station survey that has been conducted annually, with chartered commercial fishing vessels deploying fixed gear, in Canadian waters (IPHC Area 2B), since 1963. It provides distribution, biomass, age, growth and maturity data that are used in the annual assessment of Pacific Halibut (\emph{Hippoglossus stenolepis}). In 2003, the IPHC provided the opportunity to deploy an additional technician to enumerate and identify catch to species on a hook by hook basis and to collect biological data on rockfishes during their 2B survey operations (e.g. [@flemming2012iphc]). The complete enumeration of species during the IPHC survey was recorded in 1995, 1996, and in all survey years beginning in 2003. In the years between 1995 and 2003, and in 2013, regular species composition sampling occurred over the first 20 hooks (20%) on each survey skate of gear. 
 
-It should be noted that the IPHC survey targets Halibut and the survey timing is aligned with when Halibut are growing, which may increase hook competition and could produce potential biases. Furthermore, when a set line is longer (made up of more skates) it may fall outside of the targeted bottom type and therefore may have a different catch composition than directly on the targeted station.
+The International Pacific Halibut Commission’s (IPHC) fishery independent
+survey is the longest times series of longline survey data in BC. This survey
+is a fixed station survey that has been conducted annually, with chartered
+commercial fishing vessels deploying fixed gear, in Canadian waters (IPHC Area
+2B), since 1963. It provides distribution, biomass, age, growth and maturity
+data that are used in the annual assessment of Pacific Halibut
+(\emph{Hippoglossus stenolepis}). In 2003, the IPHC provided the opportunity to
+deploy an additional technician to enumerate and identify catch to species on
+a hook-by-hook basis and to collect biological data on rockfishes during their
+2B survey operations (e.g. [@flemming2012iphc]). The complete enumeration of
+species during the IPHC survey was recorded in 1995, 1996, and in all survey
+years beginning in 2003. In the years between 1995 and 2003, and in 2013,
+regular species composition sampling occurred over the first 20 hooks (20%) on
+each survey skate of gear.
+
+We note that the IPHC survey targets Halibut and the survey timing is aligned
+with when Halibut are growing, which may increase hook competition and could
+produce potential biases. Furthermore, when a set line is longer (made up of
+more skates) it may fall outside of the targeted bottom type and therefore may
+have a different catch composition than directly on the targeted station.
 
 Details on the design of the various surveys referenced in this report can be
 found in the following documents:
 
-1. Synoptic Survey, Queen Charlotte Sound (SYN QCS):  [@williams2018synqcs]
+1. Synoptic Survey, Queen Charlotte Sound (SYN QCS): @williams2018synqcs
 
-1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI):
-  [@nottingham2017synwcvi]
+1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI): @nottingham2017synwcvi
 
-1. Synoptic Survey, Hecate Strait (SYN HS): [@wyeth2018synhs]
+1. Synoptic Survey, Hecate Strait (SYN HS): @wyeth2018synhs
 
-1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG):
-  [@williams2018synwchg]
+1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG): @williams2018synwchg
 
-1. Hard Bottom Longline Survey, Outside (HBLL OUT): [@dfo2018ifmp]
+1. Hard Bottom Longline Survey, Outside (HBLL OUT): @dfo2018ifmp
 
-1. Hard Bottom Longline Survey, Inside (HBLL INS): [@lochead2007irf]
+1. Hard Bottom Longline Survey, Inside (HBLL INS): @lochead2007irf
 
-1. Hecate Strait Multispecies Assemblage Survey (MSA HS):
-  [@choromanski2004hsmsa]
+1. Hecate Strait Multispecies Assemblage Survey (MSA HS): @choromanski2004hsmsa
 
-1. International Pacific Halibut Commission fishery independent survey (IPHC
-  FISS): [@flemming2012iphc]
+1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
 
 The main biomass index trends illustrated on the figure pages represent the
 design-based index trends that have historically been used in Pacific
@@ -179,7 +215,6 @@ estimates of biomass when a combination of the quadratic shape of the
 relationship between depth and biomass combined to generate exceedingly high
 estimates of biomass on the border of the survey polygons. This remains a topic
 of research and will be investigated by the authors in the future.
-
 
 We can look at the individual components of the model. For the models without
 fixed effect predictors for depth, the fixed effect predictions each year are
