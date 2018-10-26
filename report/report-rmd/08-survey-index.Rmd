@@ -450,3 +450,5 @@ ggplot(ind_combined, aes(year, est, fill = type)) +
 ```
 
 \clearpage
+
+\vspace{0mm}
