@@ -207,12 +207,7 @@ enables reproducibility from data extraction, data manipulation, model fitting
 and visualization to the generation of this report.
 9. Appendix \@ref(sec:references) contains the bibliography, including those references listed on the figure pages.
 
-Following the species-by-species visualizations, we include a section
-providing details on the data extraction from the relational databases
-that hold the raw data, a section providing details on the models that
-underlie some of the visualizations, and finally a bibliography
-including all references listed on the figure pages themselves. In
-navigating the report, we suggest that the report is best viewed in a
+In navigating the report, we suggest that the report is best viewed in a
 PDF two-page view so that all the plots for a single species can be
 viewed at once. We also note that the table of contents and references
 are clickable hyperlinks to facilitate navigation.
