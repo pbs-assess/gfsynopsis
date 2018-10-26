@@ -133,7 +133,18 @@ g$catch
 
 ## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
 
-(ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort trends for `r sp`. Solid lines represent catch per unit effort (CPUE) trends standardized with a Tweedie GLMM (generalized linear mixed effects model) for depth, latitude, DFO locality region, vessel, and month of year (see details in Appendix (\@ref(sec:cpue-models))). The line itself represents the estimate and the shaded ribbon represents a 95\% confidence interval. The dashed line represents an unstandardized commercial CPUE index calculated as the sum of catch divided by the sum of effort each year. Standardized timeseries are scaled to have the same maximum 95\% confidence interval. Unstandardized timeseries are scaled to have the same geometric mean as the standardized timeseries. These are relative index values --- the absolute value of the timeseries is not because it depends on arbitrary levels that the standardization variables are set to. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
+(ref:trawl-cpue-cap) Example commercial bottom trawl catch-per-unit-effort
+trends for `r sp`. Solid lines represent catch per unit effort (CPUE) trends
+standardized with a Tweedie GLMM (generalized linear mixed effects model) for
+depth, latitude, DFO locality region, vessel, and month of year (see details in
+Appendix \@ref(sec:cpue-models)). The line itself represents the estimate and
+the shaded ribbon represents a 95\% confidence interval. The dashed line
+represents an unstandardized commercial CPUE index calculated as the sum of
+catch divided by the sum of effort each year. Standardized timeseries are scaled
+to have the same maximum 95\% confidence interval. Unstandardized timeseries are
+scaled to have the same geometric mean as the standardized timeseries. These are
+relative index values --- the absolute value of the timeseries is not
+particularly useful because it depends on arbitrary levels that the standardization variables are set to. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
 
 ```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.5in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
 g$cpue_index
