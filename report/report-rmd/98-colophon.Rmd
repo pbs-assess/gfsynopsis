@@ -16,16 +16,6 @@ themselves) are publicly available on GitHub:\
 <https://github.com/pbs-assess/gfplot>\
 <https://github.com/pbs-assess/gfsynopsis>.
 
-<!--
-We developed the gfplot R package to conduct all the data extraction, data
-manipulation, model fitting, and plotting in the data synopsis report. The
-package is designed to be modular so it can be used in various capacities for
-other groundfish analyses (Figure \@ref(fig:gfplot-web)). For example, the
-package is intended to facilitate pulling data directly into analyses for the
-forthcoming management procedure framework for data-limited and data-moderate
-groundfish stocks. TODO a few more details on the utility of this.
--->
-
 This version of the document was generated on `r Sys.time()` with
 `r devtools::session_info()$platform$version` [@r2018] and R package versions:
 

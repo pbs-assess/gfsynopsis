@@ -61,16 +61,16 @@ and commercial samples for various biological measurements.
 In terms of surveys, we have focused on the Synoptic Bottom Trawl
 surveys, the Outside Hard Bottom Long Line surveys (HBLL; alternatively
 referred to as the Pacific Halibut Management Association, PHMA,
-surveys), and the International Pacific Halibut Commission (IPHC) Fishery 
-Independent Setline surveys (Fig. \@ref(fig:intro-maps)) 
+surveys), and the International Pacific Halibut Commission (IPHC) Fishery
+Independent Setline surveys (Fig. \@ref(fig:intro-maps))
 because these provide the greatest spatial and
 taxonomic coverage of the stocks in this report. As an example, we are
 not showing biomass index trends or maps from the Sablefish trap
 surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
-available data. A brief description the included surveys is included in 
-(\@ref(sec:survey-trend-models)) along with associated refences for 
+available data. A brief description the included surveys is included in
+(\@ref(sec:survey-trend-models)) along with associated refences for
 detailed survey descriptions and designs.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report.", fig.pos="htbp"}
@@ -231,21 +231,29 @@ need to be considered even more carefully. There are a multitude of
 reasons why commercial CPUE trends may not represent underlying trends
 in abundance [e.g. @harley2001]. Nonetheless, we think there is value in
 transparently displaying the available data for all species.
-The commercial catch presented here may not be the best representation and 
-won't necessarily match reconstructed timeseries in stock assessments. 
-Historic catch reconstructions require careful species-specific 
-consideration and analysis. Fluctuations in commercial catch, specifically 
-recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't 
-necessarily reflect declines in stock abundance and may be due to other factors 
-including implementation of management measures. The discards in the catch 
-plot do not include those from the hook and line fisheries. Longline discards 
-are considered less reliable prior to 100% observer coverage in 2006 and are 
-often reported as discard counts without a reported weight. These discards 
+The commercial catch presented here may not be the best representation and
+won't necessarily match reconstructed timeseries in stock assessments.
+Historic catch reconstructions require careful species-specific
+consideration and analysis. Fluctuations in commercial catch, specifically
+recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't
+necessarily reflect declines in stock abundance and may be due to other factors
+including implementation of management measures. The discards in the catch
+plot do not include those from the hook and line fisheries. Longline discards
+are considered less reliable prior to 100% observer coverage in 2006 and are
+often reported as discard counts without a reported weight. These discards
 are therefore not included in catch shown here.
 
-
-
 TODO: build on this section
+
+<!--
+We developed the gfplot R package to conduct all the data extraction, data
+manipulation, model fitting, and plotting in the data synopsis report. The
+package is designed to be modular so it can be used in various capacities for
+other groundfish analyses (Figure \@ref(fig:gfplot-web)). For example, the
+package is intended to facilitate pulling data directly into analyses for the
+forthcoming management procedure framework for data-limited and data-moderate
+groundfish stocks. TODO a few more details on the utility of this.
+-->
 
 ## UPDATE SCHEDULE
 
