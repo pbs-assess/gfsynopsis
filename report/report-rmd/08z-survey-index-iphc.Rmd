@@ -57,7 +57,8 @@ of Redbanded Rockfish [@edwards2017redbanded] and Yelloweye Rockfish
 develop an abundance index from the IPHC survey that went back to 1995, and
 included data up to 2012. For the Yelloweye assessment the methods
 were extended to demonstrate that the index based on waters north of Vancouver
-Island could be considered representative of the coastwide population. 
+Island could be considered representative of the coastwide population. See
+those examples for worked examples of most of the following calculations.
 
 TODO: Put in main text: This work demonstrates that a consistent index can be constructed despite the
 survey design changing through the years. 
@@ -82,7 +83,8 @@ However, for
 operational reasons (particularly in areas of high catch rates), sometimes the
 20&nbsp;hooks would come from elsewhere within a skate, but would always consist of
 20 consecutive hooks (e.g. @dykstra2002iphc, @dykstra2002iphc).
-TODO - force new paragraph.
+
+\vspace{0mm}
 
 <!-- 
 Table:  (\#tab:IPHCdata) Summary of available data from the IPHC stock assessment
@@ -502,15 +504,10 @@ are not available.
 If $p_{AB} < 0.05$ then we cannot join the series, and so we stick with
 Series&nbsp;A as being the longest. 
 
-TODO equivalent of YYR Figure B.13 for an example species (dogfish?).
-
-For worked examples see @edwards2017redbanded and @yamanaka2018yelloweyeoutside, or the output for any
-species (TODO give gfplot command if possible).
-
 TODO Too much to go through a species, but show summary information table for
 each year, number of usable sets coastwide and north of VI, 
 mean effective skate number based on all hooks and based on
-first 20, and mean hook competition adjustment factor if I calculate it.
+first 20.
 
 
 ### CONSTRUCTING SERIES&nbsp;D (20 HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;A (20 HOOKS, NORTH OF VANCOUVER ISLAND) {#sec:iphc-AD}
@@ -594,12 +591,12 @@ longest IPHC survey index that can be constructed. If $p_{AD} \geq 0.05$ and
 $p_{BC} \geq 0.05$ then Series&nbsp;A and Series&nbsp;B can be considered
 representatitive of the full coast, and thus so can Series&nbsp;AB.
 
-If if $p_{AB} \geq 0.05$ but either 
+If $p_{AB} \geq 0.05$ but either 
 $p_{AD} < 0.05$ or
 $p_{BC} < 0.05$
 then Series&nbsp;AB is still the longest time series possible, but can
 only be considered to represent the waters north of Vancouver Island, not
-the full coast.
+the full coast. If $p_{AB} < 0.05$ then Series\ A is the longest time series.
 
 For some special cases of species that are rarely caught (or that weren't
 specifically enumerated in 1995 and 1996, for example), then Series&nbsp;A may
@@ -609,21 +606,34 @@ in our code, and may need to be verified on a species-by-species basis,
 particularly
 to ascertain whether a given species was being actively identified in a given
 year (resulting in a zero catch rate rather than 'no data').
+Also a shorter time series from all hooks (Series\ B or\ C) may be more informative
+than a longer time series based on just the first 20\ hooks. All series are
+calculated for all species, and should be examined further to make any subsequent
+inferences. 
 
 ## HOOK COMPETITION
 
-TODO Hook competition occurs ......
+The above approach was used by @yamanaka2018yelloweyeoutside to show how to
+construct an index for Yelloweye Rockfish that was representative of the full
+coast and went back to 1995. Another approach was used to generate an index
+for the assessment model (Marie Etienne et al., 
+*Extracting abundance indices from longline surveys: a method to account for hook 
+competition and unbaited hooks*, unpublished manuscript). This attempted to
+account for the effect of individual fish competing for the bait that is on the 
+hooks.
 
+If some of the hooks on a set have caught individual fish, then those hooks are
+no longer actively fishing. Incorporation of such 'hook competition' 
+involves scaling up the catch rates to account for the fact that not all of the
+observed hooks were fishing for the duration of the soak time.
 
-[@clark2008iphc]
-
-[@webster2011iphc]
-
-TODO The Yelloweye
-assessment also considered a model of hook competition TODO **mention Marie's if
-I don't get anything in. Note, however, that this work was not directly
-incorporated into the analysis in Appendix~C that was used as the survey index
-in the assessment model.
+@clark2008iphc and @webster2011iphc investigated this for the IPHC survey, to help
+estimate Pacific Halibut indices, and
+here we derive a model for hook competition based on their work (and our earlier
+notation). This has not yet been incorporated into our analyses but can be in
+the future, though this requires decisions concerning what to do in cases where none
+of the hooks are returned with bait on them (discussed below), which was not
+possible for this report.
 
 Extending the earlier notation, define:
 
@@ -631,12 +641,11 @@ $N_{its}^{(0)}$ -- the number of fish of species $s$ that we would expect to
 catch *in the absence of hook competition* on set $i=1,2,...,n_t$
 in year $t$, based on observed chum-bait hooks,
 
-$D_{its}$ -- true local density of species $s$ around set $i$ in year $t$,
-
 $F_{its}$ -- the local rate of capture of bait by species $s$ around set $i$ in
 year $t$.
 
-The number $N_{its}^{(0)}$ is proportional to the true local density, $D_{its}$, and so
+The number $N_{its}^{(0)}$ is proportional to the true local density of that 
+species, and so
 is what we wish to use as an index of abundance. And, by definition,
 \begin{equation}
 N_{its}^{(0)} = F_{its} H_{it},
@@ -646,8 +655,7 @@ where, as earlier, $H_{it}$ is the number of observed chum-bait hooks in set $i$
 in year $t$.
 
 
-Based on Clark:
-
+@clark2008iphc noted that
 "Mathematically the process of baits being removed from a longline by different
 species is the same as the process of fish being removed from a population by
 different fisheries and natural predators". Each species removes a certain
@@ -663,27 +671,31 @@ Z_{it} = \sum_s F_{its},
 \label{eq:Zit}
 \end{equation}
 and the soak time can be left out because there is no significant difference
-between shorter and longer soak times (the sets soak for at least five hours).
+between shorter and longer soak times [@webster2011iphc]; the sets soak for at least five hours.
 
-Substituting $F_{its} H_{it}$ into \@ref(eq:Nits) from \@ref(eq:Nits0) gives
+
+Substituting $F_{its} H_{it}$ from \@ref(eq:Nits0) into \@ref(eq:Nits) gives
 \begin{equation}
 N_{its} = \frac{N_{its}^{(0)} \left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}},
 \end{equation}
 which upon rearranging gives
 \begin{equation}
-N_{its}^{(0)} = \frac{N_{its} Z_{it}}{1 - \mathrm{e}^{- Z_{it}}},
+N_{its}^{(0)} = \frac{Z_{it}}{1 - \mathrm{e}^{- Z_{it}}} N_{its}.
 \label{eq:Nits0rearrange}
 \end{equation}
 
 Define $P_{it}$ to be the proportion of observed chum-bait hooks
-(for set $i$ in year $t$) that still have the bait on them (and are therefore
-assumed to be continuously actively fishing). The remaining baits are either 
-captured by a fish or lost TODO plus other options from table  ,  and considering
-lost bait to be another 'species', 
+(for set $i$ in year $t$) that are returned still having the bait on them (and are therefore
+assumed to be continuously actively fishing). The remaining baits are 
+captured by a fish or lost (either dropped off the hook or taken by a fish that
+was not
+subsequently caught by the hook). Considering
+lost bait (empty hooks) to be another 'species', the proportion of hooks
+returned with bait is, by definition,
 \begin{equation}
-P_{it} = 1 - \frac{\sum_s N_{its}}{H_{it}}
+P_{it} = 1 - \frac{\sum_s N_{its}}{H_{it}},
 \end{equation}
-such that 
+such that (upon rearrangement)
 \begin{equation}
 \sum_s N_{its} = {H_{it}} \left(1 -  P_{it} \right).
 \label{eq:sumsNits}
@@ -692,32 +704,46 @@ such that
 
 Now, summing \@ref(eq:Nits) over all species $s$ gives
 \begin{equation}
-\sum_s N_{its} = \sum_s F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}}
+\sum_s N_{its} = \sum_s F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}}.
 \end{equation}
 Substituting from \@ref(eq:sumsNits) and \@ref(eq:Zit) gives
 \begin{align}
 {{H_{it}}} \left(1 -  P_{it} \right) & = Z_{it} H_{it}
   \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}} \\
 1 -  P_{it} & = 
-  1 - \mathrm{e}^{- Z_{it}} \\
+  1 - \mathrm{e}^{- Z_{it}} 
+  \label{eq:oneminP} \\
 Z_{it} & = - \ln P_{it}.
+  \label{eq:zitP}
 \end{align}
 
-....Sub 19 and 20 into 14, to give the competition adjustment factor...... do in morning....
-
+Substituting \@ref(eq:oneminP) and \@ref(eq:zitP) into \@ref(eq:Nits0rearrange), gives
 \begin{align}
 N_{its}^{(0)} & = \frac{-\ln P_{it}}{1 - P_{it}} N_{its} \\
               & = A_{it} N_{its},
-\label{eq:Nits0rearrange}
+\label{eq:Nits0rearrange2}
 \end{align}
 where 
 \begin{equation}
-A_{it} = \frac{-\ln P_{it}}{1 - P_{it}},
+A_{it} = \frac{-\ln P_{it}}{1 - P_{it}}
 \end{equation}
-is the competition adjustment factor for each set in each year. It
-scales up the observed number of each species caught to give the expected number
-of species caught (accounting for hook competition), depending on the proportion $P_{it}$ of observed hooks
-that are returned still with bait on them.
+is the competition adjustment factor for each set in each year, and is shown
+in Figure\ \@ref(fig:iphc-hook-comp-adjustment).
+
+
+```{r iphc-hook-comp-adjustment, fig.cap="Plot of how the hook competition adjustment factor, $A_{it}$, varies with the proportion of hooks that are returned with bait, with the lowest proportion set to 1/800.", fig.pos="tb"}
+Pit <- c( seq(1/800, 0.1, length=200), seq(0.1  , 0.99, 0.01) )
+hook_adjust = - log(Pit) / (1 - Pit)
+plot(Pit, hook_adjust, ylim=c(0, max(hook_adjust)), type="l",
+     xlab = expression("Proportion of hooks with bait, P"[it]),
+     ylab = "Hook competition adjustment factor")
+````
+
+It scales up the observed number of each species caught, $N_{its}$, to give the expected number
+of species caught accounting for hook competition, $N_{its}^{(0)}$, depending on the
+proportion $P_{it}$ of observed hooks that are returned still with bait on them.
+
+\vspace{0mm}
 
 Note that, by definition, $0 \leq P_{it} \leq 1$, and so $\ln P_{it} \leq 0$. As
 $P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule 
@@ -731,8 +757,7 @@ such that $N_{its}^{(0)} = N_{its}$, which equals $0$ (because if all
 all hooks are returned with bait on then $N_{its} = 0$ 
 for all species $s$).  
 
-\ 
-
+\vspace{0mm}
 
 However, as $P_{it} \rightarrow 0$, $A_{it} \rightarrow
 \infty$, such that the expected number $N_{its}^{(0)} \rightarrow \infty$.
@@ -750,21 +775,21 @@ skate (i.e.\ all years except 1995 and 1996),
 `r nrow(filter(bait_set_counts, N_it20 == 0))`
 had $P_{it}=0$ for the first 20\ hooks.
 
-Therefore the choice of what to use for $A_{it}$ when $P_{it} = 0$ is important.
+Therefore the choice of what to use for $A_{it}$ when $P_{it} = 0$ is important,
+since it will often scale up the observed catch rates via equation 
+\@ref(eq:Nits0rearrange2).
 One option would be to set it to the value obtained if only one hook with bait
 is returned for a set. For a set with 800 observed hooks (essentially the
 maximum), the smallest possible positive value is $P_{it} = 1/800$, which gives
-$A_{it} = 6.69$.
+$A_{it} = 6.69$ (Figure\ \@ref(fig:iphc-hook-comp-adjustment)).
 
-```{r iphc-hook-comp-adjustment, fig.cap="Plot of how the hook competition adjustment factor varies with the proportion of hooks that are returned with bait, with the lowest proportion set to 1/800."}
-Pit <- c( seq(1/800, 0.1, length=200), seq(0.1  , 0.99, 0.01) )
-hook_adjust = - log(Pit) / (1 - Pit)
-plot(Pit, hook_adjust, ylim=c(0, max(hook_adjust)), type="l",
-     xlab = expression("Proportion of hooks with bait, P"[it]),
-     ylab = "Hook competition adjustment factor")
-````
+Figures \@ref(fig:iphc-hook-with-bait) and \@ref(fig:iphc-hook-with-bait-twenty)
+show how the number of hooks returned with baits in each set varies between years
+(though some of this is due to varying numbers of hooks returned). These show
+that the influence of hook competition may well vary between years, and thus if 
+hook competition is to be considered it needs to be carefully implemented.
 
-```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set, for each year in which all hooks were enumerated."}
+```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set, for each year in which all hooks were enumerated.", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it) ) +
     xlab("Number of hooks returned each year") +
@@ -773,7 +798,7 @@ ggplot(data=bait_set_counts,
     facet_wrap(. ~ year, ncol=4)
 ```
 
-```{r iphc-hook-with-bait-twenty, warning=FALSE, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait, for each year (except 1995 and 1996 for which this cannot be calculated)."}
+```{r iphc-hook-with-bait-twenty, warning=FALSE, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait, for each year (except 1995 and 1996 for which this cannot be calculated).", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it20)) +
     xlab("Number of hooks returned each year") +
@@ -782,20 +807,4 @@ ggplot(data=bait_set_counts,
     facet_wrap(. ~ year, ncol=4)
 # be good to have the 20 hook ones in different colour, or just do all N_it20 except for 1995 and 1996
 ```
-
-
-check that, see notes on p6, plot if time, code into gfplot..... save as separate folder
-
-No: And $F_{its}$ is also
-proportional to $D_{its}$, such that
-
-
-
-
-
-
-The
-
-
-
 \clearpage
