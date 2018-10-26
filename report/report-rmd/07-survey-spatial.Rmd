@@ -43,9 +43,10 @@ a covariance matrix $\bm{\Sigma}_\omega$ that is centered on zero:
 $$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
 
 We constrain the spatial random effects to follow a \mbox{Mat\'ern} covariance
-function, which defines the rate with which spatial correlation decays
-with distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern}
-function describes the covariance between spatial locations $s_j$ and $s_k$ as:
+function, which defines the rate with which spatial correlation decays with
+distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern} function
+describes the covariance between spatial locations $s_j$ and $s_k$ ($\Phi
+\left( s_j, s_k \right)$) as:
 
 $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
     (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
@@ -66,7 +67,7 @@ variation (Figure \@ref(fig:sdmTMB-spde)). By keeping track of a smaller number
 of knots than the full spatial data set, we can greatly increase computational
 efficiency. The model predictions can be projected to the original data
 locations or any new set of locations as long as an appropriate covariance
-matrix can be calculated. Higher numbers of knots result in a better
+matrix can be calculated [@latimer2009]. Higher numbers of knots result in a better
 approximation of the special random effects at a greater computational cost. We
 fit the spatial models with one less knot than the number of observations if
 there were greater than 200 observations and 200 knots otherwise. Following
