@@ -23,7 +23,7 @@ to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive estimates
 of biomass throughout the survey domain.
 
 Similarly to the commercial catch per unit effort standardization models
-(Section (\@ref(sec:cpue-models))), these models can be represented as Tweedie
+(Section \@ref(sec:cpue-models)), these models can be represented as Tweedie
 GLMMs with a log link:
 
 \begin{align}
