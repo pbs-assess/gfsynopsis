@@ -11,17 +11,16 @@ spatiotemporal index standardization of groundfish populations [e.g.
 @shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been
 shown, for example, to improve estimates of rockfish abundance and distribution
 [@shelton2014] and improve precision when estimating relative abundance indices
-for groundfish [@thorson2015]. Our specific model is implemented with INLA
-[@rue2009; @lindgren2015] and TMB [@kristensen2016] via R [@r2018], which
-enables rapid model fitting for these large spatial data sets.
+for groundfish [@thorson2015]. Our specific model is implemented with TMB
+[@kristensen2016] and INLA [@rue2009; @lindgren2015] via R [@r2018].
 
-At a high level, these models predict relative biomass in space as a continuous
-process with a quadratic effect for bottom depth, spatial random effects that
-represent an amalgamation of spatial processes not explicitly included in the
-model, and an observation error component. After fitting the model to survey
-sets from trawl or longline surveys, we then project the model predictions on
-to a fine-scale 2 $\times$ 2 km grid in a UTM 9 projection to derive estimates
-of biomass throughout the survey domain.
+At a high level, these models predict relative biomass or catch rate in space
+as a continuous process with a quadratic effect for bottom depth, spatial
+random effects that represent an amalgamation of spatial processes not
+explicitly included in the model, and an observation error component. After
+fitting the model to survey sets from trawl or longline surveys, we then
+project the model predictions onto a 2 $\times$ 2 km grid in a UTM 9 projection
+to derive estimates of biomass throughout the survey domain.
 
 Similarly to the commercial catch per unit effort standardization models
 (Section \@ref(sec:cpue-models)), these models can be represented as Tweedie
@@ -46,8 +45,8 @@ $$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$
 We constrain the spatial random effects to follow a \mbox{Mat\'ern} covariance
 function, which defines the rate with which spatial correlation decays with
 distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern} function
-describes the covariance between spatial locations $s_j$ and $s_k$ ($\Phi
-\left( s_j, s_k \right)$) as:
+describes the covariance $\Phi \left( s_j, s_k \right)$ between spatial
+locations $s_j$ and $s_k$ as:
 
 $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
     (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
@@ -58,8 +57,8 @@ Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents
 a scaling parameter that is estimated [e.g. @lindgren2011]. The parameter $\nu$
 controls the smoothness of the covariance function. We set $\nu = 1$, which
 lets us take advantage of the Stochastic Partial Differential Equation (SPDE)
-approximation to Gaussian Markov Random Fields (GMRF) [@lindgren2011] to
-greatly increase computational efficiency.
+approximation to Gaussian Markov Random Fields (GMRF) to greatly increase
+computational efficiency [@lindgren2011].
 
 Our spatial model falls into the general category of "predictive process"
 models [e.g. @latimer2009; @shelton2014; @anderson2018], in which the model
@@ -68,13 +67,13 @@ variation (Figure \@ref(fig:sdmTMB-spde)). By keeping track of a smaller number
 of knots than the full spatial data set, we can increase computational
 efficiency. The model predictions can be projected to the original data
 locations or any new set of locations as long as an appropriate covariance
-matrix can be calculated [@latimer2009]. Higher numbers of knots result in a better
-approximation of the spatial random effects at a greater computational cost. We
-fit the spatial models with one less knot than the number of observations if
-there were fewer than 200 observations and 200 knots otherwise. Following
-one common practice [e.g. @thorson2017b; @anderson2018] we chose the location of
-the knots with a k-means clustering algorithm with a fixed random seed to
-ensure reproducible results.
+matrix can be calculated [e.g. @latimer2009]. Higher numbers of knots result in
+a better approximation of the spatial random effects at a greater computational
+cost. We fit the spatial models with one less knot than the number of
+observations if there were fewer than 200 observations and 200 knots otherwise.
+Following one common practice [e.g. @shelton2014; @thorson2017b; @anderson2018]
+we chose the location of the knots with a k-means clustering algorithm with
+a fixed random seed to ensure reproducible results.
 
 Instead of directly modelling the effects of depth and depth squared, we first
 centred the log-transformed depth covariate by subtracting its mean and scaling
@@ -102,9 +101,7 @@ effects (Figure \@ref(fig:sdmTMB-maps-combined)D). We can inspect randomized
 quantile residuals in space to check for any remaining spatial correlation
 (Figure \@ref(fig:sdmTMB-resids)). We can also look at the predicted
 relationship between depth and biomass density across all the species (Figures
-\@ref(fig:sdmTMB-depth-all-plots1), \@ref(fig:sdmTMB-depth-all-plots2)). These
-plots provide some indication about which surveys encompass the entirety of the
-depth distribution for particular species.
+\@ref(fig:sdmTMB-depth-all-plots1), \@ref(fig:sdmTMB-depth-all-plots2)).
 
 ```{r sdmTMB-matern-demo, fig.asp=0.3, fig.width=8, fig.cap="An illustration of the effect of the $\\kappa$ parameter ('kappa') on the shape of the \\mbox{Mat\\'ern} correlation function with $\\nu = 1$. The vertical dashed line illustrates $\\sqrt{8\\nu} / \\kappa$, referred to as the 'range', which is a point at which the correlation decreases below 0.1."}
 library(dplyr)

@@ -3,7 +3,7 @@
 
 # SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
 
-Fisheries and Oceans, Canada (DFO) conducts a number of fishery-independent
+Fisheries and Oceans Canada conducts a number of fishery-independent
 multispecies research surveys annually or biannually. These include four
 synoptic bottom trawl surveys and two longline hook surveys. The survey areas
 correspond roughly with Groundfish Management areas that fishery quotas are
