@@ -145,6 +145,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
   sara_status <- spp$sara_status[spp$species_common_name == x]
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
+  cosewic_report <- spp$cosewic_status_reports[spp$species_common_name == x]
   .b_section <- spp$b_section[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
@@ -181,9 +182,15 @@ temp <- lapply(spp$species_common_name, function(x) {
       i <- i + 1
     }
   }
+  if (!is.na(cosewic_report)) {
+    if (cosewic_report != "") {
+      out[[i]] <- paste0("COSEWIC status report: ", cosewic_report, "\\")
+      i <- i + 1
+    }
+  }
   if (!is.na(cosewic_status)) {
     if (cosewic_status != "") {
-      out[[i]] <- paste0("COSEWIC status: ", cosewic_status)
+      out[[i]] <- paste0("COSEWIC status: @", cosewic_status)
       if (!is.na(sara_status))
         if (sara_status != "")
           out[[i]] <- paste0(out[[i]], ", SARA status: ", sara_status)
