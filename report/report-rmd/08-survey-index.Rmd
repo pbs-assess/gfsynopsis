@@ -56,7 +56,7 @@ data that are used in the annual assessment of Pacific Halibut
 (*Hippoglossus stenolepis*). In 2003, the IPHC provided the opportunity to
 deploy an additional technician to enumerate and identify catch to species on
 a hook-by-hook basis and to collect biological data on rockfishes during their
-2B survey operations (e.g. [@flemming2012iphc]). The complete enumeration of
+2B survey operations [e.g. @flemming2012iphc]. The complete enumeration of
 species during the IPHC survey was recorded in 1995, 1996, and in all survey
 years beginning in 2003. In the years between 1995 and 2003, and in 2013,
 regular species composition sampling occurred over the first 20 hooks (20%) on
@@ -199,7 +199,7 @@ $\bm{\Sigma}_\omega$:
 
 and we assume the same for the spatiotemporal random effects, with each time
 slice being given its own independent set of random effects ($\bm{\epsilon}_t$)
-with covariance matrice $\bm{\Sigma}_{\epsilon,t}$:
+with covariance matrix $\bm{\Sigma}_{\epsilon,t}$:
 
 \begin{equation}
 \bm{\epsilon}_t \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_{\epsilon,t} \right).
@@ -256,7 +256,7 @@ design-based index trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
 We found little difference in the predicted biomass index between models that
 included or did not include depth covariates (e.g. Figure
 \@ref(fig:sdmTMB-plot-index)). We found that the main difference between models
-with or without depth covariates was in the models with depth covariance having
+with or without depth covariates was in the models with depth covariates having
 slightly more spatially resolved estimates of biomass (Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)).
