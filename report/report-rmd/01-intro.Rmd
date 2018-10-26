@@ -197,6 +197,20 @@ PDF two-page view so that all the plots for a single species can be
 viewed at once. We also note that the table of contents and references
 are clickable hyperlinks to facilitate navigation.
 
+<!--
+ #sec:plot-descriptions
+
+ #sec:synopsis-plots-A
+
+ #sec:synopsis-plots-B
+
+ #sec:age-precision
+ #sec:data
+
+
+ #sec:cpue-models
+-->
+
 We made a number of overarching design decisions in structuring the
 report:
 
@@ -274,10 +288,9 @@ groundfish stocks. TODO a few more details on the utility of this.
 We plan to publish annual updates of this synopsis report as Science
 Response documents. These annual updates will include another year of
 data and any important corrections to the data, text, or visualizations.
-On a less frequent basis we will consider making any larger changes to
-the structure or content of the groundfish data synopsis report. We will
-consider these larger possible revisions approximately every three
-years.
+On a less frequent basis we will consider making larger changes to the
+structure or content of the report. We will consider these larger
+possible revisions approximately every three years.
 
 ## ACKNOWLEDGEMENTS
 
