@@ -123,7 +123,7 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
 
-(ref:catches-cap) Example commercial fishery catches plot for `r sp`. Catch from various gear types is indicated by colour shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, longline discards are considered less reliable prior to 100% observer coverage in 2006 and are often reported as discard counts without a reported weight and are not therefore not included. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
+(ref:catches-cap) Example plots of commercial fishery catches plot for `r sp`. Catch from various gear types is indicated by colour shading. Catch is calculated as the weight of landings plus discards aggregated by year; however, longline discards are considered less reliable prior to 100% observer coverage in 2006 and are often reported as discard counts without a reported weight and are not therefore not included. Years before 1996 and 2006 are shaded grey to indicate that they are considered less reliable: an at-sea observer program was implemented for bottom and midwater trawl fleets in outside waters in 1996 and an at-sea observer program was implemented for non-trawl sectors in 2006. Management areas, as indicated in the top left corner of each panel, are shown in Figure \@ref(fig:management-map).
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
 g$catch
@@ -154,7 +154,7 @@ g$cpue_index
 
 ## MAPS OF COMMERCIAL CATCH PER UNIT EFFORT
 
-```{r cpue-maps, fig.asp=1.47, fig.width=4.1, out.width="3.4in", fig.cap=paste0("Example commercial trawl and hook-and-line catch-per-unit-effort maps for ", sp, ". Lighter shading indicates higher levels of a geometric mean of catch per unit effort in a given hexagonal cell. Cells are 7 km wide and are only shown in cases where there are at least 3 unique vessels in a given cell to meet privacy requirements. For bottom trawl, catch per unit effort is calculated as the weight of catch (landings plus discards) divided by hours fished for all positive tows from the groundfish trawl sector. Trawl data are shown from 2013 onwards when the trawl footprint was frozen. For hook and line, catch per unit effort is shown as the number of fish recorded as landed or discarded per set. Hook-and-line data are shown from 2008 onwards. ", map_text)}
+```{r cpue-maps, fig.asp=1.47, fig.width=4.1, out.width="3.4in", fig.cap=paste0("Example commercial trawl and commercial hook-and-line catch-per-unit-effort maps for ", sp, ". Lighter shading indicates higher levels of a geometric mean of catch per unit effort in a given hexagonal cell. Cells are 7 km wide and are only shown in cases where there are at least 3 unique vessels in a given cell to meet privacy requirements. For bottom trawl, catch per unit effort is calculated as the weight of catch (landings plus discards) divided by hours fished for all positive tows from the groundfish trawl sector. Trawl data are shown from 2013 onwards when the trawl footprint was frozen. For hook and line, catch per unit effort is shown as the number of fish recorded as landed or discarded per set. Hook-and-line data are shown from 2008 onwards. ", map_text)}
 gridExtra::grid.arrange(
   g$cpue_spatial, # + checking_square,
   g$cpue_spatial_ll,
@@ -166,7 +166,7 @@ gridExtra::grid.arrange(
 
 ## AVAILABLE BIOLOGICAL SAMPLES {#sec:bio-samples}
 
-```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest appropriate round number.")}
+```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen-availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest appropriate round number.")}
 gridExtra::grid.arrange(
   g$survey_samples,
   g$comm_samples,
@@ -180,7 +180,7 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Is this min n for biosamples to be statistically significant? If so explain rationale. Which I may steal for my in-season halibut work! -->
 
-```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination to avoid misleading histograms. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length-frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination to avoid misleading histograms. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
 g$lengths
 ```
 
@@ -190,7 +190,7 @@ g$lengths
 
 ## AGE COMPOSITION DATA
 
-(ref:ages-cap) Example age frequency plot for `r sp`. Female fish are shown as coloured (or black) circles and male fish are shown behind as light grey circles. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for survey abbreviations. Ageing precision plots comparing precision of readings by two individuals ageing the fish are provided for all species for which age data exist in Appendix \@ref(sec:age-precision).
+(ref:ages-cap) Example age-frequency plot for `r sp`. Female fish are shown as coloured (or black) circles and male fish are shown behind as light grey circles. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for survey abbreviations. Ageing precision plots comparing precision of readings by two individuals ageing the fish are provided for all species for which age data exist in Appendix \@ref(sec:age-precision).
 
 ```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap="(ref:ages-cap)"}
 g$ages
@@ -213,11 +213,11 @@ cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 
 ## MATURITY
 
-```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity frequency by month plot for ", sp, ". Categories of maturity are listed from most immature to most mature from top to bottom. The area of the circles corresponds to the number of fish specimens in a given maturity category for a given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot.")}
+```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature to most mature from top to bottom. The area of the circles corresponds to the number of fish specimens in a given maturity category for a given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot.")}
 g$maturity_month
 ```
 
-```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age and length maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or at length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to samples from the entire year. See Appendix \\ref{sec:maturity-models} for details.")}
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age- and length-at-maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or at length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to samples from the entire year. See Appendix \\ref{sec:maturity-models} for details.")}
 cowplot::plot_grid(g$mat_age, g$mat_length, align = "v")
 ```
 
