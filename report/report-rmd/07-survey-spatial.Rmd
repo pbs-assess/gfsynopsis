@@ -11,9 +11,10 @@ spatiotemporal index standardization of groundfish populations [e.g.
 @shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been
 shown, for example, to improve estimates of rockfish abundance and distribution
 [@shelton2014] and improve precision when estimating relative abundance indices
-for groundfish [@thorson2015]. Our specific model is implemented with TMB
-[@kristensen2016] and INLA [@rue2009; @lindgren2015] in R [@r2018] via the
-R package sdmTMB, which we wrote for this purpose (Appendix \@ref(app:reproducibility)).
+for groundfish [@thorson2015]. Our specific model is fit with TMB
+[@kristensen2016] in R [@r2018] with the help of INLA [@rue2009; @lindgren2015]
+via the R package sdmTMB, which we wrote for this purpose (Appendix
+\@ref(app:reproducibility)).
 
 At a high level, these models predict relative biomass or catch rate in space
 as a continuous process with a quadratic effect for bottom depth, spatial
