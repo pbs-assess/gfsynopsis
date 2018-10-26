@@ -1,9 +1,5 @@
 # IPHC SURVEY INDEX {#sec:iphc-survey-index}
 
-
-<!-- Copying in from AppD-SurveysHookYYR15rev2.tex, simplifying down first in
- simplify.tex, then incrementally copying in what I want to here and converting to .Rmd-->
-
 ```{r iphc-examples}
 yyr_set_counts <- readRDS(paste0(file.path(dc, "iphc/yelloweye-rockfish.rds")))$set_counts
 dog_set_counts <- readRDS(paste0(file.path(dc, "iphc/north-pacific-spiny-dogfish.rds")))$set_counts
