@@ -230,3 +230,6 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
 
 \clearpage
 
+\vspace{0mm}
+
+\vspace{0mm}
