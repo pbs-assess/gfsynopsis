@@ -200,15 +200,15 @@ appendices:
    effort (CPUE) model that underlies the CPUE visualizations.
 
 1. Appendix \@ref(sec:spatial-modeling) provides details on the spatial
-   modeling behind the spatial survey biomass visualizations.
+   modelling behind the spatial survey biomass visualizations.
 
 1. Appendix \@ref(sec:survey-trend-models) provides details on the survey
-   biomass index modeling (except for the IPHC survey).
+   biomass index modelling (except for the IPHC survey).
 
 1. Appendix \@ref(sec:iphc-survey-index) provides details on the modelling for
    the IPHC survey time series.
 
-1. Appendix \@ref(sec:growth-and-maturity) provides details on modeling
+1. Appendix \@ref(sec:growth-and-maturity) provides details on modelling
    biological parameters.
 
 1. Appendix \@ref(sec:reproducibility) discusses the computational environment
