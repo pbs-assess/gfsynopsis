@@ -12,7 +12,8 @@ spatiotemporal index standardization of groundfish populations [e.g.
 shown, for example, to improve estimates of rockfish abundance and distribution
 [@shelton2014] and improve precision when estimating relative abundance indices
 for groundfish [@thorson2015]. Our specific model is implemented with TMB
-[@kristensen2016] and INLA [@rue2009; @lindgren2015] via R [@r2018].
+[@kristensen2016] and INLA [@rue2009; @lindgren2015] in R [@r2018] via the
+R package sdmTMB, which we wrote for this purpose (Appendix \@ref(app:reproducibility)).
 
 At a high level, these models predict relative biomass or catch rate in space
 as a continuous process with a quadratic effect for bottom depth, spatial
@@ -34,7 +35,7 @@ GLMMs with a log link:
 where $s$ represents a spatial location, $y_s$ represents observed fish density
 for a survey set, $\mu_s$ represents expected fish density, $p$ represents the
 Tweedie power parameter, and $\phi$ represents the Tweedie dispersion
-parameter. The vector $\bm{X_s}$ represents a vector of predictors (here
+parameter. The symbol $\bm{X_s}$ represents a vector of predictors (here
 a 1 for an intercept, depth, and depth squared) and $\bm{\beta}$ represents
 a corresponding vector of coefficients. The spatial random effects $\omega_s$
 are assumed to be drawn from a multivariate normal distribution with
