@@ -305,6 +305,8 @@ filter(dd, species %in% .sp[1:36]) %>%
   make_depth_plot()
 ```
 
+\clearpage
+
 (ref:depth-relationship2) Part 2 of Figure \@ref(fig:sdmTMB-depth-all-plots1). Caption is the same otherwise.
 
 ```{r sdmTMB-depth-all-plots, fig.width=10, fig.asp=1.3, out.width="\\textwidth", fig.cap="(ref:depth-relationship2)"}
