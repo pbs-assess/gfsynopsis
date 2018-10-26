@@ -50,7 +50,8 @@ for species with little data.
 
 The main results of this synopsis report are presented in two-page
 species-by-species subsections
-that visually synthesize most available data for each species. The report
+that visually synthesize most available data for each species. 
+(Sections\ \@ref(sec:synopsis-plots-A) and\ \@ref(sec:synopsis-plots-B)). The report
 focuses on the 110 species listed in the current BC groundfish strategic plan,
 and focuses on the surveys and data types applicable to the widest array of
 these fish stocks. The report includes 30 'A-level' species, which are
@@ -67,7 +68,8 @@ patterns on the right. The second page is focused on biological samples.
 This page begins at the top with length and age data and their
 relationship with each other, then shows data on maturity, and finishes
 with an overview of available numbers of sampled fish across all survey
-and commercial samples for various biological measurements.  
+and commercial samples for various biological measurements. Details of
+the figures are fully described in Section\ \@ref(sec:plot-descriptions).
 
 In terms of surveys, we have focused on the Synoptic Bottom Trawl
 surveys, the Outside Hard Bottom Long Line surveys (HBLL; alternatively
