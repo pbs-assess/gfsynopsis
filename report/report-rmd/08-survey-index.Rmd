@@ -1,6 +1,6 @@
 # SURVEY BIOMASS INDEX TRENDS {#sec:survey-trend-models}
 
-Fisheries and Oceans, Canada (DFO) conducts various fishery-independent
+Fisheries and Oceans, Canada (DFO) conducts a number of fishery-independent
 multispecies research surveys annually or biannually. These include four
 synoptic bottom trawl surveys and two longline hook surveys. The survey areas
 correspond roughly with Groundfish Management areas that fishery quotas are
@@ -51,7 +51,7 @@ is a fixed station survey that has been conducted annually, with chartered
 commercial fishing vessels deploying fixed gear, in Canadian waters (IPHC Area
 2B), since 1963. It provides distribution, biomass, age, growth and maturity
 data that are used in the annual assessment of Pacific Halibut
-(\emph{Hippoglossus stenolepis}). In 2003, the IPHC provided the opportunity to
+(*Hippoglossus stenolepis*). In 2003, the IPHC provided the opportunity to
 deploy an additional technician to enumerate and identify catch to species on
 a hook-by-hook basis and to collect biological data on rockfishes during their
 2B survey operations (e.g. [@flemming2012iphc]). The complete enumeration of
@@ -101,51 +101,51 @@ index trends for the trawl surveys for comparison Section
 ## TRAWL SURVEY DESIGN-BASED ESTIMATION {#sec:trawl-methods}
 
 For all trawl surveys, and for a given species, we calculated the relative
-biomass density $B$ in year $y$ as:
+biomass density $B$ in year $t$ as:
 
 \begin{equation}
-  B_y = \sum_{i = 1}^k C_{y,i} A_i
+  B_t = \sum_{i = 1}^k C_{t,i} A_i
 \end{equation}
 
-where $C_{y,i}$ represents the mean CPUE in kg/km^2^ for the species in year
-$y$ and stratum $i$, $A_i$ represents the area of stratum $i$ in km^2^, and $k$
-represents the number of strata. We calculated the CPUE ($C_{y,i}$) for a given
-species in year $y$ and stratum $i$ as:
+where $C_{t,i}$ represents the mean CPUE in kg/km^2^ for the species in year
+$t$ and stratum $i$, $A_i$ represents the area of stratum $i$ in km^2^, and $k$
+represents the number of strata. We calculated the CPUE ($C_{t,i}$) for a given
+species in year $t$ and stratum $i$ as:
 
 \begin{equation}
-  C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( W_{y,j} / D_{y,j} w_{y,j}\right)}{n_{y,i}}
+  C_{t,i} = \frac{\sum_{j = 1}^{n_{t,i}} \left( W_{t,j} / D_{t,j} w_{t,j}\right)}{n_{t,i}}
 \end{equation}
 
-where $W_{y,j}$ represents the catch weight (kg) for the species in year $y$,
-stratum $i$, and tow $j$; $D_{y,j}$ represents the distance travelled in km by
-tow $j$ in year $y$; $w_{y,j}$ represents the net opening width in km for year
-$y$ and tow $j$; and $n_{y,i}$ represents the number of tows in year $y$ and
+where $W_{t,j}$ represents the catch weight (kg) for the species in year $t$,
+stratum $i$, and tow $j$; $D_{t,j}$ represents the distance travelled in km by
+tow $j$ in year $y$; $w_{t,j}$ represents the net opening width in km for year
+$y$ and tow $j$; and $n_{t,i}$ represents the number of tows in year $t$ and
 stratum $i$.
 
 ## LONG-LINE SURVEY DESIGN-BASED ESTIMATION {#sec:ll-methods}
 
 For the HBLL surveys, and for a given species, we calculated the relative
-biomass density $B$ in year $y$ as:
+biomass density $B$ in year $t$ as:
 
 \begin{equation}
-  B_y = \sum_{i = 1}^k C_{y,i} A_i
+  B_t = \sum_{i = 1}^k C_{yt,i} A_i
 \end{equation}
 
-where $C_{y,i}$ represents the mean CPUE in parts (fish) per
-km\textsuperscript{2} for the species in year $y$ and stratum $i$, $A_i$
+where $C_{t,i}$ represents the mean CPUE in parts (fish) per
+km\textsuperscript{2} for the species in year $yt$ and stratum $i$, $A_i$
 represents the area of stratum $i$ in km^2^, and $k$ represents
-the number of strata. We calculated the CPUE ($C_{y,i}$) for a given species in
+the number of strata. We calculated the CPUE ($C_{t,i}$) for a given species in
 year $y$ and stratum $i$ as:
 
 \begin{equation}
   C_{y,i} = \frac{\sum_{j = 1}^{n_{y,i}} \left( N_{y,j} / H_{y,j} w_{y,j}\right)}{n_{y,i}}
 \end{equation}
 
-where $N_{y,j}$ represents the number of fish caught for the species in year
-$y$, stratum $i$, and set $j$; $H_{y,j}$ represents the number of hooks
-$\times$ the hook spacing in km in set $j$ in year $y$; $w_{y,j}$ represents an
-arbitrary swept width of 30 feet or 0.009144 km for year $y$ and tow $j$; and
-$n_{y,i}$ represents the number of sets in year $y$ and stratum $i$. The hook
+where $N_{t,j}$ represents the number of fish caught for the species in year
+$t$, stratum $i$, and set $j$; $H_{t,j}$ represents the number of hooks
+$\times$ the hook spacing in km in set $j$ in year $t$; $w_{t,j}$ represents an
+arbitrary swept width of 30 feet or 0.009144 km for year $t$ and tow $j$; and
+$n_{t,i}$ represents the number of sets in year $t$ and stratum $i$. The hook
 spacing is 8 feet or 0.0024384 km for the inside and outside HBLL surveys.
 
 Details on the design-based estimation of biomass density index for the IPHC
@@ -153,29 +153,29 @@ survey are shown in Section (TODO).
 
 ## DESIGN-BASED-INDEX CONFIDENCE INTERVALS
 
-We calculated bootstrap confidence intervals on $B_y$ by repeatedly calculating
-$B_y$ given the above equations but each time re-sampling, with replacement,
+We calculated bootstrap confidence intervals on $B_t$ by repeatedly calculating
+$B_t$ given the above equations but each time re-sampling, with replacement,
 from the available tows within each strata. We drew 1000 bootstrap replicates
-of $B_y$, $B_y^{\mathrm{rep}}$, and calculated 95% quantile-based confidence
-intervals on $B_y^{\mathrm{rep}}$.
+of $B_t$, $B_t^{\mathrm{rep}}$, and calculated 95% quantile-based confidence
+intervals on $B_t^{\mathrm{rep}}$.
 
 ## GEOSTATISTICAL SPATIOTEMPORAL BIOMASS INDEX TRENDS {#sec:geostatistical}
 
 TODO: Bring these notes together into cohesive paragraphs.
 
-In recent years there has been a movement toward model-based standardization
-of survey biomass index trends (e.g. REFS). This approach has a theoretical
+In recent years there has been a movement toward model-based standardization of
+survey biomass index trends (e.g. REFS). This approach has a theoretical
 advantage over a design-based approach for a number of reasons ... TODO.
 
-For comparison, we include model-based index trends for the synoptic trawl
-surveys. We include them as a point of comparison so the reader can gauge when
-the two approaches most differ. Large differences are likely a result of the
-random positioning of the survey sets for a given year, which can lead to
-occasional large production deviations and biomass from year to year or
-large uncertainties on the biomass estimate for certain years.
+TODO: add a few sentences here about the general reasons why we might prefer
+a spatial model over a design based model
 
-Authors of groundfish stock assessments may want to consider model-based index
-standardization on a case-by-case basis.
+We include model-based index trends for the synoptic trial surveys as a point
+of comparison so the reader can gauge when the two approaches may differ. Large
+differences are likely a result of the random positioning of the survey sets
+for a given year ending up in particularly good or poor habitat for a given
+species. Authors of groundfish stock assessments may want to consider
+model-based index standardization on a case-by-case basis.
 
 We use the geostatistical model as described in Section
 (\@ref(sec:spatial-modeling)) with the addition of spatiotemporal random
@@ -187,7 +187,7 @@ effects ($\epsilon_{s,t}$) and annual predictors for the mean biomass each year:
 \end{align}
 
 as with the spatial model, the spatial random effects ($\omega_s$) are assumed
-drawn from a multivariate normal distribution with some covariance matrix
+to be drawn from a multivariate normal distribution with some covariance matrix
 $\bm{\Sigma}_\omega$:
 
 \begin{equation}
@@ -195,90 +195,78 @@ $\bm{\Sigma}_\omega$:
 \end{equation}
 
 and we assume the same for the spatiotemporal random effects, with each time
-slice being given its own independent set of random effects:
+slice being given its own independent set of random effects ($\bm{\epsilon}_t$)
+with covariance matrice $\bm{\Sigma}_{\epsilon,t}$:
 
 \begin{equation}
 \bm{\epsilon}_t \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_{\epsilon,t} \right).
 \end{equation}
 
-TODO: Describe equations
-
-The spatial random effects account for spatial factors that are constant
-through year, for example, depth and substrate type. The spatiotemporal random
-effects account for factors that vary from year to year spatially such as
-bottom temperature, circulation patterns, species interactions, and species
+The spatial random effects account for spatial factors that are constant across
+time, for example, depth and substrate type. The spatiotemporal random effects
+account for factors that vary from year to year spatially such as bottom
+temperature, water circulation patterns, species interactions, and species
 movement.
 
-The approach includes the same generation of spatial 'knots' to make the
+Here we use Pacific Cod as an example species to illustrate the model
+components. The approach includes the same generation of spatial "knots" as in
+the spatial model described in Appendix \@ref(sec:spatial-modeling) to make the
 problem computationally feasible through the SPDE (stochastic partial
 differential equation) approximation and a predictive process model (Figure
-\@ref(fig:sdmTMB-spt-spde)). Here, we use 200 knots, which for spatial coverage
-of the synoptic trawl surveys, seems to be of adequately high resolution to
+\@ref(fig:sdmTMB-spt-spde)). We use 200 knots, which for spatial coverage of
+the synoptic trawl surveys, seems to be of adequately high resolution to
 capture the spatial and spatiotemporal variation. We tested this assumption by
 increasing the number of knots for a selection of species and ensuring that the
 estimated trends did not qualitatively differ.
 
-
-We use Pacific Cod as an example species to illustrate the model components.
-
-We can project predictions from the model to a fine-scale (2 $\times$ 2 km) grid
-using the covariance projection matrix generated by INLA... (Figures
-\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt)).
-
-We chose to not include depth and depth squared as predictors in this model for
-simplicity and because it made little difference to the biomass index
-estimates. While in nearly all cases including depth covariates generated
-a similar index, in a few cases it generated what appeared to be unrealistic
-estimates of biomass when a combination of the quadratic shape of the
-relationship between depth and biomass combined to generate exceedingly high
-estimates of biomass on the border of the survey polygons. This remains a topic
-of research and will be investigated by the authors in the future.
-
-We can look at the individual components of the model. For the models without
-fixed effect predictors for depth, the fixed effect predictions each year are
-constant spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)). The
-spatial random effects are constant across years (Figure
+We can project predictions from the model to a fine-scale (2 km $\times$ 2 km)
+grid using the covariance projection matrix (Figures
+\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt)). We can also look at the
+individual components of the model. For the models without fixed effect
+predictors for depth, the fixed effect predictions each year are constant
+spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)). The spatial random
+effects are constant across years (Figure
 \@ref(fig:sdmTMB-spt-plot-fixed-effects)) and the spatiotemporal random effects
 vary across years (Figure \@ref(fig:sdmTMB-spt-plot-spatiotemporal-effects)).
-
 We can look at residuals through space and time to check if there appears to be
 remaining spatial or spatiotemporal autocorrelation (Figure
 \@ref(fig:sdmTMB-spt-spatial-residuals)).
 
-By summing the predicted biomass across all grid cells within the survey
-boundary, we can generate a biomass estimate through time (Figure
-\@ref(fig:sdmTMB-plot-index)).
-
-We then calculate expected biomass $b_t$ in year $t$ as:
+We can then calculate expected biomass $b_t$ in year $t$ as:
 
 \begin{equation}
-b_t = \sum_{s = 1}^{n_s}
-  w_s \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right),
+b_t = \sum_{j = 1}^{n_j}
+  w_j \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right),
 \end{equation}
 
-where ...
+where $j$ references a 2 km $\times$ 2 km grid cell within the survey domain
+and $w_j$ represents the weight or area of that grid cell (4 km^2^) (Figure
+\@ref(fig:sdmTMB-plot-index)). In other words, we sum the predicted biomass
+across all grid cells within the survey domain for each year. We generated
+standard errors on the annual estimates of log biomass via the generalized
+Delta method as implemented in TMB [@kristensen2016].
 
-We generated the standard errors on the annual
-estimates of log biomass via the generalized Delta method as implemented in
-TMB.
+Similar to the findings of @thorson2015, we found that the model-based biomass
+index trends often had lower CVs than the design-based index trends and often
+helped stabilize biomass estimates for outlying years compared to the
+design-based index trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
 
-Similar to the findings of @thorson2015, we find that the model-based biomass
-index trends often have lower CVs than the design-based index trends and often
-help stabilize biomass estimates for outlying years in the design-based index
-trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
-
-We find little difference in the predicted biomass index for most stocks when
-comparing... (e.g. Figure \@ref(fig:sdmTMB-plot-index)). The main difference
-lies in the model with depth predictors having slightly more spatially resolved
-estimates of biomass in space (Figure
+We found little difference in the predicted biomass index between models that
+included or did not include depth covariates (e.g. Figure
+\@ref(fig:sdmTMB-plot-index)). We found that the main difference between models
+with or without depth covariates was in the models with depth covariance having
+slightly more spatially resolved estimates of biomass (Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)).
 
-\clearpage
-
-<!-- We can look at the spatial random effects but represent consistent deviations in space through time that are not accounted for by our fixed effects of depth. In other words, these deviations represent consistent biotic and abiotic factors that are affecting biomass density but are not accounted for in the model. -->
-
-<!-- And finally we can look at the spatiotemporal random effects that represent deviation from the fixed effect predictions and the spatial random effect deviations. These represent biotic and abiotic factors that are changing through time and are not accounted for in the model. -->
+We chose to not include depth and depth squared as predictors in the main index
+illustrated throughout this report. Whereas in nearly all cases including depth
+covariates generated a similar index to excluding them, in a few cases
+including them generated what appeared to be unrealistic deviations in biomass
+when a combination of the quadratic shape of the relationship between depth and
+biomass combined to generate exceedingly high over low estimates of biomass on
+the border of the survey polygons. This remains a topic of research and will be
+investigated by the authors in the future.
 
 ```{r sdmTMB-spt-data}
 library(dplyr)
