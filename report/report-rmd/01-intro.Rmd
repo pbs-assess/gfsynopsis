@@ -192,8 +192,8 @@ the species for
 which ageing data exist and that are included in this report.
 2. Appendix \@ref(sec:data) provides details on the data extraction from the relational
 databases that hold the raw data.
-3. Appendix \@ref(sec:cpue-models) provides details on the CPUE
-model that underlies the CPUE visualizations.
+3. Appendix \@ref(sec:cpue-models) provides details on the catch per unit effort
+(CPUE) model that underlies the CPUE visualizations.
 4. Appendix \@ref(sec:spatial-modeling) provides details on the spatial modeling behind
 the spatial survey biomass visualizations.
 5. Appendix \@ref(sec:survey-trend-models) provides details on the survey
@@ -242,8 +242,8 @@ data for a species at once.
 facilitate tracing a single survey throughout the plots.
 
 1. The colour scales are consistent for the survey maps and survey
-biological specimen number plots and for the commercial catch per unit
-effort maps and commercial biological specimen number plots (the bottom
+biological specimen number plots and for the commercial CPUE
+maps and commercial biological specimen number plots (the bottom
 plots on both pages).
 
 1. Data on female fish are always shown in front of data on male fish and
@@ -260,7 +260,7 @@ a species in an area, such information is best combined with other information
 such as removals by commercial catches and information on the age- or
 length-composition of the stock to make conclusions about the status of
 a stock. Second, biomass indices from trawl or longline surveys and commercial
-catch per unit effort indices need careful interpretation on a stock-by-stock
+CPUE indices need careful interpretation on a stock-by-stock
 basis. We have attempted to flag survey index trends that may be especially
 suspect either because of high survey variability or because only a small
 fraction of trawl or longline sets containing the species, but this is not
@@ -268,7 +268,7 @@ a guarantee in itself. Survey indices are not always representative of
 abundance for a variety of reasons --- changes through time, including fish
 behavioural changes or range shifts, could also result in biases through time.
 
-Commercial catch per unit effort (CPUE) timeseries, even when
+Commercial catch per unit effort timeseries, even when
 standardized for consistent time of year, depth, latitude, and vessel
 need to be considered even more carefully. There are a multitude of
 reasons why commercial CPUE trends may not represent underlying trends
