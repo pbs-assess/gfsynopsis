@@ -66,7 +66,7 @@ deployed on the IPHC survey to identify all catch to the species level on a
 hook-by-hook basis and to conduct biological sampling [@flemming2012iphc], although
 in 2013 there was no such observer. Observers were also deployed prior to 2003,
 although data are not available in such detail, as summarised in
-Table \ref{tab:IPHCdata}. For some years only the first 20&nbsp;hooks from each skate
+Table \@ref(tab:IPHCdata). For some years only the first 20&nbsp;hooks from each skate
 were enumerated, and for other years all hooks were enumerated but the data are
 only available at the set level (i.e.&nbsp;we do not know which hook caught which
 species, only how many individuals from each species were caught on the whole
@@ -124,7 +124,7 @@ Rockfish shared drive, and effective skates were obtained from Aaron Ranta
 data were in the file "2B AllSpecies 96-02 roundIII.xls", which originally
 came from the IPHC. $^3$For 2013 the data were in the file "2013 20-Hook
 Data.xls", which originally came from the IPHC. For easier access, the data from
-spreadsheets are now all included in our ```gfplot``` package.}
+spreadsheets are now all included in our gfplot package.}
 \label{tab:IPHCdata}
 \begin{tabular}{llllc}
   \hline
