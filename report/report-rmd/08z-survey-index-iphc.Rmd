@@ -60,9 +60,6 @@ were extended to demonstrate that the index based on waters north of Vancouver
 Island could be considered representative of the coastwide population. See
 those examples for worked examples of most of the following calculations.
 
-TODO: Put in main text: This work demonstrates that a consistent index can be constructed despite the
-survey design changing through the years. 
-
 ## IPHC DATA 
 
 In British Columbia waters (IPHC area 2B), since 2003 a third observer has been
@@ -520,10 +517,10 @@ are not available.
 If $p_{AB} < 0.05$ then we cannot join the series, and so we stick with
 Series&nbsp;A as being the longest. 
 
-TODO Too much to go through a species, but show summary information table for
+<!-- Too much to go through a species, but show summary information table for
 each year, number of usable sets coastwide and north of VI, 
 mean effective skate number based on all hooks and based on
-first 20.
+first 20.-->
 
 
 ### CONSTRUCTING SERIES&nbsp;D (20 HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;A (20 HOOKS, NORTH OF VANCOUVER ISLAND) {#sec:iphc-AD}
