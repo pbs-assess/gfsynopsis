@@ -1,7 +1,7 @@
 # INTRODUCTION {#sec:intro}
 
-The combination of fishery-dependent data, such as catch and effort, and
-fishery-independent survey data, such as biomass indices and age
+The combination of fishery dependent data, such as catch and effort, and
+fishery independent survey data, such as biomass indices and age
 compositions, form the backbone of most fisheries stock assessment.
 Fisheries and Oceans Canada (DFO) at the Pacific Biological Station
 (PBS) manages vast quantities of such data on groundfish species in
@@ -10,15 +10,14 @@ stock assessment scientists) lack the capacity to conduct formal stock
 assessments for most stocks annually, and therefore, much of these data
 are not regularly published or readily accessible.
 
-As one step to address this problem, we have created this data synopsis
+As one step to address this problem, we have created a data synopsis
 report to give a snapshot of long-term and recent population and fishing
-trends, as well as data availability, for all major British Columbia groundfish
+trends and data availability for all major British Columbia groundfish
 stocks of commercial and conservation interest. The report is an
 extension of the data scorecard concept discussed at a Canadian Science
 Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
 [@macdougall2016]. We plan to publish this report as a CSAS Research
-Document in its first year and to update the report annually
-(excluding any unchanged methods) as a CSAS
+Document in its first year and to update the report annually as a CSAS
 Science Response in subsequent years. The report generation is fully
 automated --- pulling data from databases, fitting models, generating
 visualizations, and stitching the document together to facilitate rapid
@@ -26,8 +25,8 @@ publication, reproducibility, and transparency.
 
 <!-- TODO: Fix proceedings reference should be DFO as author -->
 
-Our goals with this report are to (1) facilitate regular review by
-groundfish scientists and managers of trends of trends in survey
+Our (the authors') goals with this report are to (1) facilitate
+groundfish scientists and managers regularly reviewing trends in survey
 indices and stock composition across all stocks to potentially flag
 stocks for prioritized assessment; (2) generate standardized datasets,
 biological model fits, and visualizations that will help assessment
@@ -37,26 +36,16 @@ data-limited and data-moderate groundfish stocks; and (3) increase data
 transparency between Fisheries and Oceans Canada, the fishing industry,
 First Nations, non-governmental organizations, and the general public.
 
-A major caveat of this work is that it is not feasible for us to properly
-review the results for all 110 species. To use the results for a particular
-species in future assessments, or to make other inferences),
-we highly recommend that users carefully look at the data and model results.
-**TODO: not sure if that sounds like a bit of a cop-out?**
-Due to the necessary automation required to construct this report, not all
-species-specific special cases may have have been fully considered, particularly
-for species with little data.
-
 ## REPORT STRUCTURE
 
-The main results of this synopsis report are presented in two-page
-species-by-species subsections
-that visually synthesize most available data for each species.
-(Sections\ \@ref(sec:synopsis-plots-A) and\ \@ref(sec:synopsis-plots-B)). The report
-focuses on the 110 species listed in the current BC groundfish strategic plan,
-and focuses on the surveys and data types applicable to the widest array of
-these fish stocks. The report includes 30 'A-level' species, which are
-identified as the main species of commercial and conservation interest followed
-by 80 'B-level' species.
+The synopsis report is comprised of two-page species-by-species subsections
+that visually synthesize most available data for each species. See  
+\@ref(sec:data) for thorough documentation of how and what data were extracted. 
+The report focuses on the 110 species listed in the current BC groundfish 
+strategic plan, and focuses on the surveys and data types applicable to the 
+widest array of these fish stocks. The report includes 30 'A-level' species, 
+which are identified as the main species of commercial and conservation 
+interest followed by 80 'B-level' species.
 
 Each set of pages for a single species is laid out in the same way. A
 set of pages starts with the species common name, the species scientific
@@ -68,14 +57,13 @@ patterns on the right. The second page is focused on biological samples.
 This page begins at the top with length and age data and their
 relationship with each other, then shows data on maturity, and finishes
 with an overview of available numbers of sampled fish across all survey
-and commercial samples for various biological measurements. Details of
-the figures are fully described in Section\ \@ref(sec:plot-descriptions).
+and commercial samples for various biological measurements.
 
 In terms of surveys, we have focused on the Synoptic Bottom Trawl
 surveys, the Outside Hard Bottom Long Line surveys (HBLL; alternatively
 referred to as the Pacific Halibut Management Association, PHMA,
-surveys), and the International Pacific Halibut Commission (IPHC) Fishery
-Independent Setline surveys (Figure \@ref(fig:intro-maps))
+surveys), and the International Pacific Halibut Commission (IPHC) Fishery 
+Independent Setline surveys (Fig. \@ref(fig:intro-maps)) 
 because these provide the greatest spatial and
 taxonomic coverage of the stocks in this report. As an example, we are
 not showing biomass index trends or maps from the Sablefish trap
@@ -180,33 +168,35 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
-```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="3.5in", fig.pos="tb"}
+
+```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="4in"}
 knitr::include_graphics("figure/3CD5ABCDE.png")
 ```
 
-Following the species-by-species visualizations, we include a section
-providing details on the data extraction from the relational databases
-that hold the raw data, a section providing details on the models that
-underlie some of the visualizations, and finally a bibliography
-including all references listed on the figure pages themselves. In
-navigating the report, we suggest that the report is best viewed in a
+Following the species-by-species visualizations, we include the following 
+appendices:
+1. Appendix (\@ref(sec:age-precision)) shows precision of age determination for species for 
+which ageing data exist and are included in this report
+2. Appendix (\@ref(sec:data)) provides details on the data extraction from the relational 
+databases that hold the raw data
+3. Appendix (\@ref(sec:cpue-models)) provides details on the catch per unit effort model 
+that underlies the cpue visualizations 
+4. Appendix (\@ref(sec:spatial-modeling)) provides details on the spatial modeling behind  
+spatial survey biomass visualizations 
+5. Appendix (\@ref(sec:survey-trend-models)) provides details on the survey biomass index modeling 
+6. Appendix (\@ref(sec:iphc-survey-index)) provides details on the survey 
+biomass index modeling for the IPHC survey timeseries
+7. Appendix (\@ref(sec:growth-and-maturity)) provides details on modeling 
+biological parameters
+8. Appendix (\@ref(sec:reproducibility)) discusses computational environment 
+and reproducibility from databases to assessments and other science products
+
+a bibliography including all references listed on the figure pages themselves
+
+In navigating the report, we suggest that the report is best viewed in a
 PDF two-page view so that all the plots for a single species can be
-viewed at once. We also note that the table of contents and references
-are clickable hyperlinks to facilitate navigation.
-
-<!--
- #sec:plot-descriptions
-
- #sec:synopsis-plots-A
-
- #sec:synopsis-plots-B
-
- #sec:age-precision
- #sec:data
-
-
- #sec:cpue-models
--->
+viewed at once. We also note that the table of contents, alphabetized species 
+lists and references are clickable hyperlinks to facilitate navigation.
 
 We made a number of overarching design decisions in structuring the
 report:
@@ -235,20 +225,21 @@ more important in stock assessment models.
 
 ## CAVEATS
 
-There are many caveats when interpreting this report. First, the synopsis
-report is not intended to be a substitute for stock assessment. For example,
-although relative biomass indices from surveys indicate the biomass trend for
-a species in an area, such information is best combined with other information
-such as removals by commercial catches and information on the age- or
-length-composition of the stock to make conclusions about the status of
-a stock. Second, biomass indices from trawl or longline surveys and commercial
-catch per unit effort indices need careful interpretation on a stock-by-stock
-basis. We have attempted to flag survey index trends that may be especially
-suspect either because of high survey variability or because only a small
-fraction of trawl or longline sets containing the species, but this is not
-a guarantee in itself. Survey indices are not always representative of
-abundance for a variety of reasons --- changes through time, including fish
-behavioural changes or range shifts, could also result in biases through time.
+There are many caveats when interpreting this report. First, the
+synopsis report is not intended to be a substitute for stock assessment.
+For example, although relative biomass indices from surveys can indicate
+the biomass trend for a species in an area, such information is best
+combined with other information such as removals by commercial catches
+and information on the age- or length-composition of the stock to make
+conclusions about the status of a stock. Second, biomass indices
+from trawl or longline surveys and commercial catch per unit effort
+indices need careful interpretation on a stock-by-stock basis. We have
+attempted to flag survey index trends that may be especially suspect
+either because of high survey variability or because only a small fraction
+of trawl or longline sets containing the species, but this is not a
+guarantee in itself. Survey indices are not always representative of
+abundance for a variety of reasons --- changes through time, including
+fish behavioural changes, could also result in biases through time.
 
 Commercial catch per unit effort (CPUE) timeseries, even when
 standardized for consistent time of year, depth, latitude, and vessel
@@ -256,38 +247,31 @@ need to be considered even more carefully. There are a multitude of
 reasons why commercial CPUE trends may not represent underlying trends
 in abundance [e.g. @harley2001]. Nonetheless, we think there is value in
 transparently displaying the available data for all species.
-The commercial catch presented here may not be the best representation and
-won't necessarily match reconstructed timeseries in stock assessments.
-Historic catch reconstructions require careful species-specific
-consideration and analysis. Fluctuations in commercial catch, for example
-recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't
-necessarily reflect declines in stock abundance and may be due to other factors
-including implementation of management measures. The discards in the catch
-plot do not include those from the hook and line fisheries. Longline discards
-are considered less reliable prior to 100% observer coverage in 2006 and are
-often reported as discard counts without a reported weight. These discards
+The commercial catch presented here may not be the best representation and 
+won't necessarily match reconstructed timeseries in stock assessments. 
+Historic catch reconstructions require careful species-specific 
+consideration and analysis. Fluctuations in commercial catch, specifically 
+recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't 
+necessarily reflect declines in stock abundance and may be due to other factors 
+including implementation of management measures. The discards in the catch 
+plot do not include those from the hook and line fisheries. Longline discards 
+are considered less reliable prior to 100% observer coverage in 2006 and are 
+often reported as discard counts without a reported weight. These discards 
 are therefore not included in catch shown here.
 
-TODO: build on this section
 
-<!--
-We developed the gfplot R package to conduct all the data extraction, data
-manipulation, model fitting, and plotting in the data synopsis report. The
-package is designed to be modular so it can be used in various capacities for
-other groundfish analyses (Figure \@ref(fig:gfplot-web)). For example, the
-package is intended to facilitate pulling data directly into analyses for the
-forthcoming management procedure framework for data-limited and data-moderate
-groundfish stocks. TODO a few more details on the utility of this.
--->
+
+TODO: build on this section
 
 ## UPDATE SCHEDULE
 
 We plan to publish annual updates of this synopsis report as Science
 Response documents. These annual updates will include another year of
 data and any important corrections to the data, text, or visualizations.
-On a less frequent basis we will consider making larger changes to the
-structure or content of the report. We will consider these larger
-possible revisions approximately every three years.
+On a less frequent basis we will consider making any larger changes to
+the structure or content of the groundfish data synopsis report. We will
+consider these larger possible revisions approximately every three
+years.
 
 ## ACKNOWLEDGEMENTS
 
