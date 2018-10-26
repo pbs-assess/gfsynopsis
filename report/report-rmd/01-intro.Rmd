@@ -176,6 +176,7 @@ knitr::include_graphics("figure/3CD5ABCDE.png")
 \vspace{0mm}
 Following the species-by-species visualizations, we include the following
 appendices:
+
 1. Appendix (\@ref(sec:age-precision)) shows precision of age determination for species for
 which ageing data exist and are included in this report
 2. Appendix (\@ref(sec:data)) provides details on the data extraction from the relational
