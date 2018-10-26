@@ -246,7 +246,7 @@ plots.
 
 1. We have limited the report to two pages per species so that all plots
 can be laid out at once on a screen in a PDF. The data presentation is
-dense, but we believe there is value in being able to compare all the
+dense, but we believe there is value in being able to examine all the
 data for a species at once.
 
 1. The colours representing the various surveys are held constant to
