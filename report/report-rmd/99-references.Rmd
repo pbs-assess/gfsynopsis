@@ -1,4 +1,6 @@
-# References {#sec:references}
+\clearpage
+
+# REFERENCES {#sec:references}
 
 <!--This manually sets the header for this unnumbered chapter.-->
 \markboth{References}{References}

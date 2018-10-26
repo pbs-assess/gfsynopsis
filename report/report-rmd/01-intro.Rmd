@@ -187,22 +187,25 @@ knitr::include_graphics("figure/3CD5ABCDE.png")
 Following the species-by-species visualizations, we include the following
 appendices:
 
-1. Appendix (\@ref(sec:age-precision)) shows precision of age determination for species for
-which ageing data exist and are included in this report
-2. Appendix (\@ref(sec:data)) provides details on the data extraction from the relational
-databases that hold the raw data
-3. Appendix (\@ref(sec:cpue-models)) provides details on the catch per unit effort model
-that underlies the cpue visualizations
-4. Appendix (\@ref(sec:spatial-modeling)) provides details on the spatial modeling behind
-spatial survey biomass visualizations
-5. Appendix (\@ref(sec:survey-trend-models)) provides details on the survey biomass index modeling
-6. Appendix (\@ref(sec:iphc-survey-index)) provides details on the survey
-biomass index modeling for the IPHC survey timeseries
-7. Appendix (\@ref(sec:growth-and-maturity)) provides details on modeling
-biological parameters
-8. Appendix (\@ref(sec:reproducibility)) discusses computational environment
-and reproducibility from databases to assessments and other science products
-9. Appendix (\@ref(sec:references)) a bibliography including all references listed on the figure pages themselves
+1. Appendix \@ref(sec:age-precision) shows precision of age determination for
+the species for
+which ageing data exist and that are included in this report.
+2. Appendix \@ref(sec:data) provides details on the data extraction from the relational
+databases that hold the raw data.
+3. Appendix \@ref(sec:cpue-models) provides details on the CPUE
+model that underlies the CPUE visualizations.
+4. Appendix \@ref(sec:spatial-modeling) provides details on the spatial modeling behind
+the spatial survey biomass visualizations.
+5. Appendix \@ref(sec:survey-trend-models) provides details on the survey
+   biomass index modeling (except for the IPHC survey).
+6. Appendix \@ref(sec:iphc-survey-index) provides details on the
+modelling for the IPHC survey time series.
+7. Appendix \@ref(sec:growth-and-maturity) provides details on modeling
+biological parameters.
+8. Appendix \@ref(sec:reproducibility) discusses the computational environment that
+enables reproducibility from data extraction, data manipulation, model fitting
+and visualization to the generation of this report.
+9. Appendix \@ref(sec:references) contains the bibliography, including those references listed on the figure pages.
 
 Following the species-by-species visualizations, we include a section
 providing details on the data extraction from the relational databases
