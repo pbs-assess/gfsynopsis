@@ -39,12 +39,12 @@ First Nations, non-governmental organizations, and the general public.
 ## REPORT STRUCTURE
 
 The synopsis report is comprised of two-page species-by-species subsections
-that visually synthesize most available data for each species. See  
-\@ref(sec:data) for thorough documentation of how and what data were extracted. 
-The report focuses on the 110 species listed in the current BC groundfish 
-strategic plan, and focuses on the surveys and data types applicable to the 
-widest array of these fish stocks. The report includes 30 'A-level' species, 
-which are identified as the main species of commercial and conservation 
+that visually synthesize most available data for each species. See
+\@ref(sec:data) for thorough documentation of how and what data were extracted.
+The report focuses on the 110 species listed in the current BC groundfish
+strategic plan, and focuses on the surveys and data types applicable to the
+widest array of these fish stocks. The report includes 30 'A-level' species,
+which are identified as the main species of commercial and conservation
 interest followed by 80 'B-level' species.
 
 Each set of pages for a single species is laid out in the same way. A
@@ -62,8 +62,8 @@ and commercial samples for various biological measurements.
 In terms of surveys, we have focused on the Synoptic Bottom Trawl
 surveys, the Outside Hard Bottom Long Line surveys (HBLL; alternatively
 referred to as the Pacific Halibut Management Association, PHMA,
-surveys), and the International Pacific Halibut Commission (IPHC) Fishery 
-Independent Setline surveys (Fig. \@ref(fig:intro-maps)) 
+surveys), and the International Pacific Halibut Commission (IPHC) Fishery
+Independent Setline surveys (Fig. \@ref(fig:intro-maps))
 because these provide the greatest spatial and
 taxonomic coverage of the stocks in this report. As an example, we are
 not showing biomass index trends or maps from the Sablefish trap
@@ -173,29 +173,35 @@ gridExtra::grid.arrange(g, g2, nrow = 1)
 knitr::include_graphics("figure/3CD5ABCDE.png")
 ```
 
-Following the species-by-species visualizations, we include the following 
+\vspace{0mm}
+Following the species-by-species visualizations, we include the following
 appendices:
-1. Appendix (\@ref(sec:age-precision)) shows precision of age determination for species for 
+1. Appendix (\@ref(sec:age-precision)) shows precision of age determination for species for
 which ageing data exist and are included in this report
-2. Appendix (\@ref(sec:data)) provides details on the data extraction from the relational 
+2. Appendix (\@ref(sec:data)) provides details on the data extraction from the relational
 databases that hold the raw data
-3. Appendix (\@ref(sec:cpue-models)) provides details on the catch per unit effort model 
-that underlies the cpue visualizations 
-4. Appendix (\@ref(sec:spatial-modeling)) provides details on the spatial modeling behind  
-spatial survey biomass visualizations 
-5. Appendix (\@ref(sec:survey-trend-models)) provides details on the survey biomass index modeling 
-6. Appendix (\@ref(sec:iphc-survey-index)) provides details on the survey 
+3. Appendix (\@ref(sec:cpue-models)) provides details on the catch per unit effort model
+that underlies the cpue visualizations
+4. Appendix (\@ref(sec:spatial-modeling)) provides details on the spatial modeling behind
+spatial survey biomass visualizations
+5. Appendix (\@ref(sec:survey-trend-models)) provides details on the survey biomass index modeling
+6. Appendix (\@ref(sec:iphc-survey-index)) provides details on the survey
 biomass index modeling for the IPHC survey timeseries
-7. Appendix (\@ref(sec:growth-and-maturity)) provides details on modeling 
+7. Appendix (\@ref(sec:growth-and-maturity)) provides details on modeling
 biological parameters
-8. Appendix (\@ref(sec:reproducibility)) discusses computational environment 
+8. Appendix (\@ref(sec:reproducibility)) discusses computational environment
 and reproducibility from databases to assessments and other science products
 
 a bibliography including all references listed on the figure pages themselves
 
-In navigating the report, we suggest that the report is best viewed in a
+Following the species-by-species visualizations, we include a section
+providing details on the data extraction from the relational databases
+that hold the raw data, a section providing details on the models that
+underlie some of the visualizations, and finally a bibliography
+including all references listed on the figure pages themselves. In
+navigating the report, we suggest that the report is best viewed in a
 PDF two-page view so that all the plots for a single species can be
-viewed at once. We also note that the table of contents, alphabetized species 
+viewed at once. We also note that the table of contents, alphabetized species
 lists and references are clickable hyperlinks to facilitate navigation.
 
 We made a number of overarching design decisions in structuring the
@@ -247,19 +253,17 @@ need to be considered even more carefully. There are a multitude of
 reasons why commercial CPUE trends may not represent underlying trends
 in abundance [e.g. @harley2001]. Nonetheless, we think there is value in
 transparently displaying the available data for all species.
-The commercial catch presented here may not be the best representation and 
-won't necessarily match reconstructed timeseries in stock assessments. 
-Historic catch reconstructions require careful species-specific 
-consideration and analysis. Fluctuations in commercial catch, specifically 
-recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't 
-necessarily reflect declines in stock abundance and may be due to other factors 
-including implementation of management measures. The discards in the catch 
-plot do not include those from the hook and line fisheries. Longline discards 
-are considered less reliable prior to 100% observer coverage in 2006 and are 
-often reported as discard counts without a reported weight. These discards 
+The commercial catch presented here may not be the best representation and
+won't necessarily match reconstructed timeseries in stock assessments.
+Historic catch reconstructions require careful species-specific
+consideration and analysis. Fluctuations in commercial catch, specifically
+recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't
+necessarily reflect declines in stock abundance and may be due to other factors
+including implementation of management measures. The discards in the catch
+plot do not include those from the hook and line fisheries. Longline discards
+are considered less reliable prior to 100% observer coverage in 2006 and are
+often reported as discard counts without a reported weight. These discards
 are therefore not included in catch shown here.
-
-
 
 TODO: build on this section
 
