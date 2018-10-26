@@ -60,7 +60,7 @@ sha_sdmTMB <- get_sha("pbs-assess/sdmTMB")
 sha_csasdown <- get_sha("pbs-assess/csasdown")
 ```
 
-The data extraction and many of the plots were made with the gfplot package Git SHA (Secure Hash Algorithm) version ``r sha_gfplot``. The spatial and spatiotemporal models were fit with the sdmTMB package Git SHA version ``r sha_sdmTMB``. The plots were assembled on figure pages and this text was written with the package gfsynopsis Git SHA version ``r sha_gfsynopsis``. The document was compiled with the csasdown package Git SHA version ``r sha_csasdown``.
+The data extraction and many of the plots were made with the gfplot package Git SHA (Secure Hash Algorithm) ``r sha_gfplot``. The spatial and spatiotemporal models were fit with the sdmTMB package Git SHA ``r sha_sdmTMB``. The plots were assembled on figure pages and this text was written with the package gfsynopsis Git SHA ``r sha_gfsynopsis``. The document was compiled with the csasdown package Git SHA version ``r sha_csasdown``.
 
 The specific versions used to generate this report can be installed with:
 
