@@ -80,7 +80,7 @@ surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
 available data. A brief description the included surveys is included in
-(\@ref(sec:survey-trend-models)) along with associated refences for
+Appendix\ \@ref(sec:survey-trend-models) along with associated refences for
 detailed survey descriptions and designs.  
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report.", fig.pos="htbp"}
