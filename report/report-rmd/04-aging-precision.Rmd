@@ -77,5 +77,4 @@ out %>% group_by(species_common_name) %>%
   guides(colour = FALSE)
 ```
 
-
 \clearpage

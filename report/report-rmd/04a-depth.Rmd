@@ -1,4 +1,5 @@
-\clearpage
+\vspace{0mm}
+
 \vspace{0mm}
 
 # DEPTH-DENSITY RELATIONSHIPS FOR THE SYNOPTIC SURVEYS {#app:depth-curves}
@@ -48,7 +49,7 @@ make_depth_plot <- function(.data) {
     geom_line(lty = 2) +
     coord_cartesian(xlim = c(-800, 0), ylim = ) +
     labs(x = 'Depth (m)',
-      y = expression(Biomass~density~(kg/km^2)), colour = 'Survey') +
+      y = expression(Survey~biomass~density~(kg/km^2)), colour = 'Survey') +
     # facet_wrap(~forcats::fct_reorder(species,
     #   mean_mode_depth),
     facet_wrap(~gfsynopsis:::first_cap(species), scales = "free_y", ncol = 4) +
@@ -56,8 +57,6 @@ make_depth_plot <- function(.data) {
     scale_color_brewer(palette = "Dark2")
 }
 ```
-
-\vspace{-2mm}
 
 (ref:depth-relationship1) Predicted relationships between depth and biomass
 density for all species across the four synoptic surveys (Part 1 of 2). Solid
@@ -70,7 +69,7 @@ depth distribution for particular species. See Appendix
 \@ref(app:spatial-modeling) for details on the models underlying these
 predictions.
 
-```{r sdmTMB-depth-all-plots1, fig.width=10, fig.asp=1.14, out.width="\\textwidth", fig.cap="(ref:depth-relationship1)", fig.pos="H"}
+```{r sdmTMB-depth-all-plots1, fig.width=10, fig.asp=1.10, out.width="\\textwidth", fig.cap="(ref:depth-relationship1)", fig.pos="H"}
 .sp <- sort(unique(dd$species))
 filter(dd, species %in% .sp[1:36]) %>%
   make_depth_plot()
