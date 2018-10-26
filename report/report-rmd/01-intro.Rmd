@@ -10,21 +10,19 @@ stock assessment scientists) lack the capacity to conduct formal stock
 assessments for most stocks annually, and therefore, much of these data
 are not regularly published or readily accessible.
 
-As one step to address this problem, we have created this data synopsis
+As one step to address this issue, we have created this data synopsis
 report to give a snapshot of long-term and recent population and fishing
 trends, as well as data availability, for all major British Columbia groundfish
 stocks of commercial and conservation interest. The report is an
 extension of the data scorecard concept discussed at a Canadian Science
 Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
-[@macdougall2016]. We plan to publish this report as a CSAS Research
+[@macdougall2016]. We intend to publish this report as a CSAS Research
 Document in its first year and to update the report annually
 (excluding any unchanged methods) as a CSAS
 Science Response in subsequent years. The report generation is fully
 automated --- pulling data from databases, fitting models, generating
 visualizations, and stitching the document together to facilitate rapid
 publication, reproducibility, and transparency.
-
-<!-- TODO: Fix proceedings reference should be DFO as author -->
 
 Our goals with this report are to (1) facilitate regular review by
 groundfish scientists and managers of trends of trends in survey
@@ -37,54 +35,42 @@ data-limited and data-moderate groundfish stocks; and (3) increase data
 transparency between Fisheries and Oceans Canada, the fishing industry,
 First Nations, non-governmental organizations, and the general public.
 
-A major caveat of this work is that it is not feasible for us to individually
-assess the results for all 110 species in a detailed manner.
-To use the results for a particular
-species in future assessments, or to make other inferences),
-we highly recommend that users carefully look at the data and model results.
-**TODO: not sure if that sounds like a bit of a cop-out?**
-Due to the necessary automation required to construct this report, not all
-species-specific special cases may have have been fully considered, particularly
-for species with little data.
-
 ## REPORT STRUCTURE
 
 The main results of this synopsis report are presented in two-page
-species-by-species subsections
-that visually synthesize most available data for each species.
-(Sections\ \@ref(sec:synopsis-plots-A) and\ \@ref(sec:synopsis-plots-B)). The report
-focuses on the 110 species listed in the current BC groundfish strategic plan,
-and focuses on the surveys and data types applicable to the widest array of
-identified as the main species of commercial and conservation interest followed
-by 80 'B-level' species.
+species-by-species subsections that visually synthesize most available data for
+each species (Sections\ \@ref(sec:synopsis-plots-A) and
+\@ref(sec:synopsis-plots-B)). The report focuses on the 110 species listed in
+the current BC groundfish strategic plan, which are divided into those
+identified as species of primary commercial or conservation interest ('A-level'
+species) followed by 80 'B-level' species. The report focuses on the surveys
+and data types applicable to the widest array of species.
 
-Each set of pages for a single species is laid out in the same way. A
-set of pages starts with the species common name, the species scientific
-name, and the DFO species code, which usually corresponds to the page
-number referencing the species in @hart1988. The figures themselves are
-laid out such that the first page has survey timeseries trends and
-spatial patterns on the left and commercial timeseries and spatial
-patterns on the right. The second page is focused on biological samples.
-This page begins at the top with length and age data and their
-relationship with each other, then shows data on maturity, and finishes
-with an overview of available numbers of sampled fish across all survey
-and commercial samples for various biological measurements. Details of
-the figures are fully described in Section\ \@ref(sec:plot-descriptions).
+Each set of pages for a single species is laid out in the same way. A set of
+pages starts with the species common name, the species scientific name, and the
+DFO species code, which usually corresponds to the page number referencing the
+species in @hart1988. The figures themselves are laid out such that the first
+page has survey timeseries trends and spatial patterns on the left and
+commercial timeseries and spatial patterns on the right. The second page is
+focused on biological samples. This page begins at the top with length and age
+data and their relationship with each other, then shows data on maturity, and
+finishes with an overview of available numbers of sampled fish across all
+survey (Figure\ \@ref(fig:intro-maps)) and commercial (Figure
+\@ref(fig:management-map)) samples for various biological measurements.
 
-In terms of surveys, we have focused on the Synoptic Bottom Trawl
-surveys, the Outside Hard Bottom Long Line surveys (HBLL; alternatively
-referred to as the Pacific Halibut Management Association, PHMA,
-surveys), and the International Pacific Halibut Commission (IPHC) Fishery
-Independent Setline surveys (Figure \@ref(fig:intro-maps))
-because these provide the greatest spatial and
-taxonomic coverage of the stocks in this report. As an example, we are
-not showing biomass index trends or maps from the Sablefish trap
-surveys, since these are highly selective for Sablefish. However, we do
-include counts of available fish specimens from biological samples on
-all surveys and fit biological models such as growth models to all
-available data. A brief description of the included surveys is included in
-Appendix\ \@ref(app:survey-trend-models) along with associated references for
-detailed survey descriptions and designs.
+In terms of surveys, we have focused on the Synoptic Bottom Trawl surveys, the
+Outside Hard Bottom Long Line surveys (HBLL; alternatively referred to as the
+Pacific Halibut Management Association, PHMA, surveys) (Figure
+\@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC)
+Fishery Independent Setline surveys because these provide the greatest
+spatial and taxonomic coverage of the stocks in this report. As an example, we
+are not showing biomass index trends or maps from the Sablefish trap surveys,
+since these are highly selective for Sablefish. However, we do include counts
+of available fish specimens from biological samples on all surveys and fit
+biological models such as growth models to all available data. A brief
+description of the included surveys is included in Appendix
+\@ref(app:survey-trend-models) along with associated references for detailed
+survey descriptions and designs.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report. The coverage of the IPHC survey is shown later.", fig.pos="tb"}
 xlim <- c(122, 890)
@@ -180,7 +166,7 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
-```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="3.5in", fig.pos="tb"}
+```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="3.3in", fig.pos="tb"}
 knitr::include_graphics("figure/3CD5ABCDE.png")
 ```
 
@@ -188,10 +174,11 @@ knitr::include_graphics("figure/3CD5ABCDE.png")
 Following the species-by-species visualizations, we include the following
 appendices:
 
-1. Appendix \@ref(app:age-precision) shows ageing precision plots.
+1. Appendix \@ref(app:age-precision) shows ageing precision plots for each
+   species.
 
-1. Appendix \@ref(app:depth-curves) shows the predict relationships between
-   depth and survey biomass density for the synoptic trawl surveys.
+1. Appendix \@ref(app:depth-curves) shows the predicted relationships between
+   depth and synoptic survey biomass density for each species.
 
 1. Appendix \@ref(app:data) provides details on the data extraction from the
    relational databases that hold the raw data.
@@ -208,20 +195,19 @@ appendices:
 1. Appendix \@ref(app:iphc-survey-index) provides details on the modelling for
    the IPHC survey time series.
 
-1. Appendix \@ref(app:growth-and-maturity) provides details on modeling
+1. Appendix \@ref(app:growth-and-maturity) provides details on modelling
    biological parameters.
 
-1. Appendix \@ref(app:reproducibility) discusses the computational environment
-   that enables reproducibility from data extraction, data manipulation, model
-   fitting and visualization to the generation of this report.
+1. Appendix \@ref(app:reproducibility) provide the details on the computational
+   environment and reproducibility of this report.
 
 1. The final section contains the bibliography, including those references
    listed on the figure pages.
 
 In navigating the report, we suggest that the report is best viewed in a PDF
 two-page view so that all the plots for a single species can be viewed at once.
-We also note that the table of contents and references are clickable hyperlinks
-to facilitate navigation.
+We also note that the Table of Contents, index pages, figures, and citations
+are clickable hyperlinks to facilitate navigation.
 
 We made a number of overarching design decisions in structuring the
 report:
@@ -245,28 +231,27 @@ plots on both pages).
 
 1. Data on female fish are always shown in front of data on male fish and
 are either coloured or black whereas males are always indicated with
-light grey. We did this to focus mainly on female fish, which are often
-more important in stock assessment models.
+light grey.
 
 ## CAVEATS
 
-There are many caveats when interpreting this report. First, the synopsis
-report is not intended to be a substitute for stock assessment. For example,
+There are many caveats when interpreting this report. First, the survey index
+trends are not intended to be a substitute for stock assessment. For example,
 although relative biomass indices from surveys indicate the biomass trend for
 a species in an area, such information is best combined with other information
 such as removals by commercial catches and information on the age- or
 length-composition of the stock to make conclusions about the status of
 a stock. Second, biomass indices from trawl or longline surveys and commercial
-CPUE indices need careful interpretation on a stock-by-stock
-basis. We have attempted to flag survey index trends that may be especially
-suspect either because of high survey variability or because only a small
-fraction of trawl or longline sets containing the species, but this is not
-a guarantee in itself. Survey indices are not always representative of
-abundance for a variety of reasons, and a lack of data for a species does
-not necessarily indicate a small population --- the surveys may simply not
-be suitable for sampling that species. Furthermore, changes through time,
-including fish behavioural changes or range shifts, could result in biases
-through time even for well-sampled species.
+CPUE indices need careful interpretation on a stock-by-stock basis. We have
+attempted to flag survey index trends that may be especially suspect either
+because of high survey variability or because only a small fraction of trawl or
+longline sets containing the species, but this is not a guarantee in itself.
+Survey indices are not always representative of abundance for a variety of
+reasons, and a lack of data for a species does not necessarily indicate a small
+population --- the surveys may simply not be suitable for sampling that
+species. Furthermore, changes through time, including fish behavioural changes
+or range shifts, could result in biases through time even for well-sampled
+species.
 
 Commercial CPUE timeseries, even when
 standardized for consistent time of year, depth, latitude, and vessel
@@ -277,8 +262,8 @@ transparently displaying the available data for all species.
 The commercial catch presented here may not be the best representation and
 won't necessarily match reconstructed timeseries in stock assessments.
 Historic catch reconstructions require careful species-specific
-consideration and analysis. Fluctuations in commercial catch, for example
-recent declines in species catch for Bocaccio and Yelloweye Rockfish, don't
+consideration and analysis. Furthermore, fluctuations in commercial catch, for example
+recent declines in species catch for Bocaccio and Yelloweye Rockfish, do not
 necessarily reflect declines in stock abundance and may be due to other factors
 including implementation of management measures. The discards in the catch
 plot do not include those from the hook-and-line fisheries. Longline discards
@@ -291,6 +276,13 @@ One important species that is not included here is Pacific Hake
 survey and an annual stock assessment [e.g. @edwards2018hake].
 
 TODO: build on this section
+
+A caveat of this work overall is that it is not feasible for us to individually
+assess the results for all 110 species in a detailed manner. To use the results
+for a particular species in future assessments, or to make other inferences, we
+recommend that users carefully examine the data and model results. Due to the
+necessary automation required to construct this report, not all
+species-specific special cases may have have been fully considered.
 
 <!--
 We developed the gfplot R package to conduct all the data extraction, data

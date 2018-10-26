@@ -29,8 +29,6 @@ In this section we provide complete captions for each of the
 visualizations that form the species-by-species figures in
 Sections \@ref(sec:synopsis-plots-A) and \@ref(sec:synopsis-plots-B). We use `r sp` as an example species.
 
-\clearpage
-
 ## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
 
 ```{r make-surv-abbrev-text, eval=TRUE}
@@ -58,7 +56,7 @@ x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
-```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="5in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. `Mean CV' is the mean of the annual coefficients of variation (CVs), and `Mean $+$ve sets' indicates ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with `Mean CV' greater than 0.4 or `Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Timeseries with light grey dots and dotted upper and lower confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass. The index is the longest possible time series that can be constructed from the available data and usually represents a coastwide trend.")}
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. `Mean CV' is the mean of the annual coefficients of variation (CVs), and `Mean $+$ve sets' indicates ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with `Mean CV' greater than 0.4 or `Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Timeseries with light grey dots and dotted upper and lower confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass. The index is the longest possible time series that can be constructed from the available data and usually represents a coastwide trend.")}
 g$survey_index
 ```
 

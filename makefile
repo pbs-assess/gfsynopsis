@@ -1,7 +1,7 @@
 all:
 	Rscript -e "source('report/make.R')"
-	cd report/report-rmd/
-	make
+	# cd report/report-rmd/
+	# make
 
 one:
 	Rscript -e "N <- 1:10; source('report/make.R')"

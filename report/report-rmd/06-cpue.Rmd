@@ -238,3 +238,7 @@ gfplot::plot_qres_histogram(qr)
 ```
 
 \clearpage
+
+\vspace{0mm}
+
+\vspace{0mm}

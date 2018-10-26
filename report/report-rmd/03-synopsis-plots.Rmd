@@ -1,17 +1,20 @@
 # SYNOPSIS PLOTS: TYPE A SPECIES {#sec:synopsis-plots-A}
 
 This section contains the main species-by-species data
-visualizations for the Type\ A species, and Section\ \@ref(sec:synopsis-plots-B)
-has them for the Type\ B species.
+visualizations for the 'A-level' species; Section\ \@ref(sec:synopsis-plots-B)
+then continues with the 'B-level' species.
 Each species is shown on two pages with the same layout used
-throughout. In addition to the aforementioned figures, we also give the
+throughout.
+See Section\ \@ref(sec:plot-descriptions) for detailed figure captions.
+In addition to the figures, we also provide the
 scientific name, taxonomic details, DFO species
-code, details of most recent DFO Research Documents and Science Advisory
+code,
+a link to the FishBase page,
+details of most recent DFO Research Documents and Science Advisory
 Reports, and any information related to designations by the Committee on the
 Status of Endangered Wildlife in Canada (COSEWIC) and to listings under the
 Species at Risk Act (SARA).
-See Section\ \@ref(sec:plot-descriptions)
-for detailed figure captions. The species are ordered according to DFO species
+The species are ordered according to DFO species
 codes. The Table of Contents at the beginning of the document includes links to
 the species pages in order of species codes, and
 Sections\ \@ref(sec:common-name-index) and\ \@ref(sec:scientific-name-index)
