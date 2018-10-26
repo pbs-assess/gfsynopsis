@@ -213,7 +213,7 @@ cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 
 ## MATURITY
 
-```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature to most mature from top to bottom. The area of the circles corresponds to the number of fish specimens in a given maturity category for a given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot.")}
+```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature (top) to most mature (bottom). The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot.")}
 g$maturity_month
 ```
 
