@@ -96,7 +96,7 @@ data to populate the GFBio database. We extracted the relative biomass values
 directly from GFBio. Nonetheless, we have included the relevant equations below
 for clarity. We also present geostatistical model based estimates of biomass
 index trends for the trawl surveys for comparison Section
-(\@ref(sec:geostatistical)).
+\@ref(sec:geostatistical).
 
 ## TRAWL SURVEY DESIGN-BASED ESTIMATION {#sec:trawl-methods}
 
@@ -149,7 +149,7 @@ $n_{t,i}$ represents the number of sets in year $t$ and stratum $i$. The hook
 spacing is 8 feet or 0.0024384 km for the inside and outside HBLL surveys.
 
 Details on the design-based estimation of biomass density index for the IPHC
-survey are shown in Section (TODO).
+survey are shown in Appendix \@ref(sec:iphc-survey-index).
 
 ## DESIGN-BASED-INDEX CONFIDENCE INTERVALS
 
@@ -177,16 +177,17 @@ for a given year ending up in particularly good or poor habitat for a given
 species. Authors of groundfish stock assessments may want to consider
 model-based index standardization on a case-by-case basis.
 
-We use the geostatistical model as described in Section
-(\@ref(sec:spatial-modeling)) with the addition of spatiotemporal random
-effects ($\epsilon_{s,t}$) and annual predictors for the mean biomass each year:
+We use the geostatistical model as described in Appendix
+\@ref(sec:spatial-modeling) with the addition of spatiotemporal random
+effects ($\epsilon_{s,t}$; defined for locations in space $s$ and time $t$)
+and annual predictors for the mean biomass each year:
 
 \begin{align}
   y_{s,t} &\sim \mathrm{Tweedie}(\mu_{s,t}, p, \phi), \quad 1 < p < 2,\\
-  \mu_{s,t} &= \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right),
+  \mu_{s,t} &= \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right).
 \end{align}
 
-as with the spatial model, the spatial random effects ($\omega_s$) are assumed
+As with the spatial model, the spatial random effects ($\omega_s$) are assumed
 to be drawn from a multivariate normal distribution with some covariance matrix
 $\bm{\Sigma}_\omega$:
 
@@ -221,12 +222,12 @@ estimated trends did not qualitatively differ.
 
 We can project predictions from the model to a fine-scale (2 km $\times$ 2 km)
 grid using the covariance projection matrix (Figures
-\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt)). We can also look at the
+\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt), \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth). We can also look at the
 individual components of the model. For the models without fixed effect
 predictors for depth, the fixed effect predictions each year are constant
 spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)). The spatial random
 effects are constant across years (Figure
-\@ref(fig:sdmTMB-spt-plot-fixed-effects)) and the spatiotemporal random effects
+\@ref(fig:sdmTMB-spt-plot-spatial-effects)) and the spatiotemporal random effects
 vary across years (Figure \@ref(fig:sdmTMB-spt-plot-spatiotemporal-effects)).
 We can look at residuals through space and time to check if there appears to be
 remaining spatial or spatiotemporal autocorrelation (Figure
@@ -236,7 +237,7 @@ We can then calculate expected biomass $b_t$ in year $t$ as:
 
 \begin{equation}
 b_t = \sum_{j = 1}^{n_j}
-  w_j \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right),
+  w_j \cdot \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right),
 \end{equation}
 
 where $j$ references a 2 km $\times$ 2 km grid cell within the survey domain
@@ -245,7 +246,6 @@ and $w_j$ represents the weight or area of that grid cell (4 km^2^) (Figure
 across all grid cells within the survey domain for each year. We generated
 standard errors on the annual estimates of log biomass via the generalized
 Delta method as implemented in TMB [@kristensen2016].
-
 Similar to the findings of @thorson2015, we found that the model-based biomass
 index trends often had lower CVs than the design-based index trends and often
 helped stabilize biomass estimates for outlying years compared to the
@@ -258,7 +258,6 @@ with or without depth covariates was in the models with depth covariance having
 slightly more spatially resolved estimates of biomass (Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)).
-
 We chose to not include depth and depth squared as predictors in the main index
 illustrated throughout this report. Whereas in nearly all cases including depth
 covariates generated a similar index to excluding them, in a few cases

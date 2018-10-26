@@ -17,7 +17,7 @@ stocks of commercial and conservation interest. The report is an
 extension of the data scorecard concept discussed at a Canadian Science
 Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
 [@macdougall2016]. We plan to publish this report as a CSAS Research
-Document in its first year and to update the report annually 
+Document in its first year and to update the report annually
 (excluding any unchanged methods) as a CSAS
 Science Response in subsequent years. The report generation is fully
 automated --- pulling data from databases, fitting models, generating
@@ -26,7 +26,7 @@ publication, reproducibility, and transparency.
 
 <!-- TODO: Fix proceedings reference should be DFO as author -->
 
-Our goals with this report are to (1) facilitate regular review by 
+Our goals with this report are to (1) facilitate regular review by
 groundfish scientists and managers of trends of trends in survey
 indices and stock composition across all stocks to potentially flag
 stocks for prioritized assessment; (2) generate standardized datasets,
@@ -50,13 +50,13 @@ for species with little data.
 
 The main results of this synopsis report are presented in two-page
 species-by-species subsections
-that visually synthesize most available data for each species. 
+that visually synthesize most available data for each species.
 (Sections\ \@ref(sec:synopsis-plots-A) and\ \@ref(sec:synopsis-plots-B)). The report
 focuses on the 110 species listed in the current BC groundfish strategic plan,
 and focuses on the surveys and data types applicable to the widest array of
 these fish stocks. The report includes 30 'A-level' species, which are
 identified as the main species of commercial and conservation interest followed
-by 80 'B-level' species.  
+by 80 'B-level' species.
 
 Each set of pages for a single species is laid out in the same way. A
 set of pages starts with the species common name, the species scientific
@@ -83,8 +83,8 @@ surveys, since these are highly selective for Sablefish. However, we do
 include counts of available fish specimens from biological samples on
 all surveys and fit biological models such as growth models to all
 available data. A brief description of the included surveys is included in
-Appendix\ \@ref(sec:survey-trend-models) along with associated refences for
-detailed survey descriptions and designs.  
+Appendix\ \@ref(sec:survey-trend-models) along with associated defences for
+detailed survey descriptions and designs.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report.", fig.pos="tb"}
 xlim <- c(122, 890)
@@ -180,12 +180,9 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
-
 ```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="3.5in", fig.pos="tb"}
 knitr::include_graphics("figure/3CD5ABCDE.png")
 ```
-  
-\   
 
 Following the species-by-species visualizations, we include a section
 providing details on the data extraction from the relational databases

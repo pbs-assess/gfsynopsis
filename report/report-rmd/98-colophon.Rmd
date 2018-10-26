@@ -43,7 +43,7 @@ devtools::session_info()$packages %>%
   csasdown::csas_table()
 ```
 
-```{r get-git-hashes, cache=FALSE}
+```{r get-git-hashes, cache=TRUE}
 get_sha <- function(path) {
   suppressWarnings({
     sha <- tryCatch(system(paste0("git ls-remote git@github.com:", path, ".git"),
