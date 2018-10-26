@@ -194,11 +194,14 @@ g$lengths
 
 ## AGE COMPOSITION DATA
 
-<<<<<<< HEAD
-(ref:ages-cap) Example age-frequency plot for `r sp`. Female fish are shown as coloured (or black) circles and male fish are shown behind as light grey circles. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for survey abbreviations. Ageing precision plots comparing precision of readings by two individuals ageing the fish are provided for all species for which age data exist in Appendix \@ref(sec:age-precision).
-=======
-(ref:ages-cap) Example age frequency plot for `r sp`. Female fish are shown as coloured (or black) circles and male fish are shown behind as light gray circles. The total number of fish for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for survey abbreviations. Ageing precision plots comparing precision of readings by two individuals ageing the fish are provided for all species for which age data exist in Appendix \@ref(app:age-precision).
->>>>>>> Make links to appendices work
+(ref:ages-cap) Example age-frequency plot for `r sp`. Female fish are shown as
+coloured (or black) circles and male fish are shown behind as light grey
+circles. The total number of fish for a given survey and year are indicated
+along the top of the panels. Diagonal lines are shown at five-year intervals to
+facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for
+survey abbreviations. Ageing precision plots comparing precision of readings by
+two individuals ageing the fish are provided for all species for which age data
+exist in Appendix \@ref(app:age-precision).
 
 ```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap="(ref:ages-cap)"}
 g$ages
