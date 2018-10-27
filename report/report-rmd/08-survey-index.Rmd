@@ -61,10 +61,6 @@ standartdized longline snap gear and fishing methods.
 
 The International Pacific Halibut Commission’s (IPHC) fishery independent
 survey is the longest times series of longline survey data in BC.
-<!-- This survey
-is a fixed station survey that has been conducted annually, with chartered
-commercial fishing vessels deploying fixed gear, in Canadian waters (IPHC Area
-2B), since 1963.-->
 It provides distribution, biomass, age, growth and maturity
 data that are used in the annual assessment of Pacific Halibut
 (*Hippoglossus stenolepis*). In Appendix\ \@ref(app:iphc-survey-index) we
@@ -72,21 +68,6 @@ describe how we use data from the survey to
 construct a consistent index of abundance for other species
 over as long a time series as possible, despite the survey design changing
 through the years.
-
-<!-- In 2003, the IPHC provided the opportunity to
-deploy an additional technician to enumerate and identify catch to species on
-a hook-by-hook basis and to collect biological data on rockfishes during their
-2B survey operations [e.g. @flemming2012iphc]. The complete enumeration of
-species during the IPHC survey was recorded in 1995, 1996, and in all survey
-years beginning in 2003. In the years between 1995 and 2003, and in 2013,
-regular species composition sampling occurred over the first 20 hooks (20%) on
-each survey skate of gear.-->
-
-<!-- We note that the IPHC survey targets halibut and the survey timing is aligned
-with when halibut are growing, which may increase hook competition and could
-produce potential biases. Furthermore, when a set line is longer (made up of
-more skates) it may fall outside of the targeted bottom type and therefore may
-have a different catch composition than directly on the targeted station.-->
 
 ## FURTHER DETAILS OF SURVEYS
 
