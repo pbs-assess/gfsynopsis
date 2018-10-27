@@ -49,10 +49,10 @@ These surveys were designed to provide fishery independent indices of
 abundance together with biological samples to improve the assessment of
 Yelloweye (*Sebastes ruberrimus*) and Quillback (*S. maliger*) Rockfish
 for the 4B management region. They began in the northern Strait of Georgia
-in Pacific Fishery Managment areas 12 and 13 in 2003 and 2004, and now
+in Pacific Fishery Management areas 12 and 13 in 2003 and 2004, and now
 alternate years to cover the northern (areas 12 and 13) and southern
-(areas 14--20, 28, 29) portions of the inside waters. These surveys also emply
-standartdized longline snap gear and fishing methods.
+(areas 14--20, 28, 29) portions of the inside waters. These surveys also employ
+standardized longline snap gear and fishing methods.
 
 ## INTERNATIONAL PACIFIC HALIBUT COMMISSION FISHERY INDEPENDENT SURVEY
 
@@ -88,17 +88,15 @@ found in the following documents:
 1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
 
 The main biomass index trends illustrated on the figure pages represent the
-design-based index trends that have historically been used in Pacific
-Biological Station groundfish stock assessments. We calculated the trawl and
-longline survey relative biomass index trends from the same design-based
-bootstrap approach used in recent BC groundfish stock assessment reports. The
-code to perform the calculations was originally written by Norm Olsen at
-Pacific Biological Station and is automatically applied to the available survey
-data to populate the GFBio database. We extracted the relative biomass values
-directly from GFBio. Nonetheless, we have included the relevant equations below
-for clarity. We also present geostatistical model based estimates of biomass
-index trends for the trawl surveys for comparison Section
-\@ref(sec:geostatistical).
+'design-based' index trends that have historically been used in Pacific
+Biological Station groundfish stock assessments. We extracted the trawl and
+longline survey relative biomass index trends from GFBio, which are generated
+using the same approach that has been used in all recent BC groundfish stock
+assessment reports. The code to perform the calculations was originally written
+by Norm Olsen at Pacific Biological Station and is automatically applied to the
+available survey data to populate the GFBio database. We have included the relevant
+equations below for clarity. We also compare geostatistical model-based
+estimates of biomass index trends for the trawl surveys (Section \@ref(sec:geostatistical)).
 
 ## TRAWL SURVEY DESIGN-BASED ESTIMATION {#sec:trawl-methods}
 
@@ -162,21 +160,31 @@ of $B_t$, $B_t^{\mathrm{rep}}$, and calculated 95% bias-corrected and adjusted (
 
 ## GEOSTATISTICAL SPATIOTEMPORAL BIOMASS INDEX TRENDS {#sec:geostatistical}
 
-TODO: Bring these notes together into cohesive paragraphs.
+The above-described design-based estimates assume that average fish density is
+the same throughout each survey stratum and that the only source of variance
+between samples is sampling stochasticity itself [@petitgas2001]. However, we
+know this is not true --- a substantial portion of fish density variation
+within a stratum can be attributed to habitat being of better or poorer
+suitability for a given fish and this suitability can be because of many
+factors beyond depth alone, on which the strata are stratified [@shelton2014].
+Furthermore, design-based estimates assume that nearby strata are statistically
+independent from each other. However, we know that fish do not perceive their
+habitat according to these exact strata boundaries and that ecological
+processes in general tend to be spatially correlated with processes closer to
+each other being more similar than those further apart.
 
-In recent years there has been a movement toward model-based standardization of
-survey biomass index trends (e.g. REFS). This approach has a theoretical
-advantage over a design-based approach for a number of reasons ... TODO.
-
-TODO: add a few sentences here about the general reasons why we might prefer
-a spatial model over a design based model
-
-We include model-based index trends for the synoptic trial surveys as a point
-of comparison so the reader can gauge when the two approaches may differ. Large
-differences are likely a result of the random positioning of the survey sets
-for a given year ending up in particularly good or poor habitat for a given
-species. Authors of groundfish stock assessments may want to consider
-model-based index standardization on a case-by-case basis.
+Geostatistical modelling of survey data aims to address these issues by
+modelling fish density as a smooth spatial surface --- possibly the result of
+explicit habitat variables such as depth --- but also as the product of other
+unobserved or 'latent' spatial effects. In recent years, there has been
+a movement toward such 'model-based' standardization of survey biomass index
+trends [e.g. @shelton2014; @thorson2015; @webster2017]. We include model-based
+index trends for the synoptic trawl surveys as a point of comparison so the
+reader can gauge when the two approaches may differ. Large differences are
+likely a result of the random positioning of the survey sets for a given year
+ending up in particularly good or poor habitat for a given species. Authors of
+BC groundfish stock assessments may want to consider model-based index
+standardization on a case-by-case basis.
 
 We use the geostatistical model as described in Appendix
 \@ref(app:spatial-modeling) with the addition of spatiotemporal random
@@ -211,10 +219,8 @@ temperature, water circulation patterns, species interactions, and species
 movement.
 
 Here we use Pacific Cod as an example species to illustrate the model
-components. The approach includes the same generation of spatial "knots" as in
-the spatial model described in Appendix \@ref(app:spatial-modeling) to make the
-problem computationally feasible through the SPDE (stochastic partial
-differential equation) approximation and a predictive process model (Figure
+components. The approach includes the same generation of spatial 'knots' as in
+the spatial model described in Appendix \@ref(app:spatial-modeling) (Figure
 \@ref(fig:sdmTMB-spt-spde)). We use 200 knots, which for spatial coverage of
 the synoptic trawl surveys, seems to be of adequately high resolution to
 capture the spatial and spatiotemporal variation. We tested this assumption by
@@ -246,10 +252,10 @@ and $w_j$ represents the weight or area of that grid cell (4 km^2^) (Figure
 \@ref(fig:sdmTMB-plot-index)). In other words, we sum the predicted biomass
 across all grid cells within the survey domain for each year. We generated
 standard errors on the annual estimates of log biomass via the generalized
-Delta method as implemented in TMB [@kristensen2016].
-Similar to the findings of @thorson2015, we found that the model-based biomass
-index trends often had lower CVs than the design-based index trends and often
-helped stabilize biomass estimates for outlying years compared to the
+Delta method as implemented in TMB [@kristensen2016]. Similar to the findings
+of @thorson2015, we found that the model-based biomass index trends often had
+lower CVs (coefficient of variations) than the design-based index trends and
+often helped stabilize biomass estimates for outlying years compared to the
 design-based index trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
 
 We found little difference in the predicted biomass index between models that
@@ -259,14 +265,14 @@ with or without depth covariates was in the models with depth covariates having
 slightly more spatially resolved estimates of biomass (Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure
 \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)).
-We chose to not include depth and depth squared as predictors in the main index
-illustrated throughout this report. Whereas in nearly all cases including depth
-covariates generated a similar index to excluding them, in a few cases
-including them generated what appeared to be unrealistic deviations in biomass
-when a combination of the quadratic shape of the relationship between depth and
-biomass combined to generate exceedingly high over low estimates of biomass on
-the border of the survey polygons. This remains a topic of research and will be
-investigated by the authors in the future.
+We chose to not include depth and depth squared as predictors in the main
+biomass index illustrated throughout this report. Whereas in nearly all cases
+including depth covariates generated a similar index to excluding them, in
+a few cases including them generated what appeared to be unrealistic deviations
+in biomass when a combination of the quadratic shape of the relationship
+between depth and biomass combined to generate exceedingly high over low
+estimates of biomass on the border of the survey polygons. This remains a topic
+of research and will be investigated by the authors in the future.
 
 ```{r sdmTMB-spt-data}
 library(dplyr)
