@@ -176,7 +176,7 @@ gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
 ```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="3.3in", fig.pos="tb"}
-knitr::include_graphics("figure/3CD5ABCDE.png")
+knitr::include_graphics("figure/3CD5ABCDE.png", dpi = NA)
 ```
 
 \vspace{0mm}
@@ -199,24 +199,25 @@ appendices:
    modelling behind the spatial survey biomass visualizations.
 
 1. Appendix \@ref(app:survey-trend-models) provides details on the survey
-   biomass index modeling (except for the IPHC survey).
+   biomass index modeling (except for the IPHC survey) including design-based
+   and model-based estimates.
 
 1. Appendix \@ref(app:iphc-survey-index) provides details on the modelling for
    the IPHC survey time series.
 
-1. Appendix \@ref(app:growth-and-maturity) provides details on modelling
-   biological parameters.
+1. Appendix \@ref(app:growth-and-maturity) provides details on modelling of
+   maturity and growth parameters.
 
-1. Appendix \@ref(app:reproducibility) provide the details on the computational
-   environment and reproducibility of this report.
+1. Appendix \@ref(app:reproducibility) describe the computational environment
+   and reproducibility of this report.
 
 1. The final section contains the bibliography, including those references
    listed on the figure pages.
 
 In navigating the report, we suggest that the report is best viewed in a PDF
 two-page view so that all the plots for a single species can be viewed at once.
-We also note that the Table of Contents, index pages, figures, and citations
-are clickable hyperlinks to facilitate navigation.
+We also note that the Table of Contents, index pages, figures references, and
+citations are clickable hyperlinks to facilitate navigation.
 
 We made a number of overarching design decisions in structuring the
 report:
@@ -321,4 +322,6 @@ Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
 for his work on GFASTeR, which this project also takes inspiration from and
 borrows some of the data queries. We thank Rowan Haigh for his work maintaining
 the PBSmapping and PBSdata R packages, and indeed the authors of all the R
-packages necessary to build this report.
+packages necessary to build this report (Appendix \@ref(app:reproducibility)).
+
+\clearpage

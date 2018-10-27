@@ -1,4 +1,4 @@
-# DEPTH-DENSITY RELATIONSHIPS FOR THE SYNOPTIC SURVEYS {#app:depth-curves}
+# RELATIONSHIPS BETWEEN FISH SURVEY DENSITY AND DEPTH {#app:depth-curves}
 
 ```{r sdmTMB-depth-all-calculations}
 surveys <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
