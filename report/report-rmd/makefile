@@ -5,7 +5,7 @@ pdf:
 
 compressfigs:
 	cd knitr-figs
-	find -X . -name '*.png' -print0 | xargs -0 -n 5 -P 8 optipng -strip all
+	find -X . -name '*.png' -print0 | xargs -0 -n 7 -P 4 optipng -strip all
 	
 compresslogos:
 	cd csas-style/images/
