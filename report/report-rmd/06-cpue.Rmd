@@ -1,6 +1,3 @@
-\clearpage
-\vspace{0mm}
-
 # CPUE INDEX STANDARDIZATION {#app:cpue-models}
 
 We sought to generate an index of abundance from commercial trawl catch per
@@ -236,9 +233,3 @@ distribution with the same standard deviation.
 qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
 gfplot::plot_qres_histogram(qr)
 ```
-
-\clearpage
-
-\vspace{0mm}
-
-\vspace{0mm}

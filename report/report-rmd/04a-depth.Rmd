@@ -1,7 +1,3 @@
-\vspace{0mm}
-
-\vspace{0mm}
-
 # DEPTH-DENSITY RELATIONSHIPS FOR THE SYNOPTIC SURVEYS {#app:depth-curves}
 
 ```{r sdmTMB-depth-all-calculations}

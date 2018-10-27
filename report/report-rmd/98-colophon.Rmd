@@ -1,6 +1,3 @@
-\clearpage
-\vspace{0mm}
-
 # REPRODUCIBILITY {#app:reproducibility}
 
 One goal of this report is to generate standardized data sets, model fits, and

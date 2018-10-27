@@ -1,6 +1,3 @@
-\clearpage
-\vspace{0mm}
-
 # GROWTH AND MATURITY {#app:growth-and-maturity}
 
 ## MATURITY OGIVES {#sec:maturity-models}
@@ -72,9 +69,3 @@ Following the common convention, we fit the model as:
 \end{equation}
 with a robust algorithm being substituted for the usual normal distribution as
 written here.
-
-\clearpage
-
-\vspace{0mm}
-
-\vspace{0mm}

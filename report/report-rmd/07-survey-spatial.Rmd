@@ -1,6 +1,3 @@
-\vspace{0mm}
-\clearpage
-
 # SPATIAL MODELLING OF SURVEY BIOMASS {#app:spatial-modeling}
 
 We modelled the expected biomass density in space for each species using
@@ -228,10 +225,3 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
     low = scales::muted("blue")) +
   labs(colour = 'Residual')
 ```
-
-
-\clearpage
-
-\vspace{0mm}
-
-\vspace{0mm}

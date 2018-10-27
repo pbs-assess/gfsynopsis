@@ -76,5 +76,3 @@ out %>% group_by(species_common_name) %>%
   scale_colour_manual(values = c("real" = "grey25", "fake" = NA)) +
   guides(colour = FALSE)
 ```
-
-\clearpage

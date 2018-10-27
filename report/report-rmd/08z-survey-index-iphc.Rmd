@@ -1,9 +1,3 @@
-\clearpage
-
-\vspace{0mm}
-
-\clearpage
-
 # IPHC SURVEY INDEX {#app:iphc-survey-index}
 
 ```{r iphc-examples}
@@ -823,8 +817,3 @@ ggplot(data=bait_set_counts,
     facet_wrap(. ~ year, ncol=4)
 # be good to have the 20 hook ones in different colour, or just do all N_it20 except for 1995 and 1996
 ```
-\clearpage
-
-\vspace{0mm}
-
-\vspace{0mm}

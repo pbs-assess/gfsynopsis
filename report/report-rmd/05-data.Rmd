@@ -1,6 +1,3 @@
-\clearpage
-\vspace{0mm}
-
 # DATA SOURCES {#app:data}
 
 Commercial and research catch, effort, and biological data for groundfish are
@@ -354,8 +351,3 @@ csasdown::csas_table(samp_source, caption = "Sample source codes lookup table, w
   describes sampling protocols at the sample level.")
 ```
 
-\clearpage
-
-\vspace{0mm}
-
-\vspace{0mm}
