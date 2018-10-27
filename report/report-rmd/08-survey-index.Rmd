@@ -158,8 +158,7 @@ survey are shown in Appendix \@ref(app:iphc-survey-index).
 We calculated bootstrap confidence intervals on $B_t$ by repeatedly calculating
 $B_t$ given the above equations but each time re-sampling, with replacement,
 from the available tows within each strata. We drew 1000 bootstrap replicates
-of $B_t$, $B_t^{\mathrm{rep}}$, and calculated 95% adjusted bootstrap
-percentile (BCa) confidence intervals [@efron1987] on $B_t^{\mathrm{rep}}$.
+of $B_t$, $B_t^{\mathrm{rep}}$, and calculated 95% bias-corrected and adjusted (BCa) confidence intervals [@efron1987] on $B_t^{\mathrm{rep}}$.
 
 ## GEOSTATISTICAL SPATIOTEMPORAL BIOMASS INDEX TRENDS {#sec:geostatistical}
 

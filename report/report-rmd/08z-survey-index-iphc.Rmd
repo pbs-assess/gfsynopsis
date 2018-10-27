@@ -31,11 +31,11 @@ per effective skate.
 We bootstrap these catch rates within each year to
 to give annual bootstrapped means, bias-corrected and adjusted
 (BCa) bootstrapped 95\% confidence intervals, and bootstrapped coefficients of
-variation (CV).
+variation (CV) [@efron1987].
 
 However, complications arise because of differing data
 collection protocols in different years. 
-We would like a survey index that spans as long a time period as possible, and,
+We seek a survey index that spans as long a time period as possible, and,
 ideally, also covers all the coastwide waters off British Columbia (excluding
 the Strait of Georgia which the IPHC survey does not enter). Although the
 spatial coverage and the technical details of the survey are not consistent from
@@ -134,10 +134,10 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
 1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
 2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
 2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
-2003-2011 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
-2012 & All (bait experiment)      & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
+2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
 2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
-2014-2017 & All & Hook-by-hook & DFO database {\tt GFBio} & Y\\
+2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
    \hline
 \end{tabular}
 \end{table}
@@ -186,7 +186,7 @@ All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
 
 To address issues 1, 2 and 4 we therefore construct four time series (whose
 structure is summarised in Table \@ref(tab:seriesSumm)) for each species:
-  
+
 **Series A** -- 1997-2017 stations north of WCVI, with catch rates based on
 first 20&nbsp;hooks only (which is all we have for 1997-2002 and 2013).
  
@@ -420,10 +420,10 @@ the first 20 hooks of each skate, is then the mean catch rate across all sets:
   = \frac{1}{\tilde{n}_t} \sum_{i=1}^{\tilde{n}_t} \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
 \label{index20}
 \end{equation}
-  
+
 We base calculations on bootstrapped means, and so $I_t$ and $\tilde{I}_t$ are 
 calculate, for each year, by re-sampling the catch rates ($C_{it}$ 
-or $\tilde{C}_{it}$) 10,000 times, and calculating a bootstrapped mean and
+or $\tilde{C}_{it}$) 1,000 times, and calculating a bootstrapped mean and
 95\% bias-corrected and adjusted confidence interval. 
 
 ### EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS
@@ -483,7 +483,7 @@ For Series&nbsp;A, define $G_A$ to be the geometric mean of the bootstrapped ann
 means, with the geometric mean based only on the overlapping years (2003-2012
 and 2014 onwards). Define $G_B$ similarly for Series B. By dividing the bootstrapped
 values for each series by their respective geometric means, we obtain 
-Figure \@ref(fig:iphc-ser-plots-2)(a). This shows that the rescaled Series A 
+Figure \@ref(fig:iphc-ser-plots-2)a. This shows that the rescaled Series A 
 and Series B
 are very similar for the overlapping years. Thus, on this scale, the 1995 and
 1996 values from Series B look comparable to the full Series A data.
@@ -505,7 +505,7 @@ from Series&nbsp;B and joining to the rescaled Series&nbsp;A. Equivalently,
 we just multiply the original Series-B means and confidence intervals for 1995 
 and 1996 by 
 $G_A/G_B$, and then join them up to the original Series&nbsp;A, as in Figure 
-\@ref(fig:iphc-ser-plots-2)(b), to get
+\@ref(fig:iphc-ser-plots-2)b, to get
 the longest time series possible, based on the first 20&nbsp;hooks from each
 skate, rescaled for 1995 and 1996 for which numbers for the first 20&nbsp;hooks
 are not available.
@@ -798,7 +798,7 @@ show how the number of hooks returned with baits in each set varies between year
 that the influence of hook competition may well vary between years, and thus if 
 hook competition is to be considered it needs to be carefully implemented.
 
-```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set, for each year in which all hooks were enumerated.", fig.pos="tbp"}
+```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set for each year in which all hooks were enumerated.", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it) ) +
     xlab("Number of hooks returned each year") +
@@ -807,7 +807,7 @@ ggplot(data=bait_set_counts,
     facet_wrap(. ~ year, ncol=4)
 ```
 
-```{r iphc-hook-with-bait-twenty, warning=FALSE, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait, for each year (except 1995 and 1996 for which this cannot be calculated).", fig.pos="tbp"}
+```{r iphc-hook-with-bait-twenty, warning=FALSE, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait for each year (except 1995 and 1996 for which this cannot be calculated).", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it20)) +
     xlab("Number of hooks returned each year") +
