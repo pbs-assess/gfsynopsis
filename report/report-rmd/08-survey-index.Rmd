@@ -6,8 +6,8 @@
 Fisheries and Oceans Canada conducts a number of fishery-independent
 multispecies research surveys annually or biannually. These include four
 synoptic bottom trawl surveys and two longline hook surveys
-(Figure\ \@ref(fig:intro-maps)). The survey areas correspond roughly with Groundfish
-Management areas (Figure\ \@ref(fig:management-map)) that fishery quotas are
+(Figure \@ref(fig:intro-maps)). The survey areas correspond roughly with Groundfish
+Management areas (Figure \@ref(fig:management-map)) that fishery quotas are
 allocated by British Columbia waters. For the synoptic trawl surveys, the West
 Coast Vancouver Island survey corresponds roughly to management areas 3CD, the
 Queen Charlotte Strait survey corresponds roughly to areas 5AB, the Hecate
@@ -54,7 +54,7 @@ Yelloweye (*Sebastes ruberrimus*) and Quillback (*S. maliger*) Rockfish
 for the 4B management region. They began in the northern Strait of Georgia
 in Pacific Fishery Managment areas 12 and 13 in 2003 and 2004, and now
 alternate years to cover the northern (areas 12 and 13) and southern
-(areas 14-20, 28, 29) portions of the inside waters. These surveys also emply
+(areas 14--20, 28, 29) portions of the inside waters. These surveys also emply
 standartdized longline snap gear and fishing methods.
 
 ## INTERNATIONAL PACIFIC HALIBUT COMMISSION FISHERY INDEPENDENT SURVEY
@@ -63,7 +63,7 @@ The International Pacific Halibut Commission’s (IPHC) fishery independent
 survey is the longest times series of longline survey data in BC.
 It provides distribution, biomass, age, growth and maturity
 data that are used in the annual assessment of Pacific Halibut
-(*Hippoglossus stenolepis*). In Appendix\ \@ref(app:iphc-survey-index) we
+(*Hippoglossus stenolepis*). In Appendix \@ref(app:iphc-survey-index) we
 describe how we use data from the survey to
 construct a consistent index of abundance for other species
 over as long a time series as possible, despite the survey design changing

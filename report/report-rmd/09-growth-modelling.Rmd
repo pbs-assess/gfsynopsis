@@ -53,7 +53,7 @@ Monte Carlo (MCMC) sampling.
 
 We fit the length-weight models as robust linear regressions of log(length) on
 log(weight) using the `MASS::rlm()` function 'M'-estimator method
-[@venables2002]. This approach downweights the influence of outlying values
+[@venables2002]. This approach down-weights the influence of outlying values
 and helps generate reasonable model fits across all species without handpicking
 outlying measurements to discard. The model can be written as:
 

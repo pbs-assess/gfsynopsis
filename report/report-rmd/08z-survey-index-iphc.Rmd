@@ -484,7 +484,7 @@ For Series&nbsp;A, define $G_A$ to be the geometric mean of the bootstrapped ann
 means, with the geometric mean based only on the overlapping years (2003-2012
 and 2014 onwards). Define $G_B$ similarly for Series B. By dividing the bootstrapped
 values for each series by their respective geometric means, we obtain 
-Figure\ \@ref(fig:iphc-ser-plots-2)(a). This shows that the rescaled Series A 
+Figure \@ref(fig:iphc-ser-plots-2)(a). This shows that the rescaled Series A 
 and Series B
 are very similar for the overlapping years. Thus, on this scale, the 1995 and
 1996 values from Series B look comparable to the full Series A data.
@@ -501,7 +501,7 @@ paired t-test [@crawley2002] on the scaled annual means for the overlapping year
 hypothesis that there is no difference between the scaled annual means, with 
 resulting $p$-value defined as $p_{AB}$.
 If $p_{AB} \geq 0.05$ then we cannot reject the null hypothesis. Then we join
-up the two series in Figure\ \@ref(fig:iphc-ser-plots-2)(a) by taking the rescaled 1995 and 1996 values
+up the two series in Figure \@ref(fig:iphc-ser-plots-2)(a) by taking the rescaled 1995 and 1996 values
 from Series&nbsp;B and joining to the rescaled Series&nbsp;A. Equivalently,
 we just multiply the original Series-B means and confidence intervals for 1995 
 and 1996 by 
@@ -738,7 +738,7 @@ where
 A_{it} = \frac{-\ln P_{it}}{1 - P_{it}}
 \end{equation}
 is the competition adjustment factor for each set in each year, and is shown
-in Figure\ \@ref(fig:iphc-hook-comp-adjustment).
+in Figure \@ref(fig:iphc-hook-comp-adjustment).
 
 
 ```{r iphc-hook-comp-adjustment, fig.cap="Plot of how the hook competition adjustment factor, $A_{it}$, varies with the proportion of hooks that are returned with bait, with the lowest proportion set to 1/800.", fig.pos="tb"}
@@ -791,7 +791,7 @@ since it will often scale up the observed catch rates via equation
 One option would be to set it to the value obtained if only one hook with bait
 is returned for a set. For a set with 800 observed hooks (essentially the
 maximum), the smallest possible positive value is $P_{it} = 1/800$, which gives
-$A_{it} = 6.69$ (Figure\ \@ref(fig:iphc-hook-comp-adjustment)).
+$A_{it} = 6.69$ (Figure \@ref(fig:iphc-hook-comp-adjustment)).
 
 Figures \@ref(fig:iphc-hook-with-bait) and \@ref(fig:iphc-hook-with-bait-twenty)
 show how the number of hooks returned with baits in each set varies between years

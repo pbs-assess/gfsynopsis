@@ -39,7 +39,7 @@ First Nations, non-governmental organizations, and the general public.
 
 The main results of this synopsis report are presented in two-page
 species-by-species subsections that visually synthesize most available data for
-each species (Sections\ \@ref(sec:synopsis-plots-A) and
+each species (Sections \@ref(sec:synopsis-plots-A)\ and
 \@ref(sec:synopsis-plots-B)). The report focuses on the 110 species listed in
 the current BC groundfish strategic plan, which are divided into those
 identified as species of primary commercial or conservation interest ('A-level'
@@ -60,7 +60,7 @@ commercial timeseries and spatial patterns on the right. The second page is
 focused on biological samples. This page begins at the top with length and age
 data and their relationship with each other, then shows data on maturity, and
 finishes with an overview of available numbers of sampled fish across all
-survey (Figure\ \@ref(fig:intro-maps)) and commercial (Figure
+survey (Figure \@ref(fig:intro-maps)) and commercial (Figure
 \@ref(fig:management-map)) samples for various biological measurements.
 
 In terms of surveys, we have focused on the Synoptic Bottom Trawl surveys, the
