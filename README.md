@@ -10,7 +10,7 @@ This package uses the data extraction, data tidying, model fitting, and plotting
 
 ```r
 # install.packages("devtools")
-devtools::install_github("pbs-assess/gfsynopsis")
+devtools::install_github("pbs-assess/gfsynopsis", dependencies = TRUE)
 devtools::install_github("pbs-assess/csasdown")
 ```
 
