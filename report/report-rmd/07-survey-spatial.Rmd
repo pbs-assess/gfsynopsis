@@ -76,9 +76,9 @@ a fixed random seed to ensure reproducible results.
 
 Instead of directly modelling the effects of depth and depth squared, we first
 centred the log-transformed depth covariate by subtracting its mean and scaling
-it by its standard deviation. We then calculate "depth squared" from this
+it by its standard deviation. We then calculate 'depth squared' from this
 centred and scaled variable. This ensures the covariate values are not too
-large or small to avoid computational issues and the centering separates the
+large or small to avoid computational issues and the centring separates the
 linear and quadratic predictor components.
 
 We fit the four synoptic survey data sets separately, because only two of the

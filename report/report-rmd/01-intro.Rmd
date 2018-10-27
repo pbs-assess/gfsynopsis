@@ -5,9 +5,8 @@ fishery-independent survey data, such as biomass indices and age
 compositions, form the backbone of most fisheries stock assessment.
 Fisheries and Oceans Canada (DFO) at the Pacific Biological Station
 (PBS) manages vast quantities of such data on groundfish species in
-British Columbia (BC). However, we (DFO Science Branch, Pacific Region
-stock assessment scientists) lack the capacity to conduct formal stock
-assessments for most stocks annually, and therefore, much of these data
+British Columbia (BC). However, there is no the capacity to conduct formal
+stock assessments for most stocks annually, and therefore, much of these data
 are not regularly published or readily accessible.
 
 As one step to address this issue, we have created this data synopsis
