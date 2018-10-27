@@ -210,8 +210,6 @@ g_sdm3 <- plot_map(predictions$data, "est_re_s") +
 cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
 ```
 
-\clearpage
-
 ```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Spatial randomized quantile residuals on the link (log) scale."}
 dat$resids <- residuals(m) # randomized quantile residuals
 # hist(dat$resids)
@@ -225,3 +223,5 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
     low = scales::muted("blue")) +
   labs(colour = 'Residual')
 ```
+
+\clearpage
