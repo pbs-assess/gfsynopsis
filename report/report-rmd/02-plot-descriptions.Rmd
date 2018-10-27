@@ -29,8 +29,6 @@ In this section we provide complete captions for each of the
 visualizations that form the species-by-species figures in
 Sections \@ref(sec:synopsis-plots-A) and \@ref(sec:synopsis-plots-B). We use `r sp` as an example species.
 
-\clearpage
-
 ## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
 
 ```{r make-surv-abbrev-text, eval=TRUE}
