@@ -21,20 +21,20 @@ abstract: |
   hook-and-line surveys. However, there is not the capacity to conduct formal
   annual stock assessments for most stocks, and therefore much of these data are
   not regularly published or readily accessible. Here, we introduce
-  a reproducible report to give a snapshot of long-term and recent population
-  and fishing trends, as well as data availability, for 110 groundfish species
-  in British Columbia. The report generation is fully automated -- pulling data
-  from databases, fitting models, generating visualizations, and stitching the
-  document together to facilitate annual publication, reproducibility, and
-  transparency. Our goals are (1) to facilitate regular review by groundfish
-  scientists and managers of trends in survey indices and stock composition to
-  potentially flag stocks for prioritized assessment; (2) to generate
-  standardized datasets and visualizations that will help assessment scientists
-  develop operating models and select candidate management procedures as part
-  of a planned management-procedure framework for data-limited groundfish
-  stocks; and (3) to increase data transparency between Fisheries and Oceans
-  Canada, the fishing industry, non-governmental organizations, and the public.
-  Caveats....TODO
+  a reproducible report to give a snapshot of population and fishing trends,
+  growth and maturity patterns, as well as data availability, for 110 groundfish
+  species in British Columbia. The report generation is fully automated --
+  pulling data from databases, fitting models, generating visualizations, and
+  stitching the document together to facilitate annual publication,
+  reproducibility, and transparency. Our goals are (1) to facilitate regular
+  review by groundfish scientists and managers of trends in survey indices and
+  stock composition to potentially flag stocks for prioritized assessment; (2)
+  to generate standardized datasets and visualizations that will help
+  assessment scientists develop operating models and select candidate
+  management procedures as part of a planned management-procedure framework for
+  data-limited groundfish stocks; and (3) to increase data transparency between
+  Fisheries and Oceans Canada, the fishing industry, non-governmental
+  organizations, and the public.
 output:
  csasdown::resdoc_pdf
   # csasdown::resdoc_word
