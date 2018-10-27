@@ -36,7 +36,7 @@ suppressWarnings({suppressMessages({
   library(egg)
 })})
 pkgs <- sort(c("gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
-  "TMB", "broom.mixed", "purrr", "xtable", "kableExtra",
+  "TMB", "broom.mixed", "purrr", "kableExtra",
   "csasdown", "bookdown", "rmarkdown", "INLA", "sdmTMB", "gfsynopsis",
   "PBSdata", "PBSmapping", "egg"))
 devtools::session_info()$packages %>%
