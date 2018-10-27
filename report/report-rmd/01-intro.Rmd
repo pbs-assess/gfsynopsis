@@ -44,11 +44,12 @@ each species (Sections\ \@ref(sec:synopsis-plots-A) and
 the current BC groundfish strategic plan, which are divided into those
 identified as species of primary commercial or conservation interest ('A-level'
 species) followed by 80 'B-level' species. The report focuses on the surveys
-and data types applicable to the widest array of species.
-
-One important species that is not included here is Pacific Hake
-(*Merluccius productus*), because it has its own dedicated biennial acoustic
-survey and an annual stock assessment [e.g. @edwards2018hake].
+and data types applicable to the widest array of these species.
+The report excludes two prominent species, Pacific Hake (*Merluccius
+productus*) and Pacific Halibut (*Hippoglossus stenolepis*) because they have
+their own dedicated surveys and annual stock assessments and are not well
+represented by the data visualized in this report [e.g. @edwards2018hake;
+@stewart2018halibut].
 
 Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
