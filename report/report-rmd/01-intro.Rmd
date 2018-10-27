@@ -77,7 +77,7 @@ description of the included surveys is included in Appendix
 survey descriptions and designs.
 
 (ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside
-Hard Bottom Long Line survey boundaries (right). The colours matches the colour
+Hard Bottom Long Line survey boundaries (right). The colours match the colour
 coding through the rest of the report. The coverage of the International
 Pacific Halibut Commission (IPHC) survey is shown later.
 
@@ -285,7 +285,7 @@ assess the results for all 110 species in a detailed manner. To use the results
 for a particular species in future assessments, or to make other inferences, we
 recommend that users carefully examine the data and model results. Due to the
 necessary automation required to construct this report, not all
-species-specific special cases may have have been fully considered.
+species-specific special cases may have been fully considered.
 
 <!--
 We developed the gfplot R package to conduct all the data extraction, data
@@ -302,7 +302,7 @@ groundfish stocks. TODO a few more details on the utility of this.
 We intend to publish annual updates of this synopsis report as Science
 Response documents. These annual updates will include another year of
 data and any important corrections to the data, text, or visualizations.
-On a less frequent basis we will consider making larger changes to the
+On a less frequent basis, we will consider making larger changes to the
 structure, methods or content of the report. We will consider these larger
 possible revisions approximately every three years.
 

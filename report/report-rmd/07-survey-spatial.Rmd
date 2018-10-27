@@ -84,7 +84,7 @@ linear and quadratic predictor components.
 We fit the four synoptic survey data sets separately, because only two of the
 surveys are conducted each year and the surveys are disjointed in space and
 time. Similarly, we fit the North and South HBLL surveys independently. We
-combined the predictions to generate the map plots, but labelled the years in
+combined the predictions to generate the map plots but labelled the years in
 which the various surveys were conducted.
 
 As an example, we illustrate the model components for Pacific Cod in Queen
@@ -95,7 +95,7 @@ inspect the effect of the bottom depth quadratic fixed effect predictors
 (Figure \@ref(fig:sdmTMB-maps-combined)B) as well as the spatial random effects
 (Figure \@ref(fig:sdmTMB-maps-combined)C). If we add the fixed effect
 predictions to the spatial random effects in link (log) space and exponentiate
-the result we derive model predictions that include both the fixed and random
+the result, we derive model predictions that include both the fixed and random
 effects (Figure \@ref(fig:sdmTMB-maps-combined)D). We can inspect randomized
 quantile residuals in space to check for any remaining spatial correlation
 (Figure \@ref(fig:sdmTMB-resids)). We can also look at the predicted

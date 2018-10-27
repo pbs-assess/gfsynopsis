@@ -28,7 +28,7 @@ For British Columbia waters, the survey has enumerated non-halibut species
 since 1995 (to varying degrees of species identification). 
 For each species, the catch rate of a set is the number of individuals caught 
 per effective skate.
-We bootstrap these catch rates within each year to
+We bootstrap these catch rates within each year
 to give annual bootstrapped means, bias-corrected and adjusted
 (BCa) bootstrapped 95\% confidence intervals, and bootstrapped coefficients of
 variation (CV) [@efron1987].
@@ -46,7 +46,7 @@ Columbia waters. For each species, the resulting index gives what we term
 the International Pacific Halibut Commission fishery independent survey series
 (IPHC FISS).
 
-The approach taken is described below, and builds on that developed for
+The approach taken is described below and builds on that developed for
 assessments
 of Redbanded Rockfish [@edwards2017redbanded] and Yelloweye Rockfish
 [@yamanaka2018yelloweyeoutside]. The Redbanded assessment was the first to
@@ -74,7 +74,7 @@ that, for simplicity we use the term 'first 20&nbsp;hooks' since samplers on the
 vessels generally targeted the first 20&nbsp;hooks deployed from each skate.
 However, for
 operational reasons (particularly in areas of high catch rates), sometimes the
-20&nbsp;hooks would come from elsewhere within a skate, but would always consist of
+20&nbsp;hooks would come from elsewhere within a skate but would always consist of
 20 consecutive hooks [e.g. @dykstra2002iphc].
 
 \vspace{0mm}
@@ -378,7 +378,7 @@ I_{t} = \frac{1}{n_t} \sum_{i=1}^{n_t} C_{it} = \frac{1}{n_t} \sum_{i=1}^{n_t} \
 Let $\tilde{X}$ indicate a calculation of some value $X$ that is based only on
 the first 20 hooks of each skate. These are the first 20 *numbered* hooks,
 not the first 20 *observed* hooks (so not all of the numbered hooks may
-have been observed). Thus we have:
+have been observed). Thus, we have:
 
 $\tilde{H}_{it}$ -- number of observed chum-bait hooks in the first 20 hooks of
 all skates in set&nbsp;$i$ in year&nbsp;$t$, 
@@ -423,7 +423,7 @@ the first 20 hooks of each skate, is then the mean catch rate across all sets:
 
 We base calculations on bootstrapped means, and so $I_t$ and $\tilde{I}_t$ are 
 calculate, for each year, by re-sampling the catch rates ($C_{it}$ 
-or $\tilde{C}_{it}$) 1,000 times, and calculating a bootstrapped mean and
+or $\tilde{C}_{it}$) 1,000 times and calculating a bootstrapped mean and
 95\% bias-corrected and adjusted confidence interval. 
 
 ### EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS
@@ -555,9 +555,9 @@ overlapping years (it would equal 1 if the catch rates were the same).
 The stations off the WCVI had lower average catch rates of Yelloweye Rockfish
 than the remaining stations. 
 
-So while inclusion of the
+So, while inclusion of the
 WCVI stations does not appear to change the *relative* pattern of the index
-of the population, it does change the absolute values. Therefore the stations
+of the population, it does change the absolute values. Therefore, the stations
 off the WCVI have to be included or excluded consistently to construct an index
 series; since we have more years that do not have stations off the WCVI
 (Table \@ref(tab:seriesSumm)), we consistently exclude these stations (giving
@@ -589,7 +589,7 @@ the mean annual catch rates from those of Series&nbsp;B
 with $G_B/G_C=1.11$ for the
 overlapping years.
 
-So the stations off the WCVI had lower average catch rates of Yelloweye Rockfish
+So, the stations off the WCVI had lower average catch rates of Yelloweye Rockfish
 than the remaining stations. This holds whether we look at all hooks (here) 
 or just the first 20 by comparing Series&nbsp;A and&nbsp;D (above). 
 
@@ -603,7 +603,7 @@ representative of the full coast, and thus so can Series&nbsp;AB.
 If $p_{AB} \geq 0.05$ but either 
 $p_{AD} < 0.05$ or
 $p_{BC} < 0.05$
-then Series&nbsp;AB is still the longest time series possible, but can
+then Series&nbsp;AB is still the longest time series possible but can
 only be considered to represent the waters north of Vancouver Island, not
 the full coast. If $p_{AB} < 0.05$ then Series\ A is the longest time series.
 
@@ -611,13 +611,13 @@ For some special cases of species that are rarely caught (or that weren't
 specifically enumerated in 1995 and 1996, for example), then Series&nbsp;A may
 be the longest, or even possibly Series&nbsp;C or&nbsp;D if the species was not
 caught in some years. Some rare special cases may not yet be fully accounted for
-in our code, and may need to be verified on a species-by-species basis,
+in our code and may need to be verified on a species-by-species basis,
 particularly
 to ascertain whether a given species was being actively identified in a given
 year (resulting in a zero catch rate rather than 'no data').
-Also a shorter time series from all hooks (Series\ B or\ C) may be more informative
+Also, a shorter time series from all hooks (Series\ B or\ C) may be more informative
 than a longer time series based on just the first 20\ hooks. All series are
-calculated for all species, and should be examined further to make any subsequent
+calculated for all species and should be examined further to make any subsequent
 inferences. 
 
 ## HOOK COMPETITION
@@ -736,7 +736,7 @@ where
 \begin{equation}
 A_{it} = \frac{-\ln P_{it}}{1 - P_{it}}
 \end{equation}
-is the competition adjustment factor for each set in each year, and is shown
+is the competition adjustment factor for each set in each year and is shown
 in Figure \@ref(fig:iphc-hook-comp-adjustment).
 
 
@@ -784,7 +784,7 @@ skate (i.e.\ all years except 1995 and 1996),
 `r nrow(filter(bait_set_counts, N_it20 == 0))`
 had $P_{it}=0$ for the first 20\ hooks.
 
-Therefore the choice of what to use for $A_{it}$ when $P_{it} = 0$ is important,
+Therefore, the choice of what to use for $A_{it}$ when $P_{it} = 0$ is important,
 since it will often scale up the observed catch rates via equation 
 \@ref(eq:Nits0rearrange2).
 One option would be to set it to the value obtained if only one hook with bait

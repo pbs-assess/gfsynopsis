@@ -4,7 +4,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   comment = "#>",
-  fig.path = "knitr-figs/",
+  fig.path = if (knitr:::is_latex_output()) "knitr-figs/" else "knitr-figs-docx/",
   cache.path = if (knitr:::is_latex_output()) "knitr-cache-tex/" else "knitr-cache-docx/",
   fig.asp = 0.618,
   fig.width = 9,
