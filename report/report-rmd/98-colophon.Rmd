@@ -10,7 +10,7 @@ databases to the final report via code and can be quickly updated in future
 years. To that end, all data extraction, data manipulation, model fitting, and
 visualization for this report is automated.
 
-```{r get-git-hashes, cache=TRUE}
+```{r get-git-hashes, cache=FALSE}
 get_sha <- function(path) {
   suppressWarnings({
     sha <- tryCatch(system(paste0("git ls-remote git@github.com:", path, ".git"),
