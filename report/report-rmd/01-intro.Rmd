@@ -54,13 +54,14 @@ Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
 DFO species code, which usually corresponds to the page number referencing the
 species in @hart1988. The figures themselves are laid out such that the first
-page has survey timeseries trends and spatial patterns on the left and
-commercial timeseries and spatial patterns on the right. The second page is
-focused on biological samples. This page begins at the top with length and age
-data and their relationship with each other, then shows data on maturity, and
-finishes with an overview of available numbers of sampled fish across all
-survey (Figure \@ref(fig:intro-maps)) and commercial (Figure
-\@ref(fig:management-map)) samples for various biological measurements.
+page has survey (Figure \@ref(fig:intro-maps)) timeseries trends and spatial
+patterns on the left and commercial timeseries by Pacific Marine Fisheries
+Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the
+right. The second page is focused on biological samples. This page begins at
+the top with length and age data and their relationship with each other, then
+shows data on maturity, and finishes with an overview of available numbers of
+sampled fish across all survey and commercial samples for various biological
+measurements.
 
 In terms of surveys, we have focused on the Synoptic Bottom Trawl surveys, the
 Outside Hard Bottom Long Line surveys (HBLL; alternatively referred to as the
@@ -175,7 +176,7 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
-```{r management-map, fig.cap="Map of the management areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island).", out.width="3.3in", fig.pos="tb"}
+```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), and 3CD (West Coast Vancouver Island). These are close, but not identical, to similarly named Groundfish Management Unit areas.", out.width="3.3in", fig.pos="tb"}
 knitr::include_graphics("figure/3CD5ABCDE.png", dpi = NA)
 ```
 
