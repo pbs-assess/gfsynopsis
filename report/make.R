@@ -33,7 +33,7 @@ dat_geostat_index <- readRDS(here("report", "geostat-cache",
 # ------------------------------------------------------------------------------
 
 if (!file.exists(here("report", "itis.rds"))) {
-  cls <- taxize::classification(spp$itis_tsn, db = 'itis')
+  cls <- taxize::classification(spp$itis_tsn[!is.na(spp$itis_tsn)], db = 'itis')
   saveRDS(cls, file = here("report", "itis.rds"))
 } else {
   cls <- readRDS(here("report", "itis.rds"))
@@ -44,6 +44,12 @@ cls <- plyr::ldply(cls) %>%
   reshape2::dcast(itis_tsn ~ rank, value.var = 'name')
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
+
+# Missing from ITIS:
+spp$order[spp$species_common_name == "deacon rockfish"] <-
+  spp$order[spp$species_common_name == "vermilion rockfish"]
+spp$family[spp$species_common_name == "deacon rockfish"] <-
+  spp$family[spp$species_common_name == "vermilion rockfish"]
 
 if (!file.exists(here("report", "cosewic.rds"))) {
   cosewic <- gfplot::get_sara_dat()
@@ -93,7 +99,7 @@ spp <- arrange(spp, type, species_code)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
-# i <- which(spp$species_common_name  ==  'kelp greenling') # for debugging
+# i <- which(spp$species_common_name  ==  'copper rockfish') # for debugging
 for (i in seq_along(spp$species_common_name)) {
   fig_check <- paste0(here("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
@@ -161,10 +167,22 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(
-    gfsynopsis:::emph(latin_name), " (", species_code, ")", ", ",
+    gfsynopsis:::emph(latin_name), " (", species_code, ")", "\\\n",
     "Order: ", spp$order[spp$species_common_name == x], ", ",
     "Family: ", spp$family[spp$species_common_name == x],
-    "\n")
+    ",")
+  i <- i + 1
+  out[[i]] <- paste0("[FishBase link]",
+    "(http://www.fishbase.org/summary/",
+    gsub(" ", "-", gfplot:::firstup(latin_name)), ")\\")
+  if (species_code == '394') { # Sebastes aleutianus/melanostictus
+    .names <- rougheye_split(gfplot:::firstup(latin_name))
+    out[[i]] <- paste0("[FishBase link 1]",
+      "(http://www.fishbase.org/summary/", .names[1], "),")
+    i <- i + 1
+    out[[i]] <- paste0("[FishBase link 2]",
+      "(http://www.fishbase.org/summary/", .names[2], ")\\")
+  }
   if (resdoc != "") {
     i <- i + 1
     out[[i]] <- paste0(resdoc_text, resdoc, "\\")
