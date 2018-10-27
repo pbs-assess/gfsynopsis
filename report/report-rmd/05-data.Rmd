@@ -19,7 +19,7 @@ reconstructions and are not included in this report.
 
 Commercial catch and effort data for the synopsis report and gfplot functions are sourced from the table `GF_MERGED_CATCH` in the GFFOS database. In each commercial database there is an official catch table that provides the best available estimate of landed catch per location by applying the proportion of catch per set or area to trip-level landing data. Since 2015, the official catch tables from the various databases have been merged together into `GF_MERGED_CATCH` to facilitate and standardize commercial data extraction.
 
-Catch proportions are calculated from the most spatially detailed information available on how much of each species was harvested per set or per area (as granular as possible). In most cases this will be catch reported in observer logs or fisher logs. Older data contain records where set-level information was rolled up, for example, by area (see @rutherford1999 for details on how catch was recorded in databases). The proportions are applied to the best available information on how much of each species was harvested on a trip. In most cases this will be the landed weight as recorded by the Dockside Monitoring Program (DMP). Earlier harvest data are recorded from sales slips or observer or fisher logs (see @rutherford1999 for details on data sources).
+Catch proportions are calculated from the most spatially detailed information available on how much of each species was harvested per set or per area. In most cases this will be catch reported in observer logs or fisher logs. Older data contain records where set-level information was rolled up, for example, by area (see @rutherford1999 for details on how catch was recorded in databases). The proportions are applied to the best available information on how much of each species was harvested on a trip. In most cases this will be the landed weight as recorded by the Dockside Monitoring Program (DMP). Earlier harvest data are recorded from sales slips or observer or fisher logs (see @rutherford1999 for details on data sources).
 
 Below are details of how the official catch tables are created in each of the databases populating `GF_MERGED_CATCH`.
 
@@ -28,24 +28,23 @@ Catch data is extracted by trip and separated by retained weights (recorded on s
 
 ### PacHarvest 1996--2007 (trawl only)
 
-In the PacHarvest database, retained catch weights are extracted from recorded on-board observer logs by hail-in number (usually representing a trip) and by set (trawl tow) to calculate the set proportion of total trip/hail-in catch. This proportion derived from the observer log data is then applied to the hail-in catch weights in dockside records to obtain a more accurate landed weight per set. These landings as well as retained weights from fisher logs are combined with trip level (as for GFCatch above) and set level details to create the `D_Official_Catch` table for PacHarvest.
+In the PacHarvest database, retained catch weights are extracted from recorded on-board observer logs by hail-in number (usually representing a trip) and by set (trawl tow) to calculate the set proportion of total trip/hail-in catch. This proportion derived from the observer log data is then applied to the hail-in catch weights in dockside records to obtain a more accurate landed weight per set. These landings as well as retained weights from fisher logs are combined with trip level (as for GFCatch above) and set-level details to create the `D_Official_Catch` table for PacHarvest.
 
 ### PacHarvSable 1996--2006 (trap and hook and line)
 
-In PacHarvSable, the table `D_Merged_Catches` combines unique set numbers for each hail-in number with retained and discarded weights from fisher logs and landed weights from sales slips or dockside validation records. These catch data are combined with trip and set level data in the `D_Official_Catch` table with landed weight presenting landings or, if landings aren't available, retained weights.
+In PacHarvSable, the table `D_Merged_Catches` combines unique set numbers for each hail-in number with retained and discarded weights from fisher logs and landed weights from sales slips or dockside validation records. These catch data are combined with trip- and set-level data in the `D_Official_Catch` table with landed weight presenting landings or, if landings are not available, retained weights.
 
 ### PacHarvHL 1985--2006 (hook and line only)
 
-Catch data in PacHarvHL are combined with trip and set level data. Catch is recorded as the best of landed weight (sales slips or DMP records) or retained weight (fisher logs) and the source (either landed or retained) is indicated in the source column. Latitude and longitude records correspond to the beginning of a fishing event. The best available depth for the fishing event is given for each fishing event as, in preferential order, the average of the start and end depths, average of the minimum and maximum depths, start depth, end depth, minimum depth, or maximum depth. The best available date is given as, in preferential order, the fishing event end date, the fishing event start date, or the trip end date.
+Catch data in PacHarvHL are combined with trip- and set-level data. Catch is recorded as the best of landed weight (sales slips or DMP records) or retained weight (fisher logs) and the source (either landed or retained) is indicated in the source column. Latitude and longitude records correspond to the beginning of a fishing event. The best available depth for the fishing event is given for each fishing event as, in preferential order, the average of the start and end depths, average of the minimum and maximum depths, start depth, end depth, minimum depth, or maximum depth. The best available date is given as, in preferential order, the fishing event end date, the fishing event start date, or the trip end date.
 
 ### GFFOS 2007--present (trawl, trap and hook and line)
 
-Average weight per piece is calculated for each species by trip for later populating catch weight where only catch count is available. DMP landings are extracted by trip. Catch is extracted from observer and fisher log data by trip and separated by released/retained, legal/sublegal, liced and bait using utilization codes. Average kg per piece is calculated by species from DMP data as `ROUND_KG_PER_OFFLOAD_PIECE` = `OFFLOAD WT/OFFLOAD CT`. When this is not available for a trip, `ROUND_KG_PER_RETAINED_PIECE` is calculated by species from log data. If this too is not available, kg per piece by species is calculated for all trips = `EST_KG_PER_PIECE`.
-
-Observer and fisher log ‘retained catch’ data are extracted by fishing event. If there is no retained weight recorded but there is a retained count, then `BEST_RETAINED_WT` is calculated as the retained count multiplied by the best available average kg per piece from, in preferential order, `ROUND_KG_PER_OFFLOAD_PIECE`, `ROUND_KG_PER_RETAINED_PIECE`, `EST_ROUND_KG_PER_PIECE`. Similarly, if there is no retained count recorded but there is a retained weight, then the retained weight is divided by the best available average weight per piece to give `BEST_RETAINED_COUNT`.
+Average weight per piece is calculated for each species by trip for later populating catch weight where only catch count is available. DMP landings are extracted by trip. Catch is extracted from observer and fisher log data by trip and separated by released/retained, legal/sublegal, liced and bait using utilization codes. Average kg per piece is calculated by species from DMP data as `ROUND_KG_PER_OFFLOAD_PIECE` = `OFFLOAD WT/OFFLOAD CT`. When this is not available for a trip, `ROUND_KG_PER_RETAINED_PIECE` is calculated by species from log data. If this too is not available, kg per piece by species is calculated for all `trips = EST_KG_PER_PIECE`.
+and fisher log ‘retained catch’ data are extracted by fishing event. If there is no retained weight recorded but there is a retained count, then `BEST_RETAINED_WT` is calculated as the retained count multiplied by the best available average kg per piece from, in preferential order, `ROUND_KG_PER_OFFLOAD_PIECE`, `ROUND_KG_PER_RETAINED_PIECE`, `EST_ROUND_KG_PER_PIECE`. Similarly, if there is no retained count recorded but there is a retained weight, then the retained weight is divided by the best available average weight per piece to give `BEST_RETAINED_COUNT`.
 Trip totals are then calculated for landed weight, retained catch weight, landed count, and retained catch count, and ratios are calculated for trip landed weight:trip retained catch weight and trip landed count:trip retained catch count.
 
-All best retained, landed and discarded catch weights and counts are combined in one view, `GF_D_MERGED_FE_CATCH2_SUMRY_VW`. Where `LANDED_ROUND_KG` is null but retained weight is reported and a landed weight:retained catch weight ratio exists then landed weight is given as `BEST_RETAINED_ROUND_KG` $\times$ `MTFEC.KG_RATIO`. Similarly, if no landed count is reported, then `LANDED_COUNT` is given as `BEST_RETAINED_COUNT` $\times$ `MTFEC.COUNT_RATIO`.
+All best retained, landed and discarded catch weights and counts are combined in one view, `GF_D_MERGED_FE_CATCH2_SUMRY_VW`. Where `LANDED_ROUND_KG` is `NULL` but retained weight is reported and a landed weight:retained catch weight ratio exists then landed weight is given as `BEST_RETAINED_ROUND_KG` $\times$ `MTFEC.KG_RATIO`. Similarly, if no landed count is reported, then `LANDED_COUNT` is given as `BEST_RETAINED_COUNT` $\times$ `MTFEC.COUNT_RATIO`.
 
 All catch and landings weight and count data by fishing event are then joined with several other pieces of data by fishing event including vessel ID and name, data source, fishery sector, and area. Several fields present “best” data when there are multiple options. `BEST_DATE` is, when there are fewer than 3 months difference between offload date and best available logbook date (in preferential order of fishing event best, end or start date, or trip best, end or start date), the reported offload date; otherwise, it is the best available logbook date. `LATITUDE` and `LONGITUDE` are, in preferential order, the reported start latitude/longitude, mid-latitude/longitude or end latitude/longitude. ` BEST_DEPTH` is calculated as the average of start and end depth and converted from fathoms to meters. These data are combined in the view `GF_D_OFFICIAL_FE_CATCH_VW2` with the additional fishing event or trip data generally obtained from observer logs, or from fisher logs when observer or validation logs are not available.
 
@@ -53,27 +52,44 @@ The official catch tables populate the `GF_MERGED_CATCH` table directly. Where t
 
 ## Data Extraction Details
 
-We developed a package gfplot for the statistical software R to automate data
-extraction from these databases in a consistent, reproducible manner. The
-functions extract data using SQL queries, developed with support from the
-Groundfish Data Unit, which select and filter for specific data depending on
-the analyses for which they will be used. The SQL file names mentioned in this
-section can be viewed at
-<https://github.com/pbs-assess/gfplot/tree/master/inst/sql> and may be archived
-in the final version of this document.
+We developed a package gfplot for the statistical software R [@r2018] to
+automate data extraction from these databases in a consistent, reproducible
+manner. The functions extract data using SQL queries, developed with support
+from the Groundfish Data Unit, which select and filter for specific data
+depending on the analyses for which they will be used. The SQL file names
+mentioned in this section can be viewed at
+<https://github.com/pbs-assess/gfplot/tree/master/inst/sql> and will be
+archived on a local server with the final version of this document.
 
 We extracted commercial catch with `get-catch.sql`. All landings and discards
 are extracted by species, fishery sector, gear type and year, and are not
 filtered in any further way.
 
-We extracted commercial trawl catch per unit effort (CPUE) index data using
-`get-cpue-index.sql` and we filtered the data to include only records with valid
-start and end dates (Table \@ref(tab:sql-cpue-index)) which include set start and
-end time and are later used to calculate effort (expressed in hours). Catch
-(kg), year, gear type and Pacific Fishery Management Area
-(PFMA) are extracted for each tow. Gear type, PFMA and minimum year are given
-as arguments and are set at defaults of bottom trawl, all areas, and 1996,
+We extracted commercial trawl catch and effort data (for later standardization)
+using `get-cpue-index.sql` and we filtered the data to include only records
+with valid start and end dates (Table \@ref(tab:sql-cpue-index)) which include
+set start and end time and are later used to calculate effort (expressed in
+hours). Catch (kg), year, gear type and Pacific Fishery Management Area (PFMA)
+are extracted for each tow. Gear type, PFMA and minimum year are given as
+arguments and are set at defaults of bottom trawl, all areas, and 1996,
 respectively.
+
+\begin{table}[htpb]
+\centering
+\caption{Description of filters in SQL queries extracting commercial trawl catch and effort data from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-cpue-index.sql}}
+\label{tab:sql-cpue-index}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+\toprule
+Filters & Rationale \\
+\midrule
+Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL} & To remove records with missing date \\
+Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \texttt{FE\_END\_DATE} > \texttt{FE\_START\_DATE} & To remove records with erroneous dates \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+\vspace{0mm}
 
 We extracted commercial trawl spatial CPUE data using `get-cpue-spatial.sql`,
 pulling out latitude, longitude, gear type, catch (kg) and CPUE (total catch/
@@ -82,6 +98,26 @@ only records with valid start and end dates, to remove records with erroneous
 latitude and longitude values, and to include only records from the groundfish
 trawl sector with positive tows since 2012 when the trawl footprint was
 implemented (Table \@ref(tab:sql-cpue-spatial)).
+
+\begin{table}[htpb]
+\centering
+\caption{Description of filters in SQL queries extracting commercial trawl spatial catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial.sql}}
+\label{tab:sql-cpue-spatial}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+\toprule
+Filters & Rationale \\
+\midrule
+Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122 & To remove erroneous location records \\
+Filtered for \texttt{YEAR(BEST\_DATE)} greater than 2012 & To extract only records since the trawl fishery footprint was established \\
+Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE} & To remove records with erroneous dates \\
+Filtered for \texttt{FISHERY\_SECTOR} = \texttt{GROUNDFISH TRAWL} & To extract only records in the groundfish trawl fishery \\
+Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND\_KG,0)} > 0 & To extract only records with positive catch \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+\vspace{0mm}
 
 We extracted commercial hook and line spatial CPUE data using
 `get-cpue-spatial-ll.sql`, which pulls out latitude and longitude, gear type,
@@ -95,11 +131,46 @@ landed catch in pieces per fishing event (set). Discards are not included in
 hook and line spatial CPUE because discarded pieces are not reliably recorded
 in all years. Species names are given as an argument to the function.
 
+\begin{table}[htpb]
+\centering
+\caption{Description of filters in SQL queries extracting commercial hook and line spatial catch per unit effort (kg/set) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial-ll.sql}}
+\label{tab:sql-cpue-spatial-ll}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+\toprule
+Filters & Rationale \\
+\midrule
+Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122 & To remove erroneous location records \\
+Filtered for \texttt{YEAR(BEST\_DATE)} greater than or equal to 2008 & To extract only records since 2008 after implementation of IFMP \\
+Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE} & To remove records with erroneous dates \\
+Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK AND LINE)} & To extract only records in the hook and line fishery \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+\vspace{0mm}
+
 We extracted survey biomass index data `get-survey-index.sql`. Calculated
 bootstrapped biomass, year and survey series identification code (SSID) are
 filtered for active records of the calculated biomass in the database
 (Table \@ref(tab:sql-survey-index)). Species and SSID codes are given as
 arguments to the function.
+
+\begin{table}[htp]
+\centering
+\caption{Description of filters in SQL queries extracting bootstrapped survey biomass index from \texttt{GFBio} with \texttt{get-survey-index}}
+\label{tab:sql-survey-index}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+\toprule
+Filters & Rationale \\
+\midrule
+Filter for \texttt{ACTIVE\_IND} 1 & To extract only active (useable) bootstrapped index records \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
+\vspace{0mm}
 
 We extracted biological data using `get-survey-samples.sql` and
 `get-comm-samples.sql` for research survey and commercial samples,
@@ -140,7 +211,10 @@ and exclude samples selected by specified criteria.
 Age data extracted with the biological sample queries are filtered by
 `AGEING_METHOD_CODE` to select current ageing methods verified with the ageing
 lab at the Pacific Biological Station in order to remove experimental ageing
-methods that may also be recorded in the database.
+methods that may also be recorded in the database (Table
+\@ref(tab:aging-method-table)).
+
+\vspace{0mm}
 
 Maturity codes are assigned at the time of sampling following a chosen
 convention. The various conventions have different scales and classifications
@@ -148,40 +222,13 @@ appropriate for different species or species groups.
 We worked with the survey staff, data team and biologists for the various taxa
 to select which codes at and above which an individual fish is considered
 'mature' in order to assign a maturity status to each specimen based on
-a combination of maturity convention, maturity code and sex.
+a combination of maturity convention, maturity code and sex (Table \@ref(tab:maturity-table)).
 
 The ageing precision data are extracted with `get-age-precision.sql`. Data are
 filtered to bring in only records for which a secondary (precision) reading was
 performed by a different technician in addition to the primary reading
 (Table \@ref(tab:sql-age-precision)).
 
-\clearpage
-
-\begin{table}[htpb]
-\centering
-\caption{Description of filters in SQL queries extracting commercial sample data from GFBio with \texttt{get-comm-samples.sql}.}
-\label{tab:sql-comm-samp}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
-\toprule
-Filters & Rationale \\
-\midrule
-Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips) & To extract only commercial data \\
-Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total) & To extract only those records of sample type 'random' or 'total' \\
-Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7} & To remove samples sorted on unknown criteria \\
-Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3} & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples) \\
-\bottomrule
-\end{tabu}}
-\end{table}
-
-```{r}
-# pdf <- knitr:::is_latex_output()
-# read.csv(here::here("report/report-rmd/tables/sql-comm-samp.csv"),
-#   stringsAsFactors = FALSE, strip.white = TRUE) %>%
-#   csas_table(format = if (pdf) "latex" else "pandoc", escape = FALSE) %>%
-#   kableExtra::column_spec(1, width = "2.8in") %>%
-#   kableExtra::column_spec(2, width = "3.2in")
-```
 
 \begin{table}[htpb]
 \centering
@@ -202,83 +249,40 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3} & To extract b
 
 \begin{table}[htpb]
 \centering
-\caption{Description of filters in SQL queries extracting commercial trawl catch and effort data from \texttt{GFFOS.GF\_MERGED\_CATCH} with \texttt{get-cpue-index.sql}}
-\label{tab:sql-cpue-index}
+\caption{Description of filters in SQL queries extracting commercial sample data from GFBio with \texttt{get-comm-samples.sql}.}
+\label{tab:sql-comm-samp}
 {\tabulinesep=1.6mm
 \begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
 \toprule
 Filters & Rationale \\
 \midrule
-Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL} & To remove records with missing date \\
-Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \texttt{FE\_END\_DATE} > \texttt{FE\_START\_DATE} & To remove records with erroneous dates \\
+Filtered out \texttt{TRIP\_SUBTYPE\_CODE} \texttt{2, 3} (research trips) & To extract only commercial data \\
+Filtered for \texttt{SAMPLE\_TYPE\_CODE} \texttt{1, 2, 6, 7, 8} (random or total) & To extract only those records of sample type 'random' or 'total' \\
+Filtered for \texttt{SPECIES\_CATEGORY\_CODE} \texttt{NULL, 0, 1, 3, 4, 5, 6, 7} & To remove samples sorted on unknown criteria \\
+Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3} & To extract both sorted and unsorted samples for later filtration for desired analysis (removes stomach contents samples) \\
 \bottomrule
 \end{tabu}}
 \end{table}
 
-\begin{table}[htpb]
-\centering
-\caption{Description of filters in SQL queries extracting commercial trawl spatial catch per unit effort (kg/hr) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial.sql}}
-\label{tab:sql-cpue-spatial}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
-\toprule
-Filters & Rationale \\
-\midrule
-Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122 & To remove erroneous location records \\
-Filtered for \texttt{YEAR(BEST\_DATE)} greater than 2012 & To extract only records since the trawl fishery footprint was established \\
-Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE} & To remove records with erroneous dates \\
-Filtered for \texttt{FISHERY\_SECTOR} = \texttt{GROUNDFISH TRAWL} & To extract only records in the groundfish trawl fishery \\
-Filtered for \texttt{ISNULL(LANDED\_ROUND\_KG,0) + ISNULL(TOTAL\_RELEASED\_ROUND\_KG,0)} > 0 & To extract only records with positive catch \\
-\bottomrule
-\end{tabu}}
-\end{table}
+```{r spp-cat, results='asis'}
+spp_cat <- readr::read_csv(here::here("report/report-rmd/tables/spp-category.csv"))
+spp_cat$`Species Category Description` <-
+  gfplot:::firstup(tolower(spp_cat$`Species Category Description`))
+spp_cat$`Species Category Description` <-
+  gsub("-", "--", spp_cat$`Species Category Description`)
+spp_cat$`Species Category Description` <-
+  gsub("unk\\.", "unknown", spp_cat$`Species Category Description`)
+csasdown::csas_table(spp_cat, caption = "Species category codes lookup table, which
+  describes sampling protocols at the catch level.")
+```
 
-\begin{table}[htpb]
-\centering
-\caption{Description of filters in SQL queries extracting commercial hook and line spatial catch per unit effort (kg/set) from \texttt{GFFOS.GF\_D\_OFFICIAL\_CATCH} with \texttt{get-cpue-spatial-ll.sql}}
-\label{tab:sql-cpue-spatial-ll}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
-\toprule
-Filters & Rationale \\
-\midrule
-Filtered for \texttt{LAT} between 47.8 and 55 and \texttt{LON} between -135 and -122 & To remove erroneous location records \\
-Filtered for \texttt{YEAR(BEST\_DATE)} greater than or equal to 2008 & To extract only records since 2008 after implementation of IFMP \\
-Filtered for \texttt{YEAR(START\_DATE)} = \texttt{YEAR(END\_DATE)} and \texttt{END\_DATE} > \texttt{START\_DATE} & To remove records with erroneous dates \\
-Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK AND LINE)} & To extract only records in the hook and line fishery \\
-\bottomrule
-\end{tabu}}
-\end{table}
-
-\begin{table}[htp]
-\centering
-\caption{Description of filters in SQL queries extracting bootstrapped survey biomass index from \texttt{GFBio} with \texttt{get-survey-index}}
-\label{tab:sql-survey-index}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
-\toprule
-Filters & Rationale \\
-\midrule
-Filter for \texttt{ACTIVE\_IND} 1 & To extract only active (useable) bootstrapped index records \\
-\bottomrule
-\end{tabu}}
-\end{table}
-
-\begin{table}[htp]
-\centering
-\caption{Description of filters in SQL queries extracting all age records with a precision test reading to determine aging precision from {GFBio} with \texttt{get\_age\_precision.sql}}
-\label{tab:sql-age-precision}
-{\tabulinesep=1.6mm
-\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
-\toprule
-Filters & Rationale \\
-\midrule
-Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & To extract primary and precision test readings \\
-\bottomrule
-\end{tabu}}
-\end{table}
-
-\clearpage
+```{r samp-source, results='asis'}
+samp_source <- readr::read_csv(here::here("report/report-rmd/tables/sample-source.csv"))
+samp_source$`Sample Source Description` <-
+  gfplot:::firstup(tolower(samp_source$`Sample Source Description`))
+csasdown::csas_table(samp_source, caption = "Sample source codes lookup table, which
+  describes sampling protocols at the sample level.")
+```
 
 ```{r aging-method-table-setup}
 meta <- gfsynopsis::get_spp_names()
@@ -304,9 +308,12 @@ age_methods <- filter(age_methods, !is.na(species_code))
 names(age_methods) <- c("Common name", "Scientific name", "Species code", "Aging codes")
 ```
 
+\clearpage
+
 ```{r aging-method-table, results='asis'}
 csasdown::csas_table(age_methods, caption = "Ageing method codes from GFBio considered valid throughout the synopsis document for groundfish species in British Columbia. The ageing method codes were chosen with the help of the PBS Schlerochronology Lab. 1 = 'Otolith Surface Only', 3 = 'Otolith Broken and Burnt', 17 = 'Otolith Broken and Baked (Break and Bake)', 6 = 'Dorsal Fin XS', 11 = 'Dorsal Spine', 12 = 'Vertebrae'.")
 ```
+
 
 \clearpage
 
@@ -329,25 +336,29 @@ mat <- filter(mat, !grepl("SABLEFISH", `Maturity convention description`))
 csasdown::csas_table(mat, caption = "Maturity convention codes ('Mat. conv. code'), maturity convention descriptions, sex, and the maturity convention value at which a fish is deemed to be mature for the purposes of the synopsis report. Note that fish may be considered mature at other maturity convention values in particular stock assessments where other values are chosen for specific reasons.")
 ```
 
+\begin{table}[htp]
+\centering
+\caption{Description of filters in SQL queries extracting all age records with a precision test reading to determine ageing precision from {GFBio} with \texttt{get\_age\_precision.sql}}
+\label{tab:sql-age-precision}
+{\tabulinesep=1.6mm
+\begin{tabu}{>{\raggedright\arraybackslash}m{2.8in}>{\raggedright\arraybackslash}m{3.2in}}
+\toprule
+Filters & Rationale \\
+\midrule
+Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & To extract primary and precision test readings \\
+\bottomrule
+\end{tabu}}
+\end{table}
+
 \clearpage
 
-```{r spp-cat, results='asis'}
-spp_cat <- readr::read_csv(here::here("report/report-rmd/tables/spp-category.csv"))
-spp_cat$`Species Category Description` <-
-  gfplot:::firstup(tolower(spp_cat$`Species Category Description`))
-spp_cat$`Species Category Description` <-
-  gsub("-", "--", spp_cat$`Species Category Description`)
-spp_cat$`Species Category Description` <-
-  gsub("unk\\.", "unknown", spp_cat$`Species Category Description`)
-csasdown::csas_table(spp_cat, caption = "Species category codes lookup table, which
-  describes sampling protocols at the catch level.")
-```
-
-```{r samp-source, results='asis'}
-samp_source <- readr::read_csv(here::here("report/report-rmd/tables/sample-source.csv"))
-samp_source$`Sample Source Description` <-
-  gfplot:::firstup(tolower(samp_source$`Sample Source Description`))
-csasdown::csas_table(samp_source, caption = "Sample source codes lookup table, which
-  describes sampling protocols at the sample level.")
+```{r}
+## If wanting .docx tables to work:
+# pdf <- knitr:::is_latex_output()
+# read.csv(here::here("report/report-rmd/tables/sql-comm-samp.csv"),
+#   stringsAsFactors = FALSE, strip.white = TRUE) %>%
+#   csas_table(format = if (pdf) "latex" else "pandoc", escape = FALSE) %>%
+#   kableExtra::column_spec(1, width = "2.8in") %>%
+#   kableExtra::column_spec(2, width = "3.2in")
 ```
 
