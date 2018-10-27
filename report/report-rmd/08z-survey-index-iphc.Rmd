@@ -8,7 +8,6 @@ bait_set_counts <- readRDS(paste0(file.path(dc, "iphc/hook-with-bait.rds")))$set
 
 ```
 
-
 The International Pacific Halibut Commission (IPHC) conducts an annual stock
 assessment longline survey in waters from California to Alaska, including
 British Columbia waters [@flemming2012iphc]. The survey's main goal is to
@@ -69,10 +68,10 @@ were enumerated, and for other years all hooks were enumerated but the data are
 only available at the set level (i.e.&nbsp;we do not know which hook caught which
 species, only how many individuals from each species were caught on the whole
 set). The data were extracted from various spreadsheets and the DFO database
-`GFBio`, and all originally came from the IPHC. For only some of the years
+GFBio, and all originally came from the IPHC. For only some of the years
 were the locations off the west coast of Vancouver Island (WCVI) sampled. Note
 that, for simplicity we use the term 'first 20&nbsp;hooks' since samplers on the
-vessels generally targetted the first 20&nbsp;hooks deployed from each skate.
+vessels generally targeted the first 20&nbsp;hooks deployed from each skate.
 However, for
 operational reasons (particularly in areas of high catch rates), sometimes the
 20&nbsp;hooks would come from elsewhere within a skate, but would always consist of
@@ -115,7 +114,7 @@ Year        Hooks enumerated         Data resolution   Location of data      WCV
 surveys. 'Data resolution' indicates at what level the data are available, and
 'WCVI?' indicates whether or not the survey included locations off the west
 coast of Vancouver Island. 'Location of data' indicates where the data were
-accessed from, either our DFO {\tt GFBio} database or from spreadsheets. $^1$For
+accessed from, either our DFO GFBio database or from spreadsheets. $^1$For
 1995, the biological data were in the file
 "1995\_IPHC\_SSA\_Rockfish\_catch\_from\_Kelly\_Ames.xls" on DFO's Inshore
 Rockfish shared drive, and effective skates were obtained from Aaron Ranta
@@ -244,14 +243,14 @@ from our analyses (e.g. the
 hook-tally sheet got blown overboard for station 2113 in the year 2008), with
 usability codes described in Table\ \@ref(tab:iphc-set-codes). In particular,
 we include stations deemed as 'Usable but omit from any geospatial analysis',
-but these should be exluded for complex spatial analyses.
+but these should be excluded for complex spatial analyses.
 
-```{r iphc-hook-codes, tab.cap="Description of hook observation classifications and corresponding codes in theGFBio database.", eval=FALSE}
+```{r iphc-hook-codes, tab.cap="Description of hook observation classifications and corresponding codes in the GFBio database.", eval=FALSE}
 
 hookCodes = cbind("Description"=c("Unknown", "Empty hook",
     "Bait on hook",
     "Animal on hook (fish or invertebrate)", "Species head on hook",
-    "Species droped off hook", "Bait skin on hook", "Hook not observed",
+    "Species dropped off hook", "Bait skin on hook", "Hook not observed",
     "Eaten or bitten (by shark, etc.)"),
     "HOOK_YIELD_CODE" = 0:8)      # from iphc0314.Snw
 csasdown::csas_table(hookCodes)
@@ -270,7 +269,7 @@ Empty hook & 1\\
 Bait on hook & 2\\
 Animal on hook (fish or invertebrate) & 3\\
 Species head on hook & 4\\
-Species droped off hook & 5\\
+Species dropped off hook & 5\\
 Bait skin on hook & 6\\
 Hook not observed & 7\\
 Eaten or bitten (by shark, etc.) & 8\\
@@ -423,9 +422,9 @@ the first 20 hooks of each skate, is then the mean catch rate across all sets:
 \end{equation}
   
 We base calculations on bootstrapped means, and so $I_t$ and $\tilde{I}_t$ are 
-calculate, for each year, by resampling the catch rates ($C_{it}$ 
+calculate, for each year, by re-sampling the catch rates ($C_{it}$ 
 or $\tilde{C}_{it}$) 10,000 times, and calculating a bootstrapped mean and
-95\% bias-corected and adjusted confidence interval. 
+95\% bias-corrected and adjusted confidence interval. 
 
 ### EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS
 
@@ -458,7 +457,7 @@ the hooks. This is why we compare Series\ A and Series\ B in Figure \@ref(fig:ip
 <!-- Hard-wired ref here but fig and caption will get updated anyway for Res -->
 <!-- Doc. No time to create figure for working paper. -->
 
-```{r iphc-ser-plots, fig.cap="Catch rate index (number of individual Yelloweye Rockfish caught per skate) for (a) Series A and (b) Series B from the Yelloweye Rockfish assessment (Yamanaka et al., 2018); updated automated figures will be produced for our final report. For a given year, the catch rate for each set was calculated from (G.2) or (G.5). These catch rates were then resampled for 10,000 bootstrap values, from which a bootstrapped mean (open circles) and 95\\% bias-corrected and adjusted confidence intervals (bars) were calculated. Small black closed circles are sample means (not bootstrapped), and essentially equal the bootstrapped means.", out.width="3.5in", fig.pos="tbp"}
+```{r iphc-ser-plots, fig.cap="Catch rate index (number of individual Yelloweye Rockfish caught per skate) for (a) Series A and (b) Series B from the Yelloweye Rockfish assessment (Yamanaka et al., 2018); updated automated figures will be produced for our final report. For a given year, the catch rate for each set was calculated from (G.2) or (G.5). These catch rates were then re-sampled for 10,000 bootstrap values, from which a bootstrapped mean (open circles) and 95\\% bias-corrected and adjusted confidence intervals (bars) were calculated. Small black closed circles are sample means (not bootstrapped), and essentially equal the bootstrapped means.", out.width="3.5in", fig.pos="tbp"}
 knitr::include_graphics("figure/temp2/notscaled.png")
 ```
 
@@ -557,11 +556,11 @@ The stations off the WCVI had lower average catch rates of Yelloweye Rockfish
 than the remaining stations. 
 
 So while inclusion of the
-WCVI stations does not appear to change the \emph{relative} pattern of the index
+WCVI stations does not appear to change the *relative* pattern of the index
 of the population, it does change the absolute values. Therefore the stations
 off the WCVI have to be included or excluded consistently to construct an index
 series; since we have more years that do not have stations off the WCVI
-(Table&nbsp;\ref{tab:seriesSumm}), we consistently exclude these stations (giving
+(Table \@ref(tab:seriesSumm)), we consistently exclude these stations (giving
 Series&nbsp;A).
 
 ### CONSTRUCTING SERIES&nbsp;C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;B (ALL HOOKS, NORTH OF VANCOUVER ISLAND) {#sec:iphc-BC}
@@ -599,7 +598,7 @@ or just the first 20 by comparing Series&nbsp;A and&nbsp;D (above).
 So, if $p_{AB} \geq 0.05$ then Series&nbsp;AB can be created and that is the 
 longest IPHC survey index that can be constructed. If $p_{AD} \geq 0.05$ and
 $p_{BC} \geq 0.05$ then Series&nbsp;A and Series&nbsp;B can be considered
-representatitive of the full coast, and thus so can Series&nbsp;AB.
+representative of the full coast, and thus so can Series&nbsp;AB.
 
 If $p_{AB} \geq 0.05$ but either 
 $p_{AD} < 0.05$ or
