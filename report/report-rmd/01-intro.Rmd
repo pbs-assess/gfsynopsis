@@ -25,7 +25,7 @@ visualizations, and stitching the document together to facilitate rapid
 publication, reproducibility, and transparency.
 
 Our goals with this report are to (1) facilitate regular review by
-groundfish scientists and managers of trends of trends in survey
+groundfish scientists and managers of trends in survey
 indices and stock composition across all stocks to potentially flag
 stocks for prioritized assessment; (2) generate standardized datasets,
 biological model fits, and visualizations that will help assessment
@@ -45,6 +45,10 @@ the current BC groundfish strategic plan, which are divided into those
 identified as species of primary commercial or conservation interest ('A-level'
 species) followed by 80 'B-level' species. The report focuses on the surveys
 and data types applicable to the widest array of species.
+
+One important species that is not included here is Pacific Hake
+(*Merluccius productus*), because it has its own dedicated biennial acoustic
+survey and an annual stock assessment [e.g. @edwards2018hake].
 
 Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
@@ -72,7 +76,12 @@ description of the included surveys is included in Appendix
 \@ref(app:survey-trend-models) along with associated references for detailed
 survey descriptions and designs.
 
-```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). The colours matches the colour coding through the rest of the report. The coverage of the IPHC survey is shown later.", fig.pos="tb"}
+(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside
+Hard Bottom Long Line survey boundaries (right). The colours matches the colour
+coding through the rest of the report. The coverage of the International
+Pacific Halibut Commission (IPHC) survey is shown later.
+
+```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb"}
 xlim <- c(122, 890)
 ylim <- c(5373, 6027)
 bath <- c(100, 200, 500)
@@ -245,7 +254,7 @@ a stock. Second, biomass indices from trawl or longline surveys and commercial
 CPUE indices need careful interpretation on a stock-by-stock basis. We have
 attempted to flag survey index trends that may be especially suspect either
 because of high survey variability or because only a small fraction of trawl or
-longline sets containing the species, but this is not a guarantee in itself.
+longline sets contain the species, but this is not a guarantee in itself.
 Survey indices are not always representative of abundance for a variety of
 reasons, and a lack of data for a species does not necessarily indicate a small
 population --- the surveys may simply not be suitable for sampling that
@@ -253,31 +262,24 @@ species. Furthermore, changes through time, including fish behavioural changes
 or range shifts, could result in biases through time even for well-sampled
 species.
 
-Commercial CPUE timeseries, even when
-standardized for consistent time of year, depth, latitude, and vessel
-need to be considered even more carefully. There are a multitude of
-reasons why commercial CPUE trends may not represent underlying trends
-in abundance [e.g. @harley2001]. Nonetheless, we think there is value in
-transparently displaying the available data for all species.
-The commercial catch presented here may not be the best representation and
-won't necessarily match reconstructed timeseries in stock assessments.
-Historic catch reconstructions require careful species-specific
-consideration and analysis. Furthermore, fluctuations in commercial catch, for example
-recent declines in species catch for Bocaccio and Yelloweye Rockfish, do not
-necessarily reflect declines in stock abundance and may be due to other factors
-including implementation of management measures. The discards in the catch
-plot do not include those from the hook-and-line fisheries. Longline discards
-are considered less reliable prior to 100% observer coverage in 2006 and are
-often reported as discard counts without a reported weight. These discards
-are therefore not included in catch shown here.
+Commercial CPUE timeseries, even when standardized for consistent time of year,
+depth, latitude, and vessel need to be considered even more carefully. There
+are a multitude of reasons why commercial CPUE trends may not represent
+underlying trends in abundance [e.g. @harley2001]. Nonetheless, we think there
+is value in transparently displaying the available data for all species. The
+commercial catch presented here may not be the best representation and won't
+necessarily match reconstructed timeseries in stock assessments. Historic catch
+reconstructions require careful species-specific consideration and analysis.
+Furthermore, fluctuations in commercial catch, for example recent declines in
+species catch for Bocaccio and Yelloweye Rockfish, do not necessarily reflect
+declines in stock abundance and may be due to other factors including
+implementation of management measures. The discards in the catch plot do not
+include those from the hook-and-line fisheries. Longline discards are
+considered less reliable prior to 100% observer coverage in 2006 and are often
+reported as discard counts without a reported weight. These discards are
+therefore not included in catch shown here.
 
-One important species that is not included here is Pacific Hake
-(*Merluccius productus*), because it has its own dedicated biennial acoustic
-survey and an annual stock assessment [e.g. @edwards2018hake].
-
-TODO: build on this section
-
-A caveat of this work overall is that it is not feasible for us to individually
+An overall caveat of this work is that it is not feasible for us to individually
 assess the results for all 110 species in a detailed manner. To use the results
 for a particular species in future assessments, or to make other inferences, we
 recommend that users carefully examine the data and model results. Due to the
@@ -296,7 +298,7 @@ groundfish stocks. TODO a few more details on the utility of this.
 
 ## UPDATE SCHEDULE
 
-We plan to publish annual updates of this synopsis report as Science
+We intend to publish annual updates of this synopsis report as Science
 Response documents. These annual updates will include another year of
 data and any important corrections to the data, text, or visualizations.
 On a less frequent basis we will consider making larger changes to the
@@ -320,5 +322,3 @@ for his work on GFASTeR, which this project also takes inspiration from and
 borrows some of the data queries. We thank Rowan Haigh for his work maintaining
 the PBSmapping and PBSdata R packages, and indeed the authors of all the R
 packages necessary to build this report.
-
-\clearpage

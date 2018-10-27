@@ -58,7 +58,7 @@ x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
-```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. `Mean CV' is the mean of the annual coefficients of variation (CVs), and `Mean $+$ve sets' indicates ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with `Mean CV' greater than 0.4 or `Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Timeseries with light grey dots and dotted upper and lower confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass. The index is the longest possible time series that can be constructed from the available data and usually represents a coastwide trend.")}
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. `Mean CV' is the mean of the annual coefficients of variation (CVs), and `Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with `Mean CV' greater than 0.4 or `Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Timeseries with light grey dots and dotted upper and lower confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass. The index is the longest possible time series that can be constructed from the available data and usually represents a coastwide trend.")}
 g$survey_index
 ```
 
@@ -67,7 +67,7 @@ g$survey_index
 ## MAPS OF RELATIVE BIOMASS FROM SURVEYS
 
 ```{r map-text}
-map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the maps in the available space. Depth contours are shown at 100m, 200m, and 500m."
+map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the maps in the available space. Depth contours are shown at 100 m, 200 m, and 500 m."
 ```
 
 (ref:survey-maps-cap) Example maps of relative biomass (or catch rate) from
@@ -78,7 +78,7 @@ are shown in the two left panels as faint crosses (if the species was not
 caught in that set), or circles with the area of the circle proportional to the
 species density from the set. Colour shading indicates predictions from
 a spatial model that includes depth and depth squared as a predictor as well
-spatial random effects (Appendix \@ref(app:spatial-modeling)). The colour scale
+as spatial random effects (Appendix \@ref(app:spatial-modeling)). The colour scale
 is fourth-root transformed to render a visual pattern similar to a log
 transformation without overemphasizing differences close to zero. The colour
 scale ('Viridis plasma') is perceptually uniform, robust to colourblindness,
@@ -126,12 +126,12 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
 
-(ref:catches-cap) Example plots of commercial fishery catches plot for `r sp`.
+(ref:catches-cap) Example commercial fishery catches plot for `r sp`.
 Catch from various gear types is indicated by colour shading. Catch is
 calculated as the weight of landings plus discards aggregated by year; however,
 longline discards are considered less reliable prior to 100% observer coverage
 in 2006 and are often reported as discard counts without a reported weight and
-are not therefore not included. Years before 1996 and 2006 are shaded grey to
+are therefore not included. Years before 1996 and 2006 are shaded grey to
 indicate that they are considered less reliable: an at-sea observer program was
 implemented for bottom and midwater trawl fleets in outside waters in 1996 and
 an at-sea observer program was implemented for non-trawl sectors in 2006.

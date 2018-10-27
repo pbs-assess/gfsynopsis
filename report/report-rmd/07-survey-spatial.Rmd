@@ -33,8 +33,8 @@ GLMMs with a log link:
 where $s$ represents a spatial location, $y_s$ represents observed fish density
 for a survey set, $\mu_s$ represents expected fish density, $p$ represents the
 Tweedie power parameter, and $\phi$ represents the Tweedie dispersion
-parameter. The symbol $\bm{X_s}$ represents a vector of predictors (here
-a 1 for an intercept, depth, and depth squared) and $\bm{\beta}$ represents
+parameter. The symbol $\bm{X_s}$ represents a vector of predictors (an
+intercept, log depth, and log depth squared) and $\bm{\beta}$ represents
 a corresponding vector of coefficients. The spatial random effects $\omega_s$
 are assumed to be drawn from a multivariate normal distribution with
 a covariance matrix $\bm{\Sigma}_\omega$ that is centered on zero:

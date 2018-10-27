@@ -70,6 +70,13 @@ The specific versions used to generate this report can be installed with:
 `devtools::install_github('pbs-assess/csasdown', ref = '`r sha_csasdown`')`\
 
 \vspace{5mm}
+
+<`r paste0("https://github.com/pbs-assess/gfsynopsis/tree/", sha_gfsynopsis)`>\
+<`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha_sdmTMB)`>\
+<`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha_csasdown)`>\
+<`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha_gfplot)`>\
+
+\vspace{5mm}
 Copies of these R package versions and a copy of the cached data will be placed on
 a local Pacific Biological Station server to ensure future reproducibility.
 

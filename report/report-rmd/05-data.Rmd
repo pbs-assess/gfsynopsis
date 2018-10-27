@@ -47,7 +47,7 @@ Trip totals are then calculated for landed weight, retained catch weight, landed
 
 All best retained, landed and discarded catch weights and counts are combined in one view, `GF_D_MERGED_FE_CATCH2_SUMRY_VW`. Where `LANDED_ROUND_KG` is null but retained weight is reported and a landed weight:retained catch weight ratio exists then landed weight is given as `BEST_RETAINED_ROUND_KG` $\times$ `MTFEC.KG_RATIO`. Similarly, if no landed count is reported, then `LANDED_COUNT` is given as `BEST_RETAINED_COUNT` $\times$ `MTFEC.COUNT_RATIO`.
 
-All catch and landings weight and count data by fishing event are then joined with several other pieces of data by fishing event including vessel ID and name, data source, fishery sector, and area. Several fields present “best” data when there are multiple options. `BEST_DATE` is, when there are fewer than 3 months difference between offload date and best available logbook date (in preferential order of fishing event best, end or start date, or trip best, end or start date), the reported offload date; otherwise, it is the best available logbook date. `LATITUDE` and `LONGITUDE` are, in preferential order, the reported start latitude/longitude, mid-latitude/longitude or end latitude/longitude.` BEST_DEPTH` is calculated as the average of start and end depth and converted from fathoms to meters. These data are combined in the view `GF_D_OFFICIAL_FE_CATCH_VW2` with the additional fishing event or trip data generally obtained from observer logs, or from fisher logs when observer or validation logs are not available.
+All catch and landings weight and count data by fishing event are then joined with several other pieces of data by fishing event including vessel ID and name, data source, fishery sector, and area. Several fields present “best” data when there are multiple options. `BEST_DATE` is, when there are fewer than 3 months difference between offload date and best available logbook date (in preferential order of fishing event best, end or start date, or trip best, end or start date), the reported offload date; otherwise, it is the best available logbook date. `LATITUDE` and `LONGITUDE` are, in preferential order, the reported start latitude/longitude, mid-latitude/longitude or end latitude/longitude. ` BEST_DEPTH` is calculated as the average of start and end depth and converted from fathoms to meters. These data are combined in the view `GF_D_OFFICIAL_FE_CATCH_VW2` with the additional fishing event or trip data generally obtained from observer logs, or from fisher logs when observer or validation logs are not available.
 
 The official catch tables populate the `GF_MERGED_CATCH` table directly. Where there are duplicate records for a fishing event in GFFOS and either PacHarvHL or PacHarvSable, records from GFFOS are not incorporated into `GF_MERGED_CATCH`.
 
@@ -67,7 +67,7 @@ are extracted by species, fishery sector, gear type and year, and are not
 filtered in any further way.
 
 We extracted commercial trawl catch per unit effort (CPUE) index data using
-`get-cpue-index.sql` and we filter the data to include only records with valid
+`get-cpue-index.sql` and we filtered the data to include only records with valid
 start and end dates (Table \@ref(tab:sql-cpue-index)) which include set start and
 end time and are later used to calculate effort (expressed in hours). Catch
 (kg), year, gear type and Pacific Fishery Management Area
