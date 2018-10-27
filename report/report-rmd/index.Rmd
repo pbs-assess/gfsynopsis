@@ -15,7 +15,7 @@ abstract: |
   The combination of fishery-dependent data, such as catch and effort, and
   fishery-independent survey data, such as biomass indices and age
   compositions, forms the backbone of most fisheries stock assessments. For
-  British Columbia groundfish fisheries, vast quantities of such data are
+  British Columbia groundfish, vast quantities of such data are
   collected annually, with 100% at-sea observer coverage, 100% dockside
   monitoring of landings, and deployment of multiple trawl, trap, and
   hook-and-line surveys. However, there is not the capacity to conduct formal
