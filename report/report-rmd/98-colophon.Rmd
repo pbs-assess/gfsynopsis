@@ -105,8 +105,8 @@ pkgs <- sort(c("gfplot", "ggplot2", "dplyr", "rstan", "knitr", "glmmTMB",
   "PBSdata", "PBSmapping", "egg", "gridExtra", "rvest", "egg"))
 devtools::session_info()$packages %>%
   dplyr::filter(package %in% pkgs) %>%
-  dplyr::select(package, version, date) %>%
-  dplyr::rename(Package = package, Version = version, Date = date) %>%
+  dplyr::select(package, loadedversion, date) %>%
+  dplyr::rename(Package = package, Version = loadedversion, Date = date) %>%
   csasdown::csas_table()
 ```
 
