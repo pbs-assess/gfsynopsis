@@ -235,81 +235,92 @@ Figure from Webster et al. talk ``Coastwide bait comparison study''.
 }
 %----------------------------------------------------------
 
+% Now using map figures just copied in from YYR assessment - point is
+%  to show changing coverage of survey. See deleted text for first
+%  attempt at doing properly in gfsynopsis (no time now).
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations1995mapA.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations1996mapA.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations1997mapAkeep.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations1998mapAkeep.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations1999mapAkeep.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations2000mapAkeep.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations2001mapAkeep.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/stations2002mapAkeep.png}
+}
+%----------------------------------------------------------
+\frame{\frametitle{Coverage of survey}
+\includegraphics[width=7cm, center]{images/allBlocks0314map.png}
+}
+%----------------------------------------------------------
+
+
+
 \end{document}
 
-<<make_iphc_dat>>=
-# Tried extracting some code from make.R and from various functions, but
-#  should really make a function just for IPHC maps - going to take too long.
-dc <- here("report", "data-cache")
-sp <- "redbanded rockfish"
-sp_w_hyphen <- "redbanded-rockfish"
-dat_iphc <- readRDS(file.path(dc, paste0("iphc/", sp_w_hyphen, ".rds")))
-iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
-        final_year = 2017)
+\onefig{stations1995mapA}{Locations of the 120 stations in 1995, of which 81 did not catch Yelloweye Rockfish (red open circles), 34 stations did catch it (red closed circles), and 5 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series~A and~B; for this year no stations (black crosses) are excluded, since the cut-off was chosen so as to include all stations for 1995, 1996 and 1997.}{stations1995mapA}{5}
+
+% From iphcSerBallHooksYYR.tex
+\onefig{stations1996mapA}{Locations of the 122 stations in 1996, of which 73 did not catch Yelloweye Rockfish (red open circles), 47 stations did catch it (red closed circles), and 2 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series~A and~B; for this year no stations (black crosses) are excluded.}{stations1996mapA}{5}
 
 
-  if (!file.exists(map_cache_spp_iphc)) {
-    iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp,
-      surveys = "IPHC FISS",
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
-      model = "sdmTMB", silent = TRUE, years = 2016:2017)
-    iphc_fits$models <- NULL # save space
-    saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
-  } else {
-    iphc_fits <- readRDS(map_cache_spp_iphc)
-  }
+% Start of maps from iphcSerA20hooksYYR.tex
+\onefig{stations1997mapAkeep}{Locations of the 122 stations in 1997, of which 80 did not catch Yelloweye Rockfish (red open circles), 41 stations did catch it (red closed circles), and 1 was deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series~A and~B; for this year no stations (black crosses) are excluded.}{stations1997mapAkeep}{5}
+
+
+\onefig{stations1998mapAkeep}{Locations of the 128 stations in 1998, of which 84 did not catch Yelloweye Rockfish (red open circles), 44 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. There are no black crosses because no stations are being excluded from Series~A.}{stations1998mapAkeep}{5}
+  
+
+
+\onefig{stations1999mapAkeep}{Locations of the 170 stations in 1999, of which 107 did not catch Yelloweye Rockfish (red open circles), 61 stations did catch it (red closed circles), and 2 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A because they lie south of the geographic cut-off shown on Figure~\ref{fig:stations1995mapA}.}{stations1999mapAkeep}{5}
 
 
 
-# map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
-
-iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth,
-        na.rm = TRUE)
-    iphc_map_dat$combined <- ifelse(iphc_map_dat$combined ==
-        0, NA, iphc_map_dat$combined)
-    suppressMessages({
-        g_survey_spatial_iphc <- gfsynopsis::plot_survey_maps(iphc_map_dat,
-            iphc_fits$raw_dat, show_raw_data = FALSE, cell_size = 2,
-            circles = TRUE, show_model_predictions = "combined" %in%
-                names(iphc_map_dat), annotations = "IPHC") +
-            coord_cart + ggplot2::ggtitle("IPHC survey catch rate") +
-            ggplot2::scale_fill_viridis_c(trans = "fourth_root_power",
-                option = "C", na.value = "white") + ggplot2::scale_colour_viridis_c(trans = "fourth_root_power",
-            option = "C", na.value = "grey35")
-    })
-@
+\onefig{stations2000mapAkeep}{Locations of the 129 stations in 2000, of which 83 did not catch Yelloweye Rockfish (red open circles), 46 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. There are no black crosses because no stations are being excluded from Series~A.}{stations2000mapAkeep}{5}
 
 
 
+\onefig{stations2001mapAkeep}{Locations of the 170 stations in 2001, of which 120 did not catch Yelloweye Rockfish (red open circles), 50 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2001mapAkeep}{5}
 
-\begin{minipage}{12cm}
-\bi
-  \item Pacific Biological Station since 2007
-  \item Previously at Bedford Institute of Oceanography \& Dalhousie
-\ei
-\end{minipage}
 
-\bi
-  \item Stock assessment work:
-    \bi
-    \item rockfish (long-lived, good age data)
-    \item Pacific Hake (joint with U.S. colleagues)
-    \item data synopsis for $>100$ species of British Columbia groundfish
-  \ei
-  \item Recent research:
-  \bi
-    \item methods for fitting size spectra
-    \item notation guidelines (in press):
-  \ei
-\ei
-\medskip
-%\hfill
-\pause
-% \includegraphics[width=5cm, right]{images/MEE.png}\\
-~~~\includegraphics[width=10cm, center]{images/notation-header.png}
-% \vskip10pt
-\end{frame}
+
+\onefig{stations2002mapAkeep}{Locations of the 170 stations in 2002, of which 130 did not catch Yelloweye Rockfish (red open circles), 40 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2002mapAkeep}{5}
+
+% Don't need this as covered in allBlocks0314map
+% \onefig{all2003mapAkeep20}{Locations of all 170 stations for the IPHC survey for 2003 onwards. There are 83 stations that never caught Yelloweye Rockfish (blue open circles) in the first 20 hooks, and 87 stations that did catch it at least once in the first 20 hooks. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2003mapAkeep}{5}   % $ 
+% End of maps from iphcSerA20hooksYYR.tex, though 2013 one below is also from there
+
+% From iphcSerBallHooksYYR.tex
+\onefig{all2003mapAkeep}{Locations of all 170 stations for the IPHC survey for 2003 onwards. There are 59 stations that never caught Yelloweye Rockfish (blue open circles), and 111 stations that did catch it at least once. Black crosses indicate the 35 stations being excluded from Series~A and Series~B.}{all2003mapAkeep}{5}   % $ 
+
+
+% From iphcCombineAB-YYR.ps - not quite sure where it's made.
+\onefig{allBlocks0314map}{Locations of all 170 stations for the IPHC survey for 2003-2012 and 2014. There are 59 stations that never caught Yelloweye Rockfish (blue open circles), 24 stations that caught Yelloweye Rockfish but never in the first 20 hooks (red closed circles), and 87 that did catch Yelloweye Rockfish within the first 20 hooks (blue closed circles). Black crosses indicate the 35 stations being excluded from Series~A and~B.}{allBlocks0314map}{5}   % Could add in 2013, but probably not since it cannot add any red circles.
+
+% Also from iphcSerA20hooksYYR.tex
+\onefig{stations2013mapAkeep}{Locations of the 170 stations in 2013, of which 134 did not catch Yelloweye Rockfish (red open circles), 36 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2013mapAkeep}{5} % The black line indicates the latitude below which stations are being excluded.}
+
 
 % ----------------------------------------------------------
 
