@@ -177,32 +177,24 @@ I hope that you'll come away with an understanding of:
 \end{minipage}
 \end{frame}
 
-\end{document}
-
 %%%%%%%%%%%%%%%%%%%%%%%
-\section{Outline}
-\subsection{}
-\frame{\frametitle{Outline}
+%\section{Outline}
+%\subsection{}
+\frame{\frametitle{Survey background}
 \bi
-  \item Basic introduction to probability
-  \item Examples of probabilities that we can calculate in assessments
-  \item Presenting uncertainty in assessments
-  \bi
-    \item Stock status
-    \item Projections
-    \item Decision tables
-  \ei
-  \item Brief details of how probabilities get calculated
-  \bi
-    \item Likelihood
-    \item Bayesian analysis
-  \ei
-  \item Other sources of uncertainty -- big caveat
-  \item Risk
-  \item Concluding remarks
+  \item annual stock assessment longline survey, California to Alaska
+  \item main aim is data for Pacific Halibut assessment
+  \item  each station has a set of up to 8 skates
+  \item  each skate has about 100 hooks
+  \pause  
+  \item  count of a species on each set is standardised by that set's  `effective skate number'
+  \item `effective skate number' of 1 represents a skate of 100 circle hooks with 18-foot spacing
+  \item resulting index has units of `numbers per effective skate'
+  % \textcolor{red}
 \ei
 }
 
+\end{document}
 
 %----------------------------------------------------------
 
