@@ -194,22 +194,58 @@ I hope that you'll come away with an understanding of:
 \ei
 }
 
-\end{document}
+%----------------------------------------------------------
+
+\frame{\frametitle{Have to account for changes in available data}
+
+\begin{table}[t]
+\centering
+\begin{tabular}{llllc}
+  \hline
+Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
+  \hline
+1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
+1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
+1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
+2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
+2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
+2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
+   \hline
+\end{tabular}
+\end{table}
+
+}
 
 %----------------------------------------------------------
 
-\begin{frame}
-\frametitle{About me}
-~\\
+\frame{\frametitle{Bait experiment in 2012}
+%\begin{minipage}{6cm}
+\includegraphics[width=10cm]{images/bait-experiment.png}
+%\end{minipage}
+
+We use only chum-bait skates.\\  
+Figure from Webster et al. talk ``Coastwide bait comparison study''.
+% http://www.iphc.int/meetings/2013am/documents/D2P02BaitComp_AM_web.pdf
+
+}
+%----------------------------------------------------------
+
+\end{document}
+
+
+
+
+
 
 \begin{minipage}{12cm}
 \bi
   \item Pacific Biological Station since 2007
   \item Previously at Bedford Institute of Oceanography \& Dalhousie
 \ei
-\end{minipage}
-\begin{minipage}{2cm}
-  \includegraphics[width=1.3cm, right]{images/andyCrop2.jpg}
 \end{minipage}
 
 \bi
