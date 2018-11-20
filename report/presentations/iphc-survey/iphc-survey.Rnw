@@ -1,0 +1,1974 @@
+%\documentclass[handout,xcolor=pdftex,dvipsnames,table]{beamer}
+%\documentclass[draft]{beamer}
+%\documentclass[notesonly]{beamer}
+%\documentclass[notes]{beamer}
+\documentclass[aspectratio=169, xcolor=table]{beamer}  % xcolor to avoid conflict
+                                                       %  with beamer
+\mode<presentation>
+% https://hartwork.org/beamer-theme-matrix/
+\usetheme{Singapore} %Berkeley, Palo Alto, Singapore, Warsaw
+\usecolortheme{seahorse}  %Beaver, dolphin, dove, lily, orchid, seagull, seahorse
+\renewcommand{\insertnavigation}[1]{}    % to remove contents bar:
+           % https://tex.stackexchange.com/questions/33767/remove-section-header-from-a-beamer-theme-singapore
+
+%\usefonttheme{serif}
+% font themes: default, professionalfonts, serif, structurebold, structureitalicserif, structuresmallcapsserif
+
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{array}
+\usepackage{tabularx}
+%\usepackage{booktabs}          %% Used in risk tables [hake]
+%\usepackage{multirow}          %% Used in decision tables [hake]
+%\usepackage{beamerarticle}
+%\usepackage{enumitem}
+%\usepackage{beamerthemesplit}
+\usepackage[T1]{fontenc}  %to use < or > in tables
+% \usepackage{xcolor}            %% for kable
+% \usepackage[table]{xcolor}            %% for kable
+
+% From kableExtra documentation, commenting out some:
+\usepackage{longtable}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}          %% Used in risk tables [hake]
+\usepackage{multirow}          %% Used in decision tables [hake]
+
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+
+\usepackage[export]{adjustbox}     % for left and right in \includegraphics
+\usepackage[absolute,overlay]{textpos}  % for overlaying text
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+%% syntax is \mlc{first line\\secondline}
+\newcommand{\mlc}[2][c]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+\newcommand{\subscr}[1]{$_{\text{#1}}$}\newcommand{\Fforty}{F_{\text{SPR}=40\%}}       % Needs to be done as $\Fforty$
+\newcommand{\Bforty}{B_{\text{SPR}=40\%}}
+
+% pdf is displayed in full screen mode automatically
+%\hypersetup{pdfpagemode=FullScreen}
+
+%\setbeamersize{sidebar width left=0.05in}
+\setbeamersize{text margin left=5mm}
+\setbeamersize{text margin right=5mm}
+
+\setbeamertemplate{title page}
+{
+% Looks like for hake we didn't use the defaults and played with the spacing
+% \vskip0pt plus 1filll
+\begin{center}
+\vskip6pt
+{\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\\
+\vskip22pt
+\insertauthor
+\vskip22pt
+\insertinstitute
+% \insertdate
+\end{center}
+% \vskip30pt
+\vfill
+\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle % \par
+% \vskip0pt plus 1filll
+\hfill
+\includegraphics[width=4.8cm]{images/DFO_Logo.png}   % from Wikipedia (for hake we
+                                        % had an older one)
+\vskip10pt
+}
+
+\definecolor{pageCol}{rgb}{0.5,0.5,1.0}
+
+\setbeamertemplate{footline}
+{
+\begin{beamercolorbox}[wd=.05\paperwidth,ht=0ex,dp=0ex,left]{framenumber in head/foot}%
+\insertframenumber/\inserttotalframenumber
+\end{beamercolorbox}%
+}
+%% \setbeamercolor{footline}{fg=pageCol}
+
+\newcounter{saveenumi}
+
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\bn}{\begin{enumerate}}
+\newcommand{\en}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\Bmsy}{B_{\mbox{\tiny{MSY}}}}
+%% <<echo=TRUE,  message=TRUE, results='show', warning=TRUE>>=
+%% opts_chunk$set(dev='cairo_ps',fig.path='knitr-cache/', fig.dpi=96, fig.width=7.5,
+%%                fig.height=4, echo=TRUE, results=TRUE, message=TRUE, warning=TRUE,
+%%                results='show', cache=TRUE, cache.path='knitr-cache/')
+<<load-everything, echo=FALSE,  message=FALSE, results='hide', warning=FALSE>>=
+opts_chunk$set(dev = 'cairo_ps',
+               fig.path = 'knitr-cache/',
+               fig.dpi = 96,
+               fig.width = 7.5,
+               fig.height = 4,
+               echo = FALSE,
+               results = FALSE,
+               message = FALSE,
+               warning = FALSE,
+               results = 'hide',
+               cache = TRUE,
+               cache.path = 'knitr-cache/')
+library(dplyr)
+library(xtable)
+library(kableExtra)
+# library(Hmisc)
+assess.yr = 2018
+last.assess.yr = assess.yr - 1
+survey.end.yr = 2017
+ss.version = 999 # to get working here
+admb.version = 999
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[International Pacific Halibut Commission Survey]{~\\ International Pacific Halibut Commission Survey}
+\author{Andrew Edwards\\ ~\\ 
+% \includegraphics[height=3.5cm]{images/pbs.png}\\  ~\\ 
+  \textcolor{blue}{Pacific Biological Station, Nanaimo, BC}}
+% \institute{{\textcolor{blue}{Pacific Biological Station, Nanaimo, BC}\\
+%  ~\\
+% \institute{\includegraphics[height=3cm]{images/pbs.png}}
+% \titlegraphic{\includegraphics[height=3.3cm]{images/pbs.png}}
+% \titlegraphic{images/pbs.png}
+\date{{\footnotesize SRG meeting -- \Sexpr{assess.yr}}}
+\subtitle{\small CSAP review meeting of Reproducible Data Synopsis.\\
+Thursday 22nd November, 2018}
+
+\begin{document}
+
+\beamertemplatenavigationsymbolsempty   % bottom navigation panel
+% \setbeamertemplate{headline}{}
+% \setbeamertemplate{mini frames}{}
+
+%\begin[plain]{frame}
+\frame[plain]{
+\titlepage
+}
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Aims of this lecture}
+% ~\\
+
+I hope that you'll come away with an understanding of:
+
+~\\
+
+\begin{minipage}{12cm}
+\bi
+  \item how stock assessment scientists can include
+    uncertainty in advice to managers
+  \item \textcolor{blue}{how to interpret such uncertainty}
+  % \item The concepts behind these Relate the concepts to fairly simple examples
+  \item some of the methods used to quantify uncertainty
+  \item \textcolor{blue}{caveats and potential pitfalls}
+\ei
+\end{minipage}
+\end{frame}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Outline}
+\subsection{}
+\frame{\frametitle{Outline}
+\bi
+  \item Basic introduction to probability
+  \item Examples of probabilities that we can calculate in assessments
+  \item Presenting uncertainty in assessments
+  \bi
+    \item Stock status
+    \item Projections
+    \item Decision tables
+  \ei
+  \item Brief details of how probabilities get calculated
+  \bi
+    \item Likelihood
+    \item Bayesian analysis
+  \ei
+  \item Other sources of uncertainty -- big caveat
+  \item Risk
+  \item Concluding remarks
+\ei
+}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{About me}
+~\\
+
+\begin{minipage}{12cm}
+\bi
+  \item Pacific Biological Station since 2007
+  \item Previously at Bedford Institute of Oceanography \& Dalhousie
+\ei
+\end{minipage}
+\begin{minipage}{2cm}
+  \includegraphics[width=1.3cm, right]{images/andyCrop2.jpg}
+\end{minipage}
+
+\bi
+  \item Stock assessment work:
+    \bi
+    \item rockfish (long-lived, good age data)
+    \item Pacific Hake (joint with U.S. colleagues)
+    \item data synopsis for $>100$ species of British Columbia groundfish
+  \ei
+  \item Recent research:
+  \bi
+    \item methods for fitting size spectra
+    \item notation guidelines (in press):
+  \ei
+\ei
+\medskip
+%\hfill
+\pause
+% \includegraphics[width=5cm, right]{images/MEE.png}\\
+~~~\includegraphics[width=10cm, center]{images/notation-header.png}
+% \vskip10pt
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Example of data (Pacific Hake)}
+
+% \centering
+
+\begin{minipage}{8cm}
+\includegraphics[height=6cm]{images/hake-ages.png}
+\end{minipage}
+\begin{minipage}{5cm}
+~~~~~~~~~~~~~~~~~~~~\includegraphics[height=1.5cm, right]{images/hake-pic.png}
+\end{minipage}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{What is the probability that the stock is in the healthy zone?}
+
+\centering
+\includegraphics[height=2.5in]{images/PA-graph.png}
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Schematic of a model (Pacific Ocean Perch)}
+
+\centering
+\includegraphics[height=4in]{images/model-schematic.png}
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction to probability}
+\subsection{}
+
+\begin{frame}
+\frametitle{Introduction to probability}
+
+\includegraphics[height=1.5cm, right]{images/coin-toss.png}
+
+\begin{tabular}{lrrrr}
+  & Fraction & Decimal & Percentage & Odds \\
+  & & & & \\
+Probability that a tossed coin lands heads: & $\dfrac{1}{2}$ & \alert<3-4>{0.5} &
+  \textcolor<4>{blue}{50\%} & \textcolor<4>{blue}{1 in 2} \\
+  & & & & \\
+\onslide<2->Probability that a rolled die gives a six: & $\dfrac{1}{6}$ &
+  \alert<3-4>{0.167} & \textcolor<4>{blue}{16.7\%} & \textcolor<4>{blue}{1 in 6}
+\end{tabular}
+\includegraphics<2-4>[height=1cm, right]{images/die-roll.png}
+
+% \begin{minipage}{8cm}
+\onslide<3-4>\alert{~~Easier to use in calculations}
+\onslide<4>\rightline{\textcolor{blue}{May be more easily understood by stakeholders}}
+% end{minipage}
+
+%\begin{minipage}{1.5cm}
+% \includegraphics<2-4>[height=1.5cm, right]{images/die-roll.png}
+%
+% \end{minipage}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Introduction to probability}
+
+Probability is always of \alert{\emph{some event happening}}, for example:
+
+\bi
+\item probability that \alert{\emph{a tossed coin lands heads}}
+\ei
+
+Write this as:
+
+\bi
+\item P(a tossed coin lands heads)
+\item P(heads)
+\ei
+
+\pause
+
+~\\
+
+Other events:
+\bi
+\item P(a die roll gives a 6)
+\item P(fish stock is currently in the healthy zone)
+\ei
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Introduction to probability}
+
+\begin{tabular}{ll}
+  & \\
+Values of probabilities  & Examples \\
+  \hline
+P(impossible event) = 0 & \textcolor{blue}{P(standard die gives a 7)} \\
+  & \\
+P(definite event) = 1 & \textcolor{blue}{P(everyone's children got too much candy}\\
+  &                     \textcolor{blue}{~~~~trick-or-treating last night)} \\
+  & \\
+Everything else is between 0 and 1 & \textcolor{blue}{P(it will rain tomorrow at a given location)}\\
+                                   & \textcolor{blue}{P(fish stock is currently in the healthy zone)}
+\end{tabular}
+
+\pause
+
+~\\
+
+~\\
+
+Probabilities of \textcolor{red}{all possible events} add up to 1:
+\begin{eqnarray}
+\nonumber \mbox{P(heads)} & = & 0.5\\
+\nonumber \mbox{P(tails)} & = & 0.5\\
+\nonumber \mbox{P(heads)} + \mbox{P(tails)} & = & 1
+\end{eqnarray}
+\end{frame}
+%                            (the coin must lands on heads or tails)
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Discrete outcomes}
+
+A die roll can only produce \alert{discrete} values: 1, 2, 3, 4, 5 or 6.
+
+~\\
+
+Roll it 600 times and count up number from each roll:
+
+~\\
+<<roll, fig.height=2.4>>=
+set.seed(42)
+rolls = sample(x=1:6, size=600, replace=TRUE)
+cmai=c(0.8, 0.8, 0.15, 0.3)
+par(mai=cmai)
+plot(as.factor(rolls), xlab="Number on die", ylab="Count", ylim=c(0,100))
+@
+
+\end{frame}
+
+%----------------------------------------------------------
+
+%\begin{frame}
+%\frametitle{Discrete outcomes}
+%
+%Similarly, count data are \alert{discrete} and take whole numbers.
+%
+%~\\
+%
+%Such as annual numbers of lynx trappings for 1821-1934 in Canada:
+%
+%~\\
+%
+%~~269,  321,  585,  871, 1475, 2821, 3928, 5943, 4950, 2577, 523, ...
+%
+% lynx[1:11]
+%~\\
+%
+%Take those first 11 years and sort into order:
+%
+% sort(lynx[1:11])
+%~\\
+%
+%~~269  321  523 585  871 \alert<2->{1475} 2577 2821 3928 4950 5943
+%
+%\\
+%
+%onslide<2-> \alert{Median} is the value in the middle
+%
+%\onslide<3-> \textcolor{blue}{Mean} is 2205.7, the total divided by 11.
+%
+%\end{frame}
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Continuous data}
+
+% hist(lynx, breaks=30)
+% hist(lynx, breaks=100)
+
+But many measured values are \alert{continuous} -- they can take any value from
+a continuous range. For example:
+
+\bi
+\item weight
+\item length
+\item temperature
+\item depth
+\ei
+
+To plot we have to bin the data, e.g. weights of 500 fish:
+
+<<hist-simp, fig.height=2.0>>=
+set.seed(42)
+vals = rnorm(500, 100, 20)
+cmai=c(0.8, 0.8, 0.15, 0.3)
+par(mai=cmai)
+xlimhist = c(40, 160)
+ylimhist = c(0, 65)
+hist(vals, main ="", xlab="Weight, g", breaks=20, xlim=xlimhist, ylim=ylimhist)
+# plot(as.factor(rolls), xlab="Number on die", ylab="Count", ylim=c(0,100))
+@
+
+<<hist, eval=FALSE>>=
+# from fitting-size-spectra if want nicer:
+# Histogram of MLEs
+
+vertThick = 1              # Thickness for vertical lines
+
+xrange = c(0,4)         # range of x-axis for histograms
+xbigticks = seq(-3.5, 0.5, 0.5)
+
+xsmallticks = seq(xrange[1], xrange[2], by=0.1)
+# breakshist = seq(xrange[1], xrange[2], by=0.05)
+         # ends a bin at 0 for xrange[1]=0, just won't have 2 in centre of bin
+breakshist = seq(xrange[1], xrange[2], by=3/61)
+
+xLim = c(-3.2, -1.5)
+ylimA = c(0, 5500)
+
+cexAxis = 1  # was 0.9      # font size for axes labels to make y ones fit ok
+
+inset = c(-0.08, -0.04)       # (default in confPlot)
+xlabpos = 0.75       # just play with a number, as now using pos=4 in text
+
+hist(MLEbin.rep, xlim=xLim, breaks=breakshist, xlab="", ylab="Frequency",
+  main="", axes=FALSE, ylim = ylimA)  #  ylim=c(0,1100),
+histAxes()
+@
+
+
+\end{frame}
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Continuous variables}
+
+To calculate probabilities, would first involve fitting a model:
+
+<<hist-simp-2, fig.height=2.0>>=
+set.seed(42)
+# vals = rnorm(500, 100, 20)
+cmai=c(0.8, 0.8, 0.15, 0.3)
+par(mai=cmai)
+hist(vals, main ="", xlab="Weight, g", breaks=20, xlim=xlimhist, ylim=ylimhist)
+xvals = seq(40, 160, length=200)
+yvals = dnorm(xvals, 100, 20)
+lines(xvals, yvals*500*5, col="red", lwd=3) # 6 is width/breaks
+@
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Continuous variables}
+
+Now we have a model, we can ask questions:
+
+~\\
+
+<<hist-simp-3, fig.height=2.0>>=
+par(mai=cmai)
+#hist(vals, main ="", xlab="Weight, g", breaks=20, plot=FALSE,
+#     xlim=xlimhist, ylim=ylimhist)
+#xvals = seq(40, 160, length=200)
+plot(xvals, yvals, col="red", lwd=3,
+     xlim=xlimhist, type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i")
+@
+
+What is the probability that a random fish weighs $>$120~g?
+
+~\\
+
+~\\
+
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Continuous variables}
+
+Now we have a model, we can ask questions:
+
+~\\
+
+<<hist-simp-4, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvals, yvals, col="red", lwd=3,
+     xlim=xlimhist, type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i")
+lines(xvals[xvals>120], yvals[xvals>120], col="blue", type="h", lwd=4)
+lines(xvals, yvals, col="red", lwd=3)   # to be on top
+@
+
+What is the probability that a random fish weighs $>$120~g?
+
+~\\
+
+P(fish weight $>$120~g) is the \textcolor{blue}{area shaded in blue}.
+
+
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Continuous variables}
+
+Now we have a model, we can ask questions:
+
+~\\
+
+<<hist-simp-5, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvals, yvals, col="red", lwd=3,
+     xlim=xlimhist, type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i")
+lines(xvals[xvals>75 & xvals<85], yvals[xvals>75 & xvals<85], col="blue", type="h", lwd=4)
+lines(xvals, yvals, col="red", lwd=3)   # to be on top
+
+@
+
+Similarly, what is probability of random fish weighing between 75 and 85~g?
+
+P(75 $<$ fish weight $<$ 85) is the \textcolor{blue}{area shaded in blue}.
+
+~\\
+
+Since weight is continuous, we cannot ask P(fish weight = 120~g).
+
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Key terms}
+
+For any distribution, we can give:
+
+~\\
+
+<<hist-simp-7, fig.height=2.0>>=
+par(mai=cmai)
+xvalslog = seq(0, 180, length=2000)
+yvalslog = dlnorm(xvalslog, log(40), 0.7)  #*500*6
+ylimlog = c(0, max(yvalslog)*1.1)
+plot(xvalslog, yvalslog, col="red", lwd=3,
+     xlim=range(xvalslog), ylim = ylimlog, type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+quants = qlnorm(c(0.025, 0.25, 0.5, 0.75, 0.975), log(40), 0.7)
+lines(xvalslog[xvalslog < quants[3]], yvalslog[xvalslog < quants[3]], col="blue", type="h", lwd=4)
+lines(xvalslog, yvalslog, col="red", lwd=3)   # to be on top
+abline(v=quants[3], col="black", lwd=3)
+
+# for testint:
+#plot(xvalslog, yvalslog, col="red", lwd=3,
+#     xlim=range(xvalslog), ylim = c(0, 0.03), type="l",
+#     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+
+# Attempt at tweaking from PBSawatea (but fiddly, stick with boxplot)
+#yrs=0.025     # yvalue to plot
+#obj = quants
+#delta = 0.25
+# From PBSawates	delta <- 0.25
+#			# Draw the outer whiskers.
+#			segments( yrs,obj[1], yrs,obj[5], lty=1,col=1 )
+#			# Overlay the box.
+#			rect( yrs-delta,obj[2], yrs+delta, obj[4])
+#			# Add the median.
+#			segments( yrs-delta,obj[3],yrs+delta,obj[3],lty=1,col=1 )
+@
+
+\textcolor{blue}{Median}. P(being $<$ median) = 0.5
+
+~\\
+
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Key terms}
+
+And various other values:
+
+~\\
+
+<<hist-simp-8, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvalslog, yvalslog, col="red", lwd=3,
+     xlim=range(xvalslog), ylim = ylimlog, type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+quants = qlnorm(c(0.025, 0.25, 0.5, 0.75, 0.975), log(40), 0.7)
+lines(xvalslog[xvalslog < quants[1]], yvalslog[xvalslog < quants[1]], col="blue", type="h", lwd=4)
+lines(xvalslog, yvalslog, col="red", lwd=3)   # to be on top
+
+abline(v=quants[1], col="black", lwd=3)
+
+@
+
+\textcolor{blue}{2.5\% percentile}. P(being $<$ this value) = 0.025
+% ~~[2.5\% of the values lie beneath this value]
+
+~\\
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Key terms}
+
+One way of summarising resulting distributions is through boxplots:
+
+~\\
+
+<<hist-simp-9, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvalslog, yvalslog, col="red", lwd=3,
+     xlim=range(xvalslog), ylim = c(0, 0.03), type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+quants = qlnorm(c(0.025, 0.25, 0.5, 0.75, 0.975), log(40), 0.7)
+lines(xvalslog[xvalslog < quants[3]], yvalslog[xvalslog < quants[3]], col="blue", type="h", lwd=3)
+lines(xvalslog, yvalslog, col="red", lwd=3)   # to be on top
+
+abline(v=quants[3], col="grey", lwd=2)
+
+set.seed=42
+box.at = 0.025
+boxplot(rlnorm(1000, log(40), 0.7), horizontal=TRUE, add=TRUE, at=box.at, boxwex=0.01,
+     outline=FALSE, range=0.001)
+lines(quants[1:2], c(box.at, box.at))   # Manual whiskers
+lines(quants[4:5], c(box.at, box.at))   # Manual whiskers
+@
+\textcolor{blue}{Median 50\% percentile}  % -- P(being $<$ this value) = 0.025
+
+~\\
+
+\end{frame}
+
+%----------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Key terms}
+
+One way of summarising resulting distributions is through boxplots:
+
+~\\
+
+<<hist-simp-12, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvalslog, yvalslog, col="red", lwd=3,
+     xlim=range(xvalslog), ylim = c(0, 0.03), type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+lines(xvalslog[xvalslog < quants[1]], yvalslog[xvalslog < quants[1]], col="blue", type="h", lwd=3)
+lines(xvalslog, yvalslog, col="red", lwd=3)   # to be on top
+
+abline(v=quants[1], col="grey", lwd=2)
+
+set.seed=42
+boxplot(rlnorm(1000, log(40), 0.7), horizontal=TRUE, add=TRUE, at=box.at, boxwex=0.01,
+     outline=FALSE, range=0.001)
+lines(quants[1:2], c(box.at, box.at))   # Manual whiskers
+lines(quants[4:5], c(box.at, box.at))   # Manual whiskers
+@
+\textcolor{blue}{2.5\% percentile}  % -- P(being $<$ this value) = 0.025
+
+~\\
+
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}
+\frametitle{Key terms}
+
+One way of summarising resulting distributions is through boxplots:
+
+~\\
+
+<<hist-simp-13, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvalslog, yvalslog, col="red", lwd=3,
+     xlim=range(xvalslog), ylim = c(0, 0.03), type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+lines(xvalslog[xvalslog < quants[2]], yvalslog[xvalslog < quants[2]], col="blue", type="h", lwd=3)
+lines(xvalslog, yvalslog, col="red", lwd=3)   # to be on top
+
+abline(v=quants[2], col="grey", lwd=2)
+
+set.seed=42
+boxplot(rlnorm(1000, log(40), 0.7), horizontal=TRUE, add=TRUE, at=box.at, boxwex=0.01,
+     outline=FALSE, range=0.001)
+lines(quants[1:2], c(box.at, box.at))   # Manual whiskers
+lines(quants[4:5], c(box.at, box.at))   # Manual whiskers
+@
+\textcolor{blue}{25\% percentile}  % -- P(being $<$ this value) = 0.025
+
+~\\
+
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}
+\frametitle{Key terms}
+
+One way of summarising resulting distributions is through boxplots:
+
+~\\
+
+<<hist-simp-10, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvalslog, yvalslog, col="red", lwd=3,
+     xlim=range(xvalslog), ylim = c(0, 0.03), type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+lines(xvalslog[xvalslog < quants[4]], yvalslog[xvalslog < quants[4]], col="blue", type="h", lwd=3)
+lines(xvalslog, yvalslog, col="red", lwd=3)   # to be on top
+
+abline(v=quants[4], col="grey", lwd=2)
+
+set.seed=42
+boxplot(rlnorm(1000, log(40), 0.7), horizontal=TRUE, add=TRUE, at=box.at, boxwex=0.01,
+     outline=FALSE, range=0.001)
+lines(quants[1:2], c(box.at, box.at))   # Manual whiskers
+lines(quants[4:5], c(box.at, box.at))   # Manual whiskers
+@
+\textcolor{blue}{75\% percentile}  % -- P(being $<$ this value) = 0.025
+
+~\\
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Key terms}
+
+One way of summarising resulting distributions is through boxplots:
+
+~\\
+
+<<hist-simp-11, fig.height=2.0>>=
+par(mai=cmai)
+plot(xvalslog, yvalslog, col="red", lwd=3,
+     xlim=range(xvalslog), ylim = c(0, 0.03), type="l",
+     xlab="Weight, g", ylab="Probability density", xaxs="i", yaxs="i")
+lines(xvalslog[xvalslog < quants[5]], yvalslog[xvalslog < quants[5]], col="blue", type="h", lwd=3)
+lines(xvalslog, yvalslog, col="red", lwd=3)   # to be on top
+
+abline(v=quants[5], col="grey", lwd=2)
+
+set.seed=42
+boxplot(rlnorm(1000, log(40), 0.7), horizontal=TRUE, add=TRUE, at=box.at, boxwex=0.01,
+     outline=FALSE, range=0.001)
+lines(quants[1:2], c(box.at, box.at))   # Manual whiskers
+lines(quants[4:5], c(box.at, box.at))   # Manual whiskers
+@
+\textcolor{blue}{97.5\% percentile}  % -- P(being $<$ this value) = 0.025
+
+~\\
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Communicating uncertainty}
+
+Catch data and vulnerable biomass estimated from a model:
+
+\centering
+\includegraphics[height=2in]{images/quantiles.png}
+~~~~~
+\includegraphics[height=2.5in]{images/vulnerable.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Communicating uncertainty}
+
+Estimated recruitment (1000's of age-1 individuals) through time:
+
+\centering
+\includegraphics[height=2.5in]{images/recruitment.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Results in context of precautionary-approach figure}
+
+\centering
+\includegraphics[height=2.5in]{images/PA-graph.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Results in context of precautionary-approach figure}
+
+\centering
+\includegraphics[height=2.5in]{images/POP-status.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Results in context of precautionary-approach figure}
+
+\centering
+\includegraphics[height=2.5in]{images/POP-status2.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Results in context of precautionary-approach figure}
+
+\centering
+\includegraphics[height=2.5in]{images/snail-2.png}
+
+Here it would be too much to show uncertainty for \alert{all} years.
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+
+\frametitle{Questions?}
+
+Any question so far?
+
+\pause
+
+~\\
+
+~\\
+
+\includegraphics[width=8cm, center]{images/correlation.png}
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Going forward -- projections}
+
+\bc
+Historical and projected spawning biomass
+
+~\\
+
+\includegraphics[height=14cm]{images/projections-crop.png}
+\ec
+
+\end{frame}
+
+%----------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Going forward -- projections}
+
+\begin{minipage}{4cm}
+Historical and projected spawning biomass for various catch levels
+\end{minipage}
+\begin{minipage}{10cm}
+\includegraphics[height=7.5cm]{images/projections.png}
+\end{minipage}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Decision tables}
+
+\centering P($B_t > 0.8 \Bmsy)$, i.e.~stock in healthy zone at start of year $t$
+<<dec-table, results = "asis">>=
+# Taking numbers from EdwardsICES14.pptx talk, think results are POP 3CD
+#  Changing years to avoid confusion that it's projections
+df = tibble("Annual catch strategy (t)" = seq(0, 1000, 200),
+            "2013" = rep(0.87, 6),
+            "2014" = c(0.88, 0.88, 0.87, 0.86, 0.86, 0.85),
+            "2015" = c(0.90, 0.89, 0.88, 0.86, 0.85, 0.83),
+            "2016" = c(0.92, 0.90, 0.88, 0.86, 0.85, 0.83),
+            "2017" = c(0.93, 0.91, 0.89, 0.87, 0.85, 0.82),
+            "2018" = c(0.94, 0.92, 0.90, 0.87, 0.85, 0.81)
+            )
+kable(df, "latex", booktabs = TRUE) %>%
+      kable_styling(latex_options = "striped") %>%
+      column_spec(1, width = "2.5cm")
+      # add_header_above("hello") #c(" ", "Group 1" = 5, "Group 2" = 6))
+@
+
+~\\
+% 600 t is just above average recent catch of 547 t
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Decision tables}
+
+\centering P($B_t > 0.8 \Bmsy)$, i.e.~stock in healthy zone at start of year $t$
+<<dec-table5, results = "asis">>=
+kable(df, "latex", booktabs = TRUE) %>%
+      kable_styling(latex_options = "striped") %>%
+      column_spec(1, width = "2.5cm") %>%
+      row_spec(1, color = "red")
+@
+
+~\\
+
+% 600 t is just above average recent catch of 547 t
+
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Decision tables}
+
+\centering P($B_t > 0.8 \Bmsy)$, i.e.~stock in healthy zone at start of year $t$
+<<dec-table4, results = "asis">>=
+kable(df, "latex", booktabs = TRUE) %>%
+      kable_styling(latex_options = "striped") %>%
+      column_spec(1, width = "2.5cm") %>%
+      row_spec(4, color = "red")
+@
+
+~\\
+% 600 t is just above average recent catch of 547 t
+
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Decision tables}
+
+\centering P($B_t > 0.8 \Bmsy)$, i.e.~stock in healthy zone at start of year $t$
+<<dec-table6, results = "asis">>=
+kable(df, "latex", booktabs = TRUE) %>%
+      kable_styling(latex_options = "striped") %>%
+      column_spec(1, width = "2.5cm") %>%
+      row_spec(6, color = "red")
+@
+
+~\\
+
+\end{frame}
+
+
+% ----------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Fisheries manager had another interpretation}
+
+\centering P($B_t > 0.8 \Bmsy)$, i.e.~stock in healthy zone at start of year $t$
+<<dec-table3, results = "asis">>=
+ kable(df, "latex", booktabs = TRUE) %>%
+       kable_styling(latex_options = "striped") %>%
+       column_spec(1, width = "2.5cm") %>%
+       column_spec(4, color = "red")
+@
+
+~\\
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+
+\frametitle{What if results had been the other way around?}
+
+\centering P($B_t$\alert{$\leq$} $0.8 \Bmsy)$, i.e.~stock is \alert{below} healthy zone at start of year $t$
+<<dec-table2, results = "asis">>=
+# Taking numbers from EdwardsICES14.pptx talk, think results are POP 3CD
+df2 = cbind(df[,1], 1-df[,2:7])
+kable(df2, "latex", booktabs = TRUE) %>%
+      kable_styling(latex_options = "striped") %>%
+      column_spec(1, width = "2.5cm") %>%
+      column_spec(4, color = "red")
+@
+
+~\\
+
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Decision tables}
+
+For Pacific Ocean Perch assessments we have tended to give P(in healthy zone) etc.,
+
+~~i.e. probability of being in a good place (glass half-full).
+
+~\\
+
+Other assessments tend to show P(being in bad place), e.g. P(below healthy zone).
+
+
+\end{frame}
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Pacific Hake -- other way round}
+
+Pacific Hake (different type of table -- shows various probabilities
+under different catches for just one year):
+
+\centering
+\includegraphics[height=7.5cm]{images/hake-dec-table.png}
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Beware!!}
+
+So be aware and double check definitions in the tables!
+
+~\\
+
+No general rule as to which way to do them.
+
+~\\
+
+Often historical legacy, so can be confusing to change for a particular species
+to create consistency.
+
+~\\
+
+In fisheries science, a decision table presents \alert{potential consequences of different decisions},\\
+and is used to help facilitate decision making.
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Beware!!}
+
+Note also the representation of probabilities as \% rather than decimals.
+
+Was originally preferred by stakeholders.
+
+\centering
+\includegraphics[height=7.5cm]{images/hake-dec-table.png}
+
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{How could fisheries managers use information to make decisions?}
+
+\centering
+\includegraphics[height=7.5cm]{images/combine-results.png}
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{So how do we obtain these probabilities?}
+
+\centering
+\includegraphics[height=4in]{images/model-schematic.png}
+
+\end{frame}
+
+% --------------------------------------
+
+\begin{frame}
+\frametitle{So how do we obtain these probabilities?}
+
+Helpful to understand the ideas behind calculating these
+probabilities
+(and why people in assessment review meetings spend so much time
+talking about those damn `priors').
+
+~\\
+
+Back to coin tossing:
+\begin{eqnarray}
+\nonumber \mbox{P(heads)} & = & 0.5\\
+\nonumber \mbox{P(tails)} & = & 0.5
+% \nonumber \mbox{P(heads)} + \mbox{P(tails)} & = & 1
+\end{eqnarray}
+
+That tells us the \alert{probability of different outcomes} (heads or tails), given
+\textcolor{blue}{knowledge of how the system works (the coin is fair, and so the probabilities are equal)}.
+
+~\\
+
+But often, we have \alert{data concerning different outcomes}, and want to
+\textcolor{blue}{infer how the system works -- what are the probabilities (is
+  the coin fair?)}.
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+But often, we have \alert{data concerning different outcomes}, and want to
+\textcolor{blue}{infer how the system works -- what are the probabilities (is
+  the coin fair?)}.
+
+% We have a coin, and what to know if it is fair or not?
+
+% Fair coin: P(heads) = P(tails) = 0.5
+
+~\\
+
+P(X | Y) is the conditional probability that event $X$ happens (or $X$ is true) given event $Y$ happens.
+
+e.g. P(rains tomorrow | rained today)
+
+~\\
+
+% P(parameter, given event)
+% P(parameter, given data)
+
+
+\begin{tabular}{ll}
+
+\underline{Different results}  & \underline{Intuition}\\
+
+P(coin is fair | H) & coin could well be fair, how can I tell? \\
+
+\pause
+P(coin is fair | HH) & yes, could be fair (if so then a 25\% chance of getting HH)\\
+% Independence
+\pause
+
+P(coin is fair | HHHH) & hmmm...., bit suspicious \\
+\pause
+
+P(coin is fair | 100 H in a row) & absolutely no way \\
+\end{tabular}
+\pause
+
+~\\
+
+That's essentially the idea of \alert{\emph{likelihood}}.
+
+\end{frame}
+
+%----------------------------------------------------------
+
+%\begin{frame}
+%\frametitle{Likelihood}
+%
+%So instead of
+%
+%~\\
+%
+%~P(\textcolor{blue}{data} | \textcolor{red}{coin is fair}),
+%
+%\\
+%
+%ikelihood is
+%
+%~\\
+%
+%~~L(\textcolor{red}{coin is fair} | \textcolor{blue}{data}),
+%
+%~\\
+%
+%which is (essentially)
+%
+%~\\
+%
+%~~P(\textcolor{red}{coin is fair} | \textcolor{blue}{data}).
+%
+%~\\
+%
+%ikelihood of \textcolor{red}{hypothesis (coin is fair)} given the
+%\textcolor{blue}{data (number of heads)}.
+%
+%\end{frame}
+%----------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Likelihood}
+
+We define $p$ as the underlying true probability of getting H in a single toss.
+
+If $p$ `is close to' 0.5 then we would say the coin is fair.
+
+\howlikely
+\begin{center}
+<<like-fig-1, out.width='0.75\\columnwidth', fig.height=4>>=
+# Do for tossed coins:
+like_fig <- function(choice, prop_heads = 1)
+    {
+    # Won't work for all prop_heads values.
+    nvec = c(1, 2, 6, 20, 100, 1000)			# n tosses
+    # svec = nvec   #c(5,20,100)     		# s heads
+
+    # choice is 1, 2, 3, ..
+    n = nvec[choice]
+    s = prop_heads * n
+
+    thetavec = seq(0.01,1,0.001)	# theta is prob of H (p in slides)
+
+    # prior = dbeta(thetavec, 2,6.4)
+    L = thetavec^s * (1 - thetavec)^(n-s)
+    # post = dbeta(thetavec, 2+s, 6.4+n-s)
+
+    # windows(height=3, width=3* 2.2)  # width = 2.2, cmai[2]=0.46 was good with no
+						# label on y axis
+    # cmai=c(0.96, 1.0, 0.77, 0.39) - good for having axes label words, but too
+		 # much white space for no labels (but do want numbers):
+
+    # cmai=c(0.46, 0.46, 0.3, 0.3)
+    cmai=c(1, 1, 0.5, 0.3)
+    par(mai=cmai)
+
+    # par(mfrow=c(1,2), mai=cmai) # , lwd=3)
+
+    tsize = 1.5 * 1.5
+    # ymax = 9  # 1.1*max(post)
+
+    # par(mai=cmai, mfrow=c(1,3))
+    # windows(height=3, width=2.2)   before each if doing individually
+    # par(mai=cmai)		# plotting the normalised L
+
+    plot(thetavec, L/sum(L)*1000, col="blue", type="h",
+         xlim=c(0,1), xaxs="i",
+         cex.lab=tsize, cex.axis=tsize, lwd=3,
+         xlab=expression(Value~of~italic(p)),
+         ylab=expression(Likelihood~of~italic(p)),
+         ylim=c(0,1.1* max(L/sum(L)*1000)), yaxs="i",
+         cex.main = 0.8*tsize,
+         main=ifelse(s==1,
+                     ifelse(n==1, paste0(s, " head from ", n, " toss"),
+                                  paste0(s, " head from ", n, " tosses")),
+                     paste0(s, " heads from ", n, " tosses")))
+    lines(thetavec, L/sum(L)*1000, lwd=3)
+    abline(v=0.5, col="red")
+
+#    plot(thetavec, prior, ylim=c(0,ymax ),  col="red", type="h", xlim=c(0,0.8), xaxs="i", yaxs="i",
+#         cex.lab=tsize, cex.axis=tsize, lwd=3, xlab="", ylab="")# , lwd=3) )
+#    lines(thetavec, prior, lwd=3)
+}
+# bayes_fig(1)
+# bayes_fig(2)
+# bayes_fig(3)
+like_fig(1)
+@
+\end{center}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+\howlikely
+\begin{center}
+<<like-fig-2, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(2)
+@
+\end{center}
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+\howlikely
+\begin{center}
+<<like-fig-3, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(3)
+@
+\end{center}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+\howlikely
+\begin{center}
+<<like-fig-4, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(4)
+@
+\end{center}
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+\howlikely
+\begin{center}
+<<like-fig-5, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(5)
+@
+\end{center}
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+Similarly, how confident do we become regarding $p=0.5$ with more data when half of the tosses are heads?
+
+\begin{center}
+<<like-fig-6, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(2, prop_heads=0.5)
+@
+\end{center}
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+Similarly, how confident do we become regarding $p=0.5$ with more data when half of the tosses are heads?
+
+\begin{center}
+<<like-fig-7, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(3, prop_heads=0.5)
+@
+\end{center}
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+Similarly, how confident do we become regarding $p=0.5$ with more data when half of the tosses are heads?
+
+\begin{center}
+<<like-fig-8, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(4, prop_heads=0.5)
+@
+\end{center}
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+Similarly, how confident do we become regarding $p=0.5$ with more data when half of the tosses are heads?
+
+\begin{center}
+<<like-fig-9, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(5, prop_heads=0.5)
+@
+\end{center}
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+Similarly, how confident do we become regarding $p=0.5$ with more data when half of the tosses are heads?
+
+\begin{center}
+<<like-fig-10, out.width='0.75\\columnwidth', fig.height=4>>=
+like_fig(6, prop_heads=0.5)
+@
+\end{center}
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Likelihood}
+
+Likelihood -- \alert{how likely is the model given the data?}
+
+~\\
+
+Similarly, we have fisheries data and use likelihood to infer parameters and  make other
+calculations, to then calculate things such as
+
+~\\
+
+~~P(\textcolor{red}{stock in healthy zone} | \textcolor{blue}{data on catches,
+  growth, etc.}),
+
+~\\
+
+% ~~i.e.~P(\textcolor{red}{hypothesis} | \textcolor{blue}{data}).
+
+\pause
+
+The \alert{stock assessment model} consists of equations (based on biological
+assumptions) and uses the various data sources to calculate such probabilities.
+~\\
+
+\pause
+
+~\\
+
+So likelihood has a specific technical meaning (bit confusing to use `likelihood' when you simply mean `probability').
+
+~\\
+
+In practice we often need to use a \emph{Bayesian} approach, due to complexity
+of models.
+
+
+
+
+
+\end{frame}
+%----------------------------------------------------------
+
+
+\begin{frame}
+
+\frametitle{Questions?}
+
+~\\
+
+\pause
+
+I have one -- which film/play starts off with one of the main characters tossing 100
+heads in a row?
+
+\pause
+
+Rosencrantz and Guildenstern are Dead
+
+~\\
+
+\includegraphics[width=6cm, center]{images/rosencrantz.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Bayesian approach}
+
+Involves using \emph{prior} information and combining it with the
+\emph{likelihood} of the data to give a \emph{posterior}.
+
+Reverend Thomas Bayes...
+
+\includegraphics[width=4cm, center]{images/bayes-himself-maybe.png}
+
+\onslide<2>{\rightline{\alert{\emph{...perhaps~~~~~}}}}
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Bayesian figures*** three like before}
+% From images/bayes-figures/draper4btalk.r from 2004
+
+<<bayes-fig-1, out.width='0.95\\columnwidth', fig.height=3>>=
+# Keeping function here, but ended up copy and pasting old slides for speed
+
+bayes_fig <- function(choice)
+    {
+    nvec = c(5,20,100)			# n vehicles observed   74
+    svec = c(2,8,40)     		# s of them were bikes  16
+
+    # choice is 1, 2, 3
+    n = nvec[choice]
+    s = svec[choice]
+
+    thetavec = seq(0.01,0.99,0.001)	# theta is proportion that are bikes
+
+    prior = dbeta(thetavec, 2,6.4)
+    L = thetavec^s * (1 - thetavec)^(n-s)
+    post = dbeta(thetavec, 2+s, 6.4+n-s)
+
+    # windows(height=3, width=3* 2.2)  # width = 2.2, cmai[2]=0.46 was good with no
+						# label on y axis
+    # cmai=c(0.96, 1.0, 0.77, 0.39) - good for having axes label words, but too
+		 # much white space for no labels (but do want numbers):
+
+    cmai=c(0.46, 0.46, 0.3, 0.3)
+
+    # par(mfrow=c(1,2), mai=cmai) # , lwd=3)
+
+    tsize = 1.5 * 1.5
+    ymax = 9  # 1.1*max(post)
+
+    par(mai=cmai, mfrow=c(1,3))
+    # windows(height=3, width=2.2)   before each if doing individually
+    # par(mai=cmai)		# plotting the normalised L
+
+
+    # plot(thetavec, post, ylim=c(0,ymax ), col="purple", type="h", xlim=c(0,0.8), xaxs="i", yaxs="i", cex.lab=tsize,
+    #  cex.axis=tsize, lwd=3, xlab="", ylab="")
+    # lines(thetavec, post, lwd=3)
+
+    plot(thetavec, prior, ylim=c(0,ymax ),  col="red", type="h", xlim=c(0,0.8), xaxs="i", yaxs="i",
+         cex.lab=tsize, cex.axis=tsize, lwd=3, xlab="", ylab="")# , lwd=3) )
+    points(thetavec, L/sum(L)*1000, col="blue", type="h")
+    # lines(thetavec, L/sum(L)*1000, lwd=3)
+    points(thetavec, post, col="purple", type="h")
+    lines(thetavec, post, lwd=3)
+    lines(thetavec, L/sum(L)*1000, lwd=3, lty=2)
+    lines(thetavec, prior, lwd=3, lty=2)
+
+    plot(thetavec, L/sum(L)*1000, ylim=c(0,ymax ), col="blue", type="h", xlim=c(0,0.8), xaxs="i", yaxs="i",
+         cex.lab=tsize, cex.axis=tsize, lwd=3, xlab="", ylab="")
+    lines(thetavec, L/sum(L)*1000, lwd=3)
+
+    plot(thetavec, prior, ylim=c(0,ymax ),  col="red", type="h", xlim=c(0,0.8), xaxs="i", yaxs="i",
+         cex.lab=tsize, cex.axis=tsize, lwd=3, xlab="", ylab="")# , lwd=3) )
+    lines(thetavec, prior, lwd=3)
+}
+# bayes_fig(1)
+# bayes_fig(2)
+# bayes_fig(3)
+@
+% \begin{textblock}{0.5}(0.001,0.001)
+%   **Test
+% \end{textblock}
+
+% \end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Bayesian approach}
+
+Want to estimate the proportion of commuters that travel by bike
+
+~\\
+
+\includegraphics[width=10cm, center]{images/bayes-pic-1.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Bayesian approach}
+
+Collect more data:
+
+\includegraphics[width=10cm, center]{images/bayes-pic-2.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Bayesian approach}
+
+Collect even more data:
+
+\includegraphics[width=10cm, center]{images/bayes-pic-3.png}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Bayesian approach}
+
+Those examples can be done by solving the equations by hand.
+
+~\\
+
+Assessment models are way more complicated.
+
+~\\
+
+The Bayesian approach is often needed to help constrain the estimated values --
+we do not have enough data to fully fit the models and need help from the priors.
+
+~\\
+
+Recent advances, such as Markov Chain Monte Carlo (MCMC) simulations, allow
+us to use the Bayesian approach on complex models.
+
+~\\
+
+With MCMC we end up with, say, 1,000 representations of reality.
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Biomass estimate for Pacific Hake}
+
+\includegraphics[width=8cm, center]{images/mcmc-posterior-biomass.png}
+\vspace{-10mm}\\
+Each blue line is a different MCMC estimate of the biomass from the assessment model.
+Bold black line shows the median of these.
+
+However, can see that the biomass can deviate somewhat from the median.
+% (Boxplots are survey data).
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Boxplot from earlier}
+
+Those different MCMC simulations are what are used to then make the boxplots.
+
+~\\
+
+Vulnerable biomass from earlier:
+
+\centering
+\includegraphics[height=2.5in]{images/vulnerable.png}
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Further types of uncertainty}
+
+\bc
+  {\Huge \bf \alert{BIG CAVEATS}}
+\ec
+
+\bi
+\item All these numerical probabilities depend on the \alert{assumptions of the
+    assessment model}
+\item \alert{Structural uncertainty} -- uncertainty in the underlying biological assumptions
+  and hence the equations of the model
+\pause
+\item A different model will give different results
+% \item Model is the best we can do
+\item Model gives \alert{projections} based on assumptions being valid and
+  continuing to be valid; \textcolor{blue}{not predictions}.
+
+\item One approach (recent Pacific Cod assessment) is to average the decision
+  tables for 10 or so plausible models to account of uncertainty in picking the
+  \alert{`best'} model.
+\ei
+
+\end{frame}
+
+% ---------------------------------------------
+
+\begin{frame}
+\frametitle{Further types of uncertainty}
+
+\bc
+  {\Huge \bf \alert{BIG CAVEATS}}
+\ec
+
+\bi
+\item Also \alert{data uncertainty}
+\item The models can account for some of the uncertainty and noise in the data
+\item But the data may still not be fully representative of the population
+\item Surveys are snapshots in time and space
+\ei
+
+\end{frame}
+
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Risk}
+
+\begin{minipage}{8cm}
+Which is more risky?
+\bi
+ \item betting \$100,000 on one number in roulette, or
+ \item betting \$5 on one number in roulette.
+\ei
+\end{minipage}
+\begin{minipage}{4cm}
+  \includegraphics[width=4cm, right]{images/roulette.png}
+\end{minipage}
+
+\pause
+
+~\\
+
+~\\
+
+Intuitively, the \$100,000 bet sounds riskier -- that's because the negative
+outcome (of losing) is more serious than losing just \$5.
+
+~\\
+
+But the \alert{\emph{probabilities of winning}} are the same (regardless of the bet).
+
+~\\
+
+\end{frame}
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Risk}
+
+`Risk' is colloquially associated with a negative consequence:
+
+\bc
+\alert{``chance or possibility of danger, loss, injury etc.'' (OED).}
+\ec
+
+Quantitatively, risk is defined as the
+
+\bc
+\alert{``expected value of an undesirable outcome,''}
+\ec
+
+and can be expressed as
+
+\bc
+P(outcome) $\times$ expected loss if outcome occurs
+\ec
+
+Easy to \alert{quantify the expected loss} in roulette example, very hard to do
+in the context of fisheries management.
+
+\end{frame}
+
+% ----------------------------------------------------------
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Risk}
+
+\bc
+\textcolor{blue}{Risk = P(outcome) $\times$ expected loss if outcome occurs}
+\ec
+
+~\\
+
+In assessments we can calculate
+
+~\\
+
+\bc
+\textcolor{blue}{P(stock will be in the critical zone next year if catch stays the same)}
+\ec
+
+~\\
+
+but what is the expected loss of this outcome?
+
+~\\
+
+Very hard to quantify. \textcolor{red}{Will be different for different stakeholders.}
+
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Risk}
+
+So risk depends on the consequences of the outcome.
+
+~\\
+
+You might hear
+
+\bc
+\alert{``the risk of being in the cautious zone''}
+\ec
+
+but the risk depends on their value of the loss.
+
+~\\
+
+You wouldn't really hear
+
+\bc
+\alert{``the risk of being in the healthy zone''}
+\ec
+
+since there is not really a negative consequence.
+
+So risk does not simply mean probability -- you would not say ``the risk of getting heads''.
+
+\end{frame}
+
+%----------------------------------------------------------
+\begin{frame}
+
+\frametitle{Concluding remarks (from my groundfish experience)}
+
+\bi
+\item Giving explicit uncertainties is appreciated
+\item Complex results incorporating Bayesian uncertainty can be meaningfully communicated to managers \& stakeholders through clear figures and tables
+\item  \alert{``Far more useful than low/medium/high elements of risk that we used to get''}
+\item Consistency in layout of results and tables is appreciated
+\item \alert{``The decision tables gives us the necessary flexibility to assess the risk/impact  of various catch levels''}
+\ei
+\end{frame}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Acknowledgements}
+
+Thanks for feedback/comments/emails: Rob Kronlund, Carrie Holt, Jaclyn Cleary,
+Rowan Haigh, Chris Grandin, Rob Tadey,
+Ian Taylor (NOAA).
+
+~\\
+
+Next week: \textcolor{blue}{Rob Kronlund -- Management Strategy Evaluation}
+
+~\\
+
+~\\
+
+\pause
+
+Further reading/viewing:
+
+~\\
+
+David Spiegelhalter (Winton Professor for the Public Understanding of Risk, Cambridge).
+
+\pause
+
+\bc
+\alert{``Transparent evidence designed to inform, not to persuade''}
+\ec
+
+
+
+
+\end{frame}
+
+\end{document}
+
+%----------------------------------------------------------
+
+\begin{frame}
+\frametitle{Probabilities for continuous variables}
+
+For discrete variables we can talk about P(die roll is 3), P(die roll is 4).
+
+~\\
+
+However, for continuous variables, we cannot say P(this fish weighs 127~g).
+
+~\\
+
+No fish will weigh \alert{exactly} 127~g. Therefore
+
+~~~~P(this fish weighs 127~g) = 0
+
+as it's an impossible event.
+
+~\\
+
+So we have to talk about probability of the weight being within a range, such
+as
+
+~~P(250~g $<$ fish weight $\leq$ 260~g).
+
+% skip:
+
+% Temperature is continuous, though measured values are discrete (due to the
+% precision of the instrument).
+
+% ~~e.g. body temperature of a beaver at 10-minute intervals
+
+% <<beaver, results="asis">>=
+% kable(beaver1[1:6, 2:3], "latex", booktabs = TRUE) %>%
+%      kable_styling(latex_options = "striped")
+%      # column_spec(1, width = "3cm")
+% @
+
+
+\end{frame}

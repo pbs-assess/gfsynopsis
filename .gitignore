@@ -63,3 +63,9 @@ report/report-rmd/resdoc.utf8.md
 report/report-rmd/resdoc.tex
 report/report-rmd/resdoc.knit.md
 *.ppt
+report/presentations/iphc-survey/knitr-cache/*
+report/presentations/iphc-survey/*.nav
+report/presentations/iphc-survey/*.snm
+report/presentations/iphc-survey/*.tex
+report/presentations/iphc-survey/uncertainty-talk.Rnw
+
