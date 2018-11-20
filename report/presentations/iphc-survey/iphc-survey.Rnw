@@ -122,6 +122,7 @@ opts_chunk$set(dev = 'cairo_ps',
 library(dplyr)
 library(xtable)
 library(kableExtra)
+library(here)
 # library(Hmisc)
 assess.yr = 2018
 last.assess.yr = assess.yr - 1
@@ -133,8 +134,8 @@ admb.version = 999
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title[International Pacific Halibut Commission Survey]{~\\ International Pacific Halibut Commission Survey}
-\author{Andrew Edwards\\ ~\\ 
-% \includegraphics[height=3.5cm]{images/pbs.png}\\  ~\\ 
+\author{Andrew Edwards\\ ~\\
+% \includegraphics[height=3.5cm]{images/pbs.png}\\  ~\\
   \textcolor{blue}{Pacific Biological Station, Nanaimo, BC}}
 % \institute{{\textcolor{blue}{Pacific Biological Station, Nanaimo, BC}\\
 %  ~\\
@@ -186,7 +187,7 @@ I hope that you'll come away with an understanding of:
   \item main aim is data for Pacific Halibut assessment
   \item  each station has a set of up to 8 skates
   \item  each skate has about 100 hooks
-  \pause  
+  \pause
   \item  count of a species on each set is standardised by that set's  `effective skate number'
   \item `effective skate number' of 1 represents a skate of 100 circle hooks with 18-foot spacing
   \item resulting index has units of `numbers per effective skate'
@@ -227,7 +228,7 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
 \includegraphics[width=10cm]{images/bait-experiment.png}
 %\end{minipage}
 
-We use only chum-bait skates.\\  
+We use only chum-bait skates.\\
 Figure from Webster et al. talk ``Coastwide bait comparison study''.
 % http://www.iphc.int/meetings/2013am/documents/D2P02BaitComp_AM_web.pdf
 
@@ -236,7 +237,46 @@ Figure from Webster et al. talk ``Coastwide bait comparison study''.
 
 \end{document}
 
+<<make_iphc_dat>>=
+dc <- here("report", "data-cache")
+sp <- "redbanded rockfish"
+sp_w_hyphen <- "redbanded-rockfish"
+dat_iphc <- readRDS(file.path(dc, paste0("iphc/", sp_w_hyphen, ".rds")))
+iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
+        final_year = 2017)
 
+
+  if (!file.exists(map_cache_spp_iphc)) {
+    iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+      species = spp,
+      surveys = "IPHC FISS",
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
+      model = "sdmTMB", silent = TRUE, years = 2016:2017)
+    iphc_fits$models <- NULL # save space
+    saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
+  } else {
+    iphc_fits <- readRDS(map_cache_spp_iphc)
+  }
+
+
+
+# map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
+
+iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth,
+        na.rm = TRUE)
+    iphc_map_dat$combined <- ifelse(iphc_map_dat$combined ==
+        0, NA, iphc_map_dat$combined)
+    suppressMessages({
+        g_survey_spatial_iphc <- gfsynopsis::plot_survey_maps(iphc_map_dat,
+            iphc_fits$raw_dat, show_raw_data = FALSE, cell_size = 2,
+            circles = TRUE, show_model_predictions = "combined" %in%
+                names(iphc_map_dat), annotations = "IPHC") +
+            coord_cart + ggplot2::ggtitle("IPHC survey catch rate") +
+            ggplot2::scale_fill_viridis_c(trans = "fourth_root_power",
+                option = "C", na.value = "white") + ggplot2::scale_colour_viridis_c(trans = "fourth_root_power",
+            option = "C", na.value = "grey35")
+    })
+@
 
 
 
