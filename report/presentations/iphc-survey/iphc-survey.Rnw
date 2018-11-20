@@ -238,6 +238,8 @@ Figure from Webster et al. talk ``Coastwide bait comparison study''.
 \end{document}
 
 <<make_iphc_dat>>=
+# Tried extracting some code from make.R and from various functions, but
+#  should really make a function just for IPHC maps - going to take too long.
 dc <- here("report", "data-cache")
 sp <- "redbanded rockfish"
 sp_w_hyphen <- "redbanded-rockfish"
