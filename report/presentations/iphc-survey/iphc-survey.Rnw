@@ -134,7 +134,11 @@ admb.version = 999
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title[International Pacific Halibut Commission Survey]{~\\ International Pacific Halibut Commission Survey}
-\author{Andrew Edwards\\ ~\\
+\author{A reproducible data synopsis for over 100~species
+  of British Columbia groundfish\\
+  ~\\
+  Sean Anderson, Elise Keppel and Andrew Edwards\\
+  ~\\
 % \includegraphics[height=3.5cm]{images/pbs.png}\\  ~\\
   \textcolor{blue}{Pacific Biological Station, Nanaimo, BC}}
 % \institute{{\textcolor{blue}{Pacific Biological Station, Nanaimo, BC}\\
@@ -143,7 +147,7 @@ admb.version = 999
 % \titlegraphic{\includegraphics[height=3.3cm]{images/pbs.png}}
 % \titlegraphic{images/pbs.png}
 \date{{\footnotesize SRG meeting -- \Sexpr{assess.yr}}}
-\subtitle{\small CSAP review meeting of Reproducible Data Synopsis.\\
+\subtitle{\small CSAP review meeting\\
 Thursday 22nd November, 2018}
 
 \begin{document}
@@ -158,29 +162,6 @@ Thursday 22nd November, 2018}
 }
 %----------------------------------------------------------
 
-\begin{frame}
-\frametitle{Aims of this lecture}
-% ~\\
-
-I hope that you'll come away with an understanding of:
-
-~\\
-
-\begin{minipage}{12cm}
-\bi
-  \item how stock assessment scientists can include
-    uncertainty in advice to managers
-  \item \textcolor{blue}{how to interpret such uncertainty}
-  % \item The concepts behind these Relate the concepts to fairly simple examples
-  \item some of the methods used to quantify uncertainty
-  \item \textcolor{blue}{caveats and potential pitfalls}
-\ei
-\end{minipage}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%
-%\section{Outline}
-%\subsection{}
 \frame{\frametitle{Survey background}
 \bi
   \item annual stock assessment longline survey, California to Alaska
@@ -207,13 +188,21 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
   \hline
 1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
 1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
+\pause
 1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+\pause
 1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+\pause
 2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+\pause
 2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+\pause
 2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
+\pause
 2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
+\pause
 2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
+\pause
 2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
    \hline
 \end{tabular}
@@ -273,54 +262,126 @@ Figure from Webster et al. talk ``Coastwide bait comparison study''.
 \frame{\frametitle{Coverage of survey}
 \includegraphics[width=7cm, center]{images/allBlocks0314map.png}
 }
+
 %----------------------------------------------------------
 
+\frame{\frametitle{Have to account for changes in available data}
+
+\begin{table}[t]
+\centering
+\begin{tabular}{llllc}
+  \hline
+Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
+  \hline
+1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
+1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
+1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
+2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
+2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
+2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
+   \hline
+\end{tabular}
+\end{table}
+
+}
+
+% ----------------------------------------------------------
+
+\frame{\frametitle{Can create different series}
+\begin{columns}
+    \begin{column}{0.48\textwidth}
+        Series A -- north of VI, first 20 hooks \\
+        \includegraphics[width=6cm, left]{../../report-rmd/figure/andy-orig/bcaKeepSerA.png}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+        ~~~~~~~~~~Series B -- north of VI, all hooks \\
+        \includegraphics[width=6cm, right]{../../report-rmd/figure/andy-orig/bcaKeepSerB.png}
+    \end{column}
+\end{columns}
+}
+
+% ----------------------------------------------------------
+
+\frame{\frametitle{Rescale to join up}
+\begin{columns}
+    \begin{column}{0.48\textwidth}
+        Divide each series by its geometric mean \\
+        \includegraphics[width=6cm, left]{../../report-rmd/figure/andy-orig/bcaKeepSerAB1.png}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+        ~~~~~~~~~~Rescale B to join up to A \\
+        \includegraphics[width=6cm, right]{../../report-rmd/figure/andy-orig/bcaKeepSerAB2.png}
+    \end{column}
+\end{columns}
+}
+
+% ----------------------------------------------------------
+
+\frame{\frametitle{Construct four different time series}
+
+\begin{table}[t] \centering
+% \caption{Summary of how the four Series {\bf A}, {\bf B}, {\bf C} and {\bf D}
+% are constructed. Numbers in parentheses indicate the number of years for which
+% data for each Series are available. 'Only north of WCVI' indicates Series that
+% only consider stations north of Vancouver Island (thus excluding those off the
+% WCVI), 'Full coast' indicates Series that use all stations from the whole
+% coast. The rows indicate how many hooks the catch rates for each Series are
+% based on.}
+\begin{tabular}{rcc}
+\hline
+ & Only north of WCVI & Full coast \\
+\hline
+First 20 hooks from each skate & {\bf A}(21) & {\bf D}(18)\\
+All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
+\hline
+\end{tabular}
+\end{table}
+Statistically compare Series A and B; Series A and D; Series B and C to
+determine the longest that can be made.
+
+~\\
+
+Show longest series in the report.
+}
+
+% ----------------------------------------------------------
+
+\frame{\frametitle{Hook competition}
+\bi
+  \item competition by fish for the bait
+  \item if a hook catches a fish then that hook no longer actively fishing
+  \item so true local density of a species should be scaled up depending on the
+    number of hooks returned without bait
+\ei
+}
+
+% ----------------------------------------------------------
+
+\frame{\frametitle{Hook competition}
+Based on approach used by IPHC, adjustment factor would be:
+<<hookcomp, fig.height=2.5>>=
+cmai=c(0.8, 0.8, 0.15, 0.3)
+par(mai=cmai)
+Pit <- c( seq(1/800, 0.1, length=200), seq(0.1  , 0.99, 0.01) )
+hook_adjust = - log(Pit) / (1 - Pit)
+plot(Pit, hook_adjust, ylim=c(0, max(hook_adjust)), type="l",
+     xlab = expression("Proportion of hooks with bait"),
+     ylab = "Adjustment factor")
+@
+~\\
+But need to decide what to do when no hooks are returned with bait.
+
+Happens for 646/3434 sets based on first 20 hooks.
+
+Likely needs to be a separate project.
+}
 
 
 \end{document}
-
-\onefig{stations1995mapA}{Locations of the 120 stations in 1995, of which 81 did not catch Yelloweye Rockfish (red open circles), 34 stations did catch it (red closed circles), and 5 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series~A and~B; for this year no stations (black crosses) are excluded, since the cut-off was chosen so as to include all stations for 1995, 1996 and 1997.}{stations1995mapA}{5}
-
-% From iphcSerBallHooksYYR.tex
-\onefig{stations1996mapA}{Locations of the 122 stations in 1996, of which 73 did not catch Yelloweye Rockfish (red open circles), 47 stations did catch it (red closed circles), and 2 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series~A and~B; for this year no stations (black crosses) are excluded.}{stations1996mapA}{5}
-
-
-% Start of maps from iphcSerA20hooksYYR.tex
-\onefig{stations1997mapAkeep}{Locations of the 122 stations in 1997, of which 80 did not catch Yelloweye Rockfish (red open circles), 41 stations did catch it (red closed circles), and 1 was deemed unusable by the IPHC (grey closed circles) and so are not considered further. The black line indicates the geographic cut-off, below which stations are excluded when constructing Series~A and~B; for this year no stations (black crosses) are excluded.}{stations1997mapAkeep}{5}
-
-
-\onefig{stations1998mapAkeep}{Locations of the 128 stations in 1998, of which 84 did not catch Yelloweye Rockfish (red open circles), 44 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. There are no black crosses because no stations are being excluded from Series~A.}{stations1998mapAkeep}{5}
-  
-
-
-\onefig{stations1999mapAkeep}{Locations of the 170 stations in 1999, of which 107 did not catch Yelloweye Rockfish (red open circles), 61 stations did catch it (red closed circles), and 2 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A because they lie south of the geographic cut-off shown on Figure~\ref{fig:stations1995mapA}.}{stations1999mapAkeep}{5}
-
-
-
-\onefig{stations2000mapAkeep}{Locations of the 129 stations in 2000, of which 83 did not catch Yelloweye Rockfish (red open circles), 46 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. There are no black crosses because no stations are being excluded from Series~A.}{stations2000mapAkeep}{5}
-
-
-
-\onefig{stations2001mapAkeep}{Locations of the 170 stations in 2001, of which 120 did not catch Yelloweye Rockfish (red open circles), 50 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2001mapAkeep}{5}
-
-
-
-\onefig{stations2002mapAkeep}{Locations of the 170 stations in 2002, of which 130 did not catch Yelloweye Rockfish (red open circles), 40 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2002mapAkeep}{5}
-
-% Don't need this as covered in allBlocks0314map
-% \onefig{all2003mapAkeep20}{Locations of all 170 stations for the IPHC survey for 2003 onwards. There are 83 stations that never caught Yelloweye Rockfish (blue open circles) in the first 20 hooks, and 87 stations that did catch it at least once in the first 20 hooks. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2003mapAkeep}{5}   % $ 
-% End of maps from iphcSerA20hooksYYR.tex, though 2013 one below is also from there
-
-% From iphcSerBallHooksYYR.tex
-\onefig{all2003mapAkeep}{Locations of all 170 stations for the IPHC survey for 2003 onwards. There are 59 stations that never caught Yelloweye Rockfish (blue open circles), and 111 stations that did catch it at least once. Black crosses indicate the 35 stations being excluded from Series~A and Series~B.}{all2003mapAkeep}{5}   % $ 
-
-
-% From iphcCombineAB-YYR.ps - not quite sure where it's made.
-\onefig{allBlocks0314map}{Locations of all 170 stations for the IPHC survey for 2003-2012 and 2014. There are 59 stations that never caught Yelloweye Rockfish (blue open circles), 24 stations that caught Yelloweye Rockfish but never in the first 20 hooks (red closed circles), and 87 that did catch Yelloweye Rockfish within the first 20 hooks (blue closed circles). Black crosses indicate the 35 stations being excluded from Series~A and~B.}{allBlocks0314map}{5}   % Could add in 2013, but probably not since it cannot add any red circles.
-
-% Also from iphcSerA20hooksYYR.tex
-\onefig{stations2013mapAkeep}{Locations of the 170 stations in 2013, of which 134 did not catch Yelloweye Rockfish (red open circles), 36 stations did catch it (red closed circles), and 0 were deemed unusable by the IPHC (grey closed circles) and so are not considered further. Black crosses indicate the 35 stations being excluded from Series~A.}{stations2013mapAkeep}{5} % The black line indicates the latitude below which stations are being excluded.}
-
 
 % ----------------------------------------------------------
 
