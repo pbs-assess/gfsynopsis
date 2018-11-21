@@ -163,11 +163,12 @@ Thursday 22nd November, 2018}
 %----------------------------------------------------------
 
 \frame{\frametitle{Survey background}
+Longest continually running groundfish survey in BC waters:\\
 \bi
   \item annual stock assessment longline survey, California to Alaska
   \item main aim is data for Pacific Halibut assessment
-  \item  each station has a set of up to 8 skates
-  \item  each skate has about 100 hooks
+  \item  each station has a set of \textcolor{red}{up to} 8 skates
+  \item  each skate has \textcolor{red}{about} 100 hooks
   \pause
   \item  count of a species on each set is standardised by that set's  `effective skate number'
   \item `effective skate number' of 1 represents a skate of 100 circle hooks with 18-foot spacing
@@ -219,6 +220,7 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
 %\end{minipage}
 
 We use only chum-bait skates.\\
+~\\
 Figure from Webster et al. talk ``Coastwide bait comparison study''.
 % http://www.iphc.int/meetings/2013am/documents/D2P02BaitComp_AM_web.pdf
 
@@ -341,8 +343,13 @@ All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
 \hline
 \end{tabular}
 \end{table}
-Statistically compare Series A and B; Series A and D; Series B and C to
-determine the longest that can be made.
+Statistically compare
+\bi
+  \item Series A and B
+  \item Series A and D
+  \item Series B and C
+\ei
+to determine the longest that can be made (usually A with extra rescaled years from B).
 
 ~\\
 
@@ -354,7 +361,8 @@ Show longest series in the report.
 \frame{\frametitle{Hook competition}
 \bi
   \item competition by fish for the bait
-  \item if a hook catches a fish then that hook no longer actively fishing
+  \item if a hook catches a fish then that hook is no longer actively fishing
+    for the remainder of the soak time
   \item so true local density of a species should be scaled up depending on the
     number of hooks returned without bait
 \ei
