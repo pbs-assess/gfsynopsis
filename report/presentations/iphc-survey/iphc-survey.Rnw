@@ -189,21 +189,22 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
 1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
 1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
 \pause
-1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+1997-1998 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ & N\\
 \pause
-1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+1999 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ &
+                                                                                \textcolor{blue}{{\bf Y}}\\
 \pause
-2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
+2000 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ & N\\
 \pause
-2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
+2001-2002 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ & \textcolor{blue}{\bf Y}\\
 \pause
-2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
+2003-2011 & All & \textcolor{purple}{Hook-by-hook} & DFO database GFBio & \textcolor{blue}{\bf Y}\\
 \pause
-2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
+2012 & All (\textcolor{green}{bait experiment})      & \textcolor{purple}{Hook-by-hook} & DFO database GFBio & \textcolor{blue}{\bf Y}\\
 \pause
-2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
+2013 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^3$ & \textcolor{blue}{\bf Y}\\
 \pause
-2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
+2014-2017 & All & \textcolor{purple}{Hook-by-hook} & DFO database GFBio & \textcolor{blue}{\bf Y}\\
    \hline
 \end{tabular}
 \end{table}
@@ -275,14 +276,14 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
   \hline
 1995 & All & Set-by-set & Spreadsheets$^1$ & N\\
 1996 & All & Set-by-set & Spreadsheet$^2$ & N\\
-1997-1998 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
-1999 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
-2000 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & N\\
-2001-2002 & First 20 of each skate & Set-by-set & Spreadsheet$^2$ & Y\\
-2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
-2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
-2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
-2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
+1997-1998 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ & N\\
+1999 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ & \textcolor{blue}{\bf Y}\\
+2000 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ & N\\
+2001-2002 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^2$ & \textcolor{blue}{\bf Y}\\
+2003-2011 & All & \textcolor{purple}{Hook-by-hook} & DFO database GFBio & \textcolor{blue}{\bf Y}\\
+2012 & All (\textcolor{green}{bait experiment})      & \textcolor{purple}{Hook-by-hook} & DFO database GFBio & \textcolor{blue}{\bf Y}\\
+2013 & \textcolor{red}{First 20 of each skate} & Set-by-set & Spreadsheet$^3$ & \textcolor{blue}{\bf Y}\\
+2014-2017 & All & \textcolor{purple}{Hook-by-hook} & DFO database GFBio & \textcolor{blue}{\bf Y}\\
    \hline
 \end{tabular}
 \end{table}
