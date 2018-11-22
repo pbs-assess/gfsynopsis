@@ -30,7 +30,7 @@ Imports:
     parallel,
     scales
 Remotes: github::seananderson/gfplot
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat,
