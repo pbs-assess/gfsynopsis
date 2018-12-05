@@ -87,6 +87,18 @@ found in the following documents:
 
 1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
 
+```{r other-surveys-table-setup}
+#meta <- gfsynopsis::get_spp_names()
+q <- read_sql("get-other-surveys.sql")
+other_surveys <- run_sql("GFBioSQL", q)
+```
+
+\clearpage
+
+```{r other-surveys-table, results='asis'}
+csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO that are not included in this report but may be applicable for some species-specific analyses.")
+```
+
 The main biomass index trends illustrated on the figure pages represent the
 'design-based' index trends that have historically been used in Pacific
 Biological Station groundfish stock assessments. We extracted the trawl and

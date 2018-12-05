@@ -75,7 +75,9 @@ of available fish specimens from biological samples on all surveys and fit
 biological models such as growth models to all available data. A brief
 description of the included surveys is included in Appendix
 \@ref(app:survey-trend-models) along with associated references for detailed
-survey descriptions and designs.
+survey descriptions and designs. A table of other surveys conducted by DFO that 
+are not included in this report but may be applicable for some species-specific 
+analyses is also given in Appendix \@ref(app:survey-trend-models).
 
 (ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside
 Hard Bottom Long Line survey boundaries (right). The colours match the colour
