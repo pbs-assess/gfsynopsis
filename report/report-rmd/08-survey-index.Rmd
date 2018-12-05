@@ -7,7 +7,7 @@ synoptic bottom trawl surveys and two longline hook surveys
 Management areas (Figure \@ref(fig:management-map)) that fishery quotas are
 allocated by British Columbia waters. For the synoptic trawl surveys, the West
 Coast Vancouver Island survey corresponds roughly to management areas 3CD, the
-Queen Charlotte Strait survey corresponds roughly to areas 5AB, the Hecate
+Queen Charlotte Sound survey corresponds roughly to areas 5AB, the Hecate
 Strait survey corresponds roughly to areas 5CD, and the West Coast Haida Gwaii
 surveys corresponds roughly to area 5E. The Hard Bottom Longline survey is
 split into northern and southern segments. The southern survey area corresponds

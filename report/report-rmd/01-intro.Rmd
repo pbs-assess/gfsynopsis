@@ -107,7 +107,7 @@ wcvi_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCVI, utm_zone = 9)
 wchg_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCHG, utm_zone = 9)
 ss <- dplyr::bind_rows(
   list(data.frame(hs_utm, survey = "Hecate Strait (HS)", stringsAsFactors = FALSE),
-  data.frame(qcs_utm, survey = "Queen Charlotte Strait (QCS)", stringsAsFactors = FALSE),
+  data.frame(qcs_utm, survey = "Queen Charlotte Sound (QCS)", stringsAsFactors = FALSE),
   data.frame(wcvi_utm, survey = "West Coast Vancouver Island (WCVI)", stringsAsFactors = FALSE),
   data.frame(wchg_utm, survey = "West Coast Haida Gwaii (WCHG)", stringsAsFactors = FALSE)))
 
