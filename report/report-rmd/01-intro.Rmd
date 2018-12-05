@@ -277,11 +277,11 @@ reconstructions require careful species-specific consideration and analysis.
 Furthermore, fluctuations in commercial catch, for example recent declines in
 species catch for Bocaccio and Yelloweye Rockfish, do not necessarily reflect
 declines in stock abundance and may be due to other factors including
-implementation of management measures. The discards in the catch plot do not
-include those from the hook-and-line fisheries. Longline discards are
-considered less reliable prior to 100% observer coverage in 2006 and are often
-reported as discard counts without a reported weight. These discards are
-therefore not included in catch shown here.
+implementation of management measures. Reported discard weights are considered
+less reliable prior to 100% observer coverage of the trawl fishery in 1996, and 
+prior to fisheries integration in 2006 for trap and hook and line fisheries. 
+The discards in the catch plot therefore include trawl discard weights from 
+1996 to present and trap and hook and line discard weights from 2006 to present.
 
 An overall caveat of this work is that it is not feasible for us to individually
 assess the results for all 110 species in a detailed manner. To use the results
