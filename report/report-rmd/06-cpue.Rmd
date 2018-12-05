@@ -93,7 +93,7 @@ glmmTMB R package [@brooks2017].
 
 In addition to a mean parameter, the Tweedie distribution has two other
 parameters: a power parameter $p$ and a dispersion parameter $\phi$. If $1
-> p > 2$ then the Tweedie distribution represents a compound distribution
+< p < 2$ then the Tweedie distribution represents a compound distribution
 between the Poisson ($p = 1$) and the Gamma distribution ($p = 2$)
 (Figure\ \@ref(fig:cpue-tweedie-ex)). In fact, the Tweedie is alternatively
 referred to as the compound-Poisson-Gamma distribution in this bounded case. We
