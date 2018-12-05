@@ -285,19 +285,20 @@ csasdown::csas_table(samp_source, caption = "Sample source codes lookup table, w
 ```
 
 ```{r aging-method-table-setup}
-meta <- gfsynopsis::get_spp_names()
+#meta <- gfsynopsis::get_spp_names()
 f <- system.file("extdata", "ageing_methods.csv", package = "gfplot")
 age_methods <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
-age_methods$type <- NULL
+#age_methods$type <- NULL
 names(age_methods) <- tolower(names(age_methods))
 age_methods$species_common_name <- tolower(age_methods$species_common_name)
-age_methods <- left_join(age_methods, meta, by = "species_common_name")
+#age_methods <- left_join(age_methods, meta, by = "species_common_name")
 age_methods$species_common_name <- gfsynopsis:::first_cap(age_methods$species_common_name)
 # age_methods <- filter(age_methods, type == "A")
 age_methods$species_common_name <- gsub("Rockfish Complex", "", age_methods$species_common_name)
 age_methods$species_science_name <- gsub(" complex", "", age_methods$species_science_name)
-age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianusu",
+age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianus",
   age_methods$species_science_name)
+age_methods <- filter(age_methods, !is.na(species_ageing_group))
 age_methods <- select(age_methods, species_common_name, species_science_name,
   species_code, ageing_method_codes)
 age_methods <- arrange(age_methods, species_code)
@@ -305,7 +306,7 @@ age_methods$species_science_name <- paste0("*",
   gfplot:::firstup(age_methods$species_science_name), "*")
 age_methods <- filter(age_methods, ageing_method_codes != "na")
 age_methods <- filter(age_methods, !is.na(species_code))
-names(age_methods) <- c("Common name", "Scientific name", "Species code", "Aging codes")
+names(age_methods) <- c("Common name", "Scientific name", "Species code", "Ageing codes")
 ```
 
 \clearpage
