@@ -37,6 +37,8 @@ abstract: |
   organizations, and the public.
 output:
  csasdown::resdoc_pdf
+region: Pacific Region
+type: res-doc
   # csasdown::resdoc_word
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 # ------------
