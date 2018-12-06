@@ -96,7 +96,7 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
-spp <- arrange(spp, type, species_code)
+spp <- arrange(spp, species_code)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
@@ -136,9 +136,6 @@ for (i in seq_along(spp$species_common_name)) {
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
 
-# Set a flag for the first Type B species to create a new section:
-spp$b_section <- c(FALSE, diff(as.numeric(as.factor(spp$type))) == 1)
-
 # Generate `plot-pages.Rmd`:
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
@@ -153,17 +150,12 @@ temp <- lapply(spp$species_common_name, function(x) {
   sara_status <- spp$sara_status[spp$species_common_name == x]
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   cosewic_report <- spp$cosewic_status_reports[spp$species_common_name == x]
-  .b_section <- spp$b_section[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
 
   i <- 1
   out[[i]] <- "\\clearpage\n"
-  if (.b_section) {
-    i <- i + 1
-    out[[i]] <- "# SYNOPSIS PLOTS: TYPE B SPECIES {#sec:synopsis-plots-B}\n"
-  }
   i <- i + 1
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1

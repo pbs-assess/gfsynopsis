@@ -38,11 +38,11 @@ First Nations, non-governmental organizations, and the general public.
 
 The main results of this synopsis report are presented in two-page
 species-by-species subsections that visually synthesize most available data for
-each species (Sections \@ref(sec:synopsis-plots-A)\ and
-\@ref(sec:synopsis-plots-B)). The report focuses on the 110 species listed in
-the current BC groundfish strategic plan, which are divided into those
-identified as species of primary commercial or conservation interest ('A-level'
-species) followed by 80 'B-level' species. The report focuses on the surveys
+each species (Section \@ref(sec:synopsis-plots). 
+The report covers 112 groundfish 
+species that are either of commercial, recreational, 
+or First Nations interest or are regularly caught in our research surveys. 
+The report focuses on the surveys
 and data types applicable to the widest array of these species.
 The report excludes two prominent species, Pacific Hake (*Merluccius
 productus*) and Pacific Halibut (*Hippoglossus stenolepis*) because they have

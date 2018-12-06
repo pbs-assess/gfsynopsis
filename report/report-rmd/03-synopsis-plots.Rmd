@@ -1,8 +1,7 @@
-# SYNOPSIS PLOTS: TYPE A SPECIES {#sec:synopsis-plots-A}
+# SYNOPSIS PLOTS {#sec:synopsis-plots}
 
 This section contains the main species-by-species data
-visualizations for the 'A-level' species; Section\ \@ref(sec:synopsis-plots-B)
-then continues with the 'B-level' species.
+visualizations.
 Each species is shown on two pages with the same layout used
 throughout.
 See Section\ \@ref(sec:plot-descriptions) for detailed figure captions.
