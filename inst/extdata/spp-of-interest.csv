@@ -3,6 +3,7 @@ north pacific spiny dogfish,A,44,squalus suckleyi,160617,species,squalidae(dogfi
 big skate,A,56,beringraja binoculata,160848,species,rajidae(skates)
 longnose skate,A,59,raja rhina,160851,species,rajidae(skates)
 pacific cod,A,222,gadus macrocephalus,164711,species,gadidae
+pacific hake,A,225,merluccius productus,164792,species,NA
 walleye pollock,A,228,gadus chalcogrammus,934083,species,gadidae
 rougheye/blackspotted rockfish complex,A,394,sebastes aleutianus/melanostictus complex,166706,"not a taxonomic classification, old historic codes",sebastes
 pacific ocean perch,A,396,sebastes alutus,166707,species,sebastes
@@ -26,6 +27,7 @@ lingcod,A,467,ophiodon elongatus,167116,species,hexagrammidae(greenlings)
 arrowtooth flounder,A,602,atheresthes stomias,172862,species,pleuronectidae(righteye flounders)
 petrale sole,A,607,eopsetta jordani,172868,species,pleuronectidae(righteye flounders)
 rex sole,A,610,glyptocephalus zachirus,172978,species,pleuronectidae(righteye flounders)
+pacific halibut,A,614,hippoglossus stenolepis,172932,species,NA
 southern rock sole,A,621,lepidopsetta bilineata,172917,species,pleuronectidae(righteye flounders)
 dover sole,A,626,microstomus pacificus,172887,species,pleuronectidae(righteye flounders)
 english sole,A,628,parophrys vetulus,172921,species,pleuronectidae(righteye flounders)
