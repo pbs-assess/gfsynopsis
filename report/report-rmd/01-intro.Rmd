@@ -278,10 +278,12 @@ Furthermore, fluctuations in commercial catch, for example recent declines in
 species catch for Bocaccio and Yelloweye Rockfish, do not necessarily reflect
 declines in stock abundance and may be due to other factors including
 implementation of management measures. Reported discard weights are considered
-less reliable prior to 100% observer coverage of the trawl fishery in 1996, and 
-prior to fisheries integration in 2006 for trap and hook and line fisheries. 
-The discards in the catch plot therefore include trawl discard weights from 
-1996 to present and trap and hook and line discard weights from 2006 to present.
+less reliable prior to 100% observer coverage of the bottom trawl fishery in 
+1996, and prior to fisheries integration in 2006 for the trap, hook and line, 
+midwater trawl and Strait of Georgia (SoG) bottom trawl fisheries. The discards 
+in the catch plot therefore only include bottom trawl discard weights from 1996
+to present and trap, hook and line, midwater trawl and SoG bottom trawl discard 
+weights from 2006 to present.
 
 An overall caveat of this work is that it is not feasible for us to individually
 assess the results for all 110 species in a detailed manner. To use the results

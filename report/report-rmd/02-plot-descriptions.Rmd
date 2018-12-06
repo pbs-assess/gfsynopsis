@@ -127,10 +127,11 @@ gridExtra::grid.arrange(
 (ref:catches-cap) Example commercial fishery catches plot for `r sp`.
 Catch from various gear types is indicated by colour shading. Catch is
 calculated as the summed weight of landings aggregated by year. Discards include 
-reported discard weights from all fisheries combined; however, trawl discards 
-are considered less reliable prior to 100% observer coverage in 1996 and trap 
-and hook and line discards are less reliable prior to fisheries integration in 
-2006 and  and are therefore not included. Years before 1996 and 2006 are shaded
+reported discard weights from all fisheries combined; however, bottom trawl
+discards are considered less reliable prior to 100% observer coverage in 1996 
+and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl 
+discards are less reliable prior to fisheries integration in 2006 and are 
+therefore not included. Years before 1996 and 2006 are shaded
 grey to indicate that catches are considered less reliable than modern data.
 Management areas, as indicated in the top left corner of each panel, are shown
 in Figure \@ref(fig:management-map).

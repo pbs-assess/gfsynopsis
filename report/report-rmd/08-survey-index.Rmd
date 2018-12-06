@@ -88,9 +88,9 @@ found in the following documents:
 1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
 
 ```{r other-surveys-table-setup}
-#meta <- gfsynopsis::get_spp_names()
-# q <- gfplot:::read_sql("get-other-surveys.sql")
-# other_surveys <- gfplot:::run_sql("GFBioSQL", q)
+f <- system.file("extdata", "other-surveys.csv", package = "gfplot")
+other_surveys <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
+names(other_surveys) <- gsub("_", " ", names(other_surveys))
 ```
 
 \clearpage
