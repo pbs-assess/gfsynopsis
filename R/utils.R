@@ -28,6 +28,11 @@ first_cap <- function(s, strict = FALSE) {
   sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
 }
 
+#' Split rougheye species name
+#'
+#' @param x Latin species name
+#' @examples
+#' rougheye_split("sebastes aleutianus/melanostictus complex")
 #' @export
 rougheye_split <- function(x) {
   spl <- strsplit(x, "/")[[1]]
@@ -36,7 +41,7 @@ rougheye_split <- function(x) {
   third <- strsplit(spl, " ")[[2]][[1]]
   c(paste(first, second, sep = "-"), paste(first, third, sep = "-"))
 }
-#' Fourth route power transformation
+#' Fourth root power transformation
 #'
 #' @export
 fourth_root_power_trans <- function() {
