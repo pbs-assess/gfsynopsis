@@ -82,7 +82,8 @@ analyses is also given in Appendix \@ref(app:survey-trend-models).
 (ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside
 Hard Bottom Long Line survey boundaries (right). The colours match the colour
 coding through the rest of the report. The coverage of the International
-Pacific Halibut Commission (IPHC) survey is shown later.
+Pacific Halibut Commission (IPHC) survey is displayed on the IPHC survey 
+catch rate plots as all of the individual stations fished.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb"}
 xlim <- c(122, 890)
