@@ -89,14 +89,15 @@ found in the following documents:
 
 ```{r other-surveys-table-setup}
 #meta <- gfsynopsis::get_spp_names()
-q <- read_sql("get-other-surveys.sql")
-other_surveys <- run_sql("GFBioSQL", q)
+# q <- gfplot:::read_sql("get-other-surveys.sql")
+# other_surveys <- gfplot:::run_sql("GFBioSQL", q)
 ```
 
 \clearpage
 
 ```{r other-surveys-table, results='asis'}
-csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO that are not included in this report but may be applicable for some species-specific analyses.")
+# csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO that are not included in this report but may be applicable for some species-specific analyses.")
+# TODO: insert table based on cached results here.
 ```
 
 The main biomass index trends illustrated on the figure pages represent the
