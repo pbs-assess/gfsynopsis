@@ -307,6 +307,8 @@ age_methods$species_science_name <- paste0("*",
 age_methods <- filter(age_methods, ageing_method_codes != "na")
 age_methods <- filter(age_methods, !is.na(species_code))
 names(age_methods) <- c("Common name", "Scientific name", "Species code", "Ageing codes")
+age_methods$`Common name` <- gsub("C-o Sole", "C-O Sole", 
+  age_methods$`Common name`)
 ```
 
 \clearpage
