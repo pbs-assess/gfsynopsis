@@ -61,6 +61,8 @@ mentioned in this section can be viewed at
 <https://github.com/pbs-assess/gfplot/tree/master/inst/sql> and will be
 archived on a local server with the final version of this document.
 
+### COMMERCIAL CATCH DATA EXTRACTION
+
 We extracted commercial catch with `get-catch.sql`. All landings and discards
 are extracted by species, fishery sector, gear type and year, and are not
 filtered in any further way.
@@ -150,6 +152,8 @@ Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK
 
 \vspace{0mm}
 
+### SURVEY CATCH DATA EXTRACTION
+
 We extracted survey biomass index data `get-survey-index.sql`. Calculated
 bootstrapped biomass, year and survey series identification code (SSID) are
 filtered for active records of the calculated biomass in the database
@@ -171,6 +175,8 @@ Filter for \texttt{ACTIVE\_IND} 1 & To extract only active (useable) bootstrappe
 \end{table}
 
 \vspace{0mm}
+
+### BIOLOGICAL DATA EXTRACTION
 
 We extracted biological data using `get-survey-samples.sql` and
 `get-comm-samples.sql` for research survey and commercial samples,
@@ -365,3 +371,25 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & To extract primary and preci
 #   kableExtra::column_spec(2, width = "3.2in")
 ```
 
+## DATA ACCESSIBILITY
+
+Data from the Bottom Trawl Synoptic Surveys are available through the Open 
+Government Data Portal:
+
+[https://open.canada.ca/data/en/dataset?portal_type=dataset]
+
+Internal access to these data are available through the Federal Geospatial
+Platform:
+
+[https://gcgeo.gc.ca/geonetwork/metadata/eng/a278d1af-d567-4964-a109-ae1e84cbd24a]
+
+Hook and line survey data are currently being prepared for upload to the Open 
+Data Portal. Commercial data will be uploaded in a rolled up format 
+in compliance with the Privacy Act.
+
+Requests for data held by DFO Pacific Region can be made through Pacific 
+Fisheries Catch Statistics:
+
+[http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html]
+Pacific.CatchStats@dfo-mpo.gc.ca
+(604) 666-2716
