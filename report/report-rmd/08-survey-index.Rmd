@@ -4,8 +4,8 @@ Fisheries and Oceans Canada conducts a number of fishery-independent
 multispecies research surveys annually or biannually. These include four
 synoptic bottom trawl surveys and two longline hook surveys
 (Figure \@ref(fig:intro-maps)). The survey areas correspond roughly with Groundfish
-Management areas (Figure \@ref(fig:management-map)) that fishery quotas are
-allocated by British Columbia waters. For the synoptic trawl surveys, the West
+Management areas (Figure \@ref(fig:management-map)) where fishery quotas are
+allocated in British Columbia waters. For the synoptic trawl surveys, the West
 Coast Vancouver Island survey corresponds roughly to management areas 3CD, the
 Queen Charlotte Sound survey corresponds roughly to areas 5AB, the Hecate
 Strait survey corresponds roughly to areas 5CD, and the West Coast Haida Gwaii
@@ -283,7 +283,7 @@ biomass index illustrated throughout this report. Whereas in nearly all cases
 including depth covariates generated a similar index to excluding them, in
 a few cases including them generated what appeared to be unrealistic deviations
 in biomass when a combination of the quadratic shape of the relationship
-between depth and biomass combined to generate exceedingly high over low
+between depth and biomass combined to generate exceedingly high or low
 estimates of biomass on the border of the survey polygons. This remains a topic
 of research and will be investigated by the authors in the future.
 

@@ -75,7 +75,7 @@ we chose the location of the knots with a k-means clustering algorithm with
 a fixed random seed to ensure reproducible results.
 
 Instead of directly modelling the effects of depth and depth squared, we first
-centred the log-transformed depth covariate by subtracting its mean and scaling
+standardized the log-transformed depth covariate by subtracting its mean and scaling
 it by its standard deviation. We then calculate 'depth squared' from this
 centred and scaled variable. This ensures the covariate values are not too
 large or small to avoid computational issues and the centring separates the
@@ -206,7 +206,7 @@ g_sdm3 <- plot_map(predictions$data, "est_re_s") +
 
 \clearpage
 
-```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent on modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent only modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
 cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
 ```
 

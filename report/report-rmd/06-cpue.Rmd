@@ -128,7 +128,8 @@ effort (hours trawled), $\bm{X_i}$ represents a vector of fixed-effect
 predictors (depth bins, months, latitude bins), $\bm{\beta}$ represents
 a vector of coefficients, and $\mu_i$ represents the expected CPUE in a tow.
 The random effect intercepts ($\alpha$ symbols) are allowed to vary from the
-overall intercept by locality $j$ (\(\alpha^\mathrm{locality}_j\)),
+overall intercept by locality (Figure \@ref(fig:cpue-locality-map)
+$j$ (\(\alpha^\mathrm{locality}_j\)),
 locality-year $k$ (\(\alpha^\mathrm{locality-year}_k\)), and vessel $l$
 (\(\alpha^\mathrm{vessel}_l\)) and are constrained by normal distributions with
 respective standard deviations denoted by $\sigma$ parameters. By including the
