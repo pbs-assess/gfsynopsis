@@ -559,7 +559,9 @@ make_pages <- function(
       percent_excluded_xy = c(0.01, -0.02),
       ) +
     ggplot2::ggtitle("Commercial trawl CPUE") +
-    theme(legend.position = "none")
+    theme(legend.position = "none") +
+    ggplot2::annotate("text", 360, 6172, label = "2012–2017", col = "grey30",
+      hjust = 0)
   suppressMessages({g_cpue_spatial <- g_cpue_spatial +
     coord_cart + theme(
       axis.title = element_blank(),
@@ -575,19 +577,21 @@ make_pages <- function(
 
   suppressMessages({
     g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
-    plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
-      rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
-      fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
-      colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-      fill_lab = "CPUE (kg/fe)",
-      percent_excluded_xy = c(0.01, -0.02)) +
-    ggplot2::ggtitle("Commercial H & L CPUE") +
-    theme(legend.position = "none") +
-    coord_cart + theme(
-      axis.title = element_blank(),
-      axis.text = element_blank(),
-      axis.ticks = element_blank()
-    )
+      plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
+        rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+        fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
+        colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
+        fill_lab = "CPUE (kg/fe)",
+        percent_excluded_xy = c(0.01, -0.02)) +
+      ggplot2::ggtitle("Commercial H & L CPUE") +
+      theme(legend.position = "none") +
+      coord_cart + theme(
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()
+      ) +
+      ggplot2::annotate("text", 360, 6172, label = "2008–2017", col = "grey30",
+        hjust = 0)
   })
 
   # Survey maps: ---------------------------------------------------------------
