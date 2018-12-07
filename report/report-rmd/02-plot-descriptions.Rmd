@@ -48,7 +48,7 @@ survey_descriptions <-
   unique()
 survey_descriptions <- bind_rows(survey_descriptions,
   tibble(survey_series_desc =
-    "Hecate Straight Multispecies Assemblage Bottom Trawl",
+    "Hecate Strait Multispecies Assemblage Bottom Trawl",
      survey_abbrev = "MSA HS"))
 x <- inner_join(survey_descriptions, survs, by = "survey_abbrev") %>%
   arrange(surv_order)
@@ -56,7 +56,7 @@ x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
-```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with `Mean CV' greater than 0.4 or 'Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Timeseries with light grey dots and dotted upper and lower confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass. The index is the longest possible time series that can be constructed from the available data and usually represents a coastwide trend.")}
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap=paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with `Mean CV' greater than 0.4 or 'Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. time series with light grey dots and dotted upper and lower lines for 95% confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass. The index is the longest possible time series that can be constructed from the available data and usually represents a coastwide trend.")}
 g$survey_index
 ```
 
@@ -69,7 +69,7 @@ map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the m
 ```
 
 (ref:survey-maps-cap) Example maps of relative biomass (or catch rate) from
-trawl and longline surveys from the last available years of each survey for
+trawl and longline surveys from the latest available years of each survey for
 `r sp`. Shown are the synoptic trawl surveys (left), the outside hard bottom long
 line (HBLL OUT) surveys (middle), and the IPHC FISS (right). Individual sets
 are shown in the two left panels as faint crosses (if the species was not
@@ -124,7 +124,7 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
 
-(ref:catches-cap) Example commercial fishery catches plot for `r sp`.
+(ref:catches-cap) Example commercial fishery catches plots for `r sp`.
 Catch from various gear types is indicated by colour shading. Catch is
 calculated as the summed weight of landings aggregated by year. Discards include 
 reported discard weights from all fisheries combined; however, bottom trawl
@@ -151,10 +151,10 @@ depth, latitude, DFO locality region, vessel, and month of year (Appendix
 \@ref(app:cpue-models)). The line itself represents the estimate and the shaded
 ribbon represents a 95\% confidence interval. The dashed line represents an
 unstandardized commercial CPUE index calculated as the sum of catch divided by
-the sum of effort each year. Standardized timeseries are scaled to have the
-same maximum 95\% confidence interval. Unstandardized timeseries are scaled to
-have the same geometric mean as the standardized timeseries. These are relative
-index values --- the absolute value of the timeseries is not particularly
+the sum of effort each year. Standardized time series are scaled to have the
+same maximum 95\% confidence interval. Unstandardized time series are scaled to
+have the same geometric mean as the standardized time series. These are relative
+index values --- the absolute value of the time series is not particularly
 useful because it depends on arbitrary levels that the standardization
 variables are set to. Management areas, as indicated in the top left corner of
 each panel, are shown in Figure \@ref(fig:management-map).
@@ -207,7 +207,7 @@ gridExtra::grid.arrange(
 
 ## LENGTH COMPOSITION DATA
 
-```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length-frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish for a given survey-year combination to avoid misleading histograms. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length-frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish measured for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish measured for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
 g$lengths
 ```
 
@@ -217,7 +217,7 @@ g$lengths
 
 (ref:ages-cap) Example age-frequency plot for `r sp`. Female fish are shown as
 coloured (or black) circles and male fish are shown behind as light grey
-circles. The total number of fish for a given survey and year are indicated
+circles. The total number of fish aged for a given survey and year are indicated
 along the top of the panels. Diagonal lines are shown at five-year intervals to
 facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for
 survey abbreviations. Ageing precision plots comparing precision of readings by

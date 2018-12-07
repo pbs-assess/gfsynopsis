@@ -54,7 +54,7 @@ factor level as the base level --- a common choice for these types of models
 observed in the dataset filtered for only tows where the species was caught.
 This choice of base level only affects the intercept or relative magnitude of
 our index because of the form of our model (discussed below) and makes no
-functional difference in the commercial CPUE timeseries presented in this
+functional difference in the commercial CPUE time series presented in this
 report since they are all scaled to that same maximum and displayed without
 units.
 
@@ -93,7 +93,7 @@ glmmTMB R package [@brooks2017].
 
 In addition to a mean parameter, the Tweedie distribution has two other
 parameters: a power parameter $p$ and a dispersion parameter $\phi$. If $1
-< p < 2$ then the Tweedie distribution represents a compound distribution
+> p > 2$ then the Tweedie distribution represents a compound distribution
 between the Poisson ($p = 1$) and the Gamma distribution ($p = 2$)
 (Figure\ \@ref(fig:cpue-tweedie-ex)). In fact, the Tweedie is alternatively
 referred to as the compound-Poisson-Gamma distribution in this bounded case. We
@@ -152,7 +152,7 @@ statistical software TMB via the R package glmmTMB. We used standard errors
 ($\mathrm{SE}$) as calculated by TMB on $\log (\mu_t)$ via the generalized
 delta method. We then calculated the 95\% Wald confidence intervals as $\exp
 (\mu_t \pm 1.96 \mathrm{SE}_t)$. For comparison, we calculated an
-unstandardized timeseries by summing the catch each year and dividing it by the
+unstandardized time series by summing the catch each year and dividing it by the
 summed effort each year (the dashed lines on the figure pages).
 
 ```{r cpue-loaded-data}

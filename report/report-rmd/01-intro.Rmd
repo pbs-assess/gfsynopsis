@@ -54,8 +54,8 @@ Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
 DFO species code, which usually corresponds to the page number referencing the
 species in @hart1988. The figures themselves are laid out such that the first
-page has survey (Figure \@ref(fig:intro-maps)) timeseries trends and spatial
-patterns on the left and commercial timeseries by Pacific Marine Fisheries
+page has survey (Figure \@ref(fig:intro-maps)) time series trends and spatial
+patterns on the left and commercial time series by Pacific Marine Fisheries
 Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the
 right. The second page is focused on biological samples. This page begins at
 the top with length and age data and their relationship with each other, then
@@ -268,13 +268,13 @@ species. Furthermore, changes through time, including fish behavioural changes
 or range shifts, could result in biases through time even for well-sampled
 species.
 
-Commercial CPUE timeseries, even when standardized for consistent time of year,
+Commercial CPUE time series, even when standardized for consistent time of year,
 depth, latitude, and vessel need to be considered even more carefully. There
 are a multitude of reasons why commercial CPUE trends may not represent
 underlying trends in abundance [e.g. @harley2001]. Nonetheless, we think there
 is value in transparently displaying the available data for all species. The
-commercial catch presented here may not be the best representation and won't
-necessarily match reconstructed timeseries in stock assessments. Historic catch
+commercial catch presented here won't
+necessarily match reconstructed time series in stock assessments. Historic catch
 reconstructions require careful species-specific consideration and analysis.
 Furthermore, fluctuations in commercial catch, for example recent declines in
 species catch for Bocaccio and Yelloweye Rockfish, do not necessarily reflect
@@ -312,6 +312,12 @@ data and any important corrections to the data, text, or visualizations.
 On a less frequent basis, we will consider making larger changes to the
 structure, methods or content of the report. We will consider these larger
 possible revisions approximately every three years.
+
+## DATA ACCESSIBILITY
+
+Data in this document are maintained by the Groundfish Data Unit at the Pacific
+Biological Station in Nanaimo, British Columbia. Data accessibility and contact 
+details are described in Appendix \@ref(app:data).
 
 ## ACKNOWLEDGEMENTS
 
