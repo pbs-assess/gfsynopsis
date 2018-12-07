@@ -556,11 +556,11 @@ make_pages <- function(
       rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
       fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-      percent_excluded_xy = c(0.01, -0.02),
+      percent_excluded_xy = c(0.015, -0.02),
       ) +
     ggplot2::ggtitle("Commercial trawl CPUE") +
     theme(legend.position = "none") +
-    ggplot2::annotate("text", 360, 6172, label = "2012–2017", col = "grey30",
+    ggplot2::annotate("text", 360, 6172, label = "2013–2017", col = "grey30",
       hjust = 0)
   suppressMessages({g_cpue_spatial <- g_cpue_spatial +
     coord_cart + theme(
@@ -582,7 +582,7 @@ make_pages <- function(
         fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
         colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
         fill_lab = "CPUE (kg/fe)",
-        percent_excluded_xy = c(0.01, -0.02)) +
+        percent_excluded_xy = c(0.015, -0.02)) +
       ggplot2::ggtitle("Commercial H & L CPUE") +
       theme(legend.position = "none") +
       coord_cart + theme(
