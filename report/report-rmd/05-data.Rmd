@@ -374,22 +374,12 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & To extract primary and preci
 ## DATA ACCESSIBILITY
 
 Data from the Bottom Trawl Synoptic Surveys are available through the Open 
-Government Data Portal:
-
-[https://open.canada.ca/data/en/dataset?portal_type=dataset]
-
-Internal access to these data are available through the Federal Geospatial
-Platform:
-
-[https://gcgeo.gc.ca/geonetwork/metadata/eng/a278d1af-d567-4964-a109-ae1e84cbd24a]
+Government Data Portal: <https://open.canada.ca/data/en/dataset?portal_type=dataset>
 
 Hook and line survey data are currently being prepared for upload to the Open 
-Data Portal. Commercial data will be uploaded in a rolled up format 
-in compliance with the Privacy Act.
+Data Portal. Commercial data will be uploaded in a rolled-up format 
+in compliance with the Federal Privacy Act.
 
 Requests for data held by DFO Pacific Region can be made through Pacific 
 Fisheries Catch Statistics:
-
-[http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html]
-Pacific.CatchStats@dfo-mpo.gc.ca
-(604) 666-2716
+<http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html>
