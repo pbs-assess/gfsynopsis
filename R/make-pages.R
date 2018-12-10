@@ -32,6 +32,8 @@
 #' @param survey_map_outlier A quantile above which of the colors in the map
 #'   should be squashed the same color. Useful to avoid a small number of
 #'   outlying cells from distorting the color scale.
+#' @param synoptic_max_survey_years A vector of length 2 giving the maximum
+#'   synoptic survey years to include.
 #' @param parallel Parallel CPUE index fitting?
 #'
 #' @return
@@ -66,6 +68,7 @@ make_pages <- function(
     "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 1,
+  synoptic_max_survey_years = 2017:2018,
   parallel = FALSE
 ) {
 
@@ -177,15 +180,15 @@ make_pages <- function(
   if (!is.na(sb)) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, 2017)) +
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, max(synoptic_max_survey_years))) +
       guides(fill = FALSE, colour = FALSE)
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
-      year = seq(2004, 2016, 2),
+      year = seq(2004, max(synoptic_max_survey_years), 2),
       max_size = 8,
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
-      year_range = c(2003, 2017)) +
+      year_range = c(2003, max(synoptic_max_survey_years))) +
       guides(fill = FALSE, colour = FALSE) +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
@@ -233,7 +236,7 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", "Commercial"))
-    sb$year <- factor(sb$year, levels = seq(2003, 2017))
+    sb$year <- factor(sb$year, levels = seq(2003, max(synoptic_max_survey_years)))
 
     g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
       bin_size = bin_width, min_total = min_total) +
@@ -328,7 +331,7 @@ make_pages <- function(
   } else {
     g_survey_index <- plot_survey_index(dat_tidy_survey_index,
       col = c("grey60", "grey20"), survey_cols = survey_cols,
-      xlim = c(1984, 2017))
+      xlim = c(1984, max(synoptic_max_survey_years)))
   }
 
   # Get geostatistical index calculations
@@ -369,7 +372,7 @@ make_pages <- function(
         fill = NA, lty = "12", size = 0.35, colour = "grey40")
     g_survey_index <- suppressMessages({
       g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
-        xlim = c(1984, 2017) + c(-0.5, 0.5), expand = FALSE)})
+        xlim = c(1984, max(synoptic_max_survey_years)) + c(-0.5, 0.5), expand = FALSE)})
   }
 
   g_survey_index <- g_survey_index +
@@ -381,17 +384,17 @@ make_pages <- function(
 
   # Specimen numbers: ----------------------------------------------------------
 
-  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, 2017))
+  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, 2017)) +
+  g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, max(synoptic_max_survey_years))) +
     # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
     ggplot2::ggtitle("Commercial specimen counts")
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
-  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, 2017))
+  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, 2017)) +
+  g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, max(synoptic_max_survey_years))) +
     # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
     ggplot2::ggtitle("Survey specimen counts")
   suppressMessages({g_survey_samples <- g_survey_samples +
@@ -600,8 +603,8 @@ make_pages <- function(
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
       species = spp,
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
-      model = "sdmTMB", silent = TRUE, years = 2016:2017)
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
     # syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -612,8 +615,8 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = "IPHC FISS",
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
-      model = "sdmTMB", silent = TRUE, years = 2016:2017)
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -624,8 +627,8 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = c("HBLL OUT N", "HBLL OUT S"),
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
-      model = "sdmTMB", silent = TRUE, years = 2016:2017)
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
     # hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
