@@ -1,17 +1,5 @@
 # PLOT DESCRIPTIONS {#sec:plot-descriptions}
 
-```{r install, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("pbs-assess/gfplot")
-```
-
-```{r libraries, cache=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
-library(dplyr)
-library(ggplot2)
-library(gfplot)
-library(gfsynopsis)
-```
-
 ```{r load-example-figs}
 g <- readRDS(here::here("report/ggplot-objects/petrale-sole.rds"))
 sp <- "Petrale Sole"
@@ -27,12 +15,11 @@ checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
 
 In this section we provide complete captions for each of the
 visualizations that form the species-by-species figures in
-Sections \@ref(sec:synopsis-plots-A) and \@ref(sec:synopsis-plots-B). We use `r sp` as an example species.
+Section \@ref(sec:synopsis-plots). We use `r sp` as an example species.
 
 ## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
 
 ```{r make-surv-abbrev-text, eval=TRUE}
-library(dplyr)
 # happens to have data for all the surveys:
 dat_survey_index <- readRDS(here::here("report/data-cache/canary-rockfish.rds"))
 dat_survey_index <- dat_survey_index$survey_index
