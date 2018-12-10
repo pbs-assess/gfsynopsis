@@ -126,11 +126,11 @@ gridExtra::grid.arrange(
 
 (ref:catches-cap) Example commercial fishery catches plots for `r sp`.
 Catch from various gear types is indicated by colour shading. Catch is
-calculated as the summed weight of landings aggregated by year. Discards include 
+calculated as the summed weight of landings aggregated by year. Discards include
 reported discard weights from all fisheries combined; however, bottom trawl
-discards are considered less reliable prior to 100% observer coverage in 1996 
-and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl 
-discards are less reliable prior to fisheries integration in 2006 and are 
+discards are considered less reliable prior to 100% observer coverage in 1996
+and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl
+discards are less reliable prior to fisheries integration in 2006 and are
 therefore not included. Years before 1996 and 2006 are shaded
 grey to indicate that catches are considered less reliable than modern data.
 Management areas, as indicated in the top left corner of each panel, are shown
@@ -195,7 +195,7 @@ gridExtra::grid.arrange(
 
 ## AVAILABLE BIOLOGICAL SAMPLES {#sec:bio-samples}
 
-```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen-availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest appropriate round number.")}
+```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen-availability plot for ", sp, ". Shown are the number of available fish specimens that have been weighed, had their maturity assessed, had their length measured, or had their age assessed across all surveys (not just surveys shown elsewhere in the synopsis; top panel) or across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
 gridExtra::grid.arrange(
   g$survey_samples,
   g$comm_samples,

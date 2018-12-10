@@ -48,7 +48,7 @@ Hard Bottom Longline Inside surveys are conducted within management area 4B.
 These surveys were designed to provide fishery independent indices of
 abundance together with biological samples to improve the assessment of
 Yelloweye (*Sebastes ruberrimus*) and Quillback (*S. maliger*) Rockfish
-for the 4B management region. They began in Johnstone Strait and Discovery 
+for the 4B management region. They began in Johnstone Strait and Discovery
 Passage in Pacific Fishery Management areas 12 and 13 in 2003 and 2004, and now
 alternate years to cover the northern (areas 12 and 13) and southern
 (areas 14--20, 28, 29) portions of the inside waters. These surveys also employ
@@ -282,8 +282,8 @@ We chose to not include depth and depth squared as predictors in the main
 biomass index illustrated throughout this report. Whereas in nearly all cases
 including depth covariates generated a similar index to excluding them, in
 a few cases including them generated what appeared to be unrealistic deviations
-in biomass when a combination of the quadratic shape of the relationship
-between depth and biomass combined to generate exceedingly high or low
+in biomass when the quadratic shape of the relationship
+between depth and biomass generated exceedingly high or low
 estimates of biomass on the border of the survey polygons. This remains a topic
 of research and will be investigated by the authors in the future.
 

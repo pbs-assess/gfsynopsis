@@ -38,17 +38,12 @@ First Nations, non-governmental organizations, and the general public.
 
 The main results of this synopsis report are presented in two-page
 species-by-species subsections that visually synthesize most available data for
-each species (Section \@ref(sec:synopsis-plots). 
-The report covers 112 groundfish 
-species that are either of commercial, recreational, 
-or First Nations interest or are regularly caught in our research surveys. 
+each species (Section \@ref(sec:synopsis-plots).
+The report covers 112 groundfish
+species that are either of commercial, recreational,
+or First Nations interest or are regularly caught in our research surveys.
 The report focuses on the surveys
 and data types applicable to the widest array of these species.
-The report excludes two prominent species, Pacific Hake (*Merluccius
-productus*) and Pacific Halibut (*Hippoglossus stenolepis*) because they have
-their own dedicated surveys and annual stock assessments and are not well
-represented by the data visualized in this report [e.g. @edwards2018hake;
-@stewart2018halibut].
 
 Each set of pages for a single species is laid out in the same way. A set of
 pages starts with the species common name, the species scientific name, and the
@@ -75,14 +70,14 @@ of available fish specimens from biological samples on all surveys and fit
 biological models such as growth models to all available data. A brief
 description of the included surveys is included in Appendix
 \@ref(app:survey-trend-models) along with associated references for detailed
-survey descriptions and designs. A table of other surveys conducted by DFO that 
-are not included in this report but may be applicable for some species-specific 
+survey descriptions and designs. A table of other surveys conducted by DFO that
+are not included in this report but may be applicable for some species-specific
 analyses is also given in Appendix \@ref(app:survey-trend-models).
 
 (ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside
 Hard Bottom Long Line survey boundaries (right). The colours match the colour
 coding through the rest of the report. The coverage of the International
-Pacific Halibut Commission (IPHC) survey is displayed on the IPHC survey 
+Pacific Halibut Commission (IPHC) survey is displayed on the IPHC survey
 catch rate plots as all of the individual stations fished.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb"}
@@ -194,7 +189,7 @@ appendices:
    depth and synoptic survey biomass density for each species.
 
 1. Appendix \@ref(app:data) provides details on the data extraction from the
-   relational databases that hold the raw data, and contact details for 
+   relational databases that hold the raw data, and contact details for
    data requests.
 
 1. Appendix \@ref(app:cpue-models) provides details on the catch per unit
@@ -280,11 +275,11 @@ Furthermore, fluctuations in commercial catch, for example recent declines in
 species catch for Bocaccio and Yelloweye Rockfish, do not necessarily reflect
 declines in stock abundance and may be due to other factors including
 implementation of management measures. Reported discard weights are considered
-less reliable prior to 100% observer coverage of the bottom trawl fishery in 
-1996, and prior to fisheries integration in 2006 for the trap, hook and line, 
-midwater trawl and Strait of Georgia (SoG) bottom trawl fisheries. The discards 
+less reliable prior to 100% observer coverage of the bottom trawl fishery in
+1996, and prior to fisheries integration in 2006 for the trap, hook and line,
+midwater trawl and Strait of Georgia (SoG) bottom trawl fisheries. The discards
 in the catch plot therefore only include bottom trawl discard weights from 1996
-to present and trap, hook and line, midwater trawl and SoG bottom trawl discard 
+to present and trap, hook and line, midwater trawl and SoG bottom trawl discard
 weights from 2006 to present.
 
 An overall caveat of this work is that it is not feasible for us to individually
@@ -316,7 +311,7 @@ possible revisions approximately every three years.
 ## DATA ACCESSIBILITY
 
 Data in this document are maintained by the Groundfish Data Unit at the Pacific
-Biological Station in Nanaimo, British Columbia. Data accessibility and contact 
+Biological Station in Nanaimo, British Columbia. Data accessibility and contact
 details are described in Appendix \@ref(app:data).
 
 ## ACKNOWLEDGEMENTS
