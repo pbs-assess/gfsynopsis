@@ -12,10 +12,9 @@
 #' @param cache A folder in which to cache the model output if desired.
 #' @param save_model Logical for whether the model should be cached. Defaults to
 #'   `FALSE` to save space.
-#' @param arith_cpue_comparison Logical: should the unstandardized comparison be
-#'   an arithmetic 'ratio estimator' CPUE (summed catch for this species divided
-#'   by summed effort for the entire fleet) (if `TRUE`) or a GLM / GLMM with
-#'   only a year predictor.
+#' @param geo_cpue_comparison Logical: should the unstandardized comparison be
+#'   a geometric mean of positive (if `TRUE`) or a GLM / GLMM with
+#'   only a year predictor?
 #' @param parallel Should the various areas be fit in parallel? Make sure you
 #'   have enough memory.
 #'
@@ -40,7 +39,7 @@ fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
   center = TRUE, cache = file.path("report", "cpue-cache"),
-  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE) {
+  save_model = FALSE, geo_cpue_comparison = TRUE, parallel = FALSE) {
 
   cores <- if (parallel) parallel::detectCores()[1L] else 1L
   cl <- parallel::makeCluster(min(c(cores, length(areas))))
@@ -79,7 +78,6 @@ fit_cpue_indices <- function(dat,
         saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
           "-", clean_area(area), "-fleet.rds")))
 
-      # invisible(capture.output(
       m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
         formula = cpue ~ 0 + year_factor +
           depth +
@@ -89,7 +87,6 @@ fit_cpue_indices <- function(dat,
           (1 | vessel) +
           (1 | year_locality),
         verbose = FALSE))
-      # ))
 
       if (identical(class(m_cpue), "try-error")) {
         warning("TMB CPUE model for area ", area, " did not converge.")
@@ -116,9 +113,10 @@ fit_cpue_indices <- function(dat,
   unstand_est <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
 
-    if (arith_cpue_comparison) {
-      group_by(x$fleet, year_factor) %>%
-        summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) %>%
+    if (geo_cpue_comparison) {
+      x$fleet %>% filter(spp_catch > 0, hours_fished > 0) %>%
+        group_by(year_factor) %>%
+        summarise(est_unstandardized = exp(mean(log(spp_catch/hours_fished)))) %>%
         mutate(area = x$area) %>%
         ungroup() %>%
         rename(year = year_factor) %>%
