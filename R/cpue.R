@@ -78,28 +78,31 @@ fit_cpue_indices <- function(dat,
         saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
           "-", clean_area(area), "-fleet.rds")))
 
-      m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
-        formula = cpue ~ 0 + year_factor +
-          depth +
-          month +
-          latitude +
-          (1 | locality) +
-          (1 | vessel) +
-          (1 | year_locality),
-        verbose = FALSE))
-
-      if (identical(class(m_cpue), "try-error")) {
-        warning("TMB CPUE model for area ", area, " did not converge.")
-        return(NA)
-      }
-
       clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
-      # if (save_model)
-      saveRDS(m_cpue,
-        file = file.path(cache, paste0(gsub(" ", "-", species),
-          "-", clean_area(area), "-model.rds")))
-    list(model = m_cpue, fleet = fleet, area = clean_area(area))
-  }
+      model_file <- file.path(cache, paste0(gsub(" ", "-", species),
+        "-", clean_area(area), "-model.rds"))
+
+      if (!file.exists(model_file)) {
+        m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
+          formula = cpue ~ 0 + year_factor +
+            depth +
+            month +
+            latitude +
+            (1 | locality) +
+            (1 | vessel) +
+            (1 | year_locality),
+          verbose = FALSE))
+
+        if (identical(class(m_cpue), "try-error")) {
+          warning("TMB CPUE model for area ", area, " did not converge.")
+          return(NA)
+        }
+        saveRDS(m_cpue, file = model_file)
+      } else {
+        m_cpue <- readRDS(model_file)
+      }
+      list(model = m_cpue, fleet = fleet, area = clean_area(area))
+    }
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
