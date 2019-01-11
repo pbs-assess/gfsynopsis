@@ -24,14 +24,14 @@ out <- foreach::foreach(sp = all$spp, surv = all$survs,
     ), error = function(e) NA)
   }
 doParallel::stopImplicitCluster()
-saveRDS(out, file = "inst/spt-index-out.rds")
+saveRDS(out, file = here::here("report/geostat-cache/spt-index-out.rds"))
 
 index <- purrr::map_df(out, function(x) {
   if (length(x) > 1L)
     data.frame(x$index, species = x$species_name, survey = x$survey,
       stringsAsFactors = FALSE) %>% tibble::as.tibble()
 })
-saveRDS(index, file = "inst/spt-index-out-no-depth.rds")
+saveRDS(index, file = here::here("report/geostat-cache/spt-index-out-no-depth.rds"))
 
 index$survey <- factor(index$survey, levels = survs)
 ggplot(index, aes(year, est)) + geom_line() +
