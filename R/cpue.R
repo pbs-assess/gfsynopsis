@@ -45,7 +45,7 @@ fit_cpue_indices <- function(dat,
   cl <- parallel::makeCluster(min(c(cores, length(areas))))
   doParallel::registerDoParallel(cl)
   cpue_models <- foreach::foreach(area = areas,
-    .packages = c("gfplot", "gfsynopsis")) %do% {
+    .packages = c("gfplot", "gfsynopsis")) %dopar% {
       message("Determining qualified fleet for area ", area, ".")
 
       fleet <- gfplot::tidy_cpue_index(dat,
