@@ -262,7 +262,6 @@ make_pages <- function(
         species = unique(dat$catch$species_common_name),
         save_model = save_gg_objects, parallel = parallel)
       saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-      if (parallel) gc() # occasional memory errors; try to fix
     } else {
       cpue_index <- readRDS(cpue_cache_spp)
     }

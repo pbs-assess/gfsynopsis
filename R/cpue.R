@@ -83,7 +83,6 @@ fit_cpue_indices <- function(dat,
       model_file <- file.path(cache, paste0(gsub(" ", "-", species),
         "-", clean_area(area), "-model.rds"))
 
-      if (!file.exists(model_file)) {
         m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
           formula = cpue ~ 0 + year_factor +
             depth +
@@ -99,11 +98,9 @@ fit_cpue_indices <- function(dat,
           return(NA)
         }
         saveRDS(m_cpue, file = model_file)
-      } else {
-        m_cpue <- readRDS(model_file)
-      }
       list(model = m_cpue, fleet = fleet, area = clean_area(area))
     }
+  doParallel::stopImplicitCluster()
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
