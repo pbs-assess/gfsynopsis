@@ -234,3 +234,20 @@ distribution with the same standard deviation.
 qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
 gfplot::plot_qres_histogram(qr)
 ```
+
+```{r cpue-get-model-params, eval=FALSE}
+files <- list.files(here::here('report/cpue-cache'), pattern = "-model")
+cpue_re <- purrr::map_df(files, function(f) {
+  cat(f, "\n")
+  this_model <- readRDS(here::here('report/cpue-cache', f))
+  broom_model <- broom.mixed::tidy(this_model)
+  filter(broom_model, effect == 'ran_pars') %>%
+    select(group, estimate) %>%
+    bind_rows(tibble(
+      group = "sigma", estimate = broom.mixed::glance(this_model)[["sigma"]])) %>%
+    mutate(species = gsub("([a-z-]+)-[A-Z0-9]+-model.rds", "\\1", files[1])) %>%
+    mutate(species = gsub('-', ' ', species)) %>%
+    mutate(area = gsub("([a-z-]+)-([A-Z0-9]+)-model.rds", "\\2", files[1])) %>%
+    rename(parameter = group)
+})
+```
