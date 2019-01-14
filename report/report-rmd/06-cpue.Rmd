@@ -265,10 +265,10 @@ if (!file.exists(cpue_models_summary_file)) {
 mutate(
   cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>% 
   as_tibble() %>% 
-  mutate(species = gsub("Rougheyeblackspotted", "Rougheye/blackspotted", species)) %>% 
-  csasdown::csas_table(digits = 2, 
+  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>% 
+  csasdown::csas_table(digits = 1, 
     col.names = c(
       "Species name", "Area", "$\\phi$", "$p$", 
-      "\\$tau_{vessel}$", "$\\$tau_{locality}$", "$\\$tau_{year-locality}$"),
+      "$\\tau_\\mathrm{vessel}$", "$\\tau_\\mathrm{locality}$", "$\\tau_\\mathrm{year-locality}$"),
     caption = "Parameter estimates from CPUE standardization GLMMs.")
 ```

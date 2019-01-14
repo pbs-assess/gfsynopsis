@@ -226,9 +226,9 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
 
 \clearpage
 
-```{r sdmTMB-model-table, results='asis'}
+```{r sdmTMB-model-table-dat}
 g_models <- readRDS(here::here('report/geostat-cache/spt-index-out.rds'))
-purrr::map_df(g_models, function(x) {
+g_models_dat <- purrr::map_df(g_models, function(x) {
   if (length(x) > 1L) {
     phi <- exp(x$model$tmb_obj$env$last.par[["ln_phi"]])
     thetaf <- x$model$tmb_obj$env$last.par[["thetaf"]]
@@ -245,15 +245,20 @@ purrr::map_df(g_models, function(x) {
       phi = phi,
       thetaf = thetaf)
   }
-}) %>% 
+})
+```
+
+```{r sdmTMB-model-table, results='asis'}
+g_models_dat %>% 
   dplyr::arrange(species_name, survey) %>%
   # these have already been filtered out elsewhere for their massive CVs:
   dplyr::filter(phi < 1e3) %>% 
   dplyr::filter(tau_O < 50) %>% 
   dplyr::filter(tau_E < 50) %>% 
+  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>% 
   csasdown::csas_table(digits = 1, 
     col.names = c(
-      "Species name", "Survey", "$\\kappa$", "\\$tau_O$", 
-      "\\$tau_E$", "$\\phi$", "$p$"),
+      "Species name", "Survey", "$\\kappa$", "$\\tau_O$", 
+      "$\\tau_E$", "$\\phi$", "$p$"),
     caption = "Parameter estimates from geostatistical spatiotemporal models.")
 ```
