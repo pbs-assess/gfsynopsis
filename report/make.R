@@ -183,7 +183,7 @@ temp <- lapply(spp$species_common_name, function(x) {
     out[[i]] <- paste0(
       '[WoRMS link]',
       '(http://www.marinespecies.org/aphia.php?p=taxdetails&id=',
-      worms_id, ')\\')
+      worms_id, ')')
   }
   out[[i]] <- paste0(out[[i]], "\\")
   if (resdoc != "") {
