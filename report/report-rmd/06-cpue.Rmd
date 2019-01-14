@@ -235,6 +235,8 @@ qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
 gfplot::plot_qres_histogram(qr)
 ```
 
+\clearpage
+
 ```{r cpue-get-model-params, eval=TRUE, results='asis'}
 files <- list.files(here::here('report/cpue-cache'), pattern = "-model")
 library("doParallel")
