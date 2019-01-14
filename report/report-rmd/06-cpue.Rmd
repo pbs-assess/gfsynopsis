@@ -235,19 +235,40 @@ qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
 gfplot::plot_qres_histogram(qr)
 ```
 
-```{r cpue-get-model-params, eval=FALSE}
+```{r cpue-get-model-params, eval=TRUE, results='asis'}
 files <- list.files(here::here('report/cpue-cache'), pattern = "-model")
-cpue_re <- purrr::map_df(files, function(f) {
-  cat(f, "\n")
-  this_model <- readRDS(here::here('report/cpue-cache', f))
-  broom_model <- broom.mixed::tidy(this_model)
-  filter(broom_model, effect == 'ran_pars') %>%
-    select(group, estimate) %>%
-    bind_rows(tibble(
-      group = "sigma", estimate = broom.mixed::glance(this_model)[["sigma"]])) %>%
-    mutate(species = gsub("([a-z-]+)-[A-Z0-9]+-model.rds", "\\1", files[1])) %>%
-    mutate(species = gsub('-', ' ', species)) %>%
-    mutate(area = gsub("([a-z-]+)-([A-Z0-9]+)-model.rds", "\\2", files[1])) %>%
-    rename(parameter = group)
-})
+library("doParallel")
+registerDoParallel(cores = parallel::detectCores())
+cpue_models_summary_file <- here::here("report/cpue-cache/model-summaries.rds")
+if (!file.exists(cpue_models_summary_file)) {
+  cpue_models_summary <- plyr::ldply(files, function(f) {
+    # cat(f, "\n")
+    this_model <- readRDS(here::here('report/cpue-cache', f))
+    if (length(this_model) > 1L) {
+      broom_model <- 
+        tibble(species = gsub("([a-z-]+)-[A-Z0-9]+-model.rds", "\\1", f)) %>%
+        mutate(species = gsub('-', ' ', species)) %>%
+        mutate(area = gsub("([a-z-]+)-([A-Z0-9]+)-model.rds", "\\2", f)) %>% 
+        mutate(sigma = sigma(this_model)) %>% 
+        mutate(thetaf = plogis(exp(this_model$fit$par[["thetaf"]])) + 1) %>%
+        mutate(vessel = glmmTMB::VarCorr(this_model)$cond$vessel[1,1]) %>%
+        mutate(locality = glmmTMB::VarCorr(this_model)$cond$locality[1,1]) %>%
+        mutate(year_locality = glmmTMB::VarCorr(this_model)$cond$year_locality[1,1])
+    }
+  }, .parallel = TRUE) %>% 
+    arrange(species, area)
+  saveRDS(cpue_models_summary, file = cpue_models_summary_file)
+} else {
+  cpue_models_summary <- readRDS(cpue_models_summary_file)
+}
+
+mutate(
+  cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>% 
+  as_tibble() %>% 
+  mutate(species = gsub("Rougheyeblackspotted", "Rougheye/blackspotted", species)) %>% 
+  csasdown::csas_table(digits = 2, 
+    col.names = c(
+      "Species name", "Area", "$\\phi$", "$p$", 
+      "\\$tau_{vessel}$", "$\\$tau_{locality}$", "$\\$tau_{year-locality}$"),
+    caption = "Parameter estimates from CPUE standardization GLMMs.")
 ```
