@@ -26,8 +26,8 @@ dc <- here("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
-  select(species_common_name, species_code, species_science_name, spp_w_hyphens,
-    type, itis_tsn)
+  select(species_common_name, species_code,
+    species_science_name, spp_w_hyphens, type, itis_tsn, worms_id)
 dat_geostat_index <- readRDS(here("report", "geostat-cache",
   "geostat-index-estimates.rds"))
 
@@ -150,6 +150,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   sara_status <- spp$sara_status[spp$species_common_name == x]
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   cosewic_report <- spp$cosewic_status_reports[spp$species_common_name == x]
+  worms_id <- spp$worms_id[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
@@ -167,15 +168,24 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0("[FishBase link]",
     "(http://www.fishbase.org/summary/",
-    gsub(" ", "-", gfplot:::firstup(latin_name)), ")\\")
+    gsub(" ", "-", gfplot:::firstup(latin_name)), ")")
   if (species_code == '394') { # Sebastes aleutianus/melanostictus
     .names <- rougheye_split(gfplot:::firstup(latin_name))
     out[[i]] <- paste0("[FishBase link 1]",
       "(http://www.fishbase.org/summary/", .names[1], "),")
     i <- i + 1
     out[[i]] <- paste0("[FishBase link 2]",
-      "(http://www.fishbase.org/summary/", .names[2], ")\\")
+      "(http://www.fishbase.org/summary/", .names[2], ")")
   }
+  if (worms_id != 'unknown') {
+    out[[i]] <- paste0(out[[i]], ", ")
+    i <- i + 1
+    out[[i]] <- paste0(
+      '[WoRMS link]',
+      '(http://www.marinespecies.org/aphia.php?p=taxdetails&id=',
+      worms_id, ')\\')
+  }
+  out[[i]] <- paste0(out[[i]], "\\")
   if (resdoc != "") {
     i <- i + 1
     out[[i]] <- paste0(resdoc_text, resdoc, "\\")
