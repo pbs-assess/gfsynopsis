@@ -157,7 +157,8 @@ g$cpue_index
 ## MAPS OF COMMERCIAL CATCH PER UNIT EFFORT
 
 (ref:cpue-maps-cap) Example commercial trawl and commercial hook-and-line
-catch-per-unit-effort maps for `r sp`. Lighter shading indicates higher levels
+catch-per-unit-effort maps for Pacific Cod (note this is *not* Petrale Sole). 
+Lighter shading indicates higher levels
 of a geometric mean of catch per unit effort in a given hexagonal cell. The
 colour scale is fourth-root transformed to render a visual pattern similar to
 a log transformation without overemphasizing differences close to zero. The
@@ -173,19 +174,24 @@ discarded per set. Hook-and-line data are shown from 2008 onwards.
 `r map_text`
 
 ```{r cpue-maps, fig.asp=1.37, fig.width=4.45, out.width="3.4in", fig.cap="(ref:cpue-maps-cap)"}
+g_alt <- readRDS(here::here("report/ggplot-objects/pacific-cod.rds"))
 trans <- "fourth_root_power"
 
 p1_trawl <-
-  g$cpue_spatial +
+  g_alt$cpue_spatial +
   labs(fill = "Geometric\nmean of trawl\nCPUE (kg/hr)") +
   labs(colour = "Geometric\nmean of trawl\nCPUE (kg/hr)") +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
+  ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
     theme_pbs() + theme(legend.position = "bottom")
 
 p2_ll <-
-  g$cpue_spatial_ll +
+  g_alt$cpue_spatial_ll +
   labs(fill = "Geometric\nmean of hook-and-line\nfish/set") +
   labs(colour = "Geometric\nmean of hook-and-line\nfish/set") +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
+  ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
     theme_pbs() + theme(legend.position = "bottom")
 
