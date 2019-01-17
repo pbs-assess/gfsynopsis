@@ -117,7 +117,7 @@ cols <- paste0(c(RColorBrewer::brewer.pal(5L, "Set1"),
 g <- g + geom_polygon(data = ss, aes_string(x = "X", y = "Y", fill = "survey")) +
   scale_fill_manual(values = c(
     "Hecate Strait (HS)" = cols[2],
-    "Queen Charlotte Strait (QCS)" = cols[3],
+    "Queen Charlotte Sound (QCS)" = cols[3],
     "West Coast Vancouver Island (WCVI)" = cols[4],
     "West Coast Haida Gwaii (WCHG)" = cols[1]))
 
