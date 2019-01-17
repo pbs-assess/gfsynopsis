@@ -247,17 +247,17 @@ if (!file.exists(cpue_models_summary_file)) {
     # cat(f, "\n")
     this_model <- readRDS(here::here('report/cpue-cache', f))
     if (length(this_model) > 1L) {
-      broom_model <- 
+      broom_model <-
         tibble(species = gsub("([a-z-]+)-[A-Z0-9]+-model.rds", "\\1", f)) %>%
         mutate(species = gsub('-', ' ', species)) %>%
-        mutate(area = gsub("([a-z-]+)-([A-Z0-9]+)-model.rds", "\\2", f)) %>% 
-        mutate(sigma = sigma(this_model)) %>% 
+        mutate(area = gsub("([a-z-]+)-([A-Z0-9]+)-model.rds", "\\2", f)) %>%
+        mutate(sigma = sigma(this_model)) %>%
         mutate(thetaf = plogis(exp(this_model$fit$par[["thetaf"]])) + 1) %>%
         mutate(vessel = glmmTMB::VarCorr(this_model)$cond$vessel[1,1]) %>%
         mutate(locality = glmmTMB::VarCorr(this_model)$cond$locality[1,1]) %>%
         mutate(year_locality = glmmTMB::VarCorr(this_model)$cond$year_locality[1,1])
     }
-  }, .parallel = TRUE) %>% 
+  }, .parallel = TRUE) %>%
     arrange(species, area)
   saveRDS(cpue_models_summary, file = cpue_models_summary_file)
 } else {
@@ -265,12 +265,12 @@ if (!file.exists(cpue_models_summary_file)) {
 }
 
 mutate(
-  cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>% 
-  as_tibble() %>% 
-  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>% 
-  csasdown::csas_table(digits = 1, 
+  cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>%
+  as_tibble() %>%
+  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>%
+  csasdown::csas_table(digits = 1,
     col.names = c(
-      "Species name", "Area", "$\\phi$", "$p$", 
+      "Species name", "Area", "$\\phi$", "$p$",
       "$\\tau_\\mathrm{vessel}$", "$\\tau_\\mathrm{locality}$", "$\\tau_\\mathrm{year-locality}$"),
     caption = "Parameter estimates from CPUE standardization GLMMs.")
 ```
