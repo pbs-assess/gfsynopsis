@@ -173,7 +173,7 @@ catch per unit effort is shown as the number of fish recorded as landed or
 discarded per set. Hook-and-line data are shown from 2008 onwards.
 `r map_text`
 
-```{r cpue-maps, fig.asp=1.37, fig.width=4.45, out.width="3.4in", fig.cap="(ref:cpue-maps-cap)"}
+```{r cpue-maps, fig.asp=1.37, fig.width=4.65, out.width="3.6in", fig.cap="(ref:cpue-maps-cap)"}
 g_alt <- readRDS(here::here("report/ggplot-objects/pacific-cod.rds"))
 trans <- "fourth_root_power"
 
