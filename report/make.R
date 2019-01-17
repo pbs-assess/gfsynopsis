@@ -17,7 +17,7 @@ library(gfsynopsis)
 # ------------------------------------------------------------------------------
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
-example_spp <- "petrale sole" # a species used as an example in the Res Doc
+example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 
 # ------------------------------------------------------------------------------

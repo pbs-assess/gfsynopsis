@@ -172,12 +172,27 @@ catch per unit effort is shown as the number of fish recorded as landed or
 discarded per set. Hook-and-line data are shown from 2008 onwards.
 `r map_text`
 
-```{r cpue-maps, fig.asp=1.47, fig.width=4.1, out.width="3.4in", fig.cap="(ref:cpue-maps-cap)"}
+```{r cpue-maps, fig.asp=1.37, fig.width=4.45, out.width="3.4in", fig.cap="(ref:cpue-maps-cap)"}
+trans <- "fourth_root_power"
+
+p1_trawl <-
+  g$cpue_spatial +
+  labs(fill = "Geometric\nmean of trawl\nCPUE (kg/hr)") +
+  labs(colour = "Geometric\nmean of trawl\nCPUE (kg/hr)") +
+  guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
+    theme_pbs() + theme(legend.position = "bottom")
+
+p2_ll <-
+  g$cpue_spatial_ll +
+  labs(fill = "Geometric\nmean of hook-and-line\nfish/set") +
+  labs(colour = "Geometric\nmean of hook-and-line\nfish/set") +
+  guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
+    theme_pbs() + theme(legend.position = "bottom")
+
 gridExtra::grid.arrange(
-  g$cpue_spatial, # + checking_square,
-  g$cpue_spatial_ll,
-  nrow = 1
-)
+  p1_trawl, # + checking_square,
+  p2_ll,
+  nrow = 1)
 ```
 
 \clearpage
