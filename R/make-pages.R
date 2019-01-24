@@ -467,7 +467,7 @@ make_pages <- function(
     sample_size <- mat_age$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
-      summarise(N_min = min(N))
+      summarise(N_min = min(N, na.rm = TRUE))
 
     # if prob. mature looks wrong, fake a low sample size to not plot it:
     prob_mat <- mat_age$pred_data %>%
@@ -475,12 +475,12 @@ make_pages <- function(
       unique() %>%
       group_by(female) %>%
       filter(age_or_length < quantile(age_or_length, probs = 0.1)) %>%
-      summarise(mean_mat = mean(glmm_fe))
+      summarise(mean_mat = mean(glmm_fe, na.rm = TRUE))
 
     sample_size <- left_join(sample_size, prob_mat, by = "female") %>%
       mutate(N_min = ifelse(mean_mat > 0.5, 0, N_min))
 
-    if (nrow(sample_size) > 1L && length(unique(sample_size$female)) > 1L) {
+    if (nrow(sample_size) > 1L && length(unique(sample_size$female)) > 1L && nrow(prob_mat) >= 1L) {
       if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
           sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
         type <- "none"
@@ -520,7 +520,7 @@ make_pages <- function(
     sample_size <- mat_length$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
-      summarise(N_min = min(N))
+      summarise(N_min = min(N, na.rm = TRUE))
 
     if (nrow(sample_size) > 1L && length(unique(sample_size$female)) > 1L) {
       if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
