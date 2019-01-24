@@ -452,8 +452,8 @@ make_pages <- function(
 
   # Maturity ogives: -----------------------------------------------------------
 
-  if (sum(!is.na(dat$combined_samples$maturity_code)) > 10) {
-    mat_age <- dat$combined_samples %>%
+  if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
+    mat_age <- dat$survey_samples %>%
       fit_mat_ogive(
         type = "age",
         months = seq(1, 12))
@@ -506,8 +506,8 @@ make_pages <- function(
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
-  if (sum(!is.na(dat$combined_samples$maturity_code)) > 10) {
-    mat_length <- dat$combined_samples %>%
+  if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
+    mat_length <- dat$survey_samples %>%
       fit_mat_ogive(
         type = "length",
         months = 1:12)
