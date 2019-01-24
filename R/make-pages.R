@@ -480,18 +480,20 @@ make_pages <- function(
     sample_size <- left_join(sample_size, prob_mat, by = "female") %>%
       mutate(N_min = ifelse(mean_mat > 0.5, 0, N_min))
 
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "none"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "all"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "male"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "female"
+    if (nrow(sample_size) > 1L && length(unique(sample_size$female)) > 1L) {
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "none"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "all"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "male"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "female"
+    }
   }
 
   if (length(mat_age) > 1L && type != "none") {
@@ -519,18 +521,21 @@ make_pages <- function(
       summarise(N = n()) %>%
       group_by(female) %>%
       summarise(N_min = min(N))
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "none"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "all"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "male"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "female"
+
+    if (nrow(sample_size) > 1L && length(unique(sample_size$female)) > 1L) {
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "none"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "all"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "male"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "female"
+    }
   }
 
   if (length(mat_length) > 1L && type != "none") {
