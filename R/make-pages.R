@@ -554,9 +554,10 @@ make_pages <- function(
     y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
     inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
 
-  g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
+  g_cpue_spatial <- dat$cpue_spatial %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+      show_historical = TRUE, start_year = 2013,
       fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
       percent_excluded_xy = c(0.015, -0.02),
@@ -579,9 +580,10 @@ make_pages <- function(
     g_cpue_spatial <- g_cpue_spatial + checking_square
 
   suppressMessages({
-    g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
+    g_cpue_spatial_ll <- dat$cpue_spatial_ll %>%
       plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
         rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+        start_year = 2008,
         fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
         colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
         fill_lab = "CPUE (kg/fe)",
