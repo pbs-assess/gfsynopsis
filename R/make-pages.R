@@ -705,7 +705,7 @@ make_pages <- function(
   iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
     iphc_map_dat$combined)
 
-  if (sum(!is.na(iphc_map_dat$combined)) > 1L) { # calculate a density to label on the map
+  if (sum(!is.na(iphc_map_dat$combined)) >= 1L) { # calculate a density to label on the map
     iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
     iphc_density <- round_density(iphc_density)
   }
@@ -721,7 +721,7 @@ make_pages <- function(
         na.value = 'white') +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'grey35')
-    if (sum(!is.na(iphc_map_dat$combined)) > 1L)
+    if (sum(!is.na(iphc_map_dat$combined)) >= 1L)
       g_survey_spatial_iphc <- g_survey_spatial_iphc +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
           label = paste0("Mean~", iphc_density, "~fish/skate"), parse = TRUE)
