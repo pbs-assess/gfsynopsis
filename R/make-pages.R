@@ -567,7 +567,7 @@ make_pages <- function(
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
       percent_excluded_xy = c(0.015, -0.02),
       ) +
-    ggplot2::ggtitle("Commercial trawl CPUE") +
+    ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
     theme(legend.position = "none") +
     ggplot2::annotate("text", 360, 6172, label = "2013–2017", col = "grey30",
       hjust = 0)
