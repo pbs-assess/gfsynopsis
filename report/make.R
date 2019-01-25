@@ -223,6 +223,18 @@ temp <- lapply(spp$species_common_name, function(x) {
     out[[i]] <- "COSEWIC status: Special Concern, SARA status: Special Concern\n"
     i <- i + 1
   }
+  if (species_code == "225") {
+    out[[i]] <- "Pacific Hake caveat text here TODO."
+    i <- i + 1
+  }
+  if (species_code == "614") {
+    out[[i]] <- "Pacific Halibut caveat text here TODO."
+    i <- i + 1
+  }
+  if (species_code == "455") {
+    out[[i]] <- "Sablefish caveat text here TODO."
+    i <- i + 1
+  }
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/",
