@@ -729,7 +729,6 @@ make_pages <- function(
 
   # if ("combined" %in% names(hbll_fits$pred_dat)) { # calculate a density to label on the map
   if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
-    browser()
     hbll_density <- mean(hbll_fits$raw_dat$density, na.rm = TRUE)
     hbll_density <- round_density(hbll_density)
   }
