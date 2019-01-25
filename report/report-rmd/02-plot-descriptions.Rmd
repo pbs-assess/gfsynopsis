@@ -96,7 +96,10 @@ p2 <- g$survey_spatial_hbll +
 p3 <- g$survey_spatial_iphc +
   labs(colour = "Catch\nrate\n(fish/effective\nskate)") +
   guides(colour = guide_colorbar(), size = FALSE) +
-  ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(0.2, 0.4, 0.7)) +
+  ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +
+  ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
+    na.value = 'grey35', breaks = c(0.2, 0.4, 0.7))
   ggtitle("IPHC catch rate")
 
 gridExtra::grid.arrange(
