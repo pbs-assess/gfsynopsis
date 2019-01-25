@@ -569,7 +569,7 @@ make_pages <- function(
       ) +
     ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
     theme(legend.position = "none") +
-    ggplot2::annotate("text", 360, 6172, label = "2013–2017", col = "grey30",
+    ggplot2::annotate("text", 360, 6172, label = "2013–2018", col = "grey30",
       hjust = 0)
   suppressMessages({g_cpue_spatial <- g_cpue_spatial +
     coord_cart + theme(
@@ -600,7 +600,7 @@ make_pages <- function(
         axis.text = element_blank(),
         axis.ticks = element_blank()
       ) +
-      ggplot2::annotate("text", 360, 6172, label = "2008–2017", col = "grey30",
+      ggplot2::annotate("text", 360, 6172, label = "2008–2018", col = "grey30",
         hjust = 0)
   })
 
