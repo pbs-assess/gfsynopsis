@@ -656,6 +656,23 @@ make_pages <- function(
     }
   }
 
+  round_density <- function(x) {
+    if (x > 10000)
+      x <- gfplot:::round_any(x, 1000)
+    if (x > 1000 && x < 10000)
+      x <- gfplot:::round_any(x, 100)
+    if (x > 100 && x < 1000)
+      x <- gfplot:::round_any(x, 100)
+    if (x > 10 && x < 100)
+      x <- gfplot:::round_any(x, 100)
+    if (x < 10)
+      x <- gfplot:::round_any(x, 1)
+  }
+  if ("combined" %in% names(syn_fits$pred_dat)) { # calculate a density to label on the map
+    syn_density <- mean(syn_fits$pred_dat$combined, na.rm = TRUE) * 1000 * 1000
+    syn_density <- round_density(syn_density)
+  }
+
   suppressMessages({
     g_survey_spatial_syn <-
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
@@ -664,6 +681,12 @@ make_pages <- function(
       coord_cart + ggplot2::ggtitle("Synoptic survey biomass") +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
+
+    dens_units <- "~kg/km^2"
+    if ("combined" %in% names(syn_fits$pred_dat))
+      g_survey_spatial_syn <- g_survey_spatial_syn +
+        ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+          label = paste0("Mean~", syn_density, dens_units), parse = TRUE)
   })
 
   iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
@@ -671,6 +694,12 @@ make_pages <- function(
   iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
   iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
     iphc_map_dat$combined)
+
+  if (sum(!is.na(iphc_map_dat$combined)) > 1L) { # calculate a density to label on the map
+    iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
+    iphc_density <- round(iphc_density, 1)
+  }
+
   suppressMessages({
     g_survey_spatial_iphc <-
       gfsynopsis::plot_survey_maps(iphc_map_dat, iphc_fits$raw_dat,
@@ -682,8 +711,16 @@ make_pages <- function(
         na.value = 'white') +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'grey35')
+    if (sum(!is.na(iphc_map_dat$combined)) > 1L)
+      g_survey_spatial_iphc <- g_survey_spatial_iphc +
+        ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+          label = paste0("Mean~", iphc_density, "~fish/skate"), parse = TRUE)
   })
 
+  if ("combined" %in% names(hbll_fits$pred_dat)) { # calculate a density to label on the map
+    hbll_density <- mean(hbll_fits$pred_dat$combined, na.rm = TRUE)
+    hbll_density <- round_density(hbll_density)
+  }
   suppressMessages({
     g_survey_spatial_hbll <-
       gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
@@ -695,6 +732,11 @@ make_pages <- function(
       coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass") +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
+    dens_units <- "~fish/km^2"
+    if ("combined" %in% names(hbll_fits$pred_dat))
+      g_survey_spatial_hbll <- g_survey_spatial_hbll +
+      ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+        label = paste0("Mean~", hbll_density, dens_units), parse = TRUE)
   })
 
   # Page 1 layout: -------------------------------------------------------------
