@@ -175,6 +175,8 @@ are indicated as outlined light grey hexagons to illustrate fishing
 prior to the frozen footprint. For hook and line,
 catch per unit effort is shown as the number of fish recorded as landed or
 discarded per set. Hook-and-line data are shown from 2008 onwards.
+Including as many years of data as possible reduces the number of discarded
+fishing events when implementing the 3-vessel privacy requirement.
 `r map_text`
 
 ```{r cpue-maps, fig.asp=1.37, fig.width=4.65, out.width="3.6in", fig.cap="(ref:cpue-maps-cap)"}
