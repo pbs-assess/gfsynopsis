@@ -657,19 +657,29 @@ make_pages <- function(
   }
 
   round_density <- function(x) {
-    if (x > 10000)
+    if (x >= 10000)
       x <- gfplot:::round_any(x, 1000)
-    if (x > 1000 && x < 10000)
+    if (x >= 1000 && x < 10000)
       x <- gfplot:::round_any(x, 100)
-    if (x > 100 && x < 1000)
+    if (x >= 100 && x < 1000)
       x <- gfplot:::round_any(x, 100)
-    if (x > 10 && x < 100)
-      x <- gfplot:::round_any(x, 100)
-    if (x < 10)
+    if (x >= 10 && x < 100)
       x <- gfplot:::round_any(x, 1)
+    if (x >= 1 && x < 10)
+      x <- sprintf("%.1f", round(x, 1))
+    if (x < 1)
+      x <- sprintf("%.2f", round(x, 2))
+    x
   }
-  if ("combined" %in% names(syn_fits$pred_dat)) { # calculate a density to label on the map
-    syn_density <- mean(syn_fits$pred_dat$combined, na.rm = TRUE) * 1000 * 1000
+  # if ("combined" %in% names(syn_fits$pred_dat)) { # calculate a density to label on the map
+  if (nrow(syn_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
+    # syn_density <- mean(syn_fits$pred_dat$combined, na.rm = TRUE) * 1000 * 1000
+    syn_density <- mean(syn_fits$raw_dat$density, na.rm = TRUE) * 1000 * 1000
+    dens_units <- "~kg/km^2"
+    if (syn_density > 100000) {
+      dens_units <- "~t/km^2"
+      syn_density <- syn_density / 1000
+    }
     syn_density <- round_density(syn_density)
   }
 
@@ -682,8 +692,8 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
 
-    dens_units <- "~kg/km^2"
-    if ("combined" %in% names(syn_fits$pred_dat))
+    # if ("combined" %in% names(syn_fits$pred_dat))
+    if (nrow(syn_fits$raw_dat) >= 1L)  # calculate a density to label on the map
       g_survey_spatial_syn <- g_survey_spatial_syn +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
           label = paste0("Mean~", syn_density, dens_units), parse = TRUE)
@@ -697,7 +707,7 @@ make_pages <- function(
 
   if (sum(!is.na(iphc_map_dat$combined)) > 1L) { # calculate a density to label on the map
     iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
-    iphc_density <- round(iphc_density, 1)
+    iphc_density <- round_density(iphc_density)
   }
 
   suppressMessages({
@@ -717,8 +727,10 @@ make_pages <- function(
           label = paste0("Mean~", iphc_density, "~fish/skate"), parse = TRUE)
   })
 
-  if ("combined" %in% names(hbll_fits$pred_dat)) { # calculate a density to label on the map
-    hbll_density <- mean(hbll_fits$pred_dat$combined, na.rm = TRUE)
+  # if ("combined" %in% names(hbll_fits$pred_dat)) { # calculate a density to label on the map
+  if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
+    browser()
+    hbll_density <- mean(hbll_fits$raw_dat$density, na.rm = TRUE)
     hbll_density <- round_density(hbll_density)
   }
   suppressMessages({
@@ -733,7 +745,8 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
     dens_units <- "~fish/km^2"
-    if ("combined" %in% names(hbll_fits$pred_dat))
+    # if ("combined" %in% names(hbll_fits$pred_dat))
+    if (nrow(hbll_fits$raw_dat) >= 1L)  # calculate a density to label on the map
       g_survey_spatial_hbll <- g_survey_spatial_hbll +
       ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
         label = paste0("Mean~", hbll_density, dens_units), parse = TRUE)
