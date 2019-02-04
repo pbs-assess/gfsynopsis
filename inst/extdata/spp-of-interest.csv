@@ -1,7 +1,7 @@
 species_common_name,type,species_code,species_science_name,itis_tsn,taxonomic_rank,parent_taxonomic_unit,worms_id
-north pacific spiny dogfish,A,44,squalus suckleyi,160617,species,squalidae(dogfish sharks),299224
-big skate,A,56,beringraja binoculata,160848,species,rajidae(skates),1021330
-longnose skate,A,59,raja rhina,160851,species,rajidae(skates),271581
+north pacific spiny dogfish,A,044,squalus suckleyi,160617,species,squalidae(dogfish sharks),299224
+big skate,A,056,beringraja binoculata,160848,species,rajidae(skates),1021330
+longnose skate,A,059,raja rhina,160851,species,rajidae(skates),271581
 pacific cod,A,222,gadus macrocephalus,164711,species,gadidae,254538
 pacific hake,A,225,merluccius productus,164792,species,NA,272458
 walleye pollock,A,228,gadus chalcogrammus,934083,species,gadidae,300735
@@ -31,19 +31,19 @@ pacific halibut,A,614,hippoglossus stenolepis,172932,species,NA,274290
 southern rock sole,A,621,lepidopsetta bilineata,172917,species,pleuronectidae(righteye flounders),281305
 dover sole,A,626,microstomus pacificus,172887,species,pleuronectidae(righteye flounders),274294
 english sole,A,628,parophrys vetulus,172921,species,pleuronectidae(righteye flounders),254393
-bluntnose sixgill shark,B,27,hexanchus griseus,159819,species,hexanchidae(cow sharks),105833
-basking shark,B,34,cetorhinus maximus,159907,species,cetorhinidae(basking shark),105837
-salmon shark,B,36,lamna ditropis,159910,species,lamnidae(mackerel sharks),271421
-brown cat shark,B,38,apristurus brunneus,159988,species,scyliorhinidae(cat sharks),158512
-blue shark,B,41,prionace glauca,160424,species,carcharhinidae(requiem sharks),105801
-pacific sleeper shark,B,43,somniosus pacificus,160610,species,somniosidae,271654
-aleutian skate,B,52,bathyraja aleutica,160935,species,bathyraja,271506
-abyssal skate,B,54,bathyraja abyssicola,564114,species,bathyraja,271503
-broad skate,B,55,amblyraja badia,564124,species,rajidae(skates),271499
-roughtail skate,B,57,bathyraja trachura,160942,species,bathyraja,271538
-sandpaper skate,B,58,bathyraja interrupta,160937,species,bathyraja,271515
-alaska skate,B,61,bathyraja parmifera,160939,species,bathyraja,271528
-spotted ratfish,B,66,hydrolagus colliei,161015,species,chimaeridae(ratfishes),271406
+bluntnose sixgill shark,B,027,hexanchus griseus,159819,species,hexanchidae(cow sharks),105833
+basking shark,B,034,cetorhinus maximus,159907,species,cetorhinidae(basking shark),105837
+salmon shark,B,036,lamna ditropis,159910,species,lamnidae(mackerel sharks),271421
+brown cat shark,B,038,apristurus brunneus,159988,species,scyliorhinidae(cat sharks),158512
+blue shark,B,041,prionace glauca,160424,species,carcharhinidae(requiem sharks),105801
+pacific sleeper shark,B,043,somniosus pacificus,160610,species,somniosidae,271654
+aleutian skate,B,052,bathyraja aleutica,160935,species,bathyraja,271506
+abyssal skate,B,054,bathyraja abyssicola,564114,species,bathyraja,271503
+broad skate,B,055,amblyraja badia,564124,species,rajidae(skates),271499
+roughtail skate,B,057,bathyraja trachura,160942,species,bathyraja,271538
+sandpaper skate,B,058,bathyraja interrupta,160937,species,bathyraja,271515
+alaska skate,B,061,bathyraja parmifera,160939,species,bathyraja,271528
+spotted ratfish,B,066,hydrolagus colliei,161015,species,chimaeridae(ratfishes),271406
 whitebait smelt,B,138,allosmerus elongatus,162053,species,osmeridae(smelts),279564
 pacific flatnose,B,220,antimora microlepis,164673,species,moridae(deepsea cods),272460
 pacific tomcod,B,226,microgadus proximus,164719,species,gadidae,275873
@@ -111,5 +111,3 @@ starry flounder,B,631,platichthys stellatus,172893,species,pleuronectidae(righte
 c-o sole,B,633,pleuronichthys coenosus,172923,species,pleuronectidae(righteye flounders),282290
 curlfin sole,B,635,pleuronichthys decurrens,172924,species,pleuronectidae(righteye flounders),282292
 sand sole,B,636,psettichthys melanostictus,172928,species,pleuronectidae(righteye flounders),282396
-tope shark,B,40,galeorhinus galeus,160181,species,triakidae(houndsharks),unknown
-requiem sharks,B,39,carcharhinidae,160178,family,chondrichthyes,unknown
