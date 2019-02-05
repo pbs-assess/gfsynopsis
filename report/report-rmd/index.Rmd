@@ -38,6 +38,7 @@ abstract: |
 output:
  csasdown::resdoc_pdf
 region: Pacific Region
+header: ""
 link_colour: navyblue
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 # ------------
