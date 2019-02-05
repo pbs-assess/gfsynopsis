@@ -18,11 +18,10 @@ extension of the data scorecard concept discussed at a Canadian Science
 Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
 [@macdougall2016]. We intend to publish this report as a CSAS Research
 Document in its first year to facilitate review of the methods and to update
-the report annually or biennially (excluding any unchanged methods) possibly as
-a CSAS Science Response in subsequent years. The report generation is fully
-automated --- pulling data from databases, fitting models, generating
-visualizations, and stitching the document together to facilitate rapid
-publication, reproducibility, and transparency.
+the report annually or biennially (excluding any unchanged methods). The report
+generation is fully automated --- pulling data from databases, fitting models,
+generating visualizations, and stitching the document together to facilitate
+rapid publication, reproducibility, and transparency.
 
 Our goals with this report are to (1) facilitate regular review by groundfish
 scientists and managers of trends in survey indices and stock composition
@@ -344,16 +343,15 @@ Certainly the details and function inventory can be delayed to later in the
 report, but since the real gems behind this effort are the R packages they
 deserve a little air time early on to tease the reader. -->
 
-<!--
 ## UPDATE SCHEDULE
 
-We intend to publish annual updates of this synopsis report as Science
-Response documents. These annual updates will include another year of
-data and any important corrections to the data, text, or visualizations.
-On a less frequent basis, we will consider making larger changes to the
-structure, methods or content of the report. We will consider these larger
-possible revisions approximately every three years.
--->
+We intend to publish annual or biennial updates of this synopsis report ---
+possibly as a Science Response document. These annual updates will include
+another year or two of data and any important corrections to the data, text, or
+visualizations. Data for each survey season will likely only be ready for
+publication in the report by fall of the following year. On a less frequent
+basis, we will consider making larger changes to the structure, methods or
+content of the report.
 
 <!-- TODO list acronym somewhere? -->
 
