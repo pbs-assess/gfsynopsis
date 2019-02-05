@@ -2,7 +2,7 @@
 
 Commercial and research catch, effort, and biological data for groundfish are
 archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science
-Branch, Pacific Region) and housed in a number of relational databases.
+Branch, Pacific Region) and housed in a number of relational databases (TODO: REFS).
 Historical commercial catch and effort data from 1954--2006/2007 are housed in
 GFCatch, PacHarvTrawl, PacHarvHL, and PacHarvSable, depending on the fishery
 and time period. Modern (2006/2007 to present) commercial catch data are housed
@@ -24,7 +24,8 @@ Catch proportions are calculated from the most spatially detailed information av
 Below are details of how the official catch tables are created in each of the databases populating `GF_MERGED_CATCH`.
 
 ### GFCatch 1954--1995 (TRAWL AND TRAP)
-Catch data is extracted by trip and separated by retained weights (recorded on sales slips/landing records) or discarded weights (no counts) using utilization codes in the view `vw_Total_Catch`. The landings and discards are combined with trip, event, area and vessel tables to present the catches with associated details: trip ID, fishing event ID, sector, gear, vessel, best date (trip end date) best depth (in preferential order: average depth, minimum depth, maximum depth), species, area, and latitude and longitude (from start if available, otherwise from end). Set (trawl tow or trap line) proportions of total landings are not calculated as most older data do not include set-level information from observer or fisher logs (data are rolled up by area). When source = 1 (trawl trip report) or 2 (trawl sales slip or landing record only), then the gear type is set to trawl.  When source = 5 (trap trip report) or 6 (trap sales slip or landing record only), the gear type is set to trap.
+
+Catch data are extracted by trip and separated by retained weights (recorded on sales slips/landing records) or discarded weights (no counts) using utilization codes in the view `vw_Total_Catch`. The landings and discards are combined with trip, event, area and vessel tables to present the catches with associated details: trip ID, fishing event ID, sector, gear, vessel, best date (trip end date) best depth (in preferential order: average depth, minimum depth, maximum depth), species, area, and latitude and longitude (from start if available, otherwise from end). Set (trawl tow or trap line) proportions of total landings are not calculated as most older data do not include set-level information from observer or fisher logs (data are rolled up by area). When source = 1 (trawl trip report) or 2 (trawl sales slip or landing record only), then the gear type is set to trawl.  When source = 5 (trap trip report) or 6 (trap sales slip or landing record only), the gear type is set to trap.
 
 ### PacHarvest 1996--2007 (TRAWL ONLY)
 
@@ -56,7 +57,7 @@ We developed a package gfplot for the statistical software R [@r2018] to
 automate data extraction from these databases in a consistent, reproducible
 manner. The functions extract data using SQL queries, developed with support
 from the Groundfish Data Unit, which select and filter for specific data
-depending on the analyses for which they will be used. The SQL file names
+depending on the purpose of the analysis. The SQL file names
 mentioned in this section can be viewed at
 <https://github.com/pbs-assess/gfplot/tree/master/inst/sql> and will be
 archived on a local server with the final version of this document.
@@ -235,7 +236,6 @@ filtered to bring in only records for which a secondary (precision) reading was
 performed by a different technician in addition to the primary reading
 (Table \@ref(tab:sql-age-precision)).
 
-
 \begin{table}[htpb]
 \centering
 \caption{Description of filters in SQL queries extracting research survey sample data from GFBio with \texttt{get-survey-samples.sql}.}
@@ -252,6 +252,8 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3} & To extract b
 \bottomrule
 \end{tabu}}
 \end{table}
+
+\clearpage
 
 \begin{table}[htpb]
 \centering

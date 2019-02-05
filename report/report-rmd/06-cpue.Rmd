@@ -65,7 +65,7 @@ A variety of approaches have been used in the fishery literature to model such
 data. One approach has been to fit a delta-GLM (generalized linear model) ---
 a model that fits the zero vs. non-zero values with a logistic regression (a
 binomial GLM and a logit link) and the positive values with a linear regression
-fit to log-transformed data or a Gamma GLM with a log link [e.g. @maunder2004a;
+fit to log-transformed data or a Gamma GLM with a log link [e.g., @maunder2004a;
 @thorson2013]. The probability of a non-zero CPUE from the first component can
 then be multiplied by the expected CPUE from the second component to derive an
 unconditional estimate of CPUE. However, this approach suffers from a number of
@@ -80,7 +80,7 @@ issues:
 1. Perhaps most importantly for our purpose, a delta-GLM in which the two
    models use different links renders a final index in which the index trend is
    dependent on the specific reference levels that the predictors are set to
-   [e.g. @maunder2004a].
+   [e.g., @maunder2004a].
 
 The Tweedie distribution [@jorgensen1987] solves the above problems [e.g.
 @candy2004; @shono2008; @foster2013; @lecomte2013; @thorson2017] but has not
@@ -100,7 +100,7 @@ referred to as the compound-Poisson-Gamma distribution in this bounded case. We
 note, however, that the compound-Poisson-Gamma distribution is often used to
 refer to a re-parameterization in which the Poisson and Gamma components are
 fit so that they are not assumed to have the same predictive coefficients as
-they are in the Tweedie distribution [e.g. @foster2013; @lecomte2013].
+they are in the Tweedie distribution [e.g., @foster2013; @lecomte2013].
 
 We fit the Tweedie GLMM (generalized linear mixed effect model) as
 

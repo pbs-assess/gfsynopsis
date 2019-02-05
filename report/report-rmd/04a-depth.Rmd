@@ -100,8 +100,8 @@ density for all species across the four synoptic surveys (Part 1 of 2). Solid
 lines indicate relationships predicted within the depth range of the survey and
 dashed lines indicate extrapolated relationships beyond the observed depth.
 These relationships are derived from the depth coefficients in the spatial
-models that generate the map plots (e.g. Figure \@ref(fig:survey-maps)). These
-plots provide some indication about which surveys encompass the entirety of the
+models that generate the map plots (e.g., Figure \@ref(fig:survey-maps)). These
+plots provide a visual indication of which surveys encompass the entirety of the
 depth distribution for particular species. See Appendix
 \@ref(app:spatial-modeling) for details on the models underlying these
 predictions.

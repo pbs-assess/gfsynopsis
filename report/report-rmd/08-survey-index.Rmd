@@ -180,18 +180,18 @@ know this is not true --- a substantial portion of fish density variation
 within a stratum can be attributed to habitat being of better or poorer
 suitability for a given fish and this suitability can be because of many
 factors beyond depth alone, on which the strata are stratified [@shelton2014].
-Furthermore, design-based estimates assume that nearby strata are statistically
-independent from each other. However, we know that fish do not perceive their
-habitat according to these exact strata boundaries and that ecological
-processes in general tend to be spatially correlated with processes closer to
-each other being more similar than those further apart.
+We also know that fish do not perceive their habitat according to these exact
+strata boundaries and that ecological processes in general tend to be spatially
+correlated with processes closer to each other being more similar than those
+further apart. Design-based estimates do not take advantage of this possible
+spatial correlation.
 
 Geostatistical modelling of survey data aims to address these issues by
 modelling fish density as a smooth spatial surface --- possibly the result of
 explicit habitat variables such as depth --- but also as the product of other
 unobserved or 'latent' spatial effects. In recent years, there has been
 a movement toward such 'model-based' standardization of survey biomass index
-trends [e.g. @shelton2014; @thorson2015; @webster2017]. We include model-based
+trends [e.g., @shelton2014; @thorson2015; @webster2017]. We include model-based
 index trends for the synoptic trawl surveys as a point of comparison so the
 reader can gauge when the two approaches may differ. Large differences are
 likely a result of the random positioning of the survey sets for a given year
@@ -269,10 +269,10 @@ Delta method as implemented in TMB [@kristensen2016]. Similar to the findings
 of @thorson2015, we found that the model-based biomass index trends often had
 lower CVs (coefficient of variations) than the design-based index trends and
 often helped stabilize biomass estimates for outlying years compared to the
-design-based index trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
+design-based index trends (e.g., Figure \@ref(fig:sdmTMB-plot-index)).
 
 We found little difference in the predicted biomass index between models that
-included or did not include depth covariates (e.g. Figure
+included or did not include depth covariates (e.g., Figure
 \@ref(fig:sdmTMB-plot-index)). We found that the main difference between models
 with or without depth covariates was in the models with depth covariates having
 slightly more spatially resolved estimates of biomass (Figure
@@ -425,7 +425,7 @@ ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
 
 \clearpage
 
-```{r sdmTMB-plot-index, fig.width=7, fig.cap='Relative biomass index predictions from the design-based approach, the geostatistical approach without covariates, and the geostatistical approach with depth covariates. Note the similarity between the two geostatistical models.'}
+```{r sdmTMB-plot-index, fig.width=7, fig.cap='Relative biomass index predictions from the design-based approach, the geostatistical approach without covariates, and the geostatistical approach with depth covariates. The y-axis denotes relative biomass from each method divided by its geometric mean. Note the similarity between the two geostatistical models.'}
 # ind_design <- readRDS(here::here('report/data-cache/walleye-pollock.rds'))
 ind_design <- readRDS(here::here('report/data-cache/pacific-cod.rds'))
 ind_design <- ind_design$survey_index

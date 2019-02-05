@@ -2,7 +2,7 @@
 
 We modelled the expected biomass density in space for each species using
 geostatistical models applied to data from the fisheries independent bottom
-trawl and long line surveys (e.g. Figure \@ref(fig:survey-maps)). Our modeling
+trawl and long line surveys (e.g., Figure \@ref(fig:survey-maps)). Our modeling
 approach is consistent with recent models used for spatial modelling and
 spatiotemporal index standardization of groundfish populations [e.g.
 @shelton2014; @ward2015; @thorson2015; @thorson2016], but has not, to our knowledge, 
@@ -54,24 +54,24 @@ $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
 where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma
 function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the
 Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents
-a scaling parameter that is estimated [e.g. @lindgren2011]. The parameter $\nu$
+a scaling parameter that is estimated [e.g., @lindgren2011]. The parameter $\nu$
 controls the smoothness of the covariance function. We set $\nu = 1$, which
 lets us take advantage of the Stochastic Partial Differential Equation (SPDE)
 approximation to Gaussian Markov Random Fields (GMRF) to greatly increase
 computational efficiency [@lindgren2011].
 
 Our spatial model falls into the general category of "predictive process"
-models [e.g. @latimer2009; @shelton2014; @anderson2018], in which the model
+models [e.g., @latimer2009; @shelton2014; @anderson2018], in which the model
 keeps track of a limited number of "knots" that approximate unexplained spatial
 variation (Figure \@ref(fig:sdmTMB-spde)). By keeping track of a smaller number
 of knots than the full spatial data set, we can increase computational
 efficiency. The model predictions can be projected to the original data
 locations or any new set of locations as long as an appropriate covariance
-matrix can be calculated [e.g. @latimer2009]. Higher numbers of knots result in
+matrix can be calculated [e.g., @latimer2009]. Higher numbers of knots result in
 a better approximation of the spatial random effects at a greater computational
 cost. We fit the spatial models with one less knot than the number of
 observations if there were fewer than 200 observations and 200 knots otherwise.
-Following one common practice [e.g. @shelton2014; @thorson2017b; @anderson2018]
+Following one common practice [e.g., @shelton2014; @thorson2017b; @anderson2018]
 we chose the location of the knots with a k-means clustering algorithm with
 a fixed random seed to ensure reproducible results.
 

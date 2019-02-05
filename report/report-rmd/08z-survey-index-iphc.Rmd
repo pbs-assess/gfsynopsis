@@ -75,7 +75,7 @@ vessels generally targeted the first 20&nbsp;hooks deployed from each skate.
 However, for
 operational reasons (particularly in areas of high catch rates), sometimes the
 20&nbsp;hooks would come from elsewhere within a skate but would always consist of
-20 consecutive hooks [e.g. @dykstra2002iphc].
+20 consecutive hooks [e.g., @dykstra2002iphc].
 
 \vspace{0mm}
 
@@ -239,7 +239,7 @@ square grid [@yamanaka2018yelloweyeoutside].
 Series&nbsp;C and&nbsp;D use all stations coastwide (by definition).
 
 Each year, a few stations may be declared unusable by the IPHC and are excluded 
-from our analyses (e.g. the 
+from our analyses (e.g., the 
 hook-tally sheet got blown overboard for station 2113 in the year 2008), with
 usability codes described in Table\ \@ref(tab:iphc-set-codes). In particular,
 we include stations deemed as 'Usable but omit from any geospatial analysis',
