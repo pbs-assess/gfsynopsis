@@ -99,7 +99,7 @@ p3 <- g$survey_spatial_iphc +
   ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +
   ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
-    na.value = 'grey35', breaks = c(0.2, 0.4, 0.7))
+    na.value = 'grey35', breaks = c(0.2, 0.4, 0.7)) +
   ggtitle("IPHC catch rate")
 
 gridExtra::grid.arrange(
