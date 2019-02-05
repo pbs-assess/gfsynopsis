@@ -13,7 +13,7 @@ holdings.
 As one step to address this issue, we have created this data synopsis
 report to give a snapshot of long-term and recent population and fishing
 trends, as well as data availability, for all major British Columbia groundfish
-stocks of commercial and conservation interest. The report is an
+species of commercial and conservation interest. The report is an
 extension of the data scorecard concept discussed at a Canadian Science
 Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
 [@macdougall2016]. We intend to publish this report as a CSAS Research
@@ -26,8 +26,8 @@ publication, reproducibility, and transparency.
 
 Our goals with this report are to (1) facilitate regular review by groundfish
 scientists and managers of trends in survey indices and stock composition
-across all stocks to provide information for discussion of assessment
-priorities stocks; (2) generate standardized datasets, biological model fits,
+across all species to provide information for discussion on assessment
+priorities; (2) generate standardized datasets, biological model fits,
 and visualizations that will help assessment scientists develop operating
 models and select candidate management procedures for groundfish stocks; and
 (3) increase data transparency between Fisheries and Oceans Canada, the fishing
@@ -76,7 +76,7 @@ Outside Hard Bottom Long Line surveys (HBLL; alternatively referred to as the
 Pacific Halibut Management Association, PHMA, surveys) (Figure
 \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC)
 Fishery Independent Setline surveys because these provide the greatest
-spatial and taxonomic coverage of the stocks in this report. As an example, we
+spatial and taxonomic coverage of the species in this report. As an example, we
 are not showing biomass index trends or maps from the Sablefish trap surveys,
 since these are highly selective for Sablefish. However, we do include counts
 of available fish specimens from biological samples on all surveys and fit
@@ -236,7 +236,7 @@ We made a number of overarching design decisions in structuring the
 report:
 
 1. Each species is displayed with the same layout to facilitate finding a type
-   of data, comparing stocks, and identifying missing data via empty plots.
+   of data, comparing species, and identifying missing data via empty plots.
 
 1. We have limited the report to two pages per species so that all plots can be
    laid out at once on a screen in a PDF. The data presentation is dense, but
@@ -258,14 +258,14 @@ report:
 
 ## CAVEATS
 
-There are many caveats when interpreting this report. 
+There are many caveats when interpreting this report.
 
 1. The outputs in this report are not a substitute for stock assessment. For
-   example, although relative biomass indices from surveys indicate the biomass
-   trend for a species in an area, such information is best combined with other
-   information such as removals by commercial catches and information on the
-   age- or length-composition of the stock to make conclusions about the status
-   of a stock. 
+   example, although relative biomass index trends from surveys indicate the
+   biomass trend for a species in an area, such information is best combined
+   with other information such as removals by commercial catches and
+   information on the age- or length-composition of the stock to make
+   conclusions about the status of a stock.
 
 1. Biomass indices from trawl or longline surveys and commercial CPUE indices
    need careful interpretation on a stock-by-stock basis. We have attempted to
@@ -279,59 +279,63 @@ There are many caveats when interpreting this report.
    changes or range shifts, could result in biases through time even for
    well-sampled species.
 
-1. Do not use the outputs as an input to marine spatial planning. TODO
+1. Survey and commercial CPUE index trends do not resolve population scale and
+   the outputs in this report do not resolve conflicts in trends drawn from
+   different sources for the same species.
 
-1. Commercial CPUE data should not be considered to be proportional to stock
-   abundance. Commercial CPUE time series, even when standardized for
-   consistent time of year, depth, latitude, and vessel need to be considered
-   even more carefully. There are a multitude of reasons why commercial CPUE
-   trends may not represent underlying trends in abundance [e.g., @harley2001].
-   Nonetheless, we think there is value in transparently displaying the
-   available data for all species. 
+1. The outputs in this report are not appropriate for marine spatial planning.
+   The data as presented are resolved at a coarse spatial scale and marine
+   spatial planning uses require specific data treatments beyond the general
+   approaches used in this report.
+
+1. The commercial CPUE data should not be considered to be proportional to
+   stock abundance for a multitude of reasons [e.g., @harley2001]. Nonetheless,
+   we think there is value in transparently displaying the available data for
+   all species.
 
 1. The catch history reported here reflects recorded data and may not represent
-   actual catches.  Uncertainty means that alternative hypotheses for catch
-   history are possible. The commercial catch presented here won't necessarily
-   match reconstructed time series in stock assessments. Historic catch
-   reconstructions require careful species-specific consideration and analysis.
-   Furthermore, fluctuations in commercial catch, for example recent declines
-   in species catch for Bocaccio and Yelloweye Rockfish, do not necessarily
-   reflect declines in stock abundance and may be due to other factors
-   including implementation of management measures. Reported discard weights
-   are considered less reliable prior to 100% observer coverage of the bottom
-   trawl fishery in 1996, and prior to fisheries integration in 2006 for the
-   trap, hook and line, midwater trawl and Strait of Georgia (SoG) bottom trawl
-   fisheries. The discards in the catch plot therefore only include bottom
-   trawl discard weights from 1996 to present and trap, hook and line, midwater
-   trawl and SoG bottom trawl discard weights from 2006 to present.
+   actual catches. Alternative hypotheses for catch history are possible. The
+   commercial catch presented here will not necessarily match reconstructed time
+   series in stock assessments. Historic catch reconstructions require careful
+   species-specific consideration and analysis. Furthermore, fluctuations in
+   commercial catch, for example recent declines in species catch for Bocaccio
+   and Yelloweye Rockfish, do not necessarily reflect declines in stock
+   abundance and may be due to other factors including implementation of
+   management measures. Reported discard weights are considered less reliable
+   prior to 100% observer coverage of the bottom trawl fishery in 1996, and
+   prior to fisheries integration in 2006 for the trap, hook and line, midwater
+   trawl and Strait of Georgia (SoG) bottom trawl fisheries. The discards in
+   the catch plot therefore only include bottom trawl discard weights from 1996
+   to present and trap, hook and line, midwater trawl and SoG bottom trawl
+   discard weights from 2006 to present.
 
-1. Index trends do not resolve population scale and the outputs in this report
-   do not resolve conflicts and trends drawn from different sources for the
-   same species. TODO
+1. It is not feasible for us to individually assess the results for all
+   species in a detailed manner. To use the results for a particular species in
+   future assessments, or to make other inferences, we recommend that users
+   carefully examine the data and model results. Due to the necessary
+   automation required to construct this report, not all species-specific
+   special cases may have been fully considered.
 
 <!-- TODO: make sure the number of species is constant throughout -->
 
-1. An overall caveat of this work is that it is not feasible for us to
-   individually assess the results for all 113 species in a detailed manner. To
-   use the results for a particular species in future assessments, or to make
-   other inferences, we recommend that users carefully examine the data and
-   model results. Due to the necessary automation required to construct this
-   report, not all species-specific special cases may have been fully
-   considered.
+## DATA ACCESSIBILITY
 
-<!-- TODO: add "This point actually, should be stated rather firmly in the
-"Caveats" section.  The idea discussed in meeting that the outputs should
-reflect the question at hand.  Since this document is to "window shop the data"
-to use D. Ricard's analogy, the plots are necessarily a compromise relative to
-modifications for a specific purpose." -->
+Data in this document are maintained by the Groundfish Data Unit at the Pacific
+Biological Station in Nanaimo, British Columbia. Data accessibility and contact
+details are described in Appendix \@ref(app:data).
 
-## R PACKAGES
 
-We developed the gfplot R package to conduct all the data extraction, data
-manipulation, model fitting, and plotting in the data synopsis report. The
-package is designed to be modular so it can be used in various capacities for
-other groundfish analyses (Figure \@ref(fig:gfplot-web)). Also mention
-gfsynopsis and refer to the relevant section at the back. TODO
+## REPRODUCIBILITY
+
+All of the data extraction, data manipulation, model fitting, and visualization
+for this report is automated and reproducible. We developed the gfplot and
+gfsynopsis R packages for this purpose. The gfplot package enables the data
+extraction, model fitting, and visualizations. It is designed to be modular so
+it can be used in various capacities for other groundfish analyses (Figure
+\@ref(fig:gfplot-web)). The gfsynopsis package calls functions from the gfplot
+package to generate this report. Appendix \@ref(app:reproducibility) provides
+further details on these package and on the computational environment needed to
+reproduce this report.
 
 <!-- I feel as tho there should be a small section introducing the R packages
 gfplot and gfsynopsis.  They get referred to in the first few sections of the
@@ -350,12 +354,6 @@ On a less frequent basis, we will consider making larger changes to the
 structure, methods or content of the report. We will consider these larger
 possible revisions approximately every three years.
 -->
-
-## DATA ACCESSIBILITY
-
-Data in this document are maintained by the Groundfish Data Unit at the Pacific
-Biological Station in Nanaimo, British Columbia. Data accessibility and contact
-details are described in Appendix \@ref(app:data).
 
 <!-- TODO list acronym somewhere? -->
 
