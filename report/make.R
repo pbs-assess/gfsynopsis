@@ -28,8 +28,11 @@ d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
   select(species_common_name, species_code,
     species_science_name, spp_w_hyphens, type, itis_tsn, worms_id)
-dat_geostat_index <- readRDS(here("report", "geostat-cache",
-  "geostat-index-estimates.rds"))
+
+# Geostatistical model fits: (a bit slow)
+fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
+if (!file.exists(fi)) source(here("report/make-geostat.R"))
+dat_geostat_index <- readRDS(fi)
 
 # ------------------------------------------------------------------------------
 
@@ -65,7 +68,6 @@ cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
     schedule, sara_status) %>%
   mutate(species_science_name = tolower(species_science_name))
 
-# inner_join(spp, cosewic, by = "species_science_name") %>% View
 cosewic <- filter(cosewic, !grepl("Atlantic", population))
 cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", population))
 spp <- left_join(spp, cosewic, by = "species_science_name")
