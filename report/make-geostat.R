@@ -15,8 +15,8 @@ cores <- min(nrow(all), parallel::detectCores())
 cl <- parallel::makeCluster(cores)
 doParallel::registerDoParallel(cl)
 out <- foreach::foreach(sp = all$spp, surv = all$survs,
-  .packages = c("gfplot", "sdmTMB")) %dopar% {
-    tryCatch(fit_sdmTMB_westcoast(
+  .packages = c("gfplot", "sdmTMB", "gfsynopsis")) %dopar% {
+    tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(sp, ".rds")),
       species_name = sp,
       survey = surv, n_knots = 200L, bias_correct = FALSE,
@@ -29,7 +29,7 @@ saveRDS(out, file = here::here("report/geostat-cache/spt-index-out.rds"))
 index <- purrr::map_df(out, function(x) {
   if (length(x) > 1L)
     data.frame(x$index, species = x$species_name, survey = x$survey,
-      stringsAsFactors = FALSE) %>% tibble::as.tibble()
+      stringsAsFactors = FALSE) %>% tibble::as_tibble()
 })
 saveRDS(index, file = here::here("report/geostat-cache/spt-index-out-no-depth.rds"))
 
@@ -81,7 +81,7 @@ inds <- inds %>% dplyr::filter(max_cv, max_est, cv_na)
 ind <- dplyr::semi_join(ind, inds)
 ind <- dplyr::filter(ind, species != "pacific-hake")
 ind$survey <- factor(ind$survey, levels = survs)
-saveRDS(ind, file = here::here("report/geostat-cache/geostat-cache/geostat-index-estimates.rds"))
+saveRDS(ind, file = here::here("report/geostat-cache/geostat-index-estimates.rds"))
 
 g <- ggplot(ind, aes_string('year', 'est', fill = 'type')) +
   geom_line(aes_string(colour = 'type')) +
