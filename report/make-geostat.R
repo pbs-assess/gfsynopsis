@@ -94,39 +94,3 @@ g <- ggplot(ind, aes_string('year', 'est', fill = 'type')) +
 
 ggsave(here::here("report/surv-2018-10-19-no-depth-150-knots.pdf"),
   width = 9.5, height = 65, limitsize = FALSE)
-
-# plot_spde(out$spde)
-#
-# plot_anisotropy(out$model)
-#
-# out$data$resids <- residuals(out$model) # randomized quantile residuals
-# hist(out$data$resids)
-# qqnorm(out$data$resids);abline(a = 0, b = 1)
-# ggplot(out$data, aes(X, Y, col = resids)) + scale_colour_gradient2() +
-#   geom_point() + facet_wrap(~year) + coord_fixed()
-#
-# plot_map <- function(dat, column) {
-#   ggplot(dat, aes_string("X", "Y", fill = column)) +
-#     geom_raster() +
-#     facet_wrap(~year) +
-#     coord_fixed()
-# }
-#
-# plot_map(out$predictions$data, "exp(est)") +
-#   scale_fill_viridis_c(trans = "sqrt") +
-#   ggtitle("Prediction (fixed effects + all random effects)")
-#
-# plot_map(out$predictions$data, "exp(est_fe)") +
-#   ggtitle("Prediction (fixed effects only)") +
-#   scale_fill_viridis_c(trans = "sqrt")
-#
-# plot_map(out$predictions$data, "est_re_s") +
-#   ggtitle("Spatial random effects only") +
-#   scale_fill_gradient2()
-#
-# plot_map(out$predictions$data, "est_re_st") +
-#   ggtitle("Spatiotemporal random effects only") +
-#   scale_fill_gradient2()
-#
-#
-
