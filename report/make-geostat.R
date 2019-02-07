@@ -83,14 +83,14 @@ ind <- dplyr::filter(ind, species != "pacific-hake")
 ind$survey <- factor(ind$survey, levels = survs)
 saveRDS(ind, file = here::here("report/geostat-cache/geostat-index-estimates.rds"))
 
-g <- ggplot(ind, aes_string('year', 'est', fill = 'type')) +
-  geom_line(aes_string(colour = 'type')) +
-  geom_point(aes_string(colour = 'type')) +
-  geom_ribbon(aes_string(ymin = 'lwr', ymax = 'upr'), alpha = 0.4) +
-  xlab('Year') + ylab('Relative biomass estimate') +
-  facet_grid(species~survey, scales = "free_y") +
-  scale_x_continuous(breaks = seq(2000, 2020, 5)) +
-  labs(colour = "Type", fill = "Type")
-
-ggsave(here::here("report/surv-2018-10-19-no-depth-150-knots.pdf"),
-  width = 9.5, height = 65, limitsize = FALSE)
+# g <- ggplot(ind, aes_string('year', 'est', fill = 'type')) +
+#   geom_line(aes_string(colour = 'type')) +
+#   geom_point(aes_string(colour = 'type')) +
+#   geom_ribbon(aes_string(ymin = 'lwr', ymax = 'upr'), alpha = 0.4) +
+#   xlab('Year') + ylab('Relative biomass estimate') +
+#   facet_grid(species~survey, scales = "free_y") +
+#   scale_x_continuous(breaks = seq(2000, 2020, 5)) +
+#   labs(colour = "Type", fill = "Type")
+#
+# ggsave(here::here("report/surv-2018-10-19-no-depth-150-knots.pdf"),
+#   width = 9.5, height = 65, limitsize = FALSE)
