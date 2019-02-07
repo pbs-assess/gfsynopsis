@@ -69,6 +69,7 @@ make_pages <- function(
   mat_min_n = 20,
   survey_map_outlier = 1,
   synoptic_max_survey_years = 2017:2018,
+  hbll_out_max_survey_years = 2016:2017,
   parallel = FALSE
 ) {
 
@@ -635,7 +636,7 @@ make_pages <- function(
       species = spp,
       surveys = c("HBLL OUT N", "HBLL OUT S"),
       # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
-      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = hbll_out_max_survey_years)
     # hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {

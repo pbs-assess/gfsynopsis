@@ -33,6 +33,7 @@ fit_survey_maps <- function(dat,
     if (surv %in% c("HBLL OUT N", "HBLL OUT S")) {
       density_column <- "density_ppkm2"
       .dat <- filter(dat, survey_abbrev %in% surv)
+      if (nrow(.dat) == 0L) stop("No survey data.")
       .dat$survey_abbrev <- surv
       # .dat$year <- years[2]
       premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
@@ -45,6 +46,7 @@ fit_survey_maps <- function(dat,
       # .dat <- filter(dat, year %in% years[2]) # just last year
       .dat <- filter(dat, year %in% years)
       .dat <- filter(.dat, survey_abbrev %in% surv)
+      if (nrow(.dat) == 0L) stop("No survey data.")
       raw_dat <- tidy_survey_sets(.dat, surv,
         # years = years[2], density_column = density_column
         years = years, density_column = density_column
