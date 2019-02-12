@@ -1,6 +1,6 @@
 \clearpage
 
-## ACKNOWLEDGEMENTS
+# ACKNOWLEDGEMENTS
 
 We are grateful for the ongoing collaboration between DFO, commercial fishers,
 First Nations, and non-governmental organizations, which has made possible the
