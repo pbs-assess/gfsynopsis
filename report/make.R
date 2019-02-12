@@ -179,6 +179,10 @@ temp <- lapply(spp$species_common_name, function(x) {
     out[[i]] <- paste0("[FishBase link 2]",
       "(http://www.fishbase.org/summary/", .names[2], ")")
   }
+  if (species_code == '039') { # Requiem Sharks
+    out[[i]] <- paste0("[FishBase link]",
+    "(http://www.fishbase.org/Summary/FamilySummary.php?ID=11)")
+  }
   if (worms_id != 'unknown') {
     out[[i]] <- paste0(out[[i]], ", ")
     i <- i + 1
