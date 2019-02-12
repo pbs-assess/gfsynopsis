@@ -579,9 +579,6 @@ make_pages <- function(
       axis.ticks = element_blank()
     )})
 
-  # ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
-  # ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
-
   if (include_map_square)
     g_cpue_spatial <- g_cpue_spatial + checking_square
 
@@ -672,7 +669,6 @@ make_pages <- function(
       x <- sprintf("%.2f", round(x, 2))
     x
   }
-  # if ("combined" %in% names(syn_fits$pred_dat)) { # calculate a density to label on the map
   if (nrow(syn_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
     # syn_density <- mean(syn_fits$pred_dat$combined, na.rm = TRUE) * 1000 * 1000
     syn_density <- mean(syn_fits$raw_dat$density, na.rm = TRUE) * 1000 * 1000
@@ -693,7 +689,6 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
 
-    # if ("combined" %in% names(syn_fits$pred_dat))
     if (nrow(syn_fits$raw_dat) >= 1L)  # calculate a density to label on the map
       g_survey_spatial_syn <- g_survey_spatial_syn +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
@@ -728,7 +723,6 @@ make_pages <- function(
           label = paste0("Mean~", iphc_density, "~fish/skate"), parse = TRUE)
   })
 
-  # if ("combined" %in% names(hbll_fits$pred_dat)) { # calculate a density to label on the map
   if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
     hbll_density <- mean(hbll_fits$raw_dat$density, na.rm = TRUE)
     hbll_density <- round_density(hbll_density)
@@ -745,7 +739,6 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
     dens_units <- "~fish/km^2"
-    # if ("combined" %in% names(hbll_fits$pred_dat))
     if (nrow(hbll_fits$raw_dat) >= 1L)  # calculate a density to label on the map
       g_survey_spatial_hbll <- g_survey_spatial_hbll +
       ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
