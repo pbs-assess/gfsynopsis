@@ -270,7 +270,7 @@ make_pages <- function(
     if (!is.na(cpue_index[[1]])) { # enough vessels?
 
       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
-        ggplot2::ggtitle("Commercial trawl CPUE") +
+        ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
         ylab("") + xlab("") +
         ggplot2::theme(
           axis.title.y = element_blank(),
@@ -285,7 +285,7 @@ make_pages <- function(
         expand.grid(area = factor(c("3CD|5ABCDE", "5AB", "5CDE", "3CD"),
           levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")), year = 2000,
           est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
-      ggplot2::ggtitle("Commercial trawl CPUE") +
+      ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
       ylab("") + xlab("") +
       ggplot2::theme(
         axis.title.y = element_blank(),
@@ -568,7 +568,7 @@ make_pages <- function(
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
       percent_excluded_xy = c(0.015, -0.02),
       ) +
-    ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
+    ggplot2::ggtitle("Commercial trawl CPUE") +
     theme(legend.position = "none") +
     ggplot2::annotate("text", 360, 6172, label = "2013–2018", col = "grey30",
       hjust = 0)
