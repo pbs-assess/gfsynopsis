@@ -319,7 +319,7 @@ There are many caveats when interpreting this report.
 
 <!-- TODO: make sure the number of species is constant throughout -->
 
-```{r closures-map, fig.cap="Map of fishery restriction initiatives in the Pacific Region (MPA = Marine Protected Area). These areas have different restrictions specific to their respective objectives.", out.width="3.3in", fig.pos="tb"}
+```{r closures-map, fig.cap="Map of fishery restriction initiatives in the Pacific Region (MPA = Marine Protected Area). These areas have different restrictions specific to their respective objectives; seasonal fishery closures are not shown here", out.width="3.3in", fig.pos="tb"}
 knitr::include_graphics("figure/fishery-closures.png", dpi = NA)
 ```
 
