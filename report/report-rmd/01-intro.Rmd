@@ -220,7 +220,7 @@ appendices:
 1. Appendix \@ref(app:growth-and-maturity) provides details on modelling of
    maturity and growth parameters.
 
-1. Appendix \@ref(app:reproducibility) describe the computational environment
+1. Appendix \@ref(app:reproducibility) describes the computational environment
    and reproducibility of this report.
 
 1. The final section contains the bibliography, including those references
@@ -300,7 +300,9 @@ There are many caveats when interpreting this report.
    commercial catch, for example recent declines in species catch for Bocaccio
    and Yelloweye Rockfish, do not necessarily reflect declines in stock
    abundance and may be due to other factors including implementation of
-   management measures. Reported discard weights are considered less reliable
+   management measures (see map in Figure \@ref(fig:closures-map) of current
+   fishery restriction initiatives in the Pacific Region). 
+   Reported discard weights are considered less reliable
    prior to 100% observer coverage of the bottom trawl fishery in 1996, and
    prior to fisheries integration in 2006 for the trap, hook and line, midwater
    trawl and Strait of Georgia (SoG) bottom trawl fisheries. The discards in
@@ -316,6 +318,10 @@ There are many caveats when interpreting this report.
    special cases may have been fully considered.
 
 <!-- TODO: make sure the number of species is constant throughout -->
+
+```{r closures-map, fig.cap="Map of fishery restriction initiatives in the Pacific Region (MPA = Marine Protected Area). These areas have different restrictions specific to their respective objectives.", out.width="3.3in", fig.pos="tb"}
+knitr::include_graphics("figure/fishery-closures.png", dpi = NA)
+```
 
 ## DATA ACCESSIBILITY
 
