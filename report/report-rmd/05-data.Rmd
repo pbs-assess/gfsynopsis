@@ -302,7 +302,8 @@ age_methods$species_common_name <- tolower(age_methods$species_common_name)
 #age_methods <- left_join(age_methods, meta, by = "species_common_name")
 age_methods$species_common_name <- gfsynopsis:::first_cap(age_methods$species_common_name)
 # age_methods <- filter(age_methods, type == "A")
-age_methods$species_common_name <- gsub("Rockfish Complex", "", age_methods$species_common_name)
+age_methods$species_common_name <- gsub("Rougheye/blackspotted Rockfish Complex", 
+  "Rougheye/Blackspotted", age_methods$species_common_name)
 age_methods$species_science_name <- gsub(" complex", "", age_methods$species_science_name)
 age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianus",
   age_methods$species_science_name)
