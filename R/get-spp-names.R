@@ -3,7 +3,8 @@
 #' @export
 get_spp_names <- function() {
   file <- system.file("extdata", "spp-of-interest.csv", package = "gfsynopsis")
-  spp <- utils::read.csv(file, strip.white = TRUE, stringsAsFactors = FALSE)
+  spp <- utils::read.csv(file, strip.white = TRUE, stringsAsFactors = FALSE,
+    comment.char = "#")
   spp <- dplyr::filter(spp, !is.na(species_code))
   spp$species_code <- sprintf(paste0("%0", 3L, "d"), spp$species_code)
   spp$species_common_name <- tolower(gsub(" $", "", spp$species_common_name))
