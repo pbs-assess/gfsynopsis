@@ -4,15 +4,15 @@ The combination of fishery-dependent data, such as catch and effort, and
 fishery-independent survey data, such as biomass indices and age
 compositions, form the backbone of most fisheries stock assessment.
 Fisheries and Oceans Canada (DFO) at the Pacific Biological Station
-(PBS) in Nanaimo, British Columbia manages vast quantities of such data on
-groundfish species in British Columbia (BC). However, there is not the capacity
+(PBS) in Nanaimo, British Columbia (BC), manages vast quantities of such data on
+groundfish species in BC. However, there is not the capacity
 to conduct formal stock assessments for most stocks annually, and therefore,
 much of these data are not summarized to represent the nature of the data
 holdings.
 
 As one step to address this issue, we have created this data synopsis
 report to give a snapshot of long-term and recent population and fishing
-trends, as well as data availability, for all major British Columbia groundfish
+trends, as well as data availability, for all major BC groundfish
 species of commercial and conservation interest. The report is an
 extension of the data scorecard concept discussed at a Canadian Science
 Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
@@ -50,11 +50,16 @@ of information exercise to see if juice worth the squeeze on data not in-hand.
 
 The main results of this synopsis report are presented in two-page
 species-by-species subsections that visually synthesize most available data for
-each species (Section \@ref(sec:synopsis-plots). The report covers 112
+each species (Section \@ref(sec:synopsis-plots)). The report covers `r n-species`
 groundfish species that are either of commercial, recreational, or First
 Nations interest or are regularly caught in our research surveys. The report
 focuses on the surveys and data types applicable to the widest array of these
 species.
+
+```{r n-species, eval=TRUE, results='asis'} 
+.spp <- gfsynopsis::get_spp_names()
+nrow(.spp)
+```
 
 Each set of pages for a single species is laid out in the same way. The page
 layout pages starts with the species common name, the species scientific name,
