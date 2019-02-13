@@ -96,11 +96,18 @@ make_pages <- function(
   dat$age_precision <- dplyr::filter(dat$age_precision,
     species_code == unique(dat$survey_sets$species_code))
 
-  # TODO:
+  # FIXME: (not needed anymore?)
   if (nrow(dat$survey_samples) > 0L)
     dat$survey_samples$maturity_convention_maxvalue <- 1e6
   if (nrow(dat$commercial_samples) > 0L)
     dat$commercial_samples$maturity_convention_maxvalue <- 1e6
+
+  # FIXME: (get this fixed in the raw data)
+  if (identical(spp, "rosethorn rockfish")) {
+    # one over 1 meter!
+    dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 60)
+    dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 60)
+  }
 
   dat$commercial_samples_no_keepers <- dplyr::filter(dat$commercial_samples,
     sampling_desc %in% "UNSORTED")
