@@ -9,7 +9,7 @@ address: |
   ^1^Pacific Biological Station\
      Fisheries and Oceans Canada, 3190 Hammond Bay Road\
      Nanaimo, British Columbia, V9T 6N7, Canada
-year: "2018"
+year: "2019"
 report_number: "nnn"
 abstract: |
   The combination of fishery-dependent data, such as catch and effort, and
