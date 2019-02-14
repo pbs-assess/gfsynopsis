@@ -396,14 +396,12 @@ make_pages <- function(
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, max(synoptic_max_survey_years))) +
-    # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
     ggplot2::ggtitle("Commercial specimen counts")
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, max(synoptic_max_survey_years))) +
-    # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
     ggplot2::ggtitle("Survey specimen counts")
   suppressMessages({g_survey_samples <- g_survey_samples +
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
@@ -422,26 +420,21 @@ make_pages <- function(
   # Growth fits: ---------------------------------------------------------------
 
   if (nrow(dat$combined_samples) >= 10) {
-    if (!file.exists(vb_cache_spp)) {
-      vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd",
-        too_high_quantile = 0.99)
-      vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd",
-        too_high_quantile = 0.99)
-      vb <- list()
-      vb$m <- vb_m
-      vb$f <- vb_f
-      saveRDS(vb, file = vb_cache_spp, compress = FALSE)
-    } else {
-      vb <- readRDS(vb_cache_spp)
-    }
 
+    vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "tmb",
+      too_high_quantile = 0.995)
+    vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "tmb",
+      too_high_quantile = 0.995)
+    vb <- list()
+    vb$m <- vb_m
+    vb$f <- vb_f
     g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE)
 
     lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm",
-      too_high_quantile = 0.99)
+      too_high_quantile = 0.995)
     lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm",
-      too_high_quantile = 0.99)
+      too_high_quantile = 0.995)
 
     g_length_weight <-
       plot_length_weight(object_female = lw_f, object_male = lw_m) +
