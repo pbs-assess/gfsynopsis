@@ -47,7 +47,7 @@ of information exercise to see if juice worth the squeeze on data not in-hand.
 
 ## REPORT STRUCTURE
 
-```{r n_species} 
+```{r n_species}
 .spp <- gfsynopsis::get_spp_names()
 no_species <- nrow(.spp)
 ```
@@ -75,12 +75,12 @@ fish across all survey and commercial samples for various biological
 measurements.
 
 In terms of surveys, we have focused on the Synoptic Bottom Trawl surveys, the
-Outside Hard Bottom Long Line (HBLL) surveys (alternatively referred to as the 
+Outside Hard Bottom Long Line (HBLL) surveys (alternatively referred to as the
 Pacific Halibut Management Association, PHMA, surveys) (Figure
 \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC)
 Fishery Independent Setline surveys, because these provide the greatest spatial
-and taxonomic coverage of the species in this report. Survey biomass index 
-trends are also shown for the Hecate Strait Multispecies Assemblage (MSA HS) 
+and taxonomic coverage of the species in this report. Survey biomass index
+trends are also shown for the Hecate Strait Multispecies Assemblage (MSA HS)
 survey and the Inside HBLL survey. As an example, we
 are not showing biomass index trends or maps from the Sablefish trap surveys,
 since these are highly selective for Sablefish. However, we do include counts
