@@ -55,8 +55,8 @@ no_species <- nrow(.spp)
 The main results of this synopsis report are presented in two-page
 species-by-species subsections that visually synthesize most available data for
 each species (Section \@ref(sec:synopsis-plots)). The report covers `r no_species`
-groundfish species that are either of commercial, recreational, or First
-Nations interest or are regularly caught in our research surveys. The report
+groundfish species that are either of commercial, recreational, conservation, or First
+Nations interest, or are regularly caught in our research surveys. The report
 focuses on the surveys and data types applicable to the widest array of these
 species.
 
@@ -358,11 +358,11 @@ deserve a little air time early on to tease the reader. -->
 ## UPDATE SCHEDULE
 
 We intend to publish annual or biennial updates of this synopsis report ---
-possibly as a Science Response document. These annual updates will include
+possibly as a Science Response document. These updates will include
 another year or two of data and any important corrections to the data, text, or
 visualizations. Data for each survey season will likely only be ready for
 publication in the report by fall of the following year. On a less frequent
-basis, we will consider making larger changes to the structure, methods or
+basis, we will consider making larger changes to the structure, methods, or
 content of the report.
 
 <!-- TODO list acronym somewhere? -->
