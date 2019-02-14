@@ -293,8 +293,8 @@ make_pages <- function(
   if (nrow(dat$catch) == 0 || is.na(cpue_index[[1]])) {
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
-        expand.grid(area = factor(c("3CD|5ABCDE", "5AB", "5CDE", "3CD"),
-          levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")), year = 2000,
+        expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
+          levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")), year = 2000,
           est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
       ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
       ylab("") + xlab("") +

@@ -2,7 +2,7 @@
 
 We sought to generate an index of abundance from commercial trawl catch per
 unit effort data that was standardized for depth, fishing locality (defined
-spatial regions; Figure \@ref(fig:cpue-locality-map)) month, vessel, and
+spatial regions; Figure \@ref(fig:cpue-locality-map)), month, vessel, and
 latitude. Before fitting a standardization model, we had to filter and
 manipulate the available catch and effort data to generate a dataset
 appropriate for model fitting. In the following sections we describe those

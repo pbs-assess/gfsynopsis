@@ -1,4 +1,3 @@
-#' Plot catches
 #'
 #' @param dat The data
 #' @param blank_plot Whether or not the plot should be blank
@@ -49,7 +48,7 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...) {
     legend.background = element_blank(),
     legend.direction = "horizontal") +
     ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2)) +
-    ggplot2::ggtitle("Canadian commercial catch")
+    ggplot2::ggtitle("Commercial catch")
 
   g
 }
