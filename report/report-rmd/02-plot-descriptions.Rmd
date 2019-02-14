@@ -116,7 +116,7 @@ gridExtra::grid.arrange(
 
 <!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
 
-(ref:catches-cap) Example commercial fishery catches plots for `r sp`.
+(ref:catches-cap) Example commercial fishery catch plots for `r sp`.
 Catch from various gear types is indicated by colour shading. Catch is
 calculated as the summed weight of landings aggregated by year. Discards include
 reported discard weights from all fisheries combined; however, bottom trawl
@@ -262,7 +262,7 @@ cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 
 ## MATURITY FREQUENCY BY MONTH
 
-```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature (top) to most mature (bottom). The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.")}
+```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature (top) to most mature (bottom); individual fish, once mature, cycle through the mature stages. The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.")}
 g$maturity_month
 ```
 

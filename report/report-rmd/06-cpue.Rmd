@@ -37,7 +37,7 @@ of five trips (trips that recorded some of the species) for at least five years
 ## DEFINING THE STANDARDIZATION MODEL PREDICTORS
 
 For depth and latitude, we binned the values into a sequence of bands to allow
-for nonlinear relationships between these predictors and CPUE [e.g.
+for nonlinear relationships between these predictors and CPUE [e.g.,
 @maunder2004a]. For depth, we binned trawl depth into bands 25m wide. For
 latitude, we used bands that were 0.1 degrees wide. To ensure sufficient data
 to estimate a coefficient for each factor level, we limited the range of depth
@@ -75,14 +75,14 @@ issues:
    models.
 1. In the typical delta-GLM approach, the two models are fit with separate
    links and so the coefficients cannot be combined.
-1. The delta-GLM approach assumes independence among the two components [e.g.
+1. The delta-GLM approach assumes independence among the two components [e.g.,
    @thorson2017].
 1. Perhaps most importantly for our purpose, a delta-GLM in which the two
    models use different links renders a final index in which the index trend is
    dependent on the specific reference levels that the predictors are set to
    [e.g., @maunder2004a].
 
-The Tweedie distribution [@jorgensen1987] solves the above problems [e.g.
+The Tweedie distribution [@jorgensen1987] solves the above problems [e.g.,
 @candy2004; @shono2008; @foster2013; @lecomte2013; @thorson2017] but has not
 seen widespread use presumably mostly because of the computational expense of
 calculating the Tweedie probability density function. Recently, the Tweedie

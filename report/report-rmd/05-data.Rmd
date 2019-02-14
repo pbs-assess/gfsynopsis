@@ -2,9 +2,9 @@
 
 Commercial and research catch, effort, and biological data for groundfish are
 archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science
-Branch, Pacific Region) and housed in a number of relational databases (TODO: REFS).
+Branch, Pacific Region) and housed in a number of relational databases [@databases2019].
 Historical commercial catch and effort data from 1954--2006/2007 are housed in
-GFCatch, PacHarvTrawl, PacHarvHL, and PacHarvSable, depending on the fishery
+GFCatch, PacHarvest, PacHarvHL, and PacHarvSable, depending on the fishery
 and time period. Modern (2006/2007 to present) commercial catch data are housed
 in GFFOS, a groundfish-specific view of the Fishery Operations System (FOS)
 database (Fisheries and Oceans Canada, Fisheries and Aquaculture Management,
@@ -86,7 +86,7 @@ respectively.
 \toprule
 Filters & Rationale \\
 \midrule
-Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL} & To remove records with missing date \\
+Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL} & To remove records with missing dates \\
 Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \texttt{FE\_END\_DATE} > \texttt{FE\_START\_DATE} & To remove records with erroneous dates \\
 \bottomrule
 \end{tabu}}
@@ -188,7 +188,15 @@ identification code (SID, only available for research survey data), survey
 sampling types, and sampling protocol codes for maturity and ageing data. Data
 are filtered by the `TRIP_SUBTYPE_CODE` to extract either survey (Table
 \@ref(tab:sql-surv-samp)) or commercial (Table \@ref(tab:sql-comm-samp))
-samples. In addition, samples are designated as one of three sample
+samples. 
+
+Some survey or commercial catches are deemed unuseable for analysis. For 
+example, when gear is lost, faulty or damaged or all or a portion of the catch
+is lost then the full catch data are not available and the partial data
+may not be representative of the full catch. Data from unuseable 
+catches are excluded in this report.
+
+In addition, samples are designated as one of three sample
 descriptions based on combinations of two codes relating to sampling protocols:
 `SPECIES_CATEGORY_CODE` (Table \@ref(tab:spp-cat)) and `SAMPLE_SOURCE_CODE`
 (Table \@ref(tab:samp-source)). Samples can be designated as 'unsorted samples'
@@ -196,20 +204,20 @@ in which data were collected for all specimens in the sample, or 'sorted
 samples' where specimens were sorted or selected into 'keepers', which were
 sampled, and 'discards' which were not sampled:
 
-1. Specimens with a species category code of 0 are of unknown species category
-   and are not usable. Those with a species category code of 1 (unsorted) and
-   a sample source code of 0 (unknown) or 1 (unsorted), or with a species
-   category code of 5 (remains) or 6 (fish heads only) and a sample source code
-   of 1 (unsorted) are classified as 'unsorted'.
+1. Specimens with a `SPECIES_CATEGORY_CODE` of 0 are of unknown species category
+   and are not usable. Those with a `SPECIES_CATEGORY_CODE` of 1 (unsorted) and
+   a `SAMPLE_SOURCE_CODE` of 0 (unknown) or 1 (unsorted), or with a 
+   `SPECIES_CATEGORY_CODE` of 5 (remains) or 6 (fish heads only) and a 
+   `SAMPLE_SOURCE_CODE` of 1 (unsorted) are classified as 'unsorted'.
 
-2.  Specimens with a sample source code of 2 (keepers) and a species category
-    code of 1 (unsorted), 2 (sorted) or 3 (keepers), or with a species category
-    code of 3 (keepers) and a sample source code of 1 (unsorted) are classified
+2.  Specimens with a `SAMPLE_SOURCE_CODE`of 2 (keepers) and a `SPECIES_CATEGORY_CODE`
+    of 1 (unsorted), 2 (sorted) or 3 (keepers), or with a `SPECIES_CATEGORY_CODE`
+    of 3 (keepers) and a `SAMPLE_SOURCE_CODE`of 1 (unsorted) are classified
     as 'keepers'.
 
-3. Specimens with a species category code of 4 (discards) and a sample source
-   code of 1 (unsorted) or 3 (discards), or a sample source code of
-   3 (discards) and a species category code of 1 (unsorted) are 'discards'.
+3. Specimens with a `SPECIES_CATEGORY_CODE` of 4 (discards) and a `SAMPLE_SOURCE_CODE`
+of 1 (unsorted) or 3 (discards), or a `SAMPLE_SOURCE_CODE`of
+   3 (discards) and a `SPECIES_CATEGORY_CODE` of 1 (unsorted) are 'discards'.
 
 In the synopsis report, we are only including unsorted biological samples. Data
 are also filtered by `SAMPLE_TYPE_CODE` to extract only total or random samples
