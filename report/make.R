@@ -272,7 +272,7 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-temp <- c("<!-- This page has been automatically generated. Do not edit by hand! -->\n", temp)
+temp <- c("<!-- This page has been automatically generated: do not edit by hand -->\n", temp)
 if (!exists("N"))
   writeLines(temp, con = here("report", "report-rmd", "plot-pages.Rmd"))
 

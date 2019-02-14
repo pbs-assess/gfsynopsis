@@ -15,7 +15,7 @@ make_pages(dat, dat_iphc, spp, d_geostat_index, aspect = 1.35,
   "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS",
   "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"), mat_min_n = 20,
   survey_map_outlier = 1, synoptic_max_survey_years = 2017:2018,
-  parallel = FALSE)
+  hbll_out_max_survey_years = 2016:2017, parallel = FALSE)
 }
 \arguments{
 \item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
