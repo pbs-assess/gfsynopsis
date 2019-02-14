@@ -419,22 +419,22 @@ make_pages <- function(
 
   # Growth fits: ---------------------------------------------------------------
 
-  if (nrow(dat$combined_samples) >= 10) {
+  if (nrow(dat$survey_samples) >= 10) {
 
-    vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "tmb",
-      too_high_quantile = 0.995)
-    vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "tmb",
-      too_high_quantile = 0.995)
+    vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "tmb",
+      too_high_quantile = 1, df = 3)
+    vb_f <- fit_vb(dat$survey_samples, sex = "female", method = "tmb",
+      too_high_quantile = 1, df = 3)
     vb <- list()
     vb$m <- vb_m
     vb$f <- vb_f
     g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE)
 
-    lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm",
-      too_high_quantile = 0.995)
-    lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm",
-      too_high_quantile = 0.995)
+    lw_m <- fit_length_weight(dat$survey_samples, sex = "male", method = "tmb",
+      too_high_quantile = 1)
+    lw_f <- fit_length_weight(dat$survey_samples, sex = "female", method = "tmb",
+      too_high_quantile = 1)
 
     g_length_weight <-
       plot_length_weight(object_female = lw_f, object_male = lw_m) +
