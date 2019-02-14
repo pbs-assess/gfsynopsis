@@ -19,21 +19,21 @@ abstract: |
   collected annually, with 100% at-sea observer coverage, 100% dockside
   monitoring of landings, and deployment of multiple trawl, trap, and
   hook-and-line surveys. However, there is not the capacity to conduct formal
-  annual stock assessments for most stocks, and therefore much of these data are
-  not regularly published or readily accessible. Here, we introduce
-  a reproducible report to give a snapshot of population and fishing trends,
-  growth and maturity patterns, as well as data availability, for 113 groundfish
-  species in British Columbia. The report generation is fully automated --
-  pulling data from databases, fitting models, generating visualizations, and
-  stitching the document together to facilitate annual publication,
-  reproducibility, and transparency. Our goals are (1) to facilitate regular
-  review by groundfish scientists and managers of trends in survey indices and
-  stock composition; (2) to generate standardized datasets and visualizations
-  that will help assessment scientists develop operating models and select
-  candidate management procedures as part of a planned management-procedure
-  framework for groundfish stocks; and (3) to increase data transparency
-  between Fisheries and Oceans Canada, the fishing industry, non-governmental
-  organizations, and the public.
+  stock assessments for most stocks annually, and therefore, much of these data
+  are not summarized to represent the nature of the data holdings.
+  Here, we introduce a reproducible report to give a snapshot of population and
+  fishing trends, growth and maturity patterns, as well as data availability,
+  for 113 groundfish species in British Columbia. The report generation is
+  fully automated -- pulling data from databases, fitting models, generating
+  visualizations, and stitching the document together to facilitate frequent
+  publication, reproducibility, and transparency. Our goals are (1) to
+  facilitate regular review by groundfish scientists and managers of trends in
+  survey indices and stock composition; (2) to generate standardized datasets
+  and visualizations that will help assessment scientists develop operating
+  models and select candidate management procedures as part of a planned
+  management-procedure framework for groundfish stocks; and (3) to increase
+  data transparency between Fisheries and Oceans Canada, the fishing industry,
+  non-governmental organizations, and the public.
 output:
  csasdown::resdoc_pdf
 region: Pacific Region
