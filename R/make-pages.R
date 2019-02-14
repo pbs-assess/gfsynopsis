@@ -108,6 +108,10 @@ make_pages <- function(
     dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 60)
     dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 60)
   }
+  # FIXME: (get this fixed in the raw data?)
+  if (identical(spp, "shortspine thornyhead")) {
+    dat$survey_samples <- dplyr::filter(dat$survey_samples, age < 80)
+  }
 
   dat$commercial_samples_no_keepers <- dplyr::filter(dat$commercial_samples,
     sampling_desc %in% "UNSORTED")
@@ -428,6 +432,14 @@ make_pages <- function(
     vb <- list()
     vb$m <- vb_m
     vb$f <- vb_f
+
+    # FIXME: these look way off; omitting them for now
+    if (identical(spp, "shortspine thornyhead")) {
+      vb$f$predictions$age <- NA
+      vb$f$predictions$length <- NA
+      vb$f$pars <- list(k = NA, linf = NA, t0 = NA)
+    }
+
     g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE)
 
