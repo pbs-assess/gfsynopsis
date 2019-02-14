@@ -7,8 +7,8 @@ management-procedure framework for data-limited and data-moderate groundfish
 stocks in BC, but also for the preparation of other groundfish stock
 assessments and to facilitate data-to-document workflows that go straight from
 databases to the final report via code and can be quickly updated in future
-years. To that end, all data extraction, data manipulation, model fitting, and
-visualization for this report is automated.
+years. To that end, the data extraction, data manipulation, model fitting, and
+visualization for this report are automated.
 
 ```{r get-git-hashes, cache=FALSE}
 get_sha <- function(path) {
@@ -71,7 +71,7 @@ especially dplyr [@dplyr].
 This report can then be rendered using knitr [@knitr], bookdown [@bookdown],
 and csasdown by running:
 
-```r
+```
 bookdown::render_book("index.Rmd")
 ```
 
