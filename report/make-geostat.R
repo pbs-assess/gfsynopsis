@@ -35,10 +35,10 @@ index <- purrr::map_df(out, function(x) {
 saveRDS(index, file = here::here("report/geostat-cache/spt-index-out-no-depth.rds"))
 
 index$survey <- factor(index$survey, levels = survs)
-ggplot(index, aes(year, est)) + geom_line() +
-  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.4) +
-  xlab('Year') + ylab('Biomass estimate (metric tonnes)') +
-  facet_grid(species~survey, scales = "free")
+# ggplot(index, aes(year, est)) + geom_line() +
+#   geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.4) +
+#   xlab('Year') + ylab('Biomass estimate (metric tonnes)') +
+#   facet_grid(species~survey, scales = "free")
 
 design_based <- purrr::map_df(unique(index$species), function(sp) {
   message(sp)
