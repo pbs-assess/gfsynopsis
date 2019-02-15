@@ -75,7 +75,12 @@ set start and end time and are later used to calculate effort (expressed in
 hours). Catch (kg), year, gear type and Pacific Fishery Management Area (PFMA)
 are extracted for each tow. Gear type, PFMA and minimum year are given as
 arguments and are set at defaults of bottom trawl, all areas, and 1996,
-respectively.
+respectively. 
+
+Data were not filtered by success of tows, which is recorded in 
+the database as undefined success, checked but unknown success, fully useable, 
+malfunction/damage, lost gear, or water haul. This could be incorporated in
+future versions of the report.
 
 \begin{table}[htpb]
 \centering
