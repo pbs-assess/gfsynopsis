@@ -616,6 +616,8 @@ make_pages <- function(
 
   # Survey maps: ---------------------------------------------------------------
   if (!file.exists(map_cache_spp_synoptic)) {
+    # Multiply by 1000 for computational reasons.
+    # Otherwise the numbers are too small sometimes:
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
@@ -681,11 +683,13 @@ make_pages <- function(
       x <- sprintf("%.2f", round(x, 2))
     x
   }
+
   if (nrow(syn_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
-    # syn_density <- mean(syn_fits$pred_dat$combined, na.rm = TRUE) * 1000 * 1000
-    syn_density <- mean(syn_fits$raw_dat$density, na.rm = TRUE) * 1000 * 1000
+    # we've already multiply the density by 1000 for computational reasons
+    # so we need to divided by 1000 here to get back to the original units:
+    syn_density <- mean(syn_fits$raw_dat$density, na.rm = TRUE) * (1000 * 1000) / 1000
     dens_units <- "~kg/km^2"
-    if (syn_density > 100000) {
+    if (syn_density > 1000) {
       dens_units <- "~t/km^2"
       syn_density <- syn_density / 1000
     }
