@@ -1,3 +1,4 @@
+#' Plot catches
 #'
 #' @param dat The data
 #' @param blank_plot Whether or not the plot should be blank
