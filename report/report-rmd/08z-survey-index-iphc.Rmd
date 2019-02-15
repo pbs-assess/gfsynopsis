@@ -636,7 +636,9 @@ construct an index for Yelloweye Rockfish that was representative of the full
 coast and went back to 1995. Another approach was used to generate an index
 for the assessment model (Marie Etienne et al.,
 *Extracting abundance indices from longline surveys: a method to account for hook
-competition and unbaited hooks*, unpublished manuscript). This attempted to
+competition and unbaited hooks*,
+[unpublished manuscript](https://arxiv.org/abs/1005.0892)).
+This attempted to
 account for the effect of individual fish competing for the bait that is on the
 hooks.
 
