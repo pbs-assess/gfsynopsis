@@ -221,15 +221,15 @@ temp <- lapply(spp$species_common_name, function(x) {
     i <- i + 1
   }
   if (species_code == "225") {
-    out[[i]] <- "Note that Pacific Hake undergoes a directed annual joint
-                Canada-US coastwide\n survey and assessment which are not
+    out[[i]] <- "Note that Pacific Hake undergoes a directed joint
+                Canada-US coastwide\n survey and annual assessment, which are not
                 included in this report. The most recent\n stock assessment
                 should be consulted for details on stock status."
     i <- i + 1
   }
   if (species_code == "614") {
     out[[i]] <- "Note that Pacific Halibut undergoes thorough assessment by the
-                International Pacific\n Halibut Commission based on an annual
+                International Pacific\n Halibut Commission based on the annual
                 standardized setline survey. The most\n recent stock assessment
                 should be consulted for details on stock status."
     i <- i + 1
