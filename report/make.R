@@ -1,16 +1,7 @@
 # This file generates all the main synopsis figures in `report/figure-pages`.
 # It must be run before the report can be rendered.
-# Must be run from the root folder (gfsynopsis/), using source("report/make.R").
 library(here)
 library(dplyr)
-
-# for rapid development:
-# if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
-# if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
-# devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
-# devtools::install(quick = TRUE, dependencies = FALSE)
-
-# for production use:
 library(gfplot)
 library(gfsynopsis)
 
