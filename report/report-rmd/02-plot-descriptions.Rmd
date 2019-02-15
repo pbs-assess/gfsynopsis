@@ -125,7 +125,8 @@ discards are considered less reliable prior to 100% observer coverage in 1996
 and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl
 discards are less reliable prior to fisheries integration in 2006 and are
 therefore not included. Years before 1996 and 2006 are shaded
-grey to indicate that catches are considered less reliable than modern data.
+grey to indicate that catches are considered less reliable than modern data. 
+Foreign catches recorded in our databases between 1977 and 1991
 Management areas, as indicated in the top left corner of each panel, are shown
 in Figure \@ref(fig:management-map).
 
