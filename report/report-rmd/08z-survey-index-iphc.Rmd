@@ -12,7 +12,7 @@ The International Pacific Halibut Commission (IPHC) conducts an annual stock
 assessment longline survey in waters from California to Alaska, including
 British Columbia waters [@flemming2012iphc]. The survey's main goal is to
 provide data on Pacific Halibut (*Hippoglosus stenolepis*) for stock
-assessment purposes. 
+assessment purposes.
 
 At each station, the fishing gear consists of a set of skates each of about 100
 hooks. Up to eight skates are on each set, with the number of skates per set
@@ -25,8 +25,8 @@ data in years when the number of hooks, hook spacing, or hook type varied"
 hooks with 18-foot spacing [@yamanaka2008iphc].
 
 For British Columbia waters, the survey has enumerated non-halibut species
-since 1995 (to varying degrees of species identification). 
-For each species, the catch rate of a set is the number of individuals caught 
+since 1995 (to varying degrees of species identification).
+For each species, the catch rate of a set is the number of individuals caught
 per effective skate.
 We bootstrap these catch rates within each year
 to give annual bootstrapped means, bias-corrected and adjusted
@@ -34,14 +34,14 @@ to give annual bootstrapped means, bias-corrected and adjusted
 variation (CV) [@efron1987].
 
 However, complications arise because of differing data
-collection protocols in different years. 
+collection protocols in different years.
 We seek a survey index that spans as long a time period as possible, and,
 ideally, also covers all the coastwide waters off British Columbia (excluding
 the Strait of Georgia which the IPHC survey does not enter). Although the
 spatial coverage and the technical details of the survey are not consistent from
 year to year (as described below), we attempt to construct a survey index for
-as many species as possible for as long a time period as possible. We also 
-determine whether each index can be considered representative of all British 
+as many species as possible for as long a time period as possible. We also
+determine whether each index can be considered representative of all British
 Columbia waters. For each species, the resulting index gives what we term
 the International Pacific Halibut Commission fishery independent survey series
 (IPHC FISS).
@@ -56,7 +56,7 @@ were extended to demonstrate that the index based on waters north of Vancouver
 Island could be considered representative of the coastwide population. See
 those examples for worked examples of most of the following calculations.
 
-## IPHC DATA 
+## IPHC DATA
 
 In British Columbia waters (IPHC area 2B), since 2003 a third observer has been
 deployed on the IPHC survey to identify all catch to the species level on a
@@ -79,7 +79,7 @@ operational reasons (particularly in areas of high catch rates), sometimes the
 
 \vspace{0mm}
 
-<!-- 
+<!--
 Table:  (\#tab:IPHCdata) Summary of available data from the IPHC stock assessment
 longline surveys. 'Data resolution' indicates at what level the data are
 available, and 'WCVI?' indicates whether or not the survey included locations
@@ -143,7 +143,7 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
 \end{table}
 
 
-From Table \@ref(tab:IPHCdata), four issues are apparent: 
+From Table \@ref(tab:IPHCdata), four issues are apparent:
 
 1. For 1997-2002 and 2013 only the first 20&nbsp;hooks of each skate were
 enumerated, whereas for all other years all hooks were enumerated. Thus, the
@@ -189,7 +189,7 @@ structure is summarised in Table \@ref(tab:seriesSumm)) for each species:
 
 **Series A** -- 1997-2017 stations north of WCVI, with catch rates based on
 first 20&nbsp;hooks only (which is all we have for 1997-2002 and 2013).
- 
+
 **Series B** -- 1995, 1996, 2003-2012 and 2014-2017 stations north of WCVI, with
 catch rates based on all hooks (which is all we have for 1995 and 1996).
 
@@ -210,7 +210,7 @@ are based on first 20 hooks only. See Section&nbsp;\@ref(sec:iphc-equations).
 
 The resulting Series&nbsp;AB covers the stations north of WCVI. In
 Sections&nbsp;\@ref(sec:iphc-AD) and&nbsp;\@ref(sec:iphc-BC) we show how we determine, for
-each species, 
+each species,
 whether we can consider
 this series to be representative of the full coast (i.e.&nbsp;including the WCVI), by
 comparing the series that exclude stations off the WCVI (Series&nbsp;A and&nbsp;B) with
@@ -220,12 +220,12 @@ those that include the stations off the WCVI (Series&nbsp;C and&nbsp;D, respecti
 
 For the IPHC survey, from 1995-1997 the stations were
 arranged in Y-shapes; they were not exactly the same locations each year, but
-fairly close to each other. Since 1998 
+fairly close to each other. Since 1998
 the stations have
 been positioned equidistant from one another on a fixed 10-nautical-mile square grid
 [@flemming2012iphc]. In 1999 the survey first
-went to the WCVI, did not go there in 2000, but has since 2001. See 
-@edwards2017redbanded and 
+went to the WCVI, did not go there in 2000, but has since 2001. See
+@edwards2017redbanded and
 @yamanaka2018yelloweyeoutside for maps that demonstrate the different coverage
 (and that show stations that caught Yelloweye and Redbanded Rockfish, respectively).
 
@@ -238,8 +238,8 @@ stations from 1998 onwards, despite not being on the exact same 10-nautical-mile
 square grid [@yamanaka2018yelloweyeoutside].
 Series&nbsp;C and&nbsp;D use all stations coastwide (by definition).
 
-Each year, a few stations may be declared unusable by the IPHC and are excluded 
-from our analyses (e.g., the 
+Each year, a few stations may be declared unusable by the IPHC and are excluded
+from our analyses (e.g., the
 hook-tally sheet got blown overboard for station 2113 in the year 2008), with
 usability codes described in Table\ \@ref(tab:iphc-set-codes). In particular,
 we include stations deemed as 'Usable but omit from any geospatial analysis',
@@ -326,7 +326,7 @@ that were deployed. The bait experiment has not been repeated.
 
 ### CATCH RATE BASED ON ALL CHUM-BAIT HOOKS
 
-For each species of interest, we wish to obtain a catch rate index which, 
+For each species of interest, we wish to obtain a catch rate index which,
 for each year, will be the mean catch rate across all sets that year.
 The units will be numbers of individuals
 caught per effective skate. We only want to consider hooks that used
@@ -381,7 +381,7 @@ not the first 20 *observed* hooks (so not all of the numbered hooks may
 have been observed). Thus, we have:
 
 $\tilde{H}_{it}$ -- number of observed chum-bait hooks in the first 20 hooks of
-all skates in set&nbsp;$i$ in year&nbsp;$t$, 
+all skates in set&nbsp;$i$ in year&nbsp;$t$,
 
 $\tilde{E}_{it}$ -- effective skate number of set&nbsp;$i$ in year&nbsp;$t$ based on the
 first 20 chum-bait hooks that were sent out on each skate.
@@ -389,7 +389,7 @@ first 20 chum-bait hooks that were sent out on each skate.
 Since effective skate number is a linear function of the number of hooks in a
 set [@yamanaka2008iphc], we have
 \begin{equation}
-\tilde{E}_{it} = \dfrac{\tilde{H}_{it}}{H_{it}} E_{it} 
+\tilde{E}_{it} = \dfrac{\tilde{H}_{it}}{H_{it}} E_{it}
   \left( = \dfrac{\tilde{H}_{it}}{H_{it}^*} E_{it}' \right).
 \label{effSkateScale}
 \end{equation}
@@ -405,7 +405,7 @@ each skate,
 
 $\tilde{C}_{it}$ -- catch rate (with units of numbers per effective skate) for
 set $i$ in year $t$, based only on the first 20 hooks of each skate (and only
-skates with chum as bait), such that 
+skates with chum as bait), such that
 \begin{equation}
 \tilde{C}_{it} =
   \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
@@ -415,27 +415,27 @@ The catch rate index for year $t$,
 $\tilde{I}_t$ (in units of numbers per effective skate), based on only
 the first 20 hooks of each skate, is then the mean catch rate across all sets:
 \begin{equation}
-\tilde{I}_t = \frac{1}{\tilde{n}_t} 
-  \sum_{i=1}^{\tilde{n}_t} \tilde{C}_{it} 
+\tilde{I}_t = \frac{1}{\tilde{n}_t}
+  \sum_{i=1}^{\tilde{n}_t} \tilde{C}_{it}
   = \frac{1}{\tilde{n}_t} \sum_{i=1}^{\tilde{n}_t} \frac{\tilde{N}_{it}}{\tilde{E}_{it}}.
 \label{index20}
 \end{equation}
 
-We base calculations on bootstrapped means, and so $I_t$ and $\tilde{I}_t$ are 
-calculate, for each year, by re-sampling the catch rates ($C_{it}$ 
+We base calculations on bootstrapped means, and so $I_t$ and $\tilde{I}_t$ are
+calculate, for each year, by re-sampling the catch rates ($C_{it}$
 or $\tilde{C}_{it}$) 1,000 times and calculating a bootstrapped mean and
-95\% bias-corrected and adjusted confidence interval. 
+95\% bias-corrected and adjusted confidence interval.
 
 ### EQUIVALENCY OF CATCH RATES BASED ON ALL HOOKS AND ON JUST THE FIRST 20 HOOKS
 
-Equation \@ref(eq:catchPerSet20) can be written as 
+Equation \@ref(eq:catchPerSet20) can be written as
 \begin{equation}
-\tilde{C}_{it} = \frac{\tilde{N}_{it}}{\tilde{E}_{it}} = 
+\tilde{C}_{it} = \frac{\tilde{N}_{it}}{\tilde{E}_{it}} =
   \frac{H_{it}}{\tilde{H}_{it}} \frac{\tilde{N}_{it}}{E_{it}}.
 \label{tildeCatchPerSet}
 \end{equation}
 If all hooks are equally likely to catch an individual of the given species,
-then the catch rates based on the first 20 hooks of each skate should be an 
+then the catch rates based on the first 20 hooks of each skate should be an
 unbiased sample of the catch rates based on all the hooks.
 The ratio of individuals caught, $\tilde{N}_{it} / N_{it}$, should equal (on average)
 the ratio of hook numbers, $\tilde{H}_{it} / H_{it}$, because a proportionally
@@ -465,7 +465,7 @@ knitr::include_graphics("figure/temp2/notscaled.png", dpi = NA)
 ### CONSTRUCTING SERIES AB
 
 For each species, we wish to join up the 1995 and 1996 data from Series&nbsp;B (based on all
-hooks) to the 1997-2017 data from Series&nbsp;A. 
+hooks) to the 1997-2017 data from Series&nbsp;A.
 The 1995 and 1996 data are only available as numbers
 of individuals caught for all hooks, and not as numbers caught in the first 20
 hooks. For 1997-2002 and 2013 we only have numbers caught for the
@@ -475,15 +475,15 @@ compute catch rates for all hooks or based on just the first 20 hooks
 (i.e.&nbsp;these overlapping years are the only years that contribute to both
 Series&nbsp;A and Series&nbsp;B).
 
-<!-- 
+<!--
 Figure caption from YYR:  \twofig{bcaKeepSerAB1}{bcaKeepSerAB2}{(a) Each of the two catch rate series from Figure \ref{fig:bcaKeepSerA} is divided by the geometric mean of its bootstrapped annual means (with the geometric mean based on the overlapping years only). (b) The catch rate index Series&nbsp;AB that could be used as a model input (although the index in Appendix&nbsp;C was used in this stock assessment). Series&nbsp;AB extends the original Series&nbsp;A by incorporating the suitably scaled 1995 and 1996 values from Series&nbsp;B (see text).}
 -->
 
 For Series&nbsp;A, define $G_A$ to be the geometric mean of the bootstrapped annual
 means, with the geometric mean based only on the overlapping years (2003-2012
 and 2014 onwards). Define $G_B$ similarly for Series B. By dividing the bootstrapped
-values for each series by their respective geometric means, we obtain 
-Figure \@ref(fig:iphc-ser-plots-2)a. This shows that the rescaled Series A 
+values for each series by their respective geometric means, we obtain
+Figure \@ref(fig:iphc-ser-plots-2)a. This shows that the rescaled Series A
 and Series B
 are very similar for the overlapping years. Thus, on this scale, the 1995 and
 1996 values from Series B look comparable to the full Series A data.
@@ -495,26 +495,26 @@ knitr::include_graphics("figure/temp2/rescaled.png", dpi = NA)
 
 \vspace{0mm}
 
-We statistically test the comparability by conducting a 
+We statistically test the comparability by conducting a
 paired t-test [@crawley2002] on the scaled annual means for the overlapping years, to test the null
-hypothesis that there is no difference between the scaled annual means, with 
+hypothesis that there is no difference between the scaled annual means, with
 resulting $p$-value defined as $p_{AB}$.
 If $p_{AB} \geq 0.05$ then we cannot reject the null hypothesis. Then we join
 up the two series in Figure \@ref(fig:iphc-ser-plots-2)(a) by taking the rescaled 1995 and 1996 values
 from Series&nbsp;B and joining to the rescaled Series&nbsp;A. Equivalently,
-we just multiply the original Series-B means and confidence intervals for 1995 
-and 1996 by 
-$G_A/G_B$, and then join them up to the original Series&nbsp;A, as in Figure 
+we just multiply the original Series-B means and confidence intervals for 1995
+and 1996 by
+$G_A/G_B$, and then join them up to the original Series&nbsp;A, as in Figure
 \@ref(fig:iphc-ser-plots-2)b, to get
 the longest time series possible, based on the first 20&nbsp;hooks from each
 skate, rescaled for 1995 and 1996 for which numbers for the first 20&nbsp;hooks
 are not available.
 
 If $p_{AB} < 0.05$ then we cannot join the series, and so we stick with
-Series&nbsp;A as being the longest. 
+Series&nbsp;A as being the longest.
 
 <!-- Too much to go through a species, but show summary information table for
-each year, number of usable sets coastwide and north of VI, 
+each year, number of usable sets coastwide and north of VI,
 mean effective skate number based on all hooks and based on
 first 20.-->
 
@@ -523,7 +523,7 @@ first 20.-->
 
 We now consider Series&nbsp;D, which is for the first 20&nbsp;hooks of each
 skate (like for Series&nbsp;A) but covers the whole coast, including the WCVI
-(unlike Series&nbsp;A), as was summarised in Table\ \ref{tab:seriesSumm}. 
+(unlike Series&nbsp;A), as was summarised in Table\ \ref{tab:seriesSumm}.
 
 In the same way that we just compared Series&nbsp;A and Series&nbsp;B, we
 divide each series by its geometric mean ($G_A$ or $G_D$, based on the
@@ -536,7 +536,7 @@ Again, if $p_{AD} \geq 0.05$ then we consider the two series comparable.
 For Series&nbsp;A and Series&nbsp;D this means that we can consider
 the relative changes in Series&nbsp;A (that excludes WCVI) to be the same as
 those in Series&nbsp;D (that includes the full coast), and hence we can consider
-Series&nbsp;A to be representative of the full coast. So the population off the 
+Series&nbsp;A to be representative of the full coast. So the population off the
 WCVI is not showing a different relative trend to the rest of the coast.
 
 We do not need to join up the two series, we just wish to verify whether the
@@ -546,14 +546,14 @@ coast. If $p_{AD}<0.05$ then this is not the case.
 For the last Yelloweye Rockfish assessment [@yamanaka2018yelloweyeoutside],
 the relative scaled patterns for Series&nbsp;A and Series&nbsp;D appeared similar for the
 overlapping years (though no statistical test was done).
-But the *absolute* catch rates were different, 
+But the *absolute* catch rates were different,
 with inclusion of the WCVI stations in Series&nbsp;D consistently reducing
 the mean annual catch rates from those of Series&nbsp;A
 (that did not include the WCVI stations),
 with $G_A/G_D=1.12$ for the
 overlapping years (it would equal 1 if the catch rates were the same).
 The stations off the WCVI had lower average catch rates of Yelloweye Rockfish
-than the remaining stations. 
+than the remaining stations.
 
 So, while inclusion of the
 WCVI stations does not appear to change the *relative* pattern of the index
@@ -565,10 +565,10 @@ Series&nbsp;A).
 
 ### CONSTRUCTING SERIES&nbsp;C (ALL HOOKS, COASTWIDE) AND COMPARING IT WITH SERIES&nbsp;B (ALL HOOKS, NORTH OF VANCOUVER ISLAND) {#sec:iphc-BC}
 
-Similarly, we also construct Series&nbsp;C, which is for all hooks from each 
+Similarly, we also construct Series&nbsp;C, which is for all hooks from each
 skate (like for
 Series&nbsp;B) but covers the whole coast, including the WCVI (unlike Series&nbsp;B), as
-was summarised in Table&nbsp;\ref{tab:seriesSumm}. 
+was summarised in Table&nbsp;\ref{tab:seriesSumm}.
 
 We again compare each series scaled by its geometric mean of the overlapping
 years and conduct
@@ -582,7 +582,7 @@ those of the full coast (Series&nbsp;C).
 For the last Yelloweye Rockfish assessment [@yamanaka2018yelloweyeoutside],
 similarly to Series&nbsp;A and&nbsp;D just discussed, the relative scaled patterns for Series&nbsp;B and Series&nbsp;C appeared similar for the
 overlapping years.
-But the *absolute* catch rates were different, 
+But the *absolute* catch rates were different,
 with inclusion of the WCVI stations in Series&nbsp;C consistently reducing
 the mean annual catch rates from those of Series&nbsp;B
 (that did not include the WCVI stations),
@@ -590,17 +590,17 @@ with $G_B/G_C=1.11$ for the
 overlapping years.
 
 So, the stations off the WCVI had lower average catch rates of Yelloweye Rockfish
-than the remaining stations. This holds whether we look at all hooks (here) 
-or just the first 20 by comparing Series&nbsp;A and&nbsp;D (above). 
+than the remaining stations. This holds whether we look at all hooks (here)
+or just the first 20 by comparing Series&nbsp;A and&nbsp;D (above).
 
 ### RESULTING LONGEST INDEX FROM THE IPHC SURVEY
 
-So, if $p_{AB} \geq 0.05$ then Series&nbsp;AB can be created and that is the 
+So, if $p_{AB} \geq 0.05$ then Series&nbsp;AB can be created and that is the
 longest IPHC survey index that can be constructed. If $p_{AD} \geq 0.05$ and
 $p_{BC} \geq 0.05$ then Series&nbsp;A and Series&nbsp;B can be considered
 representative of the full coast, and thus so can Series&nbsp;AB.
 
-If $p_{AB} \geq 0.05$ but either 
+If $p_{AB} \geq 0.05$ but either
 $p_{AD} < 0.05$ or
 $p_{BC} < 0.05$
 then Series&nbsp;AB is still the longest time series possible but can
@@ -618,21 +618,30 @@ year (resulting in a zero catch rate rather than 'no data').
 Also, a shorter time series from all hooks (Series\ B or\ C) may be more informative
 than a longer time series based on just the first 20\ hooks. All series are
 calculated for all species and should be examined further to make any subsequent
-inferences. 
+inferences.
+
+Furthermore, although some species are rarely caught in IPHC survey,
+we have shown all available data (rather than setting a minimum requirement
+that a certain number of individuals need to be caught in any one year or over
+the full time series). This sometimes creates strange see-saw patterns when a species is
+caught in only some years (e.g., Greenstriped Rockfish in
+Section \@sec:greenstriped-rockfish). However, this is unavoidable given our
+aim of showing all the available data, and further demonstrates the need to examine the
+data for a thorough understanding regarding any particular species.
 
 ## HOOK COMPETITION
 
 The above approach was used by @yamanaka2018yelloweyeoutside to show how to
 construct an index for Yelloweye Rockfish that was representative of the full
 coast and went back to 1995. Another approach was used to generate an index
-for the assessment model (Marie Etienne et al., 
-*Extracting abundance indices from longline surveys: a method to account for hook 
+for the assessment model (Marie Etienne et al.,
+*Extracting abundance indices from longline surveys: a method to account for hook
 competition and unbaited hooks*, unpublished manuscript). This attempted to
-account for the effect of individual fish competing for the bait that is on the 
+account for the effect of individual fish competing for the bait that is on the
 hooks.
 
 If some of the hooks on a set have caught individual fish, then those hooks are
-no longer actively fishing. Incorporation of such 'hook competition' 
+no longer actively fishing. Incorporation of such 'hook competition'
 involves scaling up the catch rates to account for the fact that not all of the
 observed hooks were fishing for the duration of the soak time.
 
@@ -653,7 +662,7 @@ in year $t$, based on observed chum-bait hooks,
 $F_{its}$ -- the local rate of capture of bait by species $s$ around set $i$ in
 year $t$.
 
-The number $N_{its}^{(0)}$ is proportional to the true local density of that 
+The number $N_{its}^{(0)}$ is proportional to the true local density of that
 species, and so
 is what we wish to use as an index of abundance. And, by definition,
 \begin{equation}
@@ -695,7 +704,7 @@ N_{its}^{(0)} = \frac{Z_{it}}{1 - \mathrm{e}^{- Z_{it}}} N_{its}.
 
 Define $P_{it}$ to be the proportion of observed chum-bait hooks
 (for set $i$ in year $t$) that are returned still having the bait on them (and are therefore
-assumed to be continuously actively fishing). The remaining baits are 
+assumed to be continuously actively fishing). The remaining baits are
 captured by a fish or lost (either dropped off the hook or taken by a fish that
 was not
 subsequently caught by the hook). Considering
@@ -719,8 +728,8 @@ Substituting from \@ref(eq:sumsNits) and \@ref(eq:Zit) gives
 \begin{align}
 {{H_{it}}} \left(1 -  P_{it} \right) & = Z_{it} H_{it}
   \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}} \\
-1 -  P_{it} & = 
-  1 - \mathrm{e}^{- Z_{it}} 
+1 -  P_{it} & =
+  1 - \mathrm{e}^{- Z_{it}}
   \label{eq:oneminP} \\
 Z_{it} & = - \ln P_{it}.
   \label{eq:zitP}
@@ -732,7 +741,7 @@ N_{its}^{(0)} & = \frac{-\ln P_{it}}{1 - P_{it}} N_{its} \\
               & = A_{it} N_{its},
 \label{eq:Nits0rearrange2}
 \end{align}
-where 
+where
 \begin{equation}
 A_{it} = \frac{-\ln P_{it}}{1 - P_{it}}
 \end{equation}
@@ -755,29 +764,29 @@ proportion $P_{it}$ of observed hooks that are returned still with bait on them.
 \vspace{0mm}
 
 Note that, by definition, $0 \leq P_{it} \leq 1$, and so $\ln P_{it} \leq 0$. As
-$P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule 
+$P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule
 <!--may need a REF, Kreyszig doesn't have it-->
 \begin{align}
 \lim_{P_{it} \rightarrow 1} A_{it} & = \lim_{P_{it} \rightarrow 1} \frac{-\ln P_{it}}{1 - P_{it}}\\
  & = \dfrac{\lim_{P_{it} \rightarrow 1} (-1 / P_{it})}{\lim_{P_{it} \rightarrow 1} (-1)}\\
   & = 1,
 \end{align}
-such that $N_{its}^{(0)} = N_{its}$, which equals $0$ (because if all 
-all hooks are returned with bait on then $N_{its} = 0$ 
-for all species $s$).  
+such that $N_{its}^{(0)} = N_{its}$, which equals $0$ (because if all
+all hooks are returned with bait on then $N_{its} = 0$
+for all species $s$).
 
 \vspace{0mm}
 
 However, as $P_{it} \rightarrow 0$, $A_{it} \rightarrow
 \infty$, such that the expected number $N_{its}^{(0)} \rightarrow \infty$.
 In practice this
-happens fairly often. There are 
+happens fairly often. There are
 `r nrow(bait_set_counts)`
-sets in the data. Of the 
-`r nrow(filter(bait_set_counts, !is.na(N_it)))` 
+sets in the data. Of the
+`r nrow(filter(bait_set_counts, !is.na(N_it)))`
 for which all hooks on each skate were enumerated,
 `r nrow(filter(bait_set_counts, N_it == 0))`
-had $P_{it} = 0$. Considering the 
+had $P_{it} = 0$. Considering the
 `r nrow(filter(bait_set_counts, !is.na(N_it20)))`
 sets for which we can calculate catch rates based on the first 20\ hooks of each
 skate (i.e.\ all years except 1995 and 1996),
@@ -785,7 +794,7 @@ skate (i.e.\ all years except 1995 and 1996),
 had $P_{it}=0$ for the first 20\ hooks.
 
 Therefore, the choice of what to use for $A_{it}$ when $P_{it} = 0$ is important,
-since it will often scale up the observed catch rates via equation 
+since it will often scale up the observed catch rates via equation
 \@ref(eq:Nits0rearrange2).
 One option would be to set it to the value obtained if only one hook with bait
 is returned for a set. For a set with 800 observed hooks (essentially the
@@ -795,14 +804,14 @@ $A_{it} = 6.69$ (Figure \@ref(fig:iphc-hook-comp-adjustment)).
 Figures \@ref(fig:iphc-hook-with-bait) and \@ref(fig:iphc-hook-with-bait-twenty)
 show how the number of hooks returned with baits in each set varies between years
 (though some of this is due to varying numbers of hooks returned). These show
-that the influence of hook competition may well vary between years, and thus if 
+that the influence of hook competition may well vary between years, and thus if
 hook competition is to be considered it needs to be carefully implemented.
 
 ```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set for each year in which all hooks were enumerated.", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it) ) +
     xlab("Number of hooks returned each year") +
-    ylab("Frequency") +    
+    ylab("Frequency") +
     geom_histogram() +
     facet_wrap(. ~ year, ncol=4)
 ```
@@ -811,7 +820,7 @@ ggplot(data=bait_set_counts,
 ggplot(data=bait_set_counts,
        aes(N_it20)) +
     xlab("Number of hooks returned each year") +
-    ylab("Frequency") +    
+    ylab("Frequency") +
     geom_histogram() +
     facet_wrap(. ~ year, ncol=4)
 # be good to have the 20 hook ones in different colour, or just do all N_it20 except for 1995 and 1996
