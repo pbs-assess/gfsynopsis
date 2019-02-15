@@ -43,6 +43,7 @@
 #' @importFrom grDevices dev.off pdf png
 #' @importFrom ggplot2 labeller theme element_blank ggtitle
 #' @importFrom grid unit
+#' @importFrom rosettafish en2fr
 
 make_pages <- function(
   dat,
@@ -70,7 +71,8 @@ make_pages <- function(
   survey_map_outlier = 1,
   synoptic_max_survey_years = 2017:2018,
   hbll_out_max_survey_years = 2016:2017,
-  parallel = FALSE
+  parallel = FALSE,
+  translate = FALSE
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -92,7 +94,6 @@ make_pages <- function(
   dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
   dat$survey_index <- dplyr::filter(dat$survey_index, species_common_name == spp)
-  # TODO fix:
   dat$age_precision <- dplyr::filter(dat$age_precision,
     species_code == unique(dat$survey_sets$species_code))
 
@@ -254,7 +255,7 @@ make_pages <- function(
       bin_size = bin_width, min_total = min_total) +
       guides(colour = FALSE, fill = FALSE)
   } else {
-    g_lengths <- ggplot() + theme_pbs() + ggtitle("Length frequencies")
+    g_lengths <- ggplot() + theme_pbs() + ggtitle(en2fr("Length frequencies", translate))
   }
 
   # Aging precision: -----------------------------------------------------------
@@ -281,7 +282,7 @@ make_pages <- function(
     if (!is.na(cpue_index[[1]])) { # enough vessels?
 
       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
-        ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
+        ggplot2::ggtitle(en2fr("Commercial bottom-trawl CPUE", translate)) +
         ylab("") + xlab("") +
         ggplot2::theme(
           axis.title.y = element_blank(),
@@ -296,7 +297,7 @@ make_pages <- function(
         expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
           levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")), year = 2000,
           est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
-      ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
+      ggplot2::ggtitle(en2fr("Commercial bottom-trawl CPUE", translate)) +
       ylab("") + xlab("") +
       ggplot2::theme(
         axis.title.y = element_blank(),
