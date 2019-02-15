@@ -24,6 +24,7 @@ out <- foreach::foreach(sp = all$spp, surv = all$survs,
     ), error = function(e) NA)
   }
 doParallel::stopImplicitCluster()
+dir.create(here::here("report/geostat-cache"), showWarnings = FALSE)
 saveRDS(out, file = here::here("report/geostat-cache/spt-index-out.rds"))
 
 index <- purrr::map_df(out, function(x) {
