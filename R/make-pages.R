@@ -393,7 +393,7 @@ make_pages <- function(
       axis.title.y = element_blank(),
       axis.text.y = element_blank(),
       axis.ticks.y = element_blank()
-    ) + ggplot2::ggtitle("Survey relative biomass indices")
+    ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", translate))
 
   # Specimen numbers: ----------------------------------------------------------
 
@@ -407,7 +407,7 @@ make_pages <- function(
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, max(synoptic_max_survey_years))) +
-    ggplot2::ggtitle("Survey specimen counts")
+    ggplot2::ggtitle(en2fr("Survey specimen counts", translate))
   suppressMessages({g_survey_samples <- g_survey_samples +
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
 
@@ -415,7 +415,7 @@ make_pages <- function(
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples)
   if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
     g_maturity_month <- ggplot() + theme_pbs() +
-      ggtitle("Maturity frequencies")
+      ggtitle(en2fr("Maturity frequencies", translate))
   } else {
     g_maturity_month <- dat_tidy_maturity_months %>%
       plot_maturity_months(min_fish = 0) +
@@ -457,7 +457,7 @@ make_pages <- function(
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
     g_vb <- ggplot2::ggplot() + theme_pbs() +
-      xlab("Age (years)") + ylab("Length (cm)") +
+      xlab(en2fr("Age (years)", translate)) + ylab(en2("Length (cm)", translate)) +
       ggtitle("Growth")
     g_length_weight <- ggplot2::ggplot() + theme_pbs() +
       xlab("Length (cm)") + ylab("Weight (kg)") +
