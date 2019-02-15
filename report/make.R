@@ -1,5 +1,5 @@
 # This file generates all the main synopsis figures in `report/figure-pages`.
-# It must be run from before the report can be rendered.
+# It must be run before the report can be rendered.
 # Must be run from the root folder (gfsynopsis/), using source("report/make.R").
 library(here)
 library(dplyr)
