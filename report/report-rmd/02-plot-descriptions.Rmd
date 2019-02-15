@@ -81,12 +81,13 @@ fish density values from the raw data for the entire coast for the indicated yea
 `r map_text`
 
 ```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="4.0in", fig.cap="(ref:survey-maps-cap)", fit.pos="H"}
-
 trans <- "fourth_root_power"
-
+units_transformation <- (1000 * 1000) / 1000
+breaks <- c(0.002, 0.05, 0.3)
 p1 <- g$survey_spatial_syn +
-  labs(fill = "Predicted\nbiomass\ndensity\n(kg/m^2)") +
-  ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(0.1, 0.6)) +
+  labs(fill = "Predicted\nbiomass\ndensity\n(kg/km^2)", parse = TRUE) +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = breaks, 
+    labels = breaks * units_transformation) +
   guides(fill = guide_colorbar(), size = FALSE)
 
 p2 <- g$survey_spatial_hbll +
