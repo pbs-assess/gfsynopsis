@@ -2,9 +2,9 @@
 
 We modelled the expected biomass density in space for each species using
 geostatistical models applied to data from the fisheries independent bottom
-trawl and long line surveys (e.g., Figure \@ref(fig:survey-maps)). Our modeling
+trawl and longline surveys (e.g., Figure \@ref(fig:survey-maps)). Our modeling
 approach is consistent with recent models used for spatial modelling and
-spatiotemporal index standardization of groundfish populations [e.g.
+spatiotemporal index standardization of groundfish populations [e.g.,
 @shelton2014; @ward2015; @thorson2015; @thorson2016], but has not, to our knowledge, 
 previously been applied in DFO Research Documents. Such models have been
 shown, for example, to improve estimates of rockfish abundance and distribution
@@ -19,7 +19,7 @@ as a continuous process with a quadratic effect for bottom depth, spatial
 random effects that represent an amalgamation of spatial processes not
 explicitly included in the model, and an observation error component. After
 fitting the model to survey sets from trawl or longline surveys, we then
-project the model predictions onto a 2 $\times$ 2 km grid in a UTM 9 projection
+project the model predictions onto a 2 km $\times$ 2 km grid in a UTM 9 projection
 to derive estimates of biomass throughout the survey domain.
 
 Similarly to the commercial catch per unit effort standardization models
@@ -42,7 +42,7 @@ a covariance matrix $\bm{\Sigma}_\omega$ that is centered on zero:
 
 $$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
 
-We constrain the spatial random effects to follow a \mbox{Mat\'ern} covariance
+We constrained the spatial random effects to follow a \mbox{Mat\'ern} covariance
 function, which defines the rate with which spatial correlation decays with
 distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern} function
 describes the covariance $\Phi \left( s_j, s_k \right)$ between spatial
@@ -77,12 +77,12 @@ a fixed random seed to ensure reproducible results.
 
 Instead of directly modelling the effects of depth and depth squared, we first
 standardized the log-transformed depth covariate by subtracting its mean and scaling
-it by its standard deviation. We then calculate 'depth squared' from this
+it by its standard deviation. We then calculated 'depth squared' from this
 centred and scaled variable. This ensures the covariate values are not too
 large or small to avoid computational issues and the centring separates the
 linear and quadratic predictor components.
 
-We fit the four synoptic survey data sets separately, because only two of the
+We fit the four synoptic survey data sets separately because only two of the
 surveys are conducted each year and the surveys are disjointed in space and
 time. Similarly, we fit the North and South HBLL surveys independently. We
 combined the predictions to generate the map plots but labelled the years in
