@@ -69,12 +69,11 @@
            {hyperref}
 \hypersetup{colorlinks,
             plainpages=true,
-            linkcolor=NavyBlue,
-            citecolor=NavyBlue,
-            urlcolor=NavyBlue,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue,
             bookmarksopen=true,
             bookmarksopenlevel=1}
-
 %% ------------------------------------------------------------------------------
 
 %% ------------------------------------------------------------------------------
@@ -178,8 +177,11 @@
 %% The bibliography is renamed REFERENCES as well.
 \makeatletter
 %% These two commands are required to use Arial for the document.
-\renewcommand{\rmdefault}{phv}
-\renewcommand{\sfdefault}{phv}
+% \renewcommand{\rmdefault}{phv}
+% \renewcommand{\sfdefault}{phv}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 
 %% Useful shortcuts for equations
 \newcommand{\eb}{\begin{eqnarray}}
@@ -317,7 +319,7 @@
 \newcommand{\starredchapter}[1]{
   \clearpage
   %% Make spacing between top of page and heading less.
-  \vspace*{-50\p@}
+  \vspace*{-40\p@}
   \phantomsection
   %% Add the appendix name to the table of contents.
   \addcontentsline{toc}{chapter}{#1}\chapter*{#1}
@@ -327,7 +329,7 @@
 \newcommand{\abstract}{
   \clearpage
   %% Make spacing between top of page and heading less.
-  \vspace*{-50\p@}
+  \vspace*{-40\p@}
   \phantomsection
   %% Add the appendix name to the table of contents.
   \addcontentsline{toc}{section}{ABSTRACT}\nonumsection*{ABSTRACT}
@@ -534,8 +536,7 @@
 \usepackage{lastpage}
 
 % https://tex.stackexchange.com/questions/311132/how-to-style-hrefs-underlined-and-coloured-throughout-the-document
-\usepackage{soul}
-\usepackage[dvipsnames,svgnames,x11names,hyperref]{xcolor}
+\usepackage{xcolor,soul}
 \usepackage{pdfcomment}
 
 
@@ -604,7 +605,7 @@
 
 \thispagestyle{empty}
 
-\newgeometry{top=0.5in,bottom=0.6in,left=1in,right=1in}
+\newgeometry{top=0.5in,bottom=0.5in,left=1in,right=1in}
 
 \includegraphics[width=9.14cm]{\locRepo/images/title-header.png}
 
@@ -619,7 +620,7 @@
 
 \vspace{0.2cm}
 
-\textbf{Pacific Region}
+\textbf{\rdRegion{}}
 
 \vspace*{\fill}
 \begin{center}
@@ -697,7 +698,23 @@ DFO Can.\ Sci.\ Advis.\ Sec.\ Res.\ Doc. \rdYear{}/\rdNumber{}.
 
 \clearpage
 
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\sffamily\selectfont\thepage} % except the center
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}}
+\pagestyle{plain}
+
 \TableOfContents
+
+% \fancypagestyle{plain}{%
+% \fancyhf{} % clear all header and footer fields
+% \fancyfoot[C]{\sffamily\selectfont\thepage} % except the center
+% % \fancyfoot[L]{\slshape \rightmark}
+% % \fancyfoot[L]{\slshape \leftmark}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}}
+% \pagestyle{plain}
 
 \Main
 

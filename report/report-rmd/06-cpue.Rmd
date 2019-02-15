@@ -2,7 +2,7 @@
 
 We sought to generate an index of abundance from commercial trawl catch per
 unit effort data that was standardized for depth, fishing locality (defined
-spatial regions; Figure \@ref(fig:cpue-locality-map)) month, vessel, and
+spatial regions; Figure \@ref(fig:cpue-locality-map)), month, vessel, and
 latitude. Before fitting a standardization model, we had to filter and
 manipulate the available catch and effort data to generate a dataset
 appropriate for model fitting. In the following sections we describe those
@@ -37,7 +37,7 @@ of five trips (trips that recorded some of the species) for at least five years
 ## DEFINING THE STANDARDIZATION MODEL PREDICTORS
 
 For depth and latitude, we binned the values into a sequence of bands to allow
-for nonlinear relationships between these predictors and CPUE [e.g.
+for nonlinear relationships between these predictors and CPUE [e.g.,
 @maunder2004a]. For depth, we binned trawl depth into bands 25m wide. For
 latitude, we used bands that were 0.1 degrees wide. To ensure sufficient data
 to estimate a coefficient for each factor level, we limited the range of depth
@@ -54,7 +54,7 @@ factor level as the base level --- a common choice for these types of models
 observed in the dataset filtered for only tows where the species was caught.
 This choice of base level only affects the intercept or relative magnitude of
 our index because of the form of our model (discussed below) and makes no
-functional difference in the commercial CPUE timeseries presented in this
+functional difference in the commercial CPUE time series presented in this
 report since they are all scaled to that same maximum and displayed without
 units.
 
@@ -65,7 +65,7 @@ A variety of approaches have been used in the fishery literature to model such
 data. One approach has been to fit a delta-GLM (generalized linear model) ---
 a model that fits the zero vs. non-zero values with a logistic regression (a
 binomial GLM and a logit link) and the positive values with a linear regression
-fit to log-transformed data or a Gamma GLM with a log link [e.g. @maunder2004a;
+fit to log-transformed data or a Gamma GLM with a log link [e.g., @maunder2004a;
 @thorson2013]. The probability of a non-zero CPUE from the first component can
 then be multiplied by the expected CPUE from the second component to derive an
 unconditional estimate of CPUE. However, this approach suffers from a number of
@@ -75,14 +75,14 @@ issues:
    models.
 1. In the typical delta-GLM approach, the two models are fit with separate
    links and so the coefficients cannot be combined.
-1. The delta-GLM approach assumes independence among the two components [e.g.
+1. The delta-GLM approach assumes independence among the two components [e.g.,
    @thorson2017].
 1. Perhaps most importantly for our purpose, a delta-GLM in which the two
    models use different links renders a final index in which the index trend is
    dependent on the specific reference levels that the predictors are set to
-   [e.g. @maunder2004a].
+   [e.g., @maunder2004a].
 
-The Tweedie distribution [@jorgensen1987] solves the above problems [e.g.
+The Tweedie distribution [@jorgensen1987] solves the above problems [e.g.,
 @candy2004; @shono2008; @foster2013; @lecomte2013; @thorson2017] but has not
 seen widespread use presumably mostly because of the computational expense of
 calculating the Tweedie probability density function. Recently, the Tweedie
@@ -100,7 +100,7 @@ referred to as the compound-Poisson-Gamma distribution in this bounded case. We
 note, however, that the compound-Poisson-Gamma distribution is often used to
 refer to a re-parameterization in which the Poisson and Gamma components are
 fit so that they are not assumed to have the same predictive coefficients as
-they are in the Tweedie distribution [e.g. @foster2013; @lecomte2013].
+they are in the Tweedie distribution [e.g., @foster2013; @lecomte2013].
 
 We fit the Tweedie GLMM (generalized linear mixed effect model) as
 
@@ -128,7 +128,8 @@ effort (hours trawled), $\bm{X_i}$ represents a vector of fixed-effect
 predictors (depth bins, months, latitude bins), $\bm{\beta}$ represents
 a vector of coefficients, and $\mu_i$ represents the expected CPUE in a tow.
 The random effect intercepts ($\alpha$ symbols) are allowed to vary from the
-overall intercept by locality $j$ (\(\alpha^\mathrm{locality}_j\)),
+overall intercept by locality (Figure \@ref(fig:cpue-locality-map)
+$j$ (\(\alpha^\mathrm{locality}_j\)),
 locality-year $k$ (\(\alpha^\mathrm{locality-year}_k\)), and vessel $l$
 (\(\alpha^\mathrm{vessel}_l\)) and are constrained by normal distributions with
 respective standard deviations denoted by $\sigma$ parameters. By including the
@@ -152,7 +153,7 @@ statistical software TMB via the R package glmmTMB. We used standard errors
 ($\mathrm{SE}$) as calculated by TMB on $\log (\mu_t)$ via the generalized
 delta method. We then calculated the 95\% Wald confidence intervals as $\exp
 (\mu_t \pm 1.96 \mathrm{SE}_t)$. For comparison, we calculated an
-unstandardized timeseries by summing the catch each year and dividing it by the
+unstandardized time series by summing the catch each year and dividing it by the
 summed effort each year (the dashed lines on the figure pages).
 
 ```{r cpue-loaded-data}
@@ -232,4 +233,44 @@ distribution with the same standard deviation.
 ```{r cpue-quantile-residuals, fig.width=6, out.width="4in", fig.cap="(ref:caption-cpue-quantile-residuals)", eval=FALSE}
 qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
 gfplot::plot_qres_histogram(qr)
+```
+
+\clearpage
+
+```{r cpue-get-model-params, eval=TRUE, results='asis'}
+files <- list.files(here::here('report/cpue-cache'), pattern = "-model")
+library("doParallel")
+registerDoParallel(cores = parallel::detectCores())
+cpue_models_summary_file <- here::here("report/cpue-cache/model-summaries.rds")
+if (!file.exists(cpue_models_summary_file)) {
+  cpue_models_summary <- plyr::ldply(files, function(f) {
+    # cat(f, "\n")
+    this_model <- readRDS(here::here('report/cpue-cache', f))
+    if (length(this_model) > 1L) {
+      broom_model <-
+        tibble(species = gsub("([a-z-]+)-[A-Z0-9]+-model.rds", "\\1", f)) %>%
+        mutate(species = gsub('-', ' ', species)) %>%
+        mutate(area = gsub("([a-z-]+)-([A-Z0-9]+)-model.rds", "\\2", f)) %>%
+        mutate(sigma = sigma(this_model)) %>%
+        mutate(thetaf = plogis(exp(this_model$fit$par[["thetaf"]])) + 1) %>%
+        mutate(vessel = glmmTMB::VarCorr(this_model)$cond$vessel[1,1]) %>%
+        mutate(locality = glmmTMB::VarCorr(this_model)$cond$locality[1,1]) %>%
+        mutate(year_locality = glmmTMB::VarCorr(this_model)$cond$year_locality[1,1])
+    }
+  }, .parallel = TRUE) %>%
+    arrange(species, area)
+  saveRDS(cpue_models_summary, file = cpue_models_summary_file)
+} else {
+  cpue_models_summary <- readRDS(cpue_models_summary_file)
+}
+
+mutate(
+  cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>%
+  as_tibble() %>%
+  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>%
+  csasdown::csas_table(digits = 1,
+    col.names = c(
+      "Species name", "Area", "$\\phi$", "$p$",
+      "$\\tau_\\mathrm{vessel}$", "$\\tau_\\mathrm{locality}$", "$\\tau_\\mathrm{year-locality}$"),
+    caption = "Parameter estimates from CPUE standardization GLMMs.")
 ```

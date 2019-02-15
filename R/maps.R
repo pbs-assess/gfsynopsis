@@ -18,7 +18,7 @@ fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
   model = c("inla", "glmmfields", "sdmTMB"),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-  years = c(2016, 2017),
+  years = c(2017, 2018),
   ...) {
   dat <- dplyr::filter(dat, species_common_name %in% species)
   dat <- dplyr::filter(dat, year %in% years)
@@ -33,6 +33,7 @@ fit_survey_maps <- function(dat,
     if (surv %in% c("HBLL OUT N", "HBLL OUT S")) {
       density_column <- "density_ppkm2"
       .dat <- filter(dat, survey_abbrev %in% surv)
+      if (nrow(.dat) == 0L) stop("No survey data.")
       .dat$survey_abbrev <- surv
       # .dat$year <- years[2]
       premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
@@ -45,6 +46,7 @@ fit_survey_maps <- function(dat,
       # .dat <- filter(dat, year %in% years[2]) # just last year
       .dat <- filter(dat, year %in% years)
       .dat <- filter(.dat, survey_abbrev %in% surv)
+      if (nrow(.dat) == 0L) stop("No survey data.")
       raw_dat <- tidy_survey_sets(.dat, surv,
         # years = years[2], density_column = density_column
         years = years, density_column = density_column
@@ -116,6 +118,11 @@ fit_survey_maps <- function(dat,
 #'   predictions.
 #' @param annotations A character object describing which annotations to
 #'   include. These annotations include the relevent years on the map.
+#' @param syn_qcs_hs_year Year for a synoptic survey label.
+#' @param syn_wcvi_wchg_year Year for a synoptic survey label.
+#' @param hbll_n_year Year for a HBLL N survey label.
+#' @param hbll_s_year Year for a HBLL S survey label.
+#' @param iphc_year Year for IPHC survey label.
 #' @param ... Any other arguments to pass to [gfplot::plot_survey_sets()].
 #'
 #' @export
@@ -128,6 +135,11 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   trans = "sqrt",
   show_model_predictions = TRUE,
   annotations = c("SYN", "IPHC", "HBLL"),
+  syn_qcs_hs_year = 2017,
+  syn_wcvi_wchg_year = 2018,
+  hbll_n_year = 2017,
+  hbll_s_year = 2016,
+  iphc_year = 2017,
   ...) {
 
   annotations <- match.arg(annotations)
@@ -169,16 +181,16 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
     guides(fill = FALSE, size = FALSE)
 
   if (annotations == "SYN")
-    g <- g + ggplot2::annotate("text", 390, 6090, label = "2016", col = "grey30") +
-      ggplot2::annotate("text", 390, 5800, label = "2017", col = "grey30") +
-      ggplot2::annotate("text", 390, 5450, label = "2016", col = "grey30")
+    g <- g + ggplot2::annotate("text", 390, 6090, label = syn_wcvi_wchg_year, col = "grey30") +
+      ggplot2::annotate("text", 390, 5800, label = syn_qcs_hs_year, col = "grey30") +
+      ggplot2::annotate("text", 390, 5450, label = syn_wcvi_wchg_year, col = "grey30")
 
   if (annotations == "HBLL")
-    g <- g + ggplot2::annotate("text", 390, 5990, label = "2017", col = "grey30") +
-    ggplot2::annotate("text", 390, 5550, label = "2016", col = "grey30")
+    g <- g + ggplot2::annotate("text", 390, 5990, label = hbll_n_year, col = "grey30") +
+    ggplot2::annotate("text", 390, 5550, label = hbll_s_year, col = "grey30")
 
   if (annotations == "IPHC")
-    g <- g + ggplot2::annotate("text", 390, 5700, label = "2017", col = "grey30")
+    g <- g + ggplot2::annotate("text", 390, 5700, label = iphc_year, col = "grey30")
 
   g
 }

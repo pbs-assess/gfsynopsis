@@ -15,8 +15,8 @@ cores <- min(nrow(all), parallel::detectCores())
 cl <- parallel::makeCluster(cores)
 doParallel::registerDoParallel(cl)
 out <- foreach::foreach(sp = all$spp, surv = all$survs,
-  .packages = c("gfplot", "sdmTMB")) %dopar% {
-    tryCatch(fit_sdmTMB_westcoast(
+  .packages = c("gfplot", "sdmTMB", "gfsynopsis")) %dopar% {
+    tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(sp, ".rds")),
       species_name = sp,
       survey = surv, n_knots = 200L, bias_correct = FALSE,
@@ -24,14 +24,15 @@ out <- foreach::foreach(sp = all$spp, surv = all$survs,
     ), error = function(e) NA)
   }
 doParallel::stopImplicitCluster()
-saveRDS(out, file = "inst/spt-index-out.rds")
+dir.create(here::here("report/geostat-cache"), showWarnings = FALSE)
+saveRDS(out, file = here::here("report/geostat-cache/spt-index-out.rds"))
 
 index <- purrr::map_df(out, function(x) {
   if (length(x) > 1L)
     data.frame(x$index, species = x$species_name, survey = x$survey,
-      stringsAsFactors = FALSE) %>% tibble::as.tibble()
+      stringsAsFactors = FALSE) %>% tibble::as_tibble()
 })
-saveRDS(index, file = "inst/spt-index-out-no-depth.rds")
+saveRDS(index, file = here::here("report/geostat-cache/spt-index-out-no-depth.rds"))
 
 index$survey <- factor(index$survey, levels = survs)
 ggplot(index, aes(year, est)) + geom_line() +
@@ -81,52 +82,16 @@ inds <- inds %>% dplyr::filter(max_cv, max_est, cv_na)
 ind <- dplyr::semi_join(ind, inds)
 ind <- dplyr::filter(ind, species != "pacific-hake")
 ind$survey <- factor(ind$survey, levels = survs)
-saveRDS(ind, file = here::here("report/geostat-cache/geostat-cache/geostat-index-estimates.rds"))
+saveRDS(ind, file = here::here("report/geostat-cache/geostat-index-estimates.rds"))
 
-g <- ggplot(ind, aes_string('year', 'est', fill = 'type')) +
-  geom_line(aes_string(colour = 'type')) +
-  geom_point(aes_string(colour = 'type')) +
-  geom_ribbon(aes_string(ymin = 'lwr', ymax = 'upr'), alpha = 0.4) +
-  xlab('Year') + ylab('Relative biomass estimate') +
-  facet_grid(species~survey, scales = "free_y") +
-  scale_x_continuous(breaks = seq(2000, 2020, 5)) +
-  labs(colour = "Type", fill = "Type")
-
-ggsave(here::here("report/surv-2018-10-19-no-depth-150-knots.pdf"),
-  width = 9.5, height = 65, limitsize = FALSE)
-
-# plot_spde(out$spde)
+# g <- ggplot(ind, aes_string('year', 'est', fill = 'type')) +
+#   geom_line(aes_string(colour = 'type')) +
+#   geom_point(aes_string(colour = 'type')) +
+#   geom_ribbon(aes_string(ymin = 'lwr', ymax = 'upr'), alpha = 0.4) +
+#   xlab('Year') + ylab('Relative biomass estimate') +
+#   facet_grid(species~survey, scales = "free_y") +
+#   scale_x_continuous(breaks = seq(2000, 2020, 5)) +
+#   labs(colour = "Type", fill = "Type")
 #
-# plot_anisotropy(out$model)
-#
-# out$data$resids <- residuals(out$model) # randomized quantile residuals
-# hist(out$data$resids)
-# qqnorm(out$data$resids);abline(a = 0, b = 1)
-# ggplot(out$data, aes(X, Y, col = resids)) + scale_colour_gradient2() +
-#   geom_point() + facet_wrap(~year) + coord_fixed()
-#
-# plot_map <- function(dat, column) {
-#   ggplot(dat, aes_string("X", "Y", fill = column)) +
-#     geom_raster() +
-#     facet_wrap(~year) +
-#     coord_fixed()
-# }
-#
-# plot_map(out$predictions$data, "exp(est)") +
-#   scale_fill_viridis_c(trans = "sqrt") +
-#   ggtitle("Prediction (fixed effects + all random effects)")
-#
-# plot_map(out$predictions$data, "exp(est_fe)") +
-#   ggtitle("Prediction (fixed effects only)") +
-#   scale_fill_viridis_c(trans = "sqrt")
-#
-# plot_map(out$predictions$data, "est_re_s") +
-#   ggtitle("Spatial random effects only") +
-#   scale_fill_gradient2()
-#
-# plot_map(out$predictions$data, "est_re_st") +
-#   ggtitle("Spatiotemporal random effects only") +
-#   scale_fill_gradient2()
-#
-#
-
+# ggsave(here::here("report/surv-2018-10-19-no-depth-150-knots.pdf"),
+#   width = 9.5, height = 65, limitsize = FALSE)

@@ -2,10 +2,10 @@
 % Please edit documentation in R/utils.R
 \name{fourth_root_power_trans}
 \alias{fourth_root_power_trans}
-\title{Fourth route power transformation}
+\title{Fourth root power transformation}
 \usage{
 fourth_root_power_trans()
 }
 \description{
-Fourth route power transformation
+Fourth root power transformation
 }

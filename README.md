@@ -1,6 +1,6 @@
 # gfsynopsis: An R package for generating an annual data synopsis report for groundfish
 
-![](report/yelloweye-pages.png)
+<img src="report/silvergray.jpg" alt="Silver Gray Rockfish Example" width="750" height="478.5">
 
 This package uses the data extraction, data tidying, model fitting, and plotting functions from [gfplot](https://github.com/pbs-assess/gfplot).
 

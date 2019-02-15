@@ -14,7 +14,8 @@ make_pages(dat, dat_iphc, spp, d_geostat_index, aspect = 1.35,
   "#a8a8a8", "#a8a8a8", "#a8a8a8"), survey_col_names = c("SYN WCHG",
   "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N", "HBLL OUT S", "IPHC FISS",
   "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"), mat_min_n = 20,
-  survey_map_outlier = 1, parallel = FALSE)
+  survey_map_outlier = 1, synoptic_max_survey_years = 2017:2018,
+  hbll_out_max_survey_years = 2016:2017, parallel = FALSE)
 }
 \arguments{
 \item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
@@ -66,6 +67,9 @@ plotted.}
 \item{survey_map_outlier}{A quantile above which of the colors in the map
 should be squashed the same color. Useful to avoid a small number of
 outlying cells from distorting the color scale.}
+
+\item{synoptic_max_survey_years}{A vector of length 2 giving the maximum
+synoptic survey years to include.}
 
 \item{parallel}{Parallel CPUE index fitting?}
 }

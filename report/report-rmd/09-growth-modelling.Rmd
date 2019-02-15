@@ -25,37 +25,25 @@ Stan [@rstan2018] as:
 
 \begin{equation}
   L_i \sim \operatorname{Log-normal}
-  \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))), \sigma \right)
+  \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))) - \sigma^2 / 2, \sigma \right),
 \end{equation}
 
 where $L_i$ and $A_i$ represent the length and age of fish $i$,
 $l_\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth
 parameters, and $\sigma$ represents the log standard deviation or scale
-parameter. We fit the models with the following priors:
-
-\begin{align}
-  k &\sim \mathrm{Normal}\left(0, 2\right)[0, \infty]\\
-  l_\mathrm{inf} &\sim  \mathrm{Normal} \left(0, \varphi \right)[0, \infty]\\
-  \sigma &\sim  \operatorname{Student-t}\left(3, 0, 2 \right)[0, \infty]\\
-  t0 &\sim  \mathrm{Normal}(0, 20)
-\end{align}
-
-where $\varphi$ was set to twice the 99\% quantile of observed lengths for that
-species. This ensures that the $l_\mathrm{inf}$ prior is on an appropriate scale
-for a given species. These weakly informative priors were helpful when fitting
-these nonlinear models to a large number of species making it is difficult to
-adjust the optimization procedure on a species-by-species basis. For speed, the
-model fits shown in this synopsis report are derived from the mode of the
-marginal posterior distributions (MPD) as opposed to from full Markov chain
-Monte Carlo (MCMC) sampling.
+parameter. The $- \sigma^2 /2$ is a lognormal bias adjustment term so we model
+the mean length rather than the median. We fit the models with Template Model
+Builder (TMB) [@kristensen2016] with starting values of $k = 0.2$,
+$l_\mathrm{inf} = 40$, $\ln (\sigma) = \ln (0.1)$, and $t_0 = -1$.
 
 ## LENGTH-WEIGHT MODELS {#sec:length-weight-models}
 
 We fit the length-weight models as robust linear regressions of log(length) on
-log(weight) using the `MASS::rlm()` function 'M'-estimator method
-[@venables2002]. This approach down-weights the influence of outlying values
-and helps generate reasonable model fits across all species without handpicking
-outlying measurements to discard. The model can be written as:
+log(weight) with Student-t error and a degrees of freedom parameter fixed to 3.
+By using Student-t error instead of Gaussian error we down-weight the influence
+of outlying values [e.g. @anderson2017c] and help generate reasonable model
+fits across all species without handpicking outlying measurements to discard.
+The model can be written as:
 
 \begin{equation}
   W_i = a \cdot L_i^b \cdot e_i,
@@ -64,8 +52,11 @@ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $e_i$
 representing error that is given some distribution such as lognormal or Gamma.
 The variables $a$ and $b$ represent the estimated length-weight parameters.
 Following the common convention, we fit the model as:
+
 \begin{equation}
-  \log (W_i) \sim \mathrm{Normal} (\log (a + b L_i), \sigma),
+  \log (W_i) \sim \mathrm{Student\mhyphen t} (df = 3, \log (\ln(a) + b L_i), \sigma)
 \end{equation}
-with a robust algorithm being substituted for the usual normal distribution as
-written here.
+
+using Template Model Builder [@kristensen2016], where $a$ and $b$ have the same
+meaning, $df$ represents the degrees of freedom, and $\sigma$ represents the
+scale parameter.

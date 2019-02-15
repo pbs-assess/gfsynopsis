@@ -2,9 +2,9 @@
 
 Commercial and research catch, effort, and biological data for groundfish are
 archived by the Groundfish Data Unit (Fisheries and Oceans Canada, Science
-Branch, Pacific Region) and housed in a number of relational databases.
+Branch, Pacific Region) and housed in a number of relational databases [@databases2019].
 Historical commercial catch and effort data from 1954--2006/2007 are housed in
-GFCatch, PacHarvTrawl, PacHarvHL, and PacHarvSable, depending on the fishery
+GFCatch, PacHarvest, PacHarvHL, and PacHarvSable, depending on the fishery
 and time period. Modern (2006/2007 to present) commercial catch data are housed
 in GFFOS, a groundfish-specific view of the Fishery Operations System (FOS)
 database (Fisheries and Oceans Canada, Fisheries and Aquaculture Management,
@@ -24,7 +24,8 @@ Catch proportions are calculated from the most spatially detailed information av
 Below are details of how the official catch tables are created in each of the databases populating `GF_MERGED_CATCH`.
 
 ### GFCatch 1954--1995 (TRAWL AND TRAP)
-Catch data is extracted by trip and separated by retained weights (recorded on sales slips/landing records) or discarded weights (no counts) using utilization codes in the view `vw_Total_Catch`. The landings and discards are combined with trip, event, area and vessel tables to present the catches with associated details: trip ID, fishing event ID, sector, gear, vessel, best date (trip end date) best depth (in preferential order: average depth, minimum depth, maximum depth), species, area, and latitude and longitude (from start if available, otherwise from end). Set (trawl tow or trap line) proportions of total landings are not calculated as most older data do not include set-level information from observer or fisher logs (data are rolled up by area). When source = 1 (trawl trip report) or 2 (trawl sales slip or landing record only), then the gear type is set to trawl.  When source = 5 (trap trip report) or 6 (trap sales slip or landing record only), the gear type is set to trap.
+
+Catch data are extracted by trip and separated by retained weights (recorded on sales slips/landing records) or discarded weights (no counts) using utilization codes in the view `vw_Total_Catch`. The landings and discards are combined with trip, event, area and vessel tables to present the catches with associated details: trip ID, fishing event ID, sector, gear, vessel, best date (trip end date), best depth (in preferential order: average depth, minimum depth, maximum depth), species, area, and latitude and longitude (from start if available, otherwise from end). Set (trawl tow or trap line) proportions of total landings are not calculated as most older data do not include set-level information from observer or fisher logs (data are rolled up by area). When source = 1 (trawl trip report) or 2 (trawl sales slip or landing record only), then the gear type is set to trawl.  When source = 5 (trap trip report) or 6 (trap sales slip or landing record only), the gear type is set to trap.
 
 ### PacHarvest 1996--2007 (TRAWL ONLY)
 
@@ -40,13 +41,13 @@ Catch data in PacHarvHL are combined with trip- and set-level data. Catch is rec
 
 ### GFFOS 2007--PRESENT (TRAWL, TRAP AND HOOK AND LINE)
 
-Average weight per piece is calculated for each species by trip for later populating catch weight where only catch count is available. DMP landings are extracted by trip. Catch is extracted from observer and fisher log data by trip and separated by released/retained, legal/sublegal, liced, and bait using utilization codes. Average kg per piece is calculated by species from DMP data as `ROUND_KG_PER_OFFLOAD_PIECE` = `OFFLOAD WT/OFFLOAD CT`. When this is not available for a trip, `ROUND_KG_PER_RETAINED_PIECE` is calculated by species from log data. If this too is not available, kg per piece by species is calculated for all `trips = EST_KG_PER_PIECE`.
+To create the official catch table in GFFOS, first the average weight per piece (individual fish) is calculated for each species by trip for later populating catch weight where only catch count is available. DMP landings are extracted by trip. Catch is extracted from observer and fisher log data by trip and separated by released/retained, legal/sublegal, liced, and bait using utilization codes. Average kg per piece is calculated by species from DMP data as `ROUND_KG_PER_OFFLOAD_PIECE` = `OFFLOAD WT/OFFLOAD CT`. When this is not available for a trip, `ROUND_KG_PER_RETAINED_PIECE` is calculated by species from log data. If this too is not available, kg per piece by species is calculated for all `trips = EST_KG_PER_PIECE`.
 and fisher log ‘retained catch’ data are extracted by fishing event. If there is no retained weight recorded but there is a retained count, then `BEST_RETAINED_WT` is calculated as the retained count multiplied by the best available average kg per piece from, in preferential order, `ROUND_KG_PER_OFFLOAD_PIECE`, `ROUND_KG_PER_RETAINED_PIECE`, `EST_ROUND_KG_PER_PIECE`. Similarly, if there is no retained count recorded but there is a retained weight, then the retained weight is divided by the best available average weight per piece to give `BEST_RETAINED_COUNT`.
 Trip totals are then calculated for landed weight, retained catch weight, landed count, and retained catch count, and ratios are calculated for trip landed weight:trip retained catch weight and trip landed count:trip retained catch count.
 
 All best retained, landed and discarded catch weights and counts are combined in one view, `GF_D_MERGED_FE_CATCH2_SUMRY_VW`. Where `LANDED_ROUND_KG` is `NULL` but retained weight is reported and a landed weight:retained catch weight ratio exists then landed weight is given as `BEST_RETAINED_ROUND_KG` $\times$ `MTFEC.KG_RATIO`. Similarly, if no landed count is reported, then `LANDED_COUNT` is given as `BEST_RETAINED_COUNT` $\times$ `MTFEC.COUNT_RATIO`.
 
-All catch and landings weight and count data by fishing event are then joined with several other pieces of data by fishing event including vessel ID and name, data source, fishery sector, and area. Several fields present “best” data when there are multiple options. `BEST_DATE` is, when there are fewer than 3 months difference between offload date and best available logbook date (in preferential order of fishing event best, end or start date, or trip best, end or start date), the reported offload date; otherwise, it is the best available logbook date. `LATITUDE` and `LONGITUDE` are, in preferential order, the reported start latitude/longitude, mid-latitude/longitude or end latitude/longitude. ` BEST_DEPTH` is calculated as the average of start and end depth and converted from fathoms to meters. These data are combined in the view `GF_D_OFFICIAL_FE_CATCH_VW2` with the additional fishing event or trip data generally obtained from observer logs, or from fisher logs when observer or validation logs are not available.
+All catch and landings weight and count data by fishing event are then joined with several other pieces of data by fishing event including vessel ID and name, data source, fishery sector, and area. Several fields present “best” data when there are multiple options. `BEST_DATE` is the offload date when there are fewer than 3 months difference between offload date and best available logbook date (in preferential order of fishing event best, end or start date, or trip best, end or start date); otherwise, it is the best available logbook date. `LATITUDE` and `LONGITUDE` are, in preferential order, the reported start latitude/longitude, mid-latitude/longitude or end latitude/longitude. ` BEST_DEPTH` is calculated as the average of start and end depth and converted from fathoms to meters. These data are combined in the view `GF_D_OFFICIAL_FE_CATCH_VW2` with the additional fishing event or trip data generally obtained from observer logs, or from fisher logs when observer or validation logs are not available.
 
 The official catch tables populate the `GF_MERGED_CATCH` table directly. Where there are duplicate records for a fishing event in GFFOS and either PacHarvHL or PacHarvSable, records from GFFOS are not incorporated into `GF_MERGED_CATCH`.
 
@@ -56,10 +57,12 @@ We developed a package gfplot for the statistical software R [@r2018] to
 automate data extraction from these databases in a consistent, reproducible
 manner. The functions extract data using SQL queries, developed with support
 from the Groundfish Data Unit, which select and filter for specific data
-depending on the analyses for which they will be used. The SQL file names
+depending on the purpose of the analysis. The SQL file names
 mentioned in this section can be viewed at
 <https://github.com/pbs-assess/gfplot/tree/master/inst/sql> and will be
 archived on a local server with the final version of this document.
+
+### COMMERCIAL CATCH DATA EXTRACTION
 
 We extracted commercial catch with `get-catch.sql`. All landings and discards
 are extracted by species, fishery sector, gear type and year, and are not
@@ -83,7 +86,7 @@ respectively.
 \toprule
 Filters & Rationale \\
 \midrule
-Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL} & To remove records with missing date \\
+Filtered for \texttt{END\_DATE} \texttt{IS NOT NULL} AND {START\_DATE} \texttt{IS NOT NULL} & To remove records with missing dates \\
 Filtered for \texttt{YEAR(FE\_START\_DATE)} = \texttt{YEAR(FE\_END\_DATE)} and \texttt{FE\_END\_DATE} > \texttt{FE\_START\_DATE} & To remove records with erroneous dates \\
 \bottomrule
 \end{tabu}}
@@ -96,8 +99,8 @@ pulling out latitude, longitude, gear type, catch (kg) and CPUE (total catch/
 effort in kg/hour) for every tow by species. The data are filtered to extract
 only records with valid start and end dates, to remove records with erroneous
 latitude and longitude values, and to include only records from the groundfish
-trawl sector with positive tows since 2012 when the trawl footprint was
-implemented (Table \@ref(tab:sql-cpue-spatial)).
+trawl sector with positive tows since 2013 following the implementation of the
+trawl footprint in 2012 (Table \@ref(tab:sql-cpue-spatial)).
 
 \begin{table}[htpb]
 \centering
@@ -129,7 +132,7 @@ all records since 2008 after implementation of the Integrated Groundfish
 Management Plan (Table \@ref(tab:sql-cpue-spatial-ll)). CPUE is represented by
 landed catch in pieces per fishing event (set). Discards are not included in
 hook and line spatial CPUE because discarded pieces are not reliably recorded
-in all years. Species names are given as an argument to the function.
+in all years. Species names are given as an argument to the gfplot function.
 
 \begin{table}[htpb]
 \centering
@@ -150,11 +153,13 @@ Filtered for \texttt{GEAR} IN \texttt{(HOOK AND LINE, LONGLINE, LONGLINE OR HOOK
 
 \vspace{0mm}
 
+### SURVEY CATCH DATA EXTRACTION
+
 We extracted survey biomass index data `get-survey-index.sql`. Calculated
 bootstrapped biomass, year and survey series identification code (SSID) are
 filtered for active records of the calculated biomass in the database
 (Table \@ref(tab:sql-survey-index)). Species and SSID codes are given as
-arguments to the function.
+arguments to the gfplot function.
 
 \begin{table}[htp]
 \centering
@@ -172,6 +177,8 @@ Filter for \texttt{ACTIVE\_IND} 1 & To extract only active (useable) bootstrappe
 
 \vspace{0mm}
 
+### BIOLOGICAL DATA EXTRACTION
+
 We extracted biological data using `get-survey-samples.sql` and
 `get-comm-samples.sql` for research survey and commercial samples,
 respectively. Records of all biological samples are extracted by species,
@@ -181,7 +188,15 @@ identification code (SID, only available for research survey data), survey
 sampling types, and sampling protocol codes for maturity and ageing data. Data
 are filtered by the `TRIP_SUBTYPE_CODE` to extract either survey (Table
 \@ref(tab:sql-surv-samp)) or commercial (Table \@ref(tab:sql-comm-samp))
-samples. In addition, samples are designated as one of three sample
+samples. 
+
+Some survey or commercial catches are deemed unuseable for analysis. For 
+example, when gear is lost, faulty or damaged or all or a portion of the catch
+is lost then the full catch data are not available and the partial data
+may not be representative of the full catch. Data from unuseable 
+catches are excluded in this report.
+
+In addition, samples are designated as one of three sample
 descriptions based on combinations of two codes relating to sampling protocols:
 `SPECIES_CATEGORY_CODE` (Table \@ref(tab:spp-cat)) and `SAMPLE_SOURCE_CODE`
 (Table \@ref(tab:samp-source)). Samples can be designated as 'unsorted samples'
@@ -189,20 +204,20 @@ in which data were collected for all specimens in the sample, or 'sorted
 samples' where specimens were sorted or selected into 'keepers', which were
 sampled, and 'discards' which were not sampled:
 
-1. Specimens with a species category code of 0 are of unknown species category
-   and are not usable. Those with a species category code of 1 (unsorted) and
-   a sample source code of 0 (unknown) or 1 (unsorted), or with a species
-   category code of 5 (remains) or 6 (fish heads only) and a sample source code
-   of 1 (unsorted) are classified as 'unsorted'.
+1. Specimens with a `SPECIES_CATEGORY_CODE` of 0 are of unknown species category
+   and are not usable. Those with a `SPECIES_CATEGORY_CODE` of 1 (unsorted) and
+   a `SAMPLE_SOURCE_CODE` of 0 (unknown) or 1 (unsorted), or with a 
+   `SPECIES_CATEGORY_CODE` of 5 (remains) or 6 (fish heads only) and a 
+   `SAMPLE_SOURCE_CODE` of 1 (unsorted) are classified as 'unsorted'.
 
-2.  Specimens with a sample source code of 2 (keepers) and a species category
-    code of 1 (unsorted), 2 (sorted) or 3 (keepers), or with a species category
-    code of 3 (keepers) and a sample source code of 1 (unsorted) are classified
+2.  Specimens with a `SAMPLE_SOURCE_CODE`of 2 (keepers) and a `SPECIES_CATEGORY_CODE`
+    of 1 (unsorted), 2 (sorted) or 3 (keepers), or with a `SPECIES_CATEGORY_CODE`
+    of 3 (keepers) and a `SAMPLE_SOURCE_CODE`of 1 (unsorted) are classified
     as 'keepers'.
 
-3. Specimens with a species category code of 4 (discards) and a sample source
-   code of 1 (unsorted) or 3 (discards), or a sample source code of
-   3 (discards) and a species category code of 1 (unsorted) are 'discards'.
+3. Specimens with a `SPECIES_CATEGORY_CODE` of 4 (discards) and a `SAMPLE_SOURCE_CODE`
+of 1 (unsorted) or 3 (discards), or a `SAMPLE_SOURCE_CODE`of
+   3 (discards) and a `SPECIES_CATEGORY_CODE` of 1 (unsorted) are 'discards'.
 
 In the synopsis report, we are only including unsorted biological samples. Data
 are also filtered by `SAMPLE_TYPE_CODE` to extract only total or random samples
@@ -220,7 +235,7 @@ Maturity codes are assigned at the time of sampling following a chosen
 convention. The various conventions have different scales and classifications
 appropriate for different species or species groups.
 We worked with the survey staff, data team and biologists for the various taxa
-to select which codes at and above which an individual fish is considered
+to select codes at and above which an individual fish is considered
 'mature' in order to assign a maturity status to each specimen based on
 a combination of maturity convention, maturity code and sex (Table \@ref(tab:maturity-table)).
 
@@ -228,7 +243,6 @@ The ageing precision data are extracted with `get-age-precision.sql`. Data are
 filtered to bring in only records for which a secondary (precision) reading was
 performed by a different technician in addition to the primary reading
 (Table \@ref(tab:sql-age-precision)).
-
 
 \begin{table}[htpb]
 \centering
@@ -246,6 +260,8 @@ Filtered for \texttt{SAMPLE\_SOURCE\_CODE} \texttt{NULL, 1, 2, 3} & To extract b
 \bottomrule
 \end{tabu}}
 \end{table}
+
+\clearpage
 
 \begin{table}[htpb]
 \centering
@@ -285,19 +301,21 @@ csasdown::csas_table(samp_source, caption = "Sample source codes lookup table, w
 ```
 
 ```{r aging-method-table-setup}
-meta <- gfsynopsis::get_spp_names()
+#meta <- gfsynopsis::get_spp_names()
 f <- system.file("extdata", "ageing_methods.csv", package = "gfplot")
 age_methods <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
-age_methods$type <- NULL
+#age_methods$type <- NULL
 names(age_methods) <- tolower(names(age_methods))
 age_methods$species_common_name <- tolower(age_methods$species_common_name)
-age_methods <- left_join(age_methods, meta, by = "species_common_name")
+#age_methods <- left_join(age_methods, meta, by = "species_common_name")
 age_methods$species_common_name <- gfsynopsis:::first_cap(age_methods$species_common_name)
 # age_methods <- filter(age_methods, type == "A")
-age_methods$species_common_name <- gsub("Rockfish Complex", "", age_methods$species_common_name)
+age_methods$species_common_name <- gsub("Rougheye/blackspotted Rockfish Complex", 
+  "Rougheye/Blackspotted", age_methods$species_common_name)
 age_methods$species_science_name <- gsub(" complex", "", age_methods$species_science_name)
-age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianusu",
+age_methods$species_science_name <- gsub("sebastes aleutianus", "s. aleutianus",
   age_methods$species_science_name)
+age_methods <- filter(age_methods, !is.na(species_ageing_group))
 age_methods <- select(age_methods, species_common_name, species_science_name,
   species_code, ageing_method_codes)
 age_methods <- arrange(age_methods, species_code)
@@ -305,13 +323,15 @@ age_methods$species_science_name <- paste0("*",
   gfplot:::firstup(age_methods$species_science_name), "*")
 age_methods <- filter(age_methods, ageing_method_codes != "na")
 age_methods <- filter(age_methods, !is.na(species_code))
-names(age_methods) <- c("Common name", "Scientific name", "Species code", "Aging codes")
+names(age_methods) <- c("Common name", "Scientific name", "Species code", "Ageing codes")
+age_methods$`Common name` <- gsub("C-o Sole", "C-O Sole", 
+  age_methods$`Common name`)
 ```
 
 \clearpage
 
 ```{r aging-method-table, results='asis'}
-csasdown::csas_table(age_methods, caption = "Ageing method codes from GFBio considered valid throughout the synopsis document for groundfish species in British Columbia. The ageing method codes were chosen with the help of the PBS Schlerochronology Lab. 1 = 'Otolith Surface Only', 3 = 'Otolith Broken and Burnt', 17 = 'Otolith Broken and Baked (Break and Bake)', 6 = 'Dorsal Fin XS', 11 = 'Dorsal Spine', 12 = 'Vertebrae'.")
+csasdown::csas_table(age_methods, caption = "Ageing method codes from GFBio considered valid throughout the synopsis document for groundfish species in British Columbia. The acceptable ageing method codes for each species were chosen with the support of the PBS Schlerochronology Lab. 1 = 'Otolith Surface Only', 3 = 'Otolith Broken and Burnt', 4 = 'Otolith Burnt and Thin Sectioned', 6 = 'Dorsal Fin XS', 7 = 'Pectoral Fin', 11 = 'Dorsal Spine', 12 = 'Vertebrae', 16 = 'Otolith Surface and Broken and Burnt', 17 = 'Otolith Broken and Baked (Break and Bake)'.")
 ```
 
 
@@ -362,3 +382,15 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & To extract primary and preci
 #   kableExtra::column_spec(2, width = "3.2in")
 ```
 
+## DATA ACCESSIBILITY
+
+Data from the Bottom Trawl Synoptic Surveys are available through the Open 
+Government Data Portal: <https://open.canada.ca/data/en/dataset?portal_type=dataset>
+
+Hook and line survey data are currently being prepared for upload to the Open 
+Data Portal. Commercial data will be uploaded in a rolled-up format 
+in compliance with the Federal Privacy Act.
+
+Requests for data held by DFO Pacific Region can be made through Pacific 
+Fisheries Catch Statistics:
+<http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html>

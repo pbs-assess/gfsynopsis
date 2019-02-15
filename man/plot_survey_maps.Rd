@@ -9,7 +9,8 @@ plot_survey_maps(pred_dat, raw_dat, show_axes = FALSE,
   bin_pt_col = "#FFFFFF40", pos_pt_fill = "#FFFFFF05",
   north_symbol = FALSE, fill_column = "combined", trans = "sqrt",
   show_model_predictions = TRUE, annotations = c("SYN", "IPHC",
-  "HBLL"), ...)
+  "HBLL"), syn_qcs_hs_year = 2017, syn_wcvi_wchg_year = 2018,
+  hbll_n_year = 2017, hbll_s_year = 2016, iphc_year = 2017, ...)
 }
 \arguments{
 \item{pred_dat}{The \code{pred_dat} element from \code{\link[=fit_survey_maps]{fit_survey_maps()}}.}
@@ -38,6 +39,16 @@ predictions.}
 
 \item{annotations}{A character object describing which annotations to
 include. These annotations include the relevent years on the map.}
+
+\item{syn_qcs_hs_year}{Year for a synoptic survey label.}
+
+\item{syn_wcvi_wchg_year}{Year for a synoptic survey label.}
+
+\item{hbll_n_year}{Year for a HBLL N survey label.}
+
+\item{hbll_s_year}{Year for a HBLL S survey label.}
+
+\item{iphc_year}{Year for IPHC survey label.}
 
 \item{...}{Any other arguments to pass to \code{\link[gfplot:plot_survey_sets]{gfplot::plot_survey_sets()}}.}
 }

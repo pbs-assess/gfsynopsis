@@ -75,7 +75,7 @@ vessels generally targeted the first 20&nbsp;hooks deployed from each skate.
 However, for
 operational reasons (particularly in areas of high catch rates), sometimes the
 20&nbsp;hooks would come from elsewhere within a skate but would always consist of
-20 consecutive hooks [e.g. @dykstra2002iphc].
+20 consecutive hooks [e.g., @dykstra2002iphc].
 
 \vspace{0mm}
 
@@ -224,7 +224,7 @@ fairly close to each other. Since 1998
 the stations have
 been positioned equidistant from one another on a fixed 10-nautical-mile square grid
 [@flemming2012iphc]. In 1999 the survey first
-went to the WCVI, did not go there in 2000, but has since 2001 onwards. See 
+went to the WCVI, did not go there in 2000, but has since 2001. See 
 @edwards2017redbanded and 
 @yamanaka2018yelloweyeoutside for maps that demonstrate the different coverage
 (and that show stations that caught Yelloweye and Redbanded Rockfish, respectively).
@@ -239,7 +239,7 @@ square grid [@yamanaka2018yelloweyeoutside].
 Series&nbsp;C and&nbsp;D use all stations coastwide (by definition).
 
 Each year, a few stations may be declared unusable by the IPHC and are excluded 
-from our analyses (e.g. the 
+from our analyses (e.g., the 
 hook-tally sheet got blown overboard for station 2113 in the year 2008), with
 usability codes described in Table\ \@ref(tab:iphc-set-codes). In particular,
 we include stations deemed as 'Usable but omit from any geospatial analysis',
@@ -286,7 +286,7 @@ of which we include in our analyses.}
 \label{tab:iphc-set-codes}
 \begin{tabular}{lcc}
 \hline
-Description & U.USABILITY\_CODE & Included here? \\
+Description & USABILITY\_CODE & Included here? \\
 \hline
 Fully usable & 1 & Y\\
 Usable but omit from swept area calculations & 21 & N\\
@@ -305,7 +305,7 @@ Prior to 2012, Chum Salmon (\emph{Oncorhynchus keta}) was used for bait. But in
 2012, a bait experiment was conducted [@henry2013iphc]. At each station three
 different bait types were used on the same set: a consecutive four-skate Chum
 Salmon treatment, a one-skate Pink Salmon (*Oncorhynchus gorbuscha*)
-treatment, and a one-skate Walleye Pollock (*Theragra chalcogramma*)
+treatment, and a one-skate Walleye Pollock (*Gadus chalcogramma*)
 treatment. The location of the three treatments on each set was randomized
 throughout the survey, and each treatment was separated by one skate (1,800&nbsp;ft)
 of hookless groundline. For consistency with previous years, we only consider

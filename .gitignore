@@ -68,4 +68,8 @@ report/presentations/iphc-survey/*.nav
 report/presentations/iphc-survey/*.snm
 report/presentations/iphc-survey/*.tex
 report/presentations/iphc-survey/uncertainty-talk.Rnw
-
+report/archive/
+report/report/
+report/report-rmd/csas-style/sr.sty
+report/report-rmd/csas-style/tech-report.sty
+report/report-rmd/csas-style/sr-french.sty

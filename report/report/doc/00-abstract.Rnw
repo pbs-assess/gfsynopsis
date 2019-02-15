@@ -1,9 +1,0 @@
-\abstract{}
-
-[English abstract here.]
-
-\frenchabstract{
-[French title ici.]
-}
-
-[French abstract ici.]

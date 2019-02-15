@@ -32,6 +32,8 @@
 #' @param survey_map_outlier A quantile above which of the colors in the map
 #'   should be squashed the same color. Useful to avoid a small number of
 #'   outlying cells from distorting the color scale.
+#' @param synoptic_max_survey_years A vector of length 2 giving the maximum
+#'   synoptic survey years to include.
 #' @param parallel Parallel CPUE index fitting?
 #'
 #' @return
@@ -66,6 +68,8 @@ make_pages <- function(
     "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 1,
+  synoptic_max_survey_years = 2017:2018,
+  hbll_out_max_survey_years = 2016:2017,
   parallel = FALSE
 ) {
 
@@ -92,11 +96,22 @@ make_pages <- function(
   dat$age_precision <- dplyr::filter(dat$age_precision,
     species_code == unique(dat$survey_sets$species_code))
 
-  # TODO:
+  # FIXME: (not needed anymore?)
   if (nrow(dat$survey_samples) > 0L)
     dat$survey_samples$maturity_convention_maxvalue <- 1e6
   if (nrow(dat$commercial_samples) > 0L)
     dat$commercial_samples$maturity_convention_maxvalue <- 1e6
+
+  # FIXME: (get this fixed in the raw data)
+  if (identical(spp, "rosethorn rockfish")) {
+    # one over 1 meter!
+    dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 60)
+    dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 60)
+  }
+  # FIXME: (get this fixed in the raw data?)
+  if (identical(spp, "shortspine thornyhead")) {
+    dat$survey_samples <- dplyr::filter(dat$survey_samples, age < 80)
+  }
 
   dat$commercial_samples_no_keepers <- dplyr::filter(dat$commercial_samples,
     sampling_desc %in% "UNSORTED")
@@ -177,15 +192,15 @@ make_pages <- function(
   if (!is.na(sb)) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, 2017)) +
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, max(synoptic_max_survey_years))) +
       guides(fill = FALSE, colour = FALSE)
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
-      year = seq(2004, 2016, 2),
+      year = seq(2004, max(synoptic_max_survey_years), 2),
       max_size = 8,
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
-      year_range = c(2003, 2017)) +
+      year_range = c(2003, max(synoptic_max_survey_years))) +
       guides(fill = FALSE, colour = FALSE) +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
@@ -233,7 +248,7 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", "Commercial"))
-    sb$year <- factor(sb$year, levels = seq(2003, 2017))
+    sb$year <- factor(sb$year, levels = seq(2003, max(synoptic_max_survey_years)))
 
     g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
       bin_size = bin_width, min_total = min_total) +
@@ -266,7 +281,7 @@ make_pages <- function(
     if (!is.na(cpue_index[[1]])) { # enough vessels?
 
       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
-        ggplot2::ggtitle("Commercial trawl CPUE") +
+        ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
         ylab("") + xlab("") +
         ggplot2::theme(
           axis.title.y = element_blank(),
@@ -278,10 +293,10 @@ make_pages <- function(
   if (nrow(dat$catch) == 0 || is.na(cpue_index[[1]])) {
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
-        expand.grid(area = factor(c("3CD|5ABCDE", "5AB", "5CDE", "3CD"),
-          levels = c("3CD|5ABCDE", "5AB", "5CDE", "3CD")), year = 2000,
+        expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
+          levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")), year = 2000,
           est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
-      ggplot2::ggtitle("Commercial trawl CPUE") +
+      ggplot2::ggtitle("Commercial bottom-trawl CPUE") +
       ylab("") + xlab("") +
       ggplot2::theme(
         axis.title.y = element_blank(),
@@ -328,7 +343,7 @@ make_pages <- function(
   } else {
     g_survey_index <- plot_survey_index(dat_tidy_survey_index,
       col = c("grey60", "grey20"), survey_cols = survey_cols,
-      xlim = c(1984, 2017))
+      xlim = c(1984, max(synoptic_max_survey_years)))
   }
 
   # Get geostatistical index calculations
@@ -369,7 +384,7 @@ make_pages <- function(
         fill = NA, lty = "12", size = 0.35, colour = "grey40")
     g_survey_index <- suppressMessages({
       g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
-        xlim = c(1984, 2017) + c(-0.5, 0.5), expand = FALSE)})
+        xlim = c(1984, max(synoptic_max_survey_years)) + c(-0.5, 0.5), expand = FALSE)})
   }
 
   g_survey_index <- g_survey_index +
@@ -381,18 +396,16 @@ make_pages <- function(
 
   # Specimen numbers: ----------------------------------------------------------
 
-  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, 2017))
+  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, 2017)) +
-    # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
+  g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, max(synoptic_max_survey_years))) +
     ggplot2::ggtitle("Commercial specimen counts")
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
-  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, 2017))
+  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, 2017)) +
-    # ggplot2::scale_fill_distiller(palette = "Greys", na.value = "white", direction = 1) +
+  g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, max(synoptic_max_survey_years))) +
     ggplot2::ggtitle("Survey specimen counts")
   suppressMessages({g_survey_samples <- g_survey_samples +
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
@@ -410,27 +423,30 @@ make_pages <- function(
 
   # Growth fits: ---------------------------------------------------------------
 
-  if (nrow(dat$combined_samples) >= 10) {
-    if (!file.exists(vb_cache_spp)) {
-      vb_m <- fit_vb(dat$combined_samples, sex = "male", method = "mpd",
-        too_high_quantile = 0.99)
-      vb_f <- fit_vb(dat$combined_samples, sex = "female", method = "mpd",
-        too_high_quantile = 0.99)
-      vb <- list()
-      vb$m <- vb_m
-      vb$f <- vb_f
-      saveRDS(vb, file = vb_cache_spp, compress = FALSE)
-    } else {
-      vb <- readRDS(vb_cache_spp)
+  if (nrow(dat$survey_samples) >= 10) {
+
+    vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "tmb",
+      too_high_quantile = 1, df = 3)
+    vb_f <- fit_vb(dat$survey_samples, sex = "female", method = "tmb",
+      too_high_quantile = 1, df = 3)
+    vb <- list()
+    vb$m <- vb_m
+    vb$f <- vb_f
+
+    # FIXME: these look way off; omitting them for now
+    if (identical(spp, "shortspine thornyhead")) {
+      vb$f$predictions$age <- NA
+      vb$f$predictions$length <- NA
+      vb$f$pars <- list(k = NA, linf = NA, t0 = NA)
     }
 
     g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE)
 
-    lw_m <- fit_length_weight(dat$combined_samples, sex = "male", method = "rlm",
-      too_high_quantile = 0.99)
-    lw_f <- fit_length_weight(dat$combined_samples, sex = "female", method = "rlm",
-      too_high_quantile = 0.99)
+    lw_m <- fit_length_weight(dat$survey_samples, sex = "male", method = "tmb",
+      too_high_quantile = 1)
+    lw_f <- fit_length_weight(dat$survey_samples, sex = "female", method = "tmb",
+      too_high_quantile = 1)
 
     g_length_weight <-
       plot_length_weight(object_female = lw_f, object_male = lw_m) +
@@ -449,8 +465,8 @@ make_pages <- function(
 
   # Maturity ogives: -----------------------------------------------------------
 
-  if (sum(!is.na(dat$combined_samples$maturity_code)) > 10) {
-    mat_age <- dat$combined_samples %>%
+  if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
+    mat_age <- dat$survey_samples %>%
       fit_mat_ogive(
         type = "age",
         months = seq(1, 12))
@@ -464,7 +480,7 @@ make_pages <- function(
     sample_size <- mat_age$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
-      summarise(N_min = min(N))
+      summarise(N_min = min(N, na.rm = TRUE))
 
     # if prob. mature looks wrong, fake a low sample size to not plot it:
     prob_mat <- mat_age$pred_data %>%
@@ -472,23 +488,25 @@ make_pages <- function(
       unique() %>%
       group_by(female) %>%
       filter(age_or_length < quantile(age_or_length, probs = 0.1)) %>%
-      summarise(mean_mat = mean(glmm_fe))
+      summarise(mean_mat = mean(glmm_fe, na.rm = TRUE))
 
     sample_size <- left_join(sample_size, prob_mat, by = "female") %>%
       mutate(N_min = ifelse(mean_mat > 0.5, 0, N_min))
 
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "none"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "all"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "male"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "female"
+    if (nrow(sample_size) > 1L && length(unique(sample_size$female)) > 1L && nrow(prob_mat) >= 1L) {
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "none"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "all"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "male"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "female"
+    }
   }
 
   if (length(mat_age) > 1L && type != "none") {
@@ -501,8 +519,8 @@ make_pages <- function(
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
-  if (sum(!is.na(dat$combined_samples$maturity_code)) > 10) {
-    mat_length <- dat$combined_samples %>%
+  if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
+    mat_length <- dat$survey_samples %>%
       fit_mat_ogive(
         type = "length",
         months = 1:12)
@@ -515,19 +533,22 @@ make_pages <- function(
     sample_size <- mat_length$data %>% group_by(female, mature) %>%
       summarise(N = n()) %>%
       group_by(female) %>%
-      summarise(N_min = min(N))
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "none"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "all"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
-      type <- "male"
-    if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
-        sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
-      type <- "female"
+      summarise(N_min = min(N, na.rm = TRUE))
+
+    if (nrow(sample_size) > 1L && length(unique(sample_size$female)) > 1L) {
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "none"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "all"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] >= mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] < mat_min_n)
+        type <- "male"
+      if (sample_size[sample_size$female == 0, "N_min", drop = TRUE] < mat_min_n &&
+          sample_size[sample_size$female == 1, "N_min", drop = TRUE] >= mat_min_n)
+        type <- "female"
+    }
   }
 
   if (length(mat_length) > 1L && type != "none") {
@@ -551,50 +572,58 @@ make_pages <- function(
     y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
     inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
 
-  g_cpue_spatial <- dplyr::filter(dat$cpue_spatial, year >= 2012) %>%
+  g_cpue_spatial <- dat$cpue_spatial %>%
     plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
       rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+      show_historical = TRUE, start_year = 2013,
       fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
-      colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D")
+      colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
+      percent_excluded_xy = c(0.015, -0.02),
       ) +
     ggplot2::ggtitle("Commercial trawl CPUE") +
-    theme(legend.position = "none")
+    theme(legend.position = "none") +
+    ggplot2::annotate("text", 360, 6172, label = "2013–2018", col = "grey30",
+      hjust = 0)
   suppressMessages({g_cpue_spatial <- g_cpue_spatial +
     coord_cart + theme(
       axis.title = element_blank(),
       axis.text = element_blank(),
       axis.ticks = element_blank()
     )})
-  # ggplot2::scale_fill_distiller(palette = "Blues", direction = 1, trans = "sqrt") +
-  # ggplot2::scale_colour_distiller(palette = "Blues", direction = 1, trans = "sqrt")
 
   if (include_map_square)
     g_cpue_spatial <- g_cpue_spatial + checking_square
 
   suppressMessages({
-    g_cpue_spatial_ll <- filter(dat$cpue_spatial_ll, year >= 2008) %>%
-    plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
-      rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
-      fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
-      colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-      fill_lab = "CPUE (kg/fe)") +
-    ggplot2::ggtitle("Commercial H & L CPUE") +
-    theme(legend.position = "none") +
-    coord_cart + theme(
-      axis.title = element_blank(),
-      axis.text = element_blank(),
-      axis.ticks = element_blank()
-    )
+    g_cpue_spatial_ll <- dat$cpue_spatial_ll %>%
+      plot_cpue_spatial(bin_width = 7, n_minimum_vessels = 3,
+        rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+        start_year = 2008,
+        fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
+        colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
+        fill_lab = "CPUE (kg/fe)",
+        percent_excluded_xy = c(0.015, -0.02)) +
+      ggplot2::ggtitle("Commercial H & L CPUE") +
+      theme(legend.position = "none") +
+      coord_cart + theme(
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()
+      ) +
+      ggplot2::annotate("text", 360, 6172, label = "2008–2018", col = "grey30",
+        hjust = 0)
   })
 
   # Survey maps: ---------------------------------------------------------------
   if (!file.exists(map_cache_spp_synoptic)) {
+    # Multiply by 1000 for computational reasons.
+    # Otherwise the numbers are too small sometimes:
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
       species = spp,
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
-      model = "sdmTMB", silent = TRUE, years = 2016:2017)
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
     # syn_fits$models <- NULL # save space
     saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
   } else {
@@ -605,8 +634,8 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = "IPHC FISS",
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
-      model = "sdmTMB", silent = TRUE, years = 2016:2017)
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -617,8 +646,8 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = c("HBLL OUT N", "HBLL OUT S"),
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = 2016:2017)
-      model = "sdmTMB", silent = TRUE, years = 2016:2017)
+      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = hbll_out_max_survey_years)
     # hbll_fits$models <- NULL # save space
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
@@ -639,6 +668,34 @@ make_pages <- function(
     }
   }
 
+  round_density <- function(x) {
+    if (x >= 10000)
+      x <- gfplot:::round_any(x, 1000)
+    if (x >= 1000 && x < 10000)
+      x <- gfplot:::round_any(x, 100)
+    if (x >= 100 && x < 1000)
+      x <- gfplot:::round_any(x, 100)
+    if (x >= 10 && x < 100)
+      x <- gfplot:::round_any(x, 1)
+    if (x >= 1 && x < 10)
+      x <- sprintf("%.1f", round(x, 1))
+    if (x < 1)
+      x <- sprintf("%.2f", round(x, 2))
+    x
+  }
+
+  if (nrow(syn_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
+    # we've already multiply the density by 1000 for computational reasons
+    # so we need to divided by 1000 here to get back to the original units:
+    syn_density <- mean(syn_fits$raw_dat$density, na.rm = TRUE) * (1000 * 1000) / 1000
+    dens_units <- "~kg/km^2"
+    if (syn_density > 1000) {
+      dens_units <- "~t/km^2"
+      syn_density <- syn_density / 1000
+    }
+    syn_density <- round_density(syn_density)
+  }
+
   suppressMessages({
     g_survey_spatial_syn <-
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
@@ -647,6 +704,11 @@ make_pages <- function(
       coord_cart + ggplot2::ggtitle("Synoptic survey biomass") +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
+
+    if (nrow(syn_fits$raw_dat) >= 1L)  # calculate a density to label on the map
+      g_survey_spatial_syn <- g_survey_spatial_syn +
+        ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+          label = paste0("Mean~", syn_density, dens_units), parse = TRUE)
   })
 
   iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
@@ -654,6 +716,12 @@ make_pages <- function(
   iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
   iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
     iphc_map_dat$combined)
+
+  if (sum(!is.na(iphc_map_dat$combined)) >= 1L) { # calculate a density to label on the map
+    iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
+    iphc_density <- round_density(iphc_density)
+  }
+
   suppressMessages({
     g_survey_spatial_iphc <-
       gfsynopsis::plot_survey_maps(iphc_map_dat, iphc_fits$raw_dat,
@@ -665,8 +733,16 @@ make_pages <- function(
         na.value = 'white') +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'grey35')
+    if (sum(!is.na(iphc_map_dat$combined)) >= 1L)
+      g_survey_spatial_iphc <- g_survey_spatial_iphc +
+        ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+          label = paste0("Mean~", iphc_density, "~fish/skate"), parse = TRUE)
   })
 
+  if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
+    hbll_density <- mean(hbll_fits$raw_dat$density, na.rm = TRUE)
+    hbll_density <- round_density(hbll_density)
+  }
   suppressMessages({
     g_survey_spatial_hbll <-
       gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
@@ -678,6 +754,11 @@ make_pages <- function(
       coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass") +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
+    dens_units <- "~fish/km^2"
+    if (nrow(hbll_fits$raw_dat) >= 1L)  # calculate a density to label on the map
+      g_survey_spatial_hbll <- g_survey_spatial_hbll +
+      ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+        label = paste0("Mean~", hbll_density, dens_units), parse = TRUE)
   })
 
   # Page 1 layout: -------------------------------------------------------------

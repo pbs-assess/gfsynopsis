@@ -1,23 +1,14 @@
 # This file generates all the main synopsis figures in `report/figure-pages`.
-# It must be run from before the report can be rendered.
-# Must be run from the root folder (gfsynopsis/), using source("report/make.R").
+# It must be run before the report can be rendered.
 library(here)
 library(dplyr)
-
-# for rapid development:
-# if (any(grepl("^package:gfsynopsis$", search()))) unloadNamespace('gfsynopsis')
-# if (any(grepl("^package:gfplot$", search()))) unloadNamespace('gfplot')
-# devtools::install(here("..", "gfplot"), quick = TRUE, dependencies = FALSE)
-# devtools::install(quick = TRUE, dependencies = FALSE)
-
-# for production use:
 library(gfplot)
 library(gfsynopsis)
 
 # ------------------------------------------------------------------------------
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
-example_spp <- "petrale sole" # a species used as an example in the Res Doc
+example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 
 # ------------------------------------------------------------------------------
@@ -26,10 +17,13 @@ dc <- here("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
-  select(species_common_name, species_code, species_science_name, spp_w_hyphens,
-    type, itis_tsn)
-dat_geostat_index <- readRDS(here("report", "geostat-cache",
-  "geostat-index-estimates.rds"))
+  select(species_common_name, species_code,
+    species_science_name, spp_w_hyphens, type, itis_tsn, worms_id)
+
+# Geostatistical model fits: (a bit slow)
+fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
+if (!file.exists(fi)) source(here("report/make-geostat.R"))
+dat_geostat_index <- readRDS(fi)
 
 # ------------------------------------------------------------------------------
 
@@ -65,7 +59,6 @@ cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
     schedule, sara_status) %>%
   mutate(species_science_name = tolower(species_science_name))
 
-# inner_join(spp, cosewic, by = "species_science_name") %>% View
 cosewic <- filter(cosewic, !grepl("Atlantic", population))
 cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", population))
 spp <- left_join(spp, cosewic, by = "species_science_name")
@@ -96,7 +89,7 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
-spp <- arrange(spp, type, species_code)
+spp <- arrange(spp, species_code)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
@@ -136,9 +129,6 @@ for (i in seq_along(spp$species_common_name)) {
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
 
-# Set a flag for the first Type B species to create a new section:
-spp$b_section <- c(FALSE, diff(as.numeric(as.factor(spp$type))) == 1)
-
 # Generate `plot-pages.Rmd`:
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
@@ -153,17 +143,13 @@ temp <- lapply(spp$species_common_name, function(x) {
   sara_status <- spp$sara_status[spp$species_common_name == x]
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   cosewic_report <- spp$cosewic_status_reports[spp$species_common_name == x]
-  .b_section <- spp$b_section[spp$species_common_name == x]
+  worms_id <- spp$worms_id[spp$species_common_name == x]
 
   resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
   sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
 
   i <- 1
   out[[i]] <- "\\clearpage\n"
-  if (.b_section) {
-    i <- i + 1
-    out[[i]] <- "# SYNOPSIS PLOTS: TYPE B SPECIES {#sec:synopsis-plots-B}\n"
-  }
   i <- i + 1
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
@@ -175,15 +161,28 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0("[FishBase link]",
     "(http://www.fishbase.org/summary/",
-    gsub(" ", "-", gfplot:::firstup(latin_name)), ")\\")
+    gsub(" ", "-", gfplot:::firstup(latin_name)), ")")
   if (species_code == '394') { # Sebastes aleutianus/melanostictus
     .names <- rougheye_split(gfplot:::firstup(latin_name))
     out[[i]] <- paste0("[FishBase link 1]",
       "(http://www.fishbase.org/summary/", .names[1], "),")
     i <- i + 1
     out[[i]] <- paste0("[FishBase link 2]",
-      "(http://www.fishbase.org/summary/", .names[2], ")\\")
+      "(http://www.fishbase.org/summary/", .names[2], ")")
   }
+  if (species_code == '039') { # Requiem Sharks
+    out[[i]] <- paste0("[FishBase link]",
+    "(http://www.fishbase.org/Summary/FamilySummary.php?ID=11)")
+  }
+  if (worms_id != 'unknown') {
+    out[[i]] <- paste0(out[[i]], ", ")
+    i <- i + 1
+    out[[i]] <- paste0(
+      '[WoRMS link]',
+      '(http://www.marinespecies.org/aphia.php?p=taxdetails&id=',
+      worms_id, ')')
+  }
+  out[[i]] <- paste0(out[[i]], "\\")
   if (resdoc != "") {
     i <- i + 1
     out[[i]] <- paste0(resdoc_text, resdoc, "\\")
@@ -221,6 +220,27 @@ temp <- lapply(spp$species_common_name, function(x) {
     out[[i]] <- "COSEWIC status: Special Concern, SARA status: Special Concern\n"
     i <- i + 1
   }
+  if (species_code == "225") {
+    out[[i]] <- "Note that Pacific Hake undergoes a directed annual joint
+                Canada-US coastwide\n survey and assessment which are not
+                included in this report. The most recent\n stock assessment
+                should be consulted for details on stock status."
+    i <- i + 1
+  }
+  if (species_code == "614") {
+    out[[i]] <- "Note that Pacific Halibut undergoes thorough assessment by the
+                International Pacific\n Halibut Commission based on an annual
+                standardized setline survey. The most\n recent stock assessment
+                should be consulted for details on stock status."
+    i <- i + 1
+  }
+  if (species_code == "455") {
+    out[[i]] <- "Note that Sablefish undergoes directed annual trap surveys
+                which are used for\n stock assessment and are not included in
+                this report. The most recent\n stock assessment should be
+                consulted for details on stock status."
+    i <- i + 1
+  }
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0("\\includegraphics[width=6.4in]{../figure-pages/",
@@ -243,7 +263,7 @@ temp <- lapply(spp$species_common_name, function(x) {
 
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
-temp <- c("<!-- This page has been automatically generated. Do not edited by hand! -->\n", temp)
+temp <- c("<!-- This page has been automatically generated: do not edit by hand -->\n", temp)
 if (!exists("N"))
   writeLines(temp, con = here("report", "report-rmd", "plot-pages.Rmd"))
 

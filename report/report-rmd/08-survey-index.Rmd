@@ -4,10 +4,10 @@ Fisheries and Oceans Canada conducts a number of fishery-independent
 multispecies research surveys annually or biannually. These include four
 synoptic bottom trawl surveys and two longline hook surveys
 (Figure \@ref(fig:intro-maps)). The survey areas correspond roughly with Groundfish
-Management areas (Figure \@ref(fig:management-map)) that fishery quotas are
-allocated by British Columbia waters. For the synoptic trawl surveys, the West
+Management areas (Figure \@ref(fig:management-map)) where fishery quotas are
+allocated in British Columbia waters. For the synoptic trawl surveys, the West
 Coast Vancouver Island survey corresponds roughly to management areas 3CD, the
-Queen Charlotte Strait survey corresponds roughly to areas 5AB, the Hecate
+Queen Charlotte Sound survey corresponds roughly to areas 5AB, the Hecate
 Strait survey corresponds roughly to areas 5CD, and the West Coast Haida Gwaii
 surveys corresponds roughly to area 5E. The Hard Bottom Longline survey is
 split into northern and southern segments. The southern survey area corresponds
@@ -48,8 +48,8 @@ Hard Bottom Longline Inside surveys are conducted within management area 4B.
 These surveys were designed to provide fishery independent indices of
 abundance together with biological samples to improve the assessment of
 Yelloweye (*Sebastes ruberrimus*) and Quillback (*S. maliger*) Rockfish
-for the 4B management region. They began in the northern Strait of Georgia
-in Pacific Fishery Management areas 12 and 13 in 2003 and 2004, and now
+for the 4B management region. They began in Johnstone Strait and Discovery
+Passage in Pacific Fishery Management areas 12 and 13 in 2003 and 2004, and now
 alternate years to cover the northern (areas 12 and 13) and southern
 (areas 14--20, 28, 29) portions of the inside waters. These surveys also employ
 standardized longline snap gear and fishing methods.
@@ -86,6 +86,19 @@ found in the following documents:
 1. Hecate Strait Multispecies Assemblage Survey (MSA HS): @choromanski2004hsmsa
 
 1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
+
+```{r other-surveys-table-setup}
+f <- system.file("extdata", "other-surveys.csv", package = "gfplot")
+other_surveys <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
+names(other_surveys) <- gsub("_", " ", names(other_surveys))
+```
+
+\clearpage
+
+```{r other-surveys-table, results='asis'}
+# csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO that are not included in this report but may be applicable for some species-specific analyses.")
+# TODO: insert table based on cached results here.
+```
 
 The main biomass index trends illustrated on the figure pages represent the
 'design-based' index trends that have historically been used in Pacific
@@ -167,18 +180,18 @@ know this is not true --- a substantial portion of fish density variation
 within a stratum can be attributed to habitat being of better or poorer
 suitability for a given fish and this suitability can be because of many
 factors beyond depth alone, on which the strata are stratified [@shelton2014].
-Furthermore, design-based estimates assume that nearby strata are statistically
-independent from each other. However, we know that fish do not perceive their
-habitat according to these exact strata boundaries and that ecological
-processes in general tend to be spatially correlated with processes closer to
-each other being more similar than those further apart.
+We also know that fish do not perceive their habitat according to these exact
+strata boundaries and that ecological processes in general tend to be spatially
+correlated with processes closer to each other being more similar than those
+further apart. Design-based estimates do not take advantage of this possible
+spatial correlation.
 
 Geostatistical modelling of survey data aims to address these issues by
 modelling fish density as a smooth spatial surface --- possibly the result of
 explicit habitat variables such as depth --- but also as the product of other
 unobserved or 'latent' spatial effects. In recent years, there has been
 a movement toward such 'model-based' standardization of survey biomass index
-trends [e.g. @shelton2014; @thorson2015; @webster2017]. We include model-based
+trends [e.g., @shelton2014; @thorson2015; @webster2017]. We include model-based
 index trends for the synoptic trawl surveys as a point of comparison so the
 reader can gauge when the two approaches may differ. Large differences are
 likely a result of the random positioning of the survey sets for a given year
@@ -256,10 +269,10 @@ Delta method as implemented in TMB [@kristensen2016]. Similar to the findings
 of @thorson2015, we found that the model-based biomass index trends often had
 lower CVs (coefficient of variations) than the design-based index trends and
 often helped stabilize biomass estimates for outlying years compared to the
-design-based index trends (e.g. Figure \@ref(fig:sdmTMB-plot-index)).
+design-based index trends (e.g., Figure \@ref(fig:sdmTMB-plot-index)).
 
 We found little difference in the predicted biomass index between models that
-included or did not include depth covariates (e.g. Figure
+included or did not include depth covariates (e.g., Figure
 \@ref(fig:sdmTMB-plot-index)). We found that the main difference between models
 with or without depth covariates was in the models with depth covariates having
 slightly more spatially resolved estimates of biomass (Figure
@@ -269,8 +282,8 @@ We chose to not include depth and depth squared as predictors in the main
 biomass index illustrated throughout this report. Whereas in nearly all cases
 including depth covariates generated a similar index to excluding them, in
 a few cases including them generated what appeared to be unrealistic deviations
-in biomass when a combination of the quadratic shape of the relationship
-between depth and biomass combined to generate exceedingly high over low
+in biomass when the quadratic shape of the relationship
+between depth and biomass generated exceedingly high or low
 estimates of biomass on the border of the survey polygons. This remains a topic
 of research and will be investigated by the authors in the future.
 
@@ -412,7 +425,7 @@ ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
 
 \clearpage
 
-```{r sdmTMB-plot-index, fig.width=7, fig.cap='Relative biomass index predictions from the design-based approach, the geostatistical approach without covariates, and the geostatistical approach with depth covariates. Note the similarity between the two geostatistical models.'}
+```{r sdmTMB-plot-index, fig.width=7, fig.cap='Relative biomass index predictions from the design-based approach, the geostatistical approach without covariates, and the geostatistical approach with depth covariates. The y-axis denotes relative biomass from each method divided by its geometric mean. Note the similarity between the two geostatistical models.'}
 # ind_design <- readRDS(here::here('report/data-cache/walleye-pollock.rds'))
 ind_design <- readRDS(here::here('report/data-cache/pacific-cod.rds'))
 ind_design <- ind_design$survey_index

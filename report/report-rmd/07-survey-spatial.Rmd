@@ -2,10 +2,11 @@
 
 We modelled the expected biomass density in space for each species using
 geostatistical models applied to data from the fisheries independent bottom
-trawl and long line surveys (e.g. Figure \@ref(fig:survey-maps)). Our modeling
+trawl and long line surveys (e.g., Figure \@ref(fig:survey-maps)). Our modeling
 approach is consistent with recent models used for spatial modelling and
 spatiotemporal index standardization of groundfish populations [e.g.
-@shelton2014; @ward2015; @thorson2015; @thorson2016]. Such models have been
+@shelton2014; @ward2015; @thorson2015; @thorson2016], but has not, to our knowledge, 
+previously been applied in DFO Research Documents. Such models have been
 shown, for example, to improve estimates of rockfish abundance and distribution
 [@shelton2014] and improve precision when estimating relative abundance indices
 for groundfish [@thorson2015]. Our specific model is fit with TMB
@@ -53,29 +54,29 @@ $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
 where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma
 function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the
 Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents
-a scaling parameter that is estimated [e.g. @lindgren2011]. The parameter $\nu$
+a scaling parameter that is estimated [e.g., @lindgren2011]. The parameter $\nu$
 controls the smoothness of the covariance function. We set $\nu = 1$, which
 lets us take advantage of the Stochastic Partial Differential Equation (SPDE)
 approximation to Gaussian Markov Random Fields (GMRF) to greatly increase
 computational efficiency [@lindgren2011].
 
 Our spatial model falls into the general category of "predictive process"
-models [e.g. @latimer2009; @shelton2014; @anderson2018], in which the model
+models [e.g., @latimer2009; @shelton2014; @anderson2018], in which the model
 keeps track of a limited number of "knots" that approximate unexplained spatial
 variation (Figure \@ref(fig:sdmTMB-spde)). By keeping track of a smaller number
 of knots than the full spatial data set, we can increase computational
 efficiency. The model predictions can be projected to the original data
 locations or any new set of locations as long as an appropriate covariance
-matrix can be calculated [e.g. @latimer2009]. Higher numbers of knots result in
+matrix can be calculated [e.g., @latimer2009]. Higher numbers of knots result in
 a better approximation of the spatial random effects at a greater computational
 cost. We fit the spatial models with one less knot than the number of
 observations if there were fewer than 200 observations and 200 knots otherwise.
-Following one common practice [e.g. @shelton2014; @thorson2017b; @anderson2018]
+Following one common practice [e.g., @shelton2014; @thorson2017b; @anderson2018]
 we chose the location of the knots with a k-means clustering algorithm with
 a fixed random seed to ensure reproducible results.
 
 Instead of directly modelling the effects of depth and depth squared, we first
-centred the log-transformed depth covariate by subtracting its mean and scaling
+standardized the log-transformed depth covariate by subtracting its mean and scaling
 it by its standard deviation. We then calculate 'depth squared' from this
 centred and scaled variable. This ensures the covariate values are not too
 large or small to avoid computational issues and the centring separates the
@@ -206,7 +207,7 @@ g_sdm3 <- plot_map(predictions$data, "est_re_s") +
 
 \clearpage
 
-```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent on modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent only modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
 cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
 ```
 
@@ -225,3 +226,41 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
 ```
 
 \clearpage
+
+```{r sdmTMB-model-table-dat}
+g_models <- readRDS(here::here('report/geostat-cache/spt-index-out.rds'))
+g_models_dat <- purrr::map_df(g_models, function(x) {
+  if (length(x) > 1L) {
+    phi <- exp(x$model$tmb_obj$env$last.par[["ln_phi"]])
+    thetaf <- x$model$tmb_obj$env$last.par[["thetaf"]]
+    thetaf <- plogis(thetaf) + 1
+    tau_O <- exp(x$model$tmb_obj$env$last.par[["ln_tau_O"]])
+    tau_E <- exp(x$model$tmb_obj$env$last.par[["ln_tau_E"]])
+    kappa <- exp(x$model$tmb_obj$env$last.par[["ln_kappa"]])
+    tibble::tibble(
+      species_name = gfsynopsis:::first_cap(gsub("-", " ", x$species_name)),
+      survey = x$survey,
+      kappa = kappa,
+      tau_O = tau_O,
+      tau_E = tau_E,
+      phi = phi,
+      thetaf = thetaf)
+  }
+})
+```
+
+```{r sdmTMB-model-table, results='asis', eval = FALSE}
+g_models_dat %>% 
+  dplyr::arrange(species_name, survey) %>%
+  # these have already been filtered out elsewhere for their massive CVs:
+  dplyr::filter(phi < 1e3) %>% 
+  dplyr::filter(tau_O < 50) %>% 
+  dplyr::filter(tau_E < 50) %>% 
+  mutate(species_name = gsub("Rougheyeblackspotted Rockfish Complex",
+    "Rougheye/Blackspotted Rockfish", species_name)) %>% 
+  csasdown::csas_table(digits = 1, 
+    col.names = c(
+      "Species name", "Survey", "$\\kappa$", "$\\tau_O$", 
+      "$\\tau_E$", "$\\phi$", "$p$"),
+    caption = "Parameter estimates from geostatistical spatiotemporal models.")
+```

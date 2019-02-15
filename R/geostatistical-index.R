@@ -14,7 +14,8 @@
 #' @export
 fit_sdmTMB_westcoast <- function(species_rds, survey,
   species_name = "", n_knots = 200, cell_width = 2,
-  anisotropy = FALSE, silent = TRUE, bias_correct = FALSE) {
+  anisotropy = FALSE, silent = TRUE, bias_correct = FALSE,
+  include_depth = FALSE) {
 
   d <- readRDS(species_rds)$survey_sets
   d <- dplyr::filter(d, !(year == 2014 & survey_abbrev == "SYN WCHG")) # not used
@@ -22,7 +23,7 @@ fit_sdmTMB_westcoast <- function(species_rds, survey,
   dat <- gfplot:::tidy_survey_sets(d, survey, years = seq(1, 1e6),
     density_column = col)
 
-  if (mean(dat$present) < 0.05) error("Not enough data.")
+  if (mean(dat$present) < 0.05) stop("Not enough data.")
 
   .scale <- if (grepl("SYN", survey)) 1000 else 1 # for computational stability
   dat <- dplyr::mutate(dat, density = density * .scale)
@@ -40,17 +41,17 @@ fit_sdmTMB_westcoast <- function(species_rds, survey,
   }
   grid_locs$year <- NULL
   formula <- if (include_depth) {
-    as.formula(density ~ 0 + as.factor(year))
+    stats::as.formula(density ~ 0 + as.factor(year))
   } else {
-    as.formula(density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2)
+    stats::as.formula(density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2)
   }
-  spde <- make_spde(dat$X, dat$Y, n_knots = n_knots)
+  spde <- sdmTMB::make_spde(dat$X, dat$Y, n_knots = n_knots)
   m <- sdmTMB::sdmTMB(
     formula = formula,
-    data = dat, time = "year", spde = spde, family = tweedie(link = "log"),
+    data = dat, time = "year", spde = spde, family = sdmTMB::tweedie(link = "log"),
     anisotropy = anisotropy, silent = silent)
-  predictions <- predict(m, newdata = grid_locs)
-  index <- get_index(predictions, bias_correct = bias_correct)
+  predictions <- stats::predict(m, newdata = grid_locs)
+  index <- sdmTMB::get_index(predictions, bias_correct = bias_correct)
   index <- dplyr::mutate(index, cv = sqrt(exp(se^2) - 1))
   list(
     data = dat,

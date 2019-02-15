@@ -46,7 +46,7 @@ fit_cpue_indices <- function(dat,
   cl <- parallel::makeCluster(min(c(cores, length(areas))))
   doParallel::registerDoParallel(cl)
   cpue_models <- foreach::foreach(area = areas,
-    .packages = c("gfplot", "gfsynopsis")) %do% {
+    .packages = c("gfplot", "gfsynopsis")) %dopar% {
       message("Determining qualified fleet for area ", area, ".")
 
       fleet <- gfplot::tidy_cpue_index(dat,
@@ -79,30 +79,31 @@ fit_cpue_indices <- function(dat,
         saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
           "-", clean_area(area), "-fleet.rds")))
 
-      # invisible(capture.output(
-      m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
-        formula = cpue ~ 0 + year_factor +
-          depth +
-          month +
-          latitude +
-          (1 | locality) +
-          (1 | vessel) +
-          (1 | year_locality),
-        verbose = FALSE))
-      # ))
+      clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
+      model_file <- file.path(cache, paste0(gsub("\\/", "", gsub(" ", "-", species)),
+        "-", clean_area(area), "-model.rds"))
 
+      if (!file.exists(model_file)) {
+        m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
+          formula = cpue ~ 0 + year_factor +
+            depth +
+            month +
+            latitude +
+            (1 | locality) +
+            (1 | vessel) +
+            (1 | year_locality),
+          verbose = FALSE))
+        saveRDS(m_cpue, file = model_file)
+      } else {
+        m_cpue <- readRDS(model_file)
+      }
       if (identical(class(m_cpue), "try-error")) {
         warning("TMB CPUE model for area ", area, " did not converge.")
         return(NA)
       }
-
-      clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
-      # if (save_model)
-      saveRDS(m_cpue,
-        file = file.path(cache, paste0(gsub(" ", "-", species),
-          "-", clean_area(area), "-model.rds")))
-    list(model = m_cpue, fleet = fleet, area = clean_area(area))
-  }
+      list(model = m_cpue, fleet = fleet, area = clean_area(area))
+    }
+  doParallel::stopImplicitCluster()
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
@@ -210,79 +211,3 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
 
   g
 }
-#
-# d_cpue_index <- readRDS("report/data-cache/pbs-cpue-index.rds")
-# ind <- gfsynopsis::fit_cpue_indices(d_cpue_index, "pacific cod",
-#   areas = c("3[CD]+"))
-# gfsynopsis::plot_cpue_indices(ind)
-
-# library(mgcv)
-#
-# fleet <- tidy_cpue_index(d,
-#     year_range = c(1996, 2017),
-#     species_common = "pacific cod",
-#     area_grep_pattern = "3[CD]+",
-#     min_positive_tows = 100,
-#     min_positive_trips = 4,
-#     min_yrs_with_trips = 4,
-#     lat_band_width = 0.02,
-#     depth_band_width = 1,
-#     clean_bins = TRUE,
-#     depth_bin_quantiles = c(0.01, 0.99),
-#     lat_bin_quantiles = c(0.01, 0.99)
-# )
-#
-#   pos_catch_fleet <- dplyr::filter(fleet, pos_catch == 1)
-#   base_month    <- get_most_common_level(pos_catch_fleet$month)
-#   base_depth    <- get_most_common_level(pos_catch_fleet$depth)
-#   base_lat      <- get_most_common_level(pos_catch_fleet$latitude)
-#   base_vessel   <- get_most_common_level(pos_catch_fleet$vessel)
-#   base_locality <- get_most_common_level(pos_catch_fleet$locality)
-#
-#   fleet$latitude <- as.numeric(as.character(fleet$latitude))
-#   fleet$depth <- as.numeric(as.character(fleet$depth))
-#   fleet$month <- as.numeric(as.character(fleet$month))
-#
-# m <- gam(spp_catch/hours_fished ~ year_factor + f(vessel) +
-#     s(latitude) + s(depth) + s(month, k = 12, bs = "cc") + f(locality),
-#   data = fleet, family = tw(link = "log"))
-#
-# # library(gbm)
-# library(randomForest)
-# mb <- randomForest(log(spp_catch/hours_fished) ~ year_factor + vessel +
-#     latitude + depth + month + locality,
-#   data = dplyr::filter(fleet, pos_catch == 1))
-#
-# nd <- data.frame(year_factor = unique(fleet$year_factor),
-#   vessel = base_vessel, latitude = mean(fleet$latitude),
-#   depth = mean(fleet$depth), month = as.numeric(as.character(base_month)),
-#   locality = base_locality)
-#
-# nd <- data.frame(year_factor = unique(fleet$year_factor),
-#   vessel = base_vessel, latitude = as.numeric(as.character(base_lat)),
-#   depth = as.numeric(as.character(base_depth)), month = as.numeric(as.character(base_month)),
-#   locality = base_locality)
-#
-# p <- predict(m, newdata = nd, se.fit = TRUE, type = "link")
-#
-# p$fit <- p$fit - mean(p$fit)
-#
-# pp <- data.frame(est = exp(p$fit),
-#   lwr = exp(p$fit - 2 * p$se.fit),
-#   upr = exp(p$fit + 2 * p$se.fit),
-#   year = as.numeric(as.character(nd$year_factor))
-# )
-#
-# tm <- gfsynopsis::fit_cpue_indices(dat = d, species = "pacific cod",
-#   areas = "3[CD]+")
-#
-# library(ggplot2)
-# g <- ggplot(pp, aes(year, est, ymin = lwr, ymax = upr)) +
-#   geom_ribbon(colour = NA, alpha = 0.5) +
-#   geom_line()
-#
-# g <- g + geom_line(data = tm, colour = "blue") +
-#   geom_ribbon(data = tm, colour = NA, fill = "blue", alpha = 0.5)
-#
-# g <- g + geom_line(data = tm, aes(y = est_unstandardized), colour = "red")
-# g
