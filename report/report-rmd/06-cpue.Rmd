@@ -93,7 +93,7 @@ glmmTMB R package [@brooks2017].
 
 In addition to a mean parameter, the Tweedie distribution has two other
 parameters: a power parameter $p$ and a dispersion parameter $\phi$. If $1
-> p > 2$ then the Tweedie distribution represents a compound distribution
+< p < 2$ then the Tweedie distribution represents a compound distribution
 between the Poisson ($p = 1$) and the Gamma distribution ($p = 2$)
 (Figure\ \@ref(fig:cpue-tweedie-ex)). In fact, the Tweedie is alternatively
 referred to as the compound-Poisson-Gamma distribution in this bounded case. We
@@ -102,7 +102,7 @@ refer to a re-parameterization in which the Poisson and Gamma components are
 fit so that they are not assumed to have the same predictive coefficients as
 they are in the Tweedie distribution [e.g., @foster2013; @lecomte2013].
 
-We fit the Tweedie GLMM (generalized linear mixed effect model) as
+We fit the Tweedie GLMM (generalized linear mixed effects model) as
 
 \begin{align}
    (\#eq:cpue-tweedie)
@@ -134,7 +134,7 @@ locality-year $k$ (\(\alpha^\mathrm{locality-year}_k\)), and vessel $l$
 (\(\alpha^\mathrm{vessel}_l\)) and are constrained by normal distributions with
 respective standard deviations denoted by $\sigma$ parameters. By including the
 locality-year interactions, we allow the individual localities to have unique
-CPUE index trends (somewhat constrained by the random affect distribution)
+CPUE index trends (somewhat constrained by the random effect distribution)
 while estimating the overall average trend (Figure \@ref(fig:cpue-spaghetti)).
 
 We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$,
@@ -170,7 +170,7 @@ locality_count <- d_cpue %>%
   arrange(-n)
 ```
 
-(ref:cpue-locality-map-cap) Top 100 DFO localities (by fishing event account) used in the commercial CPUE standardization models. In total there are `r nrow(locality_count)` possible localities recorded in the data set.
+(ref:cpue-locality-map-cap) Top 100 DFO localities (by fishing event count) used in the commercial CPUE standardization models. In total there are `r nrow(locality_count)` possible localities recorded in the data set.
 
 ```{r cpue-locality-map, fig.cap="(ref:cpue-locality-map-cap)", fig.asp=0.9}
 gfplot:::plot_dfo_localities(top_n(locality_count, 75)$locality_code)
