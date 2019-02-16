@@ -8,8 +8,8 @@ See Section\ \@ref(sec:plot-descriptions) for detailed figure captions.
 In addition to the figures, we also provide the
 scientific name, taxonomic details, DFO species
 code,
-a link to the FishBase and WoRMs web pages,
-details of most recent DFO Research Documents and Science Advisory
+a link to the FishBase and WoRMS (World Register of Marine Species) web pages,
+details of the most recent DFO Research Documents and Science Advisory
 Reports, and any information related to designations by the Committee on the
 Status of Endangered Wildlife in Canada (COSEWIC) and to listings under the
 Species at Risk Act (SARA).
