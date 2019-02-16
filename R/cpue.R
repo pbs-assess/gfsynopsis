@@ -39,7 +39,7 @@
 fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
-  center = TRUE, cache = file.path("report", "cpue-cache"),
+  center = TRUE, cache = here::here("report", "cpue-cache"),
   save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE) {
 
   cores <- if (parallel) parallel::detectCores()[1L] else 1L
