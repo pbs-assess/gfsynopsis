@@ -24,12 +24,12 @@ fishing protocols [@sinclair2003syn]. The surveys were designed to provide
 a synopsis of all species available to bottom trawl gear as opposed to focusing
 on specific species. There are a total of four synoptic (SYN) surveys: Hecate Strait
 (HS), West Coast Vancouver Island (WCVI), Queen Charlotte Sound (QCS), and West
-Coast Haida Gwaii (WCHG) (Figure \@ref(fig:intro-maps)). Surveys have been
-conducted on both chartered commercial vessels and government research vessels.
-The Hecate Strait survey and West Coast Vancouver Island survey have been
-conducted on the Canadian Coast Guard research trawler WE Ricker while the
-Queen Charlotte Sound survey has been conducted on chartered commercial fishing
-vessels. Two of the synoptic surveys are conducted each year on an alternating
+Coast Haida Gwaii (WCHG) (Figure \@ref(fig:intro-maps)). The Queen Charlotte 
+Sound and West Coast Haida Gwaii surveys have been conducted on chartered commercial fishing
+vessels, while the Hecate Strait and West Coast Vancouver Island surveys have been
+conducted on the Canadian Coast Guard research trawler WE Ricker or chartered
+commercial fishing vessels when the WE Ricker was not available. Two of the 
+synoptic surveys are conducted each year on an alternating
 basis so that each survey is conducted every two years.
 
 ## HARD BOTTOM LONGLINE SURVEYS
@@ -41,8 +41,7 @@ Bottom Longline Outside surveys. The survey employs standardized
 longline snap gear and fishing methods and alternates annually between the
 northern and southern portions of BC. The survey is designed to provide catch
 rates of all species and biological samples of rockfish from the outside
-coastal waters of BC for stock assessment, alternating between northern and
-southern areas.
+coastal waters of BC for stock assessment.
 
 Hard Bottom Longline Inside surveys are conducted within management area 4B.
 These surveys were designed to provide fishery independent indices of
@@ -57,7 +56,7 @@ standardized longline snap gear and fishing methods.
 ## INTERNATIONAL PACIFIC HALIBUT COMMISSION FISHERY INDEPENDENT SURVEY
 
 The International Pacific Halibut Commission’s (IPHC) fishery independent
-survey is the longest times series of longline survey data in BC.
+setline survey is the longest times series of longline survey data in BC.
 It provides distribution, biomass, age, growth and maturity
 data that are used in the annual assessment of Pacific Halibut
 (*Hippoglossus stenolepis*). In Appendix \@ref(app:iphc-survey-index) we
@@ -107,7 +106,7 @@ longline survey relative biomass index trends from GFBio, which are generated
 using the same approach that has been used in all recent BC groundfish stock
 assessment reports. The code to perform the calculations was originally written
 by Norm Olsen at Pacific Biological Station and is automatically applied to the
-available survey data to populate the GFBio database. We have included the relevant
+available survey data to generate the indices in the GFBio database. We have included the relevant
 equations below for clarity. We also compare geostatistical model-based
 estimates of biomass index trends for the trawl surveys (Section \@ref(sec:geostatistical)).
 
@@ -135,7 +134,7 @@ tow $j$ in year $y$; $w_{t,j}$ represents the net opening width in km for year
 $y$ and tow $j$; and $n_{t,i}$ represents the number of tows in year $t$ and
 stratum $i$.
 
-## LONG-LINE SURVEY DESIGN-BASED ESTIMATION {#sec:ll-methods}
+## LONGLINE SURVEY DESIGN-BASED ESTIMATION {#sec:ll-methods}
 
 For the HBLL surveys, and for a given species, we calculated the relative
 biomass density $B$ in year $t$ as:
@@ -144,11 +143,11 @@ biomass density $B$ in year $t$ as:
   B_t = \sum_{i = 1}^k C_{t,i} A_i
 \end{equation}
 
-where $C_{t,i}$ represents the mean CPUE in parts (fish) per
+where $C_{t,i}$ represents the mean CPUE in pieces (fish) per
 km\textsuperscript{2} for the species in year $t$ and stratum $i$, $A_i$
 represents the area of stratum $i$ in km^2^, and $k$ represents
 the number of strata. We calculated the CPUE ($C_{t,i}$) for a given species in
-year $y$ and stratum $i$ as:
+year $t$ and stratum $i$ as:
 
 \begin{equation}
   C_{t,i} = \frac{\sum_{j = 1}^{n_{t,i}} \left( N_{t,j} / H_{t,j} w_{t,j}\right)}{n_{t,i}}
