@@ -4,7 +4,7 @@ One goal of this report is to generate standardized data sets, model fits, and
 visualizations to facilitate stock assessment. We intend for the data
 extraction and plots developed here to be useful for the upcoming
 management-procedure framework for data-limited and data-moderate groundfish
-stocks in BC, but also for the preparation of other groundfish stock
+stocks in BC, and also for the preparation of other groundfish stock
 assessments and to facilitate data-to-document workflows that go straight from
 databases to the final report via code and can be quickly updated in future
 years. To that end, the data extraction, data manipulation, model fitting, and

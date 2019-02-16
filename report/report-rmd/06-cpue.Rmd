@@ -125,7 +125,7 @@ We fit the Tweedie GLMM (generalized linear mixed effects model) as
 
 where $i$ represents a single tow, $y_i$ represents the catch (kg) per unit
 effort (hours trawled), $\bm{X_i}$ represents a vector of fixed-effect
-predictors (depth bins, months, latitude bins), $\bm{\beta}$ represents
+predictors (year, depth bins, months, latitude bins), $\bm{\beta}$ represents
 a vector of coefficients, and $\mu_i$ represents the expected CPUE in a tow.
 The random effect intercepts ($\alpha$ symbols) are allowed to vary from the
 overall intercept by locality (Figure \@ref(fig:cpue-locality-map)
