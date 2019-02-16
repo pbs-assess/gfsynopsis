@@ -20,8 +20,7 @@ representative sampling and sufficient sample sizes.
 
 ## LENGTH-AGE MODELS {#sec:length-age-models}
 
-We fit von Bertalanffy length-age growth models [@vonbertalanffy1938] with
-Stan [@rstan2018] as:
+We fit von Bertalanffy length-age growth models [@vonbertalanffy1938] as:
 
 \begin{equation}
   L_i \sim \operatorname{Log-normal}
@@ -31,7 +30,8 @@ Stan [@rstan2018] as:
 where $L_i$ and $A_i$ represent the length and age of fish $i$,
 $l_\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth
 parameters, and $\sigma$ represents the log standard deviation or scale
-parameter. The $- \sigma^2 /2$ is a lognormal bias adjustment term so we model
+parameter. The term $- \sigma^2 /2$ represents a 
+lognormal bias adjustment term so we model
 the mean length rather than the median. We fit the models with Template Model
 Builder (TMB) [@kristensen2016] with starting values of $k = 0.2$,
 $l_\mathrm{inf} = 40$, $\ln (\sigma) = \ln (0.1)$, and $t_0 = -1$.
@@ -43,15 +43,16 @@ log(weight) with Student-t error and a degrees of freedom parameter fixed to 3.
 By using Student-t error instead of Gaussian error we down-weight the influence
 of outlying values [e.g. @anderson2017c] and help generate reasonable model
 fits across all species without handpicking outlying measurements to discard.
-The model can be written as:
+The underlying growth model can be written as:
 
 \begin{equation}
   W_i = a \cdot L_i^b \cdot e_i,
 \end{equation}
+
 with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $e_i$
-representing error that is given some distribution such as lognormal or Gamma.
+representing error.
 The variables $a$ and $b$ represent the estimated length-weight parameters.
-Following the common convention, we fit the model as:
+We fit the model as:
 
 \begin{equation}
   \log (W_i) \sim \mathrm{Student\mhyphen t} (df = 3, \log (\ln(a) + b L_i), \sigma)
