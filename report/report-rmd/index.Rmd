@@ -36,16 +36,12 @@ abstract: |
   non-governmental organizations, and the public.
 output:
  csasdown::resdoc_pdf
-region: Pacific Region
+region: "Pacific Region"
 header: ""
-link_colour: navyblue
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 # ------------
 # End of options to set
 knit: bookdown::render_book
-site: bookdown::bookdown_site
 link-citations: true
 csl: csl/csas.csl
-lot: true
-lof: true
 ---
