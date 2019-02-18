@@ -139,7 +139,7 @@ g$catch
 ## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
 
 (ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort (CPUE)
-trends for `r sp`. Solid lines represent CPUE trends
+trends, with effort as hours trawled, for `r sp`. Solid lines represent CPUE trends
 standardized with a Tweedie GLMM (generalized linear mixed effects model) for
 depth, latitude, DFO locality region, vessel, and month of year (Appendix
 \@ref(app:cpue-models)). The line itself represents the estimate and the shaded
