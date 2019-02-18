@@ -235,7 +235,7 @@ temp <- lapply(spp$species_common_name, function(x) {
     i <- i + 1
   }
   if (species_code == "455") {
-    out[[i]] <- "Note that Sablefish undergoes directed annual trap surveys
+    out[[i]] <- "Note that Sablefish undergoes directed annual trap surveys,
                 which are used for\n stock assessment and are not included in
                 this report. The most recent\n stock assessment should be
                 consulted for details on stock status."
