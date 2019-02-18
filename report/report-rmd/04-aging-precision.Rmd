@@ -13,7 +13,7 @@ Wyeth for providing support on data extraction and general database structure
 and content. We thank the participants of the peer review meeting on tiered
 approaches in May 2016 [@macdougall2016], which included a data scorecard by
 Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
-for his work on GFASTeR, from which this project also takes inspiration and
+for his work on GFASTeR, from which this project takes inspiration and
 borrows some data queries. We thank Rowan Haigh for his work maintaining
 the PBSmapping and PBSdata R packages, and indeed the authors of all the R
 packages necessary to build this report (Appendix \@ref(app:reproducibility)).
