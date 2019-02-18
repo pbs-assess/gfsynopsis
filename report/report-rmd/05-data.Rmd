@@ -58,9 +58,8 @@ automate data extraction from these databases in a consistent, reproducible
 manner. The functions extract data using SQL queries, developed with support
 from the Groundfish Data Unit, which select and filter for specific data
 depending on the purpose of the analysis. The SQL file names
-mentioned in this section can be viewed at
-<https://github.com/pbs-assess/gfplot/tree/master/inst/sql> and will be
-archived on a local server with the final version of this document.
+mentioned in this section can be viewed [on GitHub](https://github.com/pbs-assess/gfplot/tree/master/inst/sql)
+and will be archived on a local server with the final version of this document.
 
 ### COMMERCIAL CATCH DATA EXTRACTION
 
@@ -389,13 +388,10 @@ Filter for \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & To extract primary and preci
 
 ## DATA ACCESSIBILITY
 
-Data from the Bottom Trawl Synoptic Surveys are available through the Open 
-Government Data Portal: <https://open.canada.ca/data/en/dataset?portal_type=dataset>
-
+Data from the Bottom Trawl Synoptic Surveys are available through the [Open Government Data Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset). 
 Hook and line survey data are currently being prepared for upload to the Open 
 Data Portal. Commercial data will be uploaded in a rolled-up format 
 in compliance with the Federal Privacy Act.
 
-Requests for data held by DFO Pacific Region can be made through Pacific 
-Fisheries Catch Statistics:
-<http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html>
+Requests for data held by DFO Pacific Region can be made through 
+[Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html).

@@ -57,7 +57,7 @@ out_hbll <- purrr::map_df(fi, function(i) {
       y <- B[[1]] + x * B[[2]] + x2 * B[[3]]
       out <- data.frame(
         depth = -1*exp(x * rd$depth_sd[1] + rd$depth_mean[1]),
-        y = exp(y) / 1000, # convert to 1000 fish/km^2
+        y = exp(y) / 100, # convert to 100 fish/km^2
         survey = surveys[ii],
         species = gsub("-", " ", gsub(".rds", "", i)),
         stringsAsFactors = FALSE)
@@ -135,7 +135,7 @@ hbll_data <- filter(dd, grepl('HBLL', survey)) %>%
   mutate(survey = as.factor(as.character(survey)))
 filter(hbll_data, species %in% .sp) %>%
   make_depth_plot(
-    ylab = expression(Survey~density~(1000~fish/km^2)),
+    ylab = expression(Survey~density~(100~fish/km^2)),
     xlim = c(-250, 0)
   )
 ```
