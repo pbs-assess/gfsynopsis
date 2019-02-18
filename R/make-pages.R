@@ -109,7 +109,18 @@ make_pages <- function(
     dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 60)
     dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 60)
   }
-  # FIXME: (get this fixed in the raw data?)
+  if (identical(spp, "aleutian skate")) {
+    dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 500)
+    dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 500)
+  }
+  if (identical(spp, "sablefish")) {
+    dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 110)
+    dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 110)
+  }
+  # These ones look very off:
+  if (identical(spp, "spotted ratfish")) {
+    dat$survey_samples <- dplyr::filter(dat$survey_samples, !(survey_abbrev == "SYN HS" & year == 2005))
+  }
   if (identical(spp, "shortspine thornyhead")) {
     dat$survey_samples <- dplyr::filter(dat$survey_samples, age < 80)
   }
