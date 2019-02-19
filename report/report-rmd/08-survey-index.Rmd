@@ -101,7 +101,7 @@ other_surveys$X <- NULL # just in case
 
 ```{r other-surveys-table, results='asis'}
 csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO in the Pacific region that may be applicable for species-specific analyses. Within this report, these surveys are only featured in the survey-data-availability panels in the lower right of each set of figure pages.", format = "latex") %>% 
-  kableExtra::column_spec(1, width = "4.5in") %>%
+  kableExtra::column_spec(1, width = "4in") %>%
   kableExtra::column_spec(2, width = "2in")
 ```
 
