@@ -70,7 +70,9 @@ as spatial random effects (Appendix \@ref(app:spatial-modeling)). The colour sca
 is fourth-root transformed to render a visual pattern similar to a log
 transformation without overemphasizing differences close to zero. The colour
 scale ('Viridis plasma') is perceptually uniform, robust to colour blindness,
-and prints accurately in grayscale [@viridis2018]. The synoptic and HBLL maps
+and prints accurately in grayscale [@viridis2018]. The colour scale as shown here
+only represents the values for these panels --- the colour scale ranges from zero
+to the highest value in the maps on each page. The synoptic and HBLL maps
 show predicted biomass density throughout the survey domain. The IPHC map shows
 the raw unmodelled data for fixed station locations --- stations without any
 observations for a given species are shown as empty circles. Years on the left
