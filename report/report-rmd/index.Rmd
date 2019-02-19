@@ -33,10 +33,7 @@ abstract: |
   models and select candidate management procedures as part of a planned
   management-procedure framework for groundfish stocks; and (3) to increase
   data transparency between Fisheries and Oceans Canada, the fishing industry,
-  non-governmental organizations, and the public. Every attempt has
-  been made to ensure the report is complete, accurate, and not misleading; 
-  however, it is subject to the caveats described in this report and is
-  not a substitute for stock assessment.
+  non-governmental organizations, and the public.
   
 output:
  csasdown::resdoc_pdf
