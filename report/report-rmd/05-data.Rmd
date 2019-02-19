@@ -186,7 +186,15 @@ Filter for \texttt{ACTIVE\_IND} 1 & To extract only active (useable) bootstrappe
 We extracted biological data using `get-survey-samples.sql` and
 `get-comm-samples.sql` for research survey and commercial samples,
 respectively. Records of all biological samples are extracted by species,
-including available length, weight, age and maturity data. Records include
+including available length, weight, age and maturity data. Standard length 
+measurements differ by species (for example, rockfish and Pacific cod length
+are recorded as the length to where the tail forks, while Pacific halibut and 
+arrowtooth flounder are recorded as total length to the end of the tail. Spotted
+ratfish were filtered for only lengths recorded as from the snout to the end of 
+the second dorsal fin, which is the standard as their tails are often damaged)
+as there were some specimens where total length was recorded. 
+
+Records include
 available metadata including PFMA, fishery, gear type, SSID and survey
 identification code (SID, only available for research survey data), survey
 sampling types, and sampling protocol codes for maturity and ageing data. Data
