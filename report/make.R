@@ -12,6 +12,7 @@ ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
+cores <- round(parallel::detectCores()/2)
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -99,7 +100,7 @@ spp <- arrange(spp, species_code)
 # for (i in seq_along(spp$species_common_name)) {
 
 if (parallel_processing) {
-  cl <- parallel::makeCluster(round(parallel::detectCores()/2), outfile = "")
+  cl <- parallel::makeCluster(cores, outfile = "")
   doParallel::registerDoParallel(cl)
 }
 cpue_models <- foreach::foreach(i = seq_along(spp$species_common_name),
