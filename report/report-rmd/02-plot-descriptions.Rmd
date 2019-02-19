@@ -117,8 +117,6 @@ gridExtra::grid.arrange(
 
 ## COMMERCIAL FISHERY CATCHES
 
-<!-- % TODO: Might need to preface with the commercial groundfish area map or provide a link to groundfish webpage: http://www.pac.dfo-mpo.gc.ca/fm-gp/commercial/ground-fond/index-eng.html See also for North to South orientation of plots: coastwide, 5CDE, 5AB, 3CD. -->
-
 (ref:catches-cap) Example commercial fishery catch plots for `r sp`.
 Catch from various gear types is indicated by colour shading. Catch is
 calculated as the summed weight of landings aggregated by year. Discards include
@@ -249,8 +247,6 @@ exist in Appendix \@ref(app:age-precision).
 g$ages
 ```
 
-<!-- TODO: Implement of the weighted lengths and ages? If I do then adjust the caption accordingly and reference the original weighting. -->
-
 \clearpage
 
 ## LENGTH-AGE AND LENGTH-WEIGHT MODEL FITS
@@ -260,9 +256,6 @@ g$ages
 ```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model of the form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\\sigma$ represents the scale parameter. The length-weight curve is of the form $\\log (W_i) \\sim \\mathrm{Student\\mhyphen t} (df = 3, \\log (\\ln(a) + b L_i), \\sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\\sigma$ representing the observation error scale. We set the degrees of freedom of the Student-t distribution to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendices \\ref{sec:length-age-models} and \\ref{sec:length-weight-models} for details on the models.")}
 cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 ```
-
-<!-- % TODO: I only fit models in cases where there were more than 100 fish samples for -->
-<!-- % a given species-sex combination. -->
 
 \clearpage
 

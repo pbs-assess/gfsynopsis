@@ -33,17 +33,6 @@ models and select candidate management procedures for groundfish stocks; and
 industry, First Nations, non-governmental organizations, and the general
 public. We provide guidance on the limits to application of the methods and
 summaries in the report (Section \@ref(sec:caveats)).
-<!--
-TODO: Rob: I think somewhere a short paragraph should outline the direction for
-meeting this goal
-(a) the outputs could help suggest stock where data in-hand could be used to
-parameterize operating models versus priors from other sources and assumptions.
-(b) that the R functions can port the data to something like DLMtool for rapid
-prototyping of at least a basic operating model, and (c) similarly something
-like DLMtool can indicate what management procedures might be available for
-discussion with Fisheries Management and resource users as well as do the value
-of information exercise to see if juice worth the squeeze on data not in-hand.
--->
 
 ## REPORT STRUCTURE
 
@@ -323,8 +312,6 @@ There are many caveats when interpreting this report.
    automation required to construct this report, not all species-specific
    special cases may have been fully considered.
 
-<!-- TODO: make sure the number of species is constant throughout -->
-
 ```{r closures-map, fig.cap="Map of fishery restriction initiatives in the Pacific Region (MPA = Marine Protected Area). These areas have restrictions specific to their respective objectives. Seasonal fishery closures are not shown here.", out.width="4.5in", fig.pos="tb"}
 knitr::include_graphics(here::here("report/report-rmd/figure/fishery-closures.png"), dpi = NA)
 ```
@@ -334,7 +321,6 @@ knitr::include_graphics(here::here("report/report-rmd/figure/fishery-closures.pn
 Data in this document are maintained by the Groundfish Data Unit at the Pacific
 Biological Station in Nanaimo, British Columbia. Data accessibility and contact
 details are described in Appendix \@ref(app:data).
-
 
 ## REPRODUCIBILITY
 
@@ -364,7 +350,5 @@ visualizations. Data for each survey season will likely only be ready for
 publication in the report by fall of the following year. On a less frequent
 basis, we will consider making larger changes to the structure, methods, or
 content of the report.
-
-<!-- TODO list acronym somewhere? -->
 
 \clearpage
