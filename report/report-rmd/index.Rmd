@@ -33,15 +33,10 @@ abstract: |
   models and select candidate management procedures as part of a planned
   management-procedure framework for groundfish stocks; and (3) to increase
   data transparency between Fisheries and Oceans Canada, the fishing industry,
-  non-governmental organizations, and the public. Although every attempt has
-  been made to ensure the report is complete, accurate, and not misleading, it
-  is subject to many caveats and is not a substitute for stock assessment. For
-  example, biomass and commercial catch-per-unit-effort (CPUE) indices require
-  careful interpretation on a stock-by-stock basis and are not necessarily
-  proportional to stock abundance, the catch history presented here is based on
-  reported data and may substantially deviate from actual catch in years prior
-  to 100% observer coverage, and the maps in this report are not presented at a
-  scale appropriate for marine spatial planning.
+  non-governmental organizations, and the public. Every attempt has
+  been made to ensure the report is complete, accurate, and not misleading; 
+  however, it is subject to the caveats described in this report and is
+  not a substitute for stock assessment.
   
 output:
  csasdown::resdoc_pdf

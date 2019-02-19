@@ -29,7 +29,7 @@ across all species to provide information for discussion on assessment
 priorities; (2) generate standardized datasets, biological model fits,
 and visualizations that will help assessment scientists develop operating
 models and select candidate management procedures for groundfish stocks; and
-(3) increase data transparency between Fisheries and Oceans Canada, the fishing
+(3) increase data transparency between DFO, the fishing
 industry, First Nations, non-governmental organizations, and the general
 public. We provide guidance on the limits to application of the methods and
 summaries in the report (Section \@ref(sec:caveats)).
@@ -61,7 +61,7 @@ focuses on the surveys and data types applicable to the widest array of these
 species.
 
 Each set of pages for a single species is laid out in the same way. The page
-layout pages starts with the species common name, the species scientific name,
+layout starts with the species common name, the species scientific name,
 and the DFO species code, which usually corresponds to the page number
 referencing the species in @hart1988. The figures themselves are laid out such
 that the first page has survey (Figure \@ref(fig:intro-maps)) time series
