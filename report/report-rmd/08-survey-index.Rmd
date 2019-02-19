@@ -437,25 +437,25 @@ ind_design <- ind_design$survey_index
 ind_design <- ind_design %>%
   filter(survey_abbrev  == 'SYN QCS') %>%
   mutate(
-    est = biomass / exp(mean(log(biomass))),
-    lwr = lowerci / exp(mean(log(biomass))),
-    upr = upperci / exp(mean(log(biomass))),
+    est = biomass / exp(mean(log(biomass), na.rm = TRUE)),
+    lwr = lowerci / exp(mean(log(biomass), na.rm = TRUE)),
+    upr = upperci / exp(mean(log(biomass), na.rm = TRUE)),
     type = 'Design based'
   )
 
 ind_geo <- ind %>%
   mutate(
-    lwr = lwr / exp(mean(log(est))),
-    upr = upr / exp(mean(log(est))),
-    est = est / exp(mean(log(est))),
+    lwr = lwr / exp(mean(log(est), na.rm = TRUE)),
+    upr = upr / exp(mean(log(est), na.rm = TRUE)),
+    est = est / exp(mean(log(est), na.rm = TRUE)),
     type = "Geostatistical"
   )
 
 ind_geo_depth <- ind_depth %>%
   mutate(
-    lwr = lwr / exp(mean(log(est))),
-    upr = upr / exp(mean(log(est))),
-    est = est / exp(mean(log(est))),
+    lwr = lwr / exp(mean(log(est), na.rm = TRUE)),
+    upr = upr / exp(mean(log(est), na.rm = TRUE)),
+    est = est / exp(mean(log(est), na.rm = TRUE)),
     type = "Geostatistical (depth)"
   )
 
