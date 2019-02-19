@@ -87,16 +87,22 @@ found in the following documents:
 1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
 
 ```{r other-surveys-table-setup}
-f <- system.file("extdata", "other-surveys.csv", package = "gfplot")
+if (!file.exists(here::here("report", "other-surveys.csv"))) {
+  other_survey_data <- gfplot::get_other_surveys()
+  readr::write_csv(other_survey_data, here::here("report", "other-surveys.csv"))
+} 
+f <- here::here("report", "other-surveys.csv")
 other_surveys <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
-names(other_surveys) <- gsub("_", " ", names(other_surveys))
+names(other_surveys) <- gfplot:::firstup(tolower(gsub("_", " ", names(other_surveys))))
+other_surveys$X <- NULL # just in case
 ```
 
 \clearpage
 
 ```{r other-surveys-table, results='asis'}
-# csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO that are not included in this report but may be applicable for some species-specific analyses.")
-# TODO: insert table based on cached results here.
+csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO in the Pacific region that may be applicable for species-specific analyses. Within this report, these surveys are only featured in the survey-data-availability panels in the lower right of each set of figure pages.", format = "latex") %>% 
+  kableExtra::column_spec(1, width = "4.5in") %>%
+  kableExtra::column_spec(2, width = "2in")
 ```
 
 The main biomass index trends illustrated on the figure pages represent the
