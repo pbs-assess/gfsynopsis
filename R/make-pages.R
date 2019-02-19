@@ -468,7 +468,7 @@ make_pages <- function(
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
     g_vb <- ggplot2::ggplot() + theme_pbs() +
-      xlab(en2fr("Age (years)", translate)) + ylab(en2("Length (cm)", translate)) +
+      xlab(en2fr("Age (years)", translate)) + ylab(en2fr("Length (cm)", translate)) +
       ggtitle("Growth")
     g_length_weight <- ggplot2::ggplot() + theme_pbs() +
       xlab("Length (cm)") + ylab("Weight (kg)") +
