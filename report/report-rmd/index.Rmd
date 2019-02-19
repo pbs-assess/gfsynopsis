@@ -36,7 +36,8 @@ abstract: |
   non-governmental organizations, and the public.
   
 output:
- csasdown::resdoc_pdf
+ csasdown::resdoc_pdf:
+   french: false
 region: "Pacific Region"
 header: ""
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
