@@ -1,0 +1,54 @@
+
+Start broader, discuss challenges of and value of data visualization in general.
+Narrow in on what we did, flow from databases to R packages to the paper. Show 
+two figures - one for each species page from the synopsis report.
+
+# Journal ideas:
+1. Canadian Journal of Fisheries and Aquatic Science - rapid communication
+- 2 figure limit
+- 2500 words
+
+1. Fisheries Research - short communication (not technical communication)
+- no figure limit
+- ~6 page limit (doesn't appear to be strictly enforced; eg. some with 8 pages)
+
+...
+
+1. PLoS One
+-  few, if any, restrictions
+
+# Thoughts on how to frame the paper:
+1. Put in framework of complexity of systems (particularly marine). Discuss
+ability to detect environmental or stock changes (eg. climate change, stock
+status) quickly and respond quickly. Focus more broadly, not only narrowly as
+in a few intense stock assessments, but more broadly monitor many species in 
+many ways. (see Hilborn reference 1970's)
+
+1. Frame in context of high volumes of data, with increasing sensor technology,
+drone surveys, collecting vast quantities of data. Problematic to look at all of
+these data. Tie into movement towards open data/open science/transparency.
+Openness is about more than just data availablity, but is also about 
+summarizing the data in a digestable way.
+
+Perhaps frame in context of vast amounts of data, with discussion on
+applicability to the issue of visualizing data quickly to be able to detect
+and quickly respond to any changes.
+
+In addition, communicate what we've learned along the way. 
+
+Uses:
+- new staff coming up to speed with summaries of what the data are and what the
+data mean
+- at meetings about individual species - good overview of stocks and data 
+availability
+- facilitate discussions between managers and scientists about priorities 
+(visual tool to show stock and biological trends relevant to discussion)
+- rapid detection of data issues (that may go unseen and into assessments/research)
+- engaging data gathering partners, stakeholders, funding sources - showcase
+the data to participants, strengthen relationships with industry (show them 
+where their money is going, that the data are being used and not sitting away
+in a database)
+- useful tools for stock assessment and other research; good first glance when
+deciding approaches, what data are available for modelling, analysis, etc.
+- standardize process of data extraction and summarizing
+- identify data gaps for directing research efforts/funding
