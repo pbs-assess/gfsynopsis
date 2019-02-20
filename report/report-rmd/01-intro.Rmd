@@ -312,7 +312,7 @@ There are many caveats when interpreting this report.
    automation required to construct this report, not all species-specific
    special cases may have been fully considered.
 
-```{r closures-map, fig.cap="Map of fishery restriction initiatives in the Pacific Region (MPA = Marine Protected Area). These areas have restrictions specific to their respective objectives. Seasonal fishery closures are not shown here.", out.width="4.5in", fig.pos="tb"}
+```{r closures-map, fig.cap="Map of fishery restriction initiatives in the Pacific Region (MPA = Marine Protected Area). Seasonal fishery closures are not shown.", out.width="4.5in", fig.pos="tb"}
 knitr::include_graphics(here::here("report/report-rmd/figure/fishery-closures.png"), dpi = NA)
 ```
 
