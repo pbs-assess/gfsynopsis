@@ -1,0 +1,38 @@
+---
+title: "Title here"
+author:
+- "First author here"
+date: |
+  ^1^Pacific Biological Station, Fisheries and Oceans Canada
+     Nanaimo, BC, V6T 6N7, Canada; sean.anderson@dfo-mpo.gc.ca\
+output:
+  bookdown::pdf_document2:
+    number_sections: no
+    toc: no
+    template: "article.tex"
+bibliography: "refs.bib"
+csl: "cfjas.csl"
+link-citations: yes
+linkcolor: "blue"
+urlcolor: "blue"
+abstract: >
+  The abstract will go here.
+---
+
+\clearpage
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+library(here)
+opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
+```
+
+# Figures
+
+```{r page1, fig.cap = "Figure caption goes here."}
+# include_graphics(here("figs/decades-and-booms-viridis.pdf"))
+```
+
+\clearpage
+
+# References
