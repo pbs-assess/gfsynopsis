@@ -39,4 +39,4 @@
 ^resdoc/
 makefile
 inst/rockfish-map-dat/
-
+^paper$
