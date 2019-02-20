@@ -1,9 +1,9 @@
 
 Start broader, discuss challenges of and value of data visualization in general.
-Narrow in on what we did, flow from databases to R packages to the paper. Show 
-two figures - one for each species page from the synopsis report.
+Narrow in our motivation and what we did, flow from databases to R packages to the paper. Show  two figures - one for each species page from the synopsis report.
 
 # Journal ideas:
+
 1. Canadian Journal of Fisheries and Aquatic Science - rapid communication
 - 2 figure limit
 - 2500 words
@@ -18,6 +18,7 @@ two figures - one for each species page from the synopsis report.
 -  few, if any, restrictions
 
 # Thoughts on how to frame the paper:
+
 1. Put in framework of complexity of systems (particularly marine). Discuss
 ability to detect environmental or stock changes (eg. climate change, stock
 status) quickly and respond quickly. Focus more broadly, not only narrowly as
@@ -36,7 +37,8 @@ and quickly respond to any changes.
 
 In addition, communicate what we've learned along the way. 
 
-Uses:
+## Uses:
+
 - new staff coming up to speed with summaries of what the data are and what the
 data mean
 - at meetings about individual species - good overview of stocks and data 
@@ -48,7 +50,23 @@ availability
 the data to participants, strengthen relationships with industry (show them 
 where their money is going, that the data are being used and not sitting away
 in a database)
-- useful tools for stock assessment and other research; good first glance when
-deciding approaches, what data are available for modelling, analysis, etc.
+- useful tools for stock assessment and other research
+- good first glance when deciding approaches, what data are available for modelling, analysis, etc.
 - standardize process of data extraction and summarizing
 - identify data gaps for directing research efforts/funding
+
+## Insights:
+
+- this was only possible because of well-structured databases
+- modular code has made the tools usable for other contexts
+- there were major benefits to limiting ourselves to 2 pages per species so all the data can be taken and once
+- showing blank plots indicating missing data was critical: (1) it ensures the same layout for all species so the user knows where to look quickly (2) it emphasizes what we just don't know (known unknowns)
+- a fully reproducible pipeline from databases to final report is critical. For one, the process is inevitably iterated on many times as changes are suggested and problems with the data and modelling are fixed. Secondly, the real benefit is that this can be updated regularly and rapidly.
+
+## Discussion points:
+
+## What we did:
+
+- briefly describe the elements of our plots
+- explain the design decisions we made (colour, layout, species to focus on...) (some things could go here or in the insights section)
+- mention the opportunities for feedback and meetings that we had
