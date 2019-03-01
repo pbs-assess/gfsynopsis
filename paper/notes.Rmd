@@ -31,13 +31,16 @@ these data. Tie into movement towards open data/open science/transparency.
 Openness is about more than just data availablity, but is also about 
 summarizing the data in a digestable way.
 
-Perhaps frame in context of vast amounts of data, with discussion on
+# suggested beginning paragraph to get readers in 
+Perhaps frame in context of vast amounts of data, then discuss our specific
+issues relating to tons of data 
+with discussion on
 applicability to the issue of visualizing data quickly to be able to detect
 and quickly respond to any changes.
 
 In addition, communicate what we've learned along the way. 
 
-## Uses:
+## Uses (perhaps end of intro - what our goals were):
 
 - new staff coming up to speed with summaries of what the data are and what the
 data mean
