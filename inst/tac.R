@@ -46,46 +46,6 @@ survey_look_up <- tribble(
   "Offshore JV", NA, NA
 )
 
-# survey_type_look_up <- tribble(
-#   ~species, ~survey_type,
-#   "arrowtooth flounder", FALSE,
-#   "big skate",
-#   "bocaccio",
-#   "canary rockfish",
-#   "copper,
-#    china & tiger rockfish",
-#   "corals and sponges",
-#   "dover sole",
-#   "english sole",
-#   "halibut",
-#   "lingcod",
-#   "long nose skate",
-#   "longspine thornyheads",
-#   "pacific cod",
-#   "pacific hake",
-#   "pacific ocean perch",
-#   "petrale sole",
-#   "quillback rockfish",
-#   "quillback,
-#    copper,
-#    china & tiger rockfish",
-#   "redbanded rockfish",
-#   "redstripe rockfish",
-#   "rock sole",
-#   "rougheye rockfish",
-#   "sablefish",
-#   "shortraker rockfish",
-#   "shortspine thornyheads",
-#   "silvergray rockfish",
-#   "spiny dogfish",
-#   "trawl other rockfish",
-#   "walleye pollock",
-#   "widow rockfish",
-#   "yelloweye rockfish",
-#   "yellowmouth rockfish",
-#   "yellowtail rockfish"
-# )
-
 dat <- inner_join(dat, survey_look_up, by = "area")
 
 trawl <- group_by(dat, species, year, survey_syn) %>%
