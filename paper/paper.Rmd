@@ -53,26 +53,21 @@ As a solution to this, here we introduce a data synopsis report for 100 groundfi
 
 # Methods
 
+We chose to focus our report on species that are of commerical, recreational, conservation or First Nations interest, or are regularly caught in DFO surveys. Of the various fisheries independent surveys that DFO conducts, we show data from those that provide the greatest spatial and taxonomic coverage of the species in the report. We chose to focus on aspects of the data that are most important to stock assessment or indicators of stock dynamics, and display both spatial and temporal aspects of the data.
+
 In designing the report we made the following design considerations:
-- focus on species that ...
-- focus on fisheries independent surveys that . . .
-- maintain a consistent layout for all species
-- limit ourselves to two pages per species so that we can look at all data for one species at once
+- limit two pages per species so that all data for one species can be viewed at once
+- show empty plots to emphasize missing data and maintain the same layout for all species to allow rapid interpretation after becoming familiar with the layout
 - highlight uncertainty wherever possible
 - assemble and display metadata alongside visualization
-- maintain consistent colour meaning throughout and make it colourblind proof where possible
 - group similar focused visualizations together
-- focus on both spatial and temporal aspects of the data
-- focus on aspects of the data that are most important to stock assessment etc.
-- Describe the common visualizations in great detail at the beginning so that the report pages are almost entirely visualization
-- Show empty plots to emphasize missing data and maintain the same layout for all species to allow rapid interpretation after becoming familiar with the layout
+- maintain consistent colour meaning throughout and use colourblind proof colours where possible
+- describe the common visualizations in great detail at the beginning so that the report pages are almost entirely visualization
 
-How we did it:
-- develop a family of R packages that facilitate going directly from our relational databases, to extracting necessary data, to tidying the necessary data, to fitting statistical models, and to visualizing the data and statistical models in a report format
-- the entire report had to be fully automated and reproducible so that it could be easily updated in the future
-- write the code for the report in a modular way (R packages) so that bits and pieces could be useful for other purposes, for example in assessments
 
-We settled on visualization components that covered trends in time and space for fisheries independent surveys, trends in time and space for fisheries catch and catch per unit effort. Visualizations of age, length, and maturity from fisheries independent surveys and commercial data sources. 
+We wanted the entire report to be fully automated and reproducible so that it could be easily updated in the future. We also wanted the report production to be fully transparent and traceable regarding how the data are extracted from DFO databases and treated prior to plotting. To accomplish this, we developed a family of R packages that facilitate going directly from our relational databases, to extracting necessary data, to tidying the necessary data, to fitting statistical models, to visualizing the data and statistical models, and to compiling the visualisations into a report format. The code for the report was written in a modular way so that individual functions could be useful for other purposes, for example in stock assessments requiring similar statistical models or to extract data for a diverse array of projects in a consistent, standardized way.
+
+We settled on visualization components that covered trends in time and space for fisheries independent surveys, trends in time and space for fisheries catch and catch per unit effort. Visualizations of length, age, growth and maturity from fisheries independent surveys and commercial data sources. We additionally show a summary of all commercial and research biological sample data availabilty for each species by counts of specimens.
 
 # Results
 
