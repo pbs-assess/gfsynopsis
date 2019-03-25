@@ -32,27 +32,16 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 
 # Introduction
 
-Monitoring is a critical component of effective ecological resource management and modern technologies have resulted in vast quantities of data for ecological monitoring programs. Monitoring can be used to choose management actions or learn about systems through adaptive management [REFs; @possingham2012]. It also be used to engage stakeholders and raise awareness about the state of ecological systems [e.g. @possingham2012]. Focussed monitoring programs, such as those targeting a specific populations or ecosystems, can help parameterize complex statistical models and provide deep insights into the mechanisms driving population or ecosystem status [e.g. REF]. At the same time, broad monitoring programs are essential to detecting ecological surprises and the "unknown unknowns" [e.g. @hilborn1987; @wintle2010] --- a purpose only becoming more important in an era of climate change.
+Monitoring is a critical component of effective ecological resource management. Monitoring can be used to choose management actions or learn about systems through adaptive management [REFs; @possingham2012]. It can also be used to engage stakeholders or raise awareness about the state of ecological systems [e.g. @possingham2012]. Focussed monitoring programs, such as those targeting a specific populations or ecosystems, can help parameterize complex statistical models and provide deep insights into the mechanisms driving population or ecosystem status [e.g. REF]. At the same time, broad monitoring programs are essential to detecting ecological surprises and the "unknown unknowns" [e.g. @hilborn1987; @wintle2010] --- a purpose only becoming more important in an era of climate change.
 
+Although modern technologies have resulted in the collection of vast quantities of data, turning that data into effective monitoring remains a challenge. Agencies that collect data often lack the resources to report on all facets of it in a timely fashion. Thankfully, the movement towards open data has made many raw data sets available, but processing it requires domain-specific knowledge (e.g., about sampling protocols), advanced skillsets, and time --- all factors that limit the ability for stakeholders (e.g., resource users or concerned citizens) to derive their own insights.
 
---------------------
+In British Columbia (BC), Canada, Fisheries and Oceans Canada (DFO) faces these very problems in monitoring its groundfish populations and fisheries. Government groundfish scientists hold the potential responsibility of providing science advice on over 100 species. The commercial groundfish fleet is subject to 100% on-board and dockside monitoring and numerous fisheries-independent trawl and longline surveys are conducted annually producing large quantities of potentially valuable data. At the same time, assessment scientists face severe limitations in personnel and time. As a result, most stocks are not regularly examined through stock assessment leaving the majority of monitoring data unreported. And, although the Canadian government is engaged in an open-data initiative, some of DFO's data holdings will never be shared due to privacy laws, and the data that are shared are not easily digested without extensive knowledge of the survey programs and advanced data processing skill sets.
 
-Thankfully, the advent of modern sensor technologies, relational databases, automated reporting (perhaps this one comes later), drones, etc. has resulted in vast quantities of data that can aid with this monitoring, but the data often remains hidden either because of permission or privacy issues or just through obscurity (or lack of mechanism/capacity to summarise/report).
-- give some examples of monitoring programs from across Canada and around the world
-- give an example of privacy issues (fishery locations and privacy act)
-- give an example of volumes of data generating obscurity
+Automated visualization is a key solution to these problems.
+ - ...
 
-- "Second, new visualization approaches and technologies are needed to reduce the time and costs associated with generating visualizations of increasingly large and complex data relationships [@fox2011]." [@michener2012] "Unfortunately, visualization too often becomes an end product of scientific analysis, rather than an exploration tool that scientists can use throughout the research life cycle. However, new database technologies, coupled with emerging Web-based technologies, may hold the key to lowering the cost of visualization generation and allow it to become a more integral part of the scientific process." -[@fox2011] *Changing the Equation on Scientific Data Visualization!*
-
----------------
-
-- [@hampton2013] "dark data" problem
-
-In British Columbia, Canada, the groundfish fisheries face these problems. Government groundfish scientists are potentially responsible for providing science advice for over 100 species with strong limitations on personnel, time, and funding. At the same time, the groundfish fleet has 100% on-board and dockside monitoring and numerous fisheries independent trawl and longline surveys are conducted on an annual basis. And although the Canadian government is moving towards an open data direction, we aren't entirely there yet, some data can never be shared due to privacy laws, and even when it is shared it is not easily digested due to the vast quantities of it. Plus, it requires some domain specific knowledge to interpret.
-
-100% monitoring: DFO, Paciﬁc Region Integrated Fisheries Management Plan
-
----------------
+<!-- - "Second, new visualization approaches and technologies are needed to reduce the time and costs associated with generating visualizations of increasingly large and complex data relationships [@fox2011]." [@michener2012] "Unfortunately, visualization too often becomes an end product of scientific analysis, rather than an exploration tool that scientists can use throughout the research life cycle. However, new database technologies, coupled with emerging Web-based technologies, may hold the key to lowering the cost of visualization generation and allow it to become a more integral part of the scientific process." -[@fox2011] *Changing the Equation on Scientific Data Visualization!* -->
 
 As a solution to this, here we introduce a data synopsis report for 100 groundfish species in British Columbia, Canada. Our goals with this report are to:
 - facilitate discussions related to stock prioritization, fieldwork planning, ...
