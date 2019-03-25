@@ -75,7 +75,7 @@ We settled on visualization components that covered trends in time and space for
 
 Throughout report development we solicited feedback from stakeholders and other potential users of the report on data to include as well as on report structure and design. Feedback was also sought from data experts for various species groups to ensure that the data being captured were accurate, complete, and relevant.
 
-# Results
+# Results - what else does this need?
 
 The resulting visualizations for an example stock included the following (Figure 1 and 2): - pcod, redbanded, rougheye?
 
@@ -102,23 +102,17 @@ Quick recap of what we did and why it is important
 
 The purpose of the synopsis report is to present up-to-date population trends and biological data, from both commercial fisheries and DFO multi-species research surveys, for groundfish in British Columbia. Stock assessments are not available for all species, or in all years for those that are assessed, but there are vast quantities of data collected in the fisheries and fishery-independent surveys. This report provides a valuable summary of commercial and survey trends and data regularly collected and maintained in DFO databases that are available for examination of groundfish stocks. 
 
-- emphasize the value of putting resources into developing and maintaining proper databases 
-- emphasize the importance of data accessibility even just within an agency
-
 The report production was designed to be automated using R packages which extract data directly from the databases making it easy to reproduce the report with updated data. This was possible because of the carefully organized and maintained relational databases housing DFO groundfish fishery and survey data. This report and its efficient data-to-document workflow demonstrate the value of investing in the thoughtful development and ongoing maintenance of organized databases for any agency collecting and housing vast quantities of data. Knowledge of and accessibility to available data within an agency is fundamentally important. The functions we created to extract groundfish data for the report are available within our organization for those requiring access to the databases, and facilitate internally reviewed, standardized, and consistent data extraction methods.
 
 
-- TODO give examples of what happens when databases are well organized and open (RAM Legacy, GPDD, ...)
+- give examples of what happens when databases are well organized and open (RAM Legacy, GPDD, ...)
 
-
-Caveats to what we did
-- briefly summarize the ones in the report into one paragraph
 
 Unlike species-specific analyses conducted in individual stock assessments, the presentation of the same data for a diverse array of species requires use of methods and inclusion of surveys that cover the broadest range of species. This approach comes with several caveats. 
 
 The outputs in this report are not a substitute for species-specific stock assessment. Stock assessments may utilize different data sources than are presented in the report, and necessarily analyze the data on a stock-by-stock basis and make considerations for special cases which we do not. Biomass indices based on survey or commercial CPUE data in the report require careful, species-specific interpretation as they may not accurately represent abundance trends for some stocks (for example, biomass indices may be based on surveys with particularly high variability or low catchability for certain species). Furthermore, biomass indices do not resolve population scale, but only show relative biomass trends through time. Additionally, commercial CPUE data should not be considered proportional to stock abundance for a multitude of reasons [e.g., @harley2001].
 
-Catch history reported here reflects recorded data and may not match catch time series reconstructions in stock assessments which account for stock-specific considerations (for example, see [@haigh2011] for rockfish catch reconstruction methods). Note also that fluctuations in catch may not reflect stock abundance and may be due to other factors including implementation of management measures. Discards shown in the catch plots only include bottom trawl discard weights from 1996 to present and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl discards weights from 2006 to present due to low reliability of reported discards prior to implemetation of 100% observer coverage in the respective fisheries. 
+Catch history in the report reflects recorded data and may not match catch time series reconstructions in stock assessments which account for stock-specific considerations (for example, see [@haigh2011] for rockfish catch reconstruction methods). Note also that fluctuations in catch may not reflect stock abundance and may be due to other factors including implementation of management measures. Discards shown in the catch plots only include bottom trawl discard weights from 1996 to present and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl discards weights from 2006 to present due to low reliability of reported discards prior to implemetation of 100% observer coverage in the respective fisheries. 
 
 Comparison to even tangentially related efforts
 - mention data dashboards and their advantages and disadvantages
@@ -135,9 +129,19 @@ Conclusions and where we are going with this next
 - plan to include more climate related visualization such as centre of gravity and mean depth through time (ha! where to fit this...?)
 - ...
 
-# Acknowledgements
+# Acknowledgements (can shorten if too lengthy; took from synopsis and already trimmed a bit)
 
-Steering committee, technical working group, data folks, reviewers, maintainers of the R packages that made it possible, those that have collected the data, those that have funded the data collection, ...
+We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations,
+and non-governmental organizations, which has made possible the collection of the valuable data
+that underlies the synopsis report. We thank the project’s steering committee (Greg Workman, Robyn
+Forrest, Dana Haggarty, Chris Grandin, and Rob Kronlund) for invaluable input into the report
+design and feedback throughout its production. We thank Christie Whelan for her support
+initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for providing
+support on data extraction and general database structure and content. We thank 
+Norm Olsen for his work on the data scorecard and GFASTeR, and Rowan Haigh for
+his work maintaining the PBSmapping and PBSdata R packages, as well as the 
+authors of all the R packages necessary to build the report.
+
 
 \clearpage
 
