@@ -32,22 +32,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 
 # Introduction
 
-Ecological resource management needs the ability to monitor a lot of things on a frequent basis but this takes a lot of time, people, and money.
-- more frequently monitored populations do better (would be wonderful if we could say this; reference?)
- (or less frequently monitored populations do worse - may be easier to find a ref for this)
-- legislation such as ... covers stocks of economic, conservation, cultural, ... value
- (or certain proportions/all species monitored/sustainably fished/conserved... = demands on personnel/money)
-- but even "less important" stocks can form an important part of ecosystems
-- major ecological surprises happen more often than we expect
-- there is an increasing need to frequently monitor (more) stocks and across a large swath of dimensions given the rapid environmental change and increased variability in general reduced predictability associated with climate change
+Monitoring is a critical component of effective ecological resource management and modern technologies have resulted in vast quantities of data for ecological monitoring programs. Monitoring can be used to choose management actions or learn about systems through adaptive management [REFs; @possingham2012]. It also be used to engage stakeholders and raise awareness about the state of ecological systems [e.g. @possingham2012]. Focussed monitoring programs, such as those targeting a specific populations or ecosystems, can help parameterize complex statistical models and provide deep insights into the mechanisms driving population or ecosystem status [e.g. REF]. At the same time, broad monitoring programs are essential to detecting ecological surprises and the "unknown unknowns" [e.g. @hilborn1987; @wintle2010] --- a purpose only becoming more important in an era of climate change.
 
-monitoring to choose the best management actions, adaptive management to learn about a system, serendipity, engagement, and awareness - [@possingham2012]
 
-- broad surveillance programs can be important in the face of unknown unknowns - [@wintle2010]
-
-- broad monitoring systems important to detect surprises as early as possible [@hilborn1987]
-
----------------
+--------------------
 
 Thankfully, the advent of modern sensor technologies, relational databases, automated reporting (perhaps this one comes later), drones, etc. has resulted in vast quantities of data that can aid with this monitoring, but the data often remains hidden either because of permission or privacy issues or just through obscurity (or lack of mechanism/capacity to summarise/report).
 - give some examples of monitoring programs from across Canada and around the world
