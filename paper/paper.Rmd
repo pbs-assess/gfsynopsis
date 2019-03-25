@@ -73,33 +73,40 @@ We wanted the entire report to be fully automated and reproducible so that it co
 
 We settled on visualization components that covered trends in time and space for fisheries independent surveys and commercial fisheries catch and catch per unit effort; visualizations of temporal trends in length and age frequencies; and visualizations of biological parameters inlcuding length at age, weight at length, age at maturity, length at maturity and maturity frequencies from fisheries independent surveys and commercial data sources. We additionally show a summary of all commercial and research biological sample data availabilty for each species by counts of specimens.
 
+Throughout report development we solicited feedback from stakeholders and other potential users of the report on data to include as well as on report structure and design. Feedback was also sought from data experts for various species groups to ensure that the data being captured were accurate, complete, and relevant.
+
 # Results
 
-The resulting visualizations for an example stock (Figure 1 and 2).
+The resulting visualizations for an example stock included the following (Figure 1 and 2):
 
-Some title for the left page: (~temporal and spatial population and fishery trends?)
+Temporal and spatial population and fishery trends (left species page):
 - relative biomass trends from fisheries independent surveys
 - maps of relative biomass from most recent fisheries independent surveys
 - trends in fisheries catches through time by gear type and region
 - trends in trawl fisheries catch per unit effort through time by region (issues with longline data still need to be resolved)
 - maps of fisheries catch painted effort by gear type for a recent window of time
 
-Some title for the right page (something about samples; ~biological trends, growth & maturity, and data availability?):
+Biological trends, growth & maturity, and data availability (right species page):
 - length frequencies by survey and year
 - age frequencies by survey and year
 - length age growth models
 - weight length growth models
 - age and length at maturity models
 - maturity frequencies by stage and month
-- counts of the number of available fish lengths, weights, maturities, ages, and aging structures, from all surveys and all commercial samples (to see what might be available)
+- counts of the number of available fish lengths, weights, maturities, ages, and aging structures, from all surveys and all commercial samples in DFO databases
 
 # Discussion
 
 Quick recap of what we did and why it is important
 
-This was only possible because of the carefully organized and maintained relational databases
+The purpose of the synopsis report is to present up-to-date population trends and biological data, from both commercial fisheries and DFO multi-species research surveys, for groundfish in British Columbia. Stock assessments are not available for all species, or in all years for those that are assessed, but there are vast quantities of data collected in the fisheries and fishery-independent surveys. This report provides a valuable summary of commercial and survey trends and data regularly collected and maintained in DFO databases that are available for examination of groundfish stocks. 
+
 - emphasize the value of putting resources into developing and maintaining proper databases 
 - emphasize the importance of data accessibility even just within an agency
+
+The report production was designed to be automated using R packages which extract data directly from the databases making it easy to reproduce the report with updated data. This was possible because of the carefully organized and maintained relational databases housing DFO groundfish fishery and survey data. This report and its efficient data-to-document workflow demonstrate the value of investing in the thoughtful development and ongoing maintenance of organized databases for any agency collecting and housing vast quantities of data. Knowledge of and accessibility to available data within an agency is fundamentally important. The functions we created to extract groundfish data for the report are available within our organization for those requiring access to the databases, and facilitate internally reviewed, standardized, and consistent data extraction methods.
+
+
 - give examples of what happens when databases are well organized and open (RAM Legacy, GPDD, ...)
 
 
