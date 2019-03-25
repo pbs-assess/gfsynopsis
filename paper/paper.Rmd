@@ -77,9 +77,10 @@ Throughout report development we solicited feedback from stakeholders and other 
 
 # Results
 
-The resulting visualizations for an example stock included the following (Figure 1 and 2):
+The resulting visualizations for an example stock included the following (Figure 1 and 2): - pcod, redbanded, rougheye?
 
 Temporal and spatial population and fishery trends (left species page):
+- species-specific metadata (latin and common names; taxonomy; links to FishBase and WoRMS species pages; current conservation status; most recent DFO stock assessment or other DFO document)
 - relative biomass trends from fisheries independent surveys
 - maps of relative biomass from most recent fisheries independent surveys
 - trends in fisheries catches through time by gear type and region
@@ -107,11 +108,17 @@ The purpose of the synopsis report is to present up-to-date population trends an
 The report production was designed to be automated using R packages which extract data directly from the databases making it easy to reproduce the report with updated data. This was possible because of the carefully organized and maintained relational databases housing DFO groundfish fishery and survey data. This report and its efficient data-to-document workflow demonstrate the value of investing in the thoughtful development and ongoing maintenance of organized databases for any agency collecting and housing vast quantities of data. Knowledge of and accessibility to available data within an agency is fundamentally important. The functions we created to extract groundfish data for the report are available within our organization for those requiring access to the databases, and facilitate internally reviewed, standardized, and consistent data extraction methods.
 
 
-- give examples of what happens when databases are well organized and open (RAM Legacy, GPDD, ...)
+- TODO give examples of what happens when databases are well organized and open (RAM Legacy, GPDD, ...)
 
 
 Caveats to what we did
 - briefly summarize the ones in the report into one paragraph
+
+Unlike species-specific analyses conducted in individual stock assessments, the presentation of the same data for a diverse array of species requires use of methods and inclusion of surveys that cover the broadest range of species. This approach comes with several caveats. 
+
+The outputs in this report are not a substitute for species-specific stock assessment. Stock assessments may utilize different data sources than are presented in the report, and necessarily analyze the data on a stock-by-stock basis and make considerations for special cases which we do not. Biomass indices based on survey or commercial CPUE data in the report require careful, species-specific interpretation as they may not accurately represent abundance trends for some stocks (for example, biomass indices may be based on surveys with particularly high variability or low catchability for certain species). Furthermore, biomass indices do not resolve population scale, but only show relative biomass trends through time. Additionally, commercial CPUE data should not be considered proportional to stock abundance for a multitude of reasons [e.g., @harley2001].
+
+Catch history reported here reflects recorded data and may not match catch time series reconstructions in stock assessments which account for stock-specific considerations (for example, see [@haigh2011] for rockfish catch reconstruction methods). Note also that fluctuations in catch may not reflect stock abundance and may be due to other factors including implementation of management measures. Discards shown in the catch plots only include bottom trawl discard weights from 1996 to present and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl discards weights from 2006 to present due to low reliability of reported discards prior to implemetation of 100% observer coverage in the respective fisheries. 
 
 Comparison to even tangentially related efforts
 - mention data dashboards and their advantages and disadvantages
