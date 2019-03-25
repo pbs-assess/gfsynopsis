@@ -7,7 +7,10 @@ First Nations, and non-governmental organizations, which has made possible the
 collection of the valuable data that underlies this report. We thank
 the project's steering committee (Greg Workman, Robyn Forrest, Dana Haggarty,
 Chris Grandin, and Rob Kronlund) for invaluable input into the report design
-and feedback throughout its production. We thank Christie Whelan for her
+and feedback throughout its production.
+We thank Chris Rooper and Daniel Ricard for their thorough and helpful reviews.
+We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review meeting, respectively.
+We thank Christie Whelan for her
 support initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm
 Wyeth for providing support on data extraction and general database structure
 and content. We thank the participants of the peer review meeting on tiered

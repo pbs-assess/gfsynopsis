@@ -333,14 +333,14 @@ make_pages <- function(
 
   # Get new IPHC calculations
   if (!file.exists(iphc_index_cache_spp)) {
-    iphc_set_counts_sp <- gfplot::calc_iphc_full_res(dat_iphc$set_counts)
+    iphc_set_counts_sp <- gfiphc::calc_iphc_full_res(dat_iphc$set_counts)
     saveRDS(iphc_set_counts_sp, file = iphc_index_cache_spp, compress = FALSE)
   } else {
     iphc_set_counts_sp <- readRDS(iphc_index_cache_spp)
   }
 
   iphc_set_counts_sp_format <- tryCatch({
-    gfplot::format_iphc_longest(iphc_set_counts_sp)
+    gfiphc::format_iphc_longest(iphc_set_counts_sp)
   }, error = function(e) NA)
   dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
   # Remove existing (GFbio) based IPHC series with longer ones from new calcs
@@ -723,6 +723,7 @@ make_pages <- function(
           label = paste0("Mean~", syn_density, dens_units), parse = TRUE)
   })
 
+  # an internal IPHC function:
   iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
     final_year = 2017)
   iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
