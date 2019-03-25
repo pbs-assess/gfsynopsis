@@ -140,16 +140,24 @@ Conclusions and where we are going with this next
 
 # Acknowledgements (can shorten if too lengthy; took from synopsis and already trimmed a bit)
 
-We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations,
-and non-governmental organizations, which has made possible the collection of the valuable data
-that underlies the synopsis report. We thank the project’s steering committee (Greg Workman, Robyn
-Forrest, Dana Haggarty, Chris Grandin, and Rob Kronlund) for invaluable input into the report
-design and feedback throughout its production. We thank Christie Whelan for her support
-initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for providing
-support on data extraction and general database structure and content. We thank 
-Norm Olsen for his work on the data scorecard and GFASTeR, and Rowan Haigh for
-his work maintaining the PBSmapping and PBSdata R packages, as well as the 
-authors of all the R packages necessary to build the report.
+We are grateful for the ongoing collaboration between DFO, commercial fishers,
+First Nations, and non-governmental organizations, which has made possible the
+collection of the valuable data that underlies this report. We thank
+the project's steering committee (Greg Workman, Robyn Forrest, Dana Haggarty,
+Chris Grandin, and Rob Kronlund) for invaluable input into the report design
+and feedback throughout its production.
+We thank Chris Rooper and Daniel Ricard for their thorough and helpful reviews.
+We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review meeting, respectively.
+We thank Christie Whelan for her
+support initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm
+Wyeth for providing support on data extraction and general database structure
+and content. We thank the participants of the peer review meeting on tiered
+approaches in May 2016 [@macdougall2016], which included a data scorecard by
+Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
+for his work on GFASTeR, from which this project takes inspiration and
+borrows some data queries. We thank Rowan Haigh for his work maintaining
+the PBSmapping and PBSdata R packages, and indeed the authors of all the R
+packages necessary to build this report.
 
 
 \clearpage
