@@ -1,6 +1,5 @@
 ---
 title: "Title here"
-author:
 author: |
   Sean C. Anderson^1^, and
   Elise A. Keppel^1^
@@ -51,18 +50,19 @@ As a solution to this, here we introduce a data synopsis report for 100 groundfi
 
 # Methods
 
-We chose to focus our report on species that are of commerical, recreational, conservation or First Nations interest, or are regularly caught in DFO surveys. DFO houses all commercial fisheries data as well as our research survey data. We decided to include both commercial and survey population trends and biological data in the report to give an overall snapshot of available information for each species.
+We focussed our report on species of commerical, recreational, conservation, or First Nations interest, and those regularly caught in DFO surveys. We included both commercial and survey population trends and biological data in the report to give an overall snapshot of available information for each species.
 
 Of the various fisheries independent surveys that DFO conducts, we show data from those that provide the greatest spatial and taxonomic coverage of the species in the report. We chose to focus on aspects of the data that are most important to stock assessment or indicators of stock dynamics, and display both spatial and temporal aspects of the data.
 
 In designing the report we made the following design considerations:
-- limit two pages per species so that all data for one species can be viewed at once
-- show empty plots to emphasize missing data and maintain the same layout for all species to allow rapid interpretation after becoming familiar with the layout
-- group similar focused visualizations together
-- assemble and display metadata alongside visualization
-- maintain consistent colour meaning throughout and use colourblind proof colours where possible
-- describe the common visualizations in detail at the beginning of the report so that the species pages are almost entirely visual
-- highlight uncertainty wherever possible (ie. display confidence intervals around biomass and catch per unit effort indices, grey shading of survey biomass indices to represent coefficient of variance beyond threshold, display relative density of species caught in sets for modelled survey biomass maps, and use of grey shading to represent less reliable catch data for commercial fishery catches).
+
+1. Fit all plots on two pages per species so that all data for one species could be viewed at once.
+2. Show empty plots to emphasize missing data and maintain the same layout for all species.
+3. Group similar focused visualizations together.
+4. Assemble and display metadata alongside visualization
+5. Maintain consistent colour meaning throughout (e.g. data from a given survey always uses the same colour) and use colourblind-proof colours where possible.
+6. Describe the visualizations in detail at the beginning of the report so that the species pages are almost entirely visual.
+7. Highlight uncertainty wherever possible (e.g. through shading to indicate periods of increased uncertainty in reported catches).
 
 We wanted the entire report to be fully automated and reproducible so that it could be easily updated in the future. We also wanted the report production to be fully transparent and traceable regarding how the data are extracted from DFO databases and treated prior to plotting. To accomplish this, we developed a family of R packages that facilitate direct extraction of necessary data from our relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualisations into a report format. The code for the report was written in a modular way so that individual functions could be useful for other purposes, for example in stock assessments requiring similar statistical models or to extract data for a diverse array of projects in a consistent, standardized way.
 
@@ -70,26 +70,35 @@ We settled on visualization components that covered trends in time and space for
 
 Throughout report development we solicited feedback from stakeholders and other potential users of the report on data to include as well as on report structure and design. Feedback was also sought from data experts for various species groups to ensure that the data being captured were accurate, complete, and relevant.
 
-# Results - what else does this need?
+# Results
 
-The resulting visualizations for an example stock included the following (Figure 1 and 2): - pcod, redbanded, rougheye?
+The report includes two pages of visualization for 113 stocks of British Columbia groundfish and sharks including XX species of rockfish, ... etc. (Figs 1 and 2). The first page for each species features metadata and temporal and spatial trends and patterns from fisheries independent surveys and commercial catch and effort data. Specifically, it includes:
 
-Temporal and spatial population and fishery trends (left species page):
-- species-specific metadata (latin and common names; taxonomy; links to FishBase and WoRMS species pages; current conservation status; most recent DFO stock assessment or other DFO document)
-- relative biomass trends from fisheries independent surveys
-- maps of relative biomass from most recent fisheries independent surveys
-- trends in fisheries catches through time by gear type and region
-- trends in trawl fisheries catch per unit effort through time by region (issues with longline data still need to be resolved)
-- maps of fisheries catch painted effort by gear type for a recent window of time
+1. Species-specific metadata (scientific and common names, taxonomy, links to FishBase and WoRMS species pages, current conservation status, most recent DFO stock assessment or other DFO document)
+1. Temporal and spatial population and fishery trends
+1. Relative biomass trends from fisheries independent surveys
+1. Maps of relative biomass from the most recent fisheries independent surveys
+1. Trends in fisheries catches through time by gear type and region
+1. Trends in bottom-trawl fisheries catch per unit effort (CPUE) through time by region
+1. Maps of fisheries CPUE by gear type for a recent window of time
 
-Biological trends, growth & maturity, and data availability (right species page):
-- length frequencies by survey and year
-- age frequencies by survey and year
-- length age growth models
-- weight length growth models
-- age and length at maturity models
-- maturity frequencies by stage and month
-- counts of the number of available fish lengths, weights, maturities, ages, and aging structures, from all surveys and all commercial samples in DFO databases
+The visualizations on the second page focus on biological samples of fish. Each page includes:
+
+1. Length frequencies by survey and year
+1. Age frequencies by survey and year
+1. Length age growth models
+1. von Bertalanffy growth curves fitted to age and length samples
+1. Weight-length growth models
+1. Age- and length-at-maturity models
+1. Maturity frequencies by maturity stage and month
+1. Counts of the number of available fish lengths, weights, maturities, ages, and aging structures from all surveys and all commercial samples in DFO databases
+
+<!-- pcod, redbanded, rougheye? -->
+
+Although not shown here, the visualizations for many stocks include mostly empty plots emphasizing species for which there remain many unknown unknowns. In other cases, nearly all the data available for data-rich stocks are visualized together on two pages for the first time.
+
+
+
 
 # Discussion
 
@@ -127,7 +136,7 @@ Conclusions and where we are going with this next
 - plan to include more climate related visualization such as centre of gravity and mean depth through time (ha! where to fit this...?)
 - ...
 
-# Acknowledgements (can shorten if too lengthy; took from synopsis and already trimmed a bit)
+# Acknowledgements
 
 We are grateful for the ongoing collaboration between DFO, commercial fishers,
 First Nations, and non-governmental organizations, which has made possible the
@@ -140,14 +149,7 @@ We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review 
 We thank Christie Whelan for her
 support initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm
 Wyeth for providing support on data extraction and general database structure
-and content. We thank the participants of the peer review meeting on tiered
-approaches in May 2016 [@macdougall2016], which included a data scorecard by
-Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
-for his work on GFASTeR, from which this project takes inspiration and
-borrows some data queries. We thank Rowan Haigh for his work maintaining
-the PBSmapping and PBSdata R packages, and indeed the authors of all the R
-packages necessary to build this report.
-
+and content.
 
 \clearpage
 
@@ -157,7 +159,7 @@ packages necessary to build this report.
 # include_graphics(here("figs/decades-and-booms-viridis.pdf"))
 ```
 
-```{r page1, fig.cap = "Figure caption goes here."}
+```{r page2, fig.cap = "Figure caption goes here."}
 # include_graphics(here("figs/decades-and-booms-viridis.pdf"))
 ```
 
