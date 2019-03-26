@@ -37,16 +37,22 @@ Although modern technologies have resulted in the collection of vast quantities 
 
 In British Columbia (BC), Canada, Fisheries and Oceans Canada (DFO) faces these very problems in monitoring its groundfish populations and fisheries. Government groundfish scientists hold the potential responsibility of providing science advice on over 100 species. The commercial groundfish fleet is subject to 100% on-board and dockside monitoring and numerous fisheries-independent trawl and longline surveys are conducted annually producing large quantities of potentially valuable data. At the same time, assessment scientists face severe limitations in personnel and time. As a result, most stocks are not regularly examined through stock assessment leaving the majority of monitoring data unreported. And, although the Canadian government is engaged in an open-data initiative, some of DFO's data holdings will never be shared due to privacy laws, and the data that are shared are not easily digested without extensive knowledge of the survey programs and advanced data processing skill sets.
 
-Automated visualization is a key solution to these problems.
- - ...
+Automated visualization is a key solution to these problems. Rather than just being an endpoint to data analysis, there is an increasing realization that visualization should be an "integral part of the scientific process" [@fox2011].
+
+- visualization can communicate to the masses
+- visualization can surprise
+- visualization can facilitate rapid understanding
+- visualization can engage and raise awareness
+- visualization can help find errors in data sets
+- something about data dashboards
 
 <!-- - "Second, new visualization approaches and technologies are needed to reduce the time and costs associated with generating visualizations of increasingly large and complex data relationships [@fox2011]." [@michener2012] "Unfortunately, visualization too often becomes an end product of scientific analysis, rather than an exploration tool that scientists can use throughout the research life cycle. However, new database technologies, coupled with emerging Web-based technologies, may hold the key to lowering the cost of visualization generation and allow it to become a more integral part of the scientific process." -[@fox2011] *Changing the Equation on Scientific Data Visualization!* -->
 
-As a solution to this, here we introduce a data synopsis report for 100 groundfish species in British Columbia, Canada. Our goals with this report are to:
-- facilitate discussions related to stock prioritization, fieldwork planning, ...
-- increase transparency about our data holdings
-- ensure we and others are regularly reviewing the available data especially for stocks that are between assessments or have never been assessed 
-- produce standardized tools, derived data sets, and visualizations that are useful elsewhere in, for example, assessments
+Here, as part of a solution to our above-mentioned challenges, we introduce an automated data visualization report we term our "groundfish data synopsis report" for 113 groundfish species in British Columbia, Canada. Our goals with this report are manifold and include: 
+(1) ensuring DFO scientists, managers, and all interested parties are regularly reviewing indices of population status for all stocks, 
+(2) facilitating discussions related to stock prioritization and survey programs, 
+(3) increasing transparency about our data holdings, and
+(4) producing standardized tools, derived data sets, and visualizations that are useful elsewhere in, for example, assessments.
 
 # Methods
 
@@ -63,6 +69,7 @@ In designing the report we made the following design considerations:
 5. Maintain consistent colour meaning throughout (e.g. data from a given survey always uses the same colour) and use colourblind-proof colours where possible.
 6. Describe the visualizations in detail at the beginning of the report so that the species pages are almost entirely visual.
 7. Highlight uncertainty wherever possible (e.g. through shading to indicate periods of increased uncertainty in reported catches).
+8. Focus on data types relevant to the most species.
 
 We wanted the entire report to be fully automated and reproducible so that it could be easily updated in the future. We also wanted the report production to be fully transparent and traceable regarding how the data are extracted from DFO databases and treated prior to plotting. To accomplish this, we developed a family of R packages that facilitate direct extraction of necessary data from our relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualisations into a report format. The code for the report was written in a modular way so that individual functions could be useful for other purposes, for example in stock assessments requiring similar statistical models or to extract data for a diverse array of projects in a consistent, standardized way.
 
