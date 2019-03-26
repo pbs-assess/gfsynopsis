@@ -3,7 +3,7 @@ title: "Title here"
 author: |
   Sean C. Anderson^1^, and
   Elise A. Keppel^1^
-date: 
+date:
 address: |
   ^1^Pacific Biological Station, Fisheries and Oceans Canada
      Nanaimo, BC, V6T 6N7, Canada; sean.anderson@dfo-mpo.gc.ca\
@@ -31,9 +31,9 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 
 # Introduction
 
-Monitoring is a critical component of effective ecological resource management. Monitoring can be used to choose management actions or learn about systems through adaptive management [REFs; @possingham2012]. It can also be used to engage stakeholders or raise awareness about the state of ecological systems [e.g. @possingham2012]. Focussed monitoring programs, such as those targeting a specific populations or ecosystems, can help parameterize complex statistical models and provide deep insights into the mechanisms driving population or ecosystem status [e.g. REF]. At the same time, broad monitoring programs are essential to detecting ecological surprises and the "unknown unknowns" [e.g. @hilborn1987; @wintle2010] --- a purpose only becoming more important in an era of climate change.
+Monitoring is a critical component of effective ecological resource management. Monitoring can be used to choose management actions or learn about systems through adaptive management [REFs; @possingham2012]. It can also be used to engage stakeholders or raise awareness about the state of ecological systems [e.g. @possingham2012]. Focused monitoring programs, such as those targeting a specific populations or ecosystems, can help parameterize complex statistical models and provide deep insights into the mechanisms driving population or ecosystem status [e.g. REF]. At the same time, broad monitoring programs are essential to detecting ecological surprises and the "unknown unknowns" [e.g. @hilborn1987; @wintle2010] --- a purpose only becoming more important in an era of climate change.
 
-Although modern technologies have resulted in the collection of vast quantities of data, turning that data into effective monitoring remains a challenge. Agencies that collect data often lack the resources to report on all facets of it in a timely fashion. Thankfully, the movement towards open data has made many raw data sets available, but processing it requires domain-specific knowledge (e.g., about sampling protocols), advanced skillsets, and time --- all factors that limit the ability for stakeholders (e.g., resource users or concerned citizens) to derive their own insights.
+Although modern technologies have resulted in the collection of vast quantities of data, turning that data into effective monitoring remains a challenge. Agencies that collect data often lack the resources to report on all facets of it in a timely fashion. Thankfully, the movement toward open data has made many raw data sets available, but processing it requires domain-specific knowledge (e.g., about sampling protocols), advanced skill sets, and time --- all factors that limit the ability for stakeholders (e.g., resource users or concerned citizens) to derive their own insights.
 
 In British Columbia (BC), Canada, Fisheries and Oceans Canada (DFO) faces these very problems in monitoring its groundfish populations and fisheries. Government groundfish scientists hold the potential responsibility of providing science advice on over 100 species. The commercial groundfish fleet is subject to 100% on-board and dockside monitoring and numerous fisheries-independent trawl and longline surveys are conducted annually producing large quantities of potentially valuable data. At the same time, assessment scientists face severe limitations in personnel and time. As a result, most stocks are not regularly examined through stock assessment leaving the majority of monitoring data unreported. And, although the Canadian government is engaged in an open-data initiative, some of DFO's data holdings will never be shared due to privacy laws, and the data that are shared are not easily digested without extensive knowledge of the survey programs and advanced data processing skill sets.
 
@@ -48,15 +48,15 @@ Automated visualization is a key solution to these problems. Rather than just be
 
 <!-- - "Second, new visualization approaches and technologies are needed to reduce the time and costs associated with generating visualizations of increasingly large and complex data relationships [@fox2011]." [@michener2012] "Unfortunately, visualization too often becomes an end product of scientific analysis, rather than an exploration tool that scientists can use throughout the research life cycle. However, new database technologies, coupled with emerging Web-based technologies, may hold the key to lowering the cost of visualization generation and allow it to become a more integral part of the scientific process." -[@fox2011] *Changing the Equation on Scientific Data Visualization!* -->
 
-Here, as part of a solution to our above-mentioned challenges, we introduce an automated data visualization report we term our "groundfish data synopsis report" for 113 groundfish species in British Columbia, Canada. Our goals with this report are manifold and include: 
-(1) ensuring DFO scientists, managers, and all interested parties are regularly reviewing indices of population status for all stocks, 
-(2) facilitating discussions related to stock prioritization and survey programs, 
+Here, as part of a solution to our above-mentioned challenges, we introduce an automated data visualization report we term our "groundfish data synopsis report" for 113 groundfish species in British Columbia, Canada. Our goals with this report are manifold and include:
+(1) ensuring DFO scientists, managers, and all interested parties are regularly reviewing indices of population status for all stocks,
+(2) facilitating discussions related to stock prioritization and survey programs,
 (3) increasing transparency about our data holdings, and
 (4) producing standardized tools, derived data sets, and visualizations that are useful elsewhere in, for example, assessments.
 
 # Methods
 
-We focussed our report on species of commerical, recreational, conservation, or First Nations interest, and those regularly caught in DFO surveys. We included both commercial and survey population trends and biological data in the report to give an overall snapshot of available information for each species.
+We focused our report on species of commercial, recreational, conservation, or First Nations interest, and those regularly caught in DFO surveys. We included both commercial and survey population trends and biological data in the report to give an overall snapshot of available information for each species.
 
 Of the various fisheries independent surveys that DFO conducts, we show data from those that provide the greatest spatial and taxonomic coverage of the species in the report. We chose to focus on aspects of the data that are most important to stock assessment or indicators of stock dynamics, and display both spatial and temporal aspects of the data.
 
@@ -71,9 +71,9 @@ In designing the report we made the following design considerations:
 7. Highlight uncertainty wherever possible (e.g. through shading to indicate periods of increased uncertainty in reported catches).
 8. Focus on data types relevant to the most species.
 
-We wanted the entire report to be fully automated and reproducible so that it could be easily updated in the future. We also wanted the report production to be fully transparent and traceable regarding how the data are extracted from DFO databases and treated prior to plotting. To accomplish this, we developed a family of R packages that facilitate direct extraction of necessary data from our relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualisations into a report format. The code for the report was written in a modular way so that individual functions could be useful for other purposes, for example in stock assessments requiring similar statistical models or to extract data for a diverse array of projects in a consistent, standardized way.
+We wanted the entire report to be fully automated and reproducible so that it could be easily updated in the future. We also wanted the report production to be fully transparent and traceable regarding how the data are extracted from DFO databases and treated prior to plotting. To accomplish this, we developed a family of R packages that facilitate direct extraction of necessary data from our relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualizations into a report format. The code for the report was written in a modular way so that individual functions could be useful for other purposes, for example in stock assessments requiring similar statistical models or to extract data for a diverse array of projects in a consistent, standardized way.
 
-We settled on visualization components that covered trends in time and space for fisheries independent surveys and commercial fisheries catch and catch per unit effort; visualizations of temporal trends in length and age frequencies; and visualizations of biological parameters inlcuding length at age, weight at length, age at maturity, length at maturity and maturity frequencies from fisheries independent surveys and commercial data sources. We additionally show a summary of all commercial and research biological sample data availabilty for each species by counts of specimens.
+We settled on visualization components that covered trends in time and space for fisheries independent surveys and commercial fisheries catch and catch per unit effort; visualizations of temporal trends in length and age frequencies; and visualizations of biological parameters including length at age, weight at length, age at maturity, length at maturity and maturity frequencies from fisheries independent surveys and commercial data sources. We additionally show a summary of all commercial and research biological sample data availability for each species by counts of specimens.
 
 Throughout report development we solicited feedback from stakeholders and other potential users of the report on data to include as well as on report structure and design. Feedback was also sought from data experts for various species groups to ensure that the data being captured were accurate, complete, and relevant.
 
@@ -131,7 +131,7 @@ Conclusions and where we are going with this next
 
 - this was a useful exercise for us; already become an indispensable reference for many people and the tools have helped conduct other assessments rapidly
 - plan to update on an annual or biennial basis and examine larger structural changes on a less frequent basis
-- plan to include more climate related visualization such as centre of gravity and mean depth through time (ha! where to fit this...?)
+- plan to include more climate related visualizations going forward
 - ...
 
 # Acknowledgements
