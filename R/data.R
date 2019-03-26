@@ -45,7 +45,7 @@ get_data_iphc <- function(type = c("A", "B"), path = ".",
   if (!force)
     .d <- filter(.d, !spp_w_hyphens %in% already_exists)
   if (nrow(.d) > 0L)
-    gfplot::cache_pbs_data_iphc(species = .d$species_common_name,
+    gfiphc::cache_pbs_data_iphc(species = .d$species_common_name,
       file_name = .d$spp_w_hyphens,
       path = path, compress = compress)
 }
@@ -62,7 +62,7 @@ get_data_iphc_hook_with_bait <- function(path = ".",
   dir.create(path, showWarnings = FALSE)
   if (!force & file.exists(paste0(path, "/hook-with-bait.rds"))) {
      return() } else {
-  gfplot::cache_pbs_data_iphc(species = "hook with bait",
+  gfiphc::cache_pbs_data_iphc(species = "hook with bait",
     file_name = "hook-with-bait",
     path = path, compress = compress)
   }

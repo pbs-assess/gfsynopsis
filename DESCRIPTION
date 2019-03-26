@@ -30,8 +30,12 @@ Imports:
     doParallel,
     parallel,
     scales,
-    rosettafish
-Remotes: github::pbs-assess/gfplot, github::pbs-assess/sdmTMB, github::pbs-assess/rosettafish
+    rosettafish,
+    gfiphc
+Remotes: github::pbs-assess/gfplot, 
+    github::pbs-assess/sdmTMB, 
+    github::pbs-assess/rosettafish,
+    github::pbs-assess/gfiphc
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 Suggests:
