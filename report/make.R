@@ -103,7 +103,7 @@ if (parallel_processing) {
   cl <- parallel::makeCluster(cores, outfile = "")
   doParallel::registerDoParallel(cl)
 }
-cpue_models <- foreach::foreach(i = seq_along(spp$species_common_name),
+foreach::foreach(i = seq_along(spp$species_common_name),
 .packages = c("gfplot", "gfsynopsis"),
 .export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %dopar% {
 
