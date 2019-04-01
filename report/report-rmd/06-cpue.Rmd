@@ -9,7 +9,7 @@ appropriate for model fitting. In the following sections we describe those
 decisions for the data from 1996--2017 and then describe our index
 standardization model. This model and the following description draws heavily
 from a recent assessment of Pacific Cod (in parts copied verbatim), where this
-model was first developed and applied [@forrest2018pcod].
+model was first developed and applied [@dfo2018pcod].
 
 ## DEFINING THE 1996--2017 FLEET
 
