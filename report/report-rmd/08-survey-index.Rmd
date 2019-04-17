@@ -308,11 +308,26 @@ dat <- mutate(dat, density = density * 1000 * 1000)
 dat <- gfplot:::interp_survey_bathymetry(dat)$data
 dat <- gfplot:::scale_survey_predictors(dat)
 
-grid_locs <- gfplot:::make_prediction_grid(
-  filter(dat, year == max(dat$year)), survey = survey,
-  cell_width = 2)$grid
-grid_locs <- rename(grid_locs, depth = akima_depth)
-grid_locs$year <- NULL
+# grid_locs <- gfplot:::make_prediction_grid(
+#   filter(dat, year == max(dat$year)), survey = survey,
+#   cell_width = 2)$grid
+# grid_locs <- rename(grid_locs, depth = akima_depth)
+# grid_locs$year <- NULL
+
+grid_locs <- gfplot::synoptic_grid %>%
+  dplyr::filter(survey == "SYN QCS") %>%
+  dplyr::select(X, Y, depth)
+
+grid_locs$depth_scaled <-
+  (log(grid_locs$depth) - dat$depth_mean[1]) / dat$depth_sd[1]
+grid_locs$depth_scaled2 <- grid_locs$depth_scaled^2
+
+# Expand the prediction grid to create a slice for each time:
+original_time <- sort(unique(dat$year))
+nd <- do.call("rbind",
+  replicate(length(original_time), grid_locs, simplify = FALSE))
+nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
+grid_locs <- nd
 ```
 
 ```{r sdmTMB-spt-spde, fig.cap='Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey across all years. Red dots represent the knot locations and open black circles represent the location of the survey sets.', fig.width=9, out.width="3.7in"}
@@ -320,7 +335,7 @@ spde <- make_spde(dat$X, dat$Y, n_knots = n_knots)
 plot_spde(spde)
 ```
 
-```{r sdmTMB-spt-model}
+```{r sdmTMB-spt-model, warning=FALSE, message=FALSE}
 m_st <- sdmTMB(
   formula = density ~ 0 + as.factor(year),
   data = dat, time = "year", spde = spde, family = tweedie(link = "log"),
