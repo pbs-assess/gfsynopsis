@@ -7,7 +7,7 @@ Fisheries and Oceans Canada (DFO) at the Pacific Biological Station
 (PBS) in Nanaimo, British Columbia (BC), manages vast quantities of such data on
 groundfish species in BC. However, there is not the capacity
 to conduct formal stock assessments for most stocks annually, and therefore,
-much of these data are not summarized to represent the nature of the data
+much of these data are not summarised to represent the nature of the data
 holdings.
 
 As one step to address this issue, we have created this data synopsis
