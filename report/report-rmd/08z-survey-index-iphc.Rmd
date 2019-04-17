@@ -757,7 +757,7 @@ hook_adjust = - log(Pit) / (1 - Pit)
 plot(Pit, hook_adjust, ylim=c(0, max(hook_adjust)), type="l",
      xlab = expression("Proportion of hooks with bait, P"[it]),
      ylab = "Hook competition adjustment factor")
-````
+```
 
 It scales up the observed number of each species caught, $N_{its}$, to give the expected number
 of species caught accounting for hook competition, $N_{its}^{(0)}$, depending on the
