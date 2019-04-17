@@ -13,7 +13,7 @@
 #' @return A list object.
 #' @export
 fit_sdmTMB_westcoast <- function(species_rds, survey,
-  species_name = "", n_knots = 200, cell_width = 2,
+  species_name = "", n_knots = 150, cell_width = 2,
   anisotropy = FALSE, silent = TRUE, bias_correct = FALSE,
   include_depth = FALSE) {
 
@@ -32,14 +32,33 @@ fit_sdmTMB_westcoast <- function(species_rds, survey,
   dat <- gfplot:::scale_survey_predictors(dat)
 
   if (grepl("SYN", survey)) {
-    grid_locs <- gfplot:::make_prediction_grid(
-      dplyr::filter(dat, year == max(dat$year)), survey = survey,
-      cell_width = cell_width)$grid
-    grid_locs <- dplyr::rename(grid_locs, depth = akima_depth)
+    # grid_locs <- gfplot:::make_prediction_grid(
+    #   dplyr::filter(dat, year == max(dat$year)), survey = survey,
+    #   cell_width = cell_width)$grid
+    # grid_locs <- dplyr::rename(grid_locs, depth = akima_depth)
+
+    grid_locs <- gfplot::synoptic_grid %>%
+      dplyr::filter(.data$survey == survey) %>%
+      dplyr::select(.data$X, .data$Y, .data$depth)
+
+    grid_locs$depth_scaled <-
+      (log(grid_locs$depth) - dat$depth_mean[1]) / dat$depth_sd[1]
+    grid_locs$depth_scaled2 <- grid_locs$depth_scaled^2
+
+    # Expand the prediction grid to create a slice for each time:
+    original_time <- sort(unique(dat$year))
+    nd <- do.call("rbind",
+      replicate(length(original_time), grid_locs, simplify = FALSE))
+    nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
+    grid_locs <- nd
+
+    # grid_locs <- dplyr::select(grid_locs, .data$X, .data$Y, .data$depth_scaled,
+    #   .data$depth_scaled2)
   } else {
+    stop("Non-synoptic surveys are not implemented yet.")
     grid_locs <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid$grid else gfplot::hbll_s_grid$grid
   }
-  grid_locs$year <- NULL
+  # grid_locs$year <- NULL
   formula <- if (include_depth) {
     stats::as.formula(density ~ 0 + as.factor(year))
   } else {
