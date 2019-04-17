@@ -197,8 +197,8 @@ p1_trawl <-
 
 p2_ll <-
   g_alt$cpue_spatial_ll +
-  labs(fill = "Geometric\nmean of hook-and-line\nfish/set") +
-  labs(colour = "Geometric\nmean of hook-and-line\nfish/set") +
+  labs(fill = "Geometric\nmean of hook-and-line\n(fish/set)") +
+  labs(colour = "Geometric\nmean of hook-and-line\n(fish/set)") +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
