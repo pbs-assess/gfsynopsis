@@ -315,8 +315,8 @@ dat <- gfplot:::scale_survey_predictors(dat)
 # grid_locs$year <- NULL
 
 grid_locs <- gfplot::synoptic_grid %>%
-  dplyr::filter(.data$survey == survey) %>%
-  dplyr::select(.data$X, .data$Y, .data$depth)
+  dplyr::filter(survey == "SYN QCS") %>%
+  dplyr::select(X, Y, depth)
 
 grid_locs$depth_scaled <-
   (log(grid_locs$depth) - dat$depth_mean[1]) / dat$depth_sd[1]
@@ -335,7 +335,7 @@ spde <- make_spde(dat$X, dat$Y, n_knots = n_knots)
 plot_spde(spde)
 ```
 
-```{r sdmTMB-spt-model}
+```{r sdmTMB-spt-model, warning=FALSE, message=FALSE}
 m_st <- sdmTMB(
   formula = density ~ 0 + as.factor(year),
   data = dat, time = "year", spde = spde, family = tweedie(link = "log"),
