@@ -774,7 +774,7 @@ $P_{it} \rightarrow 1$ then by L'H\mbox{\^o}pital's Rule
   & = 1,
 \end{align}
 such that $N_{its}^{(0)} = N_{its}$, which equals $0$ (because if all
-all hooks are returned with bait on then $N_{its} = 0$
+hooks are returned with bait on then $N_{its} = 0$
 for all species $s$).
 
 \vspace{0mm}
