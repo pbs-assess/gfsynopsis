@@ -216,13 +216,13 @@ temp <- lapply(spp$species_common_name, function(x) {
   }
   if (!is.na(cosewic_report)) {
     if (cosewic_report != "") {
-      out[[i]] <- paste0("COSEWIC status report: @", cosewic_report, "\\")
+      out[[i]] <- paste0("COSEWIC Status Report: @", cosewic_report, "\\")
       i <- i + 1
     }
   }
   if (!is.na(cosewic_status)) {
     if (cosewic_status != "") {
-      out[[i]] <- paste0("COSEWIC status: ", cosewic_status)
+      out[[i]] <- paste0("COSEWIC Status: ", cosewic_status)
       if (!is.na(sara_status))
         if (sara_status != "")
           out[[i]] <- paste0(out[[i]], ", SARA status: ", sara_status)
@@ -231,7 +231,7 @@ temp <- lapply(spp$species_common_name, function(x) {
     }
   }
   if (species_code == "394") { # FIXME Rougheye Rockfish
-    out[[i]] <- "COSEWIC status: Special Concern, SARA status: Special Concern\n"
+    out[[i]] <- "COSEWIC Status: Special Concern, SARA status: Special Concern\n"
     i <- i + 1
   }
   if (species_code == "225") {
