@@ -136,10 +136,25 @@ dat <- filter(dat, !is.na(depth))
 dat <- gfplot:::scale_survey_predictors(dat)
 dat <- select(dat, -X10, -Y10)
 
-grid_locs <- gfplot:::make_prediction_grid(filter(dat, year == 2017),
-  survey = "SYN QCS", cell_width = 1.5)$grid
-grid_locs <- rename(grid_locs, depth = akima_depth)
-grid_locs$year <- NULL
+# grid_locs <- gfplot:::make_prediction_grid(filter(dat, year == 2017),
+  # survey = "SYN QCS", cell_width = 1.5)$grid
+# grid_locs <- rename(grid_locs, depth = akima_depth)
+# grid_locs$year <- NULL
+
+grid_locs <- gfplot::synoptic_grid %>%
+  dplyr::filter(.data$survey == "SYN QCS") %>%
+  dplyr::select(.data$X, .data$Y, .data$depth)
+
+grid_locs$depth_scaled <-
+  (log(grid_locs$depth) - dat$depth_mean[1]) / dat$depth_sd[1]
+grid_locs$depth_scaled2 <- grid_locs$depth_scaled^2
+
+# Expand the prediction grid to create a slice for each time:
+original_time <- sort(unique(dat$year))
+nd <- do.call("rbind",
+  replicate(length(original_time), grid_locs, simplify = FALSE))
+nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
+grid_locs <- nd
 ```
 
 ```{r sdmTMB-spde, fig.width=9, out.width="3.5in", fig.cap="Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey in 2017. The red dots indicate knot locations. The open grey circles in the background represent the locations of the observed data. The lines show the triangularization mesh used in the SPDE approximation. In this case, many of the knots overlap the observed data. A greater number of knots will increase the accuracy of the approximation at the expense of computational time."}
