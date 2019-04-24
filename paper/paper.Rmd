@@ -11,7 +11,11 @@ output:
   bookdown::pdf_document2:
     number_sections: no
     toc: no
-    template: "article.tex"
+fontfamily: libertine
+header-includes:
+    - \usepackage{setspace}\onehalfspacing
+    - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[2]
+geometry: "left=3cm,right=3cm,top=2.54cm,bottom=2.54cm"
 bibliography: "refs.bib"
 csl: "cfjas.csl"
 link-citations: yes
