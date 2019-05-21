@@ -11,7 +11,7 @@ standardization model. This model and the following description draws heavily
 from a recent assessment of Pacific Cod (in parts copied verbatim), where this
 model was first developed and applied [@forrest2018pcod].
 
-## DEFINING THE 1996--2017 FLEET
+## DEFINING THE 1996--`r as.numeric(format(Sys.Date(), "%Y")) - 1)` FLEET
 
 Commercial groundfish bottom trawl data from 1996 to present have been recorded
 to the fishing-event level in the presence of on-board observers or video
@@ -32,7 +32,7 @@ catching Pacific Cod. We follow the approach used in a number of recent BC
 groundfish stock assessments by requiring vessels to have caught the species in
 at least 100 tows across all years of interest, and to have passed a threshold
 of five trips (trips that recorded some of the species) for at least five years
---- all from 1996 to 2017.
+--- all from 1996 to `r as.numeric(format(Sys.Date(), "%Y")) - 1)`.
 
 ## DEFINING THE STANDARDIZATION MODEL PREDICTORS
 
