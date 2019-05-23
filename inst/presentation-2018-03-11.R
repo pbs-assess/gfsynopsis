@@ -9,7 +9,7 @@ d_cpue_index <- readRDS(file.path("report", "data-cache", "pbs-cpue-index.rds"))
 fleet <- tidy_cpue_index(d_cpue_index,
   species_common = "walleye pollock",
   area_grep_pattern = "5[CDE]+",
-  min_positive_tows = 100,
+  min_positive_fe = 100,
   min_positive_trips = 4,
   min_yrs_with_trips = 4,
   year_range = c(1997, 2017))
