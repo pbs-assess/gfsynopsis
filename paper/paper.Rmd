@@ -1,5 +1,5 @@
 ---
-title: "Title here"
+title: A reproducible data synopsis report for over 100 species facilitates indicator monitoring, data transparency, and prioritization discussions
 author: |
   Sean C. Anderson^1^, and
   Elise A. Keppel^1^
