@@ -1,10 +1,8 @@
 ---
 title: |
-  A reproducible data synopsis report for over 100 species facilitates indicator monitoring, data transparency, and prioritization discussions\\
-  Reproducible data synopsis reports facilitate indicator monitoring, data transparency, and prioritization discussions\\
-  Reproducible data synopsis reports facilitate indicator monitoring and data transparency: an example for over 100 species of Pacific Canadian groundfish
+  Reproducible data synopsis reports facilitate broad monitoring and data transparency: an example with over 100 Pacific Canadian groundfish species
 author: |
-  Sean C. Anderson^1^ and Elise A. Keppel^2^\
+  Sean C. Anderson^1^, Elise A. Keppel^2^\, \ldots\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada
      Nanaimo, BC, V6T 6N7, Canada;\
      sean.anderson@dfo-mpo.gc.ca\
@@ -19,10 +17,8 @@ output:
 fontfamily: libertine
 fontsize: 11pt
 header-includes:
-    - \usepackage{setspace}\doublespacing
+    - \usepackage{setspace}
     - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[1]
-    - \setlength{\parindent}{0em}
-    - \setlength{\parskip}{1.8em}
 geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 bibliography: "refs.bib"
 csl: "cfjas.csl"
