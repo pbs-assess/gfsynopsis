@@ -1,24 +1,29 @@
 ---
 title: |
-  A reproducible data synopsis report for over 100 species facilitates indicator monitoring, data transparency, and prioritization discussions\\ 
+  A reproducible data synopsis report for over 100 species facilitates indicator monitoring, data transparency, and prioritization discussions\\
   Reproducible data synopsis reports facilitate indicator monitoring, data transparency, and prioritization discussions\\
-  A reproducible data synopsis for over 100 species of British Columbia groundfish
+  Reproducible data synopsis reports facilitate indicator monitoring and data transparency: an example for over 100 species of Pacific Canadian groundfish
 author: |
-  Sean C. Anderson^1^, and
-  Elise A. Keppel^1^
-date:
-address: |
+  Sean C. Anderson^1^ and Elise A. Keppel^2^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada
-     Nanaimo, BC, V6T 6N7, Canada; sean.anderson@dfo-mpo.gc.ca\
+     Nanaimo, BC, V6T 6N7, Canada;\
+     sean.anderson@dfo-mpo.gc.ca\
+  ^2^Pacific Biological Station, Fisheries and Oceans Canada
+     Nanaimo, BC, V6T 6N7, Canada;\
+     elise.keppel@dfo-mpo.gc.ca
 output:
   bookdown::pdf_document2:
     number_sections: no
     toc: no
+    template: "article.tex"
 fontfamily: libertine
+fontsize: 11pt
 header-includes:
-    - \usepackage{setspace}\onehalfspacing
-    - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[2]
-geometry: "left=3cm,right=3cm,top=2.54cm,bottom=2.54cm"
+    - \usepackage{setspace}\doublespacing
+    - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[1]
+    - \setlength{\parindent}{0em}
+    - \setlength{\parskip}{1.8em}
+geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 bibliography: "refs.bib"
 csl: "cfjas.csl"
 link-citations: yes
@@ -38,15 +43,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 
 # Introduction
 
-<!-- Monitoring is a critical component of effective ecological resource management. Monitoring can be used to choose management actions or learn about systems through adaptive management [REFs; @possingham2012]. It can also be used to engage stakeholders or raise awareness about the state of ecological systems [e.g. @possingham2012]. Focused monitoring programs, such as those targeting specific populations or ecosystems, can . At the same time, broad monitoring programs are essential to detecting ecological surprises and the "unknown unknowns" [e.g. @hilborn1987; @wintle2010] --- a purpose only becoming more important in an era of climate change. -->
-
 Modern survey and fishery monitoring programs generate vast quantities of data; however, turning that data into effective monitoring remains a challenge. Agencies that collect data often lack the resources to report on all facets of it in a timely fashion. Typically, only data for a small subset of species is reported on through detailed stock assessments. While such intense analysis is undoubtedly valuable, broad monitoring programs across an array of species and datatypes are essential to detecting ecological surprises and "unknown unknowns" [e.g. @hilborn1987; @wintle2010]. As part of a movement towards open data, many raw data sets, especially those collected by government agencies, are being made freely available. However, processing those data sets requires domain-specific knowledge (e.g., about sampling protocols), advanced skill sets, and time. Collectively, these factors often limit the ability for stakeholders such as resource users or concerned citizens to engage with monitoring data and derive their own insights.
 
 In British Columbia (BC), Canada, Fisheries and Oceans Canada (DFO) faces these problems in monitoring its groundfish populations and fisheries. In BC, government groundfish scientists hold the potential responsibility of providing science advice on over 100 species. The commercial groundfish fleet is subject to 100% on-board and dockside monitoring and numerous fisheries-independent trawl and longline surveys are conducted annually producing large quantities of valuable data. At the same time, assessment scientists face limitations in personnel and time. As a result, most stocks are not regularly examined through stock assessment, leaving the majority of monitoring data unreported. Although the Canadian government is engaged in an open-data initiative, some of DFO's data holdings will never be shared due to privacy laws, and the data that are shared are not easily digested without extensive knowledge of the survey programs and commercial fisheries, and advanced data processing skill sets.
 
 Automated visualization and reporting is one solution to these problems. Visualization can serve as much more than just an endpoint to data analysis---it can serve as a critical component of the scientific process [@fox2011]. Unlike raw data sets, visualization can facilitate rapid understanding of data, engage stakeholders, and raise awareness of data gaps. Visualization can serve as a tool for those with domain specific knowledge to spot errors in data sets. Furthermore, compared to the structured nature of statistical models, the unconstrained nature of visualization better allows for detecting surprises. The advancement of the ecosystem of data analysis packages for the statistical software R [REF] such as knitr [REF], makes it easier now more than ever to produce reproducible visualization reports of survey and fishery monitoring data.
-
-<!-- - "Second, new visualization approaches and technologies are needed to reduce the time and costs associated with generating visualizations of increasingly large and complex data relationships [@fox2011]." [@michener2012] "Unfortunately, visualization too often becomes an end product of scientific analysis, rather than an exploration tool that scientists can use throughout the research life cycle. However, new database technologies, coupled with emerging Web-based technologies, may hold the key to lowering the cost of visualization generation and allow it to become a more integral part of the scientific process." -[@fox2011] *Changing the Equation on Scientific Data Visualization!* -->
 
 Here, as part of a solution to our above-mentioned challenges, we introduce an automated data synopsis report for 113 groundfish species in British Columbia, Canada. Our goals with this report are manifold and include:
 (1) ensuring that the current state of knowledge on indices of population status for all groundfish stocks are available for regular review by DFO scientists, managers, and all interested parties,
@@ -127,7 +128,7 @@ Thus far, the response from stakeholders, managers, and other groundfish scienti
 
 # Acknowledgements
 
-We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations, and non-governmental organizations, which has made possible the collection of the valuable data that underlies the report described in this paper. 
+We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations, and non-governmental organizations, which has made possible the collection of the valuable data that underlies the report described in this paper.
 We thank the project's steering committee (Greg Workman, Robyn Forrest, Dana Haggarty, Chris Grandin, and Rob Kronlund) for invaluable input into the report design and feedback throughout its production.
 We thank Chris Rooper and Daniel Ricard for their thorough and helpful reviews of the report.
 We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review meeting, respectively.
