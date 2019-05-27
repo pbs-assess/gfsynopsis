@@ -138,14 +138,14 @@ We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for providing support on dat
 
 \clearpage
 
-# Figures
+<!-- # Figures -->
 
 ```{r page1, fig.cap = "Figure caption goes here."}
-# include_graphics(here("figs/decades-and-booms-viridis.pdf"))
+include_graphics(here::here("paper/fig1.png"), dpi = NA)
 ```
 
 ```{r page2, fig.cap = "Figure caption goes here."}
-# include_graphics(here("figs/decades-and-booms-viridis.pdf"))
+include_graphics(here::here("paper/fig2.png"), dpi = NA)
 ```
 
 \clearpage
