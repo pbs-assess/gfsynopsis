@@ -1,6 +1,6 @@
 ---
 title: |
-  Reproducible data synopsis reports facilitate broad monitoring and data transparency: an example with over 100 Pacific Canadian groundfish species
+  Reproducible data synopsis reports facilitate monitoring and data transparency: an example with over 100 Pacific Canadian groundfish species
 author: |
   Sean C. Anderson^1^, Elise A. Keppel^2^\, \ldots\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada
@@ -83,29 +83,6 @@ Throughout report development we solicited feedback from stakeholders and other 
 
 The report includes two pages of visualization for 113 stocks of British Columbia groundfish and sharks including 34 rockfish species; 16 elasmobranch species and one chimaera species; 16 flatfish species; nine Gadiforme species (cods); 15 sculpin and poacher species; three greenling/lingcod species; six eelpout species, three prickleback species, and seven other Perciforme species; and one species each of smelt, sablefish and snailfish (e.g., Figs 1 and 2) [REF and link]. The visualizations for many stocks include mostly empty plots emphasizing species for which there remain many unknowns. In other cases, nearly all the data available for data-rich stocks are visualized together on two pages for the first time.
 
-<!-- The first page for each species features metadata and temporal and spatial trends and patterns from fisheries independent surveys and commercial catch and effort data. Specifically, it includes: -->
-
-<!-- 1. Species-specific metadata (scientific and common names, taxonomy, links to FishBase and WoRMS species pages, current conservation status, most recent DFO stock assessment or other DFO document) -->
-<!-- 1. Temporal and spatial population and fishery trends -->
-<!-- 1. Relative biomass trends from fisheries independent surveys -->
-<!-- 1. Maps of relative biomass from the most recent fisheries independent surveys -->
-<!-- 1. Trends in fisheries catches through time by gear type and region -->
-<!-- 1. Trends in bottom-trawl fisheries CPUE through time by region -->
-<!-- 1. Maps of fisheries CPUE by gear type for a recent window of time -->
-
-<!-- The visualizations on the second page focus on biological samples of fish. Each page includes: -->
-
-<!-- 1. Length frequencies by survey and year -->
-<!-- 1. Age frequencies by survey and year -->
-<!-- 1. Length age growth models -->
-<!-- 1. von Bertalanffy growth curves fitted to age and length samples -->
-<!-- 1. Weight-length growth models -->
-<!-- 1. Age- and length-at-maturity models -->
-<!-- 1. Maturity frequencies by maturity stage and month -->
-<!-- 1. Counts of the number of available fish lengths, weights, maturities, ages, and aging structures from all surveys and all commercial samples in DFO databases -->
-
-<!-- pcod, redbanded, rougheye? -->
-
 # Discussion
 
 We have described an automated report that presents up-to-date population trends and biological data from both commercial fisheries and research surveys for groundfish in British Columbia, Canada. Stock assessments are not available for most of these species, or in all years for those that are assessed, limiting the dissemination of these data. Our report facilitates the broad monitoring of groundfish populations in British Columbia waters---it ensures all BC groundfish scientists, managers, and interested parties have access to consistent, up-to-date, and easily digestible visualizations of data holdings. The report increases transparency, provides a mechanism for regular review of data for indication of surprises by relevant parties, and facilitates discussions concerning stock assessment and survey-program prioritization.
@@ -141,17 +118,23 @@ We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review 
 We thank Christie Whelan for her support initiating this project.
 We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for providing support on data extraction and general database structure and content.
 
+<!-- pcod, redbanded, rougheye? -->
+
 \clearpage
 
-<!-- # Figures -->
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=13cm]{fig1.png}
+\caption{Example first page for rougheye/blackspotted rockfish complex (\emph{Sebastes aleutianus/melanostictus}) featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in BC, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch divided by region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.}
+\label{fig:page1}
+\end{figure}
 
-```{r page1, fig.cap = "Figure caption goes here."}
-include_graphics(here::here("paper/fig1.png"), dpi = NA)
-```
-
-```{r page2, fig.cap = "Figure caption goes here."}
-include_graphics(here::here("paper/fig2.png"), dpi = NA)
-```
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=13cm]{fig2.png}
+\caption{Example second page for rougheye/blackspotted rockfish complex (\emph{Sebastes aleutianus/melanostictus}) featuring biological sample, maturity, and growth data in BC, Canada. (Top left) Length frequencies by year and a survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and a survey. (Third row) Age at maturity and length at maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and aging structures from all available survey and commercial samples.}
+\label{fig:page2}
+\end{figure}
 
 \clearpage
 
