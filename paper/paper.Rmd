@@ -29,7 +29,6 @@ abstract: >
   The abstract will go here.
 ---
 
-\clearpage
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(knitr)
@@ -38,11 +37,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 ```
 
 Keywords:
+automation,
 fisheries monitoring,
 groundfish,
 reproducible research,
 transparency,
 visualization
+
+\clearpage
 
 # Introduction
 
@@ -70,7 +72,7 @@ In designing the report we made the following design considerations:
 1. Group similarly focused visualizations together.
 1. Display metadata alongside visualizations where possible.
 1. Maintain consistent colour meaning throughout (e.g. data from a given survey always uses the same colour) and use colourblind-proof colours where possible.
-1. Describe the visualizations in detail at the beginning of the report so that the species pages are almost entirely visual.
+1. Describe the visualizations in detail at the beginning of the report so that the species pages are mostly visual.
 1. Highlight uncertainty wherever possible (e.g. through shading to indicate periods of increased uncertainty in reported catches).
 
 We aimed to make the report automated and reproducible so that it could be easily updated in the future. We also wanted the report production to be fully transparent and traceable with regards to how the data are extracted from databases and treated prior to plotting. To accomplish this, we developed a family of R packages that facilitated extraction of data from relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualizations into a report format. The code for the report was written in a modular format so that individual functions could be useful for other purposes---for example, so the data could be extracted and biological models fit for stock assessments in a consistent, standardized way.
