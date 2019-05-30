@@ -93,7 +93,7 @@
   publisher = {{Fisheries Research Board of Canada}},
   author = {Hart, John Lawson and Clemens, W. A and {Fisheries Research Board of Canada}},
   year = {1988},
-  doi = {doi.org/10.1139/f01-112},
+  doi = {10.1139/f01-112},
 }
 
 
@@ -104,6 +104,7 @@
   journal = {Can. J. Fish. Aquat. Sci.},
   author = {Harley, S. J. and Myers, Ransom A. and Dunn, A.},
   year = {2001},
+  doi = {10.1139/f01-112},
   pages = {1760-1772}
 }
 
@@ -438,18 +439,6 @@ and effort database at the {Pacific Biological Station}},
   pages = {1311--1321}
 }
 
-% Not referencing this in bib since it gets automatically called 'in press' -
-%  think unpub have to go in main text anyway.
-@article{etienneUnpub,
-  title = {Extracting abundance indices from longline surveys: a method to account for hook competition and unbaited hooks},
-  volume = {},
-  journal = {},
-  author = {M.-P. Etienne and S. G. Obradovich and K. L. Yamanaka and M. K. McAllister},
-  year = {unpublishd manuscript},
-  url = {https://arxiv.org/pdf/1005.0892.pdf},
-  pages = {}
-}
-
 @Manual{viridis2018,
     title = {viridis: Default Color Maps from 'matplotlib'},
     author = {Simon Garnier},
@@ -650,7 +639,7 @@ mmetrised Scale, and Fixed Panel Size},
   volume = {24},
   doi = {10.1016/j.tree.2009.03.005},
   number = {9},
-  journal = {Trends in Ecology \& Evolution},
+  journal = {Trends Ecol. Evol.},
   author = {Lindenmayer, David B. and Likens, Gene E.},
   year = {2009},
   pages = {482-486}
@@ -662,7 +651,7 @@ mmetrised Scale, and Fixed Panel Size},
   volume = {25},
   doi = {10.1016/j.tree.2010.06.016},
   number = {10},
-  journal = {Trends in Ecology \& Evolution},
+  journal = {Trends Ecol. Evol.},
   author = {Magurran, Anne E. and Baillie, Stephen R. and Buckland, Stephen T. and Dick, Jan McP. and Elston, David A. and Scott, E. Marian and Smith, Rognvald I. and Somerfield, Paul J. and Watt, Allan D.},
   year = {2010},
   pages = {574-582}
@@ -700,7 +689,7 @@ mmetrised Scale, and Fixed Panel Size},
   volume = {25},
   doi = {10.1016/j.tree.2010.07.002},
   number = {10},
-  journal = {Trends in Ecology \& Evolution},
+  journal = {Trends Ecol. Evol.},
   author = {{McDonald-Madden}, Eve and Baxter, Peter W. J. and Fuller, Richard A. and Martin, Tara G. and Game, Edward T. and Montambault, Jensen and Possingham, Hugh P.},
   year = {2010},
   pages = {547-550}
@@ -712,7 +701,7 @@ mmetrised Scale, and Fixed Panel Size},
   volume = {27},
   doi = {10.1016/j.tree.2011.11.016},
   number = {2},
-  journal = {Trends in Ecology \& Evolution},
+  journal = {Trends Ecol. Evol.},
   author = {Michener, William K. and Jones, Matthew B.},
   year = {2012},
   pages = {85-93}
@@ -724,7 +713,7 @@ mmetrised Scale, and Fixed Panel Size},
   doi = {10.1126/science.1197654},
   language = {eng},
   number = {6018},
-  journal = {Science (New York, N.Y.)},
+  journal = {Science},
   author = {Fox, Peter and Hendler, James},
   year = {2011},
   pages = {705-708}
@@ -738,7 +727,6 @@ mmetrised Scale, and Fixed Panel Size},
   journal = {Ecology Letters},
   author = {Wintle, Brendan A. and Runge, Michael C. and Bekessy, Sarah A.},
   year = {2010},
-  keywords = {bibdesk,knowledge},
   pages = {1325-1337}
 }
 
@@ -771,17 +759,27 @@ mmetrised Scale, and Fixed Panel Size},
   title={Dynamic Documents with {R} and knitr},
   author={Xie, Yihui},
   year={2017},
-  publisher={Chapman and Hall/CRC}
+  publisher={Chapman and Hall/CRC},
+  address = {Boca Raton, FL},
 }
 
 
-@article{forrest2018pcod,
+@techreport{forrest2018pcod,
   author  = {Forrest, R. E. and Anderson, S. C. and Grandin, C. J. and Starr P. J.},
-  year    = {In press},
+  year    = {2019},
   title   = {Assessment of {Pacific Cod} ({\emph{Gadus macrocephalus}}) for {Hecate Strait} and {Queen Charlotte Sound} ({Area 5ABCD}), and {West Coast Vancouver Island} ({Area 3CD}) in 2018},
-  journal = {DFO Can. Sci. Advis. Sec. Res. Doc.},
-  volume  = {2018/xxx},
-  pages   = {}
+  type = {DFO Can. Sci. Advis. Sec. Res. Doc., 2019/In press},
+  number  = {2019/In press},
+}
+
+@techreport{ricard2013,
+  type = {Canadian {{Technical Report}} of {{Fisheries}} and {{Aquatic Sciences}} 3012},
+  title = {Population Status (Abundance/Biomass, Geographic Extent, Body Size and Condition), Important Habitat, Depth, Temperature and Salinity Preferences of Marine Fish and Invertebrates on the {{Scotian Shell}} and the {{Bay}} of {{Fundy}} (1970--2012)},
+  number = {3012},
+  author = {Ricard, Daniel and Shackell, N. L.},
+  year = {2013},
+  url = {http://publications.gc.ca/collections/collection_2014/mpo-dfo/Fs97-6-3012.pdf},
+  urldate = {2019-05-30},
 }
 
 
@@ -826,7 +824,9 @@ mmetrised Scale, and Fixed Panel Size},
   title={FishBase},
   author={Froese, Rainer and Pauly, Daniel and others},
   year={2010},
-  publisher={Fisheries Centre, University of British Columbia, https://www.fishbase.org/}
+  publisher={Fisheries Centre, University of British Columbia},
+  url = {https://www.fishbase.org/},
+  urldate = {2019-05-30},
 }
 
 
@@ -834,7 +834,8 @@ mmetrised Scale, and Fixed Panel Size},
   title={The {IUCN} {Red List} of Threatened Species},
   author={IUCN},
   year={2019},
-  publisher = {https://www.iucnredlist.org}
+  url = {https://www.iucnredlist.org},
+  urldate = {2019-05-30},
 }
 
 @Manual{r2019,
@@ -844,27 +845,31 @@ mmetrised Scale, and Fixed Panel Size},
     address = {Vienna, Austria},
     year = {2019},
     url = {https://www.R-project.org/},
+    urldate = {2019-05-30},
   }
 
 @misc{canada2018,
   title={{Canada's 2018--2020 National Action Plan on Open Government}},
   author={{Government of Canada}},
   year={2018},
-  publisher = {https://open.canada.ca/en/content/canadas-2018-2020-national-action-plan-open-government}
+  url = {https://open.canada.ca/en/content/canadas-2018-2020-national-action-plan-open-government},
+  urldate = {2019-05-30},
 }
 
 @misc{obama2013,
   title={{Executive Order---Making Open and Machine Readable the New Default for Government Information}},
   author={Obama, Barack H.},
   year={2013},
-  publisher = {https://obamawhitehouse.archives.gov/the-press-office/2013/05/09/executive-order-making-open-and-machine-readable-new-default-government-}
+  url = {https://obamawhitehouse.archives.gov/the-press-office/2013/05/09/executive-order-making-open-and-machine-readable-new-default-government-},
+  urldate = {2019-05-30},
 }
 
 @misc{dfo2017,
   title={{Groundfish, Pacific Region 2017 Integrated Fisheries Management Plan summary}},
   author={{DFO}},
   year={2017},
-  publisher = {https://www.pac.dfo-mpo.gc.ca/fm-gp/mplans/ground-fond-ifmp-pgip-sm-eng.html}
+  url = {https://www.pac.dfo-mpo.gc.ca/fm-gp/mplans/ground-fond-ifmp-pgip-sm-eng.html},
+  urldate = {2019-05-30},
 }
 
 @article{stanley2015,
@@ -882,5 +887,8 @@ mmetrised Scale, and Fixed Panel Size},
   title={Ocean biogeographic information system},
   author={OBIS},
   year={2019},
-  publisher={Intergovernmental Oceanographic Commission of {UNESCO}, https://www.obis.org},
+  publisher={Intergovernmental Oceanographic Commission of {UNESCO}},
+  url = {https://www.obis.org},
+  urldate = {2019-05-30},
 }
+

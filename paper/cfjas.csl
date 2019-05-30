@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" default-locale="en-US" version="1.0" demote-non-dropping-particle="sort-only">
   <info>
-    <title>CSAS: a (slight) modification of Canadian Journal of Fisheries and Aquatic Sciences</title>
+    <title>Canadian Journal of Fisheries and Aquatic Sciences</title>
     <id>http://www.zotero.org/styles/canadian-journal-of-fisheries-and-aquatic-sciences</id>
     <link href="http://www.zotero.org/styles/canadian-journal-of-fisheries-and-aquatic-sciences" rel="self"/>
     <link href="http://www.nrcresearchpress.com/page/cjfas/authors" rel="documentation"/>
-    <contributor>
-      <name>Sean Anderson</name>
-    </contributor>
     <author>
       <name>Sebastian Karcher</name>
     </author>
@@ -19,7 +16,7 @@
     <category field="biology"/>
     <issn>0706-652X</issn>
     <eissn>1205-7533</eissn>
-    <updated>2015-11-23T17:28:58+00:00</updated>
+    <updated>2018-07-11T04:12:38+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <macro name="container-contributors">
@@ -129,7 +126,7 @@
         </group>
       </if>
       <else>
-        <text prefix=" (" term="in press" suffix=")" form="long" text-case="sentence"/>
+        <text prefix=" (" term="no date" suffix=")" form="short"/>
       </else>
     </choose>
   </macro>
@@ -141,7 +138,7 @@
         </date>
       </if>
       <else>
-        <text term="in press" form="long" text-case="sentence"/>
+        <text term="no date" form="short"/>
       </else>
     </choose>
   </macro>
@@ -165,7 +162,7 @@
       <if type="article-journal article-magazine article-newspaper" match="any">
         <text variable="container-title" form="short"/>
         <group prefix=" ">
-          <text variable="volume" font-weight="normal"/>
+          <text variable="volume" font-weight="bold"/>
           <text variable="issue" prefix="(" suffix=")"/>
         </group>
         <text variable="page" prefix=": "/>
@@ -196,7 +193,7 @@
       <key variable="issued"/>
       <key macro="author"/>
     </sort>
-    <layout prefix="(" suffix=")" delimiter=", ">
+    <layout prefix="(" suffix=")" delimiter="; ">
       <group delimiter=" ">
         <text macro="author-short"/>
         <text macro="issued-year"/>
@@ -219,7 +216,7 @@
         </group>
         <group delimiter=". ">
           <text macro="publisher"/>
-          <!-- <text macro="access"/> -->
+          <text macro="access"/>
         </group>
       </group>
     </layout>

@@ -23,8 +23,8 @@ geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 bibliography: "refs.bib"
 csl: "cfjas.csl"
 link-citations: yes
-linkcolor: "blue"
-urlcolor: "blue"
+linkcolor: "black"
+urlcolor: "black"
 abstract: >
   The abstract will go here.
 ---
@@ -103,7 +103,7 @@ Unlike detailed species-specific analyses conducted in stock assessments, we lik
 - online tools like FishBase and even IUCN (but note the differences), although ours is targeted a drilling deeper into the types of data needed in stock assessments
 - search around and ask -->
 
-We suggest that a similar approach would have broad utility across taxonomic groups, regions, and types of data. A similar approach could be useful nearly anywhere agencies face monitoring multiple elements (e.g., populations, species, ecosystems, or environmental processes) with relevant data maintained in databases. The approach would be most useful for agencies that lack the capacity to assess those elements in great depth at a frequency that meets management needs. However, even with regular detailed assessments, such a report can provide a "1000 ft" view in a format consistent across all elements. Indeed, tools with a similar spirit, such as FishBase [@froese2010fishbase] or the IUCN Red List website [@iucn2019], have proven useful resources... Chris Rooper's and Dan's work others. TODO
+We suggest that a similar approach would have broad utility across taxonomic groups, regions, and types of data. A similar approach could be useful nearly anywhere agencies face monitoring multiple elements (e.g., populations, species, ecosystems, or environmental processes) with relevant data maintained in databases. The approach would be most useful for agencies that lack the capacity to assess those elements in great depth at a frequency that meets management needs. However, even with regular detailed assessments, such a report can provide a "1000 ft" view in a format consistent across all elements. Indeed, tools with a similar spirit, such as FishBase [@froese2010fishbase] or the IUCN Red List website [@iucn2019], have proven useful resources... Chris Rooper's and Dan's [@ricard2013] work others. TODO
 
 <!-- We emphasize that it can take considerable work to set up these types of reports for the first time, but that once set up, they take less time investment to maintain. -->
 
