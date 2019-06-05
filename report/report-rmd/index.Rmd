@@ -10,7 +10,7 @@ address: |
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
   Nanaimo, British Columbia, V9T 6N7, Canada
 year: "2019"
-report_number: "nnn"
+report_number: "041"
 abstract: |
   The combination of fishery-dependent data, such as catch and effort, and
   fishery-independent survey data, such as biomass indices and age
