@@ -141,7 +141,7 @@ g <- g + geom_polygon(
   inherit.aes = FALSE, lwd = 0.2, fill = "grey87", col = "grey70"
 ) +
   coord_equal(xlim = xlim, ylim = ylim) +
-  theme_pbs() + labs(fill = "", colour = "", y = "Northing", x = "Easting")
+  theme_pbs() + labs(fill = "", colour = "", y = en2fr("Northing", french), x = en2fr("Easting", french))
 
 g <- g + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 
@@ -174,7 +174,7 @@ g2 <- g2 + geom_polygon(
   inherit.aes = FALSE, lwd = 0.2, fill = "grey87", col = "grey70"
 ) +
   coord_equal(xlim = xlim, ylim = ylim) +
-  theme_pbs() + labs(fill = "", colour = "", y = "Northing", x = "Easting")
+  theme_pbs() + labs(fill = "", colour = "", y = en2fr("Northing", french), x = en2fr("Easting", french))
 
 g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 
