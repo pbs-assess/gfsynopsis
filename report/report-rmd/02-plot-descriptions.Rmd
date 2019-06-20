@@ -241,13 +241,13 @@ p1_trawl <-
 p2_ll <-
   g_alt$cpue_spatial_ll +
   (if(french){
-    labs(fill = "Moyenne géométrique\nà l’hameçon et à la\nligne (poisson/ensemble)")
+    labs(fill = "Moyenne géométrique\nà CPUE H & L\n(poisson/ensemble)")
       }
     else{
       labs(fill = "Geometric\nmean of hook-and-line\n(fish/set)")
       }) +
   (if(french){
-    labs(colour = "Moyenne géométrique\nà l’hameçon et à la\nligne (poisson/ensemble)")
+    labs(colour = "Moyenne géométrique\nà CPUE H & L\n(poisson/ensemble)")
       }
   else{
     labs(colour = "Geometric\nmean of hook-and-line\n(fish/set)")
