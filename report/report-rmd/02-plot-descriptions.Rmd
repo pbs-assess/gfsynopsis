@@ -87,24 +87,56 @@ trans <- "fourth_root_power"
 units_transformation <- (1000 * 1000) / 1000
 breaks <- c(0.002, 0.05, 0.3)
 p1 <- g$survey_spatial_syn +
-  labs(fill = "Predicted\nbiomass\ndensity\n(kg/km^2)", parse = TRUE) +
+    (if(french){
+    labs(fill = "Densité\nprévue de\nla biomasse\n(kg/km^2)", parse = TRUE)
+  } 
+  else{
+    labs(fill = "Predicted\nbiomass\ndensity\n(kg/km^2)", parse = TRUE)
+    }) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = breaks, 
     labels = breaks * units_transformation) +
-  guides(fill = guide_colorbar(), size = FALSE)
+  guides(fill = guide_colorbar(), size = FALSE) +
+  (if(french){
+    ggtitle("Biomasse du relevé synoptique")
+  }
+else{
+  ggtitle("Synoptic Survey Biomass")
+  })
 
 p2 <- g$survey_spatial_hbll +
-  labs(fill = "Predicted\nbiomass\ndensity\n(fish/km^2)") +
+  (if(french){
+    labs(fill = "Densité\nprévue de\nla biomasse\n(poisson/km^2)")
+  } 
+  else{
+    labs(fill = "Predicted\nbiomass\ndensity\n(fish/km^2)")
+    }) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
-  guides(fill = guide_colorbar(), size = FALSE)
+  guides(fill = guide_colorbar(), size = FALSE) +
+  (if(french){
+    ggtitle("Biomasse du relevé HBLL OUT")
+  }
+else{
+  ggtitle("HBLL OUT survey biomass")
+  })
 
 p3 <- g$survey_spatial_iphc +
-  labs(colour = "Catch\nrate\n(fish/effective\nskate)") +
+  (if(french){
+    labs(colour = "Taux de\nprise\n(poisson/raie\nréelle)")
+  } 
+  else{
+    labs(colour = "Catch\nrate\n(fish/effective\nskate)")
+    }) +
   guides(colour = guide_colorbar(), size = FALSE) +
   ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +
   ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'grey35', breaks = c(0.2, 0.4, 0.7)) +
+  (if(french){
+    ggtitle("Taux de capture du IPHC")
+  }
+else{
   ggtitle("IPHC catch rate")
+  })
 
 gridExtra::grid.arrange(
   p1,
@@ -188,17 +220,38 @@ trans <- "fourth_root_power"
 
 p1_trawl <-
   g_alt$cpue_spatial +
-  labs(fill = "Geometric\nmean of trawl\nCPUE (kg/hr)") +
-  labs(colour = "Geometric\nmean of trawl\nCPUE (kg/hr)") +
+  (if(french){
+    labs(fill = "Moyenne\ngéométrique des\nCPUE du chalut (kg/h)")
+      }
+    else{
+      labs(fill = "Geometric\nmean of trawl\nCPUE (kg/h)")
+      }) +
+  (if(french){
+    labs(colour = "Moyenne\ngéométrique des\nCPUE du chalut (kg/h)")
+      }
+  else{
+    labs(colour = "Geometric\nmean of trawl\nCPUE (kg/h)")
+    }) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
   ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
     theme_pbs() + theme(legend.position = "bottom")
 
+
 p2_ll <-
   g_alt$cpue_spatial_ll +
-  labs(fill = "Geometric\nmean of hook-and-line\n(fish/set)") +
-  labs(colour = "Geometric\nmean of hook-and-line\n(fish/set)") +
+  (if(french){
+    labs(fill = "Moyenne géométrique\nà l’hameçon et à la\nligne (poisson/ensemble)")
+      }
+    else{
+      labs(fill = "Geometric\nmean of hook-and-line\n(fish/set)")
+      }) +
+  (if(french){
+    labs(colour = "Moyenne géométrique\nà l’hameçon et à la\nligne (poisson/ensemble)")
+      }
+  else{
+    labs(colour = "Geometric\nmean of hook-and-line\n(fish/set)")
+    }) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
