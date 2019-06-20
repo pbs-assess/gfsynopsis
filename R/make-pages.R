@@ -72,7 +72,7 @@ make_pages <- function(
   synoptic_max_survey_years = 2017:2018,
   hbll_out_max_survey_years = 2016:2017,
   parallel = FALSE,
-  translate = FALSE
+  french = FALSE
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -266,7 +266,7 @@ make_pages <- function(
       bin_size = bin_width, min_total = min_total) +
       guides(colour = FALSE, fill = FALSE)
   } else {
-    g_lengths <- ggplot() + theme_pbs() + ggtitle(en2fr("Length frequencies", translate))
+    g_lengths <- ggplot() + theme_pbs() + ggtitle(en2fr("Length frequencies", french))
   }
 
   # Aging precision: -----------------------------------------------------------
@@ -293,7 +293,7 @@ make_pages <- function(
     if (!is.na(cpue_index[[1]])) { # enough vessels?
 
       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
-        ggplot2::ggtitle(en2fr("Commercial bottom-trawl CPUE", translate)) +
+        ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
         ylab("") + xlab("") +
         ggplot2::theme(
           axis.title.y = element_blank(),
@@ -308,7 +308,7 @@ make_pages <- function(
         expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
           levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")), year = 2000,
           est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
-      ggplot2::ggtitle(en2fr("Commercial bottom-trawl CPUE", translate)) +
+      ggplot2::ggtitle(en2fr("Commercial bottom-trawl CPUE", french)) +
       ylab("") + xlab("") +
       ggplot2::theme(
         axis.title.y = element_blank(),
@@ -404,7 +404,7 @@ make_pages <- function(
       axis.title.y = element_blank(),
       axis.text.y = element_blank(),
       axis.ticks.y = element_blank()
-    ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", translate))
+    ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", french))
 
   # Specimen numbers: ----------------------------------------------------------
 
@@ -418,7 +418,7 @@ make_pages <- function(
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, max(synoptic_max_survey_years))) +
-    ggplot2::ggtitle(en2fr("Survey specimen counts", translate))
+    ggplot2::ggtitle(en2fr("Survey specimen counts", french))
   suppressMessages({g_survey_samples <- g_survey_samples +
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
 
@@ -426,7 +426,7 @@ make_pages <- function(
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples)
   if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
     g_maturity_month <- ggplot() + theme_pbs() +
-      ggtitle(en2fr("Maturity frequencies", translate))
+      ggtitle(en2fr("Maturity frequencies", french))
   } else {
     g_maturity_month <- dat_tidy_maturity_months %>%
       plot_maturity_months(min_fish = 0) +
@@ -468,7 +468,7 @@ make_pages <- function(
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
     g_vb <- ggplot2::ggplot() + theme_pbs() +
-      xlab(en2fr("Age (years)", translate)) + ylab(en2fr("Length (cm)", translate)) +
+      xlab(en2fr("Age (years)", french)) + ylab(en2fr("Length (cm)", french)) +
       ggtitle("Growth")
     g_length_weight <- ggplot2::ggplot() + theme_pbs() +
       xlab("Length (cm)") + ylab("Weight (kg)") +

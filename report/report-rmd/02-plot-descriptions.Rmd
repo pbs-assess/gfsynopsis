@@ -47,7 +47,7 @@ surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collaps
 (ref:survey-index-example) `r paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with 'Mean CV' greater than 0.4 or 'Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Time series with light grey dots and dotted upper and lower lines for 95% confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass..")`
 
 ```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap="(ref:survey-index-example)"}
-g$survey_index
+g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
 ```
 
 \clearpage
@@ -96,13 +96,8 @@ p1 <- g$survey_spatial_syn +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = breaks, 
     labels = breaks * units_transformation) +
   guides(fill = guide_colorbar(), size = FALSE) +
-  (if(french){
-    ggtitle("Biomasse du relevé synoptique")
-  }
-else{
-  ggtitle("Synoptic Survey Biomass")
-  })
-
+  ggtitle(en2fr("Synoptic Survey Biomass", french))
+  
 p2 <- g$survey_spatial_hbll +
   (if(french){
     labs(fill = "Densité\nprévue de\nla biomasse\n(poisson/km^2)")
@@ -112,12 +107,7 @@ p2 <- g$survey_spatial_hbll +
     }) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
   guides(fill = guide_colorbar(), size = FALSE) +
-  (if(french){
-    ggtitle("Biomasse du relevé HBLL OUT")
-  }
-else{
-  ggtitle("HBLL OUT survey biomass")
-  })
+  ggtitle(en2fr("HBLL OUT survey biomass", french))
 
 p3 <- g$survey_spatial_iphc +
   (if(french){
@@ -131,12 +121,7 @@ p3 <- g$survey_spatial_iphc +
     na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +
   ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'grey35', breaks = c(0.2, 0.4, 0.7)) +
-  (if(french){
-    ggtitle("Taux de capture du IPHC")
-  }
-else{
-  ggtitle("IPHC catch rate")
-  })
+  ggtitle(en2fr("IPHC survey catch rate", french))
 
 gridExtra::grid.arrange(
   p1,
@@ -163,7 +148,7 @@ Management areas, as indicated in the top left corner of each panel, are shown
 in Figure \@ref(fig:management-map).
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
-g$catch
+g$catch + ggtitle(en2fr("Commercial catch", french))
 ```
 
 \clearpage
@@ -186,7 +171,7 @@ variables are set to. Management areas, as indicated in the top left corner of
 each panel, are shown in Figure \@ref(fig:management-map).
 
 ```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.5in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
-g$cpue_index
+g$cpue_index + ggtitle(en2fr("Commercial bottom trawl CPUE", french))
 ```
 
 \clearpage
@@ -232,6 +217,8 @@ p1_trawl <-
   else{
     labs(colour = "Geometric\nmean of trawl\nCPUE (kg/h)")
     }) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french)) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
   ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
@@ -252,6 +239,8 @@ p2_ll <-
   else{
     labs(colour = "Geometric\nmean of hook-and-line\n(fish/set)")
     }) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french)) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
@@ -269,8 +258,8 @@ gridExtra::grid.arrange(
 
 ```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen-availability plot for ", sp, ". Shown are the number of available fish specimens that have had their length measured, have been weighed, had their maturity assessed, had their age assessed, and for which ageing structures are available for ageing. Data are shown across all surveys (not just surveys shown elsewhere in the synopsis; top panel) and across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
 gridExtra::grid.arrange(
-  g$survey_samples,
-  g$comm_samples,
+  g$survey_samples + ggtitle(en2fr("Survey specimen counts", french)),
+  g$comm_samples + ggtitle(en2fr("Commercial specimen counts", french)),
   nrow = 2
 )
 ```
@@ -280,7 +269,10 @@ gridExtra::grid.arrange(
 ## LENGTH COMPOSITION DATA
 
 ```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length-frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish measured for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish measured for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
-g$lengths
+g$lengths +
+  ggtitle(en2fr("Length frequencies", french)) +
+  labs(x = paste(en2fr("Length", french)," (cm)"),
+    y = en2fr("Relative length frequency", french))
 ```
 
 \clearpage
@@ -297,7 +289,9 @@ two individuals ageing the fish are provided for all species for which age data
 exist in Appendix \@ref(app:age-precision).
 
 ```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap="(ref:ages-cap)"}
-g$ages
+g$ages +
+  ggtitle(en2fr("Age frequencies", french)) +
+    labs(y = en2fr("Age (years)", french))
 ```
 
 \clearpage
@@ -307,7 +301,15 @@ g$ages
 \mathchardef\mhyphen="2D % math hyphen
 
 ```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model of the form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\\sigma$ represents the scale parameter. The length-weight curve is of the form $\\log (W_i) \\sim \\mathrm{Student\\mhyphen t} (df = 3, \\log (\\ln(a) + b L_i), \\sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\\sigma$ representing the observation error scale. We set the degrees of freedom of the Student-t distribution to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendices \\ref{sec:length-age-models} and \\ref{sec:length-weight-models} for details on the models.")}
-cowplot::plot_grid(g$vb, g$length_weight, align = "v")
+cowplot::plot_grid(g$vb + 
+    ggtitle(en2fr("Growth", french)) +
+    labs(x = en2fr("Age (years)", french), 
+      y = paste(en2fr("Length", french), " (cm)")), 
+  g$length_weight +
+    ggtitle(en2fr("Length-weight relationship", french)) +
+    labs(x =paste(en2fr("Length", french), " (cm)"), 
+      y = paste(en2fr("Weight", french), " (kg)")), 
+  align = "v")
 ```
 
 \clearpage
@@ -315,13 +317,21 @@ cowplot::plot_grid(g$vb, g$length_weight, align = "v")
 ## MATURITY FREQUENCY BY MONTH
 
 ```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature (top) to most mature (bottom); individual fish, once mature, cycle through the mature stages. The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.")}
-g$maturity_month
+g$maturity_month + ggtitle(en2fr("Maturity frequencies", french))
 ```
 
 ## MATURITY OGIVES
 
 ```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age- and length-at-maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix \\ref{sec:maturity-models} for details.")}
-cowplot::plot_grid(g$mat_age, g$mat_length, align = "v")
+cowplot::plot_grid(g$mat_age +
+    ggtitle(en2fr("Age at maturity", french)) +
+    labs(x = en2fr("Age (years)", french),
+      y = en2fr("Probability mature", french)), 
+  g$mat_length +
+    ggtitle(en2fr("Length at maturity", french)) +
+    labs(x = paste(en2fr("Length", french), " (cm)"),
+      y = en2fr("Probability mature", french)),
+  align = "v")
 ```
 
 \clearpage
