@@ -308,7 +308,9 @@ cowplot::plot_grid(g$vb +
   g$length_weight +
     ggtitle(en2fr("Length-weight relationship", french)) +
     labs(x =paste(en2fr("Length", french), " (cm)"), 
-      y = paste(en2fr("Weight", french), " (kg)")), 
+      y = paste(en2fr("Weight", french), " (kg)"),
+      linetype = en2fr('Sex', french), 
+      colour = en2fr('Sex', french)), 
   align = "v")
 ```
 
@@ -330,7 +332,9 @@ cowplot::plot_grid(g$mat_age +
   g$mat_length +
     ggtitle(en2fr("Length at maturity", french)) +
     labs(x = paste(en2fr("Length", french), " (cm)"),
-      y = en2fr("Probability mature", french)),
+      y = en2fr("Probability mature", french),
+      linetype = en2fr('Sex', french),
+      colour = en2fr('Sex', french)),
   align = "v")
 ```
 
