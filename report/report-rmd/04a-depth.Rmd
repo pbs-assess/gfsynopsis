@@ -79,14 +79,24 @@ dd <- out %>% group_by(species, survey) %>%
   mutate(mean_mode_depth = mean(mode_depth)) %>%
   filter(depth >= -800)
 
+if(french){
+  dd$species <- en2fr(gfsynopsis:::first_cap(dd$species), french)
+}
+
 make_depth_plot <- function(.data, 
-  ylab = expression(Survey~biomass~density~(kg/km^2)),
+  ylab = if(french){
+    expression(Densité~de~la~biomasse~du~relevé~(kg/km^2))
+  }
+  else{
+    expression(Survey~biomass~density~(kg/km^2))
+  }
+  ,
   xlim = c(-800, 0)) {
   ggplot(.data, aes_string('depth', 'y', colour = 'survey')) +
     geom_line(lty = 2) +
     coord_cartesian(xlim = xlim) +
-    labs(x = 'Depth (m)',
-      y = ylab, colour = 'Survey') +
+    labs(x = paste(en2fr('Depth', french), ' (m)'),
+      y = ylab, colour = en2fr('Survey', french)) +
     # facet_wrap(~forcats::fct_reorder(species,
     #   mean_mode_depth),
     facet_wrap(~gfsynopsis:::first_cap(species), scales = "free_y", ncol = 4) +
@@ -135,7 +145,13 @@ hbll_data <- filter(dd, grepl('HBLL', survey)) %>%
   mutate(survey = as.factor(as.character(survey)))
 filter(hbll_data, species %in% .sp) %>%
   make_depth_plot(
-    ylab = expression(Survey~density~(100~fish/km^2)),
+    ylab = if(french){
+    expression(Densité~du~relevé~(100~poissons/km^2))
+  }
+  else{
+    expression(Survey~density~(100~fish/km^2))
+  }
+  ,
     xlim = c(-250, 0)
   )
 ```
