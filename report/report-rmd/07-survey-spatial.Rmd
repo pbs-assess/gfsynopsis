@@ -177,7 +177,7 @@ plot_map <- function(.dat, column) {
   ggplot(.dat, aes_string("X", "Y", fill = column)) +
     geom_raster() +
     coord_fixed(expand = FALSE) +
-    xlab("Easting") + ylab("Northing") +
+    xlab(en2fr("Easting", french)) + ylab(en2fr("Northing", french)) +
     theme(legend.position = "bottom") +
     geom_point(data = dat, aes(X, Y, size = density), pch = 21, inherit.aes = FALSE) +
     scale_size_area() +
@@ -190,9 +190,7 @@ g_depth <- plot_map(grid_locs, "depth") +
   scale_fill_distiller(trans = "fourth_root_power", palette = "Blues", direction = 1,
     breaks = c(50, 200, 600)) +
   ggtitle(paste("(A) ", en2fr("Depth", french))) +
-  labs(fill = paste(en2fr('Depth', french), ' (m)')) +
-  xlab(en2fr("Easting", french)) +
-  ylab(en2fr("Northing", french))
+  labs(fill = paste(en2fr('Depth', french), ' (m)'))
 ```
 
 ```{r sdmTMB-plot-combined}
@@ -207,9 +205,7 @@ g_sdm1 <- plot_map(predictions$data, "exp(est)") +
   } 
   else{
     labs(fill = "Biomass estimate\n(kg/km^2)", parse = TRUE)
-    }) +
-  xlab(en2fr("Easting", french)) +
-  ylab(en2fr("Northing", french))
+    })
 ```
 
 ```{r sdmTMB-plot-fe}
@@ -222,9 +218,7 @@ g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
   } 
   else{
     labs(fill = "Biomass estimate\n(kg/km^2)", parse = TRUE)
-    }) +
-  xlab(en2fr("Easting", french)) +
-  ylab(en2fr("Northing", french))
+    })
 ```
 
 ```{r sdmTMB-plot-re}
@@ -239,9 +233,7 @@ g_sdm3 <- plot_map(predictions$data, "est_re_s") +
   } 
   else{
     labs(fill = "Deviation from expected\nbiomass in log space")
-    }) +
-  xlab(en2fr("Easting", french)) +
-  ylab(en2fr("Northing", french))
+    })
 ```
 
 \clearpage
@@ -256,12 +248,12 @@ dat$resids <- residuals(m) # randomized quantile residuals
 # qqnorm(dat$resids);abline(a = 0, b = 1)
 ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
   geom_point() + coord_fixed() +
-  xlab("Easting") + ylab("Northing") +
+  xlab(en2fr("Easting", french)) + ylab(en2fr("Northing", french)) +
   scale_colour_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
     low = scales::muted("blue")) +
-  labs(colour = 'Residual')
+  labs(colour = en2fr('Residual', french))
 ```
 
 \clearpage
