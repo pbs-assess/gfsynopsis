@@ -123,7 +123,8 @@ plyr::ldply(kappa, function(k) {
   facet_wrap(~kappa) +
   geom_vline(aes(xintercept = range), lty = 2) +
   coord_cartesian(expand = FALSE, ylim = c(0, 1)) +
-  theme(strip.text.x = element_text(colour = "grey20", size = rel(1.1)))
+  theme(strip.text.x = element_text(colour = "grey20", size = rel(1.1))) +
+  labs(x = en2fr("Distance", french), y = en2fr("Correlation", french))
 ```
 
 ```{r sdmTMB-data}
@@ -188,8 +189,10 @@ plot_map <- function(.dat, column) {
 g_depth <- plot_map(grid_locs, "depth") +
   scale_fill_distiller(trans = "fourth_root_power", palette = "Blues", direction = 1,
     breaks = c(50, 200, 600)) +
-  ggtitle("(A) Depth") +
-  labs(fill = 'Depth (m)')
+  ggtitle(paste("(A) ", en2fr("Depth", french))) +
+  labs(fill = paste(en2fr('Depth', french), ' (m)')) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french))
 ```
 
 ```{r sdmTMB-plot-combined}
@@ -198,26 +201,47 @@ breaks <- c(1, 20, 150)
 g_sdm1 <- plot_map(predictions$data, "exp(est)") +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = breaks, limits = limits) +
-  ggtitle("(D) Prediction (depth effects + spatial random effects)") +
-  labs(fill = 'Biomass estimate\nkg/km^2')
+  ggtitle(paste("(D) ", en2fr("Prediction (depth effects + spatial random effects)"))) +
+  (if(french){
+    labs(fill = "Estimation de la\nbiomasse (kg/m2)", parse = TRUE)
+  } 
+  else{
+    labs(fill = "Biomass estimate\n(kg/km^2)", parse = TRUE)
+    }) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french))
 ```
 
 ```{r sdmTMB-plot-fe}
 g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
-  ggtitle("(B) Prediction (depth effects only)") +
+  ggtitle(paste("(B) ", en2fr(" Prediction (depth effects only)", french))) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = breaks, limits = limits) +
-  labs(fill = 'Biomass estimate\nkg/km^2')
+  (if(french){
+    labs(fill = "Estimation de la\nbiomasse (kg/m2)", parse = TRUE)
+  } 
+  else{
+    labs(fill = "Biomass estimate\n(kg/km^2)", parse = TRUE)
+    }) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french))
 ```
 
 ```{r sdmTMB-plot-re}
 g_sdm3 <- plot_map(predictions$data, "est_re_s") +
-  ggtitle("(C) Spatial random effects") +
+  ggtitle(paste("(C)", en2fr(" Spatial random effects", french))) +
   scale_fill_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
     low = scales::muted("blue")) +
-  labs(fill = 'Deviation from expected\nbiomass in log space')
+  (if(french){
+    labs(fill = "Écart par rapport à la biomasse\nprévue dans l’espace de relevé")
+  } 
+  else{
+    labs(fill = "Deviation from expected\nbiomass in log space")
+    }) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french))
 ```
 
 \clearpage
