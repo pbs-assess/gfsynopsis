@@ -148,7 +148,7 @@ Management areas, as indicated in the top left corner of each panel, are shown
 in Figure \@ref(fig:management-map).
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
-g$catch + ggtitle(en2fr("Commercial catch", french))
+g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Catch", french), " (t)"))
 ```
 
 \clearpage
