@@ -365,7 +365,7 @@ plot_map_spt <- function(dat, column) {
     geom_raster() +
     facet_wrap(~year) +
     coord_fixed() +
-    labs(x = 'Easting', y = 'Northing')
+    labs(x = en2fr('Easting', french), y = en2fr('Northing', french))
 }
 ```
 
@@ -373,29 +373,44 @@ plot_map_spt <- function(dat, column) {
 ticks <- c(100, 500, 1000, 2000)
 limits <- c(0, max(exp(predictions$data$est))*1.001)
 plot_map_spt(predictions$data, "exp(est)") +
-  ggtitle("Prediction (fixed effects + all random effects)") +
+  ggtitle(en2fr("Prediction (fixed effects + all random effects)", french)) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = ticks, limits = limits) +
-  labs(fill = 'Biomass estimate\nkg/km^2')
+  labs(fill = if(french){
+    'Estimation de la\nbiomasse (kg/km2)'
+    }
+    else{
+      'Biomass estimate\n(kg/km^2)'
+    })
 ```
 
 \clearpage
 
 ```{r sdmTMB-spt-plot-all-effects-sqrt-depth, fig.cap='Predictions from a geostatistical spatiotemporal model that includes the effects of depth and depth squared for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a fourth-root-distributed colour scale. Note the similarity to the previous figure which does not include the depth predictors.'}
 plot_map_spt(predictions_depth$data, "exp(est)") +
-  ggtitle("Prediction (fixed effects + all random effects)") +
+  ggtitle(en2fr("Prediction (fixed effects + all random effects)", french)) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = ticks, limits = limits) +
-  labs(fill = 'Biomass estimate\nkg/km^2')
+  labs(fill = if(french){
+    'Estimation de la\nbiomasse (kg/km2)'
+    }
+    else{
+      'Biomass estimate\n(kg/km^2)'
+    })
 ```
 
 \clearpage
 
 ```{r sdmTMB-spt-plot-fixed-effects, fig.cap='Fixed effect predictions from a geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Here the only fixed effects are the mean effects for each year resulting in fixed effect predictions that are same throughout the spatial region for each year.'}
 plot_map_spt(predictions$data, "exp(est_fe)") +
-  ggtitle("Prediction (fixed effects only)") +
+  ggtitle(en2fr("Prediction (fixed effects only)", french)) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
-  labs(fill = 'Mean estimate\nkg/km^2')
+  labs(fill = if(french){
+    'Estimation moyenne\n(kg/km^2)'
+    }
+    else{
+     'Mean estimate\nkg/km^2'
+      })
 ```
 
 \clearpage
@@ -407,18 +422,28 @@ red_blue_fill <- scale_fill_gradient2(midpoint = 0,
     low = scales::muted("blue"))
 
 plot_map_spt(predictions$data, "est_re_s") +
-  ggtitle("Spatial random effects only") +
+  ggtitle(en2fr("Spatial random effects only", french)) +
   red_blue_fill +
-  labs(fill = 'Deviation from\nexpected biomass\nin log space')
+  labs(fill = if(french){
+    'Écart par rapport à la\nbiomasse prévue dans\nl’espace de relevé'
+  }
+    else{
+      'Deviation from\nexpected biomass\nin log space'
+    })
 ```
 
 \clearpage
 
 ```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.cap='Spatiotemporal random effect predictions from a geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, water circulation patterns, and species interactions.'}
 plot_map_spt(predictions$data, "est_re_st") +
-  ggtitle("Spatiotemporal random effects only") +
+  ggtitle(en2fr("Spatiotemporal random effects only", french)) +
   red_blue_fill +
-  labs(fill = 'Deviation from\nexpected biomass\nin log space')
+  labs(fill = if(french){
+    'Écart par rapport à la\nbiomasse prévue dans\nl’espace de relevé'
+  }
+    else{
+      'Deviation from\nexpected biomass\nin log space'
+    })
 ```
 
 \clearpage
@@ -431,7 +456,7 @@ red_blue_fill2 <- scale_colour_gradient2(midpoint = 0,
 
 ggplot(dat, aes(X, Y, col = resids)) +
   geom_point() + facet_wrap(~year) + coord_fixed() +
-  labs(x = 'Easting', y = 'Northing', colour = "Residual") +
+  labs(x = en2fr('Easting', french), y = en2fr('Northing', french), colour = en2fr("Residual", french)) +
   red_blue_fill2
 ```
 
@@ -479,9 +504,9 @@ ind_combined <- bind_rows(ind_design, ind_geo) %>%
 ggplot(ind_combined, aes(year, est, fill = type)) +
   geom_line(aes(colour = type)) +
   geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.4) +
-  xlab('Year') +
-  ylab('Biomass estimate divided by geometric mean') +
-  labs(fill = 'Type', colour = 'Type') +
+  xlab(en2fr('Year', french)) +
+  ylab(en2fr('Biomass estimate divided by geometric mean', french)) +
+  labs(fill = en2fr('Type', french), colour = en2fr('Type', french)) +
   scale_fill_brewer(palette = "Dark2") +
   scale_colour_brewer(palette = "Dark2")
 ```
