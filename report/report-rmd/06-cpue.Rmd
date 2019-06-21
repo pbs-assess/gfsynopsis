@@ -194,7 +194,7 @@ plot_tweedie_ex <- function(df, max = 15) {
     facet_grid(power~phi, scales = "free") +
     gfplot::theme_pbs() +
     labs(colour = "μ") +
-    xlab("Value") + ylab("Density") +
+    xlab(en2fr("Value", french)) + ylab(en2fr("Density", french)) +
     coord_cartesian(expand = FALSE, xlim = c(-0.2, max(out$x))) +
     scale_colour_brewer(palette = "Dark2") +
     scale_fill_brewer(palette = "Dark2")
