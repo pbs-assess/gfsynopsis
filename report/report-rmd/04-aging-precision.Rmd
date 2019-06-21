@@ -92,8 +92,8 @@ out_prec %>% group_by(species_common_name) %>%
   ggplot2::geom_segment(aes_string(
     x = "prim_age", xend = "prim_age",
     y = "prec_min_age", yend = "prec_max_age"), alpha = 0.4) +
-  labs(title = "Ageing precision", x = "Primary age (years)",
-    y = "Secondary age (years)") +
+  labs(title = "Ageing precision", x = en2fr("Primary age (years)", french),
+    y = en2fr("Secondary age (years)", french)) +
   theme_pbs() +
   ggplot2::ggtitle("") +
   scale_colour_manual(values = c("real" = "grey25", "fake" = NA)) +
