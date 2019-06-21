@@ -55,7 +55,7 @@ plot_cpue_spaghetti <- function(model, fleet, index_data,
         ymax = 'est_link + 1.96 * se_link'), inherit.aes = FALSE, alpha = 0.4) +
     ggplot2::guides(colour = FALSE) +
     ggplot2::scale_color_discrete() +
-    ylab("Log of standardized CPUE") + xlab("")
+    ylab(en2fr("Log of standardized CPUE", french)) + xlab("")
 }
 
 basel_level <- function(x) levels(x)[[1]]

@@ -210,7 +210,7 @@ g_sdm1 <- plot_map(predictions$data, "exp(est)") +
 
 ```{r sdmTMB-plot-fe}
 g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
-  ggtitle(paste("(B) ", en2fr(" Prediction (depth effects only)", french))) +
+  ggtitle(paste("(B) ", en2fr("Prediction (depth effects only)", french))) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = breaks, limits = limits) +
   (if(french){
@@ -223,7 +223,7 @@ g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
 
 ```{r sdmTMB-plot-re}
 g_sdm3 <- plot_map(predictions$data, "est_re_s") +
-  ggtitle(paste("(C)", en2fr(" Spatial random effects", french))) +
+  ggtitle(paste("(C)", en2fr("Spatial random effects", french))) +
   scale_fill_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
@@ -281,13 +281,13 @@ g_models_dat <- purrr::map_df(g_models, function(x) {
 ```
 
 ```{r sdmTMB-model-table, results='asis', eval = FALSE}
-g_models_dat %>% 
+g_models_datg_models_dat %>% 
   dplyr::arrange(species_name, survey) %>%
   # these have already been filtered out elsewhere for their massive CVs:
   dplyr::filter(phi < 1e3) %>% 
   dplyr::filter(tau_O < 50) %>% 
   dplyr::filter(tau_E < 50) %>% 
-  mutate(species_name = gsub("Rougheyeblackspotted Rockfish Complex",
+  mutate(species_name = gsub("Rougheye/blackspotted Rockfish Complex",
     "Rougheye/Blackspotted Rockfish", species_name)) %>% 
   csasdown::csas_table(digits = 1, 
     col.names = c(
