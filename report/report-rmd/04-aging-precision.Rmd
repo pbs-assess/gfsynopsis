@@ -34,6 +34,13 @@ dc <- here::here("report", "data-cache")
 spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
 spp <- filter(spp, species_common_name != "pacific hake")
 
+
+if(french){
+  spp$species_common_name <-  gfsynopsis:::first_cap(spp$species_common_name)
+  spp$species_common_name[spp$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
+  spp$species_common_name <- en2fr(spp$species_common_name, french)
+}
+
 out_dat <- list()
 plots <- list()
 for (i in seq_along(spp$species_common_name)) {
