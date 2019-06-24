@@ -281,7 +281,7 @@ g_models_dat <- purrr::map_df(g_models, function(x) {
 ```
 
 ```{r sdmTMB-model-table, results='asis', eval = FALSE}
-g_models_datg_models_dat %>% 
+g_models_dat %>% 
   dplyr::arrange(species_name, survey) %>%
   # these have already been filtered out elsewhere for their massive CVs:
   dplyr::filter(phi < 1e3) %>% 
