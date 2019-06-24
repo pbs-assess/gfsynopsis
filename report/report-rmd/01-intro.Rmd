@@ -181,7 +181,7 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
-```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), and 3CD (West Coast Vancouver Island). These are close, but not identical, to similarly named Groundfish Management Unit areas.", out.width="3.3in", fig.pos="tb"}
+```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas (Areas 3AB and 4A are outside of Canadian waters).", out.width="3.3in", fig.pos="tb"}
 knitr::include_graphics(here::here("report/report-rmd/figure/3CD5ABCDE.png"), dpi = NA)
 ```
 
