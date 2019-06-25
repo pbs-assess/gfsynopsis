@@ -1,4 +1,4 @@
-# RELATIONSHIPS BETWEEN FISH SURVEY DENSITY AND DEPTH {#app:depth-curves}
+#RELATIONS ENTRE LA DENSITÉ ET LA PROFONDEUR SELON LES RELEVÉS DES POISSONS {#app:depth-curves}
 
 ```{r sdmTMB-depth-all-calculations}
 surveys <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
@@ -105,16 +105,7 @@ make_depth_plot <- function(.data,
 }
 ```
 
-(ref:depth-relationship1) Predicted relationships between depth and biomass
-density for all species across the four synoptic surveys (Part 1 of 2). Solid
-lines indicate relationships predicted within the depth range of the survey and
-dashed lines indicate extrapolated relationships beyond the observed depth.
-These relationships are derived from the depth coefficients in the spatial
-models that generate the map plots (e.g., Figure \@ref(fig:survey-maps)). These
-plots provide a visual indication of which surveys encompass the entirety of the
-depth distribution for particular species. See Appendix
-\@ref(app:spatial-modeling) for details on the models underlying these
-predictions.
+(ref:depth-relationship1) Relations prévues entre la profondeur et la densité de la biomasse pour toutes les espèces dans les quatre relevés synoptiques (Partie 1 de 2). Les lignes pleines indiquent les relations prévues dans la plage de profondeurs du relevé, et les lignes tiretées indiquent les relations extrapolées au-delà de la profondeur observée. Ces relations sont dérivées des coefficients de profondeur dans les modèles spatiaux qui génèrent les graphiques cartographiques (p. ex., figure \@ref(fig:survey-maps)). Ces graphiques fournissent une indication visuelle des relevés qui englobent la totalité de la répartition de la profondeur pour des espèces données. Voir l’annexe \@ref(app:spatial-modeling) pour davantage de détails sur les modèles qui sous-tendent ces prévisions.
 
 ```{r sdmTMB-depth-all-plots1, fig.width=10, fig.asp=1.10, out.width="\\textwidth", fig.cap="(ref:depth-relationship1)", fig.pos="H"}
 .sp <- filter(dd, grepl('SYN', survey)) %>% 
@@ -127,7 +118,7 @@ filter(synoptic_data, species %in% .sp[1:36]) %>%
 
 \clearpage
 
-(ref:depth-relationship2) Part 2 of Figure \@ref(fig:sdmTMB-depth-all-plots1). Caption is the same otherwise.
+(ref:depth-relationship2) Partie 2 de la figure \@ref(fig:sdmTMB-depth-all-plots1). En dehors de cela, la légende est la même.
 
 ```{r sdmTMB-depth-all-plots2, fig.width=10, fig.asp=1.3, out.width="\\textwidth", fig.cap="(ref:depth-relationship2)", fig.pos="p"}
 filter(synoptic_data, species %in% .sp[37:length(.sp)]) %>%
@@ -136,7 +127,7 @@ filter(synoptic_data, species %in% .sp[37:length(.sp)]) %>%
 
 \clearpage
 
-(ref:depth-relationship-hbll) Same as Figure \@ref(fig:sdmTMB-depth-all-plots1) but for the outside hard bottom long line surveys. Caption is the same otherwise. Note that these panels do not extend as deep as the depths shown in Figures \@ref(fig:sdmTMB-depth-all-plots1) and \@ref(fig:sdmTMB-depth-all-plots2).
+(ref:depth-relationship-hbll) Comme pour la figure \@ref(fig:sdmTMB-depth-all-plots1), mais pour les relevés menés à la palangre à l’extérieur du fond dur. En dehors de cela, la légende est la même. Il est à noter que ces panneaux ne s’étendent pas sur des profondeurs supérieures à celles illustrées sur les figures \@ref(fig:sdmTMB-depth-all-plots1) et \@ref(fig:sdmTMB-depth-all-plots2).
 
 ```{r sdmTMB-depth-all-plots1-hbll, fig.width=10, fig.asp=1.10, out.width="\\textwidth", fig.cap="(ref:depth-relationship-hbll)", fig.pos="H"}
 .sp <- filter(dd, grepl('HBLL', survey)) %>% 
