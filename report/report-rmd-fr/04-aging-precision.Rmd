@@ -1,25 +1,8 @@
 \clearpage
 
-# ACKNOWLEDGEMENTS
+# REMERCIEMENTS
 
-We are grateful for the ongoing collaboration between DFO, commercial fishers,
-First Nations, and non-governmental organizations, which has made possible the
-collection of the valuable data that underlies this report. We thank
-the project's steering committee (Greg Workman, Robyn Forrest, Dana Haggarty,
-Chris Grandin, and Rob Kronlund) for invaluable input into the report design
-and feedback throughout its production.
-We thank Chris Rooper and Daniel Ricard for their thorough and helpful reviews.
-We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review meeting, respectively.
-We thank Christie Whelan for her
-support initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm
-Wyeth for providing support on data extraction and general database structure
-and content. We thank the participants of the peer review meeting on tiered
-approaches in May 2016 [@macdougall2016], which included a data scorecard by
-Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
-for his work on GFASTeR, from which this project takes inspiration and
-borrows some data queries. We thank Rowan Haigh for his work maintaining
-the PBSmapping and PBSdata R packages, and indeed the authors of all the R
-packages necessary to build this report (Appendix \@ref(app:reproducibility)).
+Nous sommes reconnaissants de la collaboration continue entre le MPO, les pêcheurs commerciaux, les Premières nations et les organisations non gouvernementales, qui a rendu possible la collecte des données précieuses qui sous-tendent ce rapport. Nous remercions le comité directeur du projet (Greg Workman, Robyn Forrest, Dana Haggarty, Chris Grandin et Rob Kronlund) pour leur précieuse contribution à la conception du rapport et leurs commentaires tout au long de sa production. Nous remercions Chris Rooper et Daniel Ricard pour leurs examens approfondis et utiles. Nous remercions Mary Thiess et Kieran Forge d’avoir présidé la réunion d’examen et d’en avoir été le rapporteur, respectivement. Nous remercions Christie Whelan pour son soutien dans le lancement de ce projet. Nous remercions Norm Olsen, Maria Surry et Malcolm Wyeth de nous avoir aidés à extraire les données et à structurer la base de données générale et son contenu. Nous remercions les participants à la réunion d’examen par les pairs sur les démarches par étapes qui s’est tenue en mai 2016 [@macdougall2016], et qui comprenait l’examen d’une carte de pointage des données de Norm Olsen, dont s’inspire le présent rapport. Nous remercions également Norm Olsen pour son travail sur GFASTeR, dont ce projet s’inspire et emprunte quelques requêtes de données. Nous remercions Rowan Haigh pour son travail de maintenance des progiciels PBSmapping et PBSdata R, ainsi que les auteurs de tous les progiciels R nécessaires à la construction du présent rapport (Annexe \@ref(app:reproducibility)).
 
 \clearpage
 
@@ -27,7 +10,7 @@ packages necessary to build this report (Appendix \@ref(app:reproducibility)).
 
 `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
 
-# AGEING PRECISION {#app:age-precision}
+# PRÉCISION DE LA DÉTERMINATION DE L’ÂGE {#app:age-precision}
 
 ```{r age-precision-make-data, warning=FALSE, message=FALSE}
 dc <- here::here("report", "data-cache")
@@ -56,7 +39,7 @@ for (i in seq_along(spp$species_common_name)) {
 }
 ```
 
-```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.25, out.width="5.0in", fig.cap="Ageing precision plots for all species in the report with data. Each dot and cross-hatch represents an individual fish that has been aged twice. The x-axis represents the age and upper and lower possible ages recorded by the initial ('primary') individual ageing the fish. The y-axis represents the equivalent values recorded by the second ('precision') individual ageing the fish. The dashed diagonal line represents a perfect one-to-one agreement between the two ages. Up to 250 fish have been randomly sampled from all fish precision-aged for a species, and a small amount of random jitter has been added to both axes to reduce overplotting with the same jitter value added to both the x and y axes for a given fish."}
+```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.25, out.width="5.0in", fig.cap="Graphiques de précision de la détermination de l’âge pour toutes les espèces présentées dans le rapport, avec les données. Chaque point et hachure représente un poisson individuel dont l’âge a été déterminé deux fois. L’axe des abscisses représente l’âge et les âges supérieurs et inférieurs possibles enregistrés par la personne initiale ('primaire' qui détermine l’âge du poisson. L’axe des ordonnées représente les valeurs équivalentes enregistrées par la deuxième personne 'précision') qui détermine l’âge du poisson. La ligne diagonale tiretée représente un parfait accord un à un entre les deux âges. Jusqu’à 250 poissons ont été échantillonnés au hasard sur tous les poissons d’une espèce dont l’âge a été déterminé avec précision, et une petite quantité de fluctuation aléatoire a été ajoutée aux deux axes pour réduire la surreprésentation avec la même valeur de fluctuation ajoutée aux axes x et y pour un poisson donné."}
 out_prec <- bind_rows(out_dat)
 set.seed(42)
 jitter <- 0.2
@@ -99,7 +82,7 @@ out_prec %>% group_by(species_common_name) %>%
   ggplot2::geom_segment(aes_string(
     x = "prim_age", xend = "prim_age",
     y = "prec_min_age", yend = "prec_max_age"), alpha = 0.4) +
-  labs(title = "Ageing precision", x = en2fr("Primary age (years)", french),
+  labs(title = en2fr("Ageing precision", french), x = en2fr("Primary age (years)", french),
     y = en2fr("Secondary age (years)", french)) +
   theme_pbs() +
   ggplot2::ggtitle("") +
