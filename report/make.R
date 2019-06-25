@@ -97,7 +97,7 @@ spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish
   "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
   mutate(species_common_name = gsub("c-o sole",
     "C-O Sole", species_common_name))
-spp <- spp %>% mutate(species_french_name = tolower(en2fr(first_cap(spp$species_common_name))))
+spp <- spp %>% mutate(species_french_name = tolower(en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
@@ -110,7 +110,7 @@ if (parallel_processing) {
 }
 foreach::foreach(i = seq_along(spp$species_common_name),
 .packages = c("gfplot", "gfsynopsis"),
-.export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %dopar% {
+.export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %do% {
 
   fig_check <- paste0(here::here("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
