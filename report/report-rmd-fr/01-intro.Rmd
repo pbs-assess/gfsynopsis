@@ -1,91 +1,26 @@
 # INTRODUCTION {#sec:intro}
 
-The combination of fishery-dependent data, such as catch and effort, and
-fishery-independent survey data, such as biomass indices and age
-compositions, form the backbone of most fisheries stock assessment.
-Fisheries and Oceans Canada (DFO) at the Pacific Biological Station
-(PBS) in Nanaimo, British Columbia (BC), manages vast quantities of such data on
-groundfish species in BC. However, there is not the capacity
-to conduct formal stock assessments for most stocks annually, and therefore,
-much of these data are not summarised to represent the nature of the data
-holdings.
+La combinaison de données dépendantes de la pêche, comme les prises et l’effort, et de données de relevés indépendantes de la pêche, comme les indices de la biomasse et la composition selon l’âge, constitue le fondement de la plupart des évaluations des stocks de poissons. Pêches et Océans Canada (MPO), à la Station biologique du Pacifique (SBP) à Nanaimo, en Colombie-Britannique (C.-B.), gère de grandes quantités de ce type de données sur les espèces de poissons de fond en Colombie-Britannique. Toutefois, il n’est pas possible d’effectuer des évaluations annuelles officielles des stocks pour la plupart des stocks et, par conséquent, une grande partie de ces données ne sont pas résumées pour représenter la nature des données colligées.
 
-As one step to address this issue, we have created this data synopsis
-report to give a snapshot of long-term and recent population and fishing
-trends, as well as data availability, for all major BC groundfish
-species of commercial and conservation interest. The report is an
-extension of the data scorecard concept discussed at a Canadian Science
-Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
-[@macdougall2016]. We intend to publish this report as a CSAS Research
-Document in its first year to facilitate review of the methods and to update
-the report annually or biennially (excluding any unchanged methods). The report
-generation is fully automated --- pulling data from databases, fitting models,
-generating visualizations, and stitching the document together to facilitate
-rapid publication, reproducibility, and transparency.
+Pour régler ce problème, nous avons, comme première étape, créé ce rapport de synthèse des données afin de donner un aperçu des tendances récentes et à long terme de la population et de la pêche, ainsi que de la disponibilité des données, pour toutes les principales espèces de poissons de fond de la Colombie-Britannique qui présentent un intérêt sur le plan commercial et sur le plan de la conservation. Le rapport représente une extension du concept de carte de pointage des données abordé lors d’une réunion régionale d’examen par les pairs du Secrétariat canadien de consultation scientifique (SCCS) qui s’est tenue en mai 2016 [@macdougall2016]. Nous avons l’intention de publier ce rapport en tant que document de recherche du SCCS au cours de sa première année afin de faciliter l’examen des méthodes, et de le mettre à jour annuellement ou tous les deux ans (à l’exclusion de toute méthode inchangée). La génération du rapport est entièrement automatisée – extraction des données des bases de données, ajustement des modèles, génération des visualisations et assemblage du document --- pour faciliter la publication rapide, la reproductibilité et la transparence.
 
-Our goals with this report are to (1) facilitate regular review by groundfish
-scientists and managers of trends in survey indices and stock composition
-across all species to provide information for discussion on assessment
-priorities; (2) generate standardized datasets, biological model fits,
-and visualizations that will help assessment scientists develop operating
-models and select candidate management procedures for groundfish stocks; and
-(3) increase data transparency between DFO, the fishing
-industry, First Nations, non-governmental organizations, and the general
-public. We provide guidance on the limits to application of the methods and
-summaries in the report (Section \@ref(sec:caveats)).
+Ce rapport vise à 1) faciliter l’examen régulier, par les scientifiques et les gestionnaires du domaine du poisson de fond, des tendances des indices dérivés de relevés et de la composition des stocks de toutes les espèces afin de fournir de l’information à des fins de discussion sur les priorités en matière d’évaluation; 2) produire des ensembles de données normalisés, des modèles biologiques ajustés et des visualisations qui aideront les scientifiques chargés de l’évaluation à élaborer des modèles opérationnels et à choisir des procédures de gestion candidates pour les stocks de poisson de fond; 3) améliorer la transparence des données entre le MPO, l’industrie de la pêche, les Premières Nations, les organisations non gouvernementales et le grand public. Nous donnons des indications sur les limites d’application des méthodes et des résumés figurant dans le rapport (section \@ref(sec:caveats)).
 
-## REPORT STRUCTURE
+## STRUCTURE DU RAPPORT
 
 ```{r n_species}
 .spp <- gfsynopsis::get_spp_names()
 no_species <- nrow(.spp)
 ```
 
-The main results of this synopsis report are presented in two-page
-species-by-species subsections that visually synthesize most available data for
-each species (Section \@ref(sec:synopsis-plots)). The report covers `r no_species`
-groundfish species that are either of commercial, recreational, conservation, or First
-Nations interest, or are regularly caught in our research surveys. The report
-focuses on the surveys and data types applicable to the widest array of these
-species.
+Les principaux résultats de ce rapport de synthèse sont présentés dans des sous-sections de deux pages, espèce par espèce, qui synthétisent visuellement la plupart des données disponibles pour chaque espèce (section \@ref(sec:synopsis-plots)). Le rapport porte sur les espèces de poissons de fond `r no_species` qui présentent un intérêt sur le plan commercial ou récréatif, sur le plan de la conservation ou pour les Premières Nations, ou qui sont régulièrement capturées durant nos relevés de recherche. Le rapport met l’accent sur les relevés et les types de données applicables au plus grand nombre de ces espèces.
 
-Each set of pages for a single species is laid out in the same way. The page
-layout starts with the species common name, the species scientific name,
-and the DFO species code, which usually corresponds to the page number
-referencing the species in @hart1988. The figures themselves are laid out such
-that the first page has survey (Figure \@ref(fig:intro-maps)) time series
-trends and spatial patterns on the left and commercial time series by Pacific
-Marine Fisheries Commission areas (Figure \@ref(fig:management-map)) and
-spatial patterns on the right. The second page is focused on biological samples
-from both fishery dependent and independent sources. This page begins at the
-top with length and age data and their relationship with each other, then shows
-data on maturity, and finishes with an overview of available numbers of sampled
-fish across all survey and commercial samples for various biological
-measurements.
+Chaque ensemble de pages pour une seule espèce est présenté de la même manière. La page commence par le nom commun de l’espèce, le nom scientifique de l’espèce et le code de l’espèce du MPO, qui correspond habituellement au numéro de page faisant référence à l’espèce dans @hart1988. Les figures elles-mêmes sont présentées de façon à ce que la première page comporte un relevé (figure \@ref(fig:intro-maps)) des tendances des séries chronologiques et des configurations spatiales à gauche, et des séries chronologiques commerciales par zone de la Commission des pêches maritimes du Pacifique (figure \@ref(fig:management-map)) et des configurations spatiales à droite. La deuxième page porte sur les échantillons biologiques provenant à la fois de sources indépendantes et de sources dépendantes de la pêche. Cette page commence en haut par des données sur la longueur et l’âge et leur relation, puis montre des données sur la maturité et se termine par un aperçu des nombres disponibles de poissons échantillonnés durant toutes les activités de relevé et de pêche commerciale, pour diverses mesures biologiques.
 
-In terms of surveys, we have focused on the Synoptic Bottom Trawl surveys, the
-Outside Hard Bottom Long Line (HBLL) surveys (alternatively referred to as the
-Pacific Halibut Management Association, PHMA, surveys) (Figure
-\@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC)
-Fishery Independent Setline surveys, because these provide the greatest spatial
-and taxonomic coverage of the species in this report. Survey biomass index
-trends are also shown for the Hecate Strait Multispecies Assemblage (MSA HS)
-survey and the Inside HBLL survey. As an example, we
-are not showing biomass index trends or maps from the Sablefish trap surveys,
-since these are highly selective for Sablefish. However, we do include counts
-of available fish specimens from biological samples on all surveys and fit
-biological models such as growth models to all available data. A brief
-description of the included surveys is included in Appendix
-\@ref(app:survey-trend-models) along with associated references for detailed
-survey descriptions and designs. A table of other surveys conducted by DFO that
-are not included in this report but may be applicable for some species-specific
-analyses is also given in Appendix \@ref(app:survey-trend-models).
+En ce qui concerne les relevés, nous nous sommes concentrés sur les relevés synoptiques au chalut, les relevés menés à la palangre à l’extérieur du fond dur (HBLL) (aussi appelés relevés de la Pacific Halibut Management Association, PHMA) (figure \@ref(fig:intro-maps)) et les relevés à la ligne fixe indépendants de la pêche de la Commission internationale du flétan du Pacifique (CIFP), car ces relevés offrent la meilleure couverture spatiale et taxonomique des espèces visées par le présent rapport. Les tendances de l’indice de la biomasse dérivé des relevés sont également indiquées pour le relevé de l’assemblage plurispécifique du détroit d’Hécate (RPDH) et le relevé HBLL Inside. Par exemple, nous ne montrons pas les tendances de l’indice de la biomasse ni les cartes des relevés au casier de la morue charbonnière, car elles sont très sélectives pour cette espèce. Cependant, nous incluons le dénombrement des spécimens de poissons disponibles à partir d’échantillons biologiques prélevés durant tous les relevés, et nous ajustons les modèles biologiques, comme les modèles de la croissance, à toutes les données disponibles. Une brève description des relevés inclus est présentée à l’annexe \@ref(app:survey-trend-models), ainsi que les références connexes pour les descriptions et les plans détaillés des relevés. Un tableau des autres relevés effectués par le MPO qui ne sont pas inclus dans le présent rapport, mais qui peuvent s’appliquer à certaines analyses portant sur des espèces particulières, est également présenté à l’annexe \@ref(app:survey-trend-models).
 
-(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside
-Hard Bottom Long Line survey boundaries (right). The colours match the colour
-coding through the rest of the report. The coverage of the International
-Pacific Halibut Commission (IPHC) survey is displayed on the IPHC survey
-catch rate plots as all of the individual stations fished.
+(ref:intro-maps-cap) Limites du relevé synoptique au chalut (à gauche) et limites du relevé mené à la palangre à l’extérieur du fond dur (à droite). Les couleurs correspondent aux codes de couleur utilisés dans le reste du rapport. La couverture du relevé de la Commission internationale du flétan du Pacifique (CIFP) est indiquée sur les graphiques des taux de capture des relevés de la CIFP à mesure que toutes les stations individuelles sont exploitées.
+
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb"}
 xlim <- c(122, 890)
@@ -181,174 +116,82 @@ g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 gridExtra::grid.arrange(g, g2, nrow = 1)
 ```
 
-```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas (Areas 3AB and 4A are outside of Canadian waters).", out.width="3.3in", fig.pos="tb"}
+```{r management-map, fig.cap="Carte des zones 5AB (détroit de la Reine-Charlotte), 5CD (détroit d’Hécate), 5E (côte ouest de Haïda Gwaii) et 3CD (côte ouest de l’île de Vancouver) de la Commission des pêches maritimes du Pacifique. Ces zones sont proches, mais non identiques, aux zones des unités de gestion du poisson de fond qui portent le même nom.", out.width="3.3in", fig.pos="tb"}
 knitr::include_graphics(here::here("report/report-rmd/figure/3CD5ABCDE.png"), dpi = NA)
 ```
 
-\vspace{0mm}
-Following the species-by-species visualizations, we include the following
-appendices:
+\vspace{0mm} 
+Après les visualisations espèce par espèce, nous présentons les annexes suivantes :
 
-1. Appendix \@ref(app:age-precision) shows ageing precision plots for each
-   species.
+1. L’annexe \@ref(app:age-precision) présente des graphiques de précision de la détermination de l’âge pour chaque espèce.
 
-1. Appendix \@ref(app:depth-curves) shows the predicted relationships between
-   depth and synoptic survey biomass density for each species.
+1. L’annexe \@ref(app:depth-curves) montre les relations prévues entre la profondeur et la densité de la biomasse dérivée du relevé synoptique pour chaque espèce.
 
-1. Appendix \@ref(app:data) provides details on the data extraction from the
-   relational databases that hold the raw data, and contact details for
-   data requests.
+1. L’annexe \@ref(app:data) fournit des détails sur l’extraction des données à partir des bases de données relationnelles qui contiennent les données brutes, ainsi que les coordonnées des personnes-ressources pour les demandes de données.
 
-1. Appendix \@ref(app:cpue-models) provides details on the catch per unit
-   effort (CPUE) model that underlies the CPUE visualizations.
+1. L’annexe \@ref(app:cpue-models) fournit des détails sur le modèle de captures par unité d’effort (CPUE) qui sous-tend les visualisations des CPUE.
 
-1. Appendix \@ref(app:spatial-modeling) provides details on the spatial
-   modelling behind the spatial survey biomass visualizations.
+1. L’annexe \@ref(app:spatial-modeling) fournit des détails sur la modélisation spatiale qui sous-tend les visualisations de la biomasse dans le cadre du relevé spatial.
 
-1. Appendix \@ref(app:survey-trend-models) provides details on the survey
-   biomass index modeling (except for the IPHC survey) including design-based
-   and model-based estimates.
+1. L’annexe \@ref(app:survey-trend-models) fournit des détails sur la modélisation de l’indice de la biomasse dérivé du relevé (à l’exception du relevé de la CIFP), y compris des estimations fondées sur le plan de relevé et des estimations fondées sur le modèle.
 
-1. Appendix \@ref(app:iphc-survey-index) provides details on the modelling for
-   the IPHC survey time series.
+1. L’annexe \@ref(app:iphc-survey-index) fournit des détails sur la modélisation des séries chronologiques dans le cadre du relevé de la CIFP.
 
-1. Appendix \@ref(app:growth-and-maturity) provides details on modelling of
-   maturity and growth parameters.
+1. L’annexe \@ref(app:growth-and-maturity) fournit des détails sur la modélisation des paramètres de maturité et de croissance.
 
-1. Appendix \@ref(app:reproducibility) describes the computational environment
-   and reproducibility of this report.
+1. L’annexe \@ref(app:reproducibility) décrit l’environnement informatique et la reproductibilité du présent rapport.
 
-1. The final section contains the bibliography, including those references
-   listed on the figure pages.
+1. La dernière section contient la bibliographie, y compris les références indiquées sur les pages des figures.
 
-In navigating the report, we suggest that the report is best viewed in a PDF
-two-page view so that all the plots for a single species can be viewed at once.
-We also note that the Table of Contents, index pages, figures references, and
-citations are clickable hyperlinks to facilitate navigation.
+En ce qui concerne la navigation dans le rapport, nous suggérons de visualiser celui-ci en format PDF sur deux pages afin de pouvoir voir en un coup d’œil tous les graphiques présentés pour une même espèce. Il est à noter également que la table des matières, les pages d’index, les renvois aux figures et les citations sont présentés avec des hyperliens pour faciliter la navigation.
 
-We made a number of overarching design decisions in structuring the
-report:
+Nous avons pris un certain nombre de décisions importantes en matière de conception lors de la structuration du rapport :
 
-1. Each species is displayed with the same layout to facilitate finding a type
-   of data, comparing species, and identifying missing data via empty plots.
+1. Chaque espèce est présentée avec la même disposition pour faciliter la recherche d’un type de données, la comparaison des espèces, et le repérage des données manquantes, qui sont indiquées par des espaces vides.
 
-1. We have limited the report to two pages per species so that all plots can be
-   laid out at once on a screen in a PDF. The data presentation is dense, but
-   we believe there is value in being able to examine all the data for
-   a species at once.
+1. Nous avons limité le rapport à deux pages par espèce afin que tous les graphiques puissent être présentés ensemble sur un écran en format PDF. La présentation des données est dense, mais nous pensons qu’il est utile de pouvoir examiner toutes les données concernant une même espèce à la fois.
 
-1. The colours representing the various surveys are held constant to facilitate
-   tracing a single survey throughout the plots.
+1. Les couleurs représentant les différents relevés sont maintenues constantes pour faciliter le repérage d’un relevé en particulier dans tous les graphiques.
 
-1. The colour scales are consistent for the survey maps and survey biological
-   specimen number plots and for the commercial CPUE maps and commercial
-   biological specimen number plots (the bottom plots on both pages).
+1. Les échelles de couleurs sont uniformes dans les cartes des relevés et les graphiques présentant le nombre de spécimens biologiques capturés durant un relevé, ainsi que dans les cartes des CPUE commerciales et les graphiques présentant le nombre de spécimens biologiques commerciaux (les graphiques figurant au bas des deux pages).
 
-1. Data on female fish are always shown in front of data on male fish and are
-   either coloured or black whereas males are always indicated with light grey.
+1. Les données sur les poissons femelles figurent toujours devant les données sur les poissons mâles et sont colorées ou noires, tandis que les données sur les mâles sont toujours indiquées en gris clair.
 
-1. The chosen continuous colour schemes are colour-blind proof and readable when
-   printed in grey scale.
+1. Les jeux de couleurs choisis peuvent être distingués par des daltoniens et sont lisibles lorsqu’ils sont imprimés en niveaux de gris.
 
-## CAVEATS {#sec:caveats}
+## MISES EN GARDE {#sec:caveats}
 
-There are many caveats when interpreting this report.
+De nombreuses mises en garde s’imposent en ce qui concerne l’interprétation de ce rapport.
 
-1. The outputs in this report are not a substitute for stock assessment. For
-   example, although relative biomass index trends from surveys indicate the
-   biomass trend for a species in an area, such information is best combined
-   with other information such as removals by commercial catches and
-   information on the age- or length-composition of the stock to make
-   conclusions about the status of a stock.
+1. Les résultats du rapport ne remplacent pas l’évaluation des stocks. Par exemple, bien que les tendances relatives de l’indice de la biomasse dérivé des relevés indiquent la tendance de la biomasse d’une espèce dans une zone donnée, il est préférable de combiner cette information avec d’autres renseignements, comme les prélèvements par les prises commerciales et les renseignements sur la composition du stock selon l’âge ou la longueur, pour pouvoir tirer des conclusions sur l’état d’un stock.
 
-1. Biomass indices from trawl or longline surveys and commercial CPUE indices
-   need careful interpretation on a stock-by-stock basis. We have attempted to
-   flag survey index trends that may be especially suspect either because of
-   high survey variability or because only a small fraction of trawl or
-   longline sets contain the species, but this is not a guarantee in itself.
-   Survey indices are not always representative of abundance for a variety of
-   reasons, and a lack of data for a species does not necessarily indicate
-   a small population --- the surveys may simply not be suitable for sampling
-   that species. Furthermore, changes through time, including fish behavioural
-   changes or range shifts, could result in biases through time even for
-   well-sampled species.
+1. Les indices de la biomasse dérivés des relevés au chalut ou à la palangre et les indices des CPUE commerciales doivent être interprétés avec soin, stock par stock. Nous avons tenté de signaler les tendances de l’indice dérivé des relevés qui peuvent sembler particulièrement douteuses, soit en raison de la grande variabilité du relevé, soit parce que seule une petite fraction des ensembles collectés par chalut ou palangre contient l’espèce, mais ce n’est pas une garantie en soi. Les indices dérivés des relevés ne sont pas toujours représentatifs de l’abondance pour diverses raisons, et le manque de données pour une espèce n’indique pas nécessairement qu’il s’agit d’une petite population – les relevés peuvent simplement ne pas convenir à l’échantillonnage de cette espèce. En outre, les changements au fil du temps, y compris les changements de comportement des poissons ou les changements d’aires de répartition, pourraient entraîner des biais dans le temps, même pour les espèces bien échantillonnées.
 
-1. Survey and commercial CPUE index trends do not resolve population scale and
-   the outputs in this report do not resolve conflicts in trends drawn from
-   different sources for the same species.
+1. Les tendances des indices dérivés des relevés et de l’indice des CPUE commerciales ne traduisent pas les paramètres à l’échelle de la population, et les résultats présentés dans le présent rapport ne permettent pas de résoudre les conflits dans les tendances tirées de différentes sources pour la même espèce.
 
-1. The outputs in this report are not appropriate for marine spatial planning.
-   The data as presented are resolved at a coarse spatial scale and marine
-   spatial planning uses require specific data treatments beyond the general
-   approaches used in this report.
+1. Les résultats présentés dans ce rapport ne sont pas adaptés à la planification de l’espace marin. Les données telles que présentées sont résolues à une échelle spatiale grossière et les utilisations de l’aménagement de l’espace marin nécessitent des traitements de données spécifiques allant au-delà des démarches générales utilisées dans le présent rapport.
 
-1. The commercial CPUE data should not be considered to be proportional to
-   stock abundance for a multitude of reasons [e.g., @harley2001]. Nonetheless,
-   we think there is value in transparently displaying the available data for
-   all species.
+1. Les données sur les CPUE commerciales ne devraient pas être considérées comme étant proportionnelles à l’abondance du stock, et ce pour une multitude de raisons [p. ex. @harley2001]. Néanmoins, nous pensons qu’il est utile d’afficher de manière transparente les données disponibles pour toutes les espèces.
 
-1. The catch history reported here reflects recorded data and may not represent
-   actual catches. Alternative hypotheses for catch history are possible. The
-   commercial catch presented here will not necessarily match reconstructed time
-   series in stock assessments. Historic catch reconstructions require careful
-   species-specific consideration and analysis. Furthermore, fluctuations in
-   commercial catch, for example recent declines in species catch for Bocaccio
-   and Yelloweye Rockfish, do not necessarily reflect declines in stock
-   abundance and may be due to other factors including implementation of
-   management measures (see map in Figure \@ref(fig:closures-map) of current
-   fishery restriction initiatives in the Pacific Region).
-   Reported discard weights are considered less reliable
-   prior to 100% observer coverage of the bottom trawl fishery in 1996, and
-   prior to fisheries integration in 2006 for the trap, hook and line, midwater
-   trawl and Strait of Georgia (SoG) bottom trawl fisheries. The discards in
-   the catch plot therefore only include bottom trawl discard weights from 1996
-   to present and trap, hook and line, midwater trawl and SoG bottom trawl
-   discard weights from 2006 to present.
+1. L’historique des prises consigné ici reflète les données enregistrées et peut ne pas représenter les prises réelles. D’autres hypothèses concernant l’historique des prises sont possibles. Les prises commerciales présentées ici ne correspondront pas nécessairement aux séries chronologiques reconstruites dans les évaluations des stocks. Les reconstructions de l’historique des prises nécessitent un examen et une analyse attentifs propres à chaque espèce. En outre, les fluctuations des prises commerciales, par exemple les déclins récents des prises de sébastes aux yeux jaunes et de bocaccio, ne reflètent pas nécessairement des déclins de l’abondance des stocks et pourraient être attribuables à d’autres facteurs, dont la mise en œuvre de mesures de gestion (voir la carte de la figure \@ref(fig:closures-map) sur les initiatives actuelles de restriction des pêches dans la Région du Pacifique). Les poids rejetés déclarés sont considérés comme étant moins fiables avant la couverture à 100 % par des observateurs de la pêche au chalut en 1996 et avant l’intégration des pêches au casier, à la ligne et à l’hameçon, au chalut semi-pélagique et au chalut dans le détroit de Géorgie en 2006. Les rejets présentés dans le graphique des prises ne comprennent donc que les poids des rejets dans la pêche au chalut de 1996 à aujourd’hui et les poids des rejets dans la pêche au casier, à la ligne et à l’hameçon, au chalut semi-pélagique et au chalut dans le détroit de Georgie de 2006 à aujourd’hui.
 
-1. It is not feasible for us to individually assess the results for all
-   species in a detailed manner. To use the results for a particular species in
-   future assessments, or to make other inferences, we recommend that users
-   carefully examine the data and model results. Due to the necessary
-   automation required to construct this report, not all species-specific
-   special cases may have been fully considered.
+1. Il ne nous est pas possible d’évaluer individuellement les résultats pour toutes les espèces de façon détaillée. Pour pouvoir utiliser les résultats concernant une espèce particulière dans des évaluations futures, ou pour faire d’autres inférences, nous recommandons aux utilisateurs d’examiner attentivement les données et les résultats du modèle. En raison de l’automatisation nécessaire à l’élaboration du présent rapport, il se peut que tous les cas spéciaux propres à une espèce n’aient pas été pleinement pris en considération.
 
-```{r closures-map, fig.cap="Map of fishery restriction initiatives in the Pacific Region (MPA = Marine Protected Area). Seasonal fishery closures are not shown.", out.width="4.5in", fig.pos="tb"}
+
+```{r closures-map, fig.cap="Carte des initiatives de restriction de la pêche dans la région du Pacifique (MPA = Zone de protection marine). Les fermetures de la pêche saisonnière ne sont pas montrées.", out.width="4.5in", fig.pos="tb"}
 knitr::include_graphics(here::here("report/report-rmd/figure/fishery-closures.png"), dpi = NA)
 ```
 
-## DATA ACCESSIBILITY
+## ACCESSIBILITÉ DES DONNÉES
 
-Data in this document are maintained by the Groundfish Data Unit at the Pacific
-Biological Station in Nanaimo, British Columbia. Data accessibility and contact
-details are described in Appendix \@ref(app:data).
+Les données contenues dans le présent document sont tenues à jour par l’unité des données sur les poissons de fond de la Station biologique du Pacifique à Nanaimo, en Colombie-Britannique. Les renseignements relatifs à l’accessibilité aux données et les coordonnées des personnes-ressources sont présentés à l’annexe \@ref(app:data).
 
-## REPRODUCIBILITY
+## REPRODUCTIBILITÉ
 
-All of the data extraction, data manipulation, model fitting, and visualization
-for this report is automated and reproducible. We developed the gfplot and
-gfsynopsis R packages for this purpose. The gfplot package enables the data
-extraction, model fitting, and visualizations. It is designed to be modular so
-it can be used in various capacities for other groundfish analyses (Figure
-\@ref(fig:gfplot-web)). The gfsynopsis package calls functions from the gfplot
-package to generate this report. Appendix \@ref(app:reproducibility) provides
-further details on these packages and on the computational environment needed to
-reproduce this report.
+L’extraction et la manipulation des données, l’ajustement des modèles et la visualisation des données pour le présent rapport sont automatisés et reproductibles. Nous avons élaboré les progiciels gfplot et gfsynopsis R à cette fin. Le progiciel gfplot permet l’extraction des données, l’ajustement des modèles et les visualisations. Il est conçu pour être modulaire et peut donc être utilisé à diverses fins pour d’autres analyses du poisson de fond (figure \@ref(fig:gfplot-web)). Le progiciel gfsynopsis fait appel aux fonctions du progiciel gfplot pour générer le rapport. L’annexe \@ref(app:reproducibility) fournit davantage de détails sur ces progiciels et sur l’environnement informatique nécessaire à la reproduction du présent rapport.
 
-<!-- I feel as tho there should be a small section introducing the R packages
-gfplot and gfsynopsis.  They get referred to in the first few sections of the
-report and the naive reader will have no idea why or what they are for.
-Certainly the details and function inventory can be delayed to later in the
-report, but since the real gems behind this effort are the R packages they
-deserve a little air time early on to tease the reader. -->
+## CALENDRIER DE MISE À JOUR
 
-## UPDATE SCHEDULE
-
-We intend to publish annual or biennial updates of this synopsis report ---
-possibly as a Science Response document. These updates will include
-another year or two of data and any important corrections to the data, text, or
-visualizations. Data for each survey season will likely only be ready for
-publication in the report by fall of the following year. On a less frequent
-basis, we will consider making larger changes to the structure, methods, or
-content of the report.
+Nous avons l’intention de publier des mises à jour annuelles ou bisannuelles du présent rapport de synthèse – éventuellement sous forme de réponse des Sciences. Ces mises à jour comprendront une autre année ou deux de données, et toute correction importante apportée aux données, au texte ou aux visualisations. Les données pour chaque saison de relevé ne seront probablement prêtes à être publiées dans le rapport qu’à l’automne de l’année suivante. À une moindre fréquence, nous examinerons la possibilité d’apporter des changements plus importants à la structure, aux méthodes ou au contenu du rapport.
 
 \clearpage
