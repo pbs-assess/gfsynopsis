@@ -36,7 +36,7 @@ surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collaps
 (ref:survey-index-example) `r paste0("Exemple de tendances relatives de l’indice de la biomasse dérivé des relevés au chalut et à la palangre pour ", sp, ". Les points représentent les estimations moyennes de la biomasse relative et les rubans ombrés autour des points et des lignes représentent des intervalles de confiance d’autogénération à 95 %. Le « CV moyen » est la moyenne des coefficients de variation (CV) annuels, et 'Mean $+$ve sets' indique le rapport entre le nombre moyen (sur plusieurs années) des ensembles comprenant des espèces d’intérêt et le nombre moyen d’ensembles. Les panneaux grisés indiquent les tendances dérivées du relevé, avec 'Mean CV' supérieur à 0,4 ou 'Mean $+$ve sets' inférieur à 5 %. Tous les axes verticaux sont mis à l’échelle entre zéro et la valeur maximale de l’intervalle de confiance supérieur pour ce relevé. Les séries chronologiques avec des points gris clair et des lignes pointillées en haut et en bas pour des intervalles de confiance à 95 % représentent un autre indice qui a été normalisé à l’aide d’un modèle géostatistique ", surv_abbrev_text, ". Pour ce qui est de la série de relevés indépendants de la pêche de la CIFP, les valeurs sont des nombres relatifs par patin efficace plutôt que les valeurs de la biomasse. ")`
 
 ```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap="(ref:survey-index-example)"}
-g$survey_index
+g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
 ```
 
 \clearpage
@@ -142,6 +142,7 @@ p1_trawl <-
   else{
     labs(colour = "Geometric\nmean of trawl\nCPUE (kg/h)")
     }) +
+  ggtitle(en2fr("Commercial trawl CPUE", french)) +
   xlab(en2fr("Easting", french)) +
   ylab(en2fr("Northing", french)) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
@@ -164,6 +165,7 @@ p2_ll <-
   else{
     labs(colour = "Geometric\nmean of hook-and-line\n(fish/set)")
     }) +
+  ggtitle(en2fr("Commercial H & L CPUE", french)) +
   xlab(en2fr("Easting", french)) +
   ylab(en2fr("Northing", french)) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
@@ -232,7 +234,6 @@ cowplot::plot_grid(g$vb +
       colour = en2fr('Sex', french)), 
   align = "v")
 ```
-
 \clearpage
 
 ## FRÉQUENCE DE LA MATURITÉ PAR MOIS
@@ -241,9 +242,9 @@ cowplot::plot_grid(g$vb +
 g$maturity_month + ggtitle(en2fr("Maturity frequencies", french))
 ```
 
-## COURBES DE FRÉQUENCES  CUMULÉES DE LA MATURITÉ
+## COURBES DE FRÉQUENCES CUMULÉES DE LA MATURITÉ
 
-```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Exemples de graphiques sur l’âge-et-la-longueur-à-maturité pour les courbes de fréquences cumulées pour ", sp, ". Les courbes de fréquences cumulées de maturité sont ajustées en tant que régressions logistiques aux spécimens de poissons individuels, qui sont classés comme étant matures ou non matures. Les lignes noires pleines représentent les ajustements aux poissons femelles et les lignes grises tiretées représentent les ajustements aux poissons mâles. Les lignes verticales indiquent l’âge ou la longueur estimée à 50 % de maturité. Le texte sur les panneaux indique l’âge et la longueur estimés à 5, 50 et 95 % de maturité pour les femelles (F) et les mâles (M). Les ajustements du modèle ne sont montrés que dans les cas où il y a au moins 20 mâles et 20 femelles matures et 20 mâles et 20 femelles immatures. De courtes lignes le long du haut et du bas de chaque panneau représentent jusqu’à 1 500 poissons individuels choisis au hasard, avec une petite gigue aléatoire dans le cas des âges pour aider à différencier les poissons individuels. Les modèles sont ajustés à tous les échantillons de relevé disponibles, quelle que soit la période de l’année. Voir l’annexe \\ref{sec:maturity-models}  pour davantage de détails.")}
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Exemples de graphiques sur l’âge-et-la-longueur-à-maturité pour les courbes de fréquences cumulées pour ", sp, ". Les courbes de fréquences cumulées de maturité sont ajustées en tant que régressions logistiques aux spécimens de poissons individuels, qui sont classés comme étant matures ou non matures. Les lignes noires pleines représentent les ajustements aux poissons femelles et les lignes grises tiretées représentent les ajustements aux poissons mâles. Les lignes verticales indiquent l’âge ou la longueur estimée à 50 % de maturité. Le texte sur les panneaux indique l’âge et la longueur estimés à 5, 50 et 95 % de maturité pour les femelles (F) et les mâles (M). Les ajustements du modèle ne sont montrés que dans les cas où il y a au moins 20 mâles et 20 femelles matures et 20 mâles et 20 femelles immatures. De courtes lignes le long du haut et du bas de chaque panneau représentent jusqu’à 1 500 poissons individuels choisis au hasard, avec une petite gigue aléatoire dans le cas des âges pour aider à différencier les poissons individuels. Les modèles sont ajustés à tous les échantillons de relevé disponibles, quelle que soit la période de l’année. Voir l’annexe \\ref{sec:maturity-models} pour davantage de détails.")}
 cowplot::plot_grid(g$mat_age +
     ggtitle(en2fr("Age at maturity", french)) +
     labs(x = en2fr("Age (years)", french),
