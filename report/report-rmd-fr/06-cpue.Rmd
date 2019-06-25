@@ -1,0 +1,278 @@
+# CPUE INDEX STANDARDIZATION {#app:cpue-models}
+
+We sought to generate an index of abundance from commercial trawl catch per
+unit effort data that was standardized for depth, fishing locality (defined
+spatial regions; Figure \@ref(fig:cpue-locality-map)), month, vessel, and
+latitude. Before fitting a standardization model, we had to filter and
+manipulate the available catch and effort data to generate a dataset
+appropriate for model fitting. In the following sections we describe those
+decisions for the data from 1996--2017 and then describe our index
+standardization model. This model and the following description draws heavily
+from a recent assessment of Pacific Cod (in parts copied verbatim), where this
+model was first developed and applied [@forrest2018pcod].
+
+## DEFINING THE 1996--`r as.numeric(format(Sys.Date(), "%Y")) - 1` FLEET
+
+Commercial groundfish bottom trawl data from 1996 to present have been recorded
+to the fishing-event level in the presence of on-board observers or video
+monitoring. Although catch and effort data are available for earlier years for
+most species, they are not of the same quality, and for most years do not
+contain information on latitude or vessel ID. These earlier data are likely
+useful in the assessment of some species, but we have restricted the
+presentation of commercial CPUE data in this report to the higher-quality
+1996-onwards data to avoid exploring the numerous caveats that would need to be
+considered on a species-by-species and decade-by-decade basis. We think the
+presentation of historical CPUE is better left to species-specific stock
+assessments that can more thoroughly consider these data.
+
+Since we have data on individual vessels for this modern fleet, and in keeping
+with previous analyses for Pacific groundfish stocks, we defined a 'fleet' that
+includes only vessels that qualify by passing some criteria of regularly
+catching Pacific Cod. We follow the approach used in a number of recent BC
+groundfish stock assessments by requiring vessels to have caught the species in
+at least 100 tows across all years of interest, and to have passed a threshold
+of five trips (trips that recorded some of the species) for at least five years
+--- all from 1996 to `r as.numeric(format(Sys.Date(), "%Y")) - 1`.
+
+## DEFINING THE STANDARDIZATION MODEL PREDICTORS
+
+For depth and latitude, we binned the values into a sequence of bands to allow
+for nonlinear relationships between these predictors and CPUE [e.g.,
+@maunder2004a]. For depth, we binned trawl depth into bands 25m wide. For
+latitude, we used bands that were 0.1 degrees wide. To ensure sufficient data
+to estimate a coefficient for each factor level, we limited the range of depth
+bins to those that fell within the 0.1% to 99.9% cumulative probability of
+positive observations and then removed any factor levels (across all
+predictors) that contained fewer than 0.1% of the positive observations.
+
+Predictors that are treated as factors in a statistical model need a reference
+or base level --- a level from which the other coefficients for that variable
+estimate a difference. The base level then becomes the predictor value that is
+used in the prediction for the standardized index. We chose the most frequent
+factor level as the base level --- a common choice for these types of models
+[@maunder2004a]. For example, we set the base month as the most common month
+observed in the dataset filtered for only tows where the species was caught.
+This choice of base level only affects the intercept or relative magnitude of
+our index because of the form of our model (discussed below) and makes no
+functional difference in the commercial CPUE time series presented in this
+report since they are all scaled to that same maximum and displayed without
+units.
+
+## A TWEEDIE GLMM INDEX STANDARDIZATION MODEL
+
+Fisheries CPUE data contains both zeros and positive continuous values.
+A variety of approaches have been used in the fishery literature to model such
+data. One approach has been to fit a delta-GLM (generalized linear model) ---
+a model that fits the zero vs. non-zero values with a logistic regression (a
+binomial GLM and a logit link) and the positive values with a linear regression
+fit to log-transformed data or a Gamma GLM with a log link [e.g., @maunder2004a;
+@thorson2013]. The probability of a non-zero CPUE from the first component can
+then be multiplied by the expected CPUE from the second component to derive an
+unconditional estimate of CPUE. However, this approach suffers from a number of
+issues:
+
+1. The delta-GLM approach adds complexity by needing to fit and report on two
+   models.
+1. In the typical delta-GLM approach, the two models are fit with separate
+   links and so the coefficients cannot be combined.
+1. The delta-GLM approach assumes independence among the two components [e.g.,
+   @thorson2017].
+1. Perhaps most importantly for our purpose, a delta-GLM in which the two
+   models use different links renders a final index in which the index trend is
+   dependent on the specific reference levels that the predictors are set to
+   [e.g., @maunder2004a].
+
+The Tweedie distribution [@jorgensen1987] solves the above problems [e.g.,
+@candy2004; @shono2008; @foster2013; @lecomte2013; @thorson2017] but has not
+seen widespread use presumably mostly because of the computational expense of
+calculating the Tweedie probability density function. Recently, the Tweedie
+density function has been introduced to the software TMB [@kristensen2016] and
+can be fit relatively quickly to large datasets and for models with many fixed
+and random effect parameters either with custom written TMB models or via the
+glmmTMB R package [@brooks2017].
+
+In addition to a mean parameter, the Tweedie distribution has two other
+parameters: a power parameter $p$ and a dispersion parameter $\phi$. If $1
+< p < 2$ then the Tweedie distribution represents a compound distribution
+between the Poisson ($p = 1$) and the Gamma distribution ($p = 2$)
+(Figure\ \@ref(fig:cpue-tweedie-ex)). In fact, the Tweedie is alternatively
+referred to as the compound-Poisson-Gamma distribution in this bounded case. We
+note, however, that the compound-Poisson-Gamma distribution is often used to
+refer to a re-parameterization in which the Poisson and Gamma components are
+fit so that they are not assumed to have the same predictive coefficients as
+they are in the Tweedie distribution [e.g., @foster2013; @lecomte2013].
+
+We fit the Tweedie GLMM (generalized linear mixed effects model) as
+
+\begin{align}
+   (\#eq:cpue-tweedie)
+  y_i &\sim \mathrm{Tweedie}(\mu_i, p, \phi), \quad 1 < p < 2,\\
+  \mu_i &= \exp \left(
+  \bm{X}_i \bm{\beta}
+  + \alpha^\mathrm{locality}_{j[i]}
+  + \alpha^\mathrm{locality-year}_{k[i]}
+  + \alpha^\mathrm{vessel}_{l[i]}
+  \right),\\
+\alpha^\mathrm{locality}_j &\sim
+  \mathrm{Normal}(0, \sigma^2_{\alpha \; \mathrm{locality}}),\\
+ (\#eq:cpue-locality-year)
+\alpha^\mathrm{locality-year}_k &\sim
+  \mathrm{Normal}(0, \sigma^2_{\alpha \; \mathrm{locality-year}}),\\
+ (\#eq:cpue-vessel)
+\alpha^\mathrm{vessel}_l &\sim
+  \mathrm{Normal}(0, \sigma^2_{\alpha \; \mathrm{vessel}}),
+\end{align}
+
+where $i$ represents a single tow, $y_i$ represents the catch (kg) per unit
+effort (hours trawled), $\bm{X_i}$ represents a vector of fixed-effect
+predictors (year, depth bins, months, latitude bins), $\bm{\beta}$ represents
+a vector of coefficients, and $\mu_i$ represents the expected CPUE in a tow.
+The random effect intercepts ($\alpha$ symbols) are allowed to vary from the
+overall intercept by locality (Figure \@ref(fig:cpue-locality-map)
+$j$ (\(\alpha^\mathrm{locality}_j\)),
+locality-year $k$ (\(\alpha^\mathrm{locality-year}_k\)), and vessel $l$
+(\(\alpha^\mathrm{vessel}_l\)) and are constrained by normal distributions with
+respective standard deviations denoted by $\sigma$ parameters. By including the
+locality-year interactions, we allow the individual localities to have unique
+CPUE index trends (somewhat constrained by the random effect distribution)
+while estimating the overall average trend (Figure \@ref(fig:cpue-spaghetti)).
+
+We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$,
+as
+
+\begin{equation}
+  \mu_t = \exp \left(\bm{X}_t \bm{\beta} \right)
+\end{equation}
+
+where $\bm{X_t}$ represents a vector of predictors set to the reference ($r$)
+levels with the year set to the year of interest. Because each of the $\alpha$
+random intercepts is set to zero, the index is predicted for an average
+locality, locality-year, and vessel. We estimated the fixed effects with
+maximum marginal likelihood while integrating over the random effects with the
+statistical software TMB via the R package glmmTMB. We used standard errors
+($\mathrm{SE}$) as calculated by TMB on $\log (\mu_t)$ via the generalized
+delta method. We then calculated the 95\% Wald confidence intervals as $\exp
+(\mu_t \pm 1.96 \mathrm{SE}_t)$. For comparison, we calculated an
+unstandardized time series by summing the catch each year and dividing it by the
+summed effort each year (the dashed lines on the figure pages).
+
+```{r cpue-loaded-data}
+library(dplyr)
+d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
+d_cpue$locality_code <- paste(d_cpue$major_stat_area_code,
+  d_cpue$minor_stat_area_code, d_cpue$locality_code, sep = "-")
+locality_count <- d_cpue %>%
+  filter(latitude >= 45) %>%
+  mutate(year = lubridate::year(best_date)) %>%
+  filter(year >= 1996, year <= 2017) %>%
+  group_by(locality_code) %>%
+  summarize(n = n()) %>%
+  arrange(-n)
+```
+
+(ref:cpue-locality-map-cap) Top 100 DFO localities (by fishing event count) used in the commercial CPUE standardization models. In total there are `r nrow(locality_count)` possible localities recorded in the data set.
+
+```{r cpue-locality-map, fig.cap="(ref:cpue-locality-map-cap)", fig.asp=0.9}
+gfplot:::plot_dfo_localities(top_n(locality_count, 75)$locality_code) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french))
+```
+
+```{r cpue-tweedie-ex, fig.asp=0.7, fig.with=8, out.width="5.5in", fig.cap="Example density functions for the Tweedie distribution. The symbol $\\phi$ (written as phi in this figure) represents the dispersion parameter, $p$ represents the power parameter, and $\\mu$ represents the mean. Note that the spike in density that is seen towards the left of the panels is at a value of 0 on the x axis."}
+plot_tweedie_ex <- function(df, max = 15) {
+  xx <- seq(0, max, length.out = 1000)
+  out <- plyr::mdply(df, function(mu, power, phi) {
+    data.frame(x = xx,
+      y = tweedie::dtweedie(y = xx, mu = mu, power = power, phi = phi))
+  }) %>%
+    mutate(phi = paste("phi =", phi)) %>%
+    mutate(power = paste("p =", power)) %>%
+    mutate(mu = paste("μ =", mu))
+
+  ggplot(out, aes(x, y, colour = mu)) +
+    geom_line() +
+    facet_grid(power~phi, scales = "free") +
+    gfplot::theme_pbs() +
+    labs(colour = "μ") +
+    xlab(en2fr("Value", french)) + ylab(en2fr("Density", french)) +
+    coord_cartesian(expand = FALSE, xlim = c(-0.2, max(out$x))) +
+    scale_colour_brewer(palette = "Dark2") +
+    scale_fill_brewer(palette = "Dark2")
+}
+
+df <- expand.grid(power = c(1.2, 1.6, 1.8), mu = c(1, 3, 6), phi = c(0.5, 1, 2))
+plot_tweedie_ex(df)
+```
+
+
+```{r cpue-model-load}
+cpue_model <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-model.rds"))
+```
+
+```{r cpue-fleet-load}
+# d_cpue <- readRDS(here::here("report/data-cache/cpue-index-dat.rds"))
+d_cpue_pred <- gfplot::predict_cpue_index_tweedie(cpue_model, center = FALSE)
+d_cpue_pred$formula_version <- "Full standardization"
+if (file.exists(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds")))
+  d_fleet <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds"))
+```
+
+```{r cpue-spaghetti, fig.width=6, out.width="4in", fig.cap="Example locality-specific CPUE index trends for the Petrale Sole in area 5AB with a standardization model that allows for locality-year (space-time) interactions. The coloured lines indicate the locality-specific estimates with all other predictors set to their base levels. The black line and shaded ribbon indicate the overall average annual CPUE and 95\\% CI, respectively."}
+if (exists("d_fleet"))
+  plot_cpue_spaghetti(
+    model = cpue_model,
+    fleet = d_fleet,
+    index_data = d_cpue_pred,
+    era = "modern")
+```
+
+(ref:caption-cpue-quantile-residuals) Histograms of randomized quantile
+residuals [@dunn1996] for the CPUE GLMM standardization models. The histograms
+illustrate the distribution of 10,000 randomly selected randomized quantile
+residuals. The dashed lines show the probability density for a normal
+distribution with the same standard deviation.
+
+```{r cpue-quantile-residuals, fig.width=6, out.width="4in", fig.cap="(ref:caption-cpue-quantile-residuals)", eval=FALSE}
+qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
+gfplot::plot_qres_histogram(qr)
+```
+
+\clearpage
+
+```{r cpue-get-model-params, eval=TRUE, results='asis'}
+files <- list.files(here::here('report/cpue-cache'), pattern = "-model")
+library("doParallel")
+registerDoParallel(cores = parallel::detectCores())
+cpue_models_summary_file <- here::here("report/cpue-cache/model-summaries.rds")
+if (!file.exists(cpue_models_summary_file)) {
+  cpue_models_summary <- plyr::ldply(files, function(f) {
+    # cat(f, "\n")
+    this_model <- readRDS(here::here('report/cpue-cache', f))
+    if (length(this_model) > 1L) {
+      broom_model <-
+        tibble(species = gsub("([a-z-]+)-[A-Z0-9]+-model.rds", "\\1", f)) %>%
+        mutate(species = gsub('-', ' ', species)) %>%
+        mutate(area = gsub("([a-z-]+)-([A-Z0-9]+)-model.rds", "\\2", f)) %>%
+        mutate(sigma = sigma(this_model)) %>%
+        mutate(thetaf = plogis(exp(this_model$fit$par[["thetaf"]])) + 1) %>%
+        mutate(vessel = glmmTMB::VarCorr(this_model)$cond$vessel[1,1]) %>%
+        mutate(locality = glmmTMB::VarCorr(this_model)$cond$locality[1,1]) %>%
+        mutate(year_locality = glmmTMB::VarCorr(this_model)$cond$year_locality[1,1])
+    }
+  }, .parallel = TRUE) %>%
+    arrange(species, area)
+  saveRDS(cpue_models_summary, file = cpue_models_summary_file)
+} else {
+  cpue_models_summary <- readRDS(cpue_models_summary_file)
+}
+
+mutate(
+  cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>%
+  as_tibble() %>%
+  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>%
+  csasdown::csas_table(digits = 1,
+    col.names = c(
+      "Species name", "Area", "$\\phi$", "$p$",
+      "$\\tau_\\mathrm{vessel}$", "$\\tau_\\mathrm{locality}$", "$\\tau_\\mathrm{year-locality}$"),
+    caption = "Parameter estimates from CPUE standardization GLMMs.")
+```

@@ -1,0 +1,157 @@
+# RELATIONSHIPS BETWEEN FISH SURVEY DENSITY AND DEPTH {#app:depth-curves}
+
+```{r sdmTMB-depth-all-calculations}
+surveys <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
+fi <- list.files(here::here("report/map-cache/synoptic"), full.names = FALSE)
+out <- purrr::map_df(fi, function(i) {
+  mm <- readRDS(here::here(paste0("report/map-cache/synoptic/", i)))
+  out <- purrr::map_df(1:4, function(ii) {
+    if (length(mm$models[[ii]]$models) > 1L) {
+      rd <- dplyr::filter(mm$raw_dat, survey == surveys[ii])
+      if (!'depth_mean' %in% names(rd))
+        stop('Scaling mean and SD are missing.')
+      range_d <- -1 * exp(rd$depth_mean[1] +
+          range(rd$depth_scaled, na.rm = TRUE) * rd$depth_sd[1])
+      x <- seq(-3, 4, length.out = 300)
+      x2 <- x^2
+      B <- mm$models[[ii]]$models$model$par
+      if (B[[3]] <= 0) { # quadratic must be :-( shaped
+        y <- B[[1]] + x * B[[2]] + x2 * B[[3]]
+      } else {
+        y <- NA
+      }
+      out <- data.frame(
+        depth = -1*exp(x * rd$depth_sd[1] + rd$depth_mean[1]),
+        y = exp(y) * 1000, # convert to kg/km^2 (was scaled by 1000 already)
+        survey = surveys[ii],
+        species = gsub("-", " ", gsub(".rds", "", i)),
+        stringsAsFactors = FALSE)
+      out <- mutate(out,
+        extrapolated = depth < min(range_d) * 1 |
+          depth > max(range_d) * 1)
+      out
+    }
+  })
+  out
+})
+
+surveys <- c('HBLL OUT N', 'HBLL OUT S')
+fi <- list.files(here::here("report/map-cache/hbll"), full.names = FALSE)
+out_hbll <- purrr::map_df(fi, function(i) {
+  mm <- readRDS(here::here(paste0("report/map-cache/hbll/", i)))
+  out <- purrr::map_df(1:length(surveys), function(ii) {
+    if (length(mm$models[[ii]]$models) > 1L) {
+      rd <- dplyr::filter(mm$raw_dat, survey == surveys[ii])
+      if (!'depth_mean' %in% names(rd))
+        stop('Scaling mean and SD are missing.')
+      range_d <- -1 * exp(rd$depth_mean[1] +
+          range(rd$depth_scaled, na.rm = TRUE) * rd$depth_sd[1])
+      x <- seq(-3, 4, length.out = 300)
+      x2 <- x^2
+      B <- mm$models[[ii]]$models$model$par
+      if (B[[3]] <= 0) { # quadratic must be :-( shaped
+        y <- B[[1]] + x * B[[2]] + x2 * B[[3]]
+      } else {
+        y <- NA
+      }
+      y <- B[[1]] + x * B[[2]] + x2 * B[[3]]
+      out <- data.frame(
+        depth = -1*exp(x * rd$depth_sd[1] + rd$depth_mean[1]),
+        y = exp(y) / 100, # convert to 100 fish/km^2
+        survey = surveys[ii],
+        species = gsub("-", " ", gsub(".rds", "", i)),
+        stringsAsFactors = FALSE)
+      out <- mutate(out,
+        extrapolated = depth < min(range_d) * 1 |
+          depth > max(range_d) * 1)
+      out
+    }
+  })
+  out
+})
+out <- bind_rows(out, out_hbll)
+dd <- out %>% group_by(species, survey) %>%
+  # mutate(y = y / max(y))
+  mutate(max_y = max(y[!extrapolated])) %>%
+  mutate(y = ifelse(y < max_y * 1.15, y, NA)) %>%
+  mutate(mode_depth = depth[y == max(y)[1]]) %>%
+  group_by(species) %>%
+  mutate(mean_mode_depth = mean(mode_depth)) %>%
+  filter(depth >= -800)
+
+if(french){
+  dd$species <- en2fr(gfsynopsis:::first_cap(dd$species), french)
+}
+
+make_depth_plot <- function(.data, 
+  ylab = if(french){
+    expression(Densité~de~la~biomasse~du~relevé~(kg/km^2))
+  }
+  else{
+    expression(Survey~biomass~density~(kg/km^2))
+  }
+  ,
+  xlim = c(-800, 0)) {
+  ggplot(.data, aes_string('depth', 'y', colour = 'survey')) +
+    geom_line(lty = 2) +
+    coord_cartesian(xlim = xlim) +
+    labs(x = paste(en2fr('Depth', french), ' (m)'),
+      y = ylab, colour = en2fr('Survey', french)) +
+    # facet_wrap(~forcats::fct_reorder(species,
+    #   mean_mode_depth),
+    facet_wrap(~gfsynopsis:::first_cap(species), scales = "free_y", ncol = 4) +
+    geom_line(data = dplyr::filter(.data, !extrapolated), lwd = 0.9) +
+    scale_color_brewer(palette = "Dark2")
+}
+```
+
+(ref:depth-relationship1) Predicted relationships between depth and biomass
+density for all species across the four synoptic surveys (Part 1 of 2). Solid
+lines indicate relationships predicted within the depth range of the survey and
+dashed lines indicate extrapolated relationships beyond the observed depth.
+These relationships are derived from the depth coefficients in the spatial
+models that generate the map plots (e.g., Figure \@ref(fig:survey-maps)). These
+plots provide a visual indication of which surveys encompass the entirety of the
+depth distribution for particular species. See Appendix
+\@ref(app:spatial-modeling) for details on the models underlying these
+predictions.
+
+```{r sdmTMB-depth-all-plots1, fig.width=10, fig.asp=1.10, out.width="\\textwidth", fig.cap="(ref:depth-relationship1)", fig.pos="H"}
+.sp <- filter(dd, grepl('SYN', survey)) %>% 
+  pull(species) %>% unique()
+synoptic_data <- filter(dd, grepl('SYN', survey)) %>% 
+  mutate(survey = as.factor(as.character(survey)))
+filter(synoptic_data, species %in% .sp[1:36]) %>%
+  make_depth_plot()
+```
+
+\clearpage
+
+(ref:depth-relationship2) Part 2 of Figure \@ref(fig:sdmTMB-depth-all-plots1). Caption is the same otherwise.
+
+```{r sdmTMB-depth-all-plots2, fig.width=10, fig.asp=1.3, out.width="\\textwidth", fig.cap="(ref:depth-relationship2)", fig.pos="p"}
+filter(synoptic_data, species %in% .sp[37:length(.sp)]) %>%
+  make_depth_plot()
+```
+
+\clearpage
+
+(ref:depth-relationship-hbll) Same as Figure \@ref(fig:sdmTMB-depth-all-plots1) but for the outside hard bottom long line surveys. Caption is the same otherwise. Note that these panels do not extend as deep as the depths shown in Figures \@ref(fig:sdmTMB-depth-all-plots1) and \@ref(fig:sdmTMB-depth-all-plots2).
+
+```{r sdmTMB-depth-all-plots1-hbll, fig.width=10, fig.asp=1.10, out.width="\\textwidth", fig.cap="(ref:depth-relationship-hbll)", fig.pos="H"}
+.sp <- filter(dd, grepl('HBLL', survey)) %>% 
+  pull(species) %>% unique()
+hbll_data <- filter(dd, grepl('HBLL', survey)) %>% 
+  mutate(survey = as.factor(as.character(survey)))
+filter(hbll_data, species %in% .sp) %>%
+  make_depth_plot(
+    ylab = if(french){
+    expression(Densité~du~relevé~(100~poissons/km^2))
+  }
+  else{
+    expression(Survey~density~(100~fish/km^2))
+  }
+  ,
+    xlim = c(-250, 0)
+  )
+```

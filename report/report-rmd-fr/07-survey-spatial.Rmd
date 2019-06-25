@@ -1,0 +1,297 @@
+# SPATIAL MODELLING OF SURVEY BIOMASS {#app:spatial-modeling}
+
+We modelled the expected biomass density in space for each species using
+geostatistical models applied to data from the fisheries independent bottom
+trawl and longline surveys (e.g., Figure \@ref(fig:survey-maps)). Our modeling
+approach is consistent with recent models used for spatial modelling and
+spatiotemporal index standardization of groundfish populations [e.g.,
+@shelton2014; @ward2015; @thorson2015; @thorson2016], but has not, to our knowledge, 
+previously been applied in DFO Research Documents. Such models have been
+shown, for example, to improve estimates of rockfish abundance and distribution
+[@shelton2014] and improve precision when estimating relative abundance indices
+for groundfish [@thorson2015]. Our specific model is fit with TMB
+[@kristensen2016] in R [@r2018] with the help of INLA [@rue2009; @lindgren2015]
+via the R package sdmTMB, which we wrote for this purpose (Appendix
+\@ref(app:reproducibility)).
+
+At a high level, these models predict relative biomass or catch rate in space
+as a continuous process with a quadratic effect for bottom depth, spatial
+random effects that represent an amalgamation of spatial processes not
+explicitly included in the model, and an observation error component. After
+fitting the model to survey sets from trawl or longline surveys, we then
+project the model predictions onto a 2 km $\times$ 2 km grid in a UTM 9 projection
+to derive estimates of biomass throughout the survey domain.
+
+Similarly to the commercial catch per unit effort standardization models
+(Appendix \@ref(app:cpue-models)), these models can be represented as Tweedie
+GLMMs with a log link:
+
+\begin{align}
+  y_s &\sim \mathrm{Tweedie}(\mu_s, p, \phi), \quad 1 < p < 2,\\
+  \mu_s &= \exp \left( \bm{X}_s \bm{\beta} + \omega_s \right),
+\end{align}
+
+where $s$ represents a spatial location, $y_s$ represents observed fish density
+for a survey set, $\mu_s$ represents expected fish density, $p$ represents the
+Tweedie power parameter, and $\phi$ represents the Tweedie dispersion
+parameter. The symbol $\bm{X_s}$ represents a vector of predictors (an
+intercept, log depth, and log depth squared) and $\bm{\beta}$ represents
+a corresponding vector of coefficients. The spatial random effects $\omega_s$
+are assumed to be drawn from a multivariate normal distribution with
+a covariance matrix $\bm{\Sigma}_\omega$ that is centered on zero:
+
+$$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
+
+We constrained the spatial random effects to follow a \mbox{Mat\'ern} covariance
+function, which defines the rate with which spatial correlation decays with
+distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern} function
+describes the covariance $\Phi \left( s_j, s_k \right)$ between spatial
+locations $s_j$ and $s_k$ as:
+
+$$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
+    (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
+
+where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma
+function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the
+Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents
+a scaling parameter that is estimated [e.g., @lindgren2011]. The parameter $\nu$
+controls the smoothness of the covariance function. We set $\nu = 1$, which
+lets us take advantage of the Stochastic Partial Differential Equation (SPDE)
+approximation to Gaussian Markov Random Fields (GMRF) to greatly increase
+computational efficiency [@lindgren2011].
+
+Our spatial model falls into the general category of "predictive process"
+models [e.g., @latimer2009; @shelton2014; @anderson2018], in which the model
+keeps track of a limited number of "knots" that approximate unexplained spatial
+variation (Figure \@ref(fig:sdmTMB-spde)). By keeping track of a smaller number
+of knots than the full spatial data set, we can increase computational
+efficiency. The model predictions can be projected to the original data
+locations or any new set of locations as long as an appropriate covariance
+matrix can be calculated [e.g., @latimer2009]. Higher numbers of knots result in
+a better approximation of the spatial random effects at a greater computational
+cost. We fit the spatial models with one less knot than the number of
+observations if there were fewer than 200 observations and 200 knots otherwise.
+Following one common practice [e.g., @shelton2014; @thorson2017b; @anderson2018]
+we chose the location of the knots with a k-means clustering algorithm with
+a fixed random seed to ensure reproducible results.
+
+Instead of directly modelling the effects of depth and depth squared, we first
+standardized the log-transformed depth covariate by subtracting its mean and scaling
+it by its standard deviation. We then calculated 'depth squared' from this
+centred and scaled variable. This ensures the covariate values are not too
+large or small to avoid computational issues and the centring separates the
+linear and quadratic predictor components.
+
+We fit the four synoptic survey data sets separately because only two of the
+surveys are conducted each year and the surveys are disjointed in space and
+time. Similarly, we fit the North and South HBLL surveys independently. We
+combined the predictions to generate the map plots but labelled the years in
+which the various surveys were conducted.
+
+As an example, we illustrate the model components for Pacific Cod in Queen
+Charlotte Sound (Figure \@ref(fig:sdmTMB-maps-combined)). We begin with
+a bathymetry layer and biomass density value for each survey set in space
+(Figure \@ref(fig:sdmTMB-maps-combined)A). After fitting the model, we can
+inspect the effect of the bottom depth quadratic fixed effect predictors
+(Figure \@ref(fig:sdmTMB-maps-combined)B) as well as the spatial random effects
+(Figure \@ref(fig:sdmTMB-maps-combined)C). If we add the fixed effect
+predictions to the spatial random effects in link (log) space and exponentiate
+the result, we derive model predictions that include both the fixed and random
+effects (Figure \@ref(fig:sdmTMB-maps-combined)D). We can inspect randomized
+quantile residuals in space to check for any remaining spatial correlation
+(Figure \@ref(fig:sdmTMB-resids)). We can also look at the predicted
+relationship between depth and biomass density across all the species (Figures
+\@ref(fig:sdmTMB-depth-all-plots1), \@ref(fig:sdmTMB-depth-all-plots2)).
+
+```{r sdmTMB-matern-demo, fig.asp=0.3, fig.width=8, fig.cap="An illustration of the effect of the $\\kappa$ parameter ('kappa') on the shape of the \\mbox{Mat\\'ern} correlation function with $\\nu = 1$. The vertical dashed line illustrates $\\sqrt{8\\nu} / \\kappa$, referred to as the 'range', which is a point at which the correlation decreases below 0.1."}
+library(dplyr)
+library(ggplot2)
+dist <- seq(0, 13, length = 200)
+kappa <- c(0.3, 0.5, 1.1)
+nu <- 1.0
+plyr::ldply(kappa, function(k) {
+  data.frame(
+    Correlation = k * dist * base::besselK(k * dist, nu),
+    kappa = paste("kappa =", k),
+    Distance = dist,
+    range = sqrt(8 * 1) / k
+  )
+}) %>%
+  mutate(Correlation = ifelse(is.na(Correlation), 1, Correlation)) %>%
+  ggplot(aes(Distance, Correlation)) +
+  geom_line() +
+  facet_wrap(~kappa) +
+  geom_vline(aes(xintercept = range), lty = 2) +
+  coord_cartesian(expand = FALSE, ylim = c(0, 1)) +
+  theme(strip.text.x = element_text(colour = "grey20", size = rel(1.1))) +
+  labs(x = en2fr("Distance", french), y = en2fr("Correlation", french))
+```
+
+```{r sdmTMB-data}
+library(sdmTMB)
+d <- readRDS(here::here("report/data-cache/pacific-cod.rds"))
+d <- d$survey_sets
+dat <- gfplot:::tidy_survey_sets(d, "SYN QCS", years = 2017)
+dat <- mutate(dat, density = density*1000*1000)
+dat <- filter(dat, !is.na(depth))
+dat <- gfplot:::scale_survey_predictors(dat)
+dat <- select(dat, -X10, -Y10)
+
+# grid_locs <- gfplot:::make_prediction_grid(filter(dat, year == 2017),
+  # survey = "SYN QCS", cell_width = 1.5)$grid
+# grid_locs <- rename(grid_locs, depth = akima_depth)
+# grid_locs$year <- NULL
+
+grid_locs <- gfplot::synoptic_grid %>%
+  dplyr::filter(.data$survey == "SYN QCS") %>%
+  dplyr::select(.data$X, .data$Y, .data$depth)
+
+grid_locs$depth_scaled <-
+  (log(grid_locs$depth) - dat$depth_mean[1]) / dat$depth_sd[1]
+grid_locs$depth_scaled2 <- grid_locs$depth_scaled^2
+
+# Expand the prediction grid to create a slice for each time:
+original_time <- sort(unique(dat$year))
+nd <- do.call("rbind",
+  replicate(length(original_time), grid_locs, simplify = FALSE))
+nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
+grid_locs <- nd
+```
+
+```{r sdmTMB-spde, fig.width=9, out.width="3.5in", fig.cap="Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey in 2017. The red dots indicate knot locations. The open grey circles in the background represent the locations of the observed data. The lines show the triangularization mesh used in the SPDE approximation. In this case, many of the knots overlap the observed data. A greater number of knots will increase the accuracy of the approximation at the expense of computational time."}
+spde <- make_spde(dat$X, dat$Y, n_knots = 200)
+plot_spde(spde)
+```
+
+```{r sdmTMB-model}
+m <- sdmTMB(
+  data = dat, formula = density ~ depth_scaled + depth_scaled2,
+  time = "year", spde = spde, family = tweedie(link = "log"),
+  silent = TRUE, anisotropy = FALSE
+)
+```
+
+```{r sdmTMB-preds, fig.width=6, out.width="4in"}
+predictions <- predict(m, newdata = grid_locs)
+plot_map <- function(.dat, column) {
+  ggplot(.dat, aes_string("X", "Y", fill = column)) +
+    geom_raster() +
+    coord_fixed(expand = FALSE) +
+    xlab(en2fr("Easting", french)) + ylab(en2fr("Northing", french)) +
+    theme(legend.position = "bottom") +
+    geom_point(data = dat, aes(X, Y, size = density), pch = 21, inherit.aes = FALSE) +
+    scale_size_area() +
+    guides(size = FALSE)
+}
+```
+
+```{r sdmTMB-plot-depth}
+g_depth <- plot_map(grid_locs, "depth") +
+  scale_fill_distiller(trans = "fourth_root_power", palette = "Blues", direction = 1,
+    breaks = c(50, 200, 600)) +
+  ggtitle(paste("(A) ", en2fr("Depth", french))) +
+  labs(fill = paste(en2fr('Depth', french), ' (m)'))
+```
+
+```{r sdmTMB-plot-combined}
+limits <- c(0, max(exp(predictions$data$est))*1.001)
+breaks <- c(1, 20, 150)
+g_sdm1 <- plot_map(predictions$data, "exp(est)") +
+  scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    breaks = breaks, limits = limits) +
+  ggtitle(paste("(D) ", en2fr("Prediction (depth effects + spatial random effects)"))) +
+  (if(french){
+    labs(fill = "Estimation de la\nbiomasse (kg/m2)", parse = TRUE)
+  } 
+  else{
+    labs(fill = "Biomass estimate\n(kg/km^2)", parse = TRUE)
+    })
+```
+
+```{r sdmTMB-plot-fe}
+g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
+  ggtitle(paste("(B) ", en2fr("Prediction (depth effects only)", french))) +
+  scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    breaks = breaks, limits = limits) +
+  (if(french){
+    labs(fill = "Estimation de la\nbiomasse (kg/m2)", parse = TRUE)
+  } 
+  else{
+    labs(fill = "Biomass estimate\n(kg/km^2)", parse = TRUE)
+    })
+```
+
+```{r sdmTMB-plot-re}
+g_sdm3 <- plot_map(predictions$data, "est_re_s") +
+  ggtitle(paste("(C)", en2fr("Spatial random effects", french))) +
+  scale_fill_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  (if(french){
+    labs(fill = "Écart par rapport à la biomasse\nprévue dans l’espace de relevé")
+  } 
+  else{
+    labs(fill = "Deviation from expected\nbiomass in log space")
+    })
+```
+
+\clearpage
+
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent only modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
+cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
+```
+
+```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Spatial randomized quantile residuals on the link (log) scale."}
+dat$resids <- residuals(m) # randomized quantile residuals
+# hist(dat$resids)
+# qqnorm(dat$resids);abline(a = 0, b = 1)
+ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
+  geom_point() + coord_fixed() +
+  xlab(en2fr("Easting", french)) + ylab(en2fr("Northing", french)) +
+  scale_colour_gradient2(midpoint = 0,
+    high = scales::muted("red"),
+    mid = "white",
+    low = scales::muted("blue")) +
+  labs(colour = en2fr('Residual', french))
+```
+
+\clearpage
+
+```{r sdmTMB-model-table-dat}
+g_models <- readRDS(here::here('report/geostat-cache/spt-index-out.rds'))
+g_models_dat <- purrr::map_df(g_models, function(x) {
+  if (length(x) > 1L) {
+    phi <- exp(x$model$tmb_obj$env$last.par[["ln_phi"]])
+    thetaf <- x$model$tmb_obj$env$last.par[["thetaf"]]
+    thetaf <- plogis(thetaf) + 1
+    tau_O <- exp(x$model$tmb_obj$env$last.par[["ln_tau_O"]])
+    tau_E <- exp(x$model$tmb_obj$env$last.par[["ln_tau_E"]])
+    kappa <- exp(x$model$tmb_obj$env$last.par[["ln_kappa"]])
+    tibble::tibble(
+      species_name = gfsynopsis:::first_cap(gsub("-", " ", x$species_name)),
+      survey = x$survey,
+      kappa = kappa,
+      tau_O = tau_O,
+      tau_E = tau_E,
+      phi = phi,
+      thetaf = thetaf)
+  }
+})
+```
+
+```{r sdmTMB-model-table, results='asis', eval = FALSE}
+g_models_dat %>% 
+  dplyr::arrange(species_name, survey) %>%
+  # these have already been filtered out elsewhere for their massive CVs:
+  dplyr::filter(phi < 1e3) %>% 
+  dplyr::filter(tau_O < 50) %>% 
+  dplyr::filter(tau_E < 50) %>% 
+  mutate(species_name = gsub("Rougheye/blackspotted Rockfish Complex",
+    "Rougheye/Blackspotted Rockfish", species_name)) %>% 
+  csasdown::csas_table(digits = 1, 
+    col.names = c(
+      "Species name", "Survey", "$\\kappa$", "$\\tau_O$", 
+      "$\\tau_E$", "$\\phi$", "$p$"),
+    caption = "Parameter estimates from geostatistical spatiotemporal models.")
+```

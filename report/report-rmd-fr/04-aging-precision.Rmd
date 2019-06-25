@@ -1,0 +1,108 @@
+\clearpage
+
+# ACKNOWLEDGEMENTS
+
+We are grateful for the ongoing collaboration between DFO, commercial fishers,
+First Nations, and non-governmental organizations, which has made possible the
+collection of the valuable data that underlies this report. We thank
+the project's steering committee (Greg Workman, Robyn Forrest, Dana Haggarty,
+Chris Grandin, and Rob Kronlund) for invaluable input into the report design
+and feedback throughout its production.
+We thank Chris Rooper and Daniel Ricard for their thorough and helpful reviews.
+We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review meeting, respectively.
+We thank Christie Whelan for her
+support initiating this project. We thank Norm Olsen, Maria Surry, and Malcolm
+Wyeth for providing support on data extraction and general database structure
+and content. We thank the participants of the peer review meeting on tiered
+approaches in May 2016 [@macdougall2016], which included a data scorecard by
+Norm Olsen, from which this report takes inspiration. We also thank Norm Olsen
+for his work on GFASTeR, from which this project takes inspiration and
+borrows some data queries. We thank Rowan Haigh for his work maintaining
+the PBSmapping and PBSdata R packages, and indeed the authors of all the R
+packages necessary to build this report (Appendix \@ref(app:reproducibility)).
+
+\clearpage
+
+`r if(knitr:::is_latex_output()) '\\Appendices'`
+
+`r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
+
+# AGEING PRECISION {#app:age-precision}
+
+```{r age-precision-make-data, warning=FALSE, message=FALSE}
+dc <- here::here("report", "data-cache")
+spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
+spp <- filter(spp, species_common_name != "pacific hake")
+
+
+if(french){
+  spp$species_common_name <-  gfsynopsis:::first_cap(spp$species_common_name)
+  spp$species_common_name[spp$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
+  spp$species_common_name <- en2fr(spp$species_common_name, french)
+}
+
+out_dat <- list()
+plots <- list()
+for (i in seq_along(spp$species_common_name)) {
+  dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
+  if (nrow(dat$age_precision) > 1) {
+    out_dat[[i]] <- gfplot::tidy_age_precision(dat$age_precision)
+    out_dat[[i]]$species_common_name <-
+      gfsynopsis:::first_cap(spp$species_common_name[[i]])
+    plots[[i]] <- out_dat[[i]] %>%
+      gfplot::plot_age_precision() +
+      ggplot2::ggtitle(gfsynopsis:::first_cap(spp$species_common_name[[i]]))
+  }
+}
+```
+
+```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.25, out.width="5.0in", fig.cap="Ageing precision plots for all species in the report with data. Each dot and cross-hatch represents an individual fish that has been aged twice. The x-axis represents the age and upper and lower possible ages recorded by the initial ('primary') individual ageing the fish. The y-axis represents the equivalent values recorded by the second ('precision') individual ageing the fish. The dashed diagonal line represents a perfect one-to-one agreement between the two ages. Up to 250 fish have been randomly sampled from all fish precision-aged for a species, and a small amount of random jitter has been added to both axes to reduce overplotting with the same jitter value added to both the x and y axes for a given fish."}
+out_prec <- bind_rows(out_dat)
+set.seed(42)
+jitter <- 0.2
+jit <- stats::runif(nrow(out_prec), -jitter, jitter)
+out_prec$prec_age <- out_prec$prec_age + jit
+out_prec$prim_age <- out_prec$prim_age + jit
+out_prec$prim_min_age <- out_prec$prim_min_age + jit
+out_prec$prim_max_age <- out_prec$prim_max_age + jit
+out_prec$prec_min_age <- out_prec$prec_min_age + jit
+out_prec$prec_max_age <- out_prec$prec_max_age + jit
+
+out_prec %>% group_by(species_common_name) %>%
+  do(if (nrow(.) > 300) sample_n(., 300) else .) %>% # downsample for clarity
+  # fake data points to get 1-1 aspect ratio (they are invisible; coloured NA):
+  do(data.frame(
+    type = c(rep("real", length(.$prim_max_age)), "fake"),
+    prim_max_age = c(.$prim_max_age, max(c(.$prim_max_age, .$prec_max_age))),
+    prec_max_age = c(.$prec_max_age, max(c(.$prim_max_age, .$prec_max_age))),
+    prim_min_age = c(.$prim_min_age, 0),
+    prec_min_age = c(.$prec_min_age, 0),
+    prec_age = c(.$prec_age, 0),
+    prim_age = c(.$prim_age, 0),
+    species_code = c(.$species_code, unique(.$species_code)),
+    species_common_name = c(.$species_common_name, unique(.$species_common_name)),
+    stringsAsFactors = FALSE
+    )) %>%
+  ungroup() %>%
+  mutate(species_common_name = gsub("Rougheye\\/blackspotted Rockfish Complex",
+    "Rougheye/\nblackspotted Rockfish", species_common_name)) %>%
+  mutate(species_common_name =
+      forcats::fct_reorder(species_common_name, as.numeric(as.factor(species_code)))) %>%
+  ggplot(aes_string("prim_age", "prec_age", colour = "type")) +
+  geom_point(pch = 21, alpha = 0.6) +
+  ggplot2::geom_abline(intercept = 0, slope = 1, col = "grey50", lty = 2) +
+  ggplot2::geom_segment(aes_string(
+    x = "prim_min_age", xend = "prim_max_age",
+    y = "prec_age", yend = "prec_age"),
+    alpha = 0.4) +
+  facet_wrap(~species_common_name, scales = "free") +
+  ggplot2::geom_segment(aes_string(
+    x = "prim_age", xend = "prim_age",
+    y = "prec_min_age", yend = "prec_max_age"), alpha = 0.4) +
+  labs(title = "Ageing precision", x = en2fr("Primary age (years)", french),
+    y = en2fr("Secondary age (years)", french)) +
+  theme_pbs() +
+  ggplot2::ggtitle("") +
+  scale_colour_manual(values = c("real" = "grey25", "fake" = NA)) +
+  guides(colour = FALSE)
+```
