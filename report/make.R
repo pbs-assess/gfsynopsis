@@ -93,6 +93,11 @@ spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 spp <- arrange(spp, species_code)
+spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish complex",
+  "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
+  mutate(species_common_name = gsub("c-o sole",
+    "C-O Sole", species_common_name))
+spp <- spp %>% mutate(species_french_name = tolower(en2fr(first_cap(spp$species_common_name))))
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
