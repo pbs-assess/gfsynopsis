@@ -1,24 +1,13 @@
-# PLOT DESCRIPTIONS {#sec:plot-descriptions}
+# DESCRIPTIONS DES GRAPHIQUES {#sec:plot-descriptions}
 
 ```{r load-example-figs}
 g <- readRDS(here::here("report/ggplot-objects/petrale-sole.rds"))
 sp <- "Petrale Sole"
 ```
 
-<!-- A fake square to use to get the aspect ratio of the maps correct: -->
+Dans cette section, nous fournissons des légendes complètes pour chacune des visualisations qui forment les figures espèce par espèce à la section \@ref(sec:synopsis-plots). Nous utilisons la sole de Petrale comme exemple pour tous les graphiques, sauf pour les cartes des captures par unité d’effort commerciales, où nous utilisons la morue du Pacifique.
 
-```{r checking-square}
-checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
-  y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
-  inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
-```
-
-In this section we provide complete captions for each of the
-visualizations that form the species-by-species figures in
-Section \@ref(sec:synopsis-plots). We use `r sp` as an example species for all
-plots except for commercial catch per unit effort maps where we use Pacific Cod.
-
-## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
+## TENDANCES RELATIVES DE L’INDICE DE LA BIOMASSE DÉRIVÉ DES RELEVÉS
 
 ```{r make-surv-abbrev-text, eval=TRUE}
 # happens to have data for all the surveys:
@@ -44,43 +33,21 @@ x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
-(ref:survey-index-example) `r paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with 'Mean CV' greater than 0.4 or 'Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. Time series with light grey dots and dotted upper and lower lines for 95% confidence intervals represent a further index that has been standardized with a geostatistical model. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass..")`
+(ref:survey-index-example) `r paste0("Exemple de tendances relatives de l’indice de la biomasse dérivé des relevés au chalut et à la palangre pour ", sp, ". Les points représentent les estimations moyennes de la biomasse relative et les rubans ombrés autour des points et des lignes représentent des intervalles de confiance d’autogénération à 95 %. Le « CV moyen » est la moyenne des coefficients de variation (CV) annuels, et 'Mean $+$ve sets' indique le rapport entre le nombre moyen (sur plusieurs années) des ensembles comprenant des espèces d’intérêt et le nombre moyen d’ensembles. Les panneaux grisés indiquent les tendances dérivées du relevé, avec 'Mean CV' supérieur à 0,4 ou 'Mean $+$ve sets' inférieur à 5 %. Tous les axes verticaux sont mis à l’échelle entre zéro et la valeur maximale de l’intervalle de confiance supérieur pour ce relevé. Les séries chronologiques avec des points gris clair et des lignes pointillées en haut et en bas pour des intervalles de confiance à 95 % représentent un autre indice qui a été normalisé à l’aide d’un modèle géostatistique ", surv_abbrev_text, ". Pour ce qui est de la série de relevés indépendants de la pêche de la CIFP, les valeurs sont des nombres relatifs par patin efficace plutôt que les valeurs de la biomasse. ")`
 
 ```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap="(ref:survey-index-example)"}
-g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
+g$survey_index
 ```
 
 \clearpage
 
-## MAPS OF RELATIVE BIOMASS FROM SURVEYS
+## CARTES DE LA BIOMASSE RELATIVE DÉRIVÉE DES RELEVÉS
 
 ```{r map-text}
-map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the maps in the available space. Depth contours are shown at 100 m, 200 m, and 500 m."
+map_text <- " Notez que la côte a été pivotée de 40 $^{\\circ}$ pour s’adapter à toutes les cartes dans l’espace disponible. Les contours de profondeur sont indiqués à 100 m, 200 m et 500 m."
 ```
 
-(ref:survey-maps-cap) Example maps of relative biomass (or catch rate) from
-trawl and longline surveys from the latest available years of each survey for
-`r sp`. Shown are the synoptic trawl surveys (left), the outside hard bottom long
-line (HBLL OUT) surveys (middle), and the IPHC FISS (right). Individual sets
-are shown in the two left panels as faint crosses (if the species was not
-caught in that set), or circles with the area of the circle proportional to the
-species density from the set. Colour shading indicates predictions from
-a spatial model that includes depth and depth squared as a predictor as well
-as spatial random effects (Appendix \@ref(app:spatial-modeling)). The colour scale
-is fourth-root transformed to render a visual pattern similar to a log
-transformation without overemphasizing differences close to zero. The colour
-scale ('Viridis plasma') is perceptually uniform, robust to colour blindness,
-and prints accurately in grayscale [@viridis2018]. The colour scale as shown here
-only represents the values for these panels --- the colour scale ranges from zero
-to the highest value in the maps on each page. The synoptic and HBLL maps
-show predicted biomass density throughout the survey domain. The IPHC map shows
-the raw unmodelled data for fixed station locations --- stations without any
-observations for a given species are shown as empty circles. Years on the left
-side of each plot indicate the year of the respective survey. Surveys (except
-IPHC) in which less than 2\% of the sets contained the species are not modeled
-and are shown with raw data only. Mean values shown at the bottom are the mean
-fish density values from the raw data for the entire coast for the indicated years.
-`r map_text`
+(ref:survey-maps-cap) Exemples de cartes de la biomasse relative (ou taux de prises) dérivée des relevés au chalut et à la palangre pour les dernières années disponibles de chaque relevé pour la sole de Petrale. Les relevés synoptiques au chalut (à gauche), les relevés menés à la palangre à l’extérieur du fond dur (au centre) et la série de relevés indépendants de la pêche de la CIFP (à droite) sont présentés. Les deux panneaux de gauche montrent les ensembles individuels sous forme de croix pâles (si l’espèce n’a pas été capturée dans cet ensemble) ou de cercles dont la superficie est proportionnelle à la densité de l’espèce dans l’ensemble. Les couleurs ombragées indiquent les prédictions d’un modèle spatial qui inclut la profondeur et la profondeur au carré comme prédicteurs, ainsi que les effets spatiaux aléatoires (annexe \@ref(app:spatial-modeling)). L’échelle des couleurs fait l’objet d’une transformation de la racine quatrième pour qu’on puisse rendre un motif visuel semblable à une transformation logarithmique sans surestimer les différences proches de zéro. L’échelle des couleurs ('Viridis plasma') est perceptiblement uniforme, et peut être distinguée par des daltoniens et imprimée avec précision en niveaux de gris [@viridis2018]. L’échelle des couleurs telle que montrée ici ne représente que les valeurs de ces panneaux – l’échelle des couleurs va de zéro à la valeur la plus élevée sur les cartes de chaque page. Les cartes synoptiques et HBLL montrent la densité prévue de la biomasse dans l’ensemble du domaine de relevé. La carte de la CIFP montre les données brutes non modélisées pour les emplacements des stations fixes – les stations sans aucune observation pour une espèce donnée sont représentées par des cercles vides. Les années présentées sur le côté gauche de chaque graphique indiquent l’année du relevé respectif. Les relevés (à l’exception de celui de la CIFP) dans lesquels moins de 2 % des ensembles contenant l’espèce ne sont pas modélisés sont montrés avec des données brutes seulement. Les valeurs moyennes indiquées au bas sont les valeurs de la densité moyenne du poisson tirées des données brutes pour l’ensemble de la côte pour les années indiquées. `r map_text`
 
 ```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="3.8in", fig.cap="(ref:survey-maps-cap)", fit.pos="H"}
 trans <- "fourth_root_power"
@@ -132,20 +99,9 @@ gridExtra::grid.arrange(
 
 \clearpage
 
-## COMMERCIAL FISHERY CATCHES
+## PRISES DANS LA PÊCHE COMMERCIALE
 
-(ref:catches-cap) Example commercial fishery catch plots for `r sp`.
-Catch from various gear types is indicated by colour shading. Catch is
-calculated as the summed weight of landings aggregated by year. Discards include
-reported discard weights from all fisheries combined; however, bottom trawl
-discards are considered less reliable prior to 100% observer coverage in 1996
-and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl
-discards are less reliable prior to fisheries integration in 2006 and are
-therefore not included. Years before 1996 and 2006 are shaded
-grey to indicate that catches are considered less reliable than modern data. 
-Foreign catches recorded in our databases between 1977 and 1991
-Management areas, as indicated in the top left corner of each panel, are shown
-in Figure \@ref(fig:management-map).
+(ref:catches-cap) Exemples de graphiques des prises dans la pêche commerciale pour la sole de Petrale. Les prises effectuées à l’aide de différents types d’engins de pêche sont indiquées par des couleurs ombragées. Les prises sont calculées en additionnant le poids des poissons débarqués regroupés par année. Les rejets comprennent les poids des rejets déclarés de toutes les pêches combinées; toutefois, les rejets dans la pêche au chalut sont considérés comme étant moins fiables avant la couverture à 100 % par les observateurs en 1996, et les rejets dans la pêche au casier, à la ligne et à l’hameçon, au chalut semi-pélagique et au chalut dans le détroit de Georgie sont moins fiables avant l’intégration des pêches en 2006 et ne sont donc pas inclus. Les années antérieures à 1996 et à 2006 sont grisées pour indiquer que les données sur les prises sont considérées comme étant moins fiables que les données modernes. Les prises par des flottilles étrangères enregistrées dans nos bases de données entre 1977 et 1991 dans les zones de gestion, tel qu’indiqué au coin supérieur gauche de chaque panneau, sont présentées à la figure \@ref(fig:management-map).
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
 g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Catch", french), " (t)"))
@@ -153,22 +109,10 @@ g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Cat
 
 \clearpage
 
-## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
+## INDICES DES CAPTURES COMMERCIALES AU CHALUT PAR UNITÉ D’EFFORT DE PÊCHE
 
-(ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort (CPUE)
-trends, with effort as hours trawled, for `r sp`. Solid lines represent CPUE trends
-standardized with a Tweedie GLMM (generalized linear mixed effects model) for
-depth, latitude, DFO locality region, vessel, and month of year (Appendix
-\@ref(app:cpue-models)). The line itself represents the estimate and the shaded
-ribbon represents a 95\% confidence interval. The dashed line represents an
-unstandardized commercial CPUE index calculated as the sum of catch divided by
-the sum of effort each year. Standardized time series are scaled to have the
-same maximum 95\% confidence interval. Unstandardized time series are scaled to
-have the same geometric mean as the standardized time series. These are relative
-index values --- the absolute value of the time series is not particularly
-useful because it depends on arbitrary levels that the standardization
-variables are set to. Management areas, as indicated in the top left corner of
-each panel, are shown in Figure \@ref(fig:management-map).
+(ref:trawl-cpue-cap) Exemple de tendances des captures par unité d’effort (CPUE) dans la pêche commerciale au chalut, l’effort étant représenté en heures de chalutage, pour la sole de Petrale. Les lignes pleines représentent les tendances des CPUE normalisées à l’aide d’un modèle GLMM (modèle linéaire généralisé avec effets mixtes) de Tweedie pour la profondeur, la latitude, la région locale du MPO, le bateau et le mois de l’année (annexe \@ref(app:cpue-models)). La ligne elle-même représente l’estimation, et le ruban ombré représente un intervalle de confiance à 95 %. La ligne tiretée représente un indice des CPUE commerciales non normalisé calculé comme étant la somme des prises divisée par la somme de l’effort annuel. Les séries chronologiques normalisées sont mises à l’échelle pour qu’on puisse avoir le même intervalle de confiance maximal à 95 %. Les séries chronologiques non normalisées sont mises à l’échelle pour qu’on puisse avoir la même moyenne géométrique que pour les séries chronologiques normalisées. Il s’agit de valeurs relatives de l’indice – la valeur absolue de la série chronologique n’est pas particulièrement utile, car elle dépend des niveaux arbitraires auxquels les variables de normalisation sont établies. Les zones de gestion, telles qu’indiquées au coin supérieur gauche de chaque panneau, sont illustrées à la figure \@ref(fig:management-map).
+
 
 ```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.5in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
 g$cpue_index + ggtitle(en2fr("Commercial bottom trawl CPUE", french))
@@ -176,28 +120,9 @@ g$cpue_index + ggtitle(en2fr("Commercial bottom trawl CPUE", french))
 
 \clearpage
 
-## MAPS OF COMMERCIAL CATCH PER UNIT EFFORT
+## CARTES DES CAPTURES COMMERCIALES PAR UNITÉ D’EFFORT
 
-(ref:cpue-maps-cap) Example commercial trawl and commercial hook-and-line
-catch-per-unit-effort maps for Pacific Cod (note this figure is **not** `r sp`).
-Lighter shading indicates higher levels
-of a geometric mean of catch per unit effort in a given hexagonal cell. The
-colour scale is fourth-root transformed to render a visual pattern similar to
-a log transformation without overemphasizing differences close to zero. The
-colour scale ('Viridis') is perceptually uniform, robust to colour blindness,
-and prints accurately in grayscale [@viridis2018]. Cells are 7 km wide and are
-only shown in cases where there are at least 3 unique vessels in a given cell
-to meet privacy requirements. For bottom trawl, catch per unit effort is
-calculated as the weight of catch (landings plus discards) divided by hours
-fished for all positive tows from the groundfish trawl sector. Trawl data are
-shown from 2013 onwards when the trawl footprint was frozen. Trawl data from 2007--2012
-are indicated as outlined light grey hexagons to illustrate fishing
-prior to the frozen footprint. For hook and line,
-catch per unit effort is shown as the number of fish recorded as landed or
-discarded per set. Hook-and-line data are shown from 2008 onwards.
-Including as many years of data as possible reduces the number of discarded
-fishing events when implementing the 3-vessel privacy requirement.
-`r map_text`
+(ref:cpue-maps-cap) Exemples de carte des captures par unité d’effort dans la pêche commerciale au chalut et dans la pêche commerciale à la ligne et à l’hameçon pour la morue du Pacifique (il est à noter que cette figure ne concerne **pas** la sole de Petrale). Un ombrage plus clair indique des niveaux plus élevés d’une moyenne géométrique des captures par unité d’effort dans une cellule hexagonale donnée. L’échelle des couleurs fait l’objet d’une transformation de la racine quatrième pour qu’on puisse rendre un motif visuel semblable à une transformation logarithmique sans surestimer les différences proches de zéro. L’échelle des couleurs (‘Viridis’) est perceptiblement uniforme, peut être distinguée par des daltoniens et imprimée avec précision en niveaux de gris [@viridis2018]. Les cellules sont larges de 7 km et ne sont indiquées que dans les cas où il y a au moins trois bateaux uniques dans une cellule donnée pour qu’on puisse satisfaire aux exigences en matière de confidentialité. En ce qui concerne le chalutage de fond, les captures par unité d’effort sont calculées en divisant le poids des prises (débarquements plus rejets) par le nombre d’heures de pêche pour tous les traits positifs du secteur de la pêche au chalut au poisson de fond. Les données relatives au chalutage sont présentées à partir de 2013, date à laquelle l’empreinte du chalut a été gelée. Les données sur la pêche au chalut entre 2007 et 2012 sont indiquées sous forme d’hexagones gris pâle pour représenter la pêche avant le gel de l’empreinte. En ce qui concerne la pêche à la ligne et à l’hameçon, les captures par unité d’effort sont indiquées comme étant le nombre de poissons enregistrés comme étant débarqués ou rejetés par ensemble. Les données sur la pêche à la ligne et à l’hameçon sont présentées à partir de 2008. L’inclusion d’autant d’années de données que possible permet de réduire le nombre d’événements de pêche durant lesquels on a effectué des rejets lors de la mise en œuvre de l’exigence relative à la confidentialité des trois bateaux. `r map_text`
 
 ```{r cpue-maps, fig.asp=1.37, fig.width=4.65, out.width="3.6in", fig.cap="(ref:cpue-maps-cap)"}
 g_alt <- readRDS(here::here("report/ggplot-objects/pacific-cod.rds"))
@@ -254,21 +179,22 @@ gridExtra::grid.arrange(
 
 \clearpage
 
-## AVAILABLE BIOLOGICAL SAMPLES {#sec:bio-samples}
+## ÉCHANTILLONS BIOLOGIQUES DISPONIBLES {#sec:bio-samples}
 
-```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen-availability plot for ", sp, ". Shown are the number of available fish specimens that have had their length measured, have been weighed, had their maturity assessed, had their age assessed, and for which ageing structures are available for ageing. Data are shown across all surveys (not just surveys shown elsewhere in the synopsis; top panel) and across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
+```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Exemple de graphique illustrant la disponibilité des spécimens de l’espèce ", sp, ". Le nombre de spécimens de poissons disponibles dont la longueur a été mesurée, qui ont été pesés, dont la maturité a été évaluée, dont l’âge a été évalué, et pour lesquels des structures de détermination de l’âge sont disponibles est présenté. Les données sont présentées pour tous les relevés (et non seulement pour les relevés présentés ailleurs dans la synthèse; panneau supérieur) et pour toutes les flottilles commerciales (panneau inférieur). Les panneaux vierges indiquent les combinaisons année-mesure sans données. L’ombrage de ces cellules reflète le nombre relatif de spécimens disponibles, avec le nombre réel de spécimens indiqué dans les cellules au nombre arrondi le plus proche.")}
 gridExtra::grid.arrange(
-  g$survey_samples + ggtitle(en2fr("Survey specimen counts", french)),
-  g$comm_samples + ggtitle(en2fr("Commercial specimen counts", french)),
+  g$survey_samples,
+  g$comm_samples,
   nrow = 2
 )
 ```
 
+
 \clearpage
 
-## LENGTH COMPOSITION DATA
+## DONNÉES SUR LA COMPOSITION SELON LA LONGUEUR
 
-```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length-frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish measured for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish measured for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Exemple de graphique de la fréquence selon la longueur pour la sole de Petrale. Les poissons femelles sont représentés par des barres colorées (ou noires) et les poissons mâles sont représentés derrière par des barres gris clair. Le nombre total de poissons mesurés pour un relevé et une année donnés est indiqué au coin supérieur gauche de chaque panneau. Les histogrammes ne sont présentés que s’il y a plus de 20 poissons mesurés pour une combinaison donnée de relevé et d’année. Les poissons commerciaux mâles et femelles sont combinés, car plusieurs d’entre eux ne sont pas sexués. Voir la figure \\ref{fig:survey-index}  pour les abréviations relatives aux relevés.")}
 g$lengths +
   ggtitle(en2fr("Length frequencies", french)) +
   labs(x = paste(en2fr("Length", french)," (cm)"),
@@ -277,16 +203,9 @@ g$lengths +
 
 \clearpage
 
-## AGE COMPOSITION DATA
+## DONNÉES SUR LA COMPOSITION SELON L’ÂGE
 
-(ref:ages-cap) Example age-frequency plot for `r sp`. Female fish are shown as
-coloured (or black) circles and male fish are shown behind as light grey
-circles. The total number of fish aged for a given survey and year are indicated
-along the top of the panels. Diagonal lines are shown at five-year intervals to
-facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for
-survey abbreviations. Ageing precision plots comparing precision of readings by
-two individuals ageing the fish are provided for all species for which age data
-exist in Appendix \@ref(app:age-precision).
+(ref:ages-cap) Exemple de graphique de la fréquence selon l’âge pour la sole de Petrale. Les poissons femelles sont représentés par des cercles colorés (ou noirs), et les poissons mâles sont représentés derrière par des cercles gris clair. Le nombre total de poissons dont l’âge a été déterminé pour un relevé et une année donnés est indiqué en haut des panneaux. Les lignes diagonales sont représentées à des intervalles de cinq ans pour faciliter le suivi des cohortes au fil du temps. Voir la figure \@ref(fig:survey-index) pour les abréviations relatives aux relevés. Des graphiques de précision de la détermination de l’âge comparant la précision des lectures prises par deux personnes déterminant l’âge du poisson sont fournis pour toutes les espèces pour lesquelles on dispose de données sur l’âge à l’annexe \@ref(app:age-precision).
 
 ```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap="(ref:ages-cap)"}
 g$ages +
@@ -296,11 +215,11 @@ g$ages +
 
 \clearpage
 
-## LENGTH-AGE AND LENGTH-WEIGHT MODEL FITS
+## AJUSTEMENT DU MODÈLE DE LONGUEUR SELON L’ÂGE ET SELON LE POIDS
 
 \mathchardef\mhyphen="2D % math hyphen
 
-```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model of the form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\\sigma$ represents the scale parameter. The length-weight curve is of the form $\\log (W_i) \\sim \\mathrm{Student\\mhyphen t} (df = 3, \\log (\\ln(a) + b L_i), \\sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\\sigma$ representing the observation error scale. We set the degrees of freedom of the Student-t distribution to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendices \\ref{sec:length-age-models} and \\ref{sec:length-weight-models} for details on the models.")}
+```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Exemple de graphiques et d’ajustements du modèle de longueur selon l’âge et le poids ", sp, ". La courbe de croissance de la longueur selon l’âge repose sur un modèle de von Bertalanffy de form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$, où $L_i$ et $A_i$ représentent la longueur et l’âge des poissons $i$, $l_\\mathrm{inf}$, $k$,, $t_0$ représentent les paramètres de croissance de von Bertalanffy et $\\sigma$ représentent le paramètre d’échelle. La courbe de croissance de la longueur selon le poids est de la forme $\\log (W_i) \\sim \\mathrm{Student\\mhyphen t} (df = 3, \\log (\\ln(a) + b L_i), \\sigma),$ où $W_i$ et $L_i$ représentent le poids et la longueur pour les poissons $i$ et $\\sigma$ représente l’échelle des erreurs d’observation. Nous avons fixé les degrés de liberté de la distribution de Student t à 3 pour conférer une certaine robustesse par rapport aux valeurs aberrantes. Les variables $a$ et $b$ représentent les paramètres de la longueur selon le poids estimés. Les ajustements du modèle pour les femelles sont indiqués par des lignes pleines noires, et les ajustements du modèle pour les mâles sont indiqués par des lignes grises tiretées. Le texte sur les panneaux montre les estimations des paramètres, et les cercles gris ouverts représentent les poissons individuels auxquels les modèles sont ajustés. Ces chiffres comprennent tous les échantillons du relevé. Voir les annexes \\ref{sec:length-age-models}  et \\ref{sec:length-weight-models}  pour davantage de détails sur les modèles.")}
 cowplot::plot_grid(g$vb + 
     ggtitle(en2fr("Growth", french)) +
     labs(x = en2fr("Age (years)", french), 
@@ -316,15 +235,15 @@ cowplot::plot_grid(g$vb +
 
 \clearpage
 
-## MATURITY FREQUENCY BY MONTH
+## FRÉQUENCE DE LA MATURITÉ PAR MOIS
 
-```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature (top) to most mature (bottom); individual fish, once mature, cycle through the mature stages. The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.")}
+```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Exemple de graphique fréquence-maturité-par-mois pour les ", sp, ". Les catégories de maturité sont présentées du stade le plus immature (en haut) au stade le plus mature (en bas); les poissons individuels, une fois matures, suivent un cycle d’un stade de maturité à l’autre. La superficie de chaque cercle correspond au nombre de spécimens de poissons dans une catégorie de maturité donnée pour un mois donné. Les poissons femelles sont indiqués par des cercles noirs, et les poissons mâles sont indiqués derrière par des cercles gris clair. Le nombre total de spécimens de poissons pour chaque mois est indiqué par les chiffres figurant en haut du graphique. Ce graphique comprend les données issues de l’échantillon commercial et de l’échantillon du relevé.")}
 g$maturity_month + ggtitle(en2fr("Maturity frequencies", french))
 ```
 
-## MATURITY OGIVES
+## COURBES DE FRÉQUENCES  CUMULÉES DE LA MATURITÉ
 
-```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age- and length-at-maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix \\ref{sec:maturity-models} for details.")}
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Exemples de graphiques sur l’âge-et-la-longueur-à-maturité pour les courbes de fréquences cumulées pour ", sp, ". Les courbes de fréquences cumulées de maturité sont ajustées en tant que régressions logistiques aux spécimens de poissons individuels, qui sont classés comme étant matures ou non matures. Les lignes noires pleines représentent les ajustements aux poissons femelles et les lignes grises tiretées représentent les ajustements aux poissons mâles. Les lignes verticales indiquent l’âge ou la longueur estimée à 50 % de maturité. Le texte sur les panneaux indique l’âge et la longueur estimés à 5, 50 et 95 % de maturité pour les femelles (F) et les mâles (M). Les ajustements du modèle ne sont montrés que dans les cas où il y a au moins 20 mâles et 20 femelles matures et 20 mâles et 20 femelles immatures. De courtes lignes le long du haut et du bas de chaque panneau représentent jusqu’à 1 500 poissons individuels choisis au hasard, avec une petite gigue aléatoire dans le cas des âges pour aider à différencier les poissons individuels. Les modèles sont ajustés à tous les échantillons de relevé disponibles, quelle que soit la période de l’année. Voir l’annexe \\ref{sec:maturity-models}  pour davantage de détails.")}
 cowplot::plot_grid(g$mat_age +
     ggtitle(en2fr("Age at maturity", french)) +
     labs(x = en2fr("Age (years)", french),
