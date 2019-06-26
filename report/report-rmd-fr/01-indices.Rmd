@@ -1,6 +1,6 @@
 \clearpage
 
-# SPECIES INDEX BY COMMON NAME {#sec:common-name-index}
+# INDEX DES ESPÈCES PAR NOM COMMUN {#sec:common-name-index}
 
 ```{r index-alpha-common, results='asis', cache=FALSE}
 .spp <- gfsynopsis::get_spp_names()
@@ -14,21 +14,28 @@ spp_table <- .spp %>%
   mutate(species_common_name = gsub("Rougheye/blackspotted Rockfish Complex", 
     "Rougheye/Blackspotted Rockfish Complex", species_common_name))
 
+if (french){
+  spp_table <- spp_table %>%
+  mutate(species_common_name = en2fr(species_common_name, french)) %>%
+  mutate(species_common_name = gsub("complexe du sébaste à œil épineux et du sébaste à taches noires",
+    "sébaste à œil épineux et du sébaste à taches noires", species_common_name))
+}
+
 spp_table %>% arrange(species_common_name) %>%
   select(species_common_name, species_science_name, section) %>%
   csasdown::csas_table(align = c("l", "l", "l"),
-   col.names = c("Common name", "Scientific name", "Section"))
+   col.names = en2fr(c("Common name", "Scientific name", "Section"), french))
 ```
 
 \clearpage
 
-# SPECIES INDEX BY SCIENTIFIC NAME {#sec:scientific-name-index}
+# INDEX DES ESPÈCES PAR NOM SCIENTIFIQUE {#sec:scientific-name-index}
 
 ```{r index-alpha-latin, results='asis', cache=FALSE}
 spp_table %>% arrange(species_science_name) %>%
   select(species_science_name, species_common_name, section) %>%
   csasdown::csas_table(align = c("l", "l", "l"),
-  col.names = c("Scientific name", "Common name", "Section"))
+  col.names = en2fr(c("Common name", "Scientific name", "Section")))
 ```
 
 \clearpage
