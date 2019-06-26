@@ -1,63 +1,38 @@
-# GROWTH AND MATURITY {#app:growth-and-maturity}
+#CROISSANCE ET MATURITÉ {#app:growth-and-maturity}
 
-## MATURITY OGIVES {#sec:maturity-models}
+## COURBES DE FRÉQUENCES CUMULÉES DE LA MATURITÉ {#sec:maturity-models}
 
-We fit maturity ogives as logistic regressions of maturity (mature vs.\ not
-mature) against length or age:
+Nous ajustons les courbes de fréquences cumulées de la maturité en tant que régressions logistiques de la maturité (mature vs immature) selon la longueur ou l’âge :
 
 \begin{align}
 y_i &\sim \mathrm{Binomial}(\pi_i)\\
 \mathrm{logit} \left( \pi_i \right) &= \beta_0 + \beta_1 x_i + \beta_2 F_i
 \end{align}
-where $y_i$ represents a 1 if fish $i$ is considered mature and a 0 if fish $i$
-is considered immature. The $\beta$ parameters represent estimated coefficients,
-$x_i$ represents either the length or age of fish $i$, and $F_i$ represents
-a binary predictor that is 1 if the fish is female and 0 if the fish is male.
-The variable $\pi_i$ represents the expected probability of fish $i$ being
-mature. We only fit these models if there are at least 20 mature males, 20
-immature males, 20 mature females, and 20 immature females to ensure reasonably
-representative sampling and sufficient sample sizes.
+où $y_i$ représente un 1 si le poisson $i$ est considéré comme étant mature et un 0 si le poisson $i$ est considéré comme étant immature. Les paramètres $\beta$ représentent des coefficients estimés, $x_i$ représente la longueur ou l’âge du poisson $i$ et $F_i$ représente un prédicteur binaire qui est 1 si le poisson est une femelle et 0 si le poisson est un mâle. La variable $\pi_i$ représente la probabilité prévue que le poisson $i$ soit mature. Nous n’avons ajusté ces modèles que s’il y avait au moins 20 mâles matures, 20 mâles immatures, 20 femelles matures et 20 femelles immatures pour que l’on puisse disposer d’un échantillonnage raisonnablement représentatif et d’échantillons de taille suffisante. 
 
-## LENGTH-AGE MODELS {#sec:length-age-models}
+##MODÈLES DE L’ÂGE SELON LA LONGUEUR {#sec:length-age-models}
 
-We fit von Bertalanffy length-age growth models [@vonbertalanffy1938] as:
+Nous avons ajusté les modèles de croissance de l’âge selon la longueur de von Bertalanffy [@vonbertalanffy1938] comme suit :
 
 \begin{equation}
   L_i \sim \operatorname{Log-normal}
   \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))) - \sigma^2 / 2, \sigma \right),
 \end{equation}
 
-where $L_i$ and $A_i$ represent the length and age of fish $i$,
-$l_\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth
-parameters, and $\sigma$ represents the log standard deviation or scale
-parameter. The term $- \sigma^2 /2$ represents a 
-lognormal bias adjustment term so we model
-the mean length rather than the median. We fit the models with Template Model
-Builder (TMB) [@kristensen2016] with starting values of $k = 0.2$,
-$l_\mathrm{inf} = 40$, $\ln (\sigma) = \ln (0.1)$, and $t_0 = -1$.
+où $L_i$ et $A_i$ représentent la longueur et l’âge du poisson $i$, $l_\mathrm{inf}$, $k$ et $t_0$ représentent les paramètres de croissance de von Bertalanffy et $\sigma$ représente l’écart-type logarithmique ou le paramètre d’échelle. Le terme $- \sigma^2 /2$ représente un terme d’ajustement du biais log-normal, de sorte que nous avons modélisé la longueur moyenne plutôt que la médiane. Nous avons ajusté les modèles avec Template Model Builder (TMB) [@kristensen2016], avec des valeurs de départ de $k = 0.2$, $l_\mathrm{inf} = 40$, $\ln (\sigma) = \ln (0.1)$ et $t_0 = -1$.
 
-## LENGTH-WEIGHT MODELS {#sec:length-weight-models}
+##MODÈLES DU POIDS SELON LA LONGUEUR {#sec:length-weight-models}
 
-We fit the length-weight models as robust linear regressions of log(length) on
-log(weight) with Student-t error and a degrees of freedom parameter fixed to 3.
-By using Student-t error instead of Gaussian error we down-weight the influence
-of outlying values [e.g. @anderson2017c] and help generate reasonable model
-fits across all species without handpicking outlying measurements to discard.
-The underlying growth model can be written as:
+Nous avons ajusté les modèles du poids selon la longueur comme des régressions linéaires robustes de log(longueur) sur log(poids) avec erreur de la valeur t de Student et un paramètre de degrés de liberté fixé à 3. En utilisant l’erreur de la valeur t de Student au lieu de l’erreur gaussienne, nous pondérons à la baisse l’influence des valeurs marginales [p. ex. @anderson2017c], et nous aidons à générer des ajustements raisonnables du modèle pour toutes les espèces sans avoir à sélectionner manuellement les mesures marginales à rejeter. Le modèle de croissance sous jacent peut s’écrire comme suit :
 
 \begin{equation}
   W_i = a \cdot L_i^b \cdot e_i,
 \end{equation}
 
-with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $e_i$
-representing error.
-The variables $a$ and $b$ represent the estimated length-weight parameters.
-We fit the model as:
+Avec $W_i$ et $L_i$ représentant le poids et la longueur du poisson $i$ et $e_i$ représentant l’erreur. Les variables $a$ et $b$ représentent les paramètres du poids selon la longueur estimés. Nous avons ajusté le modèle comme suit :
 
 \begin{equation}
   \log (W_i) \sim \mathrm{Student\mhyphen t} (df = 3, \log (\ln(a) + b L_i), \sigma)
 \end{equation}
 
-using Template Model Builder [@kristensen2016], where $a$ and $b$ have the same
-meaning, $df$ represents the degrees of freedom, and $\sigma$ represents the
-scale parameter.
+en utilisant Template Model Builder [@kristensen2016], où $a$ et $b$ ont la même signification, $df$ représente les degrés de liberté, et $\sigma$ représente le paramètre d’échelle.
