@@ -1,14 +1,7 @@
-# REPRODUCIBILITY {#app:reproducibility}
+# REPRODUCTIBILITÉ {#app:reproducibility}
 
-One goal of this report is to generate standardized data sets, model fits, and
-visualizations to facilitate stock assessment. We intend for the data
-extraction and plots developed here to be useful for the upcoming
-management-procedure framework for data-limited and data-moderate groundfish
-stocks in BC, and also for the preparation of other groundfish stock
-assessments and to facilitate data-to-document workflows that go straight from
-databases to the final report via code and can be quickly updated in future
-years. To that end, the data extraction, data manipulation, model fitting, and
-visualization for this report are automated.
+L’un des objectifs du présent rapport est de générer des ensembles de données normalisés, des ajustements de modèles et des visualisations pour faciliter l’évaluation des stocks. Nous nous attendons à ce que les données extraites et les graphiques présentés ici soient utiles pour le prochain cadre de procédures de gestion des stocks de poissons de fond de la C.-B. à propos duquel les données sont limitées et modérées, ainsi que pour la préparation d’autres évaluations des stocks de poissons de fond et pour faciliter le passage direct des données aux documents (rapport final), qui découlent des bases de données, en passant par le code, et qui pourront être rapidement mis à jour dans les années futures. À cette fin, l’extraction des données, la manipulation des données, l’ajustement des modèles et la visualisation pour le présent rapport sont automatisés.
+
 
 ```{r get-git-hashes, cache=FALSE}
 get_sha <- function(path) {
@@ -27,12 +20,9 @@ sha_sdmTMB <- get_sha("pbs-assess/sdmTMB")
 sha_csasdown <- get_sha("pbs-assess/csasdown")
 ```
 
-The data extraction, model fitting, and plots were accomplished with the gfplot R package (Figure \@ref(fig:gfplot-web)) Git SHA (Secure Hash Algorithm) ``r sha_gfplot``.
-The spatial and spatiotemporal models were fit with the sdmTMB package Git SHA ``r sha_sdmTMB``.
-The plots were assembled on figure pages and this text was written with the package gfsynopsis Git SHA ``r sha_gfsynopsis``.
-The document was compiled with the csasdown package Git SHA version ``r sha_csasdown``.
+L’extraction des données, l’ajustement des modèles et les graphiques ont été réalisés grâce au progiciel de représentation graphique des poissons de fond R (Figure \@ref(fig:gfplot-web)) Git SHA (Secure Hash Algorithm) ``r sha_gfplot``. Les modèles spatiaux et spatio-temporels ont été ajustés avec le progiciel sdmTMB Git SHA ``r sha_sdmTMB``. Les graphiques ont été assemblés sur des pages de figures et le présent texte a été écrit avec le progiciel gfsynopsis Git SHA ``r sha_gfsynopsis``. Le document a été compilé avec le progiciel csasdown Git SHA, version ``r sha_csasdown``. 
 
-The specific versions used to generate this report can be viewed at:
+Les versions particulières utilisées pour générer ce rapport peuvent être consultées à l’adresse.&nbsp;:
 
 <`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha_gfplot)`>\
 <`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha_sdmTMB)`>\
@@ -40,7 +30,7 @@ The specific versions used to generate this report can be viewed at:
 <`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha_csasdown)`>\
 
 \vspace{4mm}
-or installed via:
+ou installées par l’intermédiaire de :
 
 `devtools::install_github('pbs-assess/gfplot', ref = '`r sha_gfplot`')`\
 `devtools::install_github('pbs-assess/sdmTMB', ref = '`r sha_sdmTMB`')`\
@@ -48,39 +38,24 @@ or installed via:
 `devtools::install_github('pbs-assess/csasdown', ref = '`r sha_csasdown`')`\
 
 \vspace{4mm}
-Copies of these R package versions and a copy of the cached data will be archived on
-a local Pacific Biological Station server to ensure future reproducibility.
+Des exemplaires de ces versions du progiciel R et une copie des données mises en cache seront archivés sur un serveur local de la Station biologique du Pacifique afin d’en assurer la reproductibilité future.
 
-Our functions dynamically scrape COSEWIC and SARA status information from the 
-[Species at risk public registry](http://www.registrelep-sararegistry.gc.ca/sar/index/default_e.cfm)
-with rvest [@rvest2016] and join it to the species list by scientific name. 
-We scrape taxonomic information from the Integrated Taxonomic Information 
-System (ITIS) with the taxize package [@chamerberlain2013].
+Nos fonctions permettent d’extraire de façon dynamique l’information sur la situation des espèces en vertu du COSEPAC et de la LEP [Registre public des espèces en péril] (http://www.registrelep-sararegistry.gc.ca/sar/index/default_e.cfm) avec rvest [@rvest2016] et de l’ajouter à la liste des espèces par nom scientifique. Nous extrayons les renseignements taxonomiques du Système intégré d’information taxonomique (SITI) à l’aide du progiciel Taxize [@chamerberlain2013].
 
-The figure pages can be built while on the PBS network by (1) installing the
-above packages, (2) cloning the gfsynopsis repository, and (3) following
-instructions found in the gfsynopsis `README.md` file.
+Les pages de figures peuvent être construites sur le réseau PBS en 1) installant les progiciels ci-dessus, 2) clonant l’organe d’archivage gfsynopsis et 3) suivant les instructions qui se trouvent dans le gfsynopsis `README.md` file.
 
-The master function is `gfsynopsis::make_pages()`, which generates two `.png`
-files comprising the two pages of plots for each species. Within this function,
-individual plots are generated by gfplot as ggplot objects [@ggplot2] and
-ggplot 'Grobs' are laid out on each page using the packages egg [@egg] and
-gridExtra [@gridExtra]. gfplot draws heavily on the R 'tidyverse', and
-especially dplyr [@dplyr].
+La fonction maître est `gfsynopsis::make_pages()`, qui génère deux fichiers `.png` comprenant les deux pages de graphiques pour chaque espèce. Grâce à cette fonction, des graphiques individuels sont générés par gfplot sous forme d’objets ggplot[@ggplot2], et ggplot 'Grobs' sont disposés sur chaque page à l’aide des progiciels egg [@egg] et gridExtra [@gridExtra]. gfplot s’appuie fortement sur la fonction R 'tidyverse', et en particulier sur la fonction dplyr [@dplyr].
 
-This report can then be rendered using knitr [@knitr], bookdown [@bookdown],
-and csasdown by running:
+Le présent rapport peut ensuite être rendu en utilisant knitr [@knitr], bookdown [@bookdown], et csasdown en exécutant :
 
 ```
 bookdown::render_book("index.Rmd")
 ```
 
-from the `gfsynopsis/report/report-rmd` folder or by clicking the 'Knit' button
-in RStudio with `report/report-rmd/index.Rmd` open.
+à partir du dossier `gfsynopsis/report/report-rmd` ou en cliquant sur le bouton ‘Knit’ dans RStudio avec ouvrir `report/report-rmd/index.Rmd’.
 
-This version of the document was generated on `r Sys.time()` with
-`r devtools::session_info()$platform$version` [@r2018]
-and R package versions:
+La présente version du document a été générée sur `r Sys.time()` avec `r devtools::session_info()$platform$version` [@r2018] et les versions du progiciel R :
+
 
 ```{r env, echo = FALSE, results='asis', message=FALSE, warning=FALSE, eval=TRUE, cache=FALSE}
 suppressWarnings({suppressMessages({
@@ -110,7 +85,7 @@ devtools::session_info()$packages %>%
   csasdown::csas_table()
 ```
 
-```{r gfplot-web, fig.cap="An illustration of the gfplot functions and how they interact. \\texttt{get} functions extract raw data from the relational databases, \\texttt{tidy} and \\texttt{fit} functions manipulate the data or fit statistical models, and \\texttt{plot} functions take the output from the tidying or fitting functions to make visualizations.", out.width="4.2in"}
+```{r gfplot-web, fig.cap="Une illustration des fonctions gfplot et de la manière dont elles interagissent. Les fonctions \\texttt{get} extraient les données brutes des bases de données relationnelles, \\texttt{tidy} et les fonctions \\texttt{fit} manipulent les données ou ajustent les modèles statistiques, et les fonctions \\texttt{plot} produisent les extrants des fonctions de nettoyage ou d’ajustement pour produire des visualisations.", out.width="4.2in"}
 knitr::include_graphics(here::here("report", "report-rmd", "figure",
     "function-web.pdf"), dpi = NA)
 ```
