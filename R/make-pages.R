@@ -72,7 +72,7 @@ make_pages <- function(
   synoptic_max_survey_years = 2017:2018,
   hbll_out_max_survey_years = 2016:2017,
   parallel = FALSE,
-  french = FALSE
+  french = TRUE
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -175,7 +175,7 @@ make_pages <- function(
   iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_file), ".rds")
 
   samp_panels <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-    "HBLL OUT S", "IPHC FISS", "Commercial")
+    "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french))
 
   # Age compositions: ----------------------------------------------------------
 
@@ -205,7 +205,9 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
     g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, max(synoptic_max_survey_years))) +
-      guides(fill = FALSE, colour = FALSE)
+      guides(fill = FALSE, colour = FALSE) +
+      ggtitle(en2fr("Age frequencies", french)) +
+      labs(y = en2fr("Age (years)", french))
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
@@ -214,7 +216,9 @@ make_pages <- function(
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
       year_range = c(2003, max(synoptic_max_survey_years))) +
       guides(fill = FALSE, colour = FALSE) +
-      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
+      ggtitle(en2fr("Age frequencies", french)) +
+      labs(y = en2fr("Age (years)", french))
   }
 
   # Length compositions: -------------------------------------------------------
@@ -259,7 +263,7 @@ make_pages <- function(
   if (!is.na(sb) && max(sb$total) >= min_total) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-        "HBLL OUT S", "IPHC FISS", "Commercial"))
+        "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french)))
     sb$year <- factor(sb$year, levels = seq(2003, max(synoptic_max_survey_years)))
 
     g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
@@ -308,7 +312,7 @@ make_pages <- function(
         expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
           levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")), year = 2000,
           est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
-      ggplot2::ggtitle(en2fr("Commercial bottom-trawl CPUE", french)) +
+      ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
       ylab("") + xlab("") +
       ggplot2::theme(
         axis.title.y = element_blank(),
@@ -327,7 +331,8 @@ make_pages <- function(
       gear = "abc", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
-  g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line"))
+  g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line")) +
+    ggtitle(en2fr("Commercial catch", french))
 
   # Survey biomass indices: ----------------------------------------------------
 
@@ -411,13 +416,13 @@ make_pages <- function(
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp, title = "Commercial samples", year_range = c(1996, max(synoptic_max_survey_years))) +
-    ggplot2::ggtitle("Commercial specimen counts")
+  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, max(synoptic_max_survey_years))) +
+    ggplot2::ggtitle(en2fr("Commercial specimen counts", french))
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp, title = "Survey samples", year_range = c(1996, max(synoptic_max_survey_years))) +
+  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, max(synoptic_max_survey_years))) +
     ggplot2::ggtitle(en2fr("Survey specimen counts", french))
   suppressMessages({g_survey_samples <- g_survey_samples +
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
@@ -468,11 +473,11 @@ make_pages <- function(
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
     g_vb <- ggplot2::ggplot() + theme_pbs() +
-      xlab(en2fr("Age (years)", french)) + ylab(en2fr("Length (cm)", french)) +
+      xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length",french), " (cm)")) +
       ggtitle("Growth")
     g_length_weight <- ggplot2::ggplot() + theme_pbs() +
-      xlab("Length (cm)") + ylab("Weight (kg)") +
-      ggtitle("Length-weight relationship")
+      xlab(paste0(en2fr("Length",french), " (cm)")) + ylab(paste0(en2fr("Weight", french), " (kg)")) +
+      ggtitle(en2fr("Length-weight relationship", french))
   }
 
   # Maturity ogives: -----------------------------------------------------------
@@ -526,8 +531,8 @@ make_pages <- function(
       guides(colour = FALSE, fill = FALSE, lty = FALSE) +
       ggplot2::guides(lty = FALSE, colour = FALSE)
   } else {
-    g_mat_age <- ggplot() + theme_pbs() + ggtitle("Age at maturity") +
-      ggplot2::labs(x = "Age (years)", y = "Probability mature") +
+    g_mat_age <- ggplot() + theme_pbs() + ggtitle(en2fr("Age at maturity", french)) +
+      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
@@ -570,8 +575,8 @@ make_pages <- function(
       ggplot2::guides(lty =
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
   } else {
-    g_mat_length <- ggplot() + theme_pbs() + ggtitle("Length at maturity") +
-      ggplot2::labs(x = "Length (cm)", y = "Probability mature") +
+    g_mat_length <- ggplot() + theme_pbs() + ggtitle(en2fr("Length at maturity", french)) +
+      ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
 
@@ -592,7 +597,7 @@ make_pages <- function(
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
       percent_excluded_xy = c(0.015, -0.02),
       ) +
-    ggplot2::ggtitle("Commercial trawl CPUE") +
+    ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
     theme(legend.position = "none") +
     ggplot2::annotate("text", 360, 6172, label = "2013–2018", col = "grey30",
       hjust = 0)
@@ -615,7 +620,7 @@ make_pages <- function(
         colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
         fill_lab = "CPUE (kg/fe)",
         percent_excluded_xy = c(0.015, -0.02)) +
-      ggplot2::ggtitle("Commercial H & L CPUE") +
+      ggplot2::ggtitle(en2fr("Commercial H & L CPUE", french)) +
       theme(legend.position = "none") +
       coord_cart + theme(
         axis.title = element_blank(),
@@ -713,14 +718,14 @@ make_pages <- function(
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
         north_symbol = TRUE, annotations = "SYN",
         show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
-      coord_cart + ggplot2::ggtitle("Synoptic survey biomass") +
+      coord_cart + ggplot2::ggtitle(en2fr("Synoptic survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
 
     if (nrow(syn_fits$raw_dat) >= 1L)  # calculate a density to label on the map
       g_survey_spatial_syn <- g_survey_spatial_syn +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-          label = paste0("Mean~", syn_density, dens_units), parse = TRUE)
+          label = paste0(en2fr("Mean", french), "~", syn_density, dens_units), parse = TRUE)
   })
 
   # an internal IPHC function:
@@ -741,7 +746,7 @@ make_pages <- function(
         show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
         show_model_predictions = "combined" %in% names(iphc_map_dat),
         annotations = "IPHC") +
-      coord_cart + ggplot2::ggtitle("IPHC survey catch rate") +
+      coord_cart + ggplot2::ggtitle(en2fr("IPHC survey catch rate", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'white') +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
@@ -749,7 +754,7 @@ make_pages <- function(
     if (sum(!is.na(iphc_map_dat$combined)) >= 1L)
       g_survey_spatial_iphc <- g_survey_spatial_iphc +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-          label = paste0("Mean~", iphc_density, "~fish/skate"), parse = TRUE)
+          label = paste0(en2fr("Mean", french), "~", iphc_density, "~", en2fr("fish/skate", french)), parse = TRUE)
   })
 
   if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
@@ -764,14 +769,14 @@ make_pages <- function(
         pos_pt_fill = "#FFFFFF03",
         show_model_predictions = "combined" %in% names(hbll_fits$pred_dat),
         annotations = "HBLL") +
-      coord_cart + ggplot2::ggtitle("HBLL OUT survey biomass") +
+      coord_cart + ggplot2::ggtitle(en2fr("HBLL OUT survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
-    dens_units <- "~fish/km^2"
+    dens_units <- paste0("~", en2fr("fish", french), "/km^2")
     if (nrow(hbll_fits$raw_dat) >= 1L)  # calculate a density to label on the map
       g_survey_spatial_hbll <- g_survey_spatial_hbll +
       ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-        label = paste0("Mean~", hbll_density, dens_units), parse = TRUE)
+        label = paste0(en2fr("Mean", french), "~", hbll_density, dens_units), parse = TRUE)
   })
 
   # Page 1 layout: -------------------------------------------------------------

@@ -92,12 +92,12 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
-spp <- arrange(spp, species_code)
-spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish complex",
-  "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
-  mutate(species_common_name = gsub("c-o sole",
-    "C-O Sole", species_common_name))
-spp <- spp %>% mutate(species_french_name = tolower(en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
+# spp <- arrange(spp, species_code)
+# spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish complex",
+#   "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
+#   mutate(species_common_name = gsub("c-o sole",
+#     "C-O Sole", species_common_name))
+# spp <- spp %>% mutate(species_common_name = tolower(en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
@@ -221,43 +221,34 @@ temp <- lapply(spp$species_common_name, function(x) {
   }
   if (!is.na(cosewic_report)) {
     if (cosewic_report != "") {
-      out[[i]] <- paste0("COSEWIC Status Report: @", cosewic_report, "\\")
+      out[[i]] <- paste0(en2fr("COSEWIC Status Report", french), ": @", cosewic_report, "\\")
       i <- i + 1
     }
   }
   if (!is.na(cosewic_status)) {
     if (cosewic_status != "") {
-      out[[i]] <- paste0("COSEWIC Status: ", cosewic_status)
+      out[[i]] <- paste0(en2fr("COSEWIC Status", french), ": ", cosewic_status)
       if (!is.na(sara_status))
         if (sara_status != "")
-          out[[i]] <- paste0(out[[i]], ", SARA status: ", sara_status)
+          out[[i]] <- paste0(out[[i]], ", ", en2fr("SARA Status", french), ": ", sara_status)
         out[[i]] <- paste0(out[[i]], "\n")
         i <- i + 1
     }
   }
   if (species_code == "394") { # FIXME Rougheye Rockfish
-    out[[i]] <- "COSEWIC Status: Special Concern, SARA status: Special Concern\n"
+    out[[i]] <- paste0(en2fr("COSEWIC Status", french), ": ", en2fr("Special Concern", french), ", ", en2fr("SARA Status", french), ": ", en2fr("Special Concern", french),"\n")
     i <- i + 1
   }
   if (species_code == "225") {
-    out[[i]] <- "Note that Pacific Hake undergoes a directed joint
-                Canada-US coastwide\n survey and annual assessment, which are not
-                included in this report. The most recent\n stock assessment
-                should be consulted for details on stock status."
+    out[[i]] <- "Il est à noter que le merlu du Chili fait l’objet d’un relevé et d’une évaluation annuels ciblés menés conjointement par le Canada et les É.-U. à l'échelle de la côte, qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     i <- i + 1
   }
   if (species_code == "614") {
-    out[[i]] <- "Note that Pacific Halibut undergoes thorough assessment by the
-                International Pacific\n Halibut Commission based on the annual
-                standardized setline survey. The most\n recent stock assessment
-                should be consulted for details on stock status."
+    out[[i]] <- "Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     i <- i + 1
   }
   if (species_code == "455") {
-    out[[i]] <- "Note that Sablefish undergoes directed annual trap surveys,
-                which are used for\n stock assessment and are not included in
-                this report. The most recent\n stock assessment should be
-                consulted for details on stock status."
+    out[[i]] <- "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     i <- i + 1
   }
   out[[i]] <- "\\begin{figure}[b!]"
