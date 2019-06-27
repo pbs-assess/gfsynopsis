@@ -172,13 +172,15 @@ to ensure that the data being captured were accurate, complete, and relevant.
 
 # Results
 
-The report includes two pages of visualization for 113 stocks of British
-Columbia groundfish and sharks including 34 rockfish species; 16 elasmobranch
+The report includes two pages of visualization for 113 stocks [stocks or
+species?? the list below adds up to 113 species] of British
+Columbia groundfish and sharks. Figures 1 and 2 show the pages for an example
+species) [REF and link]. The species covered include 34 rockfish species; 16 elasmobranch
 species and one chimaera species; 16 flatfish species; nine Gadiforme species
 (cods); 15 sculpin and poacher species; three greenling/lingcod species; six
 eelpout species, three prickleback species, and seven other Perciforme species;
-and one species each of smelt, sablefish and snailfish (e.g., Figs 1 and 2) [REF
-and link]. The visualizations for many stocks include mostly empty plots
+and one species each of smelt, sablefish and snailfish.
+The visualizations for many data-poor stocks include mostly empty plots
 emphasizing species for which there remain many unknowns. In other cases, nearly
 all the data available for data-rich stocks are visualized together on two pages
 for the first time.
