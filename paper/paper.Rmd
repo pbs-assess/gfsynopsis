@@ -44,6 +44,17 @@ reproducible research,
 transparency,
 visualization
 
+Suggestions for possible alternative titles (thinking out loud and hopefully evolving):
+
+1. Modern computational tools facilitate transparent presentation of
+     monitoring data: an example with over 100 Pacific Canadian groundfish
+     species. [leaves out reproducible though, which we probably want]
+1. Reproducible presentation of monitoring data using modern computational tools:
+     an example with over 100 Pacific Canadian groundfish
+     species.
+1. Reproducible and transparent presentation of monitoring data:
+     an example with over 100 Pacific Canadian groundfish species.
+
 \clearpage
 
 # Introduction
