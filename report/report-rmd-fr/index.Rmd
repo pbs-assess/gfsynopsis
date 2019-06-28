@@ -37,7 +37,7 @@ abstract: |
   
 output:
  csasdown::resdoc_pdf:
-   french: false
+   french: true
 region: "Pacific Region"
 header: ""
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]

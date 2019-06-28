@@ -92,12 +92,12 @@ spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
-# spp <- arrange(spp, species_code)
-# spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish complex",
-#   "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
-#   mutate(species_common_name = gsub("c-o sole",
-#     "C-O Sole", species_common_name))
-# spp <- spp %>% mutate(species_common_name = tolower(en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
+spp <- arrange(spp, species_code)
+spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish complex",
+  "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
+  mutate(species_common_name = gsub("c-o sole",
+    "C-O Sole", species_common_name))
+spp <- spp %>% mutate(species_french_name = tolower(en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
@@ -150,7 +150,12 @@ doParallel::stopImplicitCluster()
 # Generate `plot-pages.Rmd`:
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
-  spp_title <- gfsynopsis:::all_cap(x)
+  if(french){
+    spp_title <- spp$species_french_name[spp$species_common_name == x]
+  }
+  else{
+    spp_title <- gfsynopsis:::all_cap(x)
+  }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()
   latin_name <- spp$species_science_name[spp$species_common_name == x]
@@ -163,8 +168,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   cosewic_report <- spp$cosewic_status_reports[spp$species_common_name == x]
   worms_id <- spp$worms_id[spp$species_common_name == x]
 
-  resdoc_text <- if (grepl(",", resdoc)) "Last Research Documents: " else "Last Research Document: "
-  sar_text <- if (grepl(",", sar)) "Last Science Advisory Reports: " else "Last Science Advisory Report: "
+  resdoc_text <- if (grepl(",", resdoc)) paste0(en2fr("Last Research Document", french), "s: ")
+    else paste0(en2fr("Last Research Document", french), ": ")
+  sar_text <- if (grepl(",", sar)) paste0(en2fr("Last Science Advisory Report", french), "s: ")
+    else paste0(en2fr("Last Science Advisory Report", french), ": ")
 
   i <- 1
   out[[i]] <- "\\clearpage\n"
@@ -173,8 +180,8 @@ temp <- lapply(spp$species_common_name, function(x) {
   i <- i + 1
   out[[i]] <- paste0(
     gfsynopsis:::emph(latin_name), " (", species_code, ")", "\\\n",
-    "Order: ", spp$order[spp$species_common_name == x], ", ",
-    "Family: ", spp$family[spp$species_common_name == x],
+    en2fr("Order", french), ": ", spp$order[spp$species_common_name == x], ", ",
+    en2fr("Family", french), ": ", spp$family[spp$species_common_name == x],
     ",")
   i <- i + 1
   out[[i]] <- paste0("[FishBase link]",
