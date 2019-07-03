@@ -277,6 +277,8 @@ We are grateful for the ongoing collaboration between DFO, commercial fishers,
 First Nations, and non-governmental organizations, which has made possible the
 collection of the valuable data that underlies the report described in this
 paper.
+
+[TODO Suggest replace this....]
 We thank the project's steering committee (Greg Workman, Robyn Forrest, Dana
 Haggarty, Chris Grandin, and Rob Kronlund) for invaluable input into the report
 design and feedback throughout its production.
@@ -287,6 +289,20 @@ meeting, respectively.
 We thank Christie Whelan for her support initiating this project.
 We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for providing support on
 data extraction and general database structure and content.
+
+[TODO ... with:]
+For invaluable input into the report's design and feedback we thank Greg
+Workman, Robyn Forrest, Dana Haggarty, Chris Grandin, Rob Kronlund,
+Chris Rooper, and Daniel Ricard. We thank Norm Olsen, Maria Surry, and
+Malcolm Wyeth for providing support on data extraction and general database structure and content.
+
+
+
+Probably not needed:
+
+We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review
+meeting, respectively.
+We thank Christie Whelan for her support initiating this project.
 
 <!-- pcod, redbanded, rougheye? -->
 
