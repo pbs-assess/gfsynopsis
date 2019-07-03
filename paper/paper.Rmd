@@ -15,7 +15,7 @@ output:
     toc: no
     template: "article.tex"
 fontfamily: libertine
-fontsize: 11pt
+fontsize: 12pt
 header-includes:
     - \usepackage{setspace}
     - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[1]
