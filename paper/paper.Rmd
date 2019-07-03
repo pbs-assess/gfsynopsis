@@ -53,7 +53,7 @@ Suggestions for possible alternative titles (thinking out loud and hopefully evo
      an example with over 100 Pacific Canadian groundfish
      species.
 1. Reproducible and transparent presentation of monitoring data:
-     an example with over 100 Pacific Canadian groundfish species.
+     an example for over 100 Pacific Canadian groundfish species.
 
 \clearpage
 
@@ -106,7 +106,7 @@ As part of a solution to our above-mentioned challenges, we developed an
 automated data synopsis report for 113 groundfish species in British Columbia,
 Canada [REF]. Here we share our approach to enable others to consider similar
 reports for their own data. Our goals with the report were manifold and include:
-(1) ensuring that the current state of knowledge on indices of population status
+(1) ensuring that the current state of knowledge on indices of abundance
 for all groundfish stocks are available for regular review by DFO scientists,
 managers, and all interested parties,
 (2) facilitating discussions related to stock assessment and survey program prioritization,
@@ -118,11 +118,11 @@ useful elsewhere, such as in stock assessments.
 
 We focused our groundfish synopsis report on species of commercial,
 recreational, conservation, or First Nations interest, and those regularly
-caught in DFO surveys. We included both commercial and survey population trends
-and biological data in the report to give an overall snapshot of available
-information for each species. Of the various fisheries independent surveys that
+caught in DFO surveys. We included population trends
+and biological data from commercial fisheries and scientific surveys; this gave an overall snapshot of available
+information for each species. Of the various fisheries-independent surveys that
 DFO conducts, we presented data from those that provided the greatest spatial
-and taxonomic coverage of the species in the report. We chose to focus on
+and taxonomic coverage of the species. We chose to focus on
 aspects of the data that are most important to stock assessment, and display
 both spatial and temporal aspects of the data.
 
@@ -150,7 +150,8 @@ databases and treated prior to plotting. To accomplish this, we developed a
 family of R packages that facilitated extraction of data from relational
 databases, tidying and arranging the necessary data for modelling or plotting,
 fitting statistical models, plotting the data and statistical models, and
-compiling the visualizations into a report format. The code for the report was
+compiling the visualizations into a report format [??give links to gfplot and
+gfsynopsis---may as well since they are public]. The code for the report was
 written in a modular format so that individual functions could be useful for
 other purposes---for example, so the data could be extracted and biological
 models fit for stock assessments in a consistent, standardized way.
