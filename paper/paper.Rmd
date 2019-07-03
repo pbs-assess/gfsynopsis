@@ -245,14 +245,19 @@ ecosystems, or environmental processes) with relevant data maintained in
 databases. The approach would be most useful for agencies that lack the capacity
 to assess those elements in great depth at a frequency that meets management
 needs. However, even with regular detailed assessments, such a report can
-provide a "1000 ft" view in a format consistent across all elements. Indeed,
+provide a "1000 ft" [**never heard that phrase before] view in a format consistent across all elements. Indeed,
 tools with a similar spirit, such as FishBase [@froese2010fishbase] or the IUCN
 Red List website [@iucn2019], have proven useful resources... Chris Rooper's and
-Dan's [@ricard2013] work others. TODO
+Dan's [@ricard2013] work others. TODO [and rewrite start of next sentence as
+necessary for flow]. Furthermore, similar approaches have been
+used to facilitate completion of stock assessments---for example, in automating
+the output of complex models [@edwards2012yellowmouth] and collaboratively running models
+and producing the assessment document under tight deadlines
+[@berger2019hake].
 
 <!-- We emphasize that it can take considerable work to set up these types of reports for the first time, but that once set up, they take less time investment to maintain. -->
 
-Thus far, the response from stakeholders, managers, and other groundfish
+Thus far, the response to our report from stakeholders, managers, and other groundfish
 scientists has been overwhelmingly positive. Internally, the report has become
 an indispensable reference for individuals providing science advice on
 groundfish in the region and the tools used to generate the report proved useful
