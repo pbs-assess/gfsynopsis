@@ -194,7 +194,7 @@ for the first time.
 We have described an automated report that presents up-to-date population trends
 and biological data from both commercial fisheries and research surveys for
 groundfish in British Columbia, Canada. Stock assessments are not available for
-most of these species, or in all years for those that are assessed, limiting the
+most of these species, or in every year for those that are assessed, limiting the
 dissemination of these data. Our report facilitates the broad monitoring of
 groundfish populations in British Columbia waters---it ensures all BC groundfish
 scientists, managers, and interested parties have access to consistent,
@@ -211,7 +211,7 @@ survey data.
 This report and its data-to-document workflow demonstrate the value of investing
 in the development and ongoing maintenance of organized databases for any agency
 collecting and housing large quantities of data [e.g. @michener2012]. Knowledge
-of and accessibility to available data within an agency is fundamentally
+of, and accessibility to, available data within an agency is fundamentally
 important. The functions we created to extract groundfish data for the report
 are available within our organization for those requiring access to the
 databases, and facilitate internally reviewed, standardized, and consistent data
@@ -228,7 +228,7 @@ population trends. However, the outputs in this report are not a substitute for
 species-specific stock assessment. For example, stock assessments may use
 different data sources than are presented in the report, analyze data on a
 stock-by-stock basis, and make considerations for special cases that we do
-not. Furthermore, relative biomass indices based on survey or commercial CPUE
+not consider. Furthermore, relative biomass indices based on survey or commercial CPUE
 data in the report require careful, species-specific interpretation as they may
 not accurately represent abundance trends for some stocks. For example, biomass
 indices may be based on surveys with particularly low catchability for certain
@@ -248,7 +248,7 @@ ecosystems, or environmental processes) with relevant data maintained in
 databases. The approach would be most useful for agencies that lack the capacity
 to assess those elements in great depth at a frequency that meets management
 needs. However, even with regular detailed assessments, such a report can
-provide a "1000 ft" [**never heard that phrase before] view in a format consistent across all elements. Indeed,
+provide a broad overview in a format consistent across all elements. Indeed,
 tools with a similar spirit, such as FishBase [@froese2010fishbase] or the IUCN
 Red List website [@iucn2019], have proven useful resources... Chris Rooper's and
 Dan's [@ricard2013] work others. TODO [and rewrite start of next sentence as
@@ -318,7 +318,7 @@ We thank Christie Whelan for her support initiating this project.
 (\emph{Sebastes aleutianus/melanostictus}) featuring metadata and temporal and
 spatial trends from fisheries-independent surveys and commercial catch and
 effort data in BC, Canada. (Top row) Relative biomass indices from up to ten
-surveys, commercial catch divided by region (panels) and gear type (colour), and
+surveys, commercial catch in each geographical region (panels) and gear type (colour), and
 standardized (solid line) and unstandardized (dashed line) commercial bottom
 catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space
 from four synoptic trawl surveys (left), two hard bottom long line surveys
@@ -334,9 +334,9 @@ and line (right; H \& L) CPUE.}
 \caption{Example second page for rougheye/blackspotted rockfish complex
 (\emph{Sebastes aleutianus/melanostictus}) featuring biological sample,
 maturity, and growth data in BC, Canada. (Top left) Length frequencies by year
-and a survey for females (coloured) and male (grey). (Top right) Length-age
+and survey for females (coloured) and male (grey). (Top right) Length-age
 von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by
-year and a survey. (Third row) Age at maturity and length at maturity model fits
+year and survey. (Third row) Age-at-maturity and length-at-maturity model fits
 and frequency of maturity stage by month. (Bottom row) Counts of available fish
 lengths, weights, maturities, ages, and aging structures from all available
 survey and commercial samples.}
