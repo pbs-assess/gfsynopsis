@@ -2,13 +2,10 @@
 title: |
   Reproducible data synopsis reports facilitate monitoring and data transparency: an example with over 100 Pacific Canadian groundfish species
 author: |
-  Sean C. Anderson^1^, Elise A. Keppel^2^\, \ldots\
-  ^1^Pacific Biological Station, Fisheries and Oceans Canada
+  Sean C. Anderson^1\*^, Elise A. Keppel^1^\, Andrew M. Edwards^1^\
+  ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
      Nanaimo, BC, V6T 6N7, Canada;\
-     sean.anderson@dfo-mpo.gc.ca\
-  ^2^Pacific Biological Station, Fisheries and Oceans Canada
-     Nanaimo, BC, V6T 6N7, Canada;\
-     elise.keppel@dfo-mpo.gc.ca
+  \*sean.anderson@dfo-mpo.gc.ca\
 output:
   bookdown::pdf_document2:
     number_sections: no
@@ -129,20 +126,19 @@ the data that are most important to stock assessment, and display both spatial
 and temporal aspects of the data.
 
 In designing the report we made the following design considerations:
-
-1. Maintain a consistent layout for all species, including empty plots to
+(1) Maintain a consistent layout for all species, including empty plots to
    emphasize a lack of data for some species.
-1. Limit the report to two pages per species so that all data for one species
+(2) Limit the report to two pages per species so that all data for one species
    could be viewed at once.
-1. Focus on data types relevant to the most species.
-1. Group similarly focused visualizations together.
-1. Display metadata alongside visualizations where possible.
-1. Maintain consistent colour meaning throughout (e.g. data from a given survey
+(3) Focus on data types relevant to the most species.
+(4) Group similarly focused visualizations together.
+(5) Display metadata alongside visualizations where possible.
+(6) Maintain consistent colour meaning throughout (e.g. data from a given survey
    always uses the same colour) and use colourblind-proof colours where
    possible.
-1. Describe the visualizations in detail at the beginning of the report so that
+(7) Describe the visualizations in detail at the beginning of the report so that
    the species pages are mostly visual.
-1. Highlight uncertainty wherever possible (e.g. through shading to indicate
+(8) Highlight uncertainty wherever possible (e.g. through shading to indicate
    periods of increased uncertainty in reported catches).
 
 We aimed to make the report automated and reproducible so that it could be
