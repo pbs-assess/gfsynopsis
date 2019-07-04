@@ -99,7 +99,7 @@ sets. Furthermore, compared to the structured nature of statistical models, the
 unconstrained nature of visualization helps detect the unexpected
 [@wickham2015]. The advancement of the family of data analysis packages for the
 statistical software R [@r2019], such as ggplot2 [@wickham2016] and knitr
-[@xie2017], makes it easier now more than ever to produce reproducible
+[@xie2017], makes it currently practical to produce reproducible
 visualization reports of survey and fishery monitoring data.
 
 As part of a solution to our above-mentioned challenges, we developed an
@@ -129,7 +129,7 @@ both spatial and temporal aspects of the data.
 In designing the report we made the following design considerations:
 
 1. Maintain a consistent layout for all species, including empty plots to
-   emphasize missing data.
+   emphasize a lack of data for some species.
 1. Limit the report to two pages per species so that all data for one species
    can be viewed at once.
 1. Focus on data types relevant to the most species.
@@ -156,10 +156,10 @@ written in a modular format so that individual functions could be useful for
 other purposes---for example, so the data could be extracted and biological
 models fit for stock assessments in a consistent, standardized way.
 
-We settled on presenting visualizations that covered trends in time and space
+We settled on presenting visualizations of: (1) trends in time and space
 for fisheries independent surveys and commercial fisheries catch and catch per
-unit effort (CPUE); visualizations of temporal trends in length and age
-frequencies; and visualizations of biological parameters including length at
+unit effort (CPUE), (2) temporal trends in length and age
+frequencies, and (3) biological parameters including length at
 age, weight at length, age at maturity, length at maturity and maturity
 frequencies from fisheries independent surveys and commercial data sources. We
 additionally chose to visualize a summary of counts of available biological data
@@ -173,17 +173,20 @@ to ensure that the data being captured were accurate, complete, and relevant.
 
 # Results
 
-The report includes two pages of visualization for 113 stocks [stocks or
-species?? the list below adds up to 113 species] of British
+The report includes two pages of visualization for 113 species [TODO it
+originally said stocks, but
+the list below adds up to 113 species; I changed later ones also --- just wanted
+to flag it] of British
 Columbia groundfish and sharks. Figures 1 and 2 show the pages for an example
-species) [REF and link]. The species covered include 34 rockfish species; 16 elasmobranch
+species [REF and link]. The species covered include 34 rockfish species; 16 elasmobranch
 species and one chimaera species; 16 flatfish species; nine Gadiforme species
 (cods); 15 sculpin and poacher species; three greenling/lingcod species; six
 eelpout species, three prickleback species, and seven other Perciforme species;
 and one species each of smelt, sablefish and snailfish.
-The visualizations for many data-poor stocks include mostly empty plots
-emphasizing species for which there remain many unknowns. In other cases, nearly
-all the data available for data-rich stocks are visualized together on two pages
+The visualizations for many data-poor species include mostly empty plots, which
+graphically demonstrates the lack of data (and hence knowledge) for such species.
+For data-rich species, nearly
+all the data available are visualized together on two pages
 for the first time.
 
 # Discussion
