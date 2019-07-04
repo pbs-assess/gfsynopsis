@@ -60,19 +60,20 @@ Suggestions for possible alternative titles (thinking out loud and hopefully evo
 # Introduction
 
 Modern survey and fishery monitoring programs generate vast quantities of data;
-however, turning that data into effective monitoring remains a
-challenge. Agencies that collect data often lack the resources to report on all
-facets of it in a timely fashion. Typically, data for only a small subset of
-species is reported on through detailed stock assessments. While such focused
-analyses are required for management of some stocks, broad monitoring programs
-across an array of species and data types are essential to detecting ecological
-surprises and "unknown unknowns" [e.g., @hilborn1987; @wintle2010]. As part of a
-movement towards open data, many raw data sets, including those collected by
-government agencies, are being made freely available [e.g., @obama2013;
-@canada2018]. However, processing and visualizing those data sets requires domain-specific
-knowledge (e.g., about sampling protocols), advanced skills (e.g., data
-management, population modelling, computer programming), and time. Collectively, these factors often
-limit the ability for interested parties to derive meaningful insights.
+however, turning that data into effective monitoring remains a challenge.
+Agencies that collect data often lack the resources to report on all facets of
+it in a timely fashion. Typically, data for only a small subset of species is
+reported on through detailed stock assessments. While such focused analyses are
+required for management of some stocks, broad monitoring programs across an
+array of species and data types are essential to detecting ecological surprises
+and "unknown unknowns" [e.g., @hilborn1987; @wintle2010]. As part of a movement
+towards open data, many raw data sets, including those collected by government
+agencies, are being made freely available [e.g., @obama2013;
+@canada2018]. However, processing and visualizing those data sets requires
+domain-specific knowledge (e.g., about sampling protocols), advanced skills
+(e.g., data management, population modelling, computer programming), and time.
+Collectively, these factors often limit the ability for interested parties to
+derive meaningful insights.
 
 In British Columbia (BC), Canada, Fisheries and Oceans Canada (DFO) faces these
 problems in monitoring its groundfish populations and fisheries. In BC,
@@ -103,9 +104,10 @@ statistical software R [@r2019], such as ggplot2 [@wickham2016] and knitr
 visualization reports of survey and fishery monitoring data.
 
 As part of a solution to our above-mentioned challenges, we developed an
-automated data synopsis report for 113 groundfish species in BC,
-Canada [REF]. Here we share our approach to enable others to consider similar
-reports for their own data. Our goals with the report were manifold and include:
+automated data synopsis report for 113 groundfish species in BC, Canada. 
+Here we share our approach to enable others to consider
+similar reports for their own data. Our goals with the report were manifold and
+included
 (1) ensuring that the current state of knowledge on indices of abundance
 for all groundfish stocks are available for regular review by DFO scientists,
 managers, and all interested parties,
@@ -118,20 +120,20 @@ useful elsewhere, such as in stock assessments.
 
 We focused our groundfish synopsis report on species of commercial,
 recreational, conservation, or First Nations interest, and those regularly
-caught in DFO surveys. We included population trends
-and biological data from commercial fisheries and scientific surveys; this gave an overall snapshot of available
-information for each species. Of the various fisheries-independent surveys that
-DFO conducts, we presented data from those that provided the greatest spatial
-and taxonomic coverage of the species. We chose to focus on
-aspects of the data that are most important to stock assessment, and display
-both spatial and temporal aspects of the data.
+caught in DFO surveys. We included population trends and biological data from
+commercial fisheries and scientific surveys; this gave an overall snapshot of
+available information for each species. Of the fisheries-independent surveys
+that DFO conducts, we presented data from those that provided the greatest
+spatial and taxonomic coverage of the species. We chose to focus on aspects of
+the data that are most important to stock assessment, and display both spatial
+and temporal aspects of the data.
 
 In designing the report we made the following design considerations:
 
 1. Maintain a consistent layout for all species, including empty plots to
    emphasize a lack of data for some species.
 1. Limit the report to two pages per species so that all data for one species
-   can be viewed at once.
+   could be viewed at once.
 1. Focus on data types relevant to the most species.
 1. Group similarly focused visualizations together.
 1. Display metadata alongside visualizations where possible.
@@ -150,13 +152,12 @@ databases and treated prior to plotting. To accomplish this, we developed a
 family of R packages that facilitated extraction of data from relational
 databases, tidying and arranging the necessary data for modelling or plotting,
 fitting statistical models, plotting the data and statistical models, and
-compiling the visualizations into a report format [??give links to gfplot and
-gfsynopsis---may as well since they are public]. The code for the report was
+compiling the visualizations into a report format. The code for the report was
 written in a modular format so that individual functions could be useful for
 other purposes---for example, so the data could be extracted and biological
 models fit for stock assessments in a consistent, standardized way.
 
-We settled on presenting visualizations of: (1) trends in time and space
+We settled on presenting visualizations of (1) trends in time and space
 for fisheries-independent surveys and commercial fisheries catch and catch per
 unit effort (CPUE), (2) temporal trends in length and age
 frequencies, and (3) biological parameters including length at
@@ -173,21 +174,17 @@ to ensure that the data being captured were accurate, complete, and relevant.
 
 # Results
 
-The report includes two pages of visualization for 113 species [TODO it
-originally said stocks, but
-the list below adds up to 113 species; I changed later ones also --- just wanted
-to flag it] of BC
-groundfish and sharks. Figures 1 and 2 show the pages for an example
-species [REF and link]. The species covered include 34 rockfish species; 16 elasmobranch
-species and one chimaera species; 16 flatfish species; nine Gadiforme species
-(cods); 15 sculpin and poacher species; three greenling/lingcod species; six
-eelpout species, three prickleback species, and seven other Perciforme species;
-and one species each of smelt, sablefish and snailfish.
-The visualizations for many data-poor species include mostly empty plots, which
-graphically demonstrates the lack of data (and hence knowledge) for such species.
-For data-rich species, nearly
-all the data available are visualized together on two pages
-for the first time.
+The report includes two pages of visualization for 113 species of BC groundfish
+and sharks [@anderson2019synopsis]. Figures 1 and 2 show the pages for an
+example species. The species covered include 34 rockfish species; 16
+elasmobranch species and one chimaera species; 16 flatfish species; nine
+Gadiforme species (cods); 15 sculpin and poacher species; three
+greenling/lingcod species; six eelpout species, three prickleback species, and
+seven other Perciforme species; and one species each of smelt, sablefish and
+snailfish. The visualizations for many data-poor species include mostly empty
+plots, which graphically demonstrates the lack of data (and hence knowledge) for
+such species. For data-rich species, nearly all the data available are
+visualized together on two pages for the first time.
 
 # Discussion
 
@@ -245,34 +242,35 @@ We suggest that a similar approach would have broad utility across taxonomic
 groups, regions, and types of data. A similar approach could be useful nearly
 anywhere agencies face monitoring multiple elements (e.g., populations, species,
 ecosystems, or environmental processes) with relevant data maintained in
-databases. The approach would be most useful for agencies that lack the capacity
-to assess those elements in great depth at a frequency that meets management
-needs. However, even with regular detailed assessments, such a report can
-provide a broad overview in a format consistent across all elements. Indeed,
-tools with a similar spirit, such as FishBase [@froese2010fishbase] or the IUCN
-Red List website [@iucn2019], have proven useful resources... Chris Rooper's and
-Dan's [@ricard2013] work others. TODO [and rewrite start of next sentence as
-necessary for flow]. Furthermore, similar approaches have been
-used to facilitate completion of stock assessments---for example, in automating
-the output of complex models [@edwards2012yellowmouth] and collaboratively running models
-and producing the assessment document under tight deadlines
-[@berger2019hake].
+databases [e.g., @ricard2013]. The approach would be most useful for agencies
+that lack the capacity to assess those elements in great depth at a frequency
+that meets management needs. However, even with regular detailed assessments,
+such a report can provide a broad overview in a format consistent across all
+elements.
+<!-- Indeed, tools with a similar spirit, such as FishBase [@froese2010fishbase] or the IUCN Red List website [@iucn2019], have proven useful resources... Chris Rooper's and Dan's [@ricard2013] work others.  -->
+<!-- TODO [and rewrite start of next sentence as necessary for flow].  -->
+Furthermore, similar approaches have been used to facilitate completion of stock
+assessments---for example, in automating the output of complex models
+[@edwards2012yellowmouth] and collaboratively running models and producing the
+assessment document under tight deadlines [@berger2019hake]. Although we caution
+that it can take considerable work to set up this type of workflow initially,
+the approach can yield considerable efficiency gains in future years.
 
-We do caution that it can take considerable work to set up this type of
-workflow for the first time. However, once set up in a structured way
-(in particular as documented R packages), we are cautiously optimistic that
-it will not be overly onerous to maintain the code and to produce frequent updates
-of our report as new data become available.
+<!-- We do caution that it can take considerable work to set up this type of -->
+<!-- workflow for the first time. However, once set up in a structured way, -->
+<!-- we are cautiously optimistic that it will not be onerous to  -->
+<!-- maintain the code and to produce annual or  -->
+<!-- of our report as new data become available. -->
 
-Thus far, the response to our report from stakeholders, managers, and other groundfish
-scientists has been overwhelmingly positive. Internally, the report has become
-an indispensable reference for individuals providing science advice on
-groundfish in the region and the tools used to generate the report proved useful
-in a recent Pacific cod assessment for the coast of BC
-[@forrest2018pcod] and in a number of other ongoing projects. We plan to update
-the report to include new data on an annual or biennial basis, with larger
-structural changes on a less frequent basis. Our future plans include adding
-visualizations of relevant climate data such as local climate velocities [e.g.,
+Thus far, the response to our report from stakeholders, managers, and other
+groundfish scientists has been positive. Internally, the report has become an
+indispensable reference for individuals providing science advice on groundfish
+in the region and the tools used to generate the report proved useful in a
+recent Pacific cod assessment for the coast of BC [@forrest2019pcod] and in a
+number of other ongoing projects. We plan to update the report to include new
+data on an annual or biennial basis, with larger structural changes on a less
+frequent basis. Our future plans include adding visualizations of relevant
+climate data such as local climate velocities [e.g.,
 @loarie2009] and indicators of localized range shifts [e.g., @thorson2016]. We
 hope our approach can serve as a template for other regions and species
 groups---as one of many tools---to turn survey and fisheries data into effective
@@ -283,33 +281,11 @@ monitoring.
 We are grateful for the ongoing collaboration between DFO, commercial fishers,
 First Nations, and non-governmental organizations, which has made possible the
 collection of the valuable data that underlies the report described in this
-paper.
-
-[TODO Suggest replace this....]
-We thank the project's steering committee (Greg Workman, Robyn Forrest, Dana
-Haggarty, Chris Grandin, and Rob Kronlund) for invaluable input into the report
-design and feedback throughout its production.
-We thank Chris Rooper and Daniel Ricard for their thorough and helpful reviews
-of the report.
-We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review
-meeting, respectively.
-We thank Christie Whelan for her support initiating this project.
-We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for providing support on
-data extraction and general database structure and content.
-
-[TODO ... with:]
-For invaluable input into the report's design and feedback we thank Greg
-Workman, Robyn Forrest, Dana Haggarty, Chris Grandin, Rob Kronlund,
-Chris Rooper, and Daniel Ricard. We thank Norm Olsen, Maria Surry, and
-Malcolm Wyeth for providing support on data extraction and general database structure and content.
-
-
-
-Probably not needed:
-
-We thank Mary Thiess and Kieran Forge for chairing and rapporteuring the review
-meeting, respectively.
-We thank Christie Whelan for her support initiating this project.
+paper. For invaluable input into the report's design and feedback we thank Greg
+Workman, Robyn Forrest, Dana Haggarty, Chris Grandin, Rob Kronlund, Chris
+Rooper, and Daniel Ricard. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth
+for providing support on data extraction and general database structure and
+content.
 
 <!-- pcod, redbanded, rougheye? -->
 
