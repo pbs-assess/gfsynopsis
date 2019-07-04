@@ -157,11 +157,11 @@ other purposes---for example, so the data could be extracted and biological
 models fit for stock assessments in a consistent, standardized way.
 
 We settled on presenting visualizations of: (1) trends in time and space
-for fisheries independent surveys and commercial fisheries catch and catch per
+for fisheries-independent surveys and commercial fisheries catch and catch per
 unit effort (CPUE), (2) temporal trends in length and age
 frequencies, and (3) biological parameters including length at
 age, weight at length, age at maturity, length at maturity and maturity
-frequencies from fisheries independent surveys and commercial data sources. We
+frequencies from fisheries-independent surveys and commercial data sources. We
 additionally chose to visualize a summary of counts of available biological data
 (ages, aging structures such as otoliths, lengths, weights, maturities) for all
 commercial and research samples.
