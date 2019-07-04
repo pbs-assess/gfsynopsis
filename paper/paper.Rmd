@@ -103,7 +103,7 @@ statistical software R [@r2019], such as ggplot2 [@wickham2016] and knitr
 visualization reports of survey and fishery monitoring data.
 
 As part of a solution to our above-mentioned challenges, we developed an
-automated data synopsis report for 113 groundfish species in British Columbia,
+automated data synopsis report for 113 groundfish species in BC,
 Canada [REF]. Here we share our approach to enable others to consider similar
 reports for their own data. Our goals with the report were manifold and include:
 (1) ensuring that the current state of knowledge on indices of abundance
@@ -176,8 +176,8 @@ to ensure that the data being captured were accurate, complete, and relevant.
 The report includes two pages of visualization for 113 species [TODO it
 originally said stocks, but
 the list below adds up to 113 species; I changed later ones also --- just wanted
-to flag it] of British
-Columbia groundfish and sharks. Figures 1 and 2 show the pages for an example
+to flag it] of BC
+groundfish and sharks. Figures 1 and 2 show the pages for an example
 species [REF and link]. The species covered include 34 rockfish species; 16 elasmobranch
 species and one chimaera species; 16 flatfish species; nine Gadiforme species
 (cods); 15 sculpin and poacher species; three greenling/lingcod species; six
@@ -193,10 +193,10 @@ for the first time.
 
 We have described an automated report that presents up-to-date population trends
 and biological data from both commercial fisheries and research surveys for
-groundfish in British Columbia, Canada. Stock assessments are not available for
+groundfish in BC, Canada. Stock assessments are not available for
 most of these species, or in every year for those that are assessed, limiting the
 dissemination of these data. Our report facilitates the broad monitoring of
-groundfish populations in British Columbia waters---it ensures all BC groundfish
+groundfish populations in BC waters---it ensures all BC groundfish
 scientists, managers, and interested parties have access to consistent,
 up-to-date, and easily digestible visualizations of data holdings. The report
 increases transparency, provides a mechanism for regular review of data for
@@ -264,7 +264,7 @@ Thus far, the response to our report from stakeholders, managers, and other grou
 scientists has been overwhelmingly positive. Internally, the report has become
 an indispensable reference for individuals providing science advice on
 groundfish in the region and the tools used to generate the report proved useful
-in a recent Pacific cod assessment for the coast of British Columbia
+in a recent Pacific cod assessment for the coast of BC
 [@forrest2018pcod] and in a number of other ongoing projects. We plan to update
 the report to include new data on an annual or biennial basis, with larger
 structural changes on a less frequent basis. Our future plans include adding
@@ -317,7 +317,7 @@ We thank Christie Whelan for her support initiating this project.
 \caption{Example first page for rougheye/blackspotted rockfish complex
 (\emph{Sebastes aleutianus/melanostictus}) featuring metadata and temporal and
 spatial trends from fisheries-independent surveys and commercial catch and
-effort data in BC, Canada. (Top row) Relative biomass indices from up to ten
+effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten
 surveys, commercial catch in each geographical region (panels) and gear type (colour), and
 standardized (solid line) and unstandardized (dashed line) commercial bottom
 catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space
@@ -333,7 +333,7 @@ and line (right; H \& L) CPUE.}
 \includegraphics[width=13cm]{fig2.png}
 \caption{Example second page for rougheye/blackspotted rockfish complex
 (\emph{Sebastes aleutianus/melanostictus}) featuring biological sample,
-maturity, and growth data in BC, Canada. (Top left) Length frequencies by year
+maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year
 and survey for females (coloured) and male (grey). (Top right) Length-age
 von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by
 year and survey. (Third row) Age-at-maturity and length-at-maturity model fits
