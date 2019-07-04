@@ -258,7 +258,11 @@ the output of complex models [@edwards2012yellowmouth] and collaboratively runni
 and producing the assessment document under tight deadlines
 [@berger2019hake].
 
-<!-- We emphasize that it can take considerable work to set up these types of reports for the first time, but that once set up, they take less time investment to maintain. -->
+We do caution that it can take considerable work to set up this type of
+workflow for the first time. However, once set up in a structured way
+(in particular as documented R packages), we are cautiously optimistic that
+it will not be overly onerous to maintain the code and to produce frequent updates
+of our report as new data become available.
 
 Thus far, the response to our report from stakeholders, managers, and other groundfish
 scientists has been overwhelmingly positive. Internally, the report has become
