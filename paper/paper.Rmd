@@ -2,10 +2,14 @@
 title: |
   Reproducible data synopsis reports facilitate monitoring and data transparency: an example with over 100 Pacific Canadian groundfish species
 author: |
-  Sean C. Anderson^1\*^, Elise A. Keppel^1^\, Andrew M. Edwards^1^\
+  Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
      Nanaimo, BC, V6T 6N7, Canada;\
-  \*sean.anderson@dfo-mpo.gc.ca\
+     sean.anderson@dfo-mpo.gc.ca (\*corresponding author)\
+  ^2^Pacific Biological Station, Fisheries and Oceans Canada,\
+     Nanaimo, BC, V6T 6N7, Canada; elise.keppel@dfo-mpo.gc.ca\
+  ^3^Pacific Biological Station, Fisheries and Oceans Canada,\
+     Nanaimo, BC, V6T 6N7, Canada; andrew.edwards@dfo-mpo.gc.ca\
 output:
   bookdown::pdf_document2:
     number_sections: no
@@ -23,9 +27,24 @@ link-citations: yes
 linkcolor: "black"
 urlcolor: "black"
 abstract: >
-  The abstract will go here.
+  [Copied from a draft conference abstract] Modern survey and fishery monitoring programs generate vast quantities of biological and environmental data. However, translating that data into measures of population and ecosystem health that are useful to fellow scientists, resource managers, fishing-industry collaborators who help collect the data, and the public remains a challenge. In British Columbia, Canada, survey- and commercial-monitoring programs produce data on over 200 groundfish species, but personnel limitations have historically left the majority of such data unreported. To address this, we developed an automated data-synopsis report for 113 groundfish species in Pacific Canadian waters. Our report includes visualizations of commercial and survey population trends in time and space, age and length frequencies, maturity, and growth, presented in a standardized format for each species. The report facilitates discussions on stock-assessment and survey-program prioritization, increases transparency about our data holdings, and makes the data available for regular review by all interested parties. We describe lessons learned while developing this report, insights the project has yielded thus far, and how ongoing work will further enhance the utility of this reporting tool...
 ---
 
+<!-- New concepts, methodology, and topical or controversial subjects. Rapid
+communications are less than 2500 words in text with a maximum of 12 –15
+references and a total of 2 figures and/or tables. The abstract for rapid
+communication should not exceed 100 words. -->
+
+<!-- The abstract should be well written and contain three to four descriptive
+keyword phrases that will draw the reader to the content. Because search engines
+look for duplication of terms, repeating keyword phrases in the title and
+abstract increases the chance that a paper will be highlighted during an online
+search; care should be taken, however, because excessive repetition of a term
+can cause a search engine to reject a Web page. Begin the abstract with the main
+conclusion from the study and support it with the relevant findings. Limit
+details of methods to those needed in understanding what was done and work them
+into statements of findings. Avoid using phrases such as “… is discussed” or “…
+was found”; be specific. -->
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(knitr)
@@ -33,15 +52,7 @@ library(here)
 opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 ```
 
-Keywords:
-automation,
-fisheries monitoring,
-groundfish,
-reproducible research,
-transparency,
-visualization
-
-Suggestions for possible alternative titles (thinking out loud and hopefully evolving):
+Possible alternative titles:
 
 1. Modern computational tools facilitate transparent presentation of
      monitoring data: an example with over 100 Pacific Canadian groundfish
@@ -51,6 +62,14 @@ Suggestions for possible alternative titles (thinking out loud and hopefully evo
      species.
 1. Reproducible and transparent presentation of monitoring data:
      an example for over 100 Pacific Canadian groundfish species.
+
+<!-- Key words should not exceed 3–5 and should be placed directly below the abstract. -->
+Keywords:
+automation,
+fisheries monitoring,
+groundfish,
+reproducible research,
+visualization
 
 \clearpage
 
@@ -289,8 +308,23 @@ content.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13cm]{fig1.png}
-\caption{Example first page for rougheye/blackspotted rockfish complex
+\includegraphics[width=13.5cm]{fig1.png}
+\caption{}
+\label{fig:page1}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=13.5cm]{fig2.png}
+\caption{}
+\label{fig:page2}
+\end{figure}
+
+\clearpage
+
+# Figure captions
+
+Figure \@ref(fig:page1): Example first page for rougheye/blackspotted rockfish complex
 (\emph{Sebastes aleutianus/melanostictus}) featuring metadata and temporal and
 spatial trends from fisheries-independent surveys and commercial catch and
 effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten
@@ -300,14 +334,9 @@ catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space
 from four synoptic trawl surveys (left), two hard bottom long line surveys
 (second from left), and the International Pacific Halibut Commission (IPHC)
 setline survey (third from left); commercial trawl (second from right) and hook
-and line (right; H \& L) CPUE.}
-\label{fig:page1}
-\end{figure}
+and line (right; H \& L) CPUE.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=13cm]{fig2.png}
-\caption{Example second page for rougheye/blackspotted rockfish complex
+Figure \@ref(fig:page2): Example second page for rougheye/blackspotted rockfish complex
 (\emph{Sebastes aleutianus/melanostictus}) featuring biological sample,
 maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year
 and survey for females (coloured) and male (grey). (Top right) Length-age
@@ -315,10 +344,10 @@ von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by
 year and survey. (Third row) Age-at-maturity and length-at-maturity model fits
 and frequency of maturity stage by month. (Bottom row) Counts of available fish
 lengths, weights, maturities, ages, and aging structures from all available
-survey and commercial samples.}
-\label{fig:page2}
-\end{figure}
+survey and commercial samples
 
 \clearpage
+
+<!-- TODO: manually move the references before the figure captions before submission -->
 
 # References
