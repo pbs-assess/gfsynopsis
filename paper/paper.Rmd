@@ -26,8 +26,6 @@ csl: "cfjas.csl"
 link-citations: yes
 linkcolor: "black"
 urlcolor: "black"
-abstract: >
-  Modern survey and fishery monitoring programs generate vast quantities of data; however, translating that data into effective monitoring remains a challenge. In British Columbia, Canada, survey- and commercial-monitoring programs produce data on over 200 groundfish species, but personnel limitations have left the majority of such data unreported. Here, we describe an automated data-synopsis report for 113 groundfish species in Pacific Canadian waters to encourage others to consider similar reports for their own data. Our report includes visualizations of commercial and survey population trends in time and space, age and length frequencies, maturity, and growth, presented in a standardized format for each species. The report facilitates discussions on stock-assessment and survey-program prioritization, increases transparency about our data holdings, and makes the data available for regular review by all interested parties.
 ---
 
 <!-- Abstract must be <= 100 words! Currently too long.-->
@@ -75,9 +73,15 @@ visualization
 
 \clearpage
 
+# Abstract
+
+Modern survey and fishery observation programs generate vast quantities of data; however, translating that data into effective monitoring remains a challenge. In British Columbia, Canada, survey and commercial observation programs produce data on over 200 groundfish species, but the majority of such data remain unreported. Here, we describe an automated report for 113 groundfish species in Pacific Canadian waters to encourage others to consider similar reports for their own data. Our report includes standardized visualizations of commercial and survey population trends in time and space, age and length frequencies, maturity, and growth. The report facilitates discussions on stock-assessment and survey prioritization, increases transparency about data holdings, and makes the data available for regular review by all interested parties.
+  
+\clearpage
+
 # Introduction
 
-Modern survey and fishery monitoring programs generate vast quantities of biological and environmental data;
+Modern survey and fishery observation programs generate vast quantities of biological and environmental data;
 however, turning that data into effective monitoring remains a challenge.
 Agencies that collect data often lack the resources to report on all facets of
 it in a timely fashion. Typically, data for only a small subset of species is
