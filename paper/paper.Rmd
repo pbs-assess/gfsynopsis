@@ -75,6 +75,7 @@ visualization
 
 # Abstract
 
+<!-- TODO: for the sake of cutting all possible words the first two sentences could probably be combined: -->
 Modern survey and fishery observation programs generate vast quantities of data; however, translating that data into effective monitoring remains a challenge. In British Columbia, Canada, survey and commercial observation programs produce data on over 200 groundfish species, but the majority of such data remain unreported. Here, we describe an automated report for 113 groundfish species in Pacific Canadian waters to encourage others to consider similar reports for their own data. Our report includes standardized visualizations of commercial and survey population trends in time and space, age and length frequencies, maturity, and growth. The report facilitates discussions on stock-assessment and survey prioritization, increases transparency about data holdings, and makes the data available for regular review by all interested parties.
   
 \clearpage
@@ -316,14 +317,14 @@ content.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=13.5cm]{fig1.png}
-\caption{TODO: switch for Pacific Cod or Redbanded}
+\caption{TODO: switch for Pacific Cod or Redbanded and include the citation in the references.}
 \label{fig:page1}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=13.5cm]{fig2.png}
-\caption{TODO: switch for Pacific Cod or Redbanded}
+\caption{TODO: switch for Pacific Cod or Redbanded and include the citation in the references.}
 \label{fig:page2}
 \end{figure}
 
