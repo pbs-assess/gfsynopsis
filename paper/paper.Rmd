@@ -27,8 +27,10 @@ link-citations: yes
 linkcolor: "black"
 urlcolor: "black"
 abstract: >
-  [Copied from a draft conference abstract] Modern survey and fishery monitoring programs generate vast quantities of biological and environmental data. However, translating that data into measures of population and ecosystem health that are useful to fellow scientists, resource managers, fishing-industry collaborators who help collect the data, and the public remains a challenge. In British Columbia, Canada, survey- and commercial-monitoring programs produce data on over 200 groundfish species, but personnel limitations have historically left the majority of such data unreported. To address this, we developed an automated data-synopsis report for 113 groundfish species in Pacific Canadian waters. Our report includes visualizations of commercial and survey population trends in time and space, age and length frequencies, maturity, and growth, presented in a standardized format for each species. The report facilitates discussions on stock-assessment and survey-program prioritization, increases transparency about our data holdings, and makes the data available for regular review by all interested parties. We describe lessons learned while developing this report, insights the project has yielded thus far, and how ongoing work will further enhance the utility of this reporting tool...
+  Modern survey and fishery monitoring programs generate vast quantities of data; however, translating that data into effective monitoring remains a challenge. In British Columbia, Canada, survey- and commercial-monitoring programs produce data on over 200 groundfish species, but personnel limitations have left the majority of such data unreported. Here, we describe an automated data-synopsis report for 113 groundfish species in Pacific Canadian waters to encourage others to consider similar reports for their own data. Our report includes visualizations of commercial and survey population trends in time and space, age and length frequencies, maturity, and growth, presented in a standardized format for each species. The report facilitates discussions on stock-assessment and survey-program prioritization, increases transparency about our data holdings, and makes the data available for regular review by all interested parties.
 ---
+
+<!-- Abstract must be <= 100 words! Currently too long.-->
 
 <!-- New concepts, methodology, and topical or controversial subjects. Rapid
 communications are less than 2500 words in text with a maximum of 12 –15
@@ -75,7 +77,7 @@ visualization
 
 # Introduction
 
-Modern survey and fishery monitoring programs generate vast quantities of data;
+Modern survey and fishery monitoring programs generate vast quantities of biological and environmental data;
 however, turning that data into effective monitoring remains a challenge.
 Agencies that collect data often lack the resources to report on all facets of
 it in a timely fashion. Typically, data for only a small subset of species is
