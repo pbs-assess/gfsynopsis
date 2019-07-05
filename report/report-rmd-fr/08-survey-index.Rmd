@@ -340,7 +340,7 @@ m_st <- sdmTMB(
   formula = density ~ 0 + as.factor(year),
   data = dat, time = "year", spde = spde, family = tweedie(link = "log"),
   silent = TRUE)
-predictions <- predict(m_st, newdata = grid_locs)
+predictions <- predict(m_st, newdata = grid_locs, return_tmb_object = TRUE)
 ```
 
 ```{r sdmTMB-spt-model-depth}
@@ -348,7 +348,7 @@ m_st_depth <- sdmTMB(
   formula = density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2,
   data = dat, time = "year", spde = spde, family = tweedie(link = "log"),
   silent = TRUE)
-predictions_depth <- predict(m_st_depth, newdata = grid_locs)
+predictions_depth <- predict(m_st_depth, newdata = grid_locs, return_tmb_object = TRUE)
 ```
 
 ```{r sdmTMB-spt-residuals, fig.cap='Randomized quintile residual histogram.'}
@@ -402,7 +402,7 @@ plot_map_spt(predictions_depth$data, "exp(est)") +
 \clearpage
 
 ```{r sdmTMB-spt-plot-fixed-effects, fig.cap='Fixed effect predictions from a geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Here the only fixed effects are the mean effects for each year resulting in fixed effect predictions that are same throughout the spatial region for each year.'}
-plot_map_spt(predictions$data, "exp(est_fe)") +
+plot_map_spt(predictions$data, "exp(est_non_rf)") +
   ggtitle(en2fr("Prediction (fixed effects only)", french)) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
   labs(fill = if(french){
@@ -421,7 +421,7 @@ red_blue_fill <- scale_fill_gradient2(midpoint = 0,
     mid = "white",
     low = scales::muted("blue"))
 
-plot_map_spt(predictions$data, "est_re_s") +
+plot_map_spt(predictions$data, "omega_s") +
   ggtitle(en2fr("Spatial random effects only", french)) +
   red_blue_fill +
   labs(fill = if(french){
@@ -435,7 +435,7 @@ plot_map_spt(predictions$data, "est_re_s") +
 \clearpage
 
 ```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.cap='Spatiotemporal random effect predictions from a geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, water circulation patterns, and species interactions.'}
-plot_map_spt(predictions$data, "est_re_st") +
+plot_map_spt(predictions$data, "epsilon_st") +
   ggtitle(en2fr("Spatiotemporal random effects only", french)) +
   red_blue_fill +
   labs(fill = if(french){
@@ -463,9 +463,8 @@ ggplot(dat, aes(X, Y, col = resids)) +
 \clearpage
 
 ```{r sdmTMB-get-index}
- # not bias correcting for speed:
-ind <- get_index(predictions, bias_correct = FALSE)
-ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
+ind <- get_index(predictions, bias_correct = TRUE)
+ind_depth <- get_index(predictions_depth, bias_correct = TRUE)
 ```
 
 \clearpage

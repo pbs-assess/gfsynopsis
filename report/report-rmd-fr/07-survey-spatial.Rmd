@@ -172,7 +172,7 @@ m <- sdmTMB(
 ```
 
 ```{r sdmTMB-preds, fig.width=6, out.width="4in"}
-predictions <- predict(m, newdata = grid_locs)
+predictions <- predict(m, newdata = grid_locs, return_tmb_object = TRUE)
 plot_map <- function(.dat, column) {
   ggplot(.dat, aes_string("X", "Y", fill = column)) +
     geom_raster() +
@@ -209,7 +209,7 @@ g_sdm1 <- plot_map(predictions$data, "exp(est)") +
 ```
 
 ```{r sdmTMB-plot-fe}
-g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
+g_sdm2 <- plot_map(predictions$data, "exp(est_non_rf)") +
   ggtitle(paste("(B) ", en2fr("Prediction (depth effects only)", french))) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = breaks, limits = limits) +
@@ -222,7 +222,7 @@ g_sdm2 <- plot_map(predictions$data, "exp(est_fe)") +
 ```
 
 ```{r sdmTMB-plot-re}
-g_sdm3 <- plot_map(predictions$data, "est_re_s") +
+g_sdm3 <- plot_map(predictions$data, "omega_s") +
   ggtitle(paste("(C)", en2fr("Spatial random effects", french))) +
   scale_fill_gradient2(midpoint = 0,
     high = scales::muted("red"),
