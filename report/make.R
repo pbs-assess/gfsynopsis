@@ -347,7 +347,7 @@ if (optimize_png) {
     )
     doParallel::stopImplicitCluster()
   } else {
-    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)))
+    temp <- lapply(fi, function(i) system(paste0("optipng -strip all ", i)))
   }
   setwd(here())
 }
