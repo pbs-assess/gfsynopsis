@@ -6,14 +6,15 @@ library(gfplot)
 library(gfiphc)
 library(gfsynopsis)
 library(foreach)
+library(rosettafish)
 
 # ------------------------------------------------------------------------------
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
-optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
+optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
-cores <- round(parallel::detectCores()/2)
+cores <- floor(parallel::detectCores() / 2)
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -98,7 +99,8 @@ spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish
   "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
   mutate(species_common_name = gsub("c-o sole",
     "C-O Sole", species_common_name))
-spp <- spp %>% mutate(species_french_name = tolower(en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
+spp <- spp %>% mutate(species_french_name =
+    tolower(rosettafish::en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
@@ -108,10 +110,14 @@ spp <- spp %>% mutate(species_french_name = tolower(en2fr(gfsynopsis:::first_cap
 if (parallel_processing) {
   cl <- parallel::makeCluster(cores, outfile = "")
   doParallel::registerDoParallel(cl)
+  `%.do%` <- foreach::`%dopar%`
+} else {
+  `%.do%` <-  foreach::`%do%`
 }
-foreach::foreach(i = seq_along(spp$species_common_name),
+
+out <- foreach::foreach(i = seq_along(spp$species_common_name),
 .packages = c("gfplot", "gfsynopsis"),
-.export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %do% {
+.export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %.do% {
 
   fig_check <- paste0(here::here("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
@@ -143,7 +149,7 @@ foreach::foreach(i = seq_along(spp$species_common_name),
       "Figure pages for", spp$species_common_name[i], "already exist\n")
   }
 }
-doParallel::stopImplicitCluster()
+if (parallel_processing) doParallel::stopImplicitCluster()
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made

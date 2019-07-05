@@ -11,19 +11,29 @@ spp <- dplyr::pull(dplyr::filter(spp, type %in% c("A", "B")), spp_w_hyphens)
 survs <- c('SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')
 all <- expand.grid(spp = spp, survs = survs,
   stringsAsFactors = FALSE)
-cores <- min(nrow(all), parallel::detectCores())
-cl <- parallel::makeCluster(cores)
-doParallel::registerDoParallel(cl)
+
+if (!exists("cores") || !exists("parallel")) {
+  stop("Please run this script as part of `make.R` or set `cores` and `parallel` to the number of desired cores and a logical value for whether or not to use parallel processing.")
+}
+
+if (parallel_processing) {
+  cl <- parallel::makeCluster(cores)
+  doParallel::registerDoParallel(cl)
+  `%.do%` <- foreach::`%dopar%`
+} else {
+  `%.do%` <-  foreach::`%do%`
+}
+
 out <- foreach::foreach(sp = all$spp, surv = all$survs,
-  .packages = c("gfplot", "sdmTMB", "gfsynopsis")) %dopar% {
+  .packages = c("gfplot", "sdmTMB", "gfsynopsis")) %.do% {
     tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(sp, ".rds")),
       species_name = sp, include_depth = FALSE,
-      survey = surv, n_knots = 150L, bias_correct = FALSE,
+      survey = surv, n_knots = 200L, bias_correct = FALSE,
       anisotropy = FALSE
     ), error = function(e) NA)
   }
-doParallel::stopImplicitCluster()
+if (parallel_processing) doParallel::stopImplicitCluster()
 dir.create(here::here("report/geostat-cache"), showWarnings = FALSE)
 saveRDS(out, file = here::here("report/geostat-cache/spt-index-out.rds"))
 
