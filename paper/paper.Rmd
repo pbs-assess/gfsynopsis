@@ -327,15 +327,15 @@ content.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13.5cm]{fig1.png}
-\caption{TODO: switch for Pacific Cod or Redbanded and include the citation in the references.}
+\includegraphics[width=13.5cm]{fig1-pcod.png}
+\caption{}
 \label{fig:page1}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13.5cm]{fig2.png}
-\caption{TODO: switch for Pacific Cod or Redbanded and include the citation in the references.}
+\includegraphics[width=13.5cm]{fig2-pcod.png}
+\caption{}
 \label{fig:page2}
 \end{figure}
 
@@ -343,8 +343,7 @@ content.
 
 # Figure captions
 
-Figure \@ref(fig:page1): Example first page for rougheye/blackspotted rockfish
-complex (\emph{Sebastes aleutianus/melanostictus}) featuring metadata and
+Figure \@ref(fig:page1): Example first page for Pacific cod (*Gadus macrocephalus*) featuring metadata and
 temporal and spatial trends from fisheries-independent surveys and commercial
 catch and effort data in British Columbia, Canada. (Top row) Relative biomass
 indices from up to ten surveys, commercial catch in each geographical region
@@ -356,8 +355,7 @@ International Pacific Halibut Commission (IPHC) setline survey (third from
 left); commercial trawl (second from right) and hook and line (right; H \& L)
 CPUE.
 
-Figure \@ref(fig:page2): Example second page for rougheye/blackspotted rockfish
-complex (\emph{Sebastes aleutianus/melanostictus}) featuring biological sample,
+Figure \@ref(fig:page2): Example second page for Pacific cod (*Gadus macrocephalus*) featuring biological sample,
 maturity, and growth data in British Columbia, Canada. (Top left) Length
 frequencies by year and survey for females (coloured) and male (grey). (Top
 right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age
