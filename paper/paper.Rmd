@@ -78,18 +78,17 @@ visualization
 # Abstract
 
 <!-- TODO: for the sake of cutting all possible words the first two sentences could probably be combined: -->
-Modern survey and fishery observation programs generate vast quantities of data;
-however, translating that data into effective monitoring remains a challenge. In
-British Columbia, Canada, survey and commercial observation programs produce
-data on over 200 groundfish species, but the majority of such data remain
-unreported. Here, we describe an automated report for 113 groundfish species in
+It is challenging to meaningfully report on the voluminous data
+collected by survey and fishery-observation programs. Consequently, the
+data's monitoring potential is not fully realised.
+Here, we describe an automated report for 113 groundfish species in
 Pacific Canadian waters to encourage others to consider similar reports for
 their own data. Our report includes standardized visualizations of commercial
 and survey population trends in time and space, age and length frequencies,
-maturity, and growth. The report facilitates discussions on stock-assessment and
+maturity, and growth. It facilitates discussions on stock-assessment and
 survey prioritization, increases transparency about data holdings, and makes the
-data available for regular review by all interested parties.
-  
+data available for regular review by interested parties.
+
 \clearpage
 
 # Introduction
@@ -101,7 +100,7 @@ resources to report on all facets of it in a timely fashion. Typically, data for
 only a small subset of species is reported on through detailed stock
 assessments. While such focused analyses are required for management of some
 stocks, broad monitoring programs across an array of species and data types are
-essential to detecting ecological surprises and "unknown unknowns" [@hilborn1987; @wintle2010]. 
+essential to detecting ecological surprises and "unknown unknowns" [@hilborn1987; @wintle2010].
 As part of a movement towards open data [e.g., @canada2018], many raw
 data sets, including those collected by government agencies, are now made
 available. However, processing and visualizing those data sets requires
@@ -127,7 +126,7 @@ knowledge of the survey programs and commercial fisheries.
 
 Automated visualization and reporting is one solution to these problems. Data
 visualization can serve as much more than just an endpoint to data analysis---it
-can serve as a critical component of the scientific process [@fox2011]. 
+can serve as a critical component of the scientific process [@fox2011].
 Visualization can facilitate rapid understanding of data, engage
 stakeholders, and raise awareness of data gaps. Visualization can also serve as a
 tool for those with domain-specific knowledge to spot errors in data
@@ -139,7 +138,7 @@ statistical software R [@r2019], such as knitr
 visualization reports of survey and fishery monitoring data.
 
 As part of a solution to our above-mentioned challenges, we developed an
-automated data synopsis report for 113 groundfish species in BC, Canada. 
+automated data synopsis report for 113 groundfish species in BC, Canada.
 Here we share our approach to encourage others to consider
 similar reports for their own data. Our goals with the report were manifold and
 included
@@ -215,7 +214,7 @@ elasmobranch species and one chimaera species; 16 flatfish species; nine
 Gadiforme species (cods); 15 sculpin and poacher species; three
 greenling/lingcod species; six eelpout species, three prickleback species, and
 seven other Perciforme species; and one species each of smelt, sablefish and
-snailfish. 
+snailfish.
 <!-- TODO: We're missing 1 species! -->
 The visualizations for many data-limited species include mostly empty
 plots, which graphically demonstrate the lack of data. This effectively turns unknown unknowns about a given species [@wintle2010] into *known* unknowns. For data-rich species, nearly all data available are
