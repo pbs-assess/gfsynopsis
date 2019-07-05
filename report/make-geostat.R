@@ -29,7 +29,7 @@ out <- foreach::foreach(sp = all$spp, surv = all$survs,
     tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(sp, ".rds")),
       species_name = sp, include_depth = FALSE,
-      survey = surv, n_knots = 200L, bias_correct = TRUE,
+      survey = surv, n_knots = 200L, bias_correct = FALSE,
       anisotropy = FALSE
     ), error = function(e) NA)
   }

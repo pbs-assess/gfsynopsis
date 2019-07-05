@@ -463,8 +463,8 @@ ggplot(dat, aes(X, Y, col = resids)) +
 \clearpage
 
 ```{r sdmTMB-get-index}
-ind <- get_index(predictions, bias_correct = TRUE)
-ind_depth <- get_index(predictions_depth, bias_correct = TRUE)
+ind <- get_index(predictions, bias_correct = FALSE)
+ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
 ```
 
 \clearpage
