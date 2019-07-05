@@ -13,7 +13,7 @@
 #' @return A list object.
 #' @export
 fit_sdmTMB_westcoast <- function(species_rds, survey,
-  species_name = "", n_knots = 150, cell_width = 2,
+  species_name = "", n_knots = 200, cell_width = 2,
   anisotropy = FALSE, silent = TRUE, bias_correct = FALSE,
   include_depth = FALSE) {
 

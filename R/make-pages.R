@@ -595,7 +595,7 @@ make_pages <- function(
       show_historical = TRUE, start_year = 2013,
       fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-      percent_excluded_xy = c(0.015, -0.02),
+      percent_excluded_xy = c(0.015, -0.02)
       ) +
     ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
     theme(legend.position = "none") +
