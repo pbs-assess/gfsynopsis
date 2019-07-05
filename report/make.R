@@ -106,7 +106,6 @@ if (parallel_processing) {
 out <- foreach::foreach(i = seq_along(spp$species_common_name),
 .packages = c("gfplot", "gfsynopsis"),
 .export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %.do% {
-
   fig_check <- paste0(here::here("report", "figure-pages"), "/",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
   fig_check1 <- paste0(fig_check, "-1.", ext)
@@ -123,6 +122,7 @@ out <- foreach::foreach(i = seq_along(spp$species_common_name),
       spp = spp$species_common_name[i],
       d_geostat_index = dat_geostat_index,
       include_map_square = FALSE,
+      french = french,
       report_folder = here::here("report"),
       resolution = 150, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,

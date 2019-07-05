@@ -72,7 +72,7 @@ make_pages <- function(
   synoptic_max_survey_years = 2017:2018,
   hbll_out_max_survey_years = 2016:2017,
   parallel = FALSE,
-  french = TRUE
+  french = FALSE
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
