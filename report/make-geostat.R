@@ -12,7 +12,7 @@ survs <- c('SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')
 all <- expand.grid(spp = spp, survs = survs,
   stringsAsFactors = FALSE)
 
-if (!exists("cores") || !exists("parallel")) {
+if (!exists("cores") || !exists("parallel_processing")) {
   stop("Please run this script as part of `make.R` or set `cores` and `parallel` to the number of desired cores and a logical value for whether or not to use parallel processing.")
 }
 
