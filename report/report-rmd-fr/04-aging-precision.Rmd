@@ -36,9 +36,12 @@ if (!file.exists(cache_file)) {
 
 if (french) {
   out_dat <- lapply(out_dat, function(x) {
-    x$species_common_name <- gfsynopsis:::first_cap(x$species_common_name)
-    x$species_common_name[x$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
-    x$species_common_name <- en2fr(x$species_common_name, french)
+    if (length(x) > 0) {
+      x$species_common_name <- gfsynopsis:::first_cap(x$species_common_name)
+      x$species_common_name[x$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
+      x$species_common_name <- en2fr(x$species_common_name, french)
+      x
+    }
   })
 }
 ```
