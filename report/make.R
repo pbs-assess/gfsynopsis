@@ -70,19 +70,6 @@ cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", pop
 spp <- left_join(spp, cosewic, by = "species_science_name")
 
 # ------------------------------------------------------------------------------
-# This section is used for hacked parallel processing from the command line.
-# Unecessary, but speeds up rebuilding and no proper form of parallel processing
-# seems to work in the figure building.
-# e.g. from root project folder in macOS or Linux or maybe Cygwin on Windows:
-# open new Terminal
-# make one
-# open new Terminal
-# make two
-# etc.
-if (exists("N")) warning("A global variable `N` exists; filtering by N.")
-if (exists("N")) spp <- spp[N, , drop = FALSE]
-
-# ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
 refs <- readr::read_csv(here("report/spp-refs.csv"))
 spp <- left_join(spp, refs, by = "species_common_name")
@@ -311,13 +298,12 @@ temp <- lapply(spp$species_common_name, function(x) {
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
 temp <- c("<!-- This page has been automatically generated: do not edit by hand -->\n", temp)
-if (!exists("N"))
-  writeLines(temp, con = here("report", "report-rmd", "plot-pages.Rmd"))
+writeLines(temp, con = here("report", "report-rmd", "plot-pages.Rmd"))
 
 # ------------------------------------------------------------------------------
 # Optimize png files for TeX
 
-if (!exists("N") && optimize_png) {
+if (optimize_png) {
   files_per_core <- ceiling(length(spp$species_common_name)*2/cores)
   setwd(here("report/figure-pages"))
   if (!gfplot:::is_windows() && parallel_processing) {
