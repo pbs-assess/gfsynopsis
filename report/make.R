@@ -15,6 +15,7 @@ example_spp <- c("petrale sole", "pacific cod") # a species used as an example i
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
 cores <- floor(parallel::detectCores() / 2)
+french <- FALSE
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
