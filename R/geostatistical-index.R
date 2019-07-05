@@ -59,7 +59,7 @@ fit_sdmTMB_westcoast <- function(species_rds, survey,
     grid_locs <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid$grid else gfplot::hbll_s_grid$grid
   }
   # grid_locs$year <- NULL
-  formula <- if (include_depth) {
+  formula <- if (!include_depth) {
     stats::as.formula(density ~ 0 + as.factor(year))
   } else {
     stats::as.formula(density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2)
