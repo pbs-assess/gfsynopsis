@@ -12,7 +12,7 @@ library(foreach)
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
-parallel_processing <- TRUE
+parallel_processing <- FALSE
 cores <- round(parallel::detectCores()/2)
 
 # ------------------------------------------------------------------------------
