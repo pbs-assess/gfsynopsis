@@ -21,7 +21,7 @@ if (parallel_processing) {
   doParallel::registerDoParallel(cl)
   `%.do%` <- foreach::`%dopar%`
 } else {
-  `%.do%` <-  foreach::`%do%`
+  `%.do%` <- foreach::`%do%`
 }
 
 out <- foreach::foreach(sp = all$spp, surv = all$survs,
@@ -29,7 +29,7 @@ out <- foreach::foreach(sp = all$spp, surv = all$survs,
     tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(sp, ".rds")),
       species_name = sp, include_depth = FALSE,
-      survey = surv, n_knots = 200L, bias_correct = FALSE,
+      survey = surv, n_knots = 150L, bias_correct = FALSE,
       anisotropy = FALSE
     ), error = function(e) NA)
   }
