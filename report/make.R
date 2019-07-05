@@ -250,20 +250,42 @@ temp <- lapply(spp$species_common_name, function(x) {
         i <- i + 1
     }
   }
-  if (species_code == "394") { # FIXME Rougheye Rockfish
-    out[[i]] <- paste0(en2fr("COSEWIC Status", french), ": ", en2fr("Special Concern", french), ", ", en2fr("SARA Status", french), ": ", en2fr("Special Concern", french),"\n")
+  if (species_code == "394") {
+    if (!french)
+      out[[i]] <- "COSEWIC Status: Special Concern, SARA status: Special Concern\n"
+    else
+      out[[i]] <- "COSEWIC Status: Special Concern, SARA status: Special Concern\n"
+    # FIXME not translated!
     i <- i + 1
   }
   if (species_code == "225") {
-    out[[i]] <- "Il est à noter que le merlu du Chili fait l’objet d’un relevé et d’une évaluation annuels ciblés menés conjointement par le Canada et les É.-U. à l'échelle de la côte, qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
+    if (!french)
+      out[[i]] <- "Note that Pacific Hake undergoes a directed joint
+    Canada-US coastwide\n survey and annual assessment, which are not
+    included in this report. The most recent\n stock assessment
+    should be consulted for details on stock status."
+    else
+      out[[i]] <- "Il est à noter que le merlu du Chili fait l’objet d’un relevé et d’une évaluation annuels ciblés menés conjointement par le Canada et les É.-U. à l'échelle de la côte, qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     i <- i + 1
   }
   if (species_code == "614") {
-    out[[i]] <- "Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
+    if (!french)
+      out[[i]] <- "Note that Pacific Halibut undergoes thorough assessment by the
+    International Pacific\n Halibut Commission based on the annual
+    standardized setline survey. The most\n recent stock assessment
+    should be consulted for details on stock status."
+    else
+      out[[i]] <- "Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     i <- i + 1
   }
   if (species_code == "455") {
-    out[[i]] <- "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
+    if (!french)
+      out[[i]] <- "Note that Sablefish undergoes directed annual trap surveys,
+    which are used for\n stock assessment and are not included in
+    this report. The most recent\n stock assessment should be
+    consulted for details on stock status."
+    else
+      out[[i]] <- "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     i <- i + 1
   }
   out[[i]] <- "\\begin{figure}[b!]"
@@ -296,18 +318,20 @@ if (!exists("N"))
 # Optimize png files for TeX
 
 if (!exists("N") && optimize_png) {
-  cores <- parallel::detectCores()
   files_per_core <- ceiling(length(spp$species_common_name)*2/cores)
   setwd(here("report/figure-pages"))
-  if (!gfplot:::is_windows()) {
+  if (!gfplot:::is_windows() && parallel_processing) {
     system(paste0("find -X . -name '*.png' -print0 | xargs -0 -n ",
       files_per_core, " -P ", cores, " optipng -strip all"))
-  } else {
+  } else if (gfplot:::is_windows() && parallel_processing) {
     library(doParallel)
     doParallel::registerDoParallel(cores = cores)
     fi <- list.files(".", "*.png")
     plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
       .parallel = TRUE)
+    doParallel::stopImplicitCluster()
+  } else {
+    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)))
   }
   setwd(here())
 }
