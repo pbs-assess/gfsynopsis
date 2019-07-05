@@ -34,29 +34,33 @@ dc <- here::here("report", "data-cache")
 spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
 spp <- filter(spp, species_common_name != "pacific hake")
 
-
-if(french){
-  spp$species_common_name <-  gfsynopsis:::first_cap(spp$species_common_name)
-  spp$species_common_name[spp$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
-  spp$species_common_name <- en2fr(spp$species_common_name, french)
+out_dat <- list()
+dir.create(here::here("report/aging-precision-cache"), showWarnings = FALSE)
+cache_file <- here::here("report/aging-precision-cache/aging-precision.rds")
+if (!file.exists(cache_file)) {
+  for (i in seq_along(spp$species_common_name)) {
+    dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
+    if (nrow(dat$age_precision) > 1) {
+      out_dat[[i]] <- gfplot::tidy_age_precision(dat$age_precision)
+      out_dat[[i]]$species_common_name <-
+        gfsynopsis:::first_cap(spp$species_common_name[[i]])
+    }
+  }
+  saveRDS(out_dat, file = cache_file)
+} else {
+  out_dat <- readRDS(cache_file)
 }
 
-out_dat <- list()
-plots <- list()
-for (i in seq_along(spp$species_common_name)) {
-  dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
-  if (nrow(dat$age_precision) > 1) {
-    out_dat[[i]] <- gfplot::tidy_age_precision(dat$age_precision)
-    out_dat[[i]]$species_common_name <-
-      gfsynopsis:::first_cap(spp$species_common_name[[i]])
-    plots[[i]] <- out_dat[[i]] %>%
-      gfplot::plot_age_precision() +
-      ggplot2::ggtitle(gfsynopsis:::first_cap(spp$species_common_name[[i]]))
-  }
+if (french) {
+  out_dat <- lapply(out_dat, function(x) {
+    x$species_common_name <- gfsynopsis:::first_cap(x$species_common_name)
+    x$species_common_name[x$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
+    x$species_common_name <- en2fr(x$species_common_name, french)
+  })
 }
 ```
 
-```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.25, out.width="5.0in", fig.cap="Ageing precision plots for all species in the report with data. Each dot and cross-hatch represents an individual fish that has been aged twice. The x-axis represents the age and upper and lower possible ages recorded by the initial ('primary') individual ageing the fish. The y-axis represents the equivalent values recorded by the second ('precision') individual ageing the fish. The dashed diagonal line represents a perfect one-to-one agreement between the two ages. Up to 250 fish have been randomly sampled from all fish precision-aged for a species, and a small amount of random jitter has been added to both axes to reduce overplotting with the same jitter value added to both the x and y axes for a given fish."}
+```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.25, out.width="5.0in", fig.cap="Ageing precision plots for all species in the report with data. Each dot and cross-hatch represents an individual fish that has been aged twice. The x-axis represents the age and upper and lower possible ages recorded by the initial ('primary') individual ageing the fish. The y-axis represents the equivalent values recorded by the second ('precision') individual ageing the fish. The dashed diagonal line represents a perfect one-to-one agreement between the two ages. Up to 300 fish have been randomly sampled from all fish precision-aged for a species, and a small amount of random jitter has been added to both axes to reduce overplotting with the same jitter value added to both the x and y axes for a given fish."}
 out_prec <- bind_rows(out_dat)
 set.seed(42)
 jitter <- 0.2
@@ -99,7 +103,9 @@ out_prec %>% group_by(species_common_name) %>%
   ggplot2::geom_segment(aes_string(
     x = "prim_age", xend = "prim_age",
     y = "prec_min_age", yend = "prec_max_age"), alpha = 0.4) +
-  labs(title = "Ageing precision", x = en2fr("Primary age (years)", french),
+  labs(
+    title = en2fr("Ageing precision", french), 
+    x = en2fr("Primary age (years)", french),
     y = en2fr("Secondary age (years)", french)) +
   theme_pbs() +
   ggplot2::ggtitle("") +

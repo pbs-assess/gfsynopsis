@@ -17,29 +17,33 @@ dc <- here::here("report", "data-cache")
 spp <- gfsynopsis:::get_spp_names() %>% filter(type == "A")
 spp <- filter(spp, species_common_name != "pacific hake")
 
-
-if(french){
-  spp$species_common_name <-  gfsynopsis:::first_cap(spp$species_common_name)
-  spp$species_common_name[spp$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
-  spp$species_common_name <- en2fr(spp$species_common_name, french)
+out_dat <- list()
+dir.create(here::here("report/aging-precision-cache"), showWarnings = FALSE)
+cache_file <- here::here("report/aging-precision-cache/aging-precision.rds")
+if (!file.exists(cache_file)) {
+  for (i in seq_along(spp$species_common_name)) {
+    dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
+    if (nrow(dat$age_precision) > 1) {
+      out_dat[[i]] <- gfplot::tidy_age_precision(dat$age_precision)
+      out_dat[[i]]$species_common_name <-
+        gfsynopsis:::first_cap(spp$species_common_name[[i]])
+    }
+  }
+  saveRDS(out_dat, file = cache_file)
+} else {
+  out_dat <- readRDS(cache_file)
 }
 
-out_dat <- list()
-plots <- list()
-for (i in seq_along(spp$species_common_name)) {
-  dat <- readRDS(paste0(file.path(dc, spp$spp_w_hyphens[i]), ".rds"))
-  if (nrow(dat$age_precision) > 1) {
-    out_dat[[i]] <- gfplot::tidy_age_precision(dat$age_precision)
-    out_dat[[i]]$species_common_name <-
-      gfsynopsis:::first_cap(spp$species_common_name[[i]])
-    plots[[i]] <- out_dat[[i]] %>%
-      gfplot::plot_age_precision() +
-      ggplot2::ggtitle(gfsynopsis:::first_cap(spp$species_common_name[[i]]))
-  }
+if (french) {
+  out_dat <- lapply(out_dat, function(x) {
+    x$species_common_name <- gfsynopsis:::first_cap(x$species_common_name)
+    x$species_common_name[x$species_common_name == 'Rougheye/blackspotted Rockfish Complex'] <- 'Rougheye/Blackspotted Rockfish Complex'
+    x$species_common_name <- en2fr(x$species_common_name, french)
+  })
 }
 ```
 
-```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.25, out.width="5.0in", fig.cap="Graphiques de précision de la détermination de l’âge pour toutes les espèces présentées dans le rapport, avec les données. Chaque point et hachure représente un poisson individuel dont l’âge a été déterminé deux fois. L’axe des abscisses représente l’âge et les âges supérieurs et inférieurs possibles enregistrés par la personne initiale ('primaire' qui détermine l’âge du poisson. L’axe des ordonnées représente les valeurs équivalentes enregistrées par la deuxième personne 'précision') qui détermine l’âge du poisson. La ligne diagonale tiretée représente un parfait accord un à un entre les deux âges. Jusqu’à 250 poissons ont été échantillonnés au hasard sur tous les poissons d’une espèce dont l’âge a été déterminé avec précision, et une petite quantité de fluctuation aléatoire a été ajoutée aux deux axes pour réduire la surreprésentation avec la même valeur de fluctuation ajoutée aux axes x et y pour un poisson donné."}
+```{r age-precision-grid, warning=FALSE, message=FALSE, fig.width=8, fig.asp=1.25, out.width="5.0in", fig.cap="Graphiques de précision de la détermination de l’âge pour toutes les espèces présentées dans le rapport, avec les données. Chaque point et hachure représente un poisson individuel dont l’âge a été déterminé deux fois. L’axe des abscisses représente l’âge et les âges supérieurs et inférieurs possibles enregistrés par la personne initiale ('primaire' qui détermine l’âge du poisson. L’axe des ordonnées représente les valeurs équivalentes enregistrées par la deuxième personne 'précision') qui détermine l’âge du poisson. La ligne diagonale tiretée représente un parfait accord un à un entre les deux âges. Jusqu’à 300 poissons ont été échantillonnés au hasard sur tous les poissons d’une espèce dont l’âge a été déterminé avec précision, et une petite quantité de fluctuation aléatoire a été ajoutée aux deux axes pour réduire la surreprésentation avec la même valeur de fluctuation ajoutée aux axes x et y pour un poisson donné."}
 out_prec <- bind_rows(out_dat)
 set.seed(42)
 jitter <- 0.2
