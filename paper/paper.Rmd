@@ -316,14 +316,14 @@ content.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=13.5cm]{fig1.png}
-\caption{}
+\caption{TODO: switch for Pacific Cod or Redbanded}
 \label{fig:page1}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=13.5cm]{fig2.png}
-\caption{}
+\caption{TODO: switch for Pacific Cod or Redbanded}
 \label{fig:page2}
 \end{figure}
 
