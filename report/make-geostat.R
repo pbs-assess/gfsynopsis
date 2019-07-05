@@ -13,7 +13,7 @@ all <- expand.grid(spp = spp, survs = survs,
   stringsAsFactors = FALSE)
 
 if (!exists("cores") || !exists("parallel_processing")) {
-  stop("Please run this script as part of `make.R` or set `cores` and `parallel` to the number of desired cores and a logical value for whether or not to use parallel processing.")
+  stop("Please run this script as part of `make.R` or set `cores` and `parallel_processing` to the number of desired cores and a logical value for whether or not to use parallel processing.")
 }
 
 if (parallel_processing) {
@@ -29,7 +29,7 @@ out <- foreach::foreach(sp = all$spp, surv = all$survs,
     tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(sp, ".rds")),
       species_name = sp, include_depth = FALSE,
-      survey = surv, n_knots = 200L, bias_correct = FALSE,
+      survey = surv, n_knots = 200L, bias_correct = TRUE,
       anisotropy = FALSE
     ), error = function(e) NA)
   }
