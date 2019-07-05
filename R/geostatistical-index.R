@@ -69,7 +69,7 @@ fit_sdmTMB_westcoast <- function(species_rds, survey,
     formula = formula,
     data = dat, time = "year", spde = spde, family = sdmTMB::tweedie(link = "log"),
     anisotropy = anisotropy, silent = silent)
-  predictions <- stats::predict(m, newdata = grid_locs)
+  predictions <- stats::predict(m, newdata = grid_locs, return_tmb_object = TRUE)
   index <- sdmTMB::get_index(predictions, bias_correct = bias_correct)
   index <- dplyr::mutate(index, cv = sqrt(exp(se^2) - 1))
   list(
