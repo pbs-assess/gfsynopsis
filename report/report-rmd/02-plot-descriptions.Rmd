@@ -86,36 +86,39 @@ fish density values from the raw data for the entire coast for the indicated yea
 trans <- "fourth_root_power"
 units_transformation <- (1000 * 1000) / 1000
 breaks <- c(0.002, 0.05, 0.3)
+
+labs1 <- if (french) {
+  "Densité\nprévue de\nla biomasse\n(kg/km^2)"
+} else {
+  "Predicted\nbiomass\ndensity\n(kg/km^2)"
+}
+
+labs2 <- if (french) {
+  "Densité\nprévue de\nla biomasse\n(poisson/km^2)"
+} else {
+  "Predicted\nbiomass\ndensity\n(fish/km^2)"
+}
+
+labs3 <- if (french) {
+  "Taux de\nprise\n(poisson/raie\nréelle)"
+} else {
+  "Catch\nrate\n(fish/effective\nskate)"
+}
 p1 <- g$survey_spatial_syn +
-    (if(french){
-    labs(fill = "Densité\nprévue de\nla biomasse\n(kg/km^2)", parse = TRUE)
-  } 
-  else{
-    labs(fill = "Predicted\nbiomass\ndensity\n(kg/km^2)", parse = TRUE)
-    }) +
+  labs(fill = labs1, parse = TRUE) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = breaks, 
     labels = breaks * units_transformation) +
   guides(fill = guide_colorbar(), size = FALSE) +
   ggtitle(en2fr("Synoptic Survey Biomass", french))
-  
+
 p2 <- g$survey_spatial_hbll +
-  (if(french){
-    labs(fill = "Densité\nprévue de\nla biomasse\n(poisson/km^2)")
-  } 
-  else{
-    labs(fill = "Predicted\nbiomass\ndensity\n(fish/km^2)")
-    }) +
+  labs(fill = labs2, parse = TRUE) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
   guides(fill = guide_colorbar(), size = FALSE) +
   ggtitle(en2fr("HBLL OUT survey biomass", french))
 
 p3 <- g$survey_spatial_iphc +
-  (if(french){
-    labs(colour = "Taux de\nprise\n(poisson/raie\nréelle)")
-  } 
-  else{
-    labs(colour = "Catch\nrate\n(fish/effective\nskate)")
-    }) +
+  labs(fill = labs3, parse = TRUE) +
   guides(colour = guide_colorbar(), size = FALSE) +
   ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +
