@@ -77,17 +77,15 @@ visualization
 
 # Abstract
 
-<!-- TODO: for the sake of cutting all possible words the first two sentences could probably be combined: -->
-It is challenging to meaningfully report on the voluminous data
-collected by survey and fishery-observation programs. Consequently, the
-data's monitoring potential is not fully realised.
-Here, we describe an automated report for 113 groundfish species in
-Pacific Canadian waters to encourage others to consider similar reports for
-their own data. Our report includes standardized visualizations of commercial
-and survey population trends in time and space, age and length frequencies,
-maturity, and growth. It facilitates discussions on stock-assessment and
-survey prioritization, increases transparency about data holdings, and makes the
-data available for regular review by interested parties.
+Modern survey and fishery observation programs generate vast quantities of data;
+however, regulatory agencies often lack the capacity to translate this data into
+effective monitoring. Here, we describe an automated report for 113 groundfish
+species in Pacific Canadian waters to encourage others to consider similar
+reports for their own data. Our report includes standardized visualizations of
+commercial and survey population trends in time and space, age and length
+frequencies, maturity, and growth. It facilitates discussions on
+stock-assessment and survey prioritization, increases transparency about data
+holdings, and makes the data available for regular review by interested parties.
 
 \clearpage
 
@@ -100,14 +98,14 @@ resources to report on all facets of it in a timely fashion. Typically, data for
 only a small subset of species is reported on through detailed stock
 assessments. While such focused analyses are required for management of some
 stocks, broad monitoring programs across an array of species and data types are
-essential to detecting ecological surprises and "unknown unknowns" [@hilborn1987; @wintle2010].
-As part of a movement towards open data [e.g., @canada2018], many raw
-data sets, including those collected by government agencies, are now made
-available. However, processing and visualizing those data sets requires
-domain-specific knowledge (e.g., about sampling protocols), advanced skills
-(e.g., data management, population modelling, computer programming), and time.
-Collectively, these factors often limit the ability for interested parties to
-derive meaningful insights.
+essential to detecting ecological surprises and "unknown unknowns"
+[@hilborn1987; @wintle2010]. As part of a movement towards open data [e.g.,
+@canada2018], many raw data sets, including those collected by government
+agencies, are now made available. However, processing and visualizing those data
+sets requires domain-specific knowledge (e.g., about sampling protocols),
+advanced skills (e.g., data management, population modelling, computer
+programming), and time. Collectively, these factors often limit the ability for
+interested parties to derive meaningful insights.
 
 In British Columbia (BC), Canada, Fisheries and Oceans Canada (DFO) faces these
 problems in monitoring its groundfish populations and fisheries. In BC,
