@@ -16,6 +16,7 @@ output:
     number_sections: no
     toc: no
     template: "article.tex"
+    keep_tex: true
 fontfamily: libertine
 fontsize: 12pt
 header-includes:
@@ -281,57 +282,43 @@ tools---to turn survey and fisheries data into effective broad monitoring.
 We are grateful for the ongoing collaboration between DFO, commercial fishers,
 First Nations, and non-governmental organizations, which has made possible the
 collection of the valuable data that underlies the report described in this
-paper. For invaluable input into the report's design and feedback we thank
+paper. For invaluable input into the report's design we thank
 Robyn Forrest, Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard, Chris
 Rooper, and Greg Workman, We thank Norm Olsen, Maria Surry, and Malcolm Wyeth
-for support understanding database structure and help with data extraction.
+maintaining the BC groundfish databases and for help with data extraction.
 
 <!-- pcod, redbanded, rougheye? -->
 
-\clearpage
-
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13.5cm]{fig1-pcod.png}
-\caption{}
+\includegraphics[width=13.2cm]{fig1-pcod.png}
+\caption{Example first page for Pacific cod (\emph{Gadus macrocephalus})
+featuring metadata and temporal and spatial trends from fisheries-independent
+surveys and commercial catch and effort data in British Columbia, Canada. (Top
+row) Relative biomass indices from up to ten surveys, commercial catch in each
+geographical region (panels) and gear type (colour), and standardized (solid
+line) and unstandardized (dashed line) commercial bottom catch per unit effort
+(CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl
+surveys (left), two hard bottom long line surveys (second from left), and the
+International Pacific Halibut Commission (IPHC) setline survey (third from
+left); commercial trawl (second from right) and hook and line (right; H \& L)
+CPUE.}
 \label{fig:page1}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13.5cm]{fig2-pcod.png}
-\caption{}
+\includegraphics[width=13.2cm]{fig2-pcod.png}
+\caption{ Example second page for Pacific cod (\emph{Gadus macrocephalus})
+featuring biological sample, maturity, and growth data in British Columbia,
+Canada. (Top left) Length frequencies by year and survey for females (coloured)
+and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model
+fits. (Second row) Age frequencies by year and survey. (Third row)
+Age-at-maturity and length-at-maturity model fits and frequency of maturity
+stage by month. (Bottom row) Counts of available fish lengths, weights,
+maturities, ages, and ageing structures from all available survey and commercial
+samples.}
 \label{fig:page2}
 \end{figure}
-
-\clearpage
-
-# Figure captions
-
-Figure \@ref(fig:page1): Example first page for Pacific cod (*Gadus
-macrocephalus*) featuring metadata and temporal and spatial trends from
-fisheries-independent surveys and commercial catch and effort data in British
-Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys,
-commercial catch in each geographical region (panels) and gear type (colour),
-and standardized (solid line) and unstandardized (dashed line) commercial
-bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in
-space from four synoptic trawl surveys (left), two hard bottom long line
-surveys (second from left), and the International Pacific Halibut Commission
-(IPHC) setline survey (third from left); commercial trawl (second from right)
-and hook and line (right; H \& L) CPUE.
-
-Figure \@ref(fig:page2): Example second page for Pacific cod (*Gadus
-macrocephalus*) featuring biological sample, maturity, and growth data in
-British Columbia, Canada. (Top left) Length frequencies by year and survey for
-females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and
-weight-length model fits. (Second row) Age frequencies by year and survey.
-(Third row) Age-at-maturity and length-at-maturity model fits and frequency of
-maturity stage by month. (Bottom row) Counts of available fish lengths,
-weights, maturities, ages, and ageing structures from all available survey and
-commercial samples
-
-\clearpage
-
-<!-- TODO: manually move the references before the figure captions before submission -->
 
 # References
