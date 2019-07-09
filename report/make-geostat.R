@@ -44,7 +44,7 @@ get_convergence_criteria <- function(x) {
         (min(eigval) < .Machine$double.eps * 10)) TRUE else FALSE
     max_gradient <- max(x$model$gradients)
     nlminb_convergence <- if (x$model$model$convergence == 0) TRUE else FALSE
-    hessian <- x$model$sd_report$pdHess
+    hessian <- x$model$tmb_obj$hessian
 
     data.frame(survey_abbrev = x$survey, species = x$species_name,
       max_gradient = max_gradient, bad_eig = bad_eig,
@@ -84,7 +84,7 @@ index <- purrr::map_df(out, function(x) {
       stringsAsFactors = FALSE) %>% tibble::as_tibble()
 })
 
-dplyr::filter(index, bad_eig | max_gradient > 0.01)
+# dplyr::filter(index, bad_eig | max_gradient > 0.01)
 
 saveRDS(index, file = here::here("report/geostat-cache/spt-index-out-no-depth.rds"))
 
