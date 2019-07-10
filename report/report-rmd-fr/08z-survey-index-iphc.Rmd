@@ -20,7 +20,76 @@ La démarche adoptée est décrite ci-après et s’appuie sur celle qui a été
 
 
 
+## DONNÉES DE LA CIFP
 
+Dans les eaux de la Colombie-Britannique (zone 2B de la CIFP), depuis 2003, un troisième observateur a participé au relevé de la CIFP pour déterminer toutes les prises à l’échelon de l’espèce hameçon par hameçon et pour effectuer un échantillonnage biologique [@flemming2012iphc], bien que cet observateur ait été absent en 2013. Des observateurs ont également été déployés avant 2003, bien que les données ne soient pas disponibles de manière aussi détaillée, comme le résume le tableau \@ref(tab:IPHCdata). Pour certaines années, seuls les 20 premiers hameçons de chaque patin ont fait l’objet d’un dénombrement, et pour les autres années, tous les hameçons ont fait l’objet d’un dénombrement, mais les données ne sont disponibles que pour l’ensemble (c’est-à-dire que nous ne savons pas quel hameçon a capturé quelle espèce, mais seulement combien d’individus de chaque espèce ont été capturés dans l’ensemble). Les données ont été extraites de diverses feuilles de calcul et de la base de données GFBio du MPO, et toutes provenaient à l’origine de la CIFP. Les emplacements qui se situent au large de la côte ouest de l’île de Vancouver (COIV) n’ont fait l’objet d’un échantillonnage que pendant quelques années. Il est à noter que, par souci de simplicité, nous utilisons le terme '20 premiers hameçons', car les échantillonneurs à bord des bateaux visaient généralement les 20 premiers hameçons déployés pour chaque patin. Cependant, pour des raisons opérationnelles (en particulier dans les zones où les taux de prises sont élevés), il arrive que les 20 hameçons proviennent d’ailleurs dans un patin mais représentent toujours 20 hameçons consécutifs [p. ex., @dykstra2002iphc].
+
+\vspace{0mm}
+
+\begin{table}[t]
+\centering
+\caption{Résumé des données disponibles issues des relevés à la palangre menés dans le cadre de l’évaluation des stocks de la CIFP. 'Résolution des données'  indique à quel niveau les données sont disponibles, et 'COIV' (Côte Ouest de l’île de Vancouver)indique si le relevé comprenait des emplacements situés au large de la côte ouest de l’île de Vancouver ou non. 'Emplacement des données' indique à partir de quelle source les données ont été consultées, la base de données GFBio du MPO ou les feuilles de calcul $^1$. Pour 1995, les données biologiques se trouvaient dans le fichier "1995\_IPHC\_SSA\_Rockfish\_catch\_from\_Kelly\_Ames.xls" sur le disque partagé concernant les sébastes côtiers du MPO, et les patins efficaces ont été obtenus de Aaron Ranta (CIFP) dans le fichier "1995EffSktValues by Station.xlsx". $^2$ Pour 1996-2002, les données se trouvaient dans le fichier "2B AllSpecies 96-02 roundIII.xls", qui provenait à l’origine de la CIFP. $^3$ Pour 2013, les données se trouvaient dans le fichier "2013 20-Hook Data.xls", qui provenait à l’origine de la CIFP. Pour faciliter l’accès, les données tirées des feuilles de calcul sont maintenant toutes incluses dans notre progiciel gfplot.}
+\label{tab:IPHCdata}
+\begin{tabular}{llllc}
+  \hline
+Année & Hameçons ayant fait l’objet d’un dénombrement & Résolution des données & Emplacement des données & COIV?\\
+  \hline
+1995 & Tous & Ensemble par ensemble & Feuilles de calcul $^1$ & N\\
+1996 & Tous & Ensemble par ensemble $^2$ & N\\
+1997-1998 & 20 premiers hameçons de chaque patin & Ensemble par ensemble et feuille de calcul $^2$ & N\\
+1999 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^2$ & Y\\
+2000 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^2$ & N\\
+2001-2002 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^2$ & Y\\
+2003-2011 & Tous & Hameçon par hameçon & Base de données GFBio du MPO & Y\\
+2012 & Tous (expérience avec appâts) & Hameçon par hameçon & Base de données GFBio du MPO & Y\\
+2013 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^3$ & Y\\
+2014-2017 & Tous & Hameçon par hameçon & Base de données GFBio du MPO & Y\\
+\hline
+\end{tabular}
+\end{table}
+
+
+D’après le tableau \@ref(tab:IPHCdata), quatre questions se dégagent :
+
+1. Pour la période s’échelonnant entre 1997 et 2002 et en 2013, seuls les 20 premiers hameçons de chaque patin ont fait l’objet d’un dénombrement, alors que pour toutes les autres années, tous les hameçons ont fait l’objet d’un dénombrement. Ainsi, les données de chaque année ne peuvent pas être simplement considérées comme étant comparables et analysées comme une série chronologique consécutive.
+
+1. Pour les ensembles de données de 1995, 1996, 1997-2002 et 2013, les données ne sont disponibles qu’au niveau ensemble par ensemble, en termes de nombre de spécimens d’une espèce donnée par patin efficace. L’espèce capturée sur chaque hameçon n’est pas disponible, contrairement aux résultats enregistrés pour les périodes allant de 2003 à 2012 et de 2014 à 2017. Ainsi, pour 1995 et 1996, nous ne pouvons pas calculer les taux de prises sur la base des 20 premiers hameçons (parce que nous ne disposons que de données au niveau ensemble par ensemble), alors que nous pouvons le faire pour les périodes allant de 2003 à 2012 et de 2014 à 2017, et les données recueillies sur la base de 20 hameçons sont les seules informations dont nous disposons pour la période allant de 1997 à 2002 et pour 2013.
+
+1. En 2012, une expérience à l’aide d’appâts a été menée de telle sorte que les données pour tous les patins ne pouvaient pas être utilisées; voir la section \@ref(sec:chum).
+
+1. La COIV n’a pas été visitée chaque année, de sorte que la couverture spatiale n’est pas uniforme d’une année à l’autre.
+
+\begin{table}[t] \centering
+\caption{ Résumé de la façon dont les quatre séries {\bf A}, {\bf B}, {\bf C}  et {\bf D}  sont construites. Les chiffres entre parenthèses indiquent le nombre d’années pour lesquelles des données sont disponibles pour chaque série. 'Seules le nord de la COIV' indique une série qui ne tient compte que des stations situées au nord de l’île de Vancouver (excluant ainsi celles situées au large de la COIV), et 'Ensemble de la côte' indique une série qui utilise toutes les stations de l’ensemble de la côte. Les lignes indiquent le nombre d’hameçons sur lesquels sont fondés les taux de prises pour chaque série.}
+\label{tab:seriesSumm}
+\begin{tabular}{rcc}
+\hline
+ & Seules le nord de la COIV & Ensemble de la côte\\
+\hline
+Vingt premiers hameçons de chaque patin & {\bf A}(21) & {\bf D}(18)\\
+Tous les hameçons de chaque patin & {\bf B}(16) & {\bf C}(14)\\
+\hline
+~\\     % pour ajouter des espaces avant que le texte ne se poursuive.
+\end{tabular}
+\end{table}
+
+Pour traiter les questions 1, 2 et 4, nous construisons donc quatre séries chronologiques (dont la structure est résumée dans le tableau \@ref(tab:seriesSumm)) pour chaque espèce :
+
+**Série A** – 1997-2017, stations situées au nord de la COIV, avec des taux de prises fondés sur les 20 premiers hameçons seulement (c’est tout ce dont nous disposons pour la période allant de 1997 et 2002 et pour 2013).
+
+**Série B** – 1995, 1996, 2003-2012 et 2014-2017, stations situées au nord de la COIV, avec des taux de prises fondés sur tous les hameçons (c’est tout ce dont nous disposons pour 1995 et 1996).
+
+**Série C** – périodes allant de 2003 à 2012 et de 2014 à 2017, stations côtières (y compris la COIV), avec des taux de prises fondés sur tous les hameçons.
+
+**Série D** – 1999 et période allant de 2001 à 2017, stations côtières (y compris la COIV), avec des taux de prises fondés sur les 20 premiers hameçons seulement (c’est tout ce dont nous disposons pour 1999, 2001-2002 et 2013).
+
+Nous aimerions obtenir une série d’indices avec une durée aussi longue que possible et, idéalement, sur une région géographique aussi vaste que possible. Comme la série A est la série chronologique la plus longue, nous l’étendons à la série AB, définie comme suit :
+
+**Série AB** – pour les stations situées au nord de la COIV, en combinant les valeurs de la série B pour 1995 et 1996, fondées sur tous les hameçons, avec les valeurs de la série A pour la période allant de 1997 à 2017, fondées sur les 20 premiers hameçons seulement. Voir la section \@ref(sec:iphc-equations)
+
+La série AB qui en résulte couvre les stations situées au nord de la COIV. Dans les sections \@ref(sec:iphc-AD) et \@ref(sec:iphc-BC), nous montrons comment nous déterminons, pour chaque espèce, si nous pouvons considérer cette série comme étant représentative de l’ensemble de la côte (c.-à-d. incluant la COIV), en comparant les séries qui excluent les stations situées au large de la COIV (séries A et B) avec celles qui incluent les stations situées au large de la COIV (séries C et D, respectivement).
+
+HERE
 
 ## IPHC DATA
 
