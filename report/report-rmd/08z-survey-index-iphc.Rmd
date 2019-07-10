@@ -625,7 +625,7 @@ we have shown all available data (rather than setting a minimum requirement
 that a certain number of individuals need to be caught in any one year or over
 the full time series). This sometimes creates strange see-saw patterns when a species is
 caught in only some years (e.g., Greenstriped Rockfish in
-Section \@sec:greenstriped-rockfish). However, this is unavoidable given our
+Section \@ref(sec:greenstriped-rockfish)). However, this is unavoidable given our
 aim of showing all the available data, and further demonstrates the need to examine the
 data for a thorough understanding regarding any particular species.
 
