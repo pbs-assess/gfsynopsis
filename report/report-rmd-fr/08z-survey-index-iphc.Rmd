@@ -355,9 +355,7 @@ Le nombre $N_{its}^{(0)}$ est proportionnel à la densité locale réelle de cet
 N_{its}^{(0)} = F_{its} H_{it},
 \label{eq:Nits0}
 \end{equation}
-où, comme précédemment, $H_{it}$ est le nombre d’hameçons appâtés au saumon kéta dans l’ensemble $i$ pour l’année $t$..
-
-
+où, comme précédemment, $H_{it}$ est le nombre d’hameçons appâtés au saumon kéta dans l’ensemble $i$ pour l’année $t$.
 @clark2008iphc a fait remarquer que, "Mathématiquement, le processus de retrait des appâts d’une palangre par différentes espèces est le même que le processus de retrait des poissons d’une population par différentes pêcheries et prédateurs naturels". Chaque espèce élimine une certaine proportion des appâts par unité de temps, de sorte qu’on peut utiliser l’équation de prise de Baranov pour obtenir
 \begin{equation}
 N_{its} = F_{its} H_{it} \frac{\left(1 - \mathrm{e}^{- Z_{it}} \right)}{Z_{it}},
