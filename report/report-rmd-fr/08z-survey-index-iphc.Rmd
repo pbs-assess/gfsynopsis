@@ -1,4 +1,4 @@
-# IPHC SURVEY INDEX {#app:iphc-survey-index}
+# INDICE DÉRIVÉ DU RELEVÉ DE LA CIFP {#app:iphc-survey-index}
 
 ```{r iphc-examples}
 yyr_set_counts <- readRDS(paste0(file.path(dc, "iphc/yelloweye-rockfish.rds")))$set_counts
@@ -8,53 +8,19 @@ bait_set_counts <- readRDS(paste0(file.path(dc, "iphc/hook-with-bait.rds")))$set
 
 ```
 
-The International Pacific Halibut Commission (IPHC) conducts an annual stock
-assessment longline survey in waters from California to Alaska, including
-British Columbia waters [@flemming2012iphc]. The survey's main goal is to
-provide data on Pacific Halibut (*Hippoglosus stenolepis*) for stock
-assessment purposes.
+La Commission internationale du flétan du Pacifique (CIFP) effectue un relevé annuel à la palangre pour l’évaluation des stocks dans les eaux de la Californie à l’Alaska, y compris les eaux de la Colombie-Britannique [@flemming2012iphc]. Le but principal du relevé est de fournir des données sur le flétan du Pacifique (*Hippoglosus stenolepis*) à des fins d’évaluation des stocks.
 
-At each station, the fishing gear consists of a set of skates each of about 100
-hooks. Up to eight skates are on each set, with the number of skates per set
-varying between years. For each set the IPHC calculates an 'effective skate
-number', which we use here to scale the count of each species of interest
-and obtain a catch rate
-for each set (described below). The effective skate number "standardizes survey
-data in years when the number of hooks, hook spacing, or hook type varied"
-[@yamanaka2008iphc]. An effective skate of one represents a skate of 100 circle
-hooks with 18-foot spacing [@yamanaka2008iphc].
+À chaque station, l’engin de pêche se compose d’un jeu de patins d’environ 100 hameçons chacun. Il y a jusqu’à huit patins sur chaque ensemble, le nombre de patins par ensemble variant d’une année à l’autre. Pour chaque ensemble, la CIFP calcule un 'nombre de patins efficaces', que nous utilisons ici pour mettre à l’échelle le nombre de spécimens de chaque espèce d’intérêt et obtenir un taux de prises pour chaque ensemble (décrit ci-après). Le nombre de patins efficaces permet de "normaliser les données de relevé pour les années où le nombre d’hameçons, l’espacement entre les hameçons ou le type d’hameçon varient " [@yamanaka2008iphc]. Un patin efficace représente un patin de 100 hameçons circulaires avec un espacement de 18 pieds [@yamanaka2008iphc].
 
-For British Columbia waters, the survey has enumerated non-halibut species
-since 1995 (to varying degrees of species identification).
-For each species, the catch rate of a set is the number of individuals caught
-per effective skate.
-We bootstrap these catch rates within each year
-to give annual bootstrapped means, bias-corrected and adjusted
-(BCa) bootstrapped 95\% confidence intervals, and bootstrapped coefficients of
-variation (CV) [@efron1987].
+Pour les eaux de la Colombie-Britannique, le relevé a permis de recenser des espèces autres que le flétan depuis 1995 (à divers degrés d’identification des espèces). Pour chaque espèce, le taux de prises au sein d’un ensemble est le nombre d’individus capturés par patin efficace. Ces taux de prises sont autogénérés à l’intérieur de chaque année pour qu’on puisse obtenir des moyennes annuelles autogénérées, des intervalles de confiance à 95\ % autogénérés corrigés et ajustés (BCa) et des coefficients de variation (CV) autogénérés [@efron1987].
 
-However, complications arise because of differing data
-collection protocols in different years.
-We seek a survey index that spans as long a time period as possible, and,
-ideally, also covers all the coastwide waters off British Columbia (excluding
-the Strait of Georgia which the IPHC survey does not enter). Although the
-spatial coverage and the technical details of the survey are not consistent from
-year to year (as described below), we attempt to construct a survey index for
-as many species as possible for as long a time period as possible. We also
-determine whether each index can be considered representative of all British
-Columbia waters. For each species, the resulting index gives what we term
-the International Pacific Halibut Commission fishery independent survey series
-(IPHC FISS).
+Toutefois, des complications surviennent en raison de protocoles de collecte de données différents d’une année à l’autre. Nous recherchons un indice dérivé du relevé qui couvre une période aussi longue que possible et, idéalement, couvre également toutes les eaux côtières au large de la Colombie-Britannique (à l’exception du détroit de Georgia dans lequel le relevé de la CIFP n’a pas été réalisé). Bien que la couverture spatiale et les détails techniques du relevé ne soient pas uniformes d’une année à l’autre (tel que décrit ci-après), nous tentons de construire un indice dérivé du relevé pour autant d’espèces que possible et pour une période aussi longue que possible. Nous déterminons également si chaque indice peut être considéré comme étant représentatif de toutes les eaux de la Colombie-Britannique. Pour chaque espèce, l’indice qui en résulte donne ce que nous appelons la série de relevés indépendants de la pêche de la Commission internationale du flétan du Pacifique (CIFP).
 
-The approach taken is described below and builds on that developed for
-assessments
-of Redbanded Rockfish [@edwards2017redbanded] and Yelloweye Rockfish
-[@yamanaka2018yelloweyeoutside]. The Redbanded assessment was the first to
-develop an abundance index from the IPHC survey that went back to 1995, and
-included data up to 2012. For the Yelloweye assessment the methods
-were extended to demonstrate that the index based on waters north of Vancouver
-Island could be considered representative of the coastwide population. See
-those examples for worked examples of most of the following calculations.
+La démarche adoptée est décrite ci-après et s’appuie sur celle qui a été élaborée pour l’évaluation du sébaste à bandes rouges [@edwards2017redbanded] et du sébaste aux yeux jaunes [@yamanaka2018yelloweyeoutside]. L’évaluation du sébaste à bandes rouges a été la première durant laquelle on a élaboré un indice de l’abondance à partir des relevés de la CIFP, lesquels remontent à 1995 et comprennent des données jusqu’en 2012. En ce qui concerne l’évaluation du sébaste aux yeux jaunes, les méthodes ont été étendues pour qu’on puisse démontrer que l’indice fondé sur les eaux situées au nord de l’île de Vancouver pouvait être considéré comme étant représentatif de la population de l’ensemble de la côte. Voir ces exemples qui ont fait l’objet d’un travail pour la plupart des calculs suivants.
+
+
+
+
 
 ## IPHC DATA
 
