@@ -114,14 +114,13 @@ En ce qui concerne le relevé de la CIFP, à partir de 1995-1997, les stations �
 
 Chaque année, quelques stations peuvent être déclarées inutilisables par la CIFP et sont exclues de nos analyses (p. ex., la feuille de pointage sur les hameçons a été emportée par dessus bord pour la station 2 113 en 2008), les codes d’utilisabilité étant décrits au tableau\ \@ref(tab:iphc-set-codes). En particulier, nous avons inclus les stations jugées « utilisables, mais omises de toute analyse géospatiale », mais celles-ci devraient être exclues si l’on veut mener des analyses spatiales complexes.
 
-``{r iphc-hook-codes, tab.cap="Description des classifications d’observation des hameçons et des codes correspondants dans la base de données GFBio.", eval=FALSE}
-
-Codes d’hameçons =
+```{r iphc-hook-codes, tab.cap="Description des classifications d’observation des hameçons et des codes correspondants dans la base de données GFBio.", eval=FALSE}
+hookCodes =
 cbind ("Description" = c ("Inconnu","Hameçon vide",
     "Hameçon appâté",
     "Animal à l’hameçon (poisson ou invertébré)", "Tête d’une espèce sur l’hameçon",
     "Espèce détachée de l’hameçon", "Peau d’appât sur hameçon", "Hameçon non observé",
-    "Hameçon avalé ou mordu (par un requin, etc.)".
+    "Hameçon avalé ou mordu (par un requin, etc.)"),
     "HOOK_YIELD_CODE" = 0:8)      # from iphc0314.Snw
 csasdown::csas_table(hookCodes)
 ```
@@ -330,7 +329,7 @@ alors la série AB est toujours la plus longue série chronologique possible, ma
 
 Dans certains cas particuliers d’espèces qui sont rarement capturées (ou qui n’ont pas été précisément dénombrées en 1995 et 1996, par exemple), la série A peut être la plus longue, voire la série C ou la série D si l’espèce n’a pas été capturée certaines années. Il se peut que certains rares cas spéciaux ne soient pas encore entièrement pris en considération dans notre code et doivent être vérifiés espèce par espèce, en particulier si l’on veut déterminer si une espèce donnée a été activement identifiée au cours d’une année donnée (ce qui donne un taux de prises nul plutôt que 'Aucune donnée '). En outre, une série chronologique plus courte et pour tous les hameçons (série\ B ou série\ C) peut être plus instructive qu’une série chronologique plus longue fondée uniquement sur les 20\ premiers hameçons. Toutes les séries sont calculées pour toutes les espèces et doivent faire l’objet d’un examen plus approfondi pour qu’on puisse faire des inférences subséquentes.
 
-En outre, bien que certaines espèces soient rarement capturées dans le cadre du relevé de la CIFP, nous avons montré toutes les données disponibles (plutôt que de fixer une exigence minimale selon laquelle un certain nombre d’individus doivent être capturés au cours d’une année ou au cours d’une série chronologique complète). Cela crée parfois d’étranges modèles en dents de scie lorsqu’une espèce est capturée certaines années seulement (p. ex. le sébaste à bandes vertes dans la section \@sec:greenstriped-rockfish). Cependant, cela est inévitable étant donné notre objectif qui consiste à montrer toutes les données disponibles, et démontre en outre la nécessité d’examiner les données si l’on veut acquérir une compréhension approfondie concernant une espèce particulière.
+En outre, bien que certaines espèces soient rarement capturées dans le cadre du relevé de la CIFP, nous avons montré toutes les données disponibles (plutôt que de fixer une exigence minimale selon laquelle un certain nombre d’individus doivent être capturés au cours d’une année ou au cours d’une série chronologique complète). Cela crée parfois d’étranges modèles en dents de scie lorsqu’une espèce est capturée certaines années seulement (p. ex. le sébaste à bandes vertes dans la section @sec:greenstriped-rockfish). Cependant, cela est inévitable étant donné notre objectif qui consiste à montrer toutes les données disponibles, et démontre en outre la nécessité d’examiner les données si l’on veut acquérir une compréhension approfondie concernant une espèce particulière.
 
 ## CONCURRENCE À L’ÉGARD DES HAMEÇONS
 
