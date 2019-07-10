@@ -157,9 +157,10 @@ Hameçon avalé ou mordu (par un requin, etc.) & 8\\
 Description & USABILITY\_CODE & inclus ici? \\
 \hline
 Pleinement utilisable & 1 & Y\\
-Utilisable, mais ne figure pas dans les calculs de surface balayée & 21 & N\\\
-Utilisable mais supprimé en raison de la redéfinition de la zone couverte par les relevés & 22 & N\\
-Utilisable, mais ne figure pas dans les calculs de la biomasse & 27 & N\\\
+Utilisable, mais ne figure pas dans les calculs de surface balayée & 21 & N\\
+Utilisable mais spprimé en raison de la redéfinition de la zone & 22 & N\\
+ ~couverte par les relevés & & \\
+Utilisable, mais ne figure pas dans les calculs de la biomasse & 27 & N\\
 Utilisable, mais exclu de toute analyse géospatiale & 52 & Y\\
 \hline
 \end{tabular}
