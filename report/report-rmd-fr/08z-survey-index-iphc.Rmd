@@ -28,22 +28,39 @@ Dans les eaux de la Colombie-Britannique (zone 2B de la CIFP), depuis 2003, un t
 
 \begin{table}[t]
 \centering
-\caption{Résumé des données disponibles issues des relevés à la palangre menés dans le cadre de l’évaluation des stocks de la CIFP. 'Résolution des données'  indique à quel niveau les données sont disponibles, et 'COIV' (Côte Ouest de l’île de Vancouver)indique si le relevé comprenait des emplacements situés au large de la côte ouest de l’île de Vancouver ou non. 'Emplacement des données' indique à partir de quelle source les données ont été consultées, la base de données GFBio du MPO ou les feuilles de calcul $^1$. Pour 1995, les données biologiques se trouvaient dans le fichier "1995\_IPHC\_SSA\_Rockfish\_catch\_from\_Kelly\_Ames.xls" sur le disque partagé concernant les sébastes côtiers du MPO, et les patins efficaces ont été obtenus de Aaron Ranta (CIFP) dans le fichier "1995EffSktValues by Station.xlsx". $^2$ Pour 1996-2002, les données se trouvaient dans le fichier "2B AllSpecies 96-02 roundIII.xls", qui provenait à l’origine de la CIFP. $^3$ Pour 2013, les données se trouvaient dans le fichier "2013 20-Hook Data.xls", qui provenait à l’origine de la CIFP. Pour faciliter l’accès, les données tirées des feuilles de calcul sont maintenant toutes incluses dans notre progiciel gfplot.}
+\caption{Résumé des données disponibles issues des relevés à la palangre menés
+dans le cadre de l’évaluation des stocks de la CIFP. 'Résolution des données'
+indique à quel niveau les données sont disponibles, et 'COIV' (Côte Ouest de
+l’île de Vancouver)indique si le relevé comprenait des emplacements situés au
+large de la côte ouest de l’île de Vancouver ou non. 'Emplacement des données'
+indique à partir de quelle source les données ont été consultées, la base de
+données GFBio du MPO ou les feuilles de calcul. $^1$Pour 1995, les données biologiques se trouvaient dans le fichier "1995\_IPHC\_SSA\_Rockfish\_catch\_from\_Kelly\_Ames.xls" sur le disque partagé concernant les sébastes côtiers du MPO, et les patins efficaces ont été obtenus de Aaron Ranta (CIFP) dans le fichier "1995EffSktValues by Station.xlsx". $^2$Pour 1996-2002, les données se trouvaient dans le fichier "2B AllSpecies 96-02 roundIII.xls", qui provenait à l’origine de la CIFP. $^3$Pour 2013, les données se trouvaient dans le fichier "2013 20-Hook Data.xls", qui provenait à l’origine de la CIFP. Pour faciliter l’accès, les données tirées des feuilles de calcul sont maintenant toutes incluses dans notre progiciel gfplot.}
 \label{tab:IPHCdata}
 \begin{tabular}{llllc}
   \hline
-Année & Hameçons ayant fait l’objet d’un dénombrement & Résolution des données & Emplacement des données & COIV?\\
-  \hline
-1995 & Tous & Ensemble par ensemble & Feuilles de calcul $^1$ & N\\
-1996 & Tous & Ensemble par ensemble $^2$ & N\\
-1997-1998 & 20 premiers hameçons de chaque patin & Ensemble par ensemble et feuille de calcul $^2$ & N\\
-1999 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^2$ & Y\\
-2000 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^2$ & N\\
-2001-2002 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^2$ & Y\\
-2003-2011 & Tous & Hameçon par hameçon & Base de données GFBio du MPO & Y\\
-2012 & Tous (expérience avec appâts) & Hameçon par hameçon & Base de données GFBio du MPO & Y\\
-2013 & 20 premiers hameçons de chaque patin & Ensemble par ensemble & Feuille de calcul $^3$ & Y\\
-2014-2017 & Tous & Hameçon par hameçon & Base de données GFBio du MPO & Y\\
+Année & Hameçons ayant fait        & Résolution & Emplacement & COIV?\\
+      & ~l’objet d’un dénombrement & ~des données & ~des données\\
+\hline
+1995 & Tous & Ensemble par & Feuilles de calcul$^1$ & N\\
+     &      & ~ensemble & & \\
+1996 & Tous & Ensemble par & Feuille de calcul$^2$ & N\\
+     &      & ~ensemble$^2$ & & \\
+1997-1998 & 20 premiers hameçons & Ensemble par & Feuille de calcul$^2$ & N\\
+          & ~de chaque patin      & ~ensemble & & \\
+1999 & 20 premiers hameçons & Ensemble par & Feuille de calcul$^2$ & Y\\
+          & ~de chaque patin      & ~ensemble & & \\
+2000 & 20 premiers hameçons & Ensemble par & Feuille de calcul$^2$ & N\\
+          & ~de chaque patin      & ~ensemble & & \\
+2001-2002 & 20 premiers hameçons & Ensemble par & Feuille de calcul$^2$ & Y\\
+          & ~de chaque patin      & ~ensemble & & \\
+2003-2011 & Tous & Hameçon par & Base de données & Y\\
+          &      & ~hameçon    & ~ GFBio du MPO & \\
+2012 & Tous (expérience  & Hameçon par & Base de données & Y\\
+     & ~avec appâts)     & ~hameçon    & ~ GFBio du MPO& \\
+2013 & 20 premiers hameçons & Ensemble par & Feuille de calcul$^3$ & Y\\
+          & ~de chaque patin      & ~ensemble & & \\
+2014-2017 & Tous & Hameçon par & Base de données & Y\\
+          &      & ~hameçon    & ~ GFBio du MPO& \\
 \hline
 \end{tabular}
 \end{table}
@@ -316,7 +333,12 @@ En outre, bien que certaines espèces soient rarement capturées dans le cadre d
 
 ## CONCURRENCE À L’ÉGARD DES HAMEÇONS
 
-La démarche ci-devant a été utilisée par @yamanaka2018yelloweyeoutside pour montrer comment construire un indice pour le sébaste aux yeux jaunes qui soit représentatif de l’ensemble de la côte et qui remonte à 1995. Une autre démarche a été utilisée pour générer un indice pour le modèle d’évaluation (Marie Etienne et al. *Extracting abundance indices from palgline surveys: a method to account for hook competition and unbaited hooks*,[manuscrit non publié] (https://arxiv.org/abs/1005.0892)). Ces auteurs ont tenté de rendre compte de l’effet de la concurrence entre les poissons qui se disputent les appâts qui se trouvent sur les hameçons.
+La démarche ci-devant a été utilisée par @yamanaka2018yelloweyeoutside pour
+montrer comment construire un indice pour le sébaste aux yeux jaunes qui soit
+représentatif de l’ensemble de la côte et qui remonte à 1995. Une autre démarche
+a été utilisée pour générer un indice pour le modèle d’évaluation (Marie Etienne
+et al. *Extracting abundance indices from palgline surveys: a method to account
+for hook competition and unbaited hooks*, [manuscrit non publié](https://arxiv.org/abs/1005.0892)). Ces auteurs ont tenté de rendre compte de l’effet de la concurrence entre les poissons qui se disputent les appâts qui se trouvent sur les hameçons.
 
 Si certains des hameçons d’un ensemble ont capturé des poissons individuels, alors ces hameçons ne sont plus utilisés pour la pêche. L’intégration d’une telle « concurrence à l’égard des hameçons appâtés » implique une augmentation des taux de prises si l’on veut tenir compte du fait que tous les hameçons observés n’étaient pas disponibles pour la pêche pendant la durée de la période d’immersion.
 
