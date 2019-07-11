@@ -169,7 +169,10 @@ In designing the report we made the following design considerations:
 We aimed to make the report automated and reproducible so that it could be
 easily updated in the future. We also wanted the report production to be
 transparent and traceable with regards to how the data were extracted from
-databases and treated prior to plotting. To accomplish this, we developed
+databases and treated prior to plotting. Raw data can often not
+be plotted in a meaningful way without first undergoing some mathematical modelling,
+and for this we wanted to use consistent methods across species.
+To accomplish these aims, we developed
 a family of R packages that facilitated extraction of data from relational
 databases, tidying and arranging the necessary data for modelling or plotting,
 fitting statistical models, plotting the data and statistical models, and
