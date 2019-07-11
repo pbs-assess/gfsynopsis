@@ -201,7 +201,7 @@ presented faithfully.
 
 The report includes two pages of visualization for 113 species of BC groundfish
 and sharks [@anderson2019synopsis]. Figures 1 and 2 show the pages for an
-example species. The species covered include 34 rockfish species; 16
+example species. The species covered in the report include 34 rockfish species; 16
 elasmobranch species and one chimaera species; 16 flatfish species; nine
 gadiform species (cods); 15 sculpin and poacher species; three
 greenling/lingcod species; six eelpout species, three prickleback species, and
@@ -217,10 +217,10 @@ together on two pages for the first time.
 # Discussion
 
 We have described an automated report that presents up-to-date population
-trends and biological data from both commercial fisheries and research surveys
+trends and biological data from commercial fisheries and research surveys
 for groundfish in BC, Canada. Stock assessments are not available for most of
 these species, and are not available every year for most that are assessed,
-limiting the dissemination of these data. Our report facilitates the broad
+limiting the dissemination of these data in the past. Our report facilitates the broad
 monitoring of groundfish populations in BC waters---it ensures all BC
 groundfish scientists, managers, and interested parties have access to
 consistent, up-to-date, and easily digestible visualizations of data holdings.
@@ -274,7 +274,7 @@ report has become an indispensable reference for individuals providing science
 advice on groundfish in the region and the tools used to generate the report
 proved useful in a recent Pacific cod (*Gadus macrocephalus*) assessment for
 the coast of BC [@forrest2019pcod] and in many ongoing projects. We plan to
-update the report to include new data on an annual or biennial basis with
+update the report to include new data on an annual or biennial basis and make
 larger structural changes on a less frequent basis. Future plans include adding
 visualizations of relevant climate data such as local climate velocities [e.g.,
 @loarie2009] and indicators of localized range shifts. We hope our approach can
@@ -289,7 +289,7 @@ collection of the valuable data that underlies the report described in this
 paper. For invaluable input into the report's design we thank
 Robyn Forrest, Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard, Chris
 Rooper, and Greg Workman, We thank Norm Olsen, Maria Surry, and Malcolm Wyeth
-maintaining the BC groundfish databases and for help with data extraction.
+for maintaining the BC groundfish databases and for help with data extraction.
 
 <!-- pcod, redbanded, rougheye? -->
 
