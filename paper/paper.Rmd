@@ -120,7 +120,8 @@ stakeholders, and raise awareness of data gaps. Visualization can also serve as
 a tool for those with domain-specific knowledge to spot errors in data sets.
 Furthermore, compared to the structured nature of statistical models, the
 unconstrained nature of visualization helps detect the unexpected
-[@wickham2015]. The advancement of the family of data analysis packages for the
+[@wickham2015]. The advancement of the family of data-analysis
+and dynamic-report-generation packages for the
 statistical software R [@r2019], such as knitr [@xie2017], makes it
 increasingly practical to generate reproducible visualization reports of survey
 and fishery monitoring data.
