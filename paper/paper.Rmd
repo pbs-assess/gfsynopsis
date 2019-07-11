@@ -5,15 +5,16 @@ title: |
 author: |
   Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3,4^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
-     Nanaimo, BC, V6T 6N7, Canada;\
+     3190 Hammond Bay Road, Nanaimo, BC, V6T 6N7, Canada;\
      sean.anderson@dfo-mpo.gc.ca (\*corresponding author)\
   ^2^Pacific Biological Station, Fisheries and Oceans Canada,\
-     Nanaimo, BC, V6T 6N7, Canada; elise.keppel@dfo-mpo.gc.ca\
+     3190 Hammond Bay Road, Nanaimo, BC, V6T 6N7, Canada;\
+     elise.keppel@dfo-mpo.gc.ca\
   ^3^Pacific Biological Station, Fisheries and Oceans Canada,\
-     Nanaimo, BC, V6T 6N7, Canada; andrew.edwards@dfo-mpo.gc.ca\
+     3190 Hammond Bay Road, Nanaimo, BC, V6T 6N7, Canada;\
+     andrew.edwards@dfo-mpo.gc.ca\
   ^4^Department of Biology, University of Victoria,\
      PO Box 1700 STN CSC, Victoria, BC, V8W 2Y2, Canada
-
 output:
   bookdown::pdf_document2:
     number_sections: no
@@ -74,17 +75,17 @@ however, regulatory agencies often lack the capacity to translate the data into
 effective and broad monitoring. Here we describe an automated report for 113
 groundfish species in Pacific Canadian waters to encourage others to consider
 similar reports for their own data. Our report includes standardized
-visualizations of commercial and survey population trends in time and space, age
-and length frequencies, maturity, and growth. It facilitates discussions on
-stock-assessment and survey prioritization, increases transparency about data
-holdings, and makes the data available for regular review by interested
-parties.
+visualizations of commercial and survey population trends in time and
+distributions in space, age and length frequencies, maturity, and growth. It
+facilitates discussions on stock-assessment and survey prioritization, increases
+transparency about data holdings, and makes the data available for regular
+review by interested parties.
 
 \clearpage
 
 # Introduction
 
-Modern survey and fishery observation programs generate vast quantities of
+Survey and fishery observation programs produce large quantities of
 biological and environmental data; however, turning that data into effective
 monitoring remains a challenge. Agencies that collect data often lack the
 resources to report on all facets of it in a timely fashion. Typically,
@@ -298,7 +299,7 @@ for maintaining the BC groundfish databases and for help with data extraction.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13.2cm]{fig1-pcod.png}
+\includegraphics[width=13.2cm]{fig1-pcod-no-sar.png}
 \caption{Example first page for Pacific cod (\emph{Gadus macrocephalus})
 featuring metadata and temporal and spatial trends from fisheries-independent
 surveys and commercial catch and effort data in British Columbia, Canada. (Top
