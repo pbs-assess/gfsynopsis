@@ -127,7 +127,7 @@ increasingly practical to generate reproducible visualization reports of survey
 and fishery monitoring data.
 
 As part of a solution to our above-mentioned challenges, we developed an
-automated data synopsis report for 113 groundfish species in BC, Canada.
+automated data synopsis report for 113 groundfish species in BC, Canada [@anderson2019synopsis].
 Here we share our approach to encourage others to consider
 similar reports for their own data. Our goals with the report were manifold and
 included (1) ensuring that the current state of knowledge on indices of
