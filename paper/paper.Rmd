@@ -3,7 +3,7 @@ title: |
    Reproducible reporting facilitates monitoring and data transparency for over
    100 Pacific Canadian groundfish species
 author: |
-  Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3^\
+  Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3,4^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
      Nanaimo, BC, V6T 6N7, Canada;\
      sean.anderson@dfo-mpo.gc.ca (\*corresponding author)\
@@ -11,6 +11,9 @@ author: |
      Nanaimo, BC, V6T 6N7, Canada; elise.keppel@dfo-mpo.gc.ca\
   ^3^Pacific Biological Station, Fisheries and Oceans Canada,\
      Nanaimo, BC, V6T 6N7, Canada; andrew.edwards@dfo-mpo.gc.ca\
+  ^4^Department of Biology, University of Victoria,\
+     PO Box 1700 STN CSC, Victoria, BC, V8W 2Y2, Canada
+
 output:
   bookdown::pdf_document2:
     number_sections: no
