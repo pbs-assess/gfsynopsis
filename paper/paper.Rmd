@@ -67,8 +67,8 @@ visualization -->
 # Abstract
 
 Modern survey and fishery observation programs generate vast quantities of data;
-however, regulatory agencies often lack the capacity to translate this data into
-effective and broad monitoring. Here, we describe an automated report for 113
+however, regulatory agencies often lack the capacity to translate the data into
+effective and broad monitoring. Here we describe an automated report for 113
 groundfish species in Pacific Canadian waters to encourage others to consider
 similar reports for their own data. Our report includes standardized
 visualizations of commercial and survey population trends in time and space, age
