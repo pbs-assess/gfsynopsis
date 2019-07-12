@@ -25,14 +25,12 @@ d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
   select(species_common_name, species_code,
     species_science_name, spp_w_hyphens, type, itis_tsn, worms_id)
-spp_temp <- spp
 
 # Geostatistical model fits: (a bit slow)
 fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
 if (!file.exists(fi)) source(here("report/make-geostat.R"))
 dat_geostat_index <- readRDS(fi)
 
-spp <- spp_temp    # Else it gets overwritten with different structure by make-geostat.R
 # ------------------------------------------------------------------------------
 
 if (!file.exists(here("report", "itis.rds"))) {

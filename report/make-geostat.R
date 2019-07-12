@@ -6,10 +6,10 @@ library(dplyr)
 library(sdmTMB)
 library(foreach)
 
-spp <- gfsynopsis::get_spp_names()
-spp <- dplyr::pull(dplyr::filter(spp, type %in% c("A", "B")), spp_w_hyphens)
+.spp <- gfsynopsis::get_spp_names()
+.spp <- dplyr::pull(dplyr::filter(.spp, type %in% c("A", "B")), spp_w_hyphens)
 survs <- c('SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')
-all <- expand.grid(spp = spp, survs = survs,
+all <- expand.grid(spp = .spp, survs = survs,
   stringsAsFactors = FALSE)
 
 if (!exists("cores") || !exists("parallel_processing")) {
