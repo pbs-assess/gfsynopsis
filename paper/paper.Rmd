@@ -75,8 +75,8 @@ however, regulatory agencies often lack the capacity to translate the data into
 effective and broad monitoring. Here we describe an automated report for 113
 groundfish species in Pacific Canadian waters to encourage others to consider
 similar reports for their own data. Our report includes standardized
-visualizations of commercial and survey population trends in time and
-distributions in space, age and length frequencies, maturity, and growth. It
+visualizations of temporal trends and spatial distributions of commercial
+catches and survey indices, age and length frequencies, maturity, and growth. It
 facilitates discussions on stock-assessment and survey prioritization, increases
 transparency about data holdings, and makes the data available for regular
 review by interested parties.
