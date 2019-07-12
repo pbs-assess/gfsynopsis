@@ -1,4 +1,4 @@
-rmarkdown::render("paper.Rmd", output_format = "latex_document")
+rmarkdown::render("paper.Rmd")
 d <- readLines("paper.tex")
 
 figure_line <- grep("^\\\\begin\\{figure\\}", d)[[1]]
