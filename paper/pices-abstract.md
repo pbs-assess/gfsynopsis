@@ -18,7 +18,7 @@ over 100 groundfish species, but limited capacity has historically
 left the majority of such data unreported. To address this, we developed an
 automated data-synopsis report for 113 groundfish species in Pacific Canadian
 waters. Our report includes visualizations of temporal trends and spatial
-distributions of commercial catches and survey indices, and data on age-length
+distributions of commercial catches and survey indices, and data on age and length
 frequencies, maturity, and growth, presented in a standardized format for each
 species. The report facilitates discussions on stock-assessment and
 survey-program prioritization, increases transparency about our data holdings,
