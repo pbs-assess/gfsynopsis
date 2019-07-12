@@ -76,8 +76,8 @@ effective and broad monitoring. Here we describe an automated report for 113
 groundfish species in Pacific Canadian waters to encourage others to consider
 similar reports for their own data. Our report includes standardized
 visualizations of temporal trends and spatial distributions of commercial
-catches and survey indices, age and length frequencies, maturity, and growth. It
-facilitates discussions on stock-assessment and survey prioritization, increases
+catches and survey indices, plus data on ages, lengths, maturity, and growth.
+It facilitates discussions on stock-assessment and survey prioritization, increases
 transparency about data holdings, and makes the data available for regular
 review by interested parties.
 
@@ -206,7 +206,7 @@ presented faithfully.
 The report includes two pages of visualization for 113 species of BC groundfish
 and sharks [@anderson2019synopsis]. Figures 1 and 2 show the pages for an
 example species. The species covered in the report include 34 rockfish species; 16
-elasmobranch species and one chimaera species; 16 flatfish species; nine
+elasmobranch species and one chimaera species; 15 flatfish species; nine
 gadiform species (cods); 16 sculpin and poacher species; three
 greenling/lingcod species; six eelpout species, three prickleback species, and
 seven other perciform species; and one species each of smelt, sablefish and
@@ -215,8 +215,6 @@ empty plots, which graphically demonstrate the lack of data. This effectively
 turns unknown unknowns about a given species [@wintle2010] into *known*
 unknowns. For data-rich species, nearly all data available are visualized
 together on two pages for the first time.
-
-<!-- TODO: We're missing 1 species! -->
 
 # Discussion
 
