@@ -14,7 +14,7 @@ of population and ecosystem health that are useful to fellow scientists, the
 public, resource managers, and the Indigenous people and fishing-industry
 collaborators who help collect the data remains a challenge. In British
 Columbia, Canada, survey- and commercial-monitoring programs produce data on
-over over 100 groundfish species, but personnel limitations have historically
+over 100 groundfish species, but limited capacity has historically
 left the majority of such data unreported. To address this, we developed an
 automated data-synopsis report for 113 groundfish species in Pacific Canadian
 waters. Our report includes visualizations of temporal trends and spatial
