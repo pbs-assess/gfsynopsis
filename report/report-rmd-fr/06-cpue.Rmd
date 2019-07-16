@@ -1,108 +1,41 @@
-# CPUE INDEX STANDARDIZATION {#app:cpue-models}
+# NORMALISATION DE L’INDICE DES CAPTURES PAR UNITÉ D’EFFORT (CPUE) {#app:cpue-models}
 
-We sought to generate an index of abundance from commercial trawl catch per
-unit effort data that was standardized for depth, fishing locality (defined
-spatial regions; Figure \@ref(fig:cpue-locality-map)), month, vessel, and
-latitude. Before fitting a standardization model, we had to filter and
-manipulate the available catch and effort data to generate a dataset
-appropriate for model fitting. In the following sections we describe those
-decisions for the data from 1996--2017 and then describe our index
-standardization model. This model and the following description draws heavily
-from a recent assessment of Pacific Cod (in parts copied verbatim), where this
-model was first developed and applied [@forrest2018pcod].
+Nous avons cherché à produire un indice d’abondance à partir des données sur les CPUE dans la pêche commerciale au chalut, qui ont été normalisées pour la profondeur, l’emplacement de la pêche (régions spatiales définies; figure \@ref(fig:cpue-locality-map)), le mois, le navire et la latitude. Avant d’ajuster un modèle de normalisation, nous avons dû filtrer et manipuler les données disponibles sur les prises et l’effort pour générer un ensemble de données approprié pour l’ajustement du modèle. Dans les sections suivantes, nous décrivons ces décisions pour les données de 1996 à 2017 et présentons ensuite notre modèle de normalisation de l’indice. Ce modèle et la description qui suit reposent largement sur une évaluation récente de la morue du Pacifique (en partie copiée mot pour mot), où ce modèle a été élaboré et appliqué pour la première fois [@dfo2018pcod].
 
-## DEFINING THE 1996--`r as.numeric(format(Sys.Date(), "%Y")) - 1` FLEET
 
-Commercial groundfish bottom trawl data from 1996 to present have been recorded
-to the fishing-event level in the presence of on-board observers or video
-monitoring. Although catch and effort data are available for earlier years for
-most species, they are not of the same quality, and for most years do not
-contain information on latitude or vessel ID. These earlier data are likely
-useful in the assessment of some species, but we have restricted the
-presentation of commercial CPUE data in this report to the higher-quality
-1996-onwards data to avoid exploring the numerous caveats that would need to be
-considered on a species-by-species and decade-by-decade basis. We think the
-presentation of historical CPUE is better left to species-specific stock
-assessments that can more thoroughly consider these data.
+## DÉFINITION DE LA FLOTTE DE 1996 À `r as.numeric(format(Sys.Date(), "%Y")) - 1`
 
-Since we have data on individual vessels for this modern fleet, and in keeping
-with previous analyses for Pacific groundfish stocks, we defined a 'fleet' that
-includes only vessels that qualify by passing some criteria of regularly
-catching Pacific Cod. We follow the approach used in a number of recent BC
-groundfish stock assessments by requiring vessels to have caught the species in
-at least 100 tows across all years of interest, and to have passed a threshold
-of five trips (trips that recorded some of the species) for at least five years
---- all from 1996 to `r as.numeric(format(Sys.Date(), "%Y")) - 1`.
+Les données sur la pêche commerciale du poisson de fond au chalut de fond de 1996 à nos jours ont été enregistrées à l’échelle des événements de pêche en présence d’observateurs à bord ou par surveillance vidéo. Bien que les données sur les prises et l’effort de pêche soient disponibles pour les années antérieures pour la plupart des espèces, elles ne sont pas de la même qualité et, pour la plupart des années, ne contiennent pas d’information sur la latitude ou l’ID du navire. Ces données antérieures sont probablement utiles pour l’évaluation de certaines espèces, mais, dans le présent rapport, nous avons limité la présentation des données sur les CPUE dans les pêches commerciales aux données de grande qualité de 1996 et après pour éviter les nombreuses mises en garde à prendre en compte espèce par espèce et décennie par décennie. Nous pensons qu’il est préférable de laisser la présentation des CPUE historiques aux évaluations de stocks propres à des espèces qui peuvent prendre en compte ces données de manière plus rigoureuse.
 
-## DEFINING THE STANDARDIZATION MODEL PREDICTORS
+Étant donné que nous disposons de données sur les navires individuels de cette flotte moderne, et conformément aux analyses antérieures des stocks de poisson de fond du Pacifique, nous avons défini une « flotte » qui ne comprend que les navires admissibles répondant à certains critères de capture régulière de morue du Pacifique. Nous suivons l’approche utilisée dans un certain nombre d’évaluations récentes des stocks de poisson de fond de la Colombie-Britannique en exigeant que les navires aient capturé l’espèce en au moins 100 traits pour toutes les années d’intérêt et qu’ils aient dépassé un seuil de cinq sorties (sorties ayant enregistré certaines espèces) pendant au moins cinq ans, de 1996 à `r as.numeric(format(Sys.Date(), "%Y")) - 1`.
 
-For depth and latitude, we binned the values into a sequence of bands to allow
-for nonlinear relationships between these predictors and CPUE [e.g.,
-@maunder2004a]. For depth, we binned trawl depth into bands 25m wide. For
-latitude, we used bands that were 0.1 degrees wide. To ensure sufficient data
-to estimate a coefficient for each factor level, we limited the range of depth
-bins to those that fell within the 0.1% to 99.9% cumulative probability of
-positive observations and then removed any factor levels (across all
-predictors) that contained fewer than 0.1% of the positive observations.
 
-Predictors that are treated as factors in a statistical model need a reference
-or base level --- a level from which the other coefficients for that variable
-estimate a difference. The base level then becomes the predictor value that is
-used in the prediction for the standardized index. We chose the most frequent
-factor level as the base level --- a common choice for these types of models
-[@maunder2004a]. For example, we set the base month as the most common month
-observed in the dataset filtered for only tows where the species was caught.
-This choice of base level only affects the intercept or relative magnitude of
-our index because of the form of our model (discussed below) and makes no
-functional difference in the commercial CPUE time series presented in this
-report since they are all scaled to that same maximum and displayed without
-units.
+## DÉFINITION DES PRÉDICTEURS DU MODÈLE DE NORMALISATION
 
-## A TWEEDIE GLMM INDEX STANDARDIZATION MODEL
+Pour la profondeur et la latitude, nous avons regroupé les valeurs dans une séquence de tranches pour permettre des relations non linéaires entre ces prédicteurs et les CPUE [e.g., @maunder2004a]. Pour la profondeur, nous avons divisé la profondeur du chalut en tranches de 25 m de large Pour la latitude, nous avons utilisé des tranches de 0,1 degré de large. Afin d’obtenir suffisamment de données pour estimer un coefficient pour chaque niveau de facteur, nous avons limité la fourchette des tranches de profondeur à ceux qui se situaient dans la probabilité cumulative d’observations positives de 0,1 % à 99,9 %, puis nous avons supprimé tout niveau de facteur (pour tous les prédicteurs) contenant moins de 0,1% de ces observations positives.
 
-Fisheries CPUE data contains both zeros and positive continuous values.
-A variety of approaches have been used in the fishery literature to model such
-data. One approach has been to fit a delta-GLM (generalized linear model) ---
-a model that fits the zero vs. non-zero values with a logistic regression (a
-binomial GLM and a logit link) and the positive values with a linear regression
-fit to log-transformed data or a Gamma GLM with a log link [e.g., @maunder2004a;
-@thorson2013]. The probability of a non-zero CPUE from the first component can
-then be multiplied by the expected CPUE from the second component to derive an
-unconditional estimate of CPUE. However, this approach suffers from a number of
-issues:
+Les prédicteurs qui sont traités comme des facteurs dans un modèle statistique ont besoin d’un niveau de référence ou de base, un niveau à partir duquel les autres coefficients pour cette variable estiment une différence. Le niveau de base devient alors la valeur prédictive utilisée dans la prédiction de l’indice normalisé. Nous avons choisi le niveau de facteur le plus fréquent comme niveau de base; un choix commun pour ces types de modèles [@maunder2004a]. Par exemple, nous avons établi le mois de base comme étant le mois le plus commun observé dans l’ensemble de données filtré pour seulement les traits où l’espèce a été capturée. Ce choix du niveau de base n’affecte que l’interception ou la magnitude relative de notre indice en raison de la forme de notre modèle (voir ci-dessous) et n’a aucune incidence fonctionnelle sur les séries chronologiques des CPUE dans les pêches commerciales présentées dans ce rapport puisqu’elles sont toutes mises à l’échelle à ce même maximum et affichées sans unités.
 
-1. The delta-GLM approach adds complexity by needing to fit and report on two
-   models.
-1. In the typical delta-GLM approach, the two models are fit with separate
-   links and so the coefficients cannot be combined.
-1. The delta-GLM approach assumes independence among the two components [e.g.,
-   @thorson2017].
-1. Perhaps most importantly for our purpose, a delta-GLM in which the two
-   models use different links renders a final index in which the index trend is
-   dependent on the specific reference levels that the predictors are set to
-   [e.g., @maunder2004a].
 
-The Tweedie distribution [@jorgensen1987] solves the above problems [e.g.,
-@candy2004; @shono2008; @foster2013; @lecomte2013; @thorson2017] but has not
-seen widespread use presumably mostly because of the computational expense of
-calculating the Tweedie probability density function. Recently, the Tweedie
-density function has been introduced to the software TMB [@kristensen2016] and
-can be fit relatively quickly to large datasets and for models with many fixed
-and random effect parameters either with custom written TMB models or via the
-glmmTMB R package [@brooks2017].
+## UN MODÈLE DE NORMALISATION DE L’INDICE DU MLGM TWEEDIE
 
-In addition to a mean parameter, the Tweedie distribution has two other
-parameters: a power parameter $p$ and a dispersion parameter $\phi$. If $1
-< p < 2$ then the Tweedie distribution represents a compound distribution
-between the Poisson ($p = 1$) and the Gamma distribution ($p = 2$)
-(Figure\ \@ref(fig:cpue-tweedie-ex)). In fact, the Tweedie is alternatively
-referred to as the compound-Poisson-Gamma distribution in this bounded case. We
-note, however, that the compound-Poisson-Gamma distribution is often used to
-refer to a re-parameterization in which the Poisson and Gamma components are
-fit so that they are not assumed to have the same predictive coefficients as
-they are in the Tweedie distribution [e.g., @foster2013; @lecomte2013].
+Les données sur les CPUE des pêches contiennent à la fois des valeurs nulles et des valeurs continues positives. Diverses approches ont été utilisées dans la documentation sur les pêches pour modéliser ces données. Une approche a consisté à ajuster un modèle linéaire généralisé (MLG) Delta, modèle qui ajuste les valeurs nulles par rapport aux valeurs autres selon une régression logistique (un MLG binomial et un lien logit) et les valeurs positives selon une régression linéaire adaptée aux données transformées en logarithme ou un MLG Gamma avec un lien logarithmique [e.g., @maunder2004a; @thorson2013]. La probabilité que les CPUE ne soient pas nulles pour la première composante peut alors être multipliée par les CPUE attendues pour la deuxième composante en vue d’obtenir une estimation inconditionnelle des CPUE. Toutefois, cette approche pose problème sur quelques points :
 
-We fit the Tweedie GLMM (generalized linear mixed effects model) as
+
+1. L’approche du MLG Delta ajoute de la complexité en nécessitant l’ajustement et la production de rapports sur deux modèles.
+
+1. Dans l’approche typique du MLG Delta, les deux modèles sont ajustés selon des liens distincts et les coefficients ne peuvent donc pas être combinés.
+
+1. L’approche du MLG Delta suppose l’indépendance entre les deux composantes [e.g., @thorson2017].
+
+
+1. Ce qui est peut-être le plus important pour nous, c’est qu’un MLG Delta dans lequel les deux modèles utilisent des liens différents donne un indice final pour lequel la tendance dépend des niveaux de référence spécifiques auxquels les prédicteurs sont fixés [e.g., @maunder2004a].
+
+La distribution de Tweedie [@jorgensen1987] résout les problèmes ci-dessus [e.g., @candy2004; @shono2008; @foster2013; @lecomte2013; @thorson2017], mais elle n’a pas été largement utilisée, probablement principalement en raison des frais liés au calcul de la fonction de densité de probabilité de Tweedie. Récemment, la fonction de densité de Tweedie a été introduite dans le logiciel TMB [@kristensen2016] et peut être adaptée relativement rapidement aux grands ensembles de données et aux modèles comportant de nombreux paramètres d’effets fixes et aléatoires, soit au moyen de modèles TMB codés sur mesure, soit au moyen du prologiciel du MLMG TMB R [@brooks2017].
+
+En plus d’un paramètre moyen, la distribution de Tweedie a deux autres paramètres : un paramètre de puissance $p$ et un paramètre de dispersion $\phi$. Si $1 < p < 2$, alors la distribution de Tweedie représente une distribution composée entre la distribution de Poisson ($p = 1$) et la distribution Gamma ($p = 2$) (figure\ \@ref(fig:cpue-tweedie-ex)). En fait, le Tweedie est aussi appelé la distribution composée Poisson-Gamma dans ce cas délimité. Nous notons toutefois que la distribution composée Poisson-Gamma est souvent utilisée pour faire référence à un reparamétrage dans laquelle les composantes Poisson et Gamma sont ajustées de sorte qu’elles ne sont pas censées avoir les mêmes coefficients prédictifs que dans la distribution de Tweedie [e.g., @foster2013; @lecomte2013].
+
+Nous adaptons le MLMG de Tweedie (modèle linéaire généralisé à effets mixtes) comme suit :
 
 \begin{align}
    (\#eq:cpue-tweedie)
@@ -123,38 +56,15 @@ We fit the Tweedie GLMM (generalized linear mixed effects model) as
   \mathrm{Normal}(0, \sigma^2_{\alpha \; \mathrm{vessel}}),
 \end{align}
 
-where $i$ represents a single tow, $y_i$ represents the catch (kg) per unit
-effort (hours trawled), $\bm{X_i}$ represents a vector of fixed-effect
-predictors (year, depth bins, months, latitude bins), $\bm{\beta}$ represents
-a vector of coefficients, and $\mu_i$ represents the expected CPUE in a tow.
-The random effect intercepts ($\alpha$ symbols) are allowed to vary from the
-overall intercept by locality (Figure \@ref(fig:cpue-locality-map)
-$j$ (\(\alpha^\mathrm{locality}_j\)),
-locality-year $k$ (\(\alpha^\mathrm{locality-year}_k\)), and vessel $l$
-(\(\alpha^\mathrm{vessel}_l\)) and are constrained by normal distributions with
-respective standard deviations denoted by $\sigma$ parameters. By including the
-locality-year interactions, we allow the individual localities to have unique
-CPUE index trends (somewhat constrained by the random effect distribution)
-while estimating the overall average trend (Figure \@ref(fig:cpue-spaghetti)).
+où $i$ représente un trait unique, $y_i$ représente les CPUE (kg par heures de chalutage), $\bm{X_i}$ représente un vecteur de prédicteurs à effet fixe (année, profondeur, mois, latitude), $\bm{\beta}$ représente un vecteur de coefficients et $\mu_i$ représente les CPUE attendues pour un trait. Les interceptions des effets aléatoires (symboles $\alpha$) peuvent différer de l’interception globale par emplacement $j$ (\(\alpha^\mathrm{locality}_j\), Figure \@ref(fig:cpue-locality-map)), emplacement-année $k$ (\(\alpha^\mathrm{locality-year}_k\)), et par navire  $l$ (\(\alpha^\mathrm{vessel}_l\)), puis sont limitées par des distributions normales dont les écarts-types respectifs sont marqués par des paramètres $\sigma$. En incluant les interactions emplacement-année, nous permettons aux différents emplacements d’avoir des tendances d’indice des CPUE uniques (quelque peu limitées par la distribution des effets aléatoires) tout en estimant la tendance moyenne globale (figure \@ref(fig:cpue-spaghetti)).
 
-We can then calculate the standardized estimate of CPUE for year $t$, $\mu_t$,
-as
+On peut alors calculer l’estimation normalisée des CPUE pour l’année $t$, $\mu_t$, comme suit :
 
 \begin{equation}
   \mu_t = \exp \left(\bm{X}_t \bm{\beta} \right)
 \end{equation}
 
-where $\bm{X_t}$ represents a vector of predictors set to the reference ($r$)
-levels with the year set to the year of interest. Because each of the $\alpha$
-random intercepts is set to zero, the index is predicted for an average
-locality, locality-year, and vessel. We estimated the fixed effects with
-maximum marginal likelihood while integrating over the random effects with the
-statistical software TMB via the R package glmmTMB. We used standard errors
-($\mathrm{SE}$) as calculated by TMB on $\log (\mu_t)$ via the generalized
-delta method. We then calculated the 95\% Wald confidence intervals as $\exp
-(\mu_t \pm 1.96 \mathrm{SE}_t)$. For comparison, we calculated an
-unstandardized time series by summing the catch each year and dividing it by the
-summed effort each year (the dashed lines on the figure pages).
+où $\bm{X_t}$ représente un vecteur de prédicteurs fixé aux niveaux de référence ($r$) avec l’année fixée à l’année d’intérêt. Comme chacune des interceptions aléatoires $\alpha$ est fixée à zéro, l’indice est prédit pour un emplacement moyen, un emplacement-année et un navire. Nous avons estimé les effets fixes avec le maximum de vraisemblance marginale tout en intégrant les effets aléatoires avec le logiciel statistique TMB au moyen du prologiciel du MLMG TMB R. Nous avons utilisé les erreurs types ($\mathrm{SE}$) telles qu’elles sont calculées par TMB avec le $\log (\mu_t)$ à l’aide de la méthode Delta généralisée. Nous avons ensuite calculé les intervalles de confiance de Wald de 95\% comme suit : $\exp (\mu_t \pm 1.96 \mathrm{SE}_t)$. Aux fins de comparaison, nous avons calculé une série chronologique non normalisée en additionnant les prises de chaque année et en les divisant par la somme de l’effort annuel (les lignes pointillées sur les pages des figures).
 
 ```{r cpue-loaded-data}
 library(dplyr)
@@ -170,7 +80,7 @@ locality_count <- d_cpue %>%
   arrange(-n)
 ```
 
-(ref:cpue-locality-map-cap) Top 100 DFO localities (by fishing event count) used in the commercial CPUE standardization models. In total there are `r nrow(locality_count)` possible localities recorded in the data set.
+(ref:cpue-locality-map-cap) Les 100 principaux emplacements du MPO (selon le nombre d’événements de pêche) utilisés dans les modèles commerciaux de normalisation des CPUE. Au total, il y a `r nrow(locality_count)` emplacements possibles enregistrés dans l’ensemble de données.
 
 ```{r cpue-locality-map, fig.cap="(ref:cpue-locality-map-cap)", fig.asp=0.9}
 gfplot:::plot_dfo_localities(top_n(locality_count, 75)$locality_code) +
@@ -178,7 +88,7 @@ gfplot:::plot_dfo_localities(top_n(locality_count, 75)$locality_code) +
   ylab(en2fr("Northing", french))
 ```
 
-```{r cpue-tweedie-ex, fig.asp=0.7, fig.with=8, out.width="5.5in", fig.cap="Example density functions for the Tweedie distribution. The symbol $\\phi$ (written as phi in this figure) represents the dispersion parameter, $p$ represents the power parameter, and $\\mu$ represents the mean. Note that the spike in density that is seen towards the left of the panels is at a value of 0 on the x axis."}
+```{r cpue-tweedie-ex, fig.asp=0.7, fig.with=8, out.width="5.5in", fig.cap="Exemples de fonctions de densité pour la distribution de Tweedie. Le symbole $\\phi$ (représenté par « phi » dans cette figure) représente le paramètre de dispersion, $p$ représente le paramètre de puissance et $\\mu$ représente la moyenne. Notez que le pic de densité que l’on voit vers la gauche des encadrés a une valeur de 0 sur l’axe des x."}
 plot_tweedie_ex <- function(df, max = 15) {
   xx <- seq(0, max, length.out = 1000)
   out <- plyr::mdply(df, function(mu, power, phi) {
@@ -217,7 +127,8 @@ if (file.exists(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds")))
   d_fleet <- readRDS(here::here("report/cpue-cache/petrale-sole-5AB-fleet.rds"))
 ```
 
-```{r cpue-spaghetti, fig.width=6, out.width="4in", fig.cap="Example locality-specific CPUE index trends for the Petrale Sole in area 5AB with a standardization model that allows for locality-year (space-time) interactions. The coloured lines indicate the locality-specific estimates with all other predictors set to their base levels. The black line and shaded ribbon indicate the overall average annual CPUE and 95\\% CI, respectively."}
+```{r cpue-spaghetti, fig.width=6, out.width="4in", fig.cap="Exemple de tendances de l’indice des CPUE propre à un emplacement pour la plie de Californie dans la zone 5AB avec un modèle de normalisation qui permet des interactions emplacement-année (espace-temps). Les lignes colorées indiquent les estimations propres à l’emplacement et tous les autres prédicteurs sont réglés à leur niveau de base. La ligne noire et le ruban ombragé indiquent les CPUE annuelles moyennes globales et l’intervalle de confiance à 95\\% , respectivement."}
+
 if (exists("d_fleet"))
   plot_cpue_spaghetti(
     model = cpue_model,
@@ -226,11 +137,7 @@ if (exists("d_fleet"))
     era = "modern")
 ```
 
-(ref:caption-cpue-quantile-residuals) Histograms of randomized quantile
-residuals [@dunn1996] for the CPUE GLMM standardization models. The histograms
-illustrate the distribution of 10,000 randomly selected randomized quantile
-residuals. The dashed lines show the probability density for a normal
-distribution with the same standard deviation.
+(ref:caption-cpue-quantile-residuals) Histogrammes des résidus de quantiles aléatoires [@dunn1996] pour les MLMG de normalisation des CPUE. Les histogrammes illustrent la distribution de 10 000 résidus de quantiles aléatoire sélectionnés au hasard. Les lignes en pointillés indiquent la densité de probabilité pour une distribution normale avec le même écart-type.
 
 ```{r cpue-quantile-residuals, fig.width=6, out.width="4in", fig.cap="(ref:caption-cpue-quantile-residuals)", eval=FALSE}
 qr <- gfplot::qres_tweedie(cpue_model, response = "cpue")
@@ -272,7 +179,7 @@ mutate(
   mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>%
   csasdown::csas_table(digits = 1,
     col.names = c(
-      "Species name", "Area", "$\\phi$", "$p$",
+      "Espèces", "Zone", "$\\phi$", "$p$",
       "$\\tau_\\mathrm{vessel}$", "$\\tau_\\mathrm{locality}$", "$\\tau_\\mathrm{year-locality}$"),
-    caption = "Parameter estimates from CPUE standardization GLMMs.")
+    caption = "Estimations de paramètres à partir de GLMMs de normalisation de la CPUE")
 ```
