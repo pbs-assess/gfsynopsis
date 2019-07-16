@@ -1,109 +1,36 @@
-# SPATIAL MODELLING OF SURVEY BIOMASS {#app:spatial-modeling}
+# MODÉLISATION SPATIALE DE LA BIOMASSE DÉRIVÉE DES RELEVÉS {#app:spatial-modeling}
 
-We modelled the expected biomass density in space for each species using
-geostatistical models applied to data from the fisheries independent bottom
-trawl and longline surveys (e.g., Figure \@ref(fig:survey-maps)). Our modeling
-approach is consistent with recent models used for spatial modelling and
-spatiotemporal index standardization of groundfish populations [e.g.,
-@shelton2014; @ward2015; @thorson2015; @thorson2016], but has not, to our knowledge, 
-previously been applied in DFO Research Documents. Such models have been
-shown, for example, to improve estimates of rockfish abundance and distribution
-[@shelton2014] and improve precision when estimating relative abundance indices
-for groundfish [@thorson2015]. Our specific model is fit with TMB
-[@kristensen2016] in R [@r2018] with the help of INLA [@rue2009; @lindgren2015]
-via the R package sdmTMB, which we wrote for this purpose (Appendix
-\@ref(app:reproducibility)).
+Nous avons modélisé la densité prévue de biomasse dans l’espace pour chaque espèce à l’aide de modèles géostatistiques appliqués aux données des relevés au chalut de fond et à la palangre indépendants de la pêche (p. ex. figure \@ref(fig:survey-maps)). Notre approche de modélisation est conforme aux modèles récemment utilisés pour la modélisation spatiale et la normalisation de l’indice spatiotemporel des populations de poissons de fond [e.g. @shelton2014; @ward2015; @thorson2015; @thorson2016], mais elle n’a pas, à notre connaissance, été appliquée auparavant dans les documents de recherche du MPO. Il a été démontré, entre autres, que de tels modèles améliorent les estimations de l’abondance et de la distribution du sébaste [@shelton2014] et améliorent la précision de l’estimation des indices d’abondance relative du poisson de fond [@thorson2015]. Notre modèle spécifique est ajusté avec Template Model Builder (TMB) [@kristensen2016] in R [@r2018] grâce à Integrated Nested Laplace Approximations (INLA) [@rue2009; @lindgren2015] par l’intermédiaire du progiciel R sdmTMB, que nous avons codé à cet effet (annexe \@ref(app:reproducibility)).
 
-At a high level, these models predict relative biomass or catch rate in space
-as a continuous process with a quadratic effect for bottom depth, spatial
-random effects that represent an amalgamation of spatial processes not
-explicitly included in the model, and an observation error component. After
-fitting the model to survey sets from trawl or longline surveys, we then
-project the model predictions onto a 2 km $\times$ 2 km grid in a UTM 9 projection
-to derive estimates of biomass throughout the survey domain.
+De façon générale, ces modèles prédisent la biomasse relative ou le taux de capture dans l’espace sous la forme d’un processus continu avec un effet quadratique pour la profondeur du fond, des effets aléatoires spatiaux qui représentent un amalgame de processus spatiaux non explicitement inclus dans le modèle, et une composante d’erreur d’observation. Après avoir ajusté le modèle aux ensembles de relevés à partir de relevés au chalut ou à la palangre, nous projetons les prédictions du modèle sur un quadrillage de 2 km $\times$ 2 km à une projection UTM 9 pour obtenir des estimations de biomasse dans l’ensemble de la zone de relevé.
 
-Similarly to the commercial catch per unit effort standardization models
-(Appendix \@ref(app:cpue-models)), these models can be represented as Tweedie
-GLMMs with a log link:
+Tout comme les modèles de normalisation des captures commerciales par unité d’effort (annexe \@ref(app:cpue-models)), ces modèles peuvent être représentés comme des modèles linéaires généralisés à effets mixtes (MLGM) de Tweedie avec un lien logarithmique :
 
 \begin{align}
   y_s &\sim \mathrm{Tweedie}(\mu_s, p, \phi), \quad 1 < p < 2,\\
   \mu_s &= \exp \left( \bm{X}_s \bm{\beta} + \omega_s \right),
 \end{align}
 
-where $s$ represents a spatial location, $y_s$ represents observed fish density
-for a survey set, $\mu_s$ represents expected fish density, $p$ represents the
-Tweedie power parameter, and $\phi$ represents the Tweedie dispersion
-parameter. The symbol $\bm{X_s}$ represents a vector of predictors (an
-intercept, log depth, and log depth squared) and $\bm{\beta}$ represents
-a corresponding vector of coefficients. The spatial random effects $\omega_s$
-are assumed to be drawn from a multivariate normal distribution with
-a covariance matrix $\bm{\Sigma}_\omega$ that is centered on zero:
+où $s$ représente un emplacement spatial, $y_s$ représente la densité de poissons observée pour un ensemble de relevés, $\mu_s$ représente la densité de poissons attendue, $p$ représente le paramètre de puissance de Tweedie et $\phi$ représente le paramètre de dispersion de Tweedie. Le symbole $\bm{X_s}$ représente un vecteur de prédicteurs (une intersection, une profondeur logarithmique et une profondeur logarithmique au carré) et $\bm{\beta}$ représente un vecteur correspondant de coefficients. Selon les suppositions, les effets aléatoires spatiaux $\omega_s$ sont issus d’une distribution normale multivariée avec une matrice de covariance $\bm{\Sigma}_\omega$ centrée sur zéro :
 
 $$\bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right).$$
 
-We constrained the spatial random effects to follow a \mbox{Mat\'ern} covariance
-function, which defines the rate with which spatial correlation decays with
-distance (Figure \@ref(fig:sdmTMB-matern-demo)). The \mbox{Mat\'ern} function
-describes the covariance $\Phi \left( s_j, s_k \right)$ between spatial
-locations $s_j$ and $s_k$ as:
+Nous avons contraint les effets aléatoires spatiaux à suivre une fonction de covariance \mbox{Mat\'ern}, qui définit le taux selon lequel la corrélation spatiale diminue avec la distance (figure \@ref(fig:sdmTMB-matern-demo)). La fonction \mbox{Mat\'ern} décrit la covariance $\Phi \left( s_j, s_k \right)$ entre les emplacements spatiaux $s_j$ et $s_k$ comme suit :
 
 $$\Phi\left( s_j,s_k \right) = \tau^2/\Gamma(\nu)2^{\nu - 1}
     (\kappa d_{jk})^\nu K_\nu \left( \kappa d_{jk} \right),$$
 
-where $\tau^2$ represents the spatial variance, $\Gamma$ represents the Gamma
-function, $K_\nu$ represents the Bessel function, $d_{jk}$ represents the
-Euclidean distance between locations $s_j$ and $s_k$, and $\kappa$ represents
-a scaling parameter that is estimated [e.g., @lindgren2011]. The parameter $\nu$
-controls the smoothness of the covariance function. We set $\nu = 1$, which
-lets us take advantage of the Stochastic Partial Differential Equation (SPDE)
-approximation to Gaussian Markov Random Fields (GMRF) to greatly increase
-computational efficiency [@lindgren2011].
+où $\tau^2$ représente la variance spatiale, $\Gamma$ représente la fonction Gamma, $K_\nu$ représente la fonction de Bessel, $d_{jk}$ représente la distance euclidienne entre les emplacements $s_j$ et $s_k$, puis $\kappa$ représentent un paramètre d’échelle estimé [e.g., @lindgren2011]. Le paramètre $\nu$ contrôle le lissage de la fonction de covariance. Nous avons établi $\nu = 1$, ce qui nous permet de tirer parti de l’approximation de l’équation différentielle partielle stochastique (EDPS) par rapport aux champs aléatoires gaussiens de Markov (CAGM) pour augmenter considérablement l’efficacité de calcul [@lindgren2011].
 
-Our spatial model falls into the general category of "predictive process"
-models [e.g., @latimer2009; @shelton2014; @anderson2018], in which the model
-keeps track of a limited number of "knots" that approximate unexplained spatial
-variation (Figure \@ref(fig:sdmTMB-spde)). By keeping track of a smaller number
-of knots than the full spatial data set, we can increase computational
-efficiency. The model predictions can be projected to the original data
-locations or any new set of locations as long as an appropriate covariance
-matrix can be calculated [e.g., @latimer2009]. Higher numbers of knots result in
-a better approximation of the spatial random effects at a greater computational
-cost. We fit the spatial models with one less knot than the number of
-observations if there were fewer than 200 observations and 200 knots otherwise.
-Following one common practice [e.g., @shelton2014; @thorson2017b; @anderson2018]
-we chose the location of the knots with a k-means clustering algorithm with
-a fixed random seed to ensure reproducible results.
+Notre modèle spatial entre dans la catégorie générale des modèles de « processus prédictifs » [e.g., @latimer2009; @shelton2014; @anderson2018], dans lesquels le modèle suit un nombre limité de « nœuds » qui estiment des variations spatiales inexpliquées (figure \@ref(fig:sdmTMB-spde)). En enregistrant un nombre de nœuds inférieur à celui de l’ensemble des données spatiales, nous pouvons accroître l’efficacité de calcul. Les prédictions du modèle peuvent être projetées aux emplacements des données d’origine ou à tout nouvel ensemble d’emplacements, pourvu qu’une matrice de covariance appropriée puisse être calculée [e.g., @latimer2009]. Un nombre plus élevé de nœuds permet une meilleure approximation des effets aléatoires spatiaux à un coût de calcul plus élevé. Nous ajustons les modèles spatiaux avec un nœud de moins que le nombre d’observations s’il y avait moins de 200 observations et 200 nœuds autrement. Suivant une pratique courante [e.g., @shelton2014; @thorson2017b; @anderson2018], nous avons choisi l’emplacement des nœuds à l’aide d’un algorithme de regroupement des moyennes k avec une graine aléatoire fixe pour assurer la reproductibilité des résultats.
 
-Instead of directly modelling the effects of depth and depth squared, we first
-standardized the log-transformed depth covariate by subtracting its mean and scaling
-it by its standard deviation. We then calculated 'depth squared' from this
-centred and scaled variable. This ensures the covariate values are not too
-large or small to avoid computational issues and the centring separates the
-linear and quadratic predictor components.
+Au lieu de modéliser directement les effets de la profondeur et de la profondeur au carré, nous avons d’abord normalisé la covariable de profondeur transformée en logarithme en soustrayant sa moyenne et en la mettant à l’échelle selon son écart type. Nous avons ensuite calculé la profondeur au carré à partir de cette variable centrée et mise à l’échelle. Cette méthode permet de s’assurer que les valeurs des covariables ne sont pas trop grandes ou trop petites pour éviter que des problèmes de calcul surviennent et que le centrage sépare les composantes linéaires et quadratiques du prédicteur.
 
-We fit the four synoptic survey data sets separately because only two of the
-surveys are conducted each year and the surveys are disjointed in space and
-time. Similarly, we fit the North and South HBLL surveys independently. We
-combined the predictions to generate the map plots but labelled the years in
-which the various surveys were conducted.
+Nous avons ajusté les quatre ensembles de données synoptiques séparément parce que seulement deux des relevés sont effectués chaque année et que les relevés sont disjoints dans l’espace et le temps. De même, nous ajustons indépendamment les relevés à la palangre sur fond dur nord et sud. Nous avons combiné les prédictions pour générer les graphiques cartographiques, mais nous avons marqué les années au cours desquelles les divers relevés ont été effectués.
 
-As an example, we illustrate the model components for Pacific Cod in Queen
-Charlotte Sound (Figure \@ref(fig:sdmTMB-maps-combined)). We begin with
-a bathymetry layer and biomass density value for each survey set in space
-(Figure \@ref(fig:sdmTMB-maps-combined)A). After fitting the model, we can
-inspect the effect of the bottom depth quadratic fixed effect predictors
-(Figure \@ref(fig:sdmTMB-maps-combined)B) as well as the spatial random effects
-(Figure \@ref(fig:sdmTMB-maps-combined)C). If we add the fixed effect
-predictions to the spatial random effects in link (log) space and exponentiate
-the result, we derive model predictions that include both the fixed and random
-effects (Figure \@ref(fig:sdmTMB-maps-combined)D). We can inspect randomized
-quantile residuals in space to check for any remaining spatial correlation
-(Figure \@ref(fig:sdmTMB-resids)). We can also look at the predicted
-relationship between depth and biomass density across all the species (Figures
-\@ref(fig:sdmTMB-depth-all-plots1), \@ref(fig:sdmTMB-depth-all-plots2)).
+À titre d’exemple, nous illustrons les composantes du modèle pour la morue du Pacifique dans le bassin de la Reine-Charlotte (figure \@ref(fig:sdmTMB-maps-combined)). Nous commençons par une couche bathymétrique et une valeur de densité de la biomasse pour chaque ensemble de relevés dans l’espace (figure \@ref(fig:sdmTMB-maps-combined)A). Après avoir ajusté le modèle, nous pouvons inspecter l’effet des prédicteurs d’effets fixes quadratiques de la profondeur du fond (figure \@ref(fig:sdmTMB-maps-combined)B) ainsi que les effets aléatoires spatiaux (figure \@ref(fig:sdmTMB-maps-combined)C). Si nous ajoutons les prédictions d’effets fixes aux effets aléatoires spatiaux dans l’espace du lien (logarithmique) et que nous élevons le résultat à une puissance, nous obtenons des prédictions de modèle qui incluent à la fois les effets fixes et aléatoires (figure \@ref(fig:sdmTMB-maps-combined)D). Nous pouvons inspecter les résidus de quantiles aléatoires dans l’espace pour vérifier s’il reste une corrélation spatiale (figure \@ref(fig:sdmTMB-resids)). Nous pouvons également examiner la relation prévue entre la profondeur et la densité de la biomasse pour toutes les espèces (figures \@ref(fig:sdmTMB-depth-all-plots1), \@ref(fig:sdmTMB-depth-all-plots2)).
 
-```{r sdmTMB-matern-demo, fig.asp=0.3, fig.width=8, fig.cap="An illustration of the effect of the $\\kappa$ parameter ('kappa') on the shape of the \\mbox{Mat\\'ern} correlation function with $\\nu = 1$. The vertical dashed line illustrates $\\sqrt{8\\nu} / \\kappa$, referred to as the 'range', which is a point at which the correlation decreases below 0.1."}
+```{r sdmTMB-matern-demo, fig.asp=0.3, fig.width=8, fig.cap="Illustration de l’effet du paramètre $\\kappa$ ('kappa') sur la forme de la fonction de corrélation \\mbox{Mat\\'ern} avec $\\nu = 1$. La ligne verticale en pointillés illustre $\\sqrt{8\\nu} / \\kappa$, soit la 'plage', un point où la corrélation tombe en dessous de 0,1."}
 library(dplyr)
 library(ggplot2)
 dist <- seq(0, 13, length = 200)
@@ -158,7 +85,7 @@ nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
 grid_locs <- nd
 ```
 
-```{r sdmTMB-spde, fig.width=9, out.width="3.5in", fig.cap="Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey in 2017. The red dots indicate knot locations. The open grey circles in the background represent the locations of the observed data. The lines show the triangularization mesh used in the SPDE approximation. In this case, many of the knots overlap the observed data. A greater number of knots will increase the accuracy of the approximation at the expense of computational time."}
+```{r sdmTMB-spde, fig.width=9, out.width="3.5in", fig.cap="Exemple de maillage de triangularisation pour la morue du Pacifique et le relevé du bassin de la Reine-Charlotte en 2017. Les points rouges indiquent l’emplacement des nœuds. Les cercles gris ouverts à l’arrière-plan représentent les emplacements des données observées. Les lignes indiquent le maillage de triangularisation utilisé dans l’approximation de l’équation différentielle partielle stochastique. Dans ce cas, bon nombre des nœuds chevauchent les données observées. Un plus grand nombre de nœuds augmente la précision de l’approximation au détriment du temps de calcul."}
 spde <- make_spde(dat$X, dat$Y, n_knots = 200)
 plot_spde(spde)
 ```
@@ -238,11 +165,11 @@ g_sdm3 <- plot_map(predictions$data, "omega_s") +
 
 \clearpage
 
-```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Example spatial model components in Queen Charlotte Sound for Pacific Cod. (A) Bottom depth data that is used as a predictor. (B) Predicted biomass density from the quadratic effect of depth only. (C) Spatial random effect deviations. These deviations represent only modelled correlated spatial effects. (D) Model predictions that include both the depth fixed effects and the spatial random effects. Circles represent the biomass density for each survey set with the area of the circle proportional to the density."}
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Exemples de composantes de modèles spatiaux dans le bassin de la Reine-Charlotte pour la morue du Pacifique. A) Données sur la profondeur du fond qui servent de prédicteur. B) Densité prévue de biomasse à partir de l’effet quadratique de la profondeur seulement. C) Écarts dans les effets spatiaux aléatoires. Ces écarts ne représentent que les effets spatiaux corrélés modélisés. D) Prévisions du modèle qui incluent à la fois les effets fixes de profondeur et les effets aléatoires spatiaux. Les cercles représentent la densité de la biomasse pour chaque ensemble de relevés, l’aire du cercle étant proportionnelle à la densité."}
 cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
 ```
 
-```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Spatial randomized quantile residuals on the link (log) scale."}
+```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Résidus de quantiles spatiaux aléatoires sur l’échelle du lien (logarithme)."}
 dat$resids <- residuals(m) # randomized quantile residuals
 # hist(dat$resids)
 # qqnorm(dat$resids);abline(a = 0, b = 1)
@@ -293,5 +220,5 @@ g_models_dat %>%
     col.names = c(
       "Species name", "Survey", "$\\kappa$", "$\\tau_O$", 
       "$\\tau_E$", "$\\phi$", "$p$"),
-    caption = "Parameter estimates from geostatistical spatiotemporal models.")
+    caption = "Estimations de paramètres à partir de modèles spatiotemporels géostatistiques.")
 ```
