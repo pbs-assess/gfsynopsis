@@ -6,39 +6,18 @@ author: |
   Andrew M. Edwards
 author_list: "Anderson, S.C., Keppel, E.A., Edwards, A.M."
 address: |
-  Pacific Biological Station\
+  Station biologique du Pacifique\
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
   Nanaimo, British Columbia, V9T 6N7, Canada
 year: "2019"
 report_number: "041"
 abstract: |
-  The combination of fishery-dependent data, such as catch and effort, and
-  fishery-independent survey data, such as biomass indices and age
-  compositions, forms the backbone of most fisheries stock assessments. For
-  British Columbia groundfish, vast quantities of such data are
-  collected annually, with 100% at-sea observer coverage, 100% dockside
-  monitoring of landings, and deployment of multiple trawl, trap, and
-  hook-and-line surveys. However, there is not the capacity to conduct formal
-  stock assessments for most stocks annually, and therefore, much of these data
-  are not summarized to represent the nature of the data holdings.
-  Here, we introduce a reproducible report to give a snapshot of population and
-  fishing trends, growth and maturity patterns, as well as data availability,
-  for 113 groundfish species in British Columbia. The report generation is
-  fully automated -- pulling data from databases, fitting models, generating
-  visualizations, and stitching the document together to facilitate frequent
-  publication, reproducibility, and transparency. Our goals are (1) to
-  facilitate regular review by groundfish scientists and managers of trends in
-  survey indices and stock composition; (2) to generate standardized datasets
-  and visualizations that will help assessment scientists develop operating
-  models and select candidate management procedures as part of a planned
-  management-procedure framework for groundfish stocks; and (3) to increase
-  data transparency between Fisheries and Oceans Canada, the fishing industry,
-  non-governmental organizations, and the public.
+  La combinaison de données dépendantes de la pêche, comme les prises et l’effort, et de données de relevés indépendants de la pêche, comme les indices de la biomasse et la composition selon l’âge, constitue la pierre angulaire de la plupart des évaluations des stocks de poissons. Dans le cas du poisson de fond de la Colombie-Britannique, de grandes quantités de données de ce genre sont recueillies chaque année, avec un niveau de présence des observateurs en mer de 100 %, une vérification à quai de 100 % des débarquements, et le déploiement de multiples relevés au chalut, au casier ainsi qu’à la ligne et à l’hameçon. Toutefois, il n’est pas possible d’effectuer des évaluations annuelles officielles des stocks pour la plupart des stocks et, par conséquent, une grande partie de ces données ne sont pas résumées pour refléter la nature de ces ensembles de données. Nous présentons ici un rapport reproductible pour donner un aperçu des tendances de la population et de la pêche, des tendances de croissance et de maturité, ainsi que de la disponibilité des données pour 113 espèces de poisson de fond de la Colombie-Britannique. La génération du rapport est entièrement automatisée – extraction des données des bases de données, ajustement des modèles, génération des visualisations et assemblage du document pour faciliter la publication rapide, la reproductibilité et la transparence. Ce rapport vise à 1) faciliter l’examen régulier, par les scientifiques et les gestionnaires du poisson de fond, des tendances des indices de relevé et de la composition des stocks; 2) produire des ensembles de données normalisés et des visualisations qui aideront les scientifiques chargés de l’évaluation à élaborer des modèles opérationnels et à choisir des procédures de gestion candidates dans le cadre d’une procédure de gestion planifiée; 3) améliorer la transparence des données entre le MPO, l’industrie de la pêche, les Premières Nations, les organisations non gouvernementales et le grand public.
   
 output:
  csasdown::resdoc_pdf:
    french: true
-region: "Pacific Region"
+region: "Région du Pacifique"
 header: ""
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 # ------------
