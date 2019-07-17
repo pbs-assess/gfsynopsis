@@ -18,7 +18,8 @@ if (french){
   spp_table <- spp_table %>%
   mutate(species_common_name = en2fr(species_common_name, french)) %>%
   mutate(species_common_name = gsub("complexe du sébaste à œil épineux et du sébaste à taches noires",
-    "sébaste à œil épineux et du sébaste à taches noires", species_common_name))
+    "sébaste à œil épineux et sébaste à taches noires", species_common_name)) %>%
+    mutate(species_common_name = gfsynopsis:::first_cap(species_common_name))
 }
 
 spp_table %>% arrange(species_common_name) %>%
@@ -35,7 +36,7 @@ spp_table %>% arrange(species_common_name) %>%
 spp_table %>% arrange(species_science_name) %>%
   select(species_science_name, species_common_name, section) %>%
   csasdown::csas_table(align = c("l", "l", "l"),
-  col.names = en2fr(c("Common name", "Scientific name", "Section")))
+  col.names = en2fr(c("Scientific name", "Common name", "Section")))
 ```
 
 \clearpage
