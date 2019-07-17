@@ -7,8 +7,8 @@ author: |
 author_list: "Anderson, S.C., Keppel, E.A., Edwards, A.M."
 address: |
   Station biologique du Pacifique\
-  Fisheries and Oceans Canada, 3190 Hammond Bay Road\
-  Nanaimo, British Columbia, V9T 6N7, Canada
+  Pêches et Océans Canada, 3190, chemin Hammond Bay\
+  Nanaimo, Colombie-Britannique, V9T 6N7, Canada
 year: "2019"
 report_number: "041"
 abstract: |
