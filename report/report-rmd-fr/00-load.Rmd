@@ -29,5 +29,6 @@ library(csasdown)
 library(rosettafish)
 ggplot2::theme_set(gfplot::theme_pbs())
 french <- TRUE
+options(OutDec =  ",")
 ```
 
