@@ -241,7 +241,8 @@ Series&nbsp;C and&nbsp;D use all stations coastwide (by definition).
 Each year, a few stations may be declared unusable by the IPHC and are excluded
 from our analyses (e.g., the
 hook-tally sheet got blown overboard for station 2113 in the year 2008), with
-usability codes described in Table\ \@ref(tab:iphc-set-codes). In particular,
+description and usability codes described in Tables\ \@ref(tab:iphc-hook-codes)
+and \@ref(tab:iphc-set-codes). In particular,
 we include stations deemed as 'Usable but omit from any geospatial analysis',
 but these should be excluded for complex spatial analyses.
 
@@ -259,7 +260,7 @@ csasdown::csas_table(hookCodes)
 \begin{table}[t] \centering
 \caption{Description of hook observation classifications and corresponding codes
 in theGFBio database.}
-\label{tab:seriesSumm}
+\label{tab:iphc-hook-codes}
 \begin{tabular}{lc}
 \hline
 Description & HOOK\_YIELD\_CODE\\

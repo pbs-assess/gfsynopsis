@@ -112,7 +112,11 @@ En ce qui concerne le relevé de la CIFP, à partir de 1995-1997, les stations �
 
 Étant donné la différence de couverture entre les années, pour les séries A et B, nous avons exclu les stations situées au sud du 50,6e$^{\circ}$ de latitude, soit près de l’extrémité nord de l’île de Vancouver. Cette latitude a été choisie de manière à inclure toutes les stations pour la période allant de 1995 à 1997. Durant cette période, les stations affichent un bon chevauchement (au nord de l’île de Vancouver) avec les stations échantillonnées à partir de 1998, même si elles ne se situent pas exactement sur la même grille carrée de 10 milles marins [@yamanaka2018yelloweyeoutside]. Les séries C et D utilisent toutes les stations sur toute la côte (par définition).
 
-Chaque année, quelques stations peuvent être déclarées inutilisables par la CIFP et sont exclues de nos analyses (p. ex., la feuille de pointage sur les hameçons a été emportée par dessus bord pour la station 2 113 en 2008), les codes d’utilisabilité étant décrits au tableau\ \@ref(tab:iphc-set-codes). En particulier, nous avons inclus les stations jugées « utilisables, mais omises de toute analyse géospatiale », mais celles-ci devraient être exclues si l’on veut mener des analyses spatiales complexes.
+Chaque année, quelques stations peuvent être déclarées inutilisables par la CIFP
+et sont exclues de nos analyses (p. ex., la feuille de pointage sur les hameçons
+a été emportée par dessus bord pour la station 2 113 en 2008), les codes
+d’utilisabilité étant décrits au tableaux\ \@ref(tab:iphc-hook-codes) et
+\@ref(tab:iphc-set-codes). En particulier, nous avons inclus les stations jugées « utilisables, mais omises de toute analyse géospatiale », mais celles-ci devraient être exclues si l’on veut mener des analyses spatiales complexes.
 
 ```{r iphc-hook-codes, tab.cap="Description des classifications d’observation des hameçons et des codes correspondants dans la base de données GFBio.", eval=FALSE}
 hookCodes =
@@ -127,7 +131,7 @@ csasdown::csas_table(hookCodes)
 
 \begin{table}[t] \centering
 \caption{ Description des classifications d’observation des hameçons et des codes correspondants dans la base de données GFBio.}
-\label{tab:seriesSumm}
+\label{tab:iphc-hook-codes}
 \begin{tabular}{lc}
 \hline
 Description & HOOK\_YIELD\_CODE\\
