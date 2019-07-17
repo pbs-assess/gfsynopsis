@@ -1,90 +1,41 @@
-# SURVEY BIOMASS INDEX TRENDS {#app:survey-trend-models}
+# TENDANCES DE L’INDICE DE BIOMASSE DÉRIVÉ DES RELEVÉS {#app:survey-trend-models}
 
-Fisheries and Oceans Canada conducts a number of fishery-independent
-multispecies research surveys annually or biannually. These include four
-synoptic bottom trawl surveys and two longline hook surveys
-(Figure \@ref(fig:intro-maps)). The survey areas correspond roughly with Groundfish
-Management areas (Figure \@ref(fig:management-map)) where fishery quotas are
-allocated in British Columbia waters. For the synoptic trawl surveys, the West
-Coast Vancouver Island survey corresponds roughly to management areas 3CD, the
-Queen Charlotte Sound survey corresponds roughly to areas 5AB, the Hecate
-Strait survey corresponds roughly to areas 5CD, and the West Coast Haida Gwaii
-surveys corresponds roughly to area 5E. The Hard Bottom Longline survey is
-split into northern and southern segments. The southern survey area corresponds
-roughly to management areas 3CD and 5AB while the northern survey area
-corresponds roughly to areas\ 5CDE.
+Tous les ans ou deux ans, Pêches et Océans Canada (MPO) effectue un certain nombre de relevés de recherche plurispécifiques indépendants de la pêche. Quatre relevés synoptiques au chalut de fond et deux relevés à la ligne et à l’hameçon comptent parmi ceux-ci (figure  \@ref(fig:intro-maps)). Les zones de relevé correspondent sensiblement aux zones de gestion du poisson de fond (figure \@ref(fig:management-map)) pour lesquelles des quotas de pêche sont accordés dans les eaux de la Colombie-Britannique. En effet, pour les relevés synoptiques au chalut, le relevé sur la côte ouest de l’île de Vancouver correspond sensiblement aux zones de gestion 3CD, le relevé dans le bassin de la Reine-Charlotte correspond sensiblement aux zones 5AB, le relevé dans le détroit d’Hécate correspond sensiblement aux zones 5CD et les relevés sur la côte ouest de Haida Gwaii correspondent sensiblement à la zone 5E. Le relevé à la palangre sur fond dur est divisé en segments nord et sud. La zone de relevé sud correspond sensiblement aux zones de gestion 3CD et 5AB, tandis que la zone de relevé nord correspond sensiblement aux zones\ 5CDE.
 
-## SYNOPTIC BOTTOM TRAWL SURVEYS
+## RELEVÉ SYNOPTIQUE AU CHALUT DE FOND
 
-DFO, together with the Canadian Groundfish Research and Conservation Society,
-implemented a coordinated set of bottom trawl surveys that together cover the
-continental shelf and upper slope of most of the BC coast. The surveys follow
-a random depth stratified design and use the same bottom trawl fishing gear and
-fishing protocols [@sinclair2003syn]. The surveys were designed to provide
-a synopsis of all species available to bottom trawl gear as opposed to focusing
-on specific species. There are a total of four synoptic (SYN) surveys: Hecate Strait
-(HS), West Coast Vancouver Island (WCVI), Queen Charlotte Sound (QCS), and West
-Coast Haida Gwaii (WCHG) (Figure \@ref(fig:intro-maps)). The Queen Charlotte 
-Sound and West Coast Haida Gwaii surveys have been conducted on chartered commercial fishing
-vessels, while the Hecate Strait and West Coast Vancouver Island surveys have been
-conducted on the Canadian Coast Guard research trawler WE Ricker or chartered
-commercial fishing vessels when the WE Ricker was not available. Two of the 
-synoptic surveys are conducted each year on an alternating
-basis so that each survey is conducted every two years.
+Le MPO et la Canadian Groundfish Research and Conservation Society ont mis en œuvre un ensemble coordonné de relevés au chalut de fond qui couvrent le plateau continental et le talus supérieur de la majeure partie de la côte de la Colombie-Britannique. Les relevés suivent un plan aléatoire stratifié en fonction de la profondeur et utilisent les mêmes engins de pêche au chalut de fond et les mêmes protocoles de pêche [@sinclair2003syn]. Les relevés ont été conçus pour fournir un synopsis de toutes les espèces pouvant être capturées au chalut de fond plutôt que de se concentrer sur des espèces précises. Il y a des relevés synoptiques (SYN) à quatre endroits en tout : détroit d’Hécate (DH), côte ouest de l’île de Vancouver (COIV), bassin de la Reine-Charlotte (BRC) et côte ouest de Haïda Gwaii (COHG) (figure \@ref(fig:intro-maps)). Les relevés dans le bassin de la Reine-Charlotte et sur la côte ouest de Haida Gwaii ont été effectués à bord de bateaux de pêche commerciale affrétés, tandis que les relevés dans le détroit d’Hécate et sur la côte ouest de l’île de Vancouver ont été effectués sur le chalutier de recherche WE Ricker de la Garde côtière canadienne ou sur des bateaux de pêche commerciale affrétés lorsque le WE Ricker n’était pas disponible. Deux des relevés synoptiques sont effectués chaque année en alternance, de sorte que chaque levé est effectué tous les deux ans.
 
-## HARD BOTTOM LONGLINE SURVEYS
+## RELEVÉS À LA PALANGRE SUR FOND DUR
 
-The Pacific Halibut Management Association, in consultation with DFO, initiated
-a depth-stratified, random design research longline survey conducted with
-chartered commercial fishing vessels in 2006. These are referred to as the Hard
-Bottom Longline Outside surveys. The survey employs standardized
-longline snap gear and fishing methods and alternates annually between the
-northern and southern portions of BC. The survey is designed to provide catch
-rates of all species and biological samples of rockfish from the outside
-coastal waters of BC for stock assessment.
+La Pacific Halibut Management Association (PHMA), en consultation avec le MPO, a entrepris en 2006 un relevé de recherche à la palangre à stratification aléatoire en fonction de la profondeur, effectué par des bateaux de pêche commerciale affrétés. C’est ce qu’on appelle les relevés à la palangre sur fond dur dans les eaux extérieures. Le relevé utilise des engins et des méthodes de pêche à la palangre normalisés et alterne annuellement entre le nord et le sud de la Colombie-Britannique. Il est conçu pour fournir les taux de prise de toutes les espèces et des échantillons biologiques de sébaste provenant des eaux côtières extérieures de la Colombie-Britannique pour l’évaluation des stocks.
 
-Hard Bottom Longline Inside surveys are conducted within management area 4B.
-These surveys were designed to provide fishery independent indices of
-abundance together with biological samples to improve the assessment of
-Yelloweye (*Sebastes ruberrimus*) and Quillback (*S. maliger*) Rockfish
-for the 4B management region. They began in Johnstone Strait and Discovery
-Passage in Pacific Fishery Management areas 12 and 13 in 2003 and 2004, and now
-alternate years to cover the northern (areas 12 and 13) and southern
-(areas 14--20, 28, 29) portions of the inside waters. These surveys also employ
-standardized longline snap gear and fishing methods.
+Les relevés à la palangre sur fond dur dans les eaux intérieures sont effectués dans la zone de gestion 4B. Ces relevés sont conçus pour fournir des indices d’abondance indépendants de la pêche ainsi que des échantillons biologiques afin d’améliorer l’évaluation du sébaste aux yeux jaunes (*Sebastes ruberrimus*) et du sébaste à dos épineux (*S. maliger*) dans la zone de gestion 4B. Ils ont commencé dans le détroit de Johnstone et le passage Discovery, dans les secteurs 12 et 13 de gestion des pêches du Pacifique en 2003 et 2004, et ils alternent maintenant d’une année sur l’autre pour couvrir les parties nord (secteurs 12 et 13) et sud (secteurs 14-20, 28 et 29) des eaux intérieures. Ces relevés font également appel à des engins et des méthodes de pêche à la palangre normalisés.
 
-## INTERNATIONAL PACIFIC HALIBUT COMMISSION FISHERY INDEPENDENT SURVEY
+## RELEVÉ INDÉPENDANT DE LA PÊCHE DE LA COMMISSION INTERNATIONALE DU FLÉTAN DU PACIFIQUE
 
-The International Pacific Halibut Commission’s (IPHC) fishery independent
-setline survey is the longest times series of longline survey data in BC.
-It provides distribution, biomass, age, growth and maturity
-data that are used in the annual assessment of Pacific Halibut
-(*Hippoglossus stenolepis*). In Appendix \@ref(app:iphc-survey-index) we
-describe how we use data from the survey to
-construct a consistent index of abundance for other species
-over as long a time series as possible, despite the survey design changing
-through the years.
+Le relevé à la ligne fixe indépendant de la pêche de la Commission internationale du flétan du Pacifique (CIFP) est la plus longue série chronologique de données de relevés à la palangre en Colombie-Britannique. Il fournit des données sur la répartition, la biomasse, l’âge, la croissance et la maturité qui sont utilisées dans l’évaluation annuelle du flétan du Pacifique (*Hippoglossus stenolepis*). À l’annexe \@ref(app:iphc-survey-index), nous décrivons comment nous utilisons les données du relevé pour établir un indice d’abondance cohérent pour d’autres espèces sur une série chronologique aussi longue que possible, malgré l’évolution de la conception du relevé au fil des ans.
 
-## FURTHER DETAILS OF SURVEYS
+## AUTRES RENSEIGNEMENTS SUR LES RELEVÉS
 
-Details on the design of the various surveys referenced in this report can be
-found in the following documents:
+Les documents suivants fournissent des précisions sur la conception des divers relevés mentionnés dans le présent rapport :
 
-1. Synoptic Survey, Queen Charlotte Sound (SYN QCS): @williams2018synqcs
+1. Relevé synoptique, bassin de la Reine-Charlotte (SYN BRC) : @williams2018synqcs
 
-1. Synoptic Survey, West Coast Vancouver Island (SYN WCVI): @nottingham2017synwcvi
+1. Relevé synoptique, côte ouest de l’île de Vancouver (SYN COIV) : @nottingham2017synwcvi
 
-1. Synoptic Survey, Hecate Strait (SYN HS): @wyeth2018synhs
+1. Relevé synoptique, détroit d’Hécate (SYN DH) : @wyeth2018synhs
 
-1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG): @williams2018synwchg
+1. Relevé synoptique, côte ouest de Haida Gwaii (SYN COHG) : @williams2018synwchg
 
-1. Hard Bottom Longline Survey, Outside (HBLL OUT): @dfo2018ifmp
+1. Relevé à la palangre sur fond dur dans les eaux extérieures (RPFD EXT) : @dfo2018ifmp
 
-1. Hard Bottom Longline Survey, Inside (HBLL INS): @lochead2007irf
+1. Relevé à la palangre sur fond dur dans les eaux intérieures (RPFD INT) : @lochead2007irf
 
-1. Hecate Strait Multispecies Assemblage Survey (MSA HS): @choromanski2004hsmsa
+1. Relevé de la communauté d’espèces dans le détroit d’Hécate (RCE DH) : @choromanski2004hsmsa
 
-1. International Pacific Halibut Commission fishery independent survey (IPHC FISS): @flemming2012iphc
+1. Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique (RIP CIFP) : @flemming2012iphc
+
 
 ```{r other-surveys-table-setup}
 if (!file.exists(here::here("report", "other-surveys.csv"))) {
@@ -100,197 +51,96 @@ other_surveys$X <- NULL # just in case
 \clearpage
 
 ```{r other-surveys-table, results='asis'}
-csasdown::csas_table(other_surveys, caption = "Other surveys conducted by DFO in the Pacific region that may be applicable for species-specific analyses. Within this report, these surveys are only featured in the survey-data-availability panels in the lower right of each set of figure pages.", format = "latex") %>% 
+csasdown::csas_table(other_surveys, caption = "Autres relevés effectués par le MPO dans la région du Pacifique qui peuvent s’appliquer à des analyses portant sur des espèces particulières. Dans le présent rapport, ces relevés ne sont présentés que dans les encadrés de disponibilité des données de relevés dans le coin inférieur droit de chaque série de pages de figures", format = "latex") %>% 
   kableExtra::column_spec(1, width = "4in") %>%
   kableExtra::column_spec(2, width = "2in")
 ```
 
-The main biomass index trends illustrated on the figure pages represent the
-'design-based' index trends that have historically been used in Pacific
-Biological Station groundfish stock assessments. We extracted the trawl and
-longline survey relative biomass index trends from GFBio, which are generated
-using the same approach that has been used in all recent BC groundfish stock
-assessment reports. The code to perform the calculations was originally written
-by Norm Olsen at Pacific Biological Station and is automatically applied to the
-available survey data to generate the indices in the GFBio database. We have included the relevant
-equations below for clarity. We also compare geostatistical model-based
-estimates of biomass index trends for the trawl surveys (Section \@ref(sec:geostatistical)).
+Les principales tendances de l’indice de biomasse illustrées dans les pages de figures représentent les tendances de l’indice fondé sur le plan qui ont toujours été utilisées pour les évaluations des stocks de poisson de fond de la Station biologique du Pacifique. Nous avons extrait de GFBio les tendances relatives de l’indice de biomasse dérivé des relevés au chalut et à la palangre, générées selon la même approche utilisée pour tous les récents rapports d’évaluation des stocks de poisson de fond en Colombie-Britannique. Le code permettant d’effectuer les calculs, rédigé à l’origine par Norm Olsen de la Station biologique du Pacifique, est automatiquement appliqué aux données de relevés disponibles pour générer les indices dans la base de données GFBio. Pour plus de clarté, vous trouverez les équations pertinentes ci-dessous. Nous comparons également les estimations fondées sur des modèles géostatistiques des tendances de l’indice de biomasse dérivé des relevés au chalut (section \@ref(sec:geostatistical)).
 
-## TRAWL SURVEY DESIGN-BASED ESTIMATION {#sec:trawl-methods}
+## ESTIMATIONS FONDÉES SUR LE PLAN DE RELEVÉ AU CHALUT {#sec:trawl-methods}
 
-For all trawl surveys, and for a given species, we calculated the relative
-biomass density $B$ in year $t$ as:
+Pour tous les relevés au chalut et pour une espèce donnée, nous avons calculé la densité relative de biomasse $B$ au cours de l’année $t$ comme suit :
 
 \begin{equation}
   B_t = \sum_{i = 1}^k C_{t,i} A_i
 \end{equation}
 
-where $C_{t,i}$ represents the mean CPUE in kg/km^2^ for the species in year
-$t$ and stratum $i$, $A_i$ represents the area of stratum $i$ in km^2^, and $k$
-represents the number of strata. We calculated the CPUE ($C_{t,i}$) for a given
-species in year $t$ and stratum $i$ as:
+où $C_{t,i}$ représente la capture par unité d’effort (CPUE) moyenne en kg/km^2^ pour l’espèce au cours de l’année $t$ et à la strate $i$, $A_i$ représente la superficie de la strate $i$ en km^2^, puis $k$ représente le nombre de strates. Nous avons calculé la CPUE ($C_{t,i}$) pour une espèce donnée au cours de l’année $t$ et à la strate $i$ comme suit :
 
 \begin{equation}
   C_{t,i} = \frac{\sum_{j = 1}^{n_{t,i}} \left( W_{t,j} / D_{t,j} w_{t,j}\right)}{n_{t,i}}
 \end{equation}
 
-where $W_{t,j}$ represents the catch weight (kg) for the species in year $t$,
-stratum $i$, and tow $j$; $D_{t,j}$ represents the distance travelled in km by
-tow $j$ in year $y$; $w_{t,j}$ represents the net opening width in km for year
-$y$ and tow $j$; and $n_{t,i}$ represents the number of tows in year $t$ and
-stratum $i$.
+où $W_{t,j}$ représente le poids des captures (kg) de l’espèce au cours de l’année $t$, à la strate $i$, et au trait $j$; $D_{t,j}$ représente la distance parcourue en km par le trait $j$ au cours de l’année $y$; $w_{t,j}$ représente la largeur nette d’ouverture en km au cours de l’année $y$ et au trait $j$; $n_{t,i}$ représente le nombre de traits au cours de l’année $t$ et à la strate $i$.
 
-## LONGLINE SURVEY DESIGN-BASED ESTIMATION {#sec:ll-methods}
 
-For the HBLL surveys, and for a given species, we calculated the relative
-biomass density $B$ in year $t$ as:
+## ESTIMATIONS FONDÉES SUR LE PLAN DE RELEVÉ À LA PALANGRE {#sec:ll-methods}
+
+Pour tous les relevés à la palangre sur fond dur et pour une espèce donnée, nous avons calculé la densité relative de biomasse $B$ au cours de l’année $t$ comme suit :
 
 \begin{equation}
   B_t = \sum_{i = 1}^k C_{t,i} A_i
 \end{equation}
 
-where $C_{t,i}$ represents the mean CPUE in pieces (fish) per
-km\textsuperscript{2} for the species in year $t$ and stratum $i$, $A_i$
-represents the area of stratum $i$ in km^2^, and $k$ represents
-the number of strata. We calculated the CPUE ($C_{t,i}$) for a given species in
-year $t$ and stratum $i$ as:
+où $C_{t,i}$ représente la CPUE moyenne en pièce (poisson) par km\textsuperscript{2} pour l’espèce au cours de l’année $t$ et à la strate $i$, $A_i$ représente la superficie de la strate $i$ en km^2^, puis $k$ représente le nombre de strates. Nous avons calculé la CPUE ($C_{t,i}$) pour une espèce donnée au cours de l’année $t$ et à la strate $i$ comme suit :
 
 \begin{equation}
   C_{t,i} = \frac{\sum_{j = 1}^{n_{t,i}} \left( N_{t,j} / H_{t,j} w_{t,j}\right)}{n_{t,i}}
 \end{equation}
 
-where $N_{t,j}$ represents the number of fish caught for the species in year
-$t$, stratum $i$, and set $j$; $H_{t,j}$ represents the number of hooks
-$\times$ the hook spacing in km in set $j$ in year $t$; $w_{t,j}$ represents an
-arbitrary swept width of 30 feet or 0.009144 km for year $t$ and tow $j$; and
-$n_{t,i}$ represents the number of sets in year $t$ and stratum $i$. The hook
-spacing is 8 feet or 0.0024384 km for the inside and outside HBLL surveys.
+où $N_{t,j}$ représente le nombre de poissons capturés pour l’espèce au cours de l’année $t$, à la strate $i$, et dans l’ensemble $j$; $H_{t,j}$ représente le nombre d’hameçons $\times$, l’espacement des hameçons en km dans l’ensemble $j$ à l’année $t$; $w_{t,j}$ représente une largeur de balayage arbitraire de 30 pieds ou 0,009144 km pour l’année $t$ et le trait $j$; $n_{t,i}$ représente le nombre d’ensembles à l’année $t$ et à la strate $i$. L’espacement des hameçons est de 8 pieds ou 0,0024384 km pour les relevés à la palangre sur fond dur dans les eaux intérieures et extérieures
 
-Details on the design-based estimation of biomass density index for the IPHC
-survey are shown in Appendix \@ref(app:iphc-survey-index).
+Des précisions sur l’estimation de l’indice de densité de biomasse fondé sur le plan du relevé de la CIFP sont présentées à l’annexe \@ref(app:iphc-survey-index).
 
-## DESIGN-BASED-INDEX CONFIDENCE INTERVALS
 
-We calculated bootstrap confidence intervals on $B_t$ by repeatedly calculating
-$B_t$ given the above equations but each time re-sampling, with replacement,
-from the available tows within each stratum. We drew 1000 bootstrap replicates
-of $B_t$, $B_t^{\mathrm{rep}}$, and calculated 95% bias-corrected and adjusted (BCa) confidence intervals [@efron1987] on $B_t^{\mathrm{rep}}$.
+## INTERVALLES DE CONFIANCE DE L’INDICE FONDÉ SUR LE PLAN
 
-## GEOSTATISTICAL SPATIOTEMPORAL BIOMASS INDEX TRENDS {#sec:geostatistical}
+Nous avons calculé les intervalles de confiance d’auto-amorçage concernant $B_t$ en calculant de façon répétée $B_t$ à partir des équations ci-dessus, mais en ré-échantillonnant chaque fois, avec remplacement, à partir des traits disponibles dans chaque strate. Nous avons tiré 1 000 répliques par auto-amorçage de $B_t$, $B_t^{\mathrm{rep}}$, et calculé des intervalles de confiance corrigés et ajustés (BCa) à 95 % pour des intervalles de confiance à biais corrigé et ajusté (BCa) [@efron1987] concernant $B_t^{\mathrm{rep}}$.
 
-The above-described design-based estimates assume that average fish density is
-the same throughout each survey stratum and that the only source of variance
-between samples is sampling stochasticity itself [@petitgas2001]. However, we
-know this is not true --- a substantial portion of fish density variation
-within a stratum can be attributed to habitat being of better or poorer
-suitability for a given fish and this suitability can be because of many
-factors beyond depth alone, on which the strata are stratified [@shelton2014].
-We also know that fish do not perceive their habitat according to these exact
-strata boundaries and that ecological processes in general tend to be spatially
-correlated with processes closer to each other being more similar than those
-further apart. Design-based estimates do not take advantage of this possible
-spatial correlation.
 
-Geostatistical modelling of survey data aims to address these issues by
-modelling fish density as a smooth spatial surface --- possibly the result of
-explicit habitat variables such as depth --- but also as the product of other
-unobserved or 'latent' spatial effects. In recent years, there has been
-a movement toward such 'model-based' standardization of survey biomass index
-trends [e.g., @shelton2014; @thorson2015; @webster2017]. We include model-based
-index trends for the synoptic trawl surveys as a point of comparison so the
-reader can gauge when the two approaches may differ. Large differences are
-likely a result of the random positioning of the survey sets for a given year
-ending up in particularly good or poor habitat for a given species. Authors of
-BC groundfish stock assessments may want to consider model-based index
-standardization on a case-by-case basis.
+## TENDANCES GÉOSTATISTIQUES ET SPATIOTEMPORELLES DE L’INDICE DE BIOMASSE {#sec:geostatistical}
 
-We use the geostatistical model as described in Appendix
-\@ref(app:spatial-modeling) with the addition of spatiotemporal random
-effects ($\epsilon_{s,t}$; defined for locations in space $s$ and time $t$)
-and annual predictors for the mean biomass each year:
+Les estimations fondées sur le plan décrites ci-dessus supposent que la densité moyenne de poissons est la même dans toutes les strates du relevé et que la seule source de variance entre les échantillons est la stochasticité d’échantillonnage elle-même [@petitgas2001]. Cependant, nous savons que ce n’est pas vrai. Une part importante de la variation de la densité de poissons dans une strate peut être attribuée au fait que l’habitat convient mieux ou moins bien à un poisson donné, et cette convenance peut découler de nombreux facteurs au-delà de la simple profondeur à laquelle les strates sont stratifiées [@shelton2014]. Nous savons aussi que les poissons ne perçoivent pas leur habitat en fonction de ces limites de strates exactes et que les processus écologiques ont tendance à être en corrélation spatiale avec les processus plus semblables plus rapprochés les uns des autres que ceux plus éloignés. Les estimations fondées sur le plan n’exploitent pas cette possible corrélation spatiale. 
+
+La modélisation géostatistique des données de relevés vise à résoudre ces problèmes en modélisant la densité des poissons sous la forme d’une surface spatiale lisse, possiblement le résultat de variables explicites relatives à l’habitat comme la profondeur, mais aussi le produit d’autres effets spatiaux non observés ou « latents ». Ces dernières années, il s’est opéré une transition vers une normalisation « fondée sur des modèles » des tendances de l’indice de biomasse dérivé de relevés [e.g., @shelton2014; @thorson2015; @webster2017]. Nous incluons comme point de comparaison les tendances de l’indice fondé sur des modèles dérivé des relevés synoptiques au chalut afin de permettre au lecteur de déterminer quand les deux approches peuvent varier. De grandes différences sont probablement le résultat du positionnement aléatoire des ensembles de relevés pour une année donnée. Les ensembles se retrouvent dans un habitat qui convient particulièrement bien ou non à une espèce donnée. Les auteurs des évaluations des stocks de poisson de fond de la Colombie-Britannique pourraient envisager une normalisation de l’indice fondé sur des modèles au cas par cas.
+
+Nous utilisons le modèle géostatistique décrit à l’annexe \@ref(app:spatial-modeling), en y ajoutant les effets spatiotemporels aléatoires ($\epsilon_{s,t}$; définis pour les emplacements dans l’espace $s$ et au temps $t$) et les prédicteurs annuels de biomasse moyenne chaque année :
 
 \begin{align}
   y_{s,t} &\sim \mathrm{Tweedie}(\mu_{s,t}, p, \phi), \quad 1 < p < 2,\\
   \mu_{s,t} &= \exp \left( \bm{X}_{s,t} \bm{\beta} + \omega_s + \epsilon_{s,t} \right).
 \end{align}
 
-As with the spatial model, the spatial random effects ($\omega_s$) are assumed
-to be drawn from a multivariate normal distribution with some covariance matrix
-$\bm{\Sigma}_\omega$:
+Comme pour le modèle spatial, nous supposons que les effets aléatoires spatiaux ($\omega_s$) sont tirés d’une distribution normale multidimensionnelle avec une certaine matrice de covariance $\bm{\Sigma}_\omega$ :
 
 \begin{equation}
 \bm{\omega} \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_\omega \right),
 \end{equation}
 
-and we assume the same for the spatiotemporal random effects, with each time
-slice being given its own independent set of random effects ($\bm{\epsilon}_t$)
-with covariance matrix $\bm{\Sigma}_{\epsilon,t}$:
+Nous supposons la même chose pour les effets aléatoires spatiotemporels, chaque tranche de temps comportant son propre ensemble indépendant d’effets aléatoires ($\bm{\epsilon}_t$) avec matrice de covariance $\bm{\Sigma}_{\epsilon,t}$ :
 
 \begin{equation}
 \bm{\epsilon}_t \sim \mathrm{MVNormal} \left( \bm{0}, \bm{\Sigma}_{\epsilon,t} \right).
 \end{equation}
 
-The spatial random effects account for spatial factors that are constant across
-time, for example, depth and substrate type. The spatiotemporal random effects
-account for factors that vary from year to year spatially such as bottom
-temperature, water circulation patterns, species interactions, and species
-movement.
+Les effets aléatoires spatiaux tiennent compte de facteurs spatiaux qui sont constants au fil du temps, par exemple la profondeur et le type de substrat. Les effets spatiotemporels aléatoires tiennent compte de facteurs qui varient d’une année à l’autre dans l’espace, comme la température du fond, les régimes de circulation de l’eau, les interactions entre espèces et les déplacements des espèces.
 
-Here we use Pacific Cod as an example species to illustrate the model
-components. The approach includes the same generation of spatial 'knots' as in
-the spatial model described in Appendix \@ref(app:spatial-modeling) (Figure
-\@ref(fig:sdmTMB-spt-spde)). We use 200 knots, which for spatial coverage of
-the synoptic trawl surveys, seems to be of adequately high resolution to
-capture the spatial and spatiotemporal variation. We tested this assumption by
-increasing the number of knots for a selection of species and ensuring that the
-estimated trends did not qualitatively differ.
+Nous utilisons ici la morue du Pacifique comme exemple pour illustrer les composantes du modèle. L’approche comprend la même génération de « nœuds » spatiaux que dans le modèle spatial décrit à l’annexe \@ref(app:spatial-modeling) (figure
+\@ref(fig:sdmTMB-spt-spde)). Nous utilisons 200 nœuds, un nombre qui, pour la couverture spatiale des relevés synoptiques au chalut, semble être d’une résolution suffisamment élevée pour capturer la variation spatiale et spatiotemporelle. Nous avons vérifié cette hypothèse en augmentant le nombre de nœuds pour certaines espèces en nous assurant que les tendances estimées ne variaient pas sur le plan qualitatif.
 
-We can project predictions from the model to a fine-scale (2 km $\times$ 2 km)
-grid using the covariance projection matrix (Figures
-\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt), \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)). We can also look at the
-individual components of the model. For the models without fixed effect
-predictors for depth, the fixed effect predictions each year are constant
-spatially (Figure \@ref(fig:sdmTMB-spt-plot-fixed-effects)). The spatial random
-effects are constant across years (Figure
-\@ref(fig:sdmTMB-spt-plot-spatial-effects)) and the spatiotemporal random effects
-vary across years (Figure \@ref(fig:sdmTMB-spt-plot-spatiotemporal-effects)).
-We can look at residuals through space and time to check if there appears to be
-remaining spatial or spatiotemporal autocorrelation (Figure
-\@ref(fig:sdmTMB-spt-spatial-residuals)).
+Nous pouvons projeter les prédictions du modèle à un quadrillage à petite échelle (2 km $\times$ 2 km) en utilisant la matrice de projection de covariance (figures \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt), \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)). Nous pouvons également examiner chaque composante du modèle. Pour les modèles sans prédicteurs d’effets fixes pour la profondeur, les prédictions des effets fixes chaque année sont constantes dans l’espace (figure  \@ref(fig:sdmTMB-spt-plot-fixed-effects)). Les effets aléatoires spatiaux sont constants d’une année à l’autre \@ref(fig:sdmTMB-spt-plot-spatial-effects)) contrairement aux effets aléatoires spatiotemporels (figure \@ref(fig:sdmTMB-spt-plot-spatiotemporal-effects)). Nous pouvons examiner les résidus dans l’espace et dans le temps pour vérifier s’il semble subsister une autocorrélation spatiale ou spatiotemporelle (figure \@ref(fig:sdmTMB-spt-spatial-residuals)).
 
-We can then calculate expected biomass $B_t$ in year $t$ as:
+Nous pouvons alors calculer la biomasse attendue $B_t$ pour l’année $t$, comme suit :
 
 \begin{equation}
 B_t = \sum_{j = 1}^{n_j}
   w_j \cdot \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right),
 \end{equation}
 
-where $j$ references a 2 km $\times$ 2 km grid cell within the survey domain
-and $w_j$ represents the weight or area of that grid cell (4 km^2^) (Figure
-\@ref(fig:sdmTMB-plot-index)). In other words, we sum the predicted biomass
-across all grid cells within the survey domain for each year. We generated
-standard errors on the annual estimates of log biomass via the generalized
-Delta method as implemented in TMB [@kristensen2016]. Similar to the findings
-of @thorson2015, we found that the model-based biomass index trends often had
-lower CVs (coefficient of variations) than the design-based index trends and
-often helped stabilize biomass estimates for outlying years compared to the
-design-based index trends (e.g., Figure \@ref(fig:sdmTMB-plot-index)).
+où $j$ désigne une cellule de quadrillage de 2 km $\times$ 2 km dans la zone de relevé et $w_j$ représente le poids ou la superficie de cette cellule de quadrillage (4 km^2^) [figure \@ref(fig:sdmTMB-plot-index)]. En d’autres termes, nous additionnons la biomasse prévue pour chaque année dans toutes les cellules de quadrillage faisant partie de la zone de relevé. Nous avons généré les écarts-types pour les estimations annuelles de biomasse du logarithme à l’aide de la méthode Delta généralisée mise en œuvre dans Template Model Builder (TMB) [@kristensen2016]. Un peu comme dans l’étude @thorson2015, nous avons constaté que les tendances de l’indice de biomasse fondé sur des modèles avaient souvent des coefficients de variation plus faibles que les tendances de l’indice fondé sur le plan et qu’ils contribuaient souvent à stabiliser les estimations de biomasse pour les années suivantes comparativement aux tendances de l’indice fondé sur le plan (p. ex. figure \@ref(fig:sdmTMB-plot-index)).
 
-We found little difference in the predicted biomass index between models that
-included or did not include depth covariates (e.g., Figure
-\@ref(fig:sdmTMB-plot-index)). We found that the main difference between models
-with or without depth covariates was in the models with depth covariates having
-slightly more spatially resolved estimates of biomass (Figure
-\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) vs. Figure
-\@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)).
-We chose to not include depth and depth squared as predictors in the main
-biomass index illustrated throughout this report. Whereas in nearly all cases
-including depth covariates generated a similar index to excluding them, in
-a few cases including them generated what appeared to be unrealistic deviations
-in biomass when the quadratic shape of the relationship
-between depth and biomass generated exceedingly high or low
-estimates of biomass on the border of the survey polygons. This remains a topic
-of research and will be investigated by the authors in the future.
+Nous avons constaté peu de variation de l’indice de biomasse prévu entre les modèles qui incluaient ou non des covariables relatives à la profondeur (p. ex. figure \@ref(fig:sdmTMB-plot-index)). Nous avons constaté que la principale différence entre les modèles avec ou sans covariables relatives à la profondeur se trouvait dans les modèles dont ces covariables présentaient des estimations de biomasse avec une résolution légèrement plus grande dans l’espace (figure \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt) par rapport à (figure \@ref(fig:sdmTMB-spt-plot-all-effects-sqrt-depth)). Nous avons choisi de ne pas inclure la profondeur et la profondeur au carré comme prédicteurs dans l’indice principal de biomasse illustré dans le présent rapport. Même si presque tous les cas qui comprenaient des covariables relatives à la profondeur ont généré un indice semblable aux cas les excluant, dans quelques cas, leur inclusion a généré ce qui semblait être des écarts irréalistes dans la biomasse lorsque la forme quadratique de la relation entre la profondeur et la biomasse générait des estimations excessivement élevées ou faibles de biomasse à la limite des polygones de relevé. Ce point demeure un sujet de recherche sur lequel les auteurs enquêteront plus tard.
 
 ```{r sdmTMB-spt-data}
 library(dplyr)
@@ -330,7 +180,7 @@ nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
 grid_locs <- nd
 ```
 
-```{r sdmTMB-spt-spde, fig.cap='Example triangularization mesh for Pacific Cod and the Queen Charlotte Sound survey across all years. Red dots represent the knot locations and open black circles represent the location of the survey sets.', fig.width=9, out.width="3.7in"}
+```{r sdmTMB-spt-spde, fig.cap='Exemple de maillage de triangularisation pour la morue du Pacifique et le relevé du bassin de la Reine-Charlotte au fil des ans. Les points rouges représentent les emplacements des nœuds et les cercles noirs ouverts représentent l’emplacement des ensembles de relevés.', fig.width=9, out.width="3.7in"}
 spde <- make_spde(dat$X, dat$Y, n_knots = n_knots)
 plot_spde(spde)
 ```
@@ -351,7 +201,7 @@ m_st_depth <- sdmTMB(
 predictions_depth <- predict(m_st_depth, newdata = grid_locs, return_tmb_object = TRUE)
 ```
 
-```{r sdmTMB-spt-residuals, fig.cap='Randomized quintile residual histogram.'}
+```{r sdmTMB-spt-residuals, fig.cap='Histogramme des résidus de quantiles aléatoires.'}
 dat$resids <- residuals(m_st) # randomized quantile residuals
 # gfplot::plot_qres_histogram(dat$resids)
 
@@ -369,7 +219,7 @@ plot_map_spt <- function(dat, column) {
 }
 ```
 
-```{r sdmTMB-spt-plot-all-effects-sqrt, fig.cap='Predictions from geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a fourth-root-distributed colour scale.'}
+```{r sdmTMB-spt-plot-all-effects-sqrt, fig.cap='Prédictions tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. La biomasse prévue est représentée par une échelle de couleurs répartie sur une racine quatrième'}
 ticks <- c(100, 500, 1000, 2000)
 limits <- c(0, max(exp(predictions$data$est))*1.001)
 plot_map_spt(predictions$data, "exp(est)") +
@@ -386,7 +236,7 @@ plot_map_spt(predictions$data, "exp(est)") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-all-effects-sqrt-depth, fig.cap='Predictions from a geostatistical spatiotemporal model that includes the effects of depth and depth squared for Pacific Cod in Queen Charlotte Sound. Predicted biomass is shown with a fourth-root-distributed colour scale. Note the similarity to the previous figure which does not include the depth predictors.'}
+```{r sdmTMB-spt-plot-all-effects-sqrt-depth, fig.cap='Prévisions d’un modèle spatiotemporel géostatistique qui inclut les effets de la profondeur et de la profondeur au carré pour la morue du Pacifique dans le bassin de la Reine-Charlotte. La biomasse prévue est représentée par une échelle de couleurs répartie sur une quatrième racine. Notez la similitude avec la figure précédente qui n’inclut pas les prédicteurs de profondeur.'}
 plot_map_spt(predictions_depth$data, "exp(est)") +
   ggtitle(en2fr("Prediction (fixed effects + all random effects)", french)) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
@@ -401,7 +251,7 @@ plot_map_spt(predictions_depth$data, "exp(est)") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-fixed-effects, fig.cap='Fixed effect predictions from a geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. Here the only fixed effects are the mean effects for each year resulting in fixed effect predictions that are same throughout the spatial region for each year.'}
+```{r sdmTMB-spt-plot-fixed-effects, fig.cap='Prédictions des effets fixes tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. Ici, les seuls effets fixes sont les effets moyens pour chaque année, ce qui donne des prévisions d’effets fixes qui sont les mêmes dans toute la région spatiale pour chaque année.'}
 plot_map_spt(predictions$data, "exp(est_non_rf)") +
   ggtitle(en2fr("Prediction (fixed effects only)", french)) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
@@ -415,7 +265,7 @@ plot_map_spt(predictions$data, "exp(est_non_rf)") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-spatial-effects, fig.cap='Spatial random effect predictions from a geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatial random effects account for spatial factors that are constant across years, for example, depth and substrate type.'}
+```{r sdmTMB-spt-plot-spatial-effects, fig.cap='Prévisions des effets spatiaux aléatoires à partir d’un modèle spatiotemporel géostatistique de la morue du Pacifique dans le bassin de la Reine-Charlotte. Les effets spatiaux aléatoires tiennent compte de facteurs spatiaux qui sont constants au fil des années, par exemple la profondeur et le type de substrat.'}
 red_blue_fill <- scale_fill_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
@@ -434,7 +284,7 @@ plot_map_spt(predictions$data, "omega_s") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.cap='Spatiotemporal random effect predictions from a geostatistical spatiotemporal model for Pacific Cod in Queen Charlotte Sound. The spatiotemporal random effects account for factors that vary from year to year spatially such as bottom temperature, water circulation patterns, and species interactions.'}
+```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.cap='Prédictions des effets spatiotemporels aléatoires tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. Les effets spatiotemporels aléatoires tiennent compte de facteurs qui varient d’une année à l’autre dans l’espace, comme la température du fond, les régimes de circulation de l’eau et les interactions entre espèces.'}
 plot_map_spt(predictions$data, "epsilon_st") +
   ggtitle(en2fr("Spatiotemporal random effects only", french)) +
   red_blue_fill +
@@ -448,7 +298,7 @@ plot_map_spt(predictions$data, "epsilon_st") +
 
 \clearpage
 
-```{r sdmTMB-spt-spatial-residuals, fig.cap='Spatial residuals plotted through time on the link (log) scale.'}
+```{r sdmTMB-spt-spatial-residuals, fig.cap='Résidus spatiaux tracés au fil du temps sur l’échelle des liens (logarithme).'}
 red_blue_fill2 <- scale_colour_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
@@ -469,7 +319,7 @@ ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
 
 \clearpage
 
-```{r sdmTMB-plot-index, fig.width=7, fig.cap='Relative biomass index predictions from the design-based approach, the geostatistical approach without covariates, and the geostatistical approach with depth covariates. The y-axis denotes relative biomass from each method divided by its geometric mean. Note the similarity between the two geostatistical models.'}
+```{r sdmTMB-plot-index, fig.width=7, fig.cap='Prévisions de l’indice de biomasse relative à partir de l’approche fondée sur le plan, de l’approche géostatistique sans covariables et de l’approche géostatistique avec covariables relatives à la profondeur. L’axe des y représente la biomasse relative de chaque méthode divisée par sa moyenne géométrique. Notons la similitude entre les deux modèles géostatistiques.'}
 # ind_design <- readRDS(here::here('report/data-cache/walleye-pollock.rds'))
 ind_design <- readRDS(here::here('report/data-cache/pacific-cod.rds'))
 ind_design <- ind_design$survey_index
