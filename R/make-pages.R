@@ -718,7 +718,7 @@ make_pages <- function(
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
         north_symbol = TRUE, annotations = "SYN",
         show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
-      coord_cart + ggplot2::ggtitle(en2fr("Synoptic survey biomass", french)) +
+      coord_cart + ggplot2::ggtitle(en2fr("Synoptic Survey Biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
 

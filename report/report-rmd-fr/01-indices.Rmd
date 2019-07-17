@@ -18,7 +18,7 @@ if (french){
   spp_table <- spp_table %>%
   mutate(species_common_name = en2fr(species_common_name, french)) %>%
   mutate(species_common_name = gsub("complexe du sébaste à œil épineux et du sébaste à taches noires",
-    "sébaste à œil épineux et sébaste à taches noires", species_common_name)) %>%
+    "sébaste à œil épineux et à taches noires", species_common_name)) %>%
     mutate(species_common_name = gfsynopsis:::first_cap(species_common_name))
 }
 
