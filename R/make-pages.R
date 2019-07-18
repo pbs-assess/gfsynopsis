@@ -474,7 +474,7 @@ make_pages <- function(
   } else {
     g_vb <- ggplot2::ggplot() + theme_pbs() +
       xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length",french), " (cm)")) +
-      ggtitle("Growth")
+      ggtitle(en2fr("Growth", french))
     g_length_weight <- ggplot2::ggplot() + theme_pbs() +
       xlab(paste0(en2fr("Length",french), " (cm)")) + ylab(paste0(en2fr("Weight", french), " (kg)")) +
       ggtitle(en2fr("Length-weight relationship", french))

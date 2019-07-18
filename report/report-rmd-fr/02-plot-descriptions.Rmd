@@ -63,7 +63,7 @@ p1 <- g$survey_spatial_syn +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = breaks, 
     labels = breaks * units_transformation) +
   guides(fill = guide_colorbar(), size = FALSE) +
-  ggtitle(en2fr("Synoptic survey biomass", french))
+  ggtitle(en2fr("Synoptic Survey Biomass", french))
   
 p2 <- g$survey_spatial_hbll +
   (if(french){
