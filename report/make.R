@@ -15,7 +15,6 @@ example_spp <- c("petrale sole", "pacific cod") # a species used as an example i
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
 cores <- floor(parallel::detectCores() / 2)
-french <- FALSE
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -258,7 +257,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   }
   if (species_code == "394") {
     if (!french) {
-      out[[i]] <- "COSEWIC Status: Special Concern, SARA status: Special Concern\n"
+      out[[i]] <- paste(en2fr("COSEWIC Status", french), ": ", en2fr("Special Concern", french), ", ", en2fr("SARA Status",french), ": ",  en2fr("Special Concern", french), "\n")
     } else {
       out[[i]] <- "COSEWIC Status: Special Concern, SARA status: Special Concern\n"
     }
