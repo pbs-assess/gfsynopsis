@@ -595,7 +595,8 @@ make_pages <- function(
       show_historical = TRUE, start_year = 2013,
       fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-      percent_excluded_xy = c(0.015, -0.02)
+      percent_excluded_xy = c(0.08, -0.02),
+      percent_excluded_text = "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
       ) +
     ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
     theme(legend.position = "none") +
@@ -619,7 +620,8 @@ make_pages <- function(
         fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
         colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
         fill_lab = "CPUE (kg/fe)",
-        percent_excluded_xy = c(0.015, -0.02)) +
+        percent_excluded_xy = c(0.08, -0.02),
+        percent_excluded_text = "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel") +
       ggplot2::ggtitle(en2fr("Commercial H & L CPUE", french)) +
       theme(legend.position = "none") +
       coord_cart + theme(

@@ -1,6 +1,7 @@
 # DESCRIPTIONS DES GRAPHIQUES {#sec:plot-descriptions}
 
 ```{r load-example-figs}
+french = TRUE
 g <- readRDS(here::here("report/ggplot-objects/petrale-sole.rds"))
 sp <- "Petrale Sole"
 ```
@@ -185,8 +186,10 @@ gridExtra::grid.arrange(
 
 ```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Exemple de graphique illustrant la disponibilité des spécimens de l’espèce ", sp, ". Le nombre de spécimens de poissons disponibles dont la longueur a été mesurée, qui ont été pesés, dont la maturité a été évaluée, dont l’âge a été évalué, et pour lesquels des structures de détermination de l’âge sont disponibles est présenté. Les données sont présentées pour tous les relevés (et non seulement pour les relevés présentés ailleurs dans la synthèse; panneau supérieur) et pour toutes les flottilles commerciales (panneau inférieur). Les panneaux vierges indiquent les combinaisons année-mesure sans données. L’ombrage de ces cellules reflète le nombre relatif de spécimens disponibles, avec le nombre réel de spécimens indiqué dans les cellules au nombre arrondi le plus proche.")}
 gridExtra::grid.arrange(
-  g$survey_samples,
-  g$comm_samples,
+  g$survey_samples +
+    ggplot2::ggtitle(en2fr("Survey specimen counts", french)),
+  g$comm_samples +
+    ggplot2::ggtitle(en2fr("Commercial specimen counts", french)),
   nrow = 2
 )
 ```
