@@ -1,3 +1,11 @@
+if(!exists("french")){
+  stop("You must set the variable 'french' to be TRUE or FALSE.")
+}
+if(french){
+  build_dir <- here::here("report/report-rmd-fr")
+} else{
+  build_dir <- here::here("report/report-rmd")
+}
 # This file generates all the main synopsis figures in `report/figure-pages`.
 # It must be run before the report can be rendered.
 library(here)
@@ -105,7 +113,7 @@ if (parallel_processing) {
 out <- foreach::foreach(i = seq_along(spp$species_common_name),
 .packages = c("gfplot", "gfsynopsis"),
 .export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %.do% {
-  fig_check <- paste0(here::here("report", "figure-pages"), "/",
+  fig_check <- file.path(build_dir, "figure-pages",
     gfsynopsis:::clean_name(spp$species_common_name[i]))
   fig_check1 <- paste0(fig_check, "-1.", ext)
   fig_check2 <- paste0(fig_check, "-2.", ext)
@@ -122,7 +130,7 @@ out <- foreach::foreach(i = seq_along(spp$species_common_name),
       d_geostat_index = dat_geostat_index, # spatiotemporal model fits
       include_map_square = FALSE, # to check the map aspect ratio
       french = french,
-      report_folder = here::here("report"),
+      report_lang_folder = build_dir,
       resolution = 150, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
       parallel = FALSE, # for CPUE fits; need a lot of memory if true!
@@ -300,7 +308,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0(
-    "\\includegraphics[width=6.4in]{../figure-pages/",
+    "\\includegraphics[width=6.4in]{", build_dir, "/figure-pages/",
     spp_file, "-1.", ext, "}"
   )
   i <- i + 1
@@ -311,7 +319,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0(
-    "\\includegraphics[width=6.4in]{../figure-pages/",
+    "\\includegraphics[width=6.4in]{", build_dir, "/figure-pages/",
     spp_file, "-2.", ext, "}"
   )
   i <- i + 1
@@ -324,14 +332,15 @@ temp <- lapply(spp$species_common_name, function(x) {
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
 temp <- c("<!-- This page has been automatically generated: do not edit by hand -->\n", temp)
-writeLines(temp, con = here("report", "report-rmd", "plot-pages.Rmd"))
+con <- file(file.path(build_dir, "plot-pages.Rmd"), encoding = "UTF-8")
+writeLines(temp, con = con)
 
 # ------------------------------------------------------------------------------
 # Optimize png files for TeX
 
 if (optimize_png) {
   files_per_core <- ceiling(length(spp$species_common_name) * 2 / cores)
-  setwd(here("report/figure-pages"))
+  setwd(file.path(build_dir, "figure-pages"))
   if (!gfplot:::is_windows() && parallel_processing) {
     system(paste0(
       "find -X . -name '*.png' -print0 | xargs -0 -n ",

@@ -57,7 +57,8 @@ make_pages <- function(
   resolution = 170,
   png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp),
-  report_folder = "report",
+  report_folder = here::here("report"),
+  report_lang_folder = here::here("report"),
   include_map_square = FALSE,
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
@@ -147,7 +148,7 @@ make_pages <- function(
 
   # File and folder setup: -----------------------------------------------------
 
-  fig_folder <- file.path(report_folder, "figure-pages")
+  fig_folder <- file.path(report_lang_folder, "figure-pages")
   ggplot_folder <- file.path(report_folder, "ggplot-objects")
   cpue_cache <- file.path(report_folder, "cpue-cache")
   survey_map_cache <- file.path(report_folder, "map-cache")
@@ -176,14 +177,12 @@ make_pages <- function(
 
   samp_panels <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
     "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french))
-
   # Age compositions: ----------------------------------------------------------
 
   ss <- tidy_ages_raw(dat$survey_samples,
     sample_type = "survey")
   sc <- tidy_ages_raw(dat$commercial_samples_no_keepers,
     sample_type = "commercial")
-
   if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
   if (is.data.frame(sc))
     if (nrow(sc) == 0)
@@ -360,7 +359,8 @@ make_pages <- function(
   } else {
     g_survey_index <- plot_survey_index(dat_tidy_survey_index,
       col = c("grey60", "grey20"), survey_cols = survey_cols,
-      xlim = c(1984, max(synoptic_max_survey_years)))
+      xlim = c(1984, max(synoptic_max_survey_years)),
+      french = french)
   }
 
   # Get geostatistical index calculations

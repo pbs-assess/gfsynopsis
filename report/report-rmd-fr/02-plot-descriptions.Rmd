@@ -1,7 +1,6 @@
 # DESCRIPTIONS DES GRAPHIQUES {#sec:plot-descriptions}
 
 ```{r load-example-figs}
-french = TRUE
 g <- readRDS(here::here("report/ggplot-objects/petrale-sole.rds"))
 sp <- "Petrale Sole"
 ```
@@ -34,7 +33,7 @@ x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
-(ref:survey-index-example) `r paste0("Exemple de tendances relatives de l’indice de la biomasse dérivé des relevés au chalut et à la palangre pour ", sp, ". Les points représentent les estimations moyennes de la biomasse relative et les rubans ombrés autour des points et des lignes représentent des intervalles de confiance d’autogénération à 95 %. Le « CV moyen » est la moyenne des coefficients de variation (CV) annuels, et 'Mean $+$ve sets' indique le rapport entre le nombre moyen (sur plusieurs années) des ensembles comprenant des espèces d’intérêt et le nombre moyen d’ensembles. Les panneaux grisés indiquent les tendances dérivées du relevé, avec 'Mean CV' supérieur à 0,4 ou 'Mean $+$ve sets' inférieur à 5 %. Tous les axes verticaux sont mis à l’échelle entre zéro et la valeur maximale de l’intervalle de confiance supérieur pour ce relevé. Les séries chronologiques avec des points gris clair et des lignes pointillées en haut et en bas pour des intervalles de confiance à 95 % représentent un autre indice qui a été normalisé à l’aide d’un modèle géostatistique ", surv_abbrev_text, ". Pour ce qui est de la série de relevés indépendants de la pêche de la CIFP, les valeurs sont des nombres relatifs par patin efficace plutôt que les valeurs de la biomasse. ")`
+(ref:survey-index-example) `r paste0("Exemple de tendances relatives de l’indice de la biomasse dérivé des relevés au chalut et à la palangre pour ", sp, ". Les points représentent les estimations moyennes de la biomasse relative et les rubans ombrés autour des points et des lignes représentent des intervalles de confiance d’autogénération à 95 %. Le « CV moyen » est la moyenne des coefficients de variation (CV) annuels, et 'Mean $+$ve sets' indique le rapport entre le nombre moyen (sur plusieurs années) des ensembles comprenant des espèces d’intérêt et le nombre moyen d’ensembles. Les panneaux grisés indiquent les tendances dérivées du relevé, avec 'Mean CV' supérieur à 0,4 ou 'Mean $+$ve sets' inférieur à 5 %. Tous les axes verticaux sont mis à l’échelle entre zéro et la valeur maximale de l’intervalle de confiance supérieur pour ce relevé. Les séries chronologiques avec des points gris clair et des lignes pointillées en haut et en bas pour des intervalles de confiance à 95 % représentent un autre indice qui a été normalisé à l’aide d’un modèle géostatistique ", surv_abbrev_text, ". Pour ce qui est de la série de relevés indépendants de la pêche de la CIFP, les valeurs sont des nombres relatifs par patin efficace plutôt que les valeurs de la biomasse.")`
 
 ```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap="(ref:survey-index-example)"}
 g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
