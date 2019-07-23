@@ -1,7 +1,7 @@
 # DESCRIPTIONS DES GRAPHIQUES {#sec:plot-descriptions}
 
 ```{r load-example-figs}
-g <- readRDS(here::here("report/ggplot-objects/petrale-sole.rds"))
+g <- readRDS(here::here("report", ifelse(french, "report-rmd-fr", "report-rmd"), "ggplot-objects", "petrale-sole.rds"))
 sp <- "Petrale Sole"
 ```
 
@@ -125,7 +125,7 @@ g$cpue_index + ggtitle(en2fr("Commercial bottom trawl CPUE", french))
 (ref:cpue-maps-cap) Exemples de carte des captures par unité d’effort dans la pêche commerciale au chalut et dans la pêche commerciale à la ligne et à l’hameçon pour la morue du Pacifique (il est à noter que cette figure ne concerne **pas** la sole de Petrale). Un ombrage plus clair indique des niveaux plus élevés d’une moyenne géométrique des captures par unité d’effort dans une cellule hexagonale donnée. L’échelle des couleurs fait l’objet d’une transformation de la racine quatrième pour qu’on puisse rendre un motif visuel semblable à une transformation logarithmique sans surestimer les différences proches de zéro. L’échelle des couleurs (‘Viridis’) est perceptiblement uniforme, peut être distinguée par des daltoniens et imprimée avec précision en niveaux de gris [@viridis2018]. Les cellules sont larges de 7 km et ne sont indiquées que dans les cas où il y a au moins trois bateaux uniques dans une cellule donnée pour qu’on puisse satisfaire aux exigences en matière de confidentialité. En ce qui concerne le chalutage de fond, les captures par unité d’effort sont calculées en divisant le poids des prises (débarquements plus rejets) par le nombre d’heures de pêche pour tous les traits positifs du secteur de la pêche au chalut au poisson de fond. Les données relatives au chalutage sont présentées à partir de 2013, date à laquelle l’empreinte du chalut a été gelée. Les données sur la pêche au chalut entre 2007 et 2012 sont indiquées sous forme d’hexagones gris pâle pour représenter la pêche avant le gel de l’empreinte. En ce qui concerne la pêche à la ligne et à l’hameçon, les captures par unité d’effort sont indiquées comme étant le nombre de poissons enregistrés comme étant débarqués ou rejetés par ensemble. Les données sur la pêche à la ligne et à l’hameçon sont présentées à partir de 2008. L’inclusion d’autant d’années de données que possible permet de réduire le nombre d’événements de pêche durant lesquels on a effectué des rejets lors de la mise en œuvre de l’exigence relative à la confidentialité des trois bateaux. `r map_text`
 
 ```{r cpue-maps, fig.asp=1.37, fig.width=4.65, out.width="3.6in", fig.cap="(ref:cpue-maps-cap)"}
-g_alt <- readRDS(here::here("report/ggplot-objects/pacific-cod.rds"))
+g_alt <- readRDS(here::here("report", ifelse(french, "report-rmd-fr", "report-rmd"), "ggplot-objects", "pacific-cod.rds"))
 trans <- "fourth_root_power"
 
 p1_trawl <-

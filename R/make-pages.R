@@ -149,7 +149,7 @@ make_pages <- function(
   # File and folder setup: -----------------------------------------------------
 
   fig_folder <- file.path(report_lang_folder, "figure-pages")
-  ggplot_folder <- file.path(report_folder, "ggplot-objects")
+  ggplot_folder <- file.path(report_lang_folder, "ggplot-objects")
   cpue_cache <- file.path(report_folder, "cpue-cache")
   survey_map_cache <- file.path(report_folder, "map-cache")
   vb_cache <- file.path(report_folder, "vb-cache")
