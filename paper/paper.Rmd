@@ -1,7 +1,7 @@
 ---
 title: |
    Reproducible reporting improves data transparency, assessment efficiency,
-   and engagement for over 100 Pacific Canadian groundfish species
+   and monitoring for over 100 Pacific Canadian groundfish species
 author: |
   Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3,4^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
@@ -75,9 +75,9 @@ visualization -->
 Modern survey and fishery observation programs generate vast quantities of
 data. However, regulatory agencies often lack the capacity to translate the
 data into effective monitoring information. Here we describe an automated
-report for 113 groundfish species in Pacific Canadian waters. Our report
+report for 113 groundfish species in Pacific Canadian waters. It
 includes standardized visualizations of temporal trends and spatial
-distributions of commercial catches and survey indices, plus analysis of ages,
+distributions of commercial catches and survey indices, plus analyses of ages,
 lengths, maturity, and growth. It facilitates discussions on stock-assessment
 and survey prioritization, increases transparency about data holdings, and
 makes the data available for regular review by interested parties. We encourage
@@ -95,7 +95,7 @@ their data in a timely fashion. Typically, detailed stock assessments report on
 data for only a small subset of species. While such focused analyses are
 required for management of some stocks, broad monitoring programs across an
 array of species and data types are essential for detecting ecological
-surprises, quantifying "unknown unknowns" [@hilborn1987; @wintle2010], and
+surprises and "unknown unknowns" [@hilborn1987; @wintle2010], and
 generally understanding species trends in a timely fashion. As part of
 a movement toward open data [e.g., @canada2018], many raw datasets, including
 those collected by government agencies, are now made available. However,
@@ -107,7 +107,7 @@ insights.
 
 In British Columbia (BC), Fisheries and Oceans Canada (DFO) faces these
 problems in monitoring its groundfish populations and fisheries. In BC, Federal
-Government groundfish scientists hold the responsibility of providing science
+Government groundfish scientists hold the potential responsibility of providing science
 advice for over 100 species. The commercial groundfish fleet is subject to 100%
 on-board and dockside monitoring, while numerous fisheries-independent trawl
 and longline surveys are conducted annually, producing large quantities of
@@ -121,7 +121,7 @@ easily digested without advanced data processing skills and extensive knowledge
 of the survey programs and commercial fisheries.
 
 Automated visualization and reporting is one solution to these problems. Data
-visualization can serve as much more than just an endpoint to data
+visualization can serve as much more than just an endpoint of data
 analysis---it can serve as a critical component of the scientific process
 [@fox2011]. Visualization can facilitate rapid understanding of data, engage
 stakeholders, and raise awareness of data gaps. Visualization can also serve as
@@ -152,7 +152,7 @@ recreational, conservation, or First Nations interest, and those that are
 regularly caught in DFO surveys. We included population trends and biological
 data from commercial fisheries and scientific surveys. This gave an overall
 snapshot of available information for each species. Of the
-fisheries-independent surveys done by DFO, we presented data from those that
+fisheries-independent surveys conducted by DFO, we presented data from those that
 provided the greatest spatial and taxonomic coverage of the species. We chose
 to focus on aspects of the data that were most important to stock assessment,
 such as indices of abundance, catch and composition data, and growth and
@@ -175,7 +175,7 @@ In designing the report we made the following design considerations:
    periods of increased uncertainty in reported catches).
 
 We aimed to make the report automated and reproducible so that it could be
-easily updated in the future. We also wanted the report production to be
+efficiently updated in the future. We also wanted the report production to be
 transparent and traceable with regards to how the data were extracted from
 databases and treated prior to plotting. Often, raw data cannot be plotted in
 a meaningful way without first undergoing some mathematical modelling, and for
@@ -188,10 +188,10 @@ wrote code in a modular format so that individual functions could be used for
 other purposes---for example, so the data could be extracted and biological
 models fit for stock assessments in a consistent, standardized way.
 
-We settled on presenting visualizations of: (1) trends in time and space for
-fisheries-independent surveys and commercial fisheries catch and catch per unit
+We settled on presenting visualizations of: (1) temporal trends and spatial distributions of
+fisheries-independent survey data and commercial fisheries catch and catch per unit
 effort (CPUE); (2) temporal trends in length and age frequencies; and (3)
-biological parameters including length at age, weight at length, age at
+biological quantities including length at age, weight at length, age at
 maturity, length at maturity, and maturity frequencies from
 fisheries-independent surveys and commercial data sources. We additionally
 presented a summary of counts of available biological data (ages, ageing
@@ -216,7 +216,7 @@ nine gadiform species (cods); 16 sculpin and poacher species; three
 greenling/lingcod species; six eelpout species, three prickleback species, and
 seven other perciform species; and one species each of smelt, sablefish and
 snailfish. The visualizations for many data-limited species include mostly
-empty plots, which graphically demonstrate the lack of data. This effectively
+empty plots, which graphically emphasize the lack of data. This effectively
 turns unknown unknowns about a given species [@wintle2010] into *known*
 unknowns. For data-rich species, nearly all data available are visualized
 together on two pages for the first time.
@@ -260,7 +260,7 @@ they may not accurately represent abundance trends for some stocks. For
 example, biomass indices may be based on surveys with particularly low
 catchability for certain species.
 
-We suggest that a semi-automated approach such as we have presented would have
+We suggest that an approach such as we have presented would have
 broad utility across taxonomic groups, regions, and types of data. A similar
 approach could be useful nearly anywhere agencies face monitoring multiple
 ecosystem elements (e.g., populations, species, and/or environmental processes)
@@ -268,8 +268,8 @@ with relevant data maintained in databases [e.g., @ricard2013]. The approach
 would be most useful for agencies that lack the capacity to assess those
 elements in great depth at a frequency that meets management needs. However,
 even with regular detailed assessments, such a report can provide a broad
-overview in a format consistent across all elements. Furthermore, similar
-automated reporting has been used to facilitate completion of stock
+overview in a format consistent across all elements. Furthermore, a similar
+approach has been used to facilitate completion of stock
 assessments---for example, in automating the output of complex models and
 producing the assessment document under tight deadlines [@berger2019hake].
 Although we caution that it can take considerable work to set up such
