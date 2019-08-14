@@ -4,7 +4,8 @@
 \alias{plot_catches}
 \title{Plot catches}
 \usage{
-plot_catches(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...)
+plot_catches(dat, blank_plot = FALSE, xlim = c(1955, 2017),
+  french = FALSE, ...)
 }
 \arguments{
 \item{dat}{The data}
@@ -12,6 +13,8 @@ plot_catches(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...)
 \item{blank_plot}{Whether or not the plot should be blank}
 
 \item{xlim}{x limit}
+
+\item{french}{Logical}
 
 \item{...}{Other arguments to pass to \code{\link[gfplot:plot_catch]{gfplot::plot_catch()}}.}
 }

@@ -3,23 +3,33 @@
 #' @param dat The data
 #' @param blank_plot Whether or not the plot should be blank
 #' @param xlim x limit
+#' @param french Logical
 #' @param ... Other arguments to pass to [gfplot::plot_catch()].
 #'
 #' @export
-plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017), ...) {
+plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017),
+  french = FALSE, ...) {
 
   if (!blank_plot) {
     catch_areas <- gfplot::tidy_catch(dat, areas = c("5[CDE]+", "5[AB]+", "3[CD]+"))
     catch_all <- gfplot::tidy_catch(dat, areas = NULL)
     catch <- bind_rows(catch_all, catch_areas)
-    catch$area <- factor(catch$area,
-      levels = c("Coastwide", "5CDE", "5AB", "3CD"))
+
+    if (french) {
+      catch$area <- as.character(catch$area)
+      catch$area <- gsub("Coastwide", rosettafish::en2fr("Coastwide"), catch$area)
+      catch$area <- factor(catch$area,
+        levels = c(rosettafish::en2fr("Coastwide"), "5CDE", "5AB", "3CD"))
+    } else {
+      catch$area <- factor(catch$area,
+        levels = c("Coastwide", "5CDE", "5AB", "3CD"))
+    }
   } else {
     catch <- dat
   }
   yrs <- xlim
 
-  g <- gfplot::plot_catch(catch, xlim = xlim, ...) +
+  g <- gfplot::plot_catch(catch, xlim = xlim, french = french, ...) +
     # ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2)) +
     theme(panel.spacing = unit(-0.1, "lines")) +
     theme(

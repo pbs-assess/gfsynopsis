@@ -57,8 +57,8 @@ make_pages <- function(
   resolution = 170,
   png_format = TRUE,
   spp_file = gfsynopsis:::clean_name(spp),
-  report_folder = here::here("report"),
-  report_lang_folder = here::here("report"),
+  report_folder = "report",
+  report_lang_folder = "report",
   include_map_square = FALSE,
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
@@ -321,7 +321,7 @@ make_pages <- function(
 
   # Commercial catch: ----------------------------------------------------------
   if (nrow(dat$catch) > 0) {
-    g_catch <- gfsynopsis::plot_catches(dat$catch)
+    g_catch <- gfsynopsis::plot_catches(dat$catch, french = french)
   } else {
     g_catch <- ggplot() + theme_pbs()
     g_catch <- gfsynopsis::plot_catches(expand.grid(year = 999,
@@ -428,14 +428,15 @@ make_pages <- function(
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
 
   # Maturity by month: ---------------------------------------------------------
-  dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples)
+  dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples, french = french)
   if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
     g_maturity_month <- ggplot() + theme_pbs() +
       ggtitle(en2fr("Maturity frequencies", french))
   } else {
     g_maturity_month <- dat_tidy_maturity_months %>%
       plot_maturity_months(min_fish = 0) +
-      guides(colour = FALSE, fill = FALSE)
+      guides(colour = FALSE, fill = FALSE) +
+      ggtitle(en2fr("Maturity frequencies", french))
   }
 
   # Growth fits: ---------------------------------------------------------------
@@ -458,7 +459,9 @@ make_pages <- function(
     }
 
     g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
-      guides(colour = FALSE, fill = FALSE, lty = FALSE)
+      guides(colour = FALSE, fill = FALSE, lty = FALSE) +
+      ggtitle(en2fr("Growth", french)) +
+      xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length",french), " (cm)"))
 
     lw_m <- fit_length_weight(dat$survey_samples, sex = "male", method = "tmb",
       too_high_quantile = 1)
@@ -470,7 +473,10 @@ make_pages <- function(
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =
-          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
+          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7)))) +
+      xlab(paste0(en2fr("Length",french), " (cm)")) + ylab(paste0(en2fr("Weight", french), " (kg)")) +
+      ggtitle(en2fr("Length-weight relationship", french))
+
   } else {
     g_vb <- ggplot2::ggplot() + theme_pbs() +
       xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length",french), " (cm)")) +
@@ -529,7 +535,9 @@ make_pages <- function(
   if (length(mat_age) > 1L && type != "none") {
     g_mat_age <- plot_mat_ogive(mat_age, prediction_type = type) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE) +
-      ggplot2::guides(lty = FALSE, colour = FALSE)
+      ggplot2::guides(lty = FALSE, colour = FALSE) +
+      ggtitle(en2fr("Age at maturity", french)) +
+      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french))
   } else {
     g_mat_age <- ggplot() + theme_pbs() + ggtitle(en2fr("Age at maturity", french)) +
       ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
@@ -573,7 +581,9 @@ make_pages <- function(
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =
-          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7))))
+          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7)))) +
+     ggtitle(en2fr("Length at maturity", french)) +
+     ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french)))
   } else {
     g_mat_length <- ggplot() + theme_pbs() + ggtitle(en2fr("Length at maturity", french)) +
       ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
@@ -595,9 +605,9 @@ make_pages <- function(
       show_historical = TRUE, start_year = 2013,
       fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-      percent_excluded_xy = c(0.08, -0.02),
-      percent_excluded_text = "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
-      ) +
+      percent_excluded_xy = if (!french) c(0.015, -0.02) else c(0.08, -0.02),
+      percent_excluded_text = if (!french) "Fishing events excluded due to Privacy Act" else "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
+    ) +
     ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
     theme(legend.position = "none") +
     ggplot2::annotate("text", 360, 6172, label = "2013–2018", col = "grey30",
@@ -620,8 +630,9 @@ make_pages <- function(
         fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
         colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
         fill_lab = "CPUE (kg/fe)",
-        percent_excluded_xy = c(0.08, -0.02),
-        percent_excluded_text = "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel") +
+        percent_excluded_xy = if (!french) c(0.015, -0.02) else c(0.08, -0.02),
+        percent_excluded_text = if (!french) "Fishing events excluded due to Privacy Act" else "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
+      ) +
       ggplot2::ggtitle(en2fr("Commercial H & L CPUE", french)) +
       theme(legend.position = "none") +
       coord_cart + theme(
@@ -720,7 +731,7 @@ make_pages <- function(
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
         north_symbol = TRUE, annotations = "SYN",
         show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
-      coord_cart + ggplot2::ggtitle(en2fr("Synoptic Survey Biomass", french)) +
+      coord_cart + ggplot2::ggtitle(en2fr("Synoptic survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
 
