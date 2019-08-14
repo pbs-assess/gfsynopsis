@@ -100,7 +100,6 @@ spp <- spp %>% mutate(species_french_name =
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
 # i <- which(spp$species_common_name  ==  'copper rockfish') # for debugging
-# for (i in seq_along(spp$species_common_name))
 
 if (parallel_processing) {
   cl <- parallel::makeCluster(cores, outfile = "")
@@ -110,40 +109,41 @@ if (parallel_processing) {
   `%.do%` <-  foreach::`%do%`
 }
 
+# for (i in seq_along(spp$species_common_name)) {
 out <- foreach::foreach(i = seq_along(spp$species_common_name),
-.packages = c("gfplot", "gfsynopsis"),
-.export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %.do% {
-  fig_check <- file.path(build_dir, "figure-pages",
-    gfsynopsis:::clean_name(spp$species_common_name[i]))
-  fig_check1 <- paste0(fig_check, "-1.", ext)
-  fig_check2 <- paste0(fig_check, "-2.", ext)
-  if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
-    cat(crayon::red(clisymbols::symbol$cross),
-      "Building figure pages for", spp$species_common_name[i], "\n")
-    dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
-    dat$cpue_index <- d_cpue
-    gfsynopsis::make_pages(
-      dat = dat,
-      dat_iphc = dat_iphc,
-      spp = spp$species_common_name[i],
-      d_geostat_index = dat_geostat_index, # spatiotemporal model fits
-      include_map_square = FALSE, # to check the map aspect ratio
-      french = french,
-      report_lang_folder = build_dir,
-      resolution = 150, # balance size with resolution
-      png_format = if (ext == "png") TRUE else FALSE,
-      parallel = FALSE, # for CPUE fits; need a lot of memory if true!
-      save_gg_objects = spp$species_common_name[i] %in% example_spp,
-      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-    )
-  } else {
-    cat(crayon::green(clisymbols::symbol$tick),
-      "Figure pages for", spp$species_common_name[i], "already exist\n")
+  .packages = c("gfplot", "gfsynopsis", "rosettafish"),
+  .export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %.do% {
+    fig_check <- file.path(build_dir, "figure-pages",
+      gfsynopsis:::clean_name(spp$species_common_name[i]))
+    fig_check1 <- paste0(fig_check, "-1.", ext)
+    fig_check2 <- paste0(fig_check, "-2.", ext)
+    if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
+      cat(crayon::red(clisymbols::symbol$cross),
+        "Building figure pages for", spp$species_common_name[i], "\n")
+      dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+      dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
+      dat$cpue_index <- d_cpue
+      gfsynopsis::make_pages(
+        dat = dat,
+        dat_iphc = dat_iphc,
+        spp = spp$species_common_name[i],
+        d_geostat_index = dat_geostat_index, # spatiotemporal model fits
+        include_map_square = FALSE, # to check the map aspect ratio
+        french = french,
+        report_lang_folder = build_dir,
+        resolution = 150, # balance size with resolution
+        png_format = if (ext == "png") TRUE else FALSE,
+        parallel = FALSE, # for CPUE fits; need a lot of memory if true!
+        save_gg_objects = spp$species_common_name[i] %in% example_spp,
+        survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+          RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+          "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+      )
+    } else {
+      cat(crayon::green(clisymbols::symbol$tick),
+        "Figure pages for", spp$species_common_name[i], "already exist\n")
+    }
   }
-}
 if (parallel_processing) doParallel::stopImplicitCluster()
 
 # ------------------------------------------------------------------------------
