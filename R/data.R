@@ -14,12 +14,12 @@ get_data <- function(type = c("A", "B"), path = ".",
   if (!force)
     .d <- filter(.d, !spp_w_hyphens %in% already_exists)
   if (nrow(.d) > 0L)
-    gfplot::cache_pbs_data(species = .d$species_code,
+    gfdata::cache_pbs_data(species = .d$species_code,
       file_name = .d$spp_w_hyphens,
       path = path, unsorted_only = FALSE, historical_cpue = FALSE,
       survey_sets = TRUE, verbose = FALSE, compress = compress)
   if (force || !file.exists(file.path(path, "cpue-index-dat.rds"))) {
-    .dat <- gfplot::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
+    .dat <- gfdata::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
     saveRDS(.dat, file = file.path(path, "cpue-index-dat.rds"), compress = compress)
   }
   get_data_iphc(type = type, path = paste0(path, "/iphc"),
