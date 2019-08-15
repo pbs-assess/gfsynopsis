@@ -357,6 +357,8 @@ make_pages <- function(
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() + theme_pbs()
   } else {
+    dat_tidy_survey_index <- dplyr::filter(dat_tidy_survey_index,
+      !(survey_abbrev == "HBLL INS S" & year == 2009)) # only half survey conducted
     g_survey_index <- plot_survey_index(dat_tidy_survey_index,
       col = c("grey60", "grey20"), survey_cols = survey_cols,
       xlim = c(1984, max(synoptic_max_survey_years)),
