@@ -203,8 +203,11 @@ fishing events when implementing the 3-vessel privacy requirement.
 `r map_text`
 
 ```{r cpue-maps, fig.asp=1.37, fig.width=4.65, out.width="3.6in", fig.cap="(ref:cpue-maps-cap)"}
-g_alt <- readRDS(here::here("report/report-rmd/ggplot-objects/pacific-cod.rds"))
 trans <- "fourth_root_power"
+
+g_alt <- list()
+g_alt$cpue_spatial <- readRDS(here::here("report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+g_alt$cpue_spatial_ll <- readRDS(here::here("report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
 
 p1_trawl <-
   g_alt$cpue_spatial +
