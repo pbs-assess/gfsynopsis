@@ -337,7 +337,9 @@ make_pages <- function(
 
   # Get new IPHC calculations
   if (!file.exists(iphc_index_cache_spp)) {
-    iphc_set_counts_sp <- gfiphc::calc_iphc_full_res(dat_iphc$set_counts)
+    iphc_set_counts_sp <- tryCatch({
+      gfiphc::calc_iphc_full_res(dat_iphc$set_counts)
+    }, error = function(e) NA)
     saveRDS(iphc_set_counts_sp, file = iphc_index_cache_spp, compress = FALSE)
   } else {
     iphc_set_counts_sp <- readRDS(iphc_index_cache_spp)
@@ -445,10 +447,11 @@ make_pages <- function(
 
   if (nrow(dat$survey_samples) >= 10) {
 
+    check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
     vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "tmb",
-      too_high_quantile = 1, df = 3)
+      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb)
     vb_f <- fit_vb(dat$survey_samples, sex = "female", method = "tmb",
-      too_high_quantile = 1, df = 3)
+      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb)
     vb <- list()
     vb$m <- vb_m
     vb$f <- vb_f
