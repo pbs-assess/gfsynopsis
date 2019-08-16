@@ -1,9 +1,9 @@
 french <- FALSE
 
 if (french) {
-  build_dir <- here::here("report/report-rmd-fr")
+  build_dir <- "report/report-rmd-fr"
 } else {
-  build_dir <- here::here("report/report-rmd")
+  build_dir <- "report/report-rmd"
 }
 # This file generates all the main synopsis figures in `report/figure-pages`.
 # It must be run before the report can be rendered.
@@ -12,16 +12,24 @@ library(dplyr)
 library(gfplot)
 library(gfiphc)
 library(gfsynopsis)
-library(foreach)
 library(rosettafish)
+# library(foreach)
+library(future)
 
 # ------------------------------------------------------------------------------
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
-parallel_processing <- FALSE
+parallel_processing <- TRUE
 cores <- floor(parallel::detectCores() / 2)
+
+if (parallel_processing) {
+  future::plan(multiprocess)
+  options(future.globals.maxSize = 800 * 1024 ^ 2, workers = cores) # 800 mb
+} else {
+  future::plan(sequential)
+}
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -94,57 +102,94 @@ spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish
   "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
   mutate(species_common_name = gsub("c-o sole",
     "C-O Sole", species_common_name))
-spp <- spp %>% mutate(species_french_name =
-    tolower(rosettafish::en2fr(gfsynopsis:::first_cap(spp$species_common_name))))
+spp$species_french_name <-
+  tolower(rosettafish::en2fr(gfsynopsis:::first_cap(spp$species_common_name)))
+spp$species_common_name <- tolower(spp$species_common_name)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
 # i <- which(spp$species_common_name  ==  'copper rockfish') # for debugging
 
-if (parallel_processing) {
-  cl <- parallel::makeCluster(cores, outfile = "")
-  doParallel::registerDoParallel(cl)
-  `%.do%` <- foreach::`%dopar%`
-} else {
-  `%.do%` <-  foreach::`%do%`
+fig_check <- file.path(build_dir, "figure-pages",
+  gfsynopsis:::clean_name(spp$species_common_name))
+fig_check1 <- paste0(fig_check, "-1.", ext)
+fig_check2 <- paste0(fig_check, "-2.", ext)
+missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
+for (i in which(!missing)) {
+  cat(crayon::green(clisymbols::symbol$tick),
+  "Figure pages for", spp$species_common_name[i], "already exist\n")
 }
+missing_spp <- spp$species_common_name[missing]
+message("Building")
+message(paste(missing_spp, "\n"))
 
-# for (i in seq_along(spp$species_common_name)) {
-out <- foreach::foreach(i = seq_along(spp$species_common_name),
-  .packages = c("gfplot", "gfsynopsis", "rosettafish"),
-  .export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %.do% {
-    fig_check <- file.path(build_dir, "figure-pages",
-      gfsynopsis:::clean_name(spp$species_common_name[i]))
-    fig_check1 <- paste0(fig_check, "-1.", ext)
-    fig_check2 <- paste0(fig_check, "-2.", ext)
-    if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
-      cat(crayon::red(clisymbols::symbol$cross),
-        "Building figure pages for", spp$species_common_name[i], "\n")
-      dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-      dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
-      dat$cpue_index <- d_cpue
-      gfsynopsis::make_pages(
-        dat = dat,
-        dat_iphc = dat_iphc,
-        spp = spp$species_common_name[i],
-        d_geostat_index = dat_geostat_index, # spatiotemporal model fits
-        include_map_square = FALSE, # to check the map aspect ratio
-        french = french,
-        report_lang_folder = build_dir,
-        resolution = 150, # balance size with resolution
-        png_format = if (ext == "png") TRUE else FALSE,
-        parallel = FALSE, # for CPUE fits; need a lot of memory if true!
-        save_gg_objects = spp$species_common_name[i] %in% example_spp,
-        survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-          RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-          "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-      )
-    } else {
-      cat(crayon::green(clisymbols::symbol$tick),
-        "Figure pages for", spp$species_common_name[i], "already exist\n")
-    }
-  }
-if (parallel_processing) doParallel::stopImplicitCluster()
+out <- lapply(which(missing), function(i) {
+# out <- future.apply::future_lapply(which(missing), function(i) {
+    cat(crayon::red(clisymbols::symbol$cross),
+      "Building figure pages for", spp$species_common_name[i], "\n")
+    dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
+    dat$cpue_index <- d_cpue
+    gfsynopsis::make_pages(
+      dat = dat,
+      dat_iphc = dat_iphc,
+      spp = spp$species_common_name[i],
+      d_geostat_index = dat_geostat_index, # spatiotemporal model fits
+      include_map_square = FALSE, # to check the map aspect ratio
+      french = french,
+      report_lang_folder = build_dir,
+      resolution = 150, # balance size with resolution
+      png_format = if (ext == "png") TRUE else FALSE,
+      parallel = FALSE, # for CPUE fits; need a lot of memory if true!
+      save_gg_objects = spp$species_common_name[i] %in% example_spp,
+      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+    )
+# }, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
+})
+
+#
+#     fig_check <- file.path(build_dir, "figure-pages",
+#       gfsynopsis:::clean_name(spp$species_common_name[i]))
+#     fig_check1 <- paste0(fig_check, "-1.", ext)
+#     fig_check2 <- paste0(fig_check, "-2.", ext)
+#     if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
+#       cat(crayon::red(clisymbols::symbol$cross),
+#         "Building figure pages for", spp$species_common_name[i], "\n")
+#       dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+#       dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
+#       dat$cpue_index <- d_cpue
+#       gfsynopsis::make_pages(
+#         dat = dat,
+#         dat_iphc = dat_iphc,
+#         spp = spp$species_common_name[i],
+#         d_geostat_index = dat_geostat_index, # spatiotemporal model fits
+#         include_map_square = FALSE, # to check the map aspect ratio
+#         french = french,
+#         report_lang_folder = build_dir,
+#         resolution = 150, # balance size with resolution
+#         png_format = if (ext == "png") TRUE else FALSE,
+#         parallel = FALSE, # for CPUE fits; need a lot of memory if true!
+#         save_gg_objects = spp$species_common_name[i] %in% example_spp,
+#         survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+#           RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+#           "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+#       )
+#     } else {
+#       cat(crayon::green(clisymbols::symbol$tick),
+#         "Figure pages for", spp$species_common_name[i], "already exist\n")
+#     }
+#   }
+# if (parallel_processing) doParallel::stopImplicitCluster()
+
+g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
+saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
+saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
+if (file.exists("report/report-rmd-fr/ggplot-objects")) {
+  saveRDS(g_alt$cpue_spatial, file = "report/report-rmd-fr/ggplot-objects/pacific-cod-cpue-spatial.rds")
+  saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd-fr/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
+}
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made

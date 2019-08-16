@@ -42,11 +42,11 @@ fit_cpue_indices <- function(dat,
   center = TRUE, cache = here::here("report", "cpue-cache"),
   save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE) {
 
-  cores <- if (parallel) parallel::detectCores()[1L] else 1L
-  cl <- parallel::makeCluster(min(c(cores, length(areas))))
-  doParallel::registerDoParallel(cl)
+  # cores <- if (parallel) parallel::detectCores()[1L] else 1L
+  # cl <- parallel::makeCluster(min(c(cores, length(areas))))
+  # doParallel::registerDoParallel(cl)
   cpue_models <- foreach::foreach(area = areas,
-    .packages = c("gfplot", "gfsynopsis")) %dopar% {
+    .packages = c("gfplot", "gfsynopsis")) %do% {
       message("Determining qualified fleet for area ", area, ".")
 
       fleet <- gfplot::tidy_cpue_index(dat,
@@ -63,7 +63,6 @@ fit_cpue_indices <- function(dat,
         depth_bin_quantiles = c(0.001, 0.999),
         min_bin_prop = 0.001
       )
-      # fleet <- NA
 
       if (!is.data.frame(fleet))
         if (is.na(fleet[[1]]))
@@ -103,7 +102,7 @@ fit_cpue_indices <- function(dat,
       }
       list(model = m_cpue, fleet = fleet, area = clean_area(area))
     }
-  doParallel::stopImplicitCluster()
+  # doParallel::stopImplicitCluster()
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
     if (is.na(x[[1]])[[1]]) return()
