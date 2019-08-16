@@ -67,7 +67,7 @@ fit_cpue_indices <- function(dat,
       if (!is.data.frame(fleet))
         if (is.na(fleet[[1]]))
           return(NA)
-      if (length(unique(fleet$vessel_name)) < 5L)
+      if (length(unique(fleet$vessel_registration_number)) < 5L)
         return(NA)
 
       message("Fitting standardization model for area ", area, ".")
