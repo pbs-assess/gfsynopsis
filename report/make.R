@@ -123,8 +123,8 @@ missing_spp <- spp$species_common_name[missing]
 message("Building")
 message(paste(missing_spp, "\n"))
 
-out <- lapply(which(missing), function(i) {
-# out <- future.apply::future_lapply(which(missing), function(i) {
+# out <- lapply(which(missing)[1], function(i) {
+out <- future.apply::future_lapply(which(missing), function(i) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
@@ -146,8 +146,8 @@ out <- lapply(which(missing), function(i) {
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
-# }, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
-})
+}, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
+# })
 
 #
 #     fig_check <- file.path(build_dir, "figure-pages",
