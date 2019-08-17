@@ -186,25 +186,7 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
 \clearpage
 
 ```{r sdmTMB-model-table-dat}
-g_models <- readRDS(here::here('report/geostat-cache/spt-index-out.rds'))
-g_models_dat <- purrr::map_df(g_models, function(x) {
-  if (length(x) > 1L) {
-    phi <- exp(x$model$tmb_obj$env$last.par[["ln_phi"]])
-    thetaf <- x$model$tmb_obj$env$last.par[["thetaf"]]
-    thetaf <- plogis(thetaf) + 1
-    tau_O <- exp(x$model$tmb_obj$env$last.par[["ln_tau_O"]])
-    tau_E <- exp(x$model$tmb_obj$env$last.par[["ln_tau_E"]])
-    kappa <- exp(x$model$tmb_obj$env$last.par[["ln_kappa"]])
-    tibble::tibble(
-      species_name = gfsynopsis:::first_cap(gsub("-", " ", x$species_name)),
-      survey = x$survey,
-      kappa = kappa,
-      tau_O = tau_O,
-      tau_E = tau_E,
-      phi = phi,
-      thetaf = thetaf)
-  }
-})
+g_models_dat <- readRDS(here::here('report/geostat-cache/spt-index-out-dat.rds'))
 ```
 
 ```{r sdmTMB-model-table, results='asis', eval = FALSE}

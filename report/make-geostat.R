@@ -147,5 +147,27 @@ g <- ggplot(ind, aes_string('year', 'est', fill = 'type')) +
   scale_x_continuous(breaks = seq(2000, 2020, 5)) +
   labs(colour = "Type", fill = "Type")
 
-ggsave(here::here("report/surv-2019-04-08-no-depth-150-knots.pdf"),
+ggsave(here::here("report/geostat-cache/surv-2019-04-08-no-depth-150-knots.pdf"),
   width = 9.5, height = 65, limitsize = FALSE)
+
+g_models <- readRDS(here::here('report/geostat-cache/spt-index-out.rds'))
+g_models_dat <- purrr::map_df(g_models, function(x) {
+  if (length(x) > 1L) {
+    phi <- exp(x$model$tmb_obj$env$last.par[["ln_phi"]])
+    thetaf <- x$model$tmb_obj$env$last.par[["thetaf"]]
+    thetaf <- plogis(thetaf) + 1
+    tau_O <- exp(x$model$tmb_obj$env$last.par[["ln_tau_O"]])
+    tau_E <- exp(x$model$tmb_obj$env$last.par[["ln_tau_E"]])
+    kappa <- exp(x$model$tmb_obj$env$last.par[["ln_kappa"]])
+    tibble::tibble(
+      species_name = gfsynopsis:::first_cap(gsub("-", " ", x$species_name)),
+      survey = x$survey,
+      kappa = kappa,
+      tau_O = tau_O,
+      tau_E = tau_E,
+      phi = phi,
+      thetaf = thetaf)
+  }
+})
+
+saveRDS(g_models_dat, file = here::here('report/geostat-cache/spt-index-out-dat.rds'))
