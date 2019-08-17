@@ -353,7 +353,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0(
-    "\\includegraphics[width=6.4in]{", build_dir, "/figure-pages/",
+    "\\includegraphics[width=6.4in]{figure-pages/",
     spp_file, "-1.", ext, "}"
   )
   i <- i + 1
@@ -364,7 +364,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0(
-    "\\includegraphics[width=6.4in]{", build_dir, "/figure-pages/",
+    "\\includegraphics[width=6.4in]{figure-pages/",
     spp_file, "-2.", ext, "}"
   )
   i <- i + 1
