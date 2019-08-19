@@ -267,9 +267,15 @@ make_pages <- function(
 
     g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
       bin_size = bin_width, min_total = min_total) +
-      guides(colour = FALSE, fill = FALSE)
+      guides(colour = FALSE, fill = FALSE) +
+      ggtitle(en2fr("Length frequencies", french)) +
+      ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
+      ggplot2::ylab(en2fr("Relative length frequency", french))
   } else {
-    g_lengths <- ggplot() + theme_pbs() + ggtitle(en2fr("Length frequencies", french))
+    g_lengths <- ggplot() + theme_pbs() +
+      ggtitle(en2fr("Length frequencies", french)) +
+      ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
+      ggplot2::ylab(en2fr("Relative length frequency", french))
   }
 
   # Aging precision: -----------------------------------------------------------
@@ -471,7 +477,7 @@ make_pages <- function(
       vb$f$pars <- list(k = NA, linf = NA, t0 = NA)
     }
 
-    g_vb <- plot_vb(object_female = vb$f, object_male = vb$m) +
+    g_vb <- plot_vb(object_female = vb$f, object_male = vb$m, french = french) +
       guides(colour = FALSE, fill = FALSE, lty = FALSE) +
       ggtitle(en2fr("Growth", french)) +
       xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length",french), " (cm)"))
@@ -482,7 +488,7 @@ make_pages <- function(
       too_high_quantile = 1)
 
     g_length_weight <-
-      plot_length_weight(object_female = lw_f, object_male = lw_m) +
+      plot_length_weight(object_female = lw_f, object_male = lw_m, french = french) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =
@@ -550,7 +556,7 @@ make_pages <- function(
       guides(colour = FALSE, fill = FALSE, lty = FALSE) +
       ggplot2::guides(lty = FALSE, colour = FALSE) +
       ggtitle(en2fr("Age at maturity", french)) +
-      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french))
+      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french), colour =  en2fr("Sex", french), lty = en2fr("Sex", french))
   } else {
     g_mat_age <- ggplot() + theme_pbs() + ggtitle(en2fr("Age at maturity", french)) +
       ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
