@@ -129,7 +129,7 @@
         </group>
       </if>
       <else>
-        <text prefix=" (" term="in press" suffix=")" form="long" text-case="sentence"/>
+        <text prefix=" (" term="dans la presse" suffix=")" form="long" text-case="sentence"/>
       </else>
     </choose>
   </macro>
@@ -141,7 +141,7 @@
         </date>
       </if>
       <else>
-        <text term="in press" form="long" text-case="sentence"/>
+        <text term="dans la presse" form="long" text-case="sentence"/>
       </else>
     </choose>
   </macro>
