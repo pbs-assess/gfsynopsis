@@ -1,4 +1,4 @@
-#RELATIONS ENTRE LA DENSITÉ ET LA PROFONDEUR SELON LES RELEVÉS DES POISSONS {#app:depth-curves}
+# RELATIONS ENTRE LA DENSITÉ ET LA PROFONDEUR SELON LES RELEVÉS DES POISSONS {#app:depth-curves}
 
 ```{r sdmTMB-depth-all-calculations}
 surveys <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
