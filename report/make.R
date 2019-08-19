@@ -30,6 +30,7 @@ if (parallel_processing) {
   options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 } else {
   future::plan(transparent)
+  options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 }
 
 # ------------------------------------------------------------------------------
