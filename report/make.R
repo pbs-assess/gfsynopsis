@@ -204,25 +204,25 @@ temp <- lapply(spp$species_common_name, function(x) {
   )
   i <- i + 1
   out[[i]] <- paste0(
-    "[FishBase link]",
+    "[FishBase]",
     "(http://www.fishbase.org/summary/",
     gsub(" ", "-", gfplot:::firstup(latin_name)), ")"
   )
   if (species_code == "394") { # Sebastes aleutianus/melanostictus
     .names <- rougheye_split(gfplot:::firstup(latin_name))
     out[[i]] <- paste0(
-      "[FishBase link 1]",
+      "[FishBase 1]",
       "(http://www.fishbase.org/summary/", .names[1], "),"
     )
     i <- i + 1
     out[[i]] <- paste0(
-      "[FishBase link 2]",
+      "[FishBase 2]",
       "(http://www.fishbase.org/summary/", .names[2], ")"
     )
   }
   if (species_code == "039") { # Requiem Sharks
     out[[i]] <- paste0(
-      "[FishBase link]",
+      "[FishBase]",
       "(http://www.fishbase.org/Summary/FamilySummary.php?ID=11)"
     )
   }
@@ -230,7 +230,7 @@ temp <- lapply(spp$species_common_name, function(x) {
     out[[i]] <- paste0(out[[i]], ", ")
     i <- i + 1
     out[[i]] <- paste0(
-      "[WoRMS link]",
+      "[WoRMS]",
       "(http://www.marinespecies.org/aphia.php?p=taxdetails&id=",
       worms_id, ")"
     )
