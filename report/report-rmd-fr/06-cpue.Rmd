@@ -176,9 +176,8 @@ if (!file.exists(cpue_models_summary_file)) {
 mutate(
   cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>%
   as_tibble() %>%
-  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish Complex", species)) %>%
+  mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted", species)) %>%
   mutate(species = en2fr(species, french)) %>%
-  mutate(species = gsub("Rougheye/Blackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>%
   csasdown::csas_table(digits = 1,
     col.names = c(
       "Espèces", "Zone", "$\\phi$", "$p$",
