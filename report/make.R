@@ -263,10 +263,10 @@ temp <- lapply(spp$species_common_name, function(x) {
   }
   if (!is.na(cosewic_status)) {
     if (cosewic_status != "") {
-      out[[i]] <- paste0(en2fr("COSEWIC Status", french), ": ", cosewic_status)
+      out[[i]] <- paste0(en2fr("COSEWIC Status", french), ": ", en2fr(cosewic_status, french))
       if (!is.na(sara_status)) {
         if (sara_status != "") {
-          out[[i]] <- paste0(out[[i]], ", ", en2fr("SARA Status", french), ": ", sara_status)
+          out[[i]] <- paste0(out[[i]], ", ", en2fr("SARA Status", french), ": ", en2fr(sara_status, french))
         }
       }
       out[[i]] <- paste0(out[[i]], "\n")
@@ -277,9 +277,8 @@ temp <- lapply(spp$species_common_name, function(x) {
     if (!french) {
       out[[i]] <- paste(en2fr("COSEWIC Status", french), ": ", en2fr("Special Concern", french), ", ", en2fr("SARA Status",french), ": ",  en2fr("Special Concern", french), "\n")
     } else {
-      out[[i]] <- "COSEWIC Status: Special Concern, SARA status: Special Concern\n"
+      out[[i]] <- paste0(en2fr("COSEWIC Status", french), ":", en2fr("Special Concern", french), ", ", en2fr("SARA Status", french), ":", en2fr("Special Concern"), "\n")
     }
-    # FIXME not translated!
     i <- i + 1
   }
   if (species_code == "225") {
