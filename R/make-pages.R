@@ -448,10 +448,18 @@ make_pages <- function(
   if (nrow(dat$survey_samples) >= 10) {
 
     check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
+
+    if (spp == "yelloweye rockfish")
+      tmb_init <- list(k = 0.9, linf = 55, log_sigma = log(0.1), t0 = -1)
+    else
+      tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
+
     vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "tmb",
-      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb)
+      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
+      tmb_init = tmb_init)
     vb_f <- fit_vb(dat$survey_samples, sex = "female", method = "tmb",
-      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb)
+      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
+      tmb_init = tmb_init)
     vb <- list()
     vb$m <- vb_m
     vb$f <- vb_f
