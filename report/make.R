@@ -22,11 +22,12 @@ ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
-cores <- floor(parallel::detectCores() / 2)
 
+# ------------------------------------------------------------------------------
+# Set up parallel processing or sequential
 if (parallel_processing) {
   future::plan(multiprocess)
-  options(future.globals.maxSize = 800 * 1024 ^ 2, workers = cores) # 800 mb
+  options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 } else {
   future::plan(transparent)
 }
@@ -42,12 +43,14 @@ spp <- gfsynopsis::get_spp_names() %>%
     species_science_name, spp_w_hyphens, type, itis_tsn, worms_id
   )
 
+# ------------------------------------------------------------------------------
 # Geostatistical model fits: (a bit slow)
 fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
 if (!file.exists(fi)) source(here("report/make-geostat.R"))
 dat_geostat_index <- readRDS(fi)
-# ------------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
+# Gather and arrange some metadata
 if (!file.exists(here("report", "itis.rds"))) {
   cls <- taxize::classification(spp$itis_tsn[!is.na(spp$itis_tsn)], db = 'itis')
   saveRDS(cls, file = here("report", "itis.rds"))
