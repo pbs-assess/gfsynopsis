@@ -85,12 +85,14 @@ nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
 grid_locs <- nd
 ```
 
-```{r sdmTMB-spde, eval=FALSE, fig.width=9, out.width="3.5in", fig.cap="Exemple de maillage de triangularisation pour la morue du Pacifique et le relevé du bassin de la Reine-Charlotte en 2017. Les points rouges indiquent l’emplacement des nœuds. Les cercles gris ouverts à l’arrière-plan représentent les emplacements des données observées. Les lignes indiquent le maillage de triangularisation utilisé dans l’approximation de l’équation différentielle partielle stochastique. Dans ce cas, bon nombre des nœuds chevauchent les données observées. Un plus grand nombre de nœuds augmente la précision de l’approximation au détriment du temps de calcul."}
+```{r sdmTMB-spde, fig.width=9, out.width="3.5in", fig.cap="Exemple de maillage de triangularisation pour la morue du Pacifique et le relevé du bassin de la Reine-Charlotte en 2017. Les points rouges indiquent l’emplacement des nœuds. Les cercles gris ouverts à l’arrière-plan représentent les emplacements des données observées. Les lignes indiquent le maillage de triangularisation utilisé dans l’approximation de l’équation différentielle partielle stochastique. Dans ce cas, bon nombre des nœuds chevauchent les données observées. Un plus grand nombre de nœuds augmente la précision de l’approximation au détriment du temps de calcul."}
+options(OutDec =  ".")
 spde <- make_spde(dat$X, dat$Y, n_knots = 200)
+options(OutDec =  ",")
 plot_spde(spde)
 ```
 
-```{r sdmTMB-model, eval=FALSE}
+```{r sdmTMB-model}
 m <- sdmTMB(
   data = dat, formula = density ~ depth_scaled + depth_scaled2,
   time = "year", spde = spde, family = tweedie(link = "log"),
@@ -98,7 +100,7 @@ m <- sdmTMB(
 )
 ```
 
-```{r sdmTMB-preds, fig.width=6, out.width="4in", eval=FALSE}
+```{r sdmTMB-preds, fig.width=6, out.width="4in"}
 predictions <- predict(m, newdata = grid_locs, return_tmb_object = TRUE)
 plot_map <- function(.dat, column) {
   ggplot(.dat, aes_string("X", "Y", fill = column)) +
@@ -112,7 +114,7 @@ plot_map <- function(.dat, column) {
 }
 ```
 
-```{r sdmTMB-plot-depth, eval=FALSE}
+```{r sdmTMB-plot-depth}
 g_depth <- plot_map(grid_locs, "depth") +
   scale_fill_distiller(trans = "fourth_root_power", palette = "Blues", direction = 1,
     breaks = c(50, 200, 600)) +
@@ -120,7 +122,7 @@ g_depth <- plot_map(grid_locs, "depth") +
   labs(fill = paste(en2fr('Depth', french), ' (m)'))
 ```
 
-```{r sdmTMB-plot-combined, eval=FALSE}
+```{r sdmTMB-plot-combined}
 limits <- c(0, max(exp(predictions$data$est))*1.001)
 breaks <- c(1, 20, 150)
 g_sdm1 <- plot_map(predictions$data, "exp(est)") +
@@ -135,7 +137,7 @@ g_sdm1 <- plot_map(predictions$data, "exp(est)") +
     })
 ```
 
-```{r sdmTMB-plot-fe, eval=FALSE}
+```{r sdmTMB-plot-fe}
 g_sdm2 <- plot_map(predictions$data, "exp(est_non_rf)") +
   ggtitle(paste("(B) ", en2fr("Prediction (depth effects only)", french))) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
@@ -148,7 +150,7 @@ g_sdm2 <- plot_map(predictions$data, "exp(est_non_rf)") +
     })
 ```
 
-```{r sdmTMB-plot-re, eval=FALSE}
+```{r sdmTMB-plot-re}
 g_sdm3 <- plot_map(predictions$data, "omega_s") +
   ggtitle(paste("(C)", en2fr("Spatial random effects", french))) +
   scale_fill_gradient2(midpoint = 0,
@@ -165,11 +167,11 @@ g_sdm3 <- plot_map(predictions$data, "omega_s") +
 
 \clearpage
 
-```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Exemples de composantes de modèles spatiaux dans le bassin de la Reine-Charlotte pour la morue du Pacifique. A) Données sur la profondeur du fond qui servent de prédicteur. B) Densité prévue de biomasse à partir de l’effet quadratique de la profondeur seulement. C) Écarts dans les effets spatiaux aléatoires. Ces écarts ne représentent que les effets spatiaux corrélés modélisés. D) Prévisions du modèle qui incluent à la fois les effets fixes de profondeur et les effets aléatoires spatiaux. Les cercles représentent la densité de la biomasse pour chaque ensemble de relevés, l’aire du cercle étant proportionnelle à la densité.", eval=FALSE}
+```{r sdmTMB-maps-combined, fig.width=9, fig.asp=1, out.width="6in", fig.cap="Exemples de composantes de modèles spatiaux dans le bassin de la Reine-Charlotte pour la morue du Pacifique. A) Données sur la profondeur du fond qui servent de prédicteur. B) Densité prévue de biomasse à partir de l’effet quadratique de la profondeur seulement. C) Écarts dans les effets spatiaux aléatoires. Ces écarts ne représentent que les effets spatiaux corrélés modélisés. D) Prévisions du modèle qui incluent à la fois les effets fixes de profondeur et les effets aléatoires spatiaux. Les cercles représentent la densité de la biomasse pour chaque ensemble de relevés, l’aire du cercle étant proportionnelle à la densité."}
 cowplot::plot_grid(g_depth, g_sdm2, g_sdm3, g_sdm1)
 ```
 
-```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Résidus de quantiles spatiaux aléatoires sur l’échelle du lien (logarithme).", eval=FALSE}
+```{r sdmTMB-resids, fig.width=6, out.width="4in", fig.cap="Résidus de quantiles spatiaux aléatoires sur l’échelle du lien (logarithme)."}
 dat$resids <- residuals(m) # randomized quantile residuals
 # hist(dat$resids)
 # qqnorm(dat$resids);abline(a = 0, b = 1)
@@ -185,11 +187,11 @@ ggplot(dat, aes(X, Y, col = resids)) + scale_colour_gradient2() +
 
 \clearpage
 
-```{r sdmTMB-model-table-dat, eval=FALSE}
+```{r sdmTMB-model-table-dat}
 g_models_dat <- readRDS(here::here('report/geostat-cache/spt-index-out-dat.rds'))
 ```
 
-```{r sdmTMB-model-table, results='asis', eval = FALSE, eval=FALSE}
+```{r sdmTMB-model-table, results='asis'}
 g_models_dat %>% 
   dplyr::arrange(species_name, survey) %>%
   # these have already been filtered out elsewhere for their massive CVs:
@@ -197,9 +199,9 @@ g_models_dat %>%
   dplyr::filter(tau_O < 50) %>% 
   dplyr::filter(tau_E < 50) %>% 
   mutate(species_name = gsub("Rougheye/blackspotted Rockfish Complex",
-    "Rougheye/Blackspotted Rockfish Complex", species_name)) %>% 
-  mutate(species = en2fr(species, french)) %>%
-  mutate(species = gsub("Rougheye/Blackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>% 
+    "Rougheye/Blackspotted", species_name)) %>% 
+  mutate(species_name = rosettafish::en2fr(species_name, french)) %>%
+  mutate(species_name = gsub("Rougheye/Blackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species_name)) %>% 
   csasdown::csas_table(digits = 1, 
     col.names = c(
       "Species name", "Survey", "$\\kappa$", "$\\tau_O$", 

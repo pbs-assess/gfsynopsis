@@ -180,12 +180,14 @@ nd[["year"]] <- rep(original_time, each = nrow(grid_locs))
 grid_locs <- nd
 ```
 
-```{r sdmTMB-spt-spde, fig.cap='Exemple de maillage de triangularisation pour la morue du Pacifique et le relevé du bassin de la Reine-Charlotte au fil des ans. Les points rouges représentent les emplacements des nœuds et les cercles noirs ouverts représentent l’emplacement des ensembles de relevés.', fig.width=9, out.width="3.7in", eval=FALSE}
+```{r sdmTMB-spt-spde, fig.cap='Exemple de maillage de triangularisation pour la morue du Pacifique et le relevé du bassin de la Reine-Charlotte au fil des ans. Les points rouges représentent les emplacements des nœuds et les cercles noirs ouverts représentent l’emplacement des ensembles de relevés.', fig.width=9, out.width="3.7in",}
+options(OutDec =  ".")
 spde <- make_spde(dat$X, dat$Y, n_knots = n_knots)
+options(OutDec =  ",")
 plot_spde(spde)
 ```
 
-```{r sdmTMB-spt-model, warning=FALSE, message=FALSE, eval=FALSE}
+```{r sdmTMB-spt-model, warning=FALSE, message=FALSE}
 m_st <- sdmTMB(
   formula = density ~ 0 + as.factor(year),
   data = dat, time = "year", spde = spde, family = tweedie(link = "log"),
@@ -193,7 +195,7 @@ m_st <- sdmTMB(
 predictions <- predict(m_st, newdata = grid_locs, return_tmb_object = TRUE)
 ```
 
-```{r sdmTMB-spt-model-depth, eval=FALSE}
+```{r sdmTMB-spt-model-depth}
 m_st_depth <- sdmTMB(
   formula = density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2,
   data = dat, time = "year", spde = spde, family = tweedie(link = "log"),
@@ -201,7 +203,7 @@ m_st_depth <- sdmTMB(
 predictions_depth <- predict(m_st_depth, newdata = grid_locs, return_tmb_object = TRUE)
 ```
 
-```{r sdmTMB-spt-residuals, fig.cap='Histogramme des résidus de quantiles aléatoires.', eval=FALSE}
+```{r sdmTMB-spt-residuals, fig.cap='Histogramme des résidus de quantiles aléatoires.'}
 dat$resids <- residuals(m_st) # randomized quantile residuals
 # gfplot::plot_qres_histogram(dat$resids)
 
@@ -209,7 +211,7 @@ dat$resids_depth <- residuals(m_st_depth) # randomized quantile residuals
 # gfplot::plot_qres_histogram(dat$resids_depth)
 ```
 
-```{r sdmTMB-spt-plot-function, eval=FALSE}
+```{r sdmTMB-spt-plot-function}
 plot_map_spt <- function(dat, column) {
   ggplot(dat, aes_string("X", "Y", fill = column)) +
     geom_raster() +
@@ -219,7 +221,7 @@ plot_map_spt <- function(dat, column) {
 }
 ```
 
-```{r sdmTMB-spt-plot-all-effects-sqrt, fig.cap='Prédictions tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. La biomasse prévue est représentée par une échelle de couleurs répartie sur une racine quatrième', eval=FALSE}
+```{r sdmTMB-spt-plot-all-effects-sqrt, fig.cap='Prédictions tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. La biomasse prévue est représentée par une échelle de couleurs répartie sur une racine quatrième'}
 ticks <- c(100, 500, 1000, 2000)
 limits <- c(0, max(exp(predictions$data$est))*1.001)
 plot_map_spt(predictions$data, "exp(est)") +
@@ -251,7 +253,7 @@ plot_map_spt(predictions_depth$data, "exp(est)") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-fixed-effects, fig.cap='Prédictions des effets fixes tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. Ici, les seuls effets fixes sont les effets moyens pour chaque année, ce qui donne des prévisions d’effets fixes qui sont les mêmes dans toute la région spatiale pour chaque année.', eval=FALSE}
+```{r sdmTMB-spt-plot-fixed-effects, fig.cap='Prédictions des effets fixes tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. Ici, les seuls effets fixes sont les effets moyens pour chaque année, ce qui donne des prévisions d’effets fixes qui sont les mêmes dans toute la région spatiale pour chaque année.'}
 plot_map_spt(predictions$data, "exp(est_non_rf)") +
   ggtitle(en2fr("Prediction (fixed effects only)", french)) +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
@@ -265,7 +267,7 @@ plot_map_spt(predictions$data, "exp(est_non_rf)") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-spatial-effects, fig.cap='Prévisions des effets spatiaux aléatoires à partir d’un modèle spatiotemporel géostatistique de la morue du Pacifique dans le bassin de la Reine-Charlotte. Les effets spatiaux aléatoires tiennent compte de facteurs spatiaux qui sont constants au fil des années, par exemple la profondeur et le type de substrat.', eval=FALSE}
+```{r sdmTMB-spt-plot-spatial-effects, fig.cap='Prévisions des effets spatiaux aléatoires à partir d’un modèle spatiotemporel géostatistique de la morue du Pacifique dans le bassin de la Reine-Charlotte. Les effets spatiaux aléatoires tiennent compte de facteurs spatiaux qui sont constants au fil des années, par exemple la profondeur et le type de substrat.'}
 red_blue_fill <- scale_fill_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
@@ -284,7 +286,7 @@ plot_map_spt(predictions$data, "omega_s") +
 
 \clearpage
 
-```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.cap='Prédictions des effets spatiotemporels aléatoires tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. Les effets spatiotemporels aléatoires tiennent compte de facteurs qui varient d’une année à l’autre dans l’espace, comme la température du fond, les régimes de circulation de l’eau et les interactions entre espèces.', eval=FALSE}
+```{r sdmTMB-spt-plot-spatiotemporal-effects, fig.cap='Prédictions des effets spatiotemporels aléatoires tirées d’un modèle spatiotemporel géostatistique pour la morue du Pacifique dans le bassin de la Reine-Charlotte. Les effets spatiotemporels aléatoires tiennent compte de facteurs qui varient d’une année à l’autre dans l’espace, comme la température du fond, les régimes de circulation de l’eau et les interactions entre espèces.'}
 plot_map_spt(predictions$data, "epsilon_st") +
   ggtitle(en2fr("Spatiotemporal random effects only", french)) +
   red_blue_fill +
@@ -298,7 +300,7 @@ plot_map_spt(predictions$data, "epsilon_st") +
 
 \clearpage
 
-```{r sdmTMB-spt-spatial-residuals, fig.cap='Résidus spatiaux tracés au fil du temps sur l’échelle des liens (logarithme).', eval=FALSE}
+```{r sdmTMB-spt-spatial-residuals, fig.cap='Résidus spatiaux tracés au fil du temps sur l’échelle des liens (logarithme).'}
 red_blue_fill2 <- scale_colour_gradient2(midpoint = 0,
     high = scales::muted("red"),
     mid = "white",
@@ -312,14 +314,14 @@ ggplot(dat, aes(X, Y, col = resids)) +
 
 \clearpage
 
-```{r sdmTMB-get-index, eval=FALSE}
+```{r sdmTMB-get-index}
 ind <- get_index(predictions, bias_correct = FALSE)
 ind_depth <- get_index(predictions_depth, bias_correct = FALSE)
 ```
 
 \clearpage
 
-```{r sdmTMB-plot-index, fig.width=7, fig.cap='Prévisions de l’indice de biomasse relative à partir de l’approche fondée sur le plan, de l’approche géostatistique sans covariables et de l’approche géostatistique avec covariables relatives à la profondeur. L’axe des y représente la biomasse relative de chaque méthode divisée par sa moyenne géométrique. Notons la similitude entre les deux modèles géostatistiques.', eval=FALSE}
+```{r sdmTMB-plot-index, fig.width=7, fig.cap='Prévisions de l’indice de biomasse relative à partir de l’approche fondée sur le plan, de l’approche géostatistique sans covariables et de l’approche géostatistique avec covariables relatives à la profondeur. L’axe des y représente la biomasse relative de chaque méthode divisée par sa moyenne géométrique. Notons la similitude entre les deux modèles géostatistiques.'}
 # ind_design <- readRDS(here::here('report/data-cache/walleye-pollock.rds'))
 ind_design <- readRDS(here::here('report/data-cache/pacific-cod.rds'))
 ind_design <- ind_design$survey_index
