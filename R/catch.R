@@ -38,9 +38,6 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017),
     ) +
     scale_x_continuous(breaks = seq(0, yrs[2], 10))
 
-  if (french)
-    g <- g + theme(legend.spacing.x = unit(0.5, "mm"))
-
   if (blank_plot)
     suppressMessages(g <- g + ylim(0, 1))
 
@@ -63,6 +60,9 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017),
     legend.direction = "horizontal") +
     ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2)) +
     ggplot2::ggtitle("Commercial catch")
+
+  if (french)
+    g <- g + theme(legend.spacing.x = ggplot2::unit(0.5, "mm"))
 
   g
 }
