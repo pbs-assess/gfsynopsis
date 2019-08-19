@@ -197,7 +197,9 @@ g_models_dat %>%
   dplyr::filter(tau_O < 50) %>% 
   dplyr::filter(tau_E < 50) %>% 
   mutate(species_name = gsub("Rougheye/blackspotted Rockfish Complex",
-    "Rougheye/Blackspotted Rockfish", species_name)) %>% 
+    "Rougheye/Blackspotted Rockfish Complex", species_name)) %>% 
+  mutate(species = en2fr(species, french)) %>%
+  mutate(species = gsub("Rougheye/Blackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species)) %>% 
   csasdown::csas_table(digits = 1, 
     col.names = c(
       "Species name", "Survey", "$\\kappa$", "$\\tau_O$", 
