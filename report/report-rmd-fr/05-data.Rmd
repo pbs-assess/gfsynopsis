@@ -241,8 +241,10 @@ age_methods$`Common name` <- gsub("C-o Sole", "C-O Sole",
 age_methods <- age_methods[age_methods$`Common name` != "Soupfin Shark", ]
 age_methods$`Common name` <- rosettafish::en2fr(age_methods$`Common name`, french)
 if (french) {
+  age_methods$`Common name` <- sub("aiguillat commun du Pacifique Nord", "aiguillat commun du Pac. N.", age_methods$`Common name`)
   names(age_methods)[1:4] <- rosettafish::en2fr(names(age_methods)[1:4], TRUE)
 }
+
 ```
 
 \clearpage
