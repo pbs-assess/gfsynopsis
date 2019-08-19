@@ -28,7 +28,7 @@ if (parallel_processing) {
   future::plan(multiprocess)
   options(future.globals.maxSize = 800 * 1024 ^ 2, workers = cores) # 800 mb
 } else {
-  future::plan(sequential)
+  future::plan(transparent)
 }
 
 # ------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ missing_spp <- spp$species_common_name[missing]
 message("Building")
 message(paste(missing_spp, "\n"))
 
-# out <- lapply(which(missing)[1], function(i) {
+# out <- lapply(which(missing), function(i) {
 out <- future.apply::future_lapply(which(missing), function(i) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
@@ -149,40 +149,6 @@ out <- future.apply::future_lapply(which(missing), function(i) {
 }, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
 # })
 
-#
-#     fig_check <- file.path(build_dir, "figure-pages",
-#       gfsynopsis:::clean_name(spp$species_common_name[i]))
-#     fig_check1 <- paste0(fig_check, "-1.", ext)
-#     fig_check2 <- paste0(fig_check, "-2.", ext)
-#     if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
-#       cat(crayon::red(clisymbols::symbol$cross),
-#         "Building figure pages for", spp$species_common_name[i], "\n")
-#       dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-#       dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
-#       dat$cpue_index <- d_cpue
-#       gfsynopsis::make_pages(
-#         dat = dat,
-#         dat_iphc = dat_iphc,
-#         spp = spp$species_common_name[i],
-#         d_geostat_index = dat_geostat_index, # spatiotemporal model fits
-#         include_map_square = FALSE, # to check the map aspect ratio
-#         french = french,
-#         report_lang_folder = build_dir,
-#         resolution = 150, # balance size with resolution
-#         png_format = if (ext == "png") TRUE else FALSE,
-#         parallel = FALSE, # for CPUE fits; need a lot of memory if true!
-#         save_gg_objects = spp$species_common_name[i] %in% example_spp,
-#         survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-#           RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-#           "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-#       )
-#     } else {
-#       cat(crayon::green(clisymbols::symbol$tick),
-#         "Figure pages for", spp$species_common_name[i], "already exist\n")
-#     }
-#   }
-# if (parallel_processing) doParallel::stopImplicitCluster()
-
 g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
 saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
 saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
@@ -199,8 +165,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   if (french) {
     spp_title <- spp$species_french_name[spp$species_common_name == x]
-  }
-  else {
+  } else {
     spp_title <- gfsynopsis:::all_cap(x)
   }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
