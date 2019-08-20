@@ -1,4 +1,4 @@
-#CROISSANCE ET MATURITÉ {#app:growth-and-maturity}
+# CROISSANCE ET MATURITÉ {#app:growth-and-maturity}
 
 ## COURBES DE FRÉQUENCES CUMULÉES DE LA MATURITÉ {#sec:maturity-models}
 
@@ -10,7 +10,7 @@ y_i &\sim \mathrm{Binomial}(\pi_i)\\
 \end{align}
 où $y_i$ représente un 1 si le poisson $i$ est considéré comme étant mature et un 0 si le poisson $i$ est considéré comme étant immature. Les paramètres $\beta$ représentent des coefficients estimés, $x_i$ représente la longueur ou l’âge du poisson $i$ et $F_i$ représente un prédicteur binaire qui est 1 si le poisson est une femelle et 0 si le poisson est un mâle. La variable $\pi_i$ représente la probabilité prévue que le poisson $i$ soit mature. Nous n’avons ajusté ces modèles que s’il y avait au moins 20 mâles matures, 20 mâles immatures, 20 femelles matures et 20 femelles immatures pour que l’on puisse disposer d’un échantillonnage raisonnablement représentatif et d’échantillons de taille suffisante. 
 
-##MODÈLES DE L’ÂGE SELON LA LONGUEUR {#sec:length-age-models}
+## MODÈLES DE L’ÂGE SELON LA LONGUEUR {#sec:length-age-models}
 
 Nous avons ajusté les modèles de croissance de l’âge selon la longueur de von Bertalanffy [@vonbertalanffy1938] comme suit :
 
@@ -21,7 +21,7 @@ Nous avons ajusté les modèles de croissance de l’âge selon la longueur de v
 
 où $L_i$ et $A_i$ représentent la longueur et l’âge du poisson $i$, $l_\mathrm{inf}$, $k$ et $t_0$ représentent les paramètres de croissance de von Bertalanffy et $\sigma$ représente l’écart-type logarithmique ou le paramètre d’échelle. Le terme $- \sigma^2 /2$ représente un terme d’ajustement du biais log-normal, de sorte que nous avons modélisé la longueur moyenne plutôt que la médiane. Nous avons ajusté les modèles avec Template Model Builder (TMB) [@kristensen2016], avec des valeurs de départ de $k = 0.2$, $l_\mathrm{inf} = 40$, $\ln (\sigma) = \ln (0.1)$ et $t_0 = -1$.
 
-##MODÈLES DU POIDS SELON LA LONGUEUR {#sec:length-weight-models}
+## MODÈLES DU POIDS SELON LA LONGUEUR {#sec:length-weight-models}
 
 Nous avons ajusté les modèles du poids selon la longueur comme des régressions linéaires robustes de log(longueur) sur log(poids) avec erreur de la valeur t de Student et un paramètre de degrés de liberté fixé à 3. En utilisant l’erreur de la valeur t de Student au lieu de l’erreur gaussienne, nous pondérons à la baisse l’influence des valeurs marginales [p. ex. @anderson2017c], et nous aidons à générer des ajustements raisonnables du modèle pour toutes les espèces sans avoir à sélectionner manuellement les mesures marginales à rejeter. Le modèle de croissance sous jacent peut s’écrire comme suit :
 
