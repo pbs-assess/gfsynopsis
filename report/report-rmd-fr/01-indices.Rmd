@@ -12,14 +12,12 @@ spp_table <- .spp %>%
     "S. aleutianus/melanostictus complex", species_science_name)) %>% 
   mutate(species_common_name = gsub("C-o Sole", "C-O Sole", species_common_name)) %>%
   mutate(species_common_name = gsub("Rougheye/blackspotted Rockfish Complex", 
-    "Rougheye/Blackspotted Rockfish Complex", species_common_name))
+    "Rougheye/Blackspotted", species_common_name))
 
 if (french){
   spp_table <- spp_table %>%
   mutate(species_common_name = en2fr(species_common_name, french)) %>%
-  mutate(species_common_name = gsub("complexe du sébaste à œil épineux et du sébaste à taches noires",
-    "sébaste à œil épineux et à taches noires", species_common_name)) %>%
-    mutate(species_common_name = gfsynopsis:::first_cap(species_common_name))
+  mutate(species_common_name = gfsynopsis:::first_cap(species_common_name))
 }
 
 spp_table %>% arrange(species_common_name) %>%
