@@ -192,19 +192,24 @@ g_models_dat <- readRDS(here::here('report/geostat-cache/spt-index-out-dat.rds')
 ```
 
 ```{r sdmTMB-model-table, results='asis'}
+.colnames <- c(
+      "Common name", "Survey", "$\\kappa$", "$\\tau_O$", 
+      "$\\tau_E$", "$\\phi$", "$p$")
+if (french) {
+  .colnames[1] <- en2fr(.colnames[1], TRUE)
+  .colnames[2] <- en2fr(.colnames[2], TRUE)
+}
 g_models_dat %>% 
   dplyr::arrange(species_name, survey) %>%
   # these have already been filtered out elsewhere for their massive CVs:
   dplyr::filter(phi < 1e3) %>% 
   dplyr::filter(tau_O < 50) %>% 
   dplyr::filter(tau_E < 50) %>% 
-  mutate(species_name = gsub("Rougheye/blackspotted Rockfish Complex",
+  mutate(species_name = gsub("Rougheye Blackspotted Rockfish Complex",
     "Rougheye/Blackspotted", species_name)) %>% 
   mutate(species_name = rosettafish::en2fr(species_name, french)) %>%
   mutate(species_name = gsub("Rougheye/Blackspotted Rockfish Complex", "Rougheye/Blackspotted Rockfish", species_name)) %>% 
   csasdown::csas_table(digits = 1, 
-    col.names = c(
-      "Species name", "Survey", "$\\kappa$", "$\\tau_O$", 
-      "$\\tau_E$", "$\\phi$", "$p$"),
+    col.names = .colnames,
     caption = "Estimations de paramètres à partir de modèles spatiotemporels géostatistiques.")
 ```
