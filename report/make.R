@@ -254,7 +254,7 @@ temp <- lapply(spp$species_common_name, function(x) {
     if (other_ref != "") {
       out[[i]] <- paste0(other_ref, "\\")
       if (!is.na(cosewic_status) && cosewic_status != "") {
-        out[[i]] <- paste0(out[[i]], "\\")
+        # out[[i]] <- paste0(out[[i]], "\\")
       }
       i <- i + 1
     }
