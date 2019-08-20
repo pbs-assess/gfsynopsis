@@ -46,6 +46,11 @@ f <- here::here("report", "other-surveys.csv")
 other_surveys <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
 names(other_surveys) <- gfplot:::firstup(tolower(gsub("_", " ", names(other_surveys))))
 other_surveys$X <- NULL # just in case
+
+if (french) {
+  names(other_surveys)[1] <- en2fr("Survey", TRUE)
+  names(other_surveys)[2] <- "Enquêtes menées depuis 2008"
+}
 ```
 
 \clearpage
@@ -53,7 +58,7 @@ other_surveys$X <- NULL # just in case
 ```{r other-surveys-table, results='asis'}
 csasdown::csas_table(other_surveys, caption = "Autres relevés effectués par le MPO dans la région du Pacifique qui peuvent s’appliquer à des analyses portant sur des espèces particulières. Dans le présent rapport, ces relevés ne sont présentés que dans les encadrés de disponibilité des données de relevés dans le coin inférieur droit de chaque série de pages de figures", format = "latex") %>% 
   kableExtra::column_spec(1, width = "4in") %>%
-  kableExtra::column_spec(2, width = "2in")
+  kableExtra::column_spec(2, width = "2.5in")
 ```
 
 Les principales tendances de l’indice de biomasse illustrées dans les pages de figures représentent les tendances de l’indice fondé sur le plan qui ont toujours été utilisées pour les évaluations des stocks de poisson de fond de la Station biologique du Pacifique. Nous avons extrait de GFBio les tendances relatives de l’indice de biomasse dérivé des relevés au chalut et à la palangre, générées selon la même approche utilisée pour tous les récents rapports d’évaluation des stocks de poisson de fond en Colombie-Britannique. Le code permettant d’effectuer les calculs, rédigé à l’origine par Norm Olsen de la Station biologique du Pacifique, est automatiquement appliqué aux données de relevés disponibles pour générer les indices dans la base de données GFBio. Pour plus de clarté, vous trouverez les équations pertinentes ci-dessous. Nous comparons également les estimations fondées sur des modèles géostatistiques des tendances de l’indice de biomasse dérivé des relevés au chalut (section \@ref(sec:geostatistical)).
@@ -331,7 +336,7 @@ ind_design <- ind_design %>%
     est = biomass / exp(mean(log(biomass), na.rm = TRUE)),
     lwr = lowerci / exp(mean(log(biomass), na.rm = TRUE)),
     upr = upperci / exp(mean(log(biomass), na.rm = TRUE)),
-    type = 'Design based'
+    type = en2fr("Design based", french)
   )
 
 ind_geo <- ind %>%
@@ -339,7 +344,7 @@ ind_geo <- ind %>%
     lwr = lwr / exp(mean(log(est), na.rm = TRUE)),
     upr = upr / exp(mean(log(est), na.rm = TRUE)),
     est = est / exp(mean(log(est), na.rm = TRUE)),
-    type = "Geostatistical"
+    type = en2fr("Geostatistical", french)
   )
 
 ind_geo_depth <- ind_depth %>%
@@ -347,7 +352,7 @@ ind_geo_depth <- ind_depth %>%
     lwr = lwr / exp(mean(log(est), na.rm = TRUE)),
     upr = upr / exp(mean(log(est), na.rm = TRUE)),
     est = est / exp(mean(log(est), na.rm = TRUE)),
-    type = "Geostatistical (depth)"
+    type = paste0(en2fr("Geostatistical", french), " (", tolower(en2fr("Depth", french)), ")")
   )
 
 ind_combined <- bind_rows(ind_design, ind_geo) %>%
