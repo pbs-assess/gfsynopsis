@@ -352,7 +352,8 @@ writeLines(temp, con = con)
 # Optimize png files for TeX
 
 if (optimize_png) {
-  files_per_core <- ceiling(length(spp$species_common_name) * 2 / parallel::detectCores())
+  cores <- parallel::detectCores()
+  files_per_core <- ceiling(length(spp$species_common_name) * 2 / cores)
   setwd(file.path(build_dir, "figure-pages"))
   if (!gfplot:::is_windows() && parallel_processing) {
     system(paste0(
