@@ -119,6 +119,7 @@ fig_check <- file.path(build_dir, "figure-pages",
 fig_check1 <- paste0(fig_check, "-1.", ext)
 fig_check2 <- paste0(fig_check, "-2.", ext)
 missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
+# missing <- rep(TRUE, length(missing))
 for (i in which(!missing)) {
   cat(crayon::green(clisymbols::symbol$tick),
   "Figure pages for", spp$species_common_name[i], "already exist\n")
