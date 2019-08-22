@@ -169,14 +169,15 @@
 \fancyhead{}  % No header
 \sloppy  % No text in margins (line length)
 %\setlength\parindent{1em}  % Paragraph indent
-\sectionfont{\normalsize\centering\noindent}  % Section formatting
-\subsectionfont{\normalsize\raggedright\noindent}  % Subsection formatting
+\sectionfont{\small\centering\noindent}  % Section formatting
+\subsectionfont{\small\raggedright\noindent}  % Subsection formatting
+\subsubsectionfont{\small\raggedright\noindent}  % Subsubsection formatting
 
 % Yes, ugly, but that's the rules (Or is it? Might not be required)
 %\raggedright  % Ragged right
 %\raggedbottom  % Ragged bottom
-%\setlength\parindent{0pt}  % No indent paragraphs
-%\parskip 2ex  % Increase white space between paragraphs
+\setlength\parindent{0pt}  % No indent paragraphs
+\parskip 2ex  % Increase white space between paragraphs
 %\captionsetup{justification=raggedright, singlelinecheck=off}
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
@@ -263,17 +264,17 @@
 \DisableFootNotes
 \noindent
 \begin{flushleft}
-\LARGE
+\Large
 \textbf{\trTitle{}}\\
 \vfill
-\Large
+\large
 \trAuthsLong{}
 \vfill
 \trAddy{}
 \vfill
 \trYear{}
 \vfill
-\LARGE
+\Large
 \textbf{Canadian Technical Report of\\
 Fisheries and Aquatic Sciences \trReportNum{}}
 \lfoot{\includegraphics[height=7mm, keepaspectratio]{\locRepo/images/LogoDFO.png}}
@@ -336,7 +337,7 @@ Le nom actuel de la s\'{e}rie a \'{e}t\'{e} \'{e}tabli lors de la parution du nu
 \hypersetup{pageanchor=true}
 
 % Third page: Inside cover
-\normalsize
+\small
 \pagenumbering{roman}
 \thispagestyle{empty}
 \noindent
