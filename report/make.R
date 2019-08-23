@@ -112,7 +112,6 @@ spp$species_common_name <- tolower(spp$species_common_name)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
-# i <- which(spp$species_common_name  ==  'copper rockfish') # for debugging
 
 fig_check <- file.path(build_dir, "figure-pages",
   gfsynopsis:::clean_name(spp$species_common_name))
@@ -154,6 +153,8 @@ out <- future.apply::future_lapply(which(missing), function(i) {
 }, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
 # })
 
+# Extracts just the CPUE map plots for Pacific Cod for the examples.
+# These objects are too big to cache in an .Rmd file otherwise.
 g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
 saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
 saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
@@ -169,9 +170,9 @@ if (file.exists("report/report-rmd-fr/ggplot-objects")) {
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   if (french) {
-    spp_title <- spp$species_french_name[spp$species_common_name == x]
+    spp_title <- toupper(spp$species_french_name[spp$species_common_name == x])
   } else {
-    spp_title <- gfsynopsis:::all_cap(x)
+    spp_title <- toupper(x)
   }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()
