@@ -524,6 +524,12 @@ make_pages <- function(
       group_by(female) %>%
       summarise(N_min = min(N, na.rm = TRUE))
 
+    sample_size <- reshape::melt(table(mat_age$data$mature, mat_age$data$female))
+    names(sample_size) <- c("mature", "female", "N")
+    sample_size <- sample_size %>%
+      group_by(female) %>%
+      summarise(N_min = min(N, na.rm = TRUE))
+
     # if prob. mature looks wrong, fake a low sample size to not plot it:
     prob_mat <- mat_age$pred_data %>%
       select(age_or_length, female, glmm_fe) %>%
@@ -574,8 +580,9 @@ make_pages <- function(
 
   type <- "none"
   if (length(mat_length) > 1L) {
-    sample_size <- mat_length$data %>% group_by(female, mature) %>%
-      summarise(N = n()) %>%
+    sample_size <- reshape::melt(table(mat_length$data$mature, mat_length$data$female))
+    names(sample_size) <- c("mature", "female", "N")
+    sample_size <- sample_size %>%
       group_by(female) %>%
       summarise(N_min = min(N, na.rm = TRUE))
 
@@ -608,7 +615,6 @@ make_pages <- function(
       ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
       ggplot2::guides(lty = FALSE, colour = FALSE)
   }
-
   # Commercial CPUE maps -------------------------------------------------------
 
   coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
