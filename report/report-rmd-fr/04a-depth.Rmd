@@ -84,7 +84,7 @@ if(french){
 }
 
 make_depth_plot <- function(.data, 
-  ylab = if(french){
+  ylab = if (french){
     expression(Densité~de~la~biomasse~du~relevé~(kg/km^2))
   }
   else{
@@ -92,6 +92,12 @@ make_depth_plot <- function(.data,
   }
   ,
   xlim = c(-800, 0)) {
+  
+  if (french) {
+    .data$species <- purrr::map_chr(.data$species, gfsynopsis:::cap) 
+  } else {
+    .data$species <- gfsynopsis:::first_cap(.data$species)
+  }
   ggplot(.data, aes_string('depth', 'y', colour = 'survey')) +
     geom_line(lty = 2) +
     coord_cartesian(xlim = xlim) +

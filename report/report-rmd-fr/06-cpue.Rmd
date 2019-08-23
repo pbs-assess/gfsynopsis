@@ -173,14 +173,19 @@ if (!file.exists(cpue_models_summary_file)) {
   cpue_models_summary <- readRDS(cpue_models_summary_file)
 }
 
-mutate(
+for_table <- mutate(
   cpue_models_summary, species = gfsynopsis:::first_cap(species)) %>%
   as_tibble() %>%
   mutate(species = gsub("Rougheyeblackspotted Rockfish Complex", "Rougheye/Blackspotted", species)) %>%
-  mutate(species = en2fr(species, french)) %>%
+  mutate(species = en2fr(species, french))
+
+for_table$species <- purrr::map_chr(for_table$species, gfsynopsis:::first_cap)
+
+for_table %>% 
   csasdown::csas_table(digits = 1,
     col.names = c(
       "Espèces", "Zone", "$\\phi$", "$p$",
       "$\\tau_\\mathrm{vessel}$", "$\\tau_\\mathrm{locality}$", "$\\tau_\\mathrm{year-locality}$"),
     caption = "Estimations de paramètres à partir de GLMMs de normalisation de la CPUE")
+browser()
 ```

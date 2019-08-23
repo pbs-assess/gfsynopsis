@@ -16,8 +16,9 @@ spp_table <- .spp %>%
 
 if (french){
   spp_table <- spp_table %>%
-  mutate(species_common_name = en2fr(species_common_name, french)) %>%
-  mutate(species_common_name = gfsynopsis:::first_cap(species_common_name))
+  mutate(species_common_name = en2fr(species_common_name, french))
+  spp_table$species_common_name <- 
+    purrr::map_chr(spp_table$species_common_name, gfsynopsis:::cap) 
 }
 
 spp_table %>% arrange(species_common_name) %>%

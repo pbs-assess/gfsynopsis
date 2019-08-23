@@ -243,6 +243,7 @@ age_methods$`Common name` <- rosettafish::en2fr(age_methods$`Common name`, frenc
 if (french) {
   age_methods$`Common name` <- sub("aiguillat commun du Pacifique Nord", "aiguillat commun du Pac. N.", age_methods$`Common name`)
   names(age_methods)[1:4] <- rosettafish::en2fr(names(age_methods)[1:4], TRUE)
+  age_methods$`Nom commun` <- purrr::map_chr(age_methods$`Nom commun`, gfsynopsis:::first_cap)
 }
 
 ```
@@ -288,8 +289,6 @@ Filtré par \texttt{AGE\_READING\_TYPE\_CODE} 2, 3 & pour extraire les lectures 
 \bottomrule
 \end{tabu}}
 \end{table}
-
-\clearpage
 
 ```{r}
 ## If wanting .docx tables to work:
