@@ -154,7 +154,7 @@ clean_area <- function(area) {
 #' @param xlim The x limits
 #'
 #' @export
-plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
+plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017), french = translate) {
 
   yrs <- xlim
 

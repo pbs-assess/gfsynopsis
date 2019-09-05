@@ -58,8 +58,7 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2017),
     legend.position = c(0, 0.215),
     legend.background = element_blank(),
     legend.direction = "horizontal") +
-    ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2)) +
-    ggplot2::ggtitle("Commercial catch")
+    ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2))
 
   if (french)
     g <- g + theme(legend.spacing.x = ggplot2::unit(0.5, "mm"))
