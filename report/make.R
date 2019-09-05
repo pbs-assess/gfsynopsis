@@ -124,24 +124,12 @@ for (i in which(!missing)) {
   cat(crayon::green(clisymbols::symbol$tick),
   "Figure pages for", spp$species_common_name[i], "already exist\n")
 }
-<<<<<<< HEAD
 missing_spp <- spp$species_common_name[missing]
 message("Building")
 message(paste(missing_spp, "\n"))
 
 # out <- lapply(which(missing), function(i) {
 out <- future.apply::future_lapply(which(missing), function(i) {
-=======
-spp <- dplyr::filter(spp, species_common_name == "petrale sole")
-out <- foreach::foreach(i = seq_along(spp$species_common_name),
-.packages = c("gfplot", "gfsynopsis"),
-.export = c("ext", "d_cpue", "dat_geostat_index", "example_spp")) %.do% {
-  fig_check <- file.path(build_dir, "figure-pages",
-    gfsynopsis:::clean_name(spp$species_common_name[i]))
-  fig_check1 <- paste0(fig_check, "-1.", ext)
-  fig_check2 <- paste0(fig_check, "-2.", ext)
-  if (!file.exists(fig_check1) || !file.exists(fig_check2)) {
->>>>>>> Changing to new global variable transalate
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
@@ -182,17 +170,9 @@ if (file.exists("report/report-rmd-fr/ggplot-objects")) {
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   if (french) {
-<<<<<<< HEAD
     spp_title <- toupper(spp$species_french_name[spp$species_common_name == x])
   } else {
     spp_title <- toupper(x)
-=======
-    spp_title <- spp$species_french_name[spp$species_common_name == x]
-    #spp_title <- gfsynopsis:::all_cap(spp_title)
-  }
-  else {
-    spp_title <- gfsynopsis:::all_cap(x)
->>>>>>> Changing to new global variable transalate
   }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()
