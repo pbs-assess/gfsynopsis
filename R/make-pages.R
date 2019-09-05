@@ -73,7 +73,7 @@ make_pages <- function(
   synoptic_max_survey_years = 2017:2018,
   hbll_out_max_survey_years = 2016:2017,
   parallel = FALSE,
-  french = FALSE
+  french = translate
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -336,8 +336,7 @@ make_pages <- function(
       gear = "abc", value = 1, stringsAsFactors = FALSE), blank_plot = TRUE) +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
   }
-  g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line")) +
-    ggtitle(en2fr("Commercial catch", french))
+  g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line"))
 
   # Survey biomass indices: ----------------------------------------------------
 
@@ -430,13 +429,13 @@ make_pages <- function(
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, max(synoptic_max_survey_years))) +
+  g_comm_samples <- plot_sample_avail(temp, year_range = c(1996, max(synoptic_max_survey_years))) +
     ggplot2::ggtitle(en2fr("Commercial specimen counts", french))
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, max(synoptic_max_survey_years))) +
+  g_survey_samples <- plot_sample_avail(temp, year_range = c(1996, max(synoptic_max_survey_years))) +
     ggplot2::ggtitle(en2fr("Survey specimen counts", french))
   suppressMessages({g_survey_samples <- g_survey_samples +
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
