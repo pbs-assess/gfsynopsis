@@ -368,12 +368,7 @@ make_pages <- function(
       !(survey_abbrev == "HBLL INS S" & year == 2009 & !is.na(year))) # only half survey conducted
     g_survey_index <- plot_survey_index(dat_tidy_survey_index,
       col = c("grey60", "grey20"), survey_cols = survey_cols,
-<<<<<<< HEAD
-      xlim = c(1984, max(dat_tidy_survey_index$year, na.rm = TRUE)),
-      french = french)
-=======
-      xlim = c(1984, max(synoptic_max_survey_years)))
->>>>>>> Fix translation
+      xlim = c(1984, max(dat_tidy_survey_index$year, na.rm = TRUE)))
   }
 
   # Get geostatistical index calculations
