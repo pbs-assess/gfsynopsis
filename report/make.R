@@ -1,10 +1,9 @@
-if(!exists("translate")){
-  stop("You must set the variable 'translate' to be TRUE or FALSE.")
-}
-if(translate){
-  build_dir <- here::here("report/report-rmd-fr")
-} else{
-  build_dir <- here::here("report/report-rmd")
+french <- FALSE
+
+if (french) {
+  build_dir <- "report/report-rmd-fr"
+} else {
+  build_dir <- "report/report-rmd"
 }
 # This file generates all the main synopsis figures in `report/figure-pages`.
 # It must be run before the report can be rendered.
@@ -141,6 +140,7 @@ out <- future.apply::future_lapply(which(missing), function(i) {
       spp = spp$species_common_name[i],
       d_geostat_index = dat_geostat_index, # spatiotemporal model fits
       include_map_square = FALSE, # to check the map aspect ratio
+      french = french,
       report_lang_folder = build_dir,
       resolution = 150, # balance size with resolution
       png_format = if (ext == "png") TRUE else FALSE,
