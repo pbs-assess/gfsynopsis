@@ -1,8 +1,5 @@
-devtools::load_all("../gfplot")
-devtools::load_all(".")
 library(dplyr)
 
-# ------------------------------------------------------------
 dc <- file.path("report", "data-cache")
 if (!file.exists(file.path(dc, "pacific-ocean-perch.rds"))) { # a random check
   gfsynopsis::get_data(type = "A", path = dc)
@@ -18,12 +15,12 @@ for (i in seq_along(spp$species_common_name)) {
 }
 
 dat <- bind_rows(out)
-dat <- filter(dat, survey_abbrev %in% c('HBLL OUT N', 'HBLL OUT S', 'SYN WCHG', 'SYN WCVI', 'SYN HS', 'HBLL INS N', 'HBLL INS S', 'SYN QCS'))
-
-dat <- filter(dat, survey_abbrev %in% c('SYN WCHG', 'SYN WCVI', 'SYN HS', 'SYN QCS')) %>%
-  arrange(survey_abbrev, species_common_name, year)
-
-
+dat <- filter(dat, survey_abbrev %in%
+  c("HBLL OUT N", "HBLL OUT S", "SYN WCHG", "SYN WCVI",
+    "SYN HS", "HBLL INS N", "HBLL INS S", "SYN QCS"
+  )) %>%
+  arrange(survey_abbrev, species_common_name, year) %>%
+  select(-survey_series_id)
 glimpse(dat)
 
-readr::write_csv(dat, "pbs-gf-trawl.csv")
+readr::write_csv(dat, "pbs-gf-trawl-hbll.csv")
