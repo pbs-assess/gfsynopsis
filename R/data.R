@@ -4,28 +4,34 @@
 #' @param path Path
 #' @param compress TRUE or FALSE to compress .rds
 #' @param force Should data be downloaded even if already cached data exists?
+#' @param sleep System sleep in seconds between each species
+#'   to be nice to the server.
 #' @export
 get_data <- function(type = c("A", "B"), path = ".",
-  compress = FALSE, force = FALSE) {
+  compress = FALSE, force = FALSE, sleep = 45) {
   dir.create(path, showWarnings = FALSE)
   .d <- get_spp_names()
   .d <- .d[.d$type %in% type, , drop = FALSE]
   already_exists <- gsub("\\.rds", "", list.files(path))
   if (!force)
     .d <- filter(.d, !spp_w_hyphens %in% already_exists)
-  if (nrow(.d) > 0L)
-    gfdata::cache_pbs_data(species = .d$species_code,
-      file_name = .d$spp_w_hyphens,
-      path = path, unsorted_only = FALSE, historical_cpue = FALSE,
-      survey_sets = TRUE, verbose = FALSE, compress = compress)
+  if (nrow(.d) > 0L) {
+    for (i in seq_along(.d$species_code)) {
+      gfdata::cache_pbs_data(species = .d$species_code[i],
+        file_name = .d$spp_w_hyphens,
+        path = path, unsorted_only = FALSE, historical_cpue = FALSE,
+        survey_sets = TRUE, verbose = FALSE, compress = compress)
+      Sys.sleep(sleep)
+    }
+  }
   if (force || !file.exists(file.path(path, "cpue-index-dat.rds"))) {
     .dat <- gfdata::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
     saveRDS(.dat, file = file.path(path, "cpue-index-dat.rds"), compress = compress)
   }
   get_data_iphc(type = type, path = paste0(path, "/iphc"),
-                compress = compress, force = force)
+    compress = compress, force = force)
   get_data_iphc_hook_with_bait(path = paste0(path, "/iphc"),
-                compress = compress, force = force)
+    compress = compress, force = force)
 }
 
 #' Get the IPHC data for all years, should get merged into get_data at some point

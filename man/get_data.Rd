@@ -6,7 +6,7 @@
 in Survey biomass indices section of make-pages.R)}
 \usage{
 get_data(type = c("A", "B"), path = ".", compress = FALSE,
-  force = FALSE)
+  force = FALSE, sleep = 45)
 }
 \arguments{
 \item{type}{A or B}
@@ -16,6 +16,9 @@ get_data(type = c("A", "B"), path = ".", compress = FALSE,
 \item{compress}{TRUE or FALSE to compress .rds}
 
 \item{force}{Should data be downloaded even if already cached data exists?}
+
+\item{sleep}{System sleep in seconds between each species
+to be nice to the server.}
 }
 \description{
 Get all data (includes some IPHC data that will get over-written
