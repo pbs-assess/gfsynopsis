@@ -70,7 +70,7 @@ make_pages <- function(
     "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 1,
-  synoptic_max_survey_years = 2017:2018,
+  synoptic_max_survey_years = 2018:2019,
   hbll_out_max_survey_years = 2016:2017,
   parallel = FALSE,
   french = FALSE
