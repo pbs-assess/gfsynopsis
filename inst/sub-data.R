@@ -12,7 +12,7 @@ library(gfsynopsis)
 library(gfdata)
 
 get_data_20190917 <- function(type = c("A", "B"), path = ".",
-  compress = FALSE, force = FALSE, sleep = 3) {
+  compress = FALSE, force = FALSE, sleep = 0.5) {
   dir.create(path, showWarnings = FALSE)
   .d <- get_spp_names()
   .d <- .d[.d$type %in% type, , drop = FALSE]
@@ -30,12 +30,12 @@ get_data_20190917 <- function(type = c("A", "B"), path = ".",
   #   saveRDS(.dat, file = file.path(path, "cpue-index-dat.rds"), compress = compress)
   # }
 
-  message("Extracting IPHC data... ")
-
-  get_data_iphc(type = type, path = paste0(path, "/iphc"),
-    compress = compress, force = force)
-  get_data_iphc_hook_with_bait(path = paste0(path, "/iphc"),
-    compress = compress, force = force)
+  # message("Extracting IPHC data... ")
+  #
+  # get_data_iphc(type = type, path = paste0(path, "/iphc"),
+  #   compress = compress, force = force)
+  # get_data_iphc_hook_with_bait(path = paste0(path, "/iphc"),
+  #   compress = compress, force = force)
 }
 
 cache_pbs_data_20190917 <- function(species, file_name = NULL, path = ".",
@@ -54,20 +54,21 @@ cache_pbs_data_20190917 <- function(species, file_name = NULL, path = ".",
     message("Extracting data for ", gfdata:::codes2common(this_sp))
 
     survey_sets <- gfdata::get_survey_sets(this_sp,
-      join_sample_ids = TRUE, ssid = 1, # Just QCS!
-      verbose = verbose
+      join_sample_ids = TRUE,
+      verbose = TRUE, sleep = 0.01
     )
-    survey_samples <- gfdata::get_survey_samples(this_sp) # need all!
-    survey_index <- gfdata::get_survey_index(this_sp) # might as well get all just in case!
+    # survey_samples <- gfdata::get_survey_samples(this_sp) # need all!
+    # survey_index <- gfdata::get_survey_index(this_sp) # might as well get all just in case!
 
     message("Reading old data for ", gfdata:::codes2common(this_sp))
-    d_old <- readRDS(paste0("/Volumes/Extreme-SSD/gfs/report/data-cache-old/", this_sp_clean, ".rds"))
+    d_old <- readRDS(paste0("/Volumes/Extreme-SSD/gfs/report/data-cache/", this_sp_clean, ".rds"))
 
-    d_old$survey_sets <- dplyr::filter(d_old$survey_samples, survey_series_id != 1)
-    d_old$survey_sets <- dplyr::bind_rows(d_old$survey_sets, survey_sets)
+    # d_old$survey_sets <- dplyr::filter(d_old$survey_samples, survey_series_id != 3)
+    # d_old$survey_sets <- dplyr::bind_rows(d_old$survey_sets, survey_sets)
 
-    d_old$survey_samples <- survey_samples
-    d_old$survey_index <- survey_index
+    # d_old$survey_samples <- survey_samples
+    d_old$survey_sets <- survey_sets
+    # d_old$survey_index <- survey_index
 
     saveRDS(d_old,
       file = paste0(file.path(path, this_sp_clean), ".rds"),
