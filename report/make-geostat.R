@@ -1,5 +1,5 @@
-# A quick script for now to run the geostatistical index standardization across all species
-# This will be cleaned up in the future
+# A quick script to run the geostatistical index standardization across all species.
+# Hopefully this can be cleaned up in the future.
 
 library(ggplot2)
 library(dplyr)
@@ -12,6 +12,7 @@ survs <- c('SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')
 all <- expand.grid(spp = .spp, survs = survs,
   stringsAsFactors = FALSE)
 
+cores <- 1
 if (!exists("cores") || !exists("parallel_processing")) {
   stop("Please run this script as part of `make.R` or set `cores` and `parallel_processing` to the number of desired cores and a logical value for whether or not to use parallel processing.")
 }
@@ -59,24 +60,6 @@ convergence_df <- purrr::map_df(out, ~get_convergence_criteria(.x))
 did_not_converge <- dplyr::filter(convergence_df, max_gradient > 0.01 |
     bad_eig | !nlminb_convergence | !hessian)
 did_not_converge
-
-# index_check <- purrr::map_df(out, function(x) {
-#   if (length(x) > 1L) {
-#     message(x$species_name, ", ", x$survey)
-#     s <- TMB::sdreport(x$predictions$obj)
-#     eigval <- try(1 / eigen(s$cov.fixed)$values, silent = TRUE)
-#     bad_eig <- if (is(eigval, "try-error") ||
-#         (min(eigval) < .Machine$double.eps * 10)) TRUE else FALSE
-#     hessian <- s$pdHess
-#     data.frame(
-#       survey_abbrev = x$survey,
-#       species = x$species_name,
-#       bad_eig = bad_eig,
-#       hessian = hessian,
-#       stringsAsFactors = FALSE) %>%
-#       tibble::as_tibble()
-#   }
-# })
 
 index <- purrr::map_df(out, function(x) {
   if (length(x) > 1L)
