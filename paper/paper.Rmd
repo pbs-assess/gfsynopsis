@@ -209,7 +209,7 @@ and presented faithfully.
 # Results
 
 The report includes two pages of visualization for 113 species of BC groundfish
-and sharks [@anderson2019synopsis]. Figures 1 and 2 show the pages for an
+and sharks [@anderson2019synopsis, pre-print available at <https://github.com/pbs-assess/gfsynopsis>]. Figures 1 and 2 show the pages for an
 example species. The species covered in the report include: 34 rockfish
 species; 16 elasmobranch species and one chimaera species; 15 flatfish species;
 nine gadiform species (cods); 16 sculpin and poacher species; three
