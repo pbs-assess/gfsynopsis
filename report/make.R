@@ -21,7 +21,7 @@ library(future)
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
-parallel_processing <- TRUE
+parallel_processing <- FALSE
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
@@ -127,8 +127,8 @@ missing_spp <- spp$species_common_name[missing]
 message("Building")
 message(paste(missing_spp, "\n"))
 
-# out <- lapply(which(missing), function(i) {
-out <- future.apply::future_lapply(which(missing), function(i) {
+out <- lapply(which(missing)[8], function(i) {
+# out <- future.apply::future_lapply(which(missing), function(i) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
@@ -150,8 +150,8 @@ out <- future.apply::future_lapply(which(missing), function(i) {
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
-}, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
-# })
+# }, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
+})
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
