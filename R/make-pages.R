@@ -425,13 +425,15 @@ make_pages <- function(
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, max(synoptic_max_survey_years))) +
+  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, max(synoptic_max_survey_years)),
+    french = french) +
     ggplot2::ggtitle(en2fr("Commercial specimen counts", french))
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, max(synoptic_max_survey_years))) +
+  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, max(synoptic_max_survey_years)),
+    french = french) +
     ggplot2::ggtitle(en2fr("Survey specimen counts", french))
   suppressMessages({g_survey_samples <- g_survey_samples +
     viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)})
