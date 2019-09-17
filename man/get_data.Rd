@@ -6,7 +6,7 @@
 in Survey biomass indices section of make-pages.R)}
 \usage{
 get_data(type = c("A", "B"), path = ".", compress = FALSE,
-  force = FALSE, sleep = 45)
+  force = FALSE, sleep = 20)
 }
 \arguments{
 \item{type}{A or B}

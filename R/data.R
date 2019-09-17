@@ -8,7 +8,7 @@
 #'   to be nice to the server.
 #' @export
 get_data <- function(type = c("A", "B"), path = ".",
-  compress = FALSE, force = FALSE, sleep = 45) {
+  compress = FALSE, force = FALSE, sleep = 20) {
   dir.create(path, showWarnings = FALSE)
   .d <- get_spp_names()
   .d <- .d[.d$type %in% type, , drop = FALSE]
@@ -18,7 +18,7 @@ get_data <- function(type = c("A", "B"), path = ".",
   if (nrow(.d) > 0L) {
     for (i in seq_along(.d$species_code)) {
       gfdata::cache_pbs_data(species = .d$species_code[i],
-        file_name = .d$spp_w_hyphens,
+        file_name = .d$spp_w_hyphens[i],
         path = path, unsorted_only = FALSE, historical_cpue = FALSE,
         survey_sets = TRUE, verbose = FALSE, compress = compress)
       Sys.sleep(sleep)
