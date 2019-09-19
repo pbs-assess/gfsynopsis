@@ -22,11 +22,12 @@ ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
+cores <- 4L
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
 if (parallel_processing) {
-  future::plan(multiprocess)
+  future::plan(multiprocess, workers = cores)
   options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 } else {
   future::plan(transparent)
@@ -121,37 +122,38 @@ missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
 # missing <- rep(TRUE, length(missing))
 for (i in which(!missing)) {
   cat(crayon::green(clisymbols::symbol$tick),
-  "Figure pages for", spp$species_common_name[i], "already exist\n")
+    "Figure pages for", spp$species_common_name[i], "already exist\n")
 }
 missing_spp <- spp$species_common_name[missing]
 message("Building")
 message(paste(missing_spp, "\n"))
 
-out <- lapply(which(missing)[8], function(i) {
-# out <- future.apply::future_lapply(which(missing), function(i) {
-    cat(crayon::red(clisymbols::symbol$cross),
-      "Building figure pages for", spp$species_common_name[i], "\n")
-    dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
-    dat$cpue_index <- d_cpue
-    gfsynopsis::make_pages(
-      dat = dat,
-      dat_iphc = dat_iphc,
-      spp = spp$species_common_name[i],
-      d_geostat_index = dat_geostat_index, # spatiotemporal model fits
-      include_map_square = FALSE, # to check the map aspect ratio
-      french = french,
-      report_lang_folder = build_dir,
-      resolution = 150, # balance size with resolution
-      png_format = if (ext == "png") TRUE else FALSE,
-      parallel = FALSE, # for CPUE fits; need a lot of memory if true!
-      save_gg_objects = spp$species_common_name[i] %in% example_spp,
-      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-    )
-# }, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
-})
+# out <- lapply(which(missing), function(i) {
+out <- future.apply::future_lapply(which(missing), function(i) {
+  cat(crayon::red(clisymbols::symbol$cross),
+    "Building figure pages for", spp$species_common_name[i], "\n")
+  dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+
+  dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
+  dat$cpue_index <- d_cpue
+  gfsynopsis::make_pages(
+    dat = dat,
+    dat_iphc = dat_iphc,
+    spp = spp$species_common_name[i],
+    d_geostat_index = dat_geostat_index, # spatiotemporal model fits
+    include_map_square = FALSE, # to check the map aspect ratio
+    french = french,
+    report_lang_folder = build_dir,
+    resolution = 150, # balance size with resolution
+    png_format = if (ext == "png") TRUE else FALSE,
+    parallel = FALSE, # for CPUE fits; need a lot of memory if true!
+    save_gg_objects = spp$species_common_name[i] %in% example_spp,
+    survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+      RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+      "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+  )
+}, future.packages = c("gfplot", "gfsynopsis", "rosettafish"))
+# })
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
