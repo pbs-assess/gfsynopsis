@@ -17,7 +17,7 @@ author: |
      PO Box 1700 STN CSC, Victoria, BC, V8W 2Y2, Canada
 output:
   bookdown::pdf_document2:
-    number_sections: no
+    number_sections: yes
     toc: no
     template: "article.tex"
     keep_tex: true
@@ -28,7 +28,7 @@ header-includes:
     - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[1]
 geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 bibliography: "refs.bib"
-csl: "cfjas.csl"
+csl: "elsevier-harvard.csl"
 link-citations: yes
 linkcolor: "black"
 urlcolor: "black"
@@ -58,20 +58,19 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 
 <!-- RF: Prefer the title you have chosen but it is a bit of a mouthful. Do you need to have monitoring in there? Also I think this is about more than transparency. It is also about efficiency and engagement. How about "Reproducible reporting improves data transparency, assessment efficiency and engagement for over 100 Pacific Canadian groundfish species." -->
 
-<!--     TODO: add Turning the unknown into known unknowns -->
-
-<!-- Key words should not exceed 3–5 and should be placed directly below the abstract. -->
-<!-- Keywords:
-automation,
-fisheries monitoring,
-groundfish,
-reproducible research,
-visualization -->
-
 \clearpage
 
-# Abstract
+<!-- TODO: -->
+<!-- Highlights -->
 
+<!-- Highlights are mandatory for this journal as they help increase the discoverability of your article via search engines. They consist of a short collection of bullet points that capture the novel results of your research as well as new methods that were used during the study (if any). Please have a look at the examples here: example Highlights. -->
+
+<!-- Highlights should be submitted in a separate editable file in the online submission system. Please use 'Highlights' in the file name and include 3 to 5 bullet points (maximum 85 characters, including spaces, per bullet point). -->
+
+# Abstract {-}
+
+<!-- TODO: Graphical abstract -->
+<!-- TODO: longer abstract -->
 Modern survey and fishery observation programs generate vast quantities of
 data. However, regulatory agencies often lack the capacity to translate the
 data into effective monitoring information. Here we describe an automated
@@ -83,7 +82,13 @@ and survey prioritization, increases transparency about data holdings, and
 makes the data available for regular review by interested parties. We encourage
 others to consider similar reports for their own data.
 
-\clearpage
+<!-- Immediately after the abstract, provide a maximum of 5 keywords, using American spelling and avoiding general and plural terms and multiple concepts (avoid, for example, "and", "of"). Be sparing with abbreviations: only abbreviations firmly established in the field may be eligible. These keywords are important because they will be used for indexing purposes. -->
+Keywords:
+automation,
+fisheries monitoring,
+groundfish,
+reproducible research,
+visualization
 
 # Introduction
 
@@ -209,7 +214,7 @@ and presented faithfully.
 # Results
 
 The report includes two pages of visualization for 113 species of BC groundfish
-and sharks [@anderson2019synopsis, pre-print available at <https://github.com/pbs-assess/gfsynopsis>]. Figures 1 and 2 show the pages for an
+and sharks [@anderson2019synopsis]. Figs.\ 1 and 2 show the pages for an
 example species. The species covered in the report include: 34 rockfish
 species; 16 elasmobranch species and one chimaera species; 15 flatfish species;
 nine gadiform species (cods); 16 sculpin and poacher species; three
@@ -304,13 +309,15 @@ Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard, Chris Rooper, and
 Greg Workman, We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for
 maintaining the BC groundfish databases and for help with data extraction. We
 thank Robyn Forrest for helpful comments on an earlier version of this paper.
+This research did not receive any specific grant from funding agencies in the
+public, commercial, or not-for-profit sectors.
 
-<!-- pcod, redbanded, rougheye? -->
+\clearpage
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=13.2cm]{fig1-pcod-no-sar.png}
-\caption{Example first page for Pacific cod (\emph{Gadus macrocephalus})
+# Figure captions
+
+Fig.\ \@ref(fig:page1): 
+Example first page for Pacific cod (\emph{Gadus macrocephalus})
 featuring metadata and temporal and spatial trends from fisheries-independent
 surveys and commercial catch and effort data in British Columbia, Canada. (Top
 row) Relative biomass indices from up to ten surveys, commercial catch in each
@@ -320,23 +327,47 @@ line) and unstandardized (dashed line) commercial bottom catch per unit effort
 surveys (left), two hard bottom long line surveys (second from left), and the
 International Pacific Halibut Commission (IPHC) setline survey (third from
 left); commercial trawl (second from right) and hook and line (right; H \& L)
-CPUE.}
+CPUE.
+
+Fig.\ \@ref(fig:page2): 
+Example first page for Pacific cod (\emph{Gadus macrocephalus})
+featuring metadata and temporal and spatial trends from fisheries-independent
+surveys and commercial catch and effort data in British Columbia, Canada. (Top
+row) Relative biomass indices from up to ten surveys, commercial catch in each
+geographical region (panels) and gear type (colour), and standardized (solid
+line) and unstandardized (dashed line) commercial bottom catch per unit effort
+(CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl
+surveys (left), two hard bottom long line surveys (second from left), and the
+International Pacific Halibut Commission (IPHC) setline survey (third from
+left); commercial trawl (second from right) and hook and line (right; H \& L)
+CPUE.
+
+<!-- pcod, redbanded, rougheye? -->
+
+\clearpage
+
+\renewcommand{\figurename}{Fig.}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=13.2cm]{fig1-pcod-no-sar.png}
+\caption{}
 \label{fig:page1}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=13.2cm]{fig2-pcod.png}
-\caption{ Example second page for Pacific cod (\emph{Gadus macrocephalus})
-featuring biological sample, maturity, and growth data in British Columbia,
-Canada. (Top left) Length frequencies by year and survey for females (coloured)
-and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model
-fits. (Second row) Age frequencies by year and survey. (Third row)
-Age-at-maturity and length-at-maturity model fits and frequency of maturity
-stage by month. (Bottom row) Counts of available fish lengths, weights,
-maturities, ages, and ageing structures from all available survey and commercial
-samples.}
+\caption{}
 \label{fig:page2}
 \end{figure}
 
+\clearpage
+
+
+
 # References
+
+\setlength{\parskip}{0.9em}
+
+<div id="refs"></div>
