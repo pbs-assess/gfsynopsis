@@ -22,7 +22,7 @@ ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
-cores <- 4L
+cores <- floor(future::availableCores() / 2)
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential

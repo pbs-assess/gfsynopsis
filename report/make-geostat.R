@@ -13,8 +13,9 @@ all <- expand.grid(
   stringsAsFactors = FALSE
 )
 
-# cores <- 4L
 # parallel_processing <- TRUE
+# cores <- floor(future::availableCores() / 2)
+
 if (!exists("cores") || !exists("parallel_processing")) {
   stop(
     "Please run this script as part of `make.R` or set ",
@@ -29,14 +30,21 @@ if (parallel_processing) {
   future::plan(transparent)
 }
 
-# out <- future.apply::future_lapply(seq_len(nrow(all)), function(i) {
-out <- future.apply::future_lapply(1:3, function(i) {
-  tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
-    here::here("report", "data-cache", paste0(all$spp[i], ".rds")),
-    species_name = all$spp[i], include_depth = FALSE,
-    survey = all$survs[i], n_knots = 150L, bias_correct = TRUE,
-    anisotropy = FALSE
-  ), error = function(e) NA)
+out <- future.apply::future_lapply(seq_len(nrow(all)), function(i) {
+  file <- here::here("report", "geostat-cache",
+    paste0(all$spp[i], "-", gsub(" ", "-", all$survs[i]), ".rds"))
+  if (!file.exists(file)) {
+    .out <- tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
+      here::here("report", "data-cache", paste0(all$spp[i], ".rds")),
+      species_name = all$spp[i], include_depth = FALSE,
+      survey = all$survs[i], n_knots = 50L, bias_correct = FALSE,
+      anisotropy = FALSE
+    ), error = function(e) NA)
+    saveRDS(.out, file = file)
+  } else {
+    .out <- readRDS(file)
+  }
+  .out
 })
 
 dir.create(here::here("report/geostat-cache"), showWarnings = FALSE)
