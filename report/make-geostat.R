@@ -8,10 +8,8 @@ library(future)
 
 .spp <- gfsynopsis::get_spp_names()
 .spp <- dplyr::pull(dplyr::filter(.spp, type %in% c("A", "B")), spp_w_hyphens)
-all <- expand.grid(
-  spp = .spp, survs = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-  stringsAsFactors = FALSE
-)
+survs <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
+all <- expand.grid(spp = .spp, survs = survs, stringsAsFactors = FALSE)
 
 # parallel_processing <- TRUE
 # cores <- floor(future::availableCores() / 2)
@@ -37,7 +35,7 @@ out <- future.apply::future_lapply(seq_len(nrow(all)), function(i) {
     .out <- tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(all$spp[i], ".rds")),
       species_name = all$spp[i], include_depth = FALSE,
-      survey = all$survs[i], n_knots = 50L, bias_correct = FALSE,
+      survey = all$survs[i], n_knots = 150L, bias_correct = FALSE,
       anisotropy = FALSE
     ), error = function(e) NA)
     saveRDS(.out, file = file)
@@ -90,6 +88,8 @@ index <- purrr::map_df(out, function(x) {
 
 dplyr::filter(index, bad_eig | max_gradient > 0.01)
 
+index <- dplyr::filter(index, !bad_eig, max_gradient < 0.01)
+
 saveRDS(index, file = here::here("report/geostat-cache/spt-index-out-no-depth.rds"))
 
 index$survey <- factor(index$survey, levels = survs)
@@ -99,7 +99,7 @@ index$survey <- factor(index$survey, levels = survs)
 #   facet_grid(species~survey, scales = "free")
 
 design_based <- purrr::map_df(unique(index$species), function(sp) {
-  message(sp)
+  message("Getting design based index for ", sp)
   .d <- readRDS(here::here("report", "data-cache", paste0(sp, ".rds")))
   .d$survey_index
 })
@@ -154,7 +154,7 @@ g <- ggplot(ind, aes_string("year", "est", fill = "type")) +
   scale_x_continuous(breaks = seq(2000, 2020, 5)) +
   labs(colour = "Type", fill = "Type")
 
-ggsave(here::here("report/geostat-cache/surv-2019-04-08-no-depth-150-knots.pdf"),
+ggsave(here::here("report/geostat-cache/surv-no-depth-150-knots.pdf"),
   width = 9.5, height = 65, limitsize = FALSE
 )
 
