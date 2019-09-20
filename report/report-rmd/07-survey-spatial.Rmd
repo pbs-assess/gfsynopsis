@@ -199,7 +199,7 @@ breaks <- c(1, 20, 150)
 g_sdm1 <- plot_map(predictions$data, "exp(est)") +
   scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     breaks = breaks, limits = limits) +
-  ggtitle(paste("(D) ", en2fr("Prediction (depth effects + spatial random effects)"))) +
+  ggtitle(paste("(D) ", en2fr("Prediction (depth effects + spatial random effects)", french))) +
   (if(french){
     labs(fill = "Estimation de la\nbiomasse (kg/m2)", parse = TRUE)
   } 
@@ -215,10 +215,9 @@ g_sdm2 <- plot_map(predictions$data, "exp(est_non_rf)") +
     breaks = breaks, limits = limits) +
   (if(french){
     labs(fill = "Estimation de la\nbiomasse (kg/m2)", parse = TRUE)
-  } 
-  else{
+  }  else{
     labs(fill = "Biomass estimate\n(kg/km^2)", parse = TRUE)
-    })
+  })
 ```
 
 ```{r sdmTMB-plot-re}
@@ -230,10 +229,9 @@ g_sdm3 <- plot_map(predictions$data, "omega_s") +
     low = scales::muted("blue")) +
   (if(french){
     labs(fill = "Écart par rapport à la biomasse\nprévue dans l’espace de relevé")
-  } 
-  else{
+  } else {
     labs(fill = "Deviation from expected\nbiomass in log space")
-    })
+  })
 ```
 
 \clearpage
