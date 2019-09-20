@@ -118,7 +118,7 @@ p2 <- g$survey_spatial_hbll +
   ggtitle(en2fr("HBLL OUT survey biomass", french))
 
 p3 <- g$survey_spatial_iphc +
-  labs(fill = labs3, parse = TRUE) +
+  labs(colour = labs3, parse = TRUE) +
   guides(colour = guide_colorbar(), size = FALSE) +
   ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +

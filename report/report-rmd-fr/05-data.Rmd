@@ -129,8 +129,6 @@ Filtré par \texttt{ACTIVE\_IND} 1 & pour extraire uniquement les enregistrement
 
 \vspace{0mm}
 
-### BIOLOGICAL DATA EXTRACTION
-
 ### EXTRACTION DE DONNÉES BIOLOGIQUES
 
 Nous avons extrait des données biologiques en utilisant `get-survey-samples.sql` et `get-comm-samples.sql` pour des relevés de recherche et des échantillons commerciaux, respectivement. Les enregistrements de tous les échantillons biologiques sont extraits par espèce, y compris les données disponibles sur la longueur, le poids, l’âge et la maturité. Les mesures de longueur standard diffèrent selon l’espèce (par exemple, la longueur du sébaste et de la morue du Pacifique sont enregistrées comme étant la longueur jusqu’à la fourche de la queue, tandis que celle du flétan du Pacifique et de la plie à grande bouche est enregistrée comme étant longueur totale, jusqu’à l’extrémité de la queue. Les données sur la chimère d’Amérique n’ont été filtrées que pour les longueurs enregistrées depuis le museau jusqu’à l’extrémité de la deuxième nageoire dorsale, ce qui est la norme puisque la queue est souvent endommagée, car, pour quelques spécimens, la longueur totale avait été enregistrée). 

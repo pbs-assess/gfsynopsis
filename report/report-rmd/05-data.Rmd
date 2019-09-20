@@ -313,10 +313,19 @@ csasdown::csas_table(samp_source, caption = "Sample source codes lookup table, w
 ```
 
 ```{r aging-method-table-setup}
-#meta <- gfsynopsis::get_spp_names()
+library(readr)
 f <- system.file("extdata", "ageing_methods.csv", package = "gfplot")
-age_methods <- read.csv(f, stringsAsFactors = FALSE, strip.white = TRUE)
-#age_methods$type <- NULL
+age_methods <- readr::read_csv(f, col_types = cols(
+  species_common_name = col_character(),
+  species_ageing_group = col_character(),
+  species_code = col_character(),
+  species_science_name = col_character(),
+  ageing_method_codes = col_character()
+))
+age_methods <- filter(age_methods, !is.na(species_code))
+age_methods$species_code[nchar(age_methods$species_code) == 2L] <- 
+  paste0("0", age_methods$species_code[nchar(age_methods$species_code) == 2L])
+
 names(age_methods) <- tolower(names(age_methods))
 age_methods$species_common_name <- tolower(age_methods$species_common_name)
 #age_methods <- left_join(age_methods, meta, by = "species_common_name")

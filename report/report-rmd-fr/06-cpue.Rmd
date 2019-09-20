@@ -187,5 +187,4 @@ for_table %>%
       "Espèces", "Zone", "$\\phi$", "$p$",
       "$\\tau_\\mathrm{vessel}$", "$\\tau_\\mathrm{locality}$", "$\\tau_\\mathrm{year-locality}$"),
     caption = "Estimations de paramètres à partir de GLMMs de normalisation de la CPUE")
-browser()
 ```
