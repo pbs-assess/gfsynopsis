@@ -25,7 +25,7 @@ if (!exists("cores") || !exists("parallel_processing")) {
 if (parallel_processing) {
   future::plan(multiprocess, workers = cores)
 } else {
-  future::plan(transparent)
+  future::plan(sequential)
 }
 
 out <- future.apply::future_lapply(seq_len(nrow(all)), function(i) {

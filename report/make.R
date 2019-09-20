@@ -27,10 +27,10 @@ cores <- floor(future::availableCores() / 2)
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
 if (parallel_processing) {
-  future::plan(multiprocess, workers = cores)
+  future::plan(multisession, workers = cores)
   options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 } else {
-  future::plan(transparent)
+  future::plan(sequential)
   options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 }
 
