@@ -93,6 +93,8 @@ spp <- left_join(spp, cosewic, by = "species_science_name")
 # Parse metadata that will be used at the top of each species page:
 refs <- readr::read_csv(here("report/spp-refs.csv"))
 spp <- left_join(spp, refs, by = "species_common_name")
+spp$type_other_ref <- ifelse(is.na(spp$type_other_ref), NA,
+  rosettafish::en2fr(spp$type_other_ref, french))
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
 spp$resdoc <- gsub(", ", ", @", spp$resdoc)
