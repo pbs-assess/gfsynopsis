@@ -71,7 +71,7 @@ make_pages <- function(
   mat_min_n = 20,
   survey_map_outlier = 1,
   synoptic_max_survey_years = 2018:2019,
-  hbll_out_max_survey_years = 2016:2017,
+  hbll_out_max_survey_years = 2017:2018,
   parallel = FALSE,
   french = FALSE
 ) {
@@ -445,7 +445,7 @@ make_pages <- function(
       ggtitle(en2fr("Maturity frequencies", french))
   } else {
     g_maturity_month <- dat_tidy_maturity_months %>%
-      plot_maturity_months(min_fish = 0) +
+      plot_maturity_months(min_fish = 0, french = french) +
       guides(colour = FALSE, fill = FALSE) +
       ggtitle(en2fr("Maturity frequencies", french))
   }
@@ -456,7 +456,7 @@ make_pages <- function(
 
     check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
 
-    if (spp == "yelloweye rockfish")
+    if (spp == "yelloweye rockfish") # FIXME
       tmb_init <- list(k = 0.9, linf = 55, log_sigma = log(0.1), t0 = -1)
     else
       tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
@@ -602,6 +602,7 @@ make_pages <- function(
         type <- "female"
     }
   }
+  if (spp == "spotted ratfish") type <- "none" # FIXME almost none; way off
 
   if (length(mat_length) > 1L && type != "none") {
    g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
@@ -691,7 +692,7 @@ make_pages <- function(
       species = spp,
       surveys = "IPHC FISS",
       # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
-      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
+      model = "sdmTMB", silent = TRUE, years = 2017)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {

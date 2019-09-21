@@ -138,7 +138,7 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   syn_qcs_hs_year = 2019,
   syn_wcvi_wchg_year = 2018,
   hbll_n_year = 2017,
-  hbll_s_year = 2016,
+  hbll_s_year = 2018,
   iphc_year = 2017,
   ...) {
 
