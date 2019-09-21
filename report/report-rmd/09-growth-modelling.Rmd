@@ -54,6 +54,8 @@ representing error.
 The variables $a$ and $b$ represent the estimated length-weight parameters.
 We fit the model as:
 
+\mathchardef\mhyphen="2D
+
 \begin{equation}
   \log (W_i) \sim \mathrm{Student\mhyphen t} (df = 3, \log (\ln(a) + b L_i), \sigma)
 \end{equation}

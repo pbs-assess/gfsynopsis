@@ -31,6 +31,8 @@ Nous avons ajusté les modèles du poids selon la longueur comme des régression
 
 Avec $W_i$ et $L_i$ représentant le poids et la longueur du poisson $i$ et $e_i$ représentant l’erreur. Les variables $a$ et $b$ représentent les paramètres du poids selon la longueur estimés. Nous avons ajusté le modèle comme suit :
 
+\mathchardef\mhyphen="2D
+
 \begin{equation}
   \log (W_i) \sim \mathrm{Student\mhyphen t} (df = 3, \log (\ln(a) + b L_i), \sigma)
 \end{equation}
