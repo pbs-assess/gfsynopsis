@@ -1,7 +1,6 @@
 ---
 title: |
-   Reproducible reporting improves data transparency, assessment efficiency,
-   and monitoring for over 100 Pacific Canadian groundfish species
+   Reproducible visualization of all fisheries and survey data improves transparency, assessment efficiency, and monitoring for over 100 groundfish species
 author: |
   Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3,4^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
@@ -71,24 +70,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 
 <!-- TODO: Graphical abstract -->
 <!-- TODO: longer abstract -->
-Modern survey and fishery observation programs generate vast quantities of
-data. However, regulatory agencies often lack the capacity to translate the
-data into effective monitoring information. Here we describe an automated
-report for 113 groundfish species in Pacific Canadian waters. It
-includes standardized visualizations of temporal trends and spatial
-distributions of commercial catches and survey indices, plus analyses of ages,
-lengths, maturity, and growth. It facilitates discussions on stock-assessment
-and survey prioritization, increases transparency about data holdings, and
-makes the data available for regular review by interested parties. We encourage
-others to consider similar reports for their own data.
+Modern survey and fishery observation programs generate vast quantities of data. However, regulatory agencies often lack the capacity to translate the data into effective monitoring information. Here we describe an automated report for 113 groundfish species in Pacific Canadian waters. It includes standardized visualizations of temporal trends and spatial distributions of commercial catches and survey indices, plus analyses of ages, lengths, maturity, and growth. It facilitates discussions on stock-assessment and survey prioritization, increases transparency about data holdings, and makes the data available for regular review by interested parties. We encourage others to consider similar reports for their own data.
 
 <!-- Immediately after the abstract, provide a maximum of 5 keywords, using American spelling and avoiding general and plural terms and multiple concepts (avoid, for example, "and", "of"). Be sparing with abbreviations: only abbreviations firmly established in the field may be eligible. These keywords are important because they will be used for indexing purposes. -->
 Keywords:
-automation,
-fisheries monitoring,
-groundfish,
-reproducible research,
-visualization
+automation; fisheries monitoring; groundfish; reproducible research; visualization
 
 # Introduction
 
@@ -316,7 +302,7 @@ public, commercial, or not-for-profit sectors.
 
 # Figure captions
 
-Fig.\ \@ref(fig:page1): 
+Fig.\ \@ref(fig:page1):
 Example first page for Pacific cod (\emph{Gadus macrocephalus})
 featuring metadata and temporal and spatial trends from fisheries-independent
 surveys and commercial catch and effort data in British Columbia, Canada. (Top
@@ -329,7 +315,7 @@ International Pacific Halibut Commission (IPHC) setline survey (third from
 left); commercial trawl (second from right) and hook and line (right; H \& L)
 CPUE.
 
-Fig.\ \@ref(fig:page2): 
+Fig.\ \@ref(fig:page2):
 Example first page for Pacific cod (\emph{Gadus macrocephalus})
 featuring metadata and temporal and spatial trends from fisheries-independent
 surveys and commercial catch and effort data in British Columbia, Canada. (Top
