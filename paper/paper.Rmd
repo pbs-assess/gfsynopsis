@@ -1,6 +1,7 @@
 ---
 title: |
-   Reproducible visualization of all fisheries and survey data improves transparency, assessment efficiency, and monitoring for over 100 groundfish species
+   Reproducible visualization of all fisheries and survey data improves transparency, assessment efficiency, and monitoring;
+   Reproducible large-scale visualization of fisheries data improves transparency, assessment efficiency, and monitoring
 author: |
   Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3,4^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
