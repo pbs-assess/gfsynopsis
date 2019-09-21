@@ -15,6 +15,7 @@ library(gfsynopsis)
 library(rosettafish)
 # library(foreach)
 library(future)
+setwd(here())
 
 # ------------------------------------------------------------------------------
 # Settings:
