@@ -15,25 +15,31 @@ get_sha <- function(path) {
     "xxxxxxx"
 }
 sha_gfplot <- get_sha("pbs-assess/gfplot")
+sha_gfiphc <- get_sha("pbs-assess/gfiphc")
+sha_gfdata <- get_sha("pbs-assess/gfdata")
 sha_gfsynopsis <- get_sha("pbs-assess/gfsynopsis")
 sha_sdmTMB <- get_sha("pbs-assess/sdmTMB")
 sha_csasdown <- get_sha("pbs-assess/csasdown")
 ```
 
-L’extraction des données, l’ajustement des modèles et les graphiques ont été réalisés grâce au progiciel de représentation graphique des poissons de fond R (Figure \@ref(fig:gfplot-web)) Git SHA (Secure Hash Algorithm) ``r sha_gfplot``. Les modèles spatiaux et spatio-temporels ont été ajustés avec le progiciel sdmTMB Git SHA ``r sha_sdmTMB``. Les graphiques ont été assemblés sur des pages de figures et le présent texte a été écrit avec le progiciel gfsynopsis Git SHA ``r sha_gfsynopsis``. Le document a été compilé avec le progiciel csasdown Git SHA, version ``r sha_csasdown``. 
+L’extraction des données, l’ajustement des modèles et les graphiques ont été réalisés grâce au progiciel de représentation graphique des poissons de fond R (Figure \@ref(fig:gfplot-web)) Git SHA (Secure Hash Algorithm) `r sha_gfplot`. Les modèles spatiaux et spatio-temporels ont été ajustés avec le progiciel sdmTMB Git SHA `r sha_sdmTMB`. Les graphiques ont été assemblés sur des pages de figures et le présent texte a été écrit avec le progiciel gfsynopsis Git SHA `r sha_gfsynopsis`. Le document a été compilé avec le progiciel csasdown Git SHA, version `r sha_csasdown`. 
 
-Les versions particulières utilisées pour générer ce rapport peuvent être consultées à l’adresse.&nbsp;:
+Les versions particulières utilisées pour générer ce rapport peuvent être consultées à l’adresse :
 
+<`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha_gfdata)`>\
 <`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha_gfplot)`>\
 <`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha_sdmTMB)`>\
+<`r paste0("https://github.com/pbs-assess/gfiphc/tree/", sha_gfiphc)`>\
 <`r paste0("https://github.com/pbs-assess/gfsynopsis/tree/", sha_gfsynopsis)`>\
 <`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha_csasdown)`>\
 
 \vspace{4mm}
 ou installées par l’intermédiaire de :
 
+`devtools::install_github('pbs-assess/gfdata', ref = '`r sha_gfdata`')`\
 `devtools::install_github('pbs-assess/gfplot', ref = '`r sha_gfplot`')`\
 `devtools::install_github('pbs-assess/sdmTMB', ref = '`r sha_sdmTMB`')`\
+`devtools::install_github('pbs-assess/gfiphc', ref = '`r sha_gfiphc`')`\
 `devtools::install_github('pbs-assess/gfsynopsis', ref = '`r sha_gfsynopsis`')`\
 `devtools::install_github('pbs-assess/csasdown', ref = '`r sha_csasdown`')`\
 
