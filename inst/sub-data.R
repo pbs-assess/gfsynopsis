@@ -38,6 +38,21 @@ get_data_20190917 <- function(type = c("A", "B"), path = ".",
   #   compress = compress, force = force)
 }
 
+get_data_2019_09_23 <- function(type = c("A", "B"), path = "commercial-samples") {
+  dir.create(path, showWarnings = FALSE)
+  .d <- gfsynopsis::get_spp_names()
+  .d <- .d[.d$type %in% type, , drop = FALSE]
+  for (i in seq_along(.d$species_code)) {
+    message(.d$spp_w_hyphens[i])
+    x <- gfdata::get_commercial_samples(.d$species_code[i],
+      unsorted_only = FALSE
+    )
+    this_sp_clean <- gsub("/", "-", gsub(" ", "-", .d$spp_w_hyphens[i]))
+    saveRDS(x, file = paste0(file.path(path, this_sp_clean), ".rds"))
+  }
+}
+
+
 cache_pbs_data_20190917 <- function(species, file_name = NULL, path = ".",
   compress = FALSE, unsorted_only = TRUE, historical_cpue = FALSE,
   survey_sets = FALSE, verbose = TRUE) {
