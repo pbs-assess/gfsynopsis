@@ -810,7 +810,7 @@ show how the number of hooks returned with baits in each set varies between year
 that the influence of hook competition may well vary between years, and thus if
 hook competition is to be considered it needs to be carefully implemented.
 
-```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set for each year in which all hooks were enumerated.", fig.pos="tbp"}
+```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with bait in each set for each year in which all hooks were enumerated.", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it) ) +
     xlab("Number of hooks returned with bait in each set") +
