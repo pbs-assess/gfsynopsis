@@ -59,7 +59,7 @@ Année & Hameçons ayant fait        & Résolution & Emplacement & COIV?\\
      & ~avec appâts)     & ~hameçon    & ~ GFBio du MPO& \\
 2013 & 20 premiers hameçons & Ensemble par & Feuille de calcul$^3$ & Y\\
           & ~de chaque patin      & ~ensemble & & \\
-2014-2017 & Tous & Hameçon par & Base de données & Y\\
+2014-2018 & Tous & Hameçon par & Base de données & Y\\
           &      & ~hameçon    & ~ GFBio du MPO& \\
 \hline
 \end{tabular}
@@ -70,7 +70,7 @@ D’après le tableau \@ref(tab:IPHCdata), quatre questions se dégagent :
 
 1. Pour la période s’échelonnant entre 1997 et 2002 et en 2013, seuls les 20 premiers hameçons de chaque patin ont fait l’objet d’un dénombrement, alors que pour toutes les autres années, tous les hameçons ont fait l’objet d’un dénombrement. Ainsi, les données de chaque année ne peuvent pas être simplement considérées comme étant comparables et analysées comme une série chronologique consécutive.
 
-1. Pour les ensembles de données de 1995, 1996, 1997-2002 et 2013, les données ne sont disponibles qu’au niveau ensemble par ensemble, en termes de nombre de spécimens d’une espèce donnée par patin efficace. L’espèce capturée sur chaque hameçon n’est pas disponible, contrairement aux résultats enregistrés pour les périodes allant de 2003 à 2012 et de 2014 à 2017. Ainsi, pour 1995 et 1996, nous ne pouvons pas calculer les taux de prises sur la base des 20 premiers hameçons (parce que nous ne disposons que de données au niveau ensemble par ensemble), alors que nous pouvons le faire pour les périodes allant de 2003 à 2012 et de 2014 à 2017, et les données recueillies sur la base de 20 hameçons sont les seules informations dont nous disposons pour la période allant de 1997 à 2002 et pour 2013.
+1. Pour les ensembles de données de 1995, 1996, 1997-2002 et 2013, les données ne sont disponibles qu’au niveau ensemble par ensemble, en termes de nombre de spécimens d’une espèce donnée par patin efficace. L’espèce capturée sur chaque hameçon n’est pas disponible, contrairement aux résultats enregistrés pour les périodes allant de 2003 à 2012 et de 2014 à 2018. Ainsi, pour 1995 et 1996, nous ne pouvons pas calculer les taux de prises sur la base des 20 premiers hameçons (parce que nous ne disposons que de données au niveau ensemble par ensemble), alors que nous pouvons le faire pour les périodes allant de 2003 à 2012 et de 2014 à 2018, et les données recueillies sur la base de 20 hameçons sont les seules informations dont nous disposons pour la période allant de 1997 à 2002 et pour 2013.
 
 1. En 2012, une expérience à l’aide d’appâts a été menée de telle sorte que les données pour tous les patins ne pouvaient pas être utilisées; voir la section \@ref(sec:chum).
 
@@ -83,8 +83,8 @@ D’après le tableau \@ref(tab:IPHCdata), quatre questions se dégagent :
 \hline
  & Seules le nord de la COIV & Ensemble de la côte\\
 \hline
-Vingt premiers hameçons de chaque patin & {\bf A}(21) & {\bf D}(18)\\
-Tous les hameçons de chaque patin & {\bf B}(16) & {\bf C}(14)\\
+Vingt premiers hameçons de chaque patin & {\bf A}(22) & {\bf D}(19)\\
+Tous les hameçons de chaque patin & {\bf B}(17) & {\bf C}(15)\\
 \hline
 ~\\% pour ajouter des espaces avant que le texte ne se poursuive.
 \end{tabular}
@@ -92,17 +92,17 @@ Tous les hameçons de chaque patin & {\bf B}(16) & {\bf C}(14)\\
 
 Pour traiter les questions 1, 2 et 4, nous construisons donc quatre séries chronologiques (dont la structure est résumée dans le tableau \@ref(tab:seriesSumm)) pour chaque espèce :
 
-**Série A** – 1997-2017, stations situées au nord de la COIV, avec des taux de prises fondés sur les 20 premiers hameçons seulement (c’est tout ce dont nous disposons pour la période allant de 1997 et 2002 et pour 2013).
+**Série A** – 1997-2018, stations situées au nord de la COIV, avec des taux de prises fondés sur les 20 premiers hameçons seulement (c’est tout ce dont nous disposons pour la période allant de 1997 et 2002 et pour 2013).
 
-**Série B** – 1995, 1996, 2003-2012 et 2014-2017, stations situées au nord de la COIV, avec des taux de prises fondés sur tous les hameçons (c’est tout ce dont nous disposons pour 1995 et 1996).
+**Série B** – 1995, 1996, 2003-2012 et 2014-2018, stations situées au nord de la COIV, avec des taux de prises fondés sur tous les hameçons (c’est tout ce dont nous disposons pour 1995 et 1996).
 
-**Série C** – périodes allant de 2003 à 2012 et de 2014 à 2017, stations côtières (y compris la COIV), avec des taux de prises fondés sur tous les hameçons.
+**Série C** – périodes allant de 2003 à 2012 et de 2014 à 2018, stations côtières (y compris la COIV), avec des taux de prises fondés sur tous les hameçons.
 
-**Série D** – 1999 et période allant de 2001 à 2017, stations côtières (y compris la COIV), avec des taux de prises fondés sur les 20 premiers hameçons seulement (c’est tout ce dont nous disposons pour 1999, 2001-2002 et 2013).
+**Série D** – 1999 et période allant de 2001 à 2018, stations côtières (y compris la COIV), avec des taux de prises fondés sur les 20 premiers hameçons seulement (c’est tout ce dont nous disposons pour 1999, 2001-2002 et 2013).
 
 Nous aimerions obtenir une série d’indices avec une durée aussi longue que possible et, idéalement, sur une région géographique aussi vaste que possible. Comme la série A est la série chronologique la plus longue, nous l’étendons à la série AB, définie comme suit :
 
-**Série AB** – pour les stations situées au nord de la COIV, en combinant les valeurs de la série B pour 1995 et 1996, fondées sur tous les hameçons, avec les valeurs de la série A pour la période allant de 1997 à 2017, fondées sur les 20 premiers hameçons seulement. Voir la section \@ref(sec:iphc-equations)
+**Série AB** – pour les stations situées au nord de la COIV, en combinant les valeurs de la série B pour 1995 et 1996, fondées sur tous les hameçons, avec les valeurs de la série A pour la période allant de 1997 à 2018, fondées sur les 20 premiers hameçons seulement. Voir la section \@ref(sec:iphc-equations)
 
 La série AB qui en résulte couvre les stations situées au nord de la COIV. Dans les sections \@ref(sec:iphc-AD) et \@ref(sec:iphc-BC), nous montrons comment nous déterminons, pour chaque espèce, si nous pouvons considérer cette série comme étant représentative de l’ensemble de la côte (c.-à-d. incluant la COIV), en comparant les séries qui excluent les stations situées au large de la COIV (séries A et B) avec celles qui incluent les stations situées au large de la COIV (séries C et D, respectivement).
 
@@ -283,7 +283,7 @@ knitr::include_graphics("figure/temp2/notscaled.png", dpi = NA)
 
 ### CONSTRUCTION DE LA SÉRIE AB
 
-Pour chaque espèce, nous souhaitons joindre les données de 1995 et 1996 de la série B (fondées sur tous les hameçons) aux données de 1997 à 2017 de la série A. Les données de 1995 et 1996 ne sont disponibles que sous forme du nombre d’individus capturés par tous les hameçons, et non du nombre d’individus capturés par les 20 premiers hameçons. Pour la période s’échelonnant entre 1997 et 2002 et pour 2013, nous ne disposons de chiffres que pour les 20 premiers hameçons. Cependant, à partir de 2003-2012 et 2014, nous disposons de données hameçon par hameçon, ce qui nous permet de calculer les taux de prises pour tous les hameçons ou sur la base des 20 premiers hameçons seulement (c’est-à-dire que ces années de chevauchement sont les seules années qui contribuent à la fois aux séries A et B).
+Pour chaque espèce, nous souhaitons joindre les données de 1995 et 1996 de la série B (fondées sur tous les hameçons) aux données de 1997 à 2018 de la série A. Les données de 1995 et 1996 ne sont disponibles que sous forme du nombre d’individus capturés par tous les hameçons, et non du nombre d’individus capturés par les 20 premiers hameçons. Pour la période s’échelonnant entre 1997 et 2002 et pour 2013, nous ne disposons de chiffres que pour les 20 premiers hameçons. Cependant, à partir de 2003-2012 et 2014, nous disposons de données hameçon par hameçon, ce qui nous permet de calculer les taux de prises pour tous les hameçons ou sur la base des 20 premiers hameçons seulement (c’est-à-dire que ces années de chevauchement sont les seules années qui contribuent à la fois aux séries A et B).
 
 Pour la série A, nous définissons $G_A$ comme étant la moyenne géométrique des moyennes annuelles autogénérées, la moyenne géométrique étant fondée uniquement sur les années de chevauchement (à partir de 2003-2012 et 2014). Nous utilisons les mêmes définitions $G_B$ pour la série B. En divisant les valeurs autogénérées de chaque série par leurs moyennes géométriques respectives, nous obtenons la figure \@ref(fig:iphc-ser-plots-2)a. Cela montre que les séries A et B remises à l’échelle sont très similaires pour les années qui se chevauchent. Ainsi, sur cette échelle, les valeurs de 1995 et 1996 de la série B semblent comparables aux données complètes de la série A.
 
