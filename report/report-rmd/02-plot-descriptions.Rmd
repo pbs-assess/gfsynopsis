@@ -14,7 +14,7 @@ checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
 ```
 
 In this section we provide complete captions for each of the
-visualizations that form the species-by-species figures in
+visualizations that form the species-by-species pages in
 Section \@ref(sec:synopsis-plots). We use `r sp` as an example species for all
 plots except for commercial catch per unit effort maps where we use Pacific Cod.
 
@@ -65,7 +65,7 @@ line (HBLL OUT) surveys (middle), and the IPHC FISS (right). Individual sets
 are shown in the two left panels as faint crosses (if the species was not
 caught in that set), or circles with the area of the circle proportional to the
 species density from the set. Colour shading indicates predictions from
-a spatial model that includes depth and depth squared as a predictor as well
+a spatial model that includes depth and depth squared as predictors as well
 as spatial random effects (Appendix \@ref(app:spatial-modeling)). The colour scale
 is fourth-root transformed to render a visual pattern similar to a log
 transformation without overemphasizing differences close to zero. The colour
@@ -145,10 +145,11 @@ discards are considered less reliable prior to 100% observer coverage in 1996
 and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl
 discards are less reliable prior to fisheries integration in 2006 and are
 therefore not included. Years before 1996 and 2006 are shaded
-grey to indicate that catches are considered less reliable than modern data. 
-Foreign catches recorded in our databases between 1977 and 1991
-Management areas, as indicated in the top left corner of each panel, are shown
-in Figure \@ref(fig:management-map).
+grey to indicate that catches are considered less reliable than modern data:
+an at-sea observer program was implemented for bottom and midwater trawl fleets 
+in outside waters in 1996 and an at-sea observer program was implemented for
+non-trawl sectors in 2006. Management areas, as indicated in the top left 
+corner of each panel, are shown in Figure \@ref(fig:management-map).
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
 g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Catch", french), " (t)"))
@@ -193,7 +194,7 @@ only shown in cases where there are at least 3 unique vessels in a given cell
 to meet privacy requirements. For bottom trawl, catch per unit effort is
 calculated as the weight of catch (landings plus discards) divided by hours
 fished for all positive tows from the groundfish trawl sector. Trawl data are
-shown from 2013 onwards when the trawl footprint was frozen. Trawl data from 2007--2012
+shown from 2013 onwards after the trawl footprint was frozen. Trawl data from 2007--2012
 are indicated as outlined light grey hexagons to illustrate fishing
 prior to the frozen footprint. For hook and line,
 catch per unit effort is shown as the number of fish recorded as landed or

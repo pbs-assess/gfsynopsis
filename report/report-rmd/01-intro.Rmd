@@ -16,9 +16,9 @@ trends, as well as data availability, for all major BC groundfish
 species of commercial and conservation interest. The report is an
 extension of the data scorecard concept discussed at a Canadian Science
 Advisory Secretariat (CSAS) Regional Peer Review Meeting in May 2016
-[@macdougall2016]. We intend to publish this report as a CSAS Research
-Document in its first year to facilitate review of the methods and to update
-the report annually or biennially (excluding any unchanged methods). The report
+[@macdougall2016]. The report is published here as a CSAS Research Document to 
+facilitate review of the methods, and we intend to update the report annually or
+biennially (excluding any unchanged methods). The report
 generation is fully automated --- pulling data from databases, fitting models,
 generating visualizations, and stitching the document together to facilitate
 rapid publication, reproducibility, and transparency.
@@ -325,14 +325,14 @@ details are described in Appendix \@ref(app:data).
 ## REPRODUCIBILITY
 
 All of the data extraction, data manipulation, model fitting, and visualization
-for this report is automated and reproducible. We developed the gfplot and
-gfsynopsis R packages for this purpose. The gfplot package enables the data
-extraction, model fitting, and visualizations. It is designed to be modular so
-it can be used in various capacities for other groundfish analyses (Figure
-\@ref(fig:gfplot-web)). The gfsynopsis package calls functions from the gfplot
-package to generate this report. Appendix \@ref(app:reproducibility) provides
-further details on these packages and on the computational environment needed to
-reproduce this report.
+for this report is automated and reproducible. We developed the gfdata, gfplot 
+and gfsynopsis R packages for this purpose. The gfplot package enables the data
+extraction. The gfplot package performs the model fitting and visualizations. 
+It is designed to be modular so it can be used in various capacities for other 
+groundfish analyses (Figure \@ref(fig:gfplot-web)). The gfsynopsis package calls
+functions from the gfplot package to generate this report. Appendix 
+\@ref(app:reproducibility) provides further details on these packages and on the
+computational environment needed to reproduce this report.
 
 <!-- I feel as tho there should be a small section introducing the R packages
 gfplot and gfsynopsis.  They get referred to in the first few sections of the
@@ -349,6 +349,6 @@ another year or two of data and any important corrections to the data, text, or
 visualizations. Data for each survey season will likely only be ready for
 publication in the report by fall of the following year. On a less frequent
 basis, we will consider making larger changes to the structure, methods, or
-content of the report.
+content of the report within the context of a CSAS reveiw process.
 
 \clearpage
