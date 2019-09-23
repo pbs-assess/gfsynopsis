@@ -34,7 +34,7 @@ Avec $W_i$ et $L_i$ représentant le poids et la longueur du poisson $i$ et $e_i
 \mathchardef\mhyphen="2D
 
 \begin{equation}
-  \log (W_i) \sim \mathrm{Student\mhyphen t} (df = 3, \log (\ln(a) + b L_i), \sigma)
+  \log (W_i) \sim \mathrm{Student\mhyphen t} (df = 3, \log(a) + b L_i, \sigma)
 \end{equation}
 
 en utilisant Template Model Builder [@kristensen2016], où $a$ et $b$ ont la même signification, $df$ représente les degrés de liberté, et $\sigma$ représente le paramètre d’échelle.
