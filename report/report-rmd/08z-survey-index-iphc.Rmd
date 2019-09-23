@@ -105,7 +105,7 @@ Year        Hooks enumerated         Data resolution   Location of data      WCV
 2003-2011   All                      Hook-by-hook      DFO database `GFBio`   Y
 2012        All (bait experiment)    Hook-by-hook      DFO database `GFBio`   Y
 2013        First 20 of each skate   Set-by-set        Spreadsheet^3^         Y
-2014-2017   All                      Hook-by-hook      DFO database `GFBio`   Y
+2014-2018   All                      Hook-by-hook      DFO database `GFBio`   Y
 -->
 
 \begin{table}[t]
@@ -137,7 +137,7 @@ Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
 2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
 2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
 2013 & First 20 of each skate & Set-by-set & Spreadsheet$^3$ & Y\\
-2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
+2014-2018 & All & Hook-by-hook & DFO database GFBio & Y\\
    \hline
 \end{tabular}
 \end{table}
@@ -153,9 +153,9 @@ one consecutive time series.
 1. For the datasets for 1995, 1996, 1997-2002 and 2013, data are only
 available at the set-by-set level, in terms of numbers of a given species per
 effective skate. Which species was caught on each hook is not available, unlike
-for 2003-2012 and 2014-2107. Thus, for 1995 and 1996 we cannot calculate catch rates
+for 2003-2012 and 2014-2018. Thus, for 1995 and 1996 we cannot calculate catch rates
 based on the first 20&nbsp;hooks (because we only have set-by-set level data),
-whereas we can do that for 2003-2012 and 2014-2017, and the 20-hook data is the only
+whereas we can do that for 2003-2012 and 2014-2018, and the 20-hook data is the only
 information we have for 1997-2002 and 2013.
 
 1. In 2012 a bait experiment was conducted such that data from all skates
@@ -177,8 +177,8 @@ based on.}
 \hline
  & Only north of WCVI & Full coast \\
 \hline
-First 20 hooks from each skate & {\bf A}(21) & {\bf D}(18)\\
-All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
+First 20 hooks from each skate & {\bf A}(22) & {\bf D}(19)\\
+All hooks from each skate & {\bf B}(17) & {\bf C}(15)\\
 \hline
 ~\\    % to add some whitespace before text carries on
 \end{tabular}
@@ -187,16 +187,16 @@ All hooks from each skate & {\bf B}(16) & {\bf C}(14)\\
 To address issues 1, 2 and 4 we therefore construct four time series (whose
 structure is summarised in Table \@ref(tab:seriesSumm)) for each species:
 
-**Series A** -- 1997-2017 stations north of WCVI, with catch rates based on
+**Series A** -- 1997-2018 stations north of WCVI, with catch rates based on
 first 20&nbsp;hooks only (which is all we have for 1997-2002 and 2013).
 
-**Series B** -- 1995, 1996, 2003-2012 and 2014-2017 stations north of WCVI, with
+**Series B** -- 1995, 1996, 2003-2012 and 2014-2018 stations north of WCVI, with
 catch rates based on all hooks (which is all we have for 1995 and 1996).
 
-**Series C** -- 2003-2012 and 2014-2017 stations coastwide (including WCVI), with
+**Series C** -- 2003-2012 and 2014-2018 stations coastwide (including WCVI), with
 catch rates based on all hooks.
 
-**Series D** -- 1999 and 2001-2017 stations coastwide (including WCVI), with
+**Series D** -- 1999 and 2001-2018 stations coastwide (including WCVI), with
 catch rates based on first 20&nbsp;hooks only (which is all we have for 1999,
 2001-2002 and 2013).
 
@@ -205,7 +205,7 @@ and, ideally, over as broad a geographic region as possible. Since Series&nbsp;A
 the longest time series, we take this and expand it to Series&nbsp;AB, defined as:
 
 **Series AB** -- for stations north of WCVI, combine the 1995 and 1996 values
-from Series B, based on all hooks, with the 1997-2017 values from Series A that
+from Series B, based on all hooks, with the 1997-2018 values from Series A that
 are based on first 20 hooks only. See Section&nbsp;\@ref(sec:iphc-equations).
 
 The resulting Series&nbsp;AB covers the stations north of WCVI. In
@@ -466,7 +466,7 @@ knitr::include_graphics("figure/temp2/notscaled.png", dpi = NA)
 ### CONSTRUCTING SERIES AB
 
 For each species, we wish to join up the 1995 and 1996 data from Series&nbsp;B (based on all
-hooks) to the 1997-2017 data from Series&nbsp;A.
+hooks) to the 1997-2018 data from Series&nbsp;A.
 The 1995 and 1996 data are only available as numbers
 of individuals caught for all hooks, and not as numbers caught in the first 20
 hooks. For 1997-2002 and 2013 we only have numbers caught for the
