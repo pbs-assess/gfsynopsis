@@ -813,8 +813,8 @@ hook competition is to be considered it needs to be carefully implemented.
 ```{r iphc-hook-with-bait, warning=FALSE, width=5, height=6, fig.cap="Histograms of number of hooks returned with baits in each set for each year in which all hooks were enumerated.", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it) ) +
-    xlab("Number of hooks returned each year") +
-    ylab("Frequency") +
+    xlab("Number of hooks returned with bait in each set") +
+    ylab("Frequency (number of sets)") +
     geom_histogram() +
     facet_wrap(. ~ year, ncol=4)
 ```
@@ -822,8 +822,8 @@ ggplot(data=bait_set_counts,
 ```{r iphc-hook-with-bait-twenty, warning=FALSE, width=5, fig.cap="Histograms of number of hooks out of the first 20 of each skate that were returned with bait for each year (except 1995 and 1996 for which this cannot be calculated).", fig.pos="tbp"}
 ggplot(data=bait_set_counts,
        aes(N_it20)) +
-    xlab("Number of hooks returned each year") +
-    ylab("Frequency") +
+    xlab("Number of hooks returned with bait in each set") +
+    ylab("Frequency (number of sets)") +
     geom_histogram() +
     facet_wrap(. ~ year, ncol=4)
 # be good to have the 20 hook ones in different colour, or just do all N_it20 except for 1995 and 1996
