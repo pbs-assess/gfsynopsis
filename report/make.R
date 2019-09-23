@@ -155,7 +155,8 @@ out <- future.apply::future_lapply(which(missing), function(i) {
       RColorBrewer::brewer.pal(8L, "Set1")[7:8],
       "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
   )
-}, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc"))
+}, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
+  "magrittr",  "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
 # })
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
