@@ -1,5 +1,5 @@
 # A one-off script from 2019-09-17 to just extract the necessary data
-# and substituted into the previous extraction for speed.
+# and substitute it into the previous extraction for speed.
 
 library(here)
 library(dplyr)
@@ -52,6 +52,21 @@ get_data_2019_09_23 <- function(type = c("A", "B"), path = "commercial-samples")
   }
 }
 
+get_data_2019_09_23_insert <- function(type = c("A", "B")) {
+  .d <- gfsynopsis::get_spp_names()
+  .d <- .d[.d$type %in% type, , drop = FALSE]
+  for (i in seq_along(.d$species_code)) {
+    message(.d$spp_w_hyphens[i])
+    this_sp_clean <- gsub("/", "-", gsub(" ", "-", .d$spp_w_hyphens[i]))
+    d_old <- readRDS(paste0("/Volumes/Extreme-SSD/gfs/report/data-cache/", this_sp_clean, ".rds"))
+    x <- readRDS(paste0("~/Downloads/commercial-samples/", this_sp_clean, ".rds"))
+    d_old$commercial_samples <- NULL
+    d_old$commercial_samples <- x
+    saveRDS(d_old, file =
+        paste0(file.path("/Volumes/Extreme-SSD/gfs/report/data-cache", this_sp_clean), ".rds"),
+      compress = FALSE)
+  }
+}
 
 cache_pbs_data_20190917 <- function(species, file_name = NULL, path = ".",
   compress = FALSE, unsorted_only = TRUE, historical_cpue = FALSE,
