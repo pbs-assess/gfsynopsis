@@ -11,6 +11,7 @@ address: |
   Nanaimo, British Columbia, V9T 6N7, Canada
 year: "2019"
 report_number: "041"
+citation_other_language: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2019. Synthèse des données reproductibles pour plus de 100 espèces de poissons de fond de la Colombie-Britannique. Secr. can. de consult. sci. du MPO. Doc. de rech. 2019/041. vii + 333 p."
 abstract: |
   The combination of fishery-dependent data, such as catch and effort, and
   fishery-independent survey data, such as biomass indices and age
@@ -34,7 +35,6 @@ abstract: |
   management-procedure framework for groundfish stocks; and (3) to increase
   data transparency between Fisheries and Oceans Canada, the fishing industry,
   non-governmental organizations, and the public.
-  
 output:
  csasdown::resdoc_pdf:
    french: false
