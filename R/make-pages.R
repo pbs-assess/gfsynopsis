@@ -770,7 +770,7 @@ make_pages <- function(
 
   # an internal IPHC function:
   iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
-    final_year = 2017)
+    final_year = 2018)
   iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
   iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
     iphc_map_dat$combined)
