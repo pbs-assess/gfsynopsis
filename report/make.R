@@ -165,6 +165,7 @@ g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
 saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
 saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
 if (file.exists("report/report-rmd-fr/ggplot-objects")) {
+  g_alt <- readRDS("report/report-rmd-fr/ggplot-objects/pacific-cod.rds")
   saveRDS(g_alt$cpue_spatial, file = "report/report-rmd-fr/ggplot-objects/pacific-cod-cpue-spatial.rds")
   saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd-fr/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
 }
