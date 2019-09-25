@@ -34,11 +34,6 @@ linkcolor: "black"
 urlcolor: "black"
 ---
 
-<!-- New concepts, methodology, and topical or controversial subjects. Rapid
-communications are less than 2500 words in text with a maximum of 12 –15
-references and a total of 2 figures and/or tables. The abstract for rapid
-communication should not exceed 100 words. -->
-
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(knitr)
 library(here)
