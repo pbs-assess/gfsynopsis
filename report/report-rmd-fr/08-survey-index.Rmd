@@ -28,7 +28,7 @@ Les documents suivants fournissent des précisions sur la conception des divers 
 
 1. Relevé synoptique, côte ouest de Haida Gwaii (SYN COHG) : @williams2018synwchg
 
-1. Relevé à la palangre sur fond dur dans les eaux extérieures (RPFD EXT) : @dfo2018ifmp
+1. Relevé à la palangre sur fond dur dans les eaux extérieures (RPFD EXT) : @doherty2019hbllout
 
 1. Relevé à la palangre sur fond dur dans les eaux intérieures (RPFD INT) : @lochead2007irf
 

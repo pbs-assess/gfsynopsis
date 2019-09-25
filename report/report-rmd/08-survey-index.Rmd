@@ -78,7 +78,7 @@ found in the following documents:
 
 1. Synoptic Survey, West Coast Haida Gwaii (SYN WCHG): @williams2018synwchg
 
-1. Hard Bottom Longline Survey, Outside (HBLL OUT): @dfo2018ifmp
+1. Hard Bottom Longline Survey, Outside (HBLL OUT): @doherty2019hbllout
 
 1. Hard Bottom Longline Survey, Inside (HBLL INS): @lochead2007irf
 
