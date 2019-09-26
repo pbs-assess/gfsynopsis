@@ -288,9 +288,9 @@ There are many caveats when interpreting this report.
    all species.
 
 1. The catch history reported here reflects recorded data and may not represent
-   actual catches. Alternative hypotheses for catch history are possible. The
+   actual catches. The
    commercial catch presented here will not necessarily match reconstructed time
-   series in stock assessments. Historic catch reconstructions require careful
+   series in stock assessments. Historical catch reconstructions require careful
    species-specific consideration and analysis. Furthermore, fluctuations in
    commercial catch, for example recent declines in species catch for Bocaccio
    and Yelloweye Rockfish, do not necessarily reflect declines in stock
@@ -326,20 +326,13 @@ details are described in Appendix \@ref(app:data).
 
 All of the data extraction, data manipulation, model fitting, and visualization
 for this report is automated and reproducible. We developed the gfdata, gfplot 
-and gfsynopsis R packages for this purpose. The gfplot package enables the data
+and gfsynopsis R packages for this purpose. The gfdata package enables the data
 extraction. The gfplot package performs the model fitting and visualizations. 
 It is designed to be modular so it can be used in various capacities for other 
 groundfish analyses (Figure \@ref(fig:gfplot-web)). The gfsynopsis package calls
-functions from the gfplot package to generate this report. Appendix 
+functions from the gfplot and gfdata packages to generate this report. Appendix 
 \@ref(app:reproducibility) provides further details on these packages and on the
 computational environment needed to reproduce this report.
-
-<!-- I feel as tho there should be a small section introducing the R packages
-gfplot and gfsynopsis.  They get referred to in the first few sections of the
-report and the naive reader will have no idea why or what they are for.
-Certainly the details and function inventory can be delayed to later in the
-report, but since the real gems behind this effort are the R packages they
-deserve a little air time early on to tease the reader. -->
 
 ## UPDATE SCHEDULE
 
