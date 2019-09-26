@@ -1,6 +1,5 @@
 ---
 title: |
-   Reproducible visualization of all fisheries and survey data improves transparency, assessment efficiency, and monitoring;
    Reproducible large-scale visualization of fisheries data improves transparency, assessment efficiency, and monitoring
 author: |
   Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3,4^\
@@ -41,6 +40,8 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 ```
 
 <!-- Possible alternative titles: -->
+
+   <!-- Reproducible visualization of all fisheries and survey data improves transparency, assessment efficiency, and monitoring; -->
 
 <!-- 1. Modern computational tools facilitate transparent presentation of -->
 <!--      monitoring data: an example with over 100 Pacific Canadian groundfish -->
@@ -196,14 +197,18 @@ and presented faithfully.
 # Results
 
 The report includes two pages of visualization for 113 species of BC groundfish
-and sharks [@anderson2019synopsis]. Figs.\ 1 and 2 show the pages for an
-example species. The species covered in the report include: 34 rockfish
+and sharks [@anderson2019synopsis]. Figs.\ \@ref(fig:page1) and \@ref(fig:page2) 
+show the pages for an
+example species and Fig.\ \@ref(fig:multi) 
+illustrates the consistent structure across species. 
+The species covered in the report include: 34 rockfish
 species; 16 elasmobranch species and one chimaera species; 15 flatfish species;
 nine gadiform species (cods); 16 sculpin and poacher species; three
 greenling/lingcod species; six eelpout species, three prickleback species, and
 seven other perciform species; and one species each of smelt, sablefish and
 snailfish. The visualizations for many data-limited species include mostly
-empty plots, which graphically emphasize the lack of data. This effectively
+empty plots, which graphically emphasize the lack of data (Fig.\ \@ref(fig:multi), last row). 
+This effectively
 turns unknown unknowns about a given species [@wintle2010] into *known*
 unknowns. For data-rich species, nearly all data available are visualized
 together on two pages for the first time.
@@ -299,7 +304,7 @@ public, commercial, or not-for-profit sectors.
 # Figure captions
 
 Fig.\ \@ref(fig:page1):
-Example first page for Pacific cod (\emph{Gadus macrocephalus})
+Example first page for Silvergray Rockfish (\emph{Sebastes brevispinis})
 featuring metadata and temporal and spatial trends from fisheries-independent
 surveys and commercial catch and effort data in British Columbia, Canada. (Top
 row) Relative biomass indices from up to ten surveys, commercial catch in each
@@ -312,19 +317,26 @@ left); commercial trawl (second from right) and hook and line (right; H \& L)
 CPUE.
 
 Fig.\ \@ref(fig:page2):
-Example first page for Pacific cod (\emph{Gadus macrocephalus})
-featuring metadata and temporal and spatial trends from fisheries-independent
-surveys and commercial catch and effort data in British Columbia, Canada. (Top
-row) Relative biomass indices from up to ten surveys, commercial catch in each
-geographical region (panels) and gear type (colour), and standardized (solid
-line) and unstandardized (dashed line) commercial bottom catch per unit effort
-(CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl
-surveys (left), two hard bottom long line surveys (second from left), and the
-International Pacific Halibut Commission (IPHC) setline survey (third from
-left); commercial trawl (second from right) and hook and line (right; H \& L)
-CPUE.
+Example second page for Silvergray Rockfish (\emph{Sebastes brevispinis})
+featuring biological sample, maturity, and growth data in British Columbia,	
+Canada. (Top left) Length frequencies by year and survey for females (coloured)	
+and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model	
+fits. (Second row) Age frequencies by year and survey. (Third row)	
+Age-at-maturity and length-at-maturity model fits and frequency of maturity	
+stage by month. (Bottom row) Counts of available fish lengths, weights,	
+maturities, ages, and ageing structures from all available survey and commercial	
+samples.
 
-<!-- pcod, redbanded, rougheye? -->
+Fig.\ \@ref(fig:multi):
+A consistent layout across species enables rapid comprehension of data,
+comparison across species, and highlights missing data (blank panels).
+Some missing data are due to a lack of sampling or aging for a given species
+and others are because a given species is more susceptible to trawl or
+longline survey gear.
+Shown here from top to bottom are
+Canary Rockfish (\emph{Sebastes pinniger}), 
+Petrale Sole (\emph{Eopsetta jordani}), and 
+Sand Sole (\emph{Psettichthys melanostictus}).
 
 \clearpage
 
@@ -332,16 +344,27 @@ CPUE.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13.2cm]{fig1-pcod-no-sar.png}
+\includegraphics[width=12.5cm]{pages/silvergray-rockfish-1.png}
 \caption{}
 \label{fig:page1}
 \end{figure}
 
+\clearpage
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=13.2cm]{fig2-pcod.png}
+\includegraphics[width=12.5cm]{pages/silvergray-rockfish-2.png}
 \caption{}
 \label{fig:page2}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[height=12cm]{fig3.png}
+\caption{}
+\label{fig:multi}
 \end{figure}
 
 \clearpage
