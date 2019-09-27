@@ -1,0 +1,5 @@
+Modern survey and fishery observation programs generate large quantities of data.
+However, much of those data often remain unseen.
+We describe an automated visualization approach for over 100 groundfish species.
+The approach aides monitoring, stock-assessment prioritization, and data review.
+We encourage others to consider similar approaches for their own data.
