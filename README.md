@@ -1,9 +1,10 @@
 # gfsynopsis: An R package for generating an annual data synopsis report for groundfish
 
-## Download the latest draft:
+-----------------
 
-**[English [PDF]](https://www.dropbox.com/s/wdh8cyxcmrm4w43/pbs-gf-synopsis-2019-09-26.pdf?dl=1)**\
-**[French [PDF]](https://www.dropbox.com/s/tn00y46q8yeofp8/pbs-gf-synopsis-2019-09-26-french.pdf?dl=1)**
+### Download the latest draft: **[English [PDF]](https://www.dropbox.com/s/wdh8cyxcmrm4w43/pbs-gf-synopsis-2019-09-26.pdf?dl=1)** | **[French [PDF]](https://www.dropbox.com/s/tn00y46q8yeofp8/pbs-gf-synopsis-2019-09-26-french.pdf?dl=1)**
+
+-----------------
 
 <img src="report/silvergray.jpg" alt="Silver Gray Rockfish Example" width="750" height="478.5">
 
