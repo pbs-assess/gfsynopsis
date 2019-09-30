@@ -1,6 +1,9 @@
 # gfsynopsis: An R package for generating an annual data synopsis report for groundfish
 
-## **[Download the latest draft [PDF]](http://bit.ly/gfsynopsis-2019-03-18)**
+## Download the latest draft:
+
+**[English [PDF]](https://www.dropbox.com/s/wdh8cyxcmrm4w43/pbs-gf-synopsis-2019-09-26.pdf?dl=1)**\
+**[French [PDF]](https://www.dropbox.com/s/tn00y46q8yeofp8/pbs-gf-synopsis-2019-09-26-french.pdf?dl=1)**
 
 <img src="report/silvergray.jpg" alt="Silver Gray Rockfish Example" width="750" height="478.5">
 
@@ -8,17 +11,18 @@ This package uses the data extraction, data tidying, model fitting, and plotting
 
 # Building the document
 
+*The following is for internal use only. You need to be on our network to have access to our databases.*
+
 1. Install gfsynopsis and csasdown:
 
 ```r
 # install.packages("devtools")
 devtools::install_github("pbs-assess/gfsynopsis", dependencies = TRUE)
-devtools::install_github("pbs-assess/csasdown")
 ```
 
 2. Clone or download the gfsynopsis GitHub repository.
 
-3. **On the Pacific Biological Station network** and with the R working directory set to the root folder of the project (e.g. open the RStudio `gfsynopsis.Rproj` file), install any missing packages used in `report/make.R` and run:
+3. **On the Pacific Biological Station network** and with the R working directory set to the root folder of the project (e.g., open the RStudio `gfsynopsis.Rproj` file), install any missing packages used in `report/make.R` and run:
 
 ```r
 source("report/make.R")
