@@ -93,7 +93,7 @@ devtools::session_info()$packages %>%
 
 ```{r gfplot-web, fig.cap="Une illustration des fonctions gfplot et de la manière dont elles interagissent. Les fonctions \\texttt{get} extraient les données brutes des bases de données relationnelles, \\texttt{tidy} et les fonctions \\texttt{fit} manipulent les données ou ajustent les modèles statistiques, et les fonctions \\texttt{plot} produisent les extrants des fonctions de nettoyage ou d’ajustement pour produire des visualisations.", out.width="4.2in"}
 knitr::include_graphics(here::here("report", "report-rmd", "figure",
-    "function-web.pdf"), dpi = NA)
+    "function-web.png"), dpi = NA)
 ```
 
 \clearpage
