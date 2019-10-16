@@ -603,6 +603,9 @@ make_pages <- function(
     }
   }
   if (spp == "spotted ratfish") type <- "none" # FIXME almost none; way off
+  if (spp == "tope shark") type <- "none" # FIXME almost none; way off
+  if (spp == "stripetail rockfish") type <- "none" # FIXME almost none; way off
+  if (spp == "curlfin sole") type <- "none" # FIXME almost none; way off
 
   if (length(mat_length) > 1L && type != "none") {
    g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
