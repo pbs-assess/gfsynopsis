@@ -41,6 +41,7 @@ output:
 region: "Pacific Region"
 header: ""
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
+latex_engine: xelatex
 # ------------
 # End of options to set
 knit: bookdown::render_book
