@@ -182,10 +182,10 @@ knitr::kable(
   col.names = c("Benefit", "Example"),
   booktabs = TRUE,
   linesep = "\\addlinespace",
-  caption = "Benefits and examples of those benefits for mass consistent-format data visualization of raw fisheries data."
+  caption = "Benefits and examples of those benefits for mass-scale consistent-format data visualization of raw fisheries data."
 ) %>% 
-  kableExtra::column_spec(1, width = "8cm") %>% 
-  kableExtra::column_spec(2, width = "8cm")
+  kableExtra::column_spec(1, width = "7cm") %>% 
+  kableExtra::column_spec(2, width = "9cm")
 ```
 
 <!-- Paragraph 4: The importance of data extraction automation and databases. -->
