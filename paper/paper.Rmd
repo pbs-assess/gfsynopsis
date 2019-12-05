@@ -139,6 +139,17 @@ Our implementation of this report includes two pages of visualization for 113 sp
 We have described an automated large-scale visualization approach implemented as a report that presents up-to-date population trends and biological data from commercial fisheries and research surveys. Stock assessments are not available for most of these species, and are not available every year for most that are assessed, which has limited the dissemination of these data in the past. Our approach facilitates the broad monitoring of groundfish populations---it ensures groundfish scientists, managers, and interested parties have access to consistent, up-to-date, and easily digestible visualizations of data holdings. The approach increases transparency, provides a mechanism for regular review of data for indication of surprises by relevant parties, and facilitates discussions concerning stock-assessment and survey-program prioritization.
 
 <!-- Paragraph 2: How this is fundamentally new and different from other approaches. -->
+<!-- Challenge: distinguishing this from the similar paragraph in the introduction -->
+
+<!-- Many fisheries management agencies around the world have some form of reports or websites where fisheries data are visualized; however, we contend that there are many advantages to also considering the type of approach described here. -->
+<!-- First, existing fisheries data syntheses mostly focus on summarizing stock status not on the raw data itself. -->
+<!-- While this is undoubtedly important, it misses out on  -->
+
+<!-- First, our approach emphasizes making nearly all data for anyone species viewable at once. -->
+
+<!-- Undoubtedly many government agencies have internal tools (e.g. R packages) for extracting and plotting raw data and while this is important it misses out on the value of also having all that data already plotted and available for quick comparison by all interested parties. -->
+
+<!-- Any one of the plots on a given page for one species may be considered conventional, but it is the combination of all plots arranged to fit in a tight space and in the same arrangement for all species that makes the sum greater than the parts. For example, we enable viewing up to 10 survey indices simultaneously while comparing these to commercial catch and catch per unit effort. Spatial and temporal survey patterns are also plotted on the same page. -->
 
 * first to get all data for each species viewable at once
 * first to our knowledge to combine fisheries dependent and independent
@@ -148,23 +159,38 @@ We have described an automated large-scale visualization approach implemented as
 * any one of the plots is conventional but the combination of all plots in such a tight space makes the sum greater than the parts: the data-to-ink ratio (REF Tufte) is high having all the plot types together enables comparison (e.g., up to 10 survey indices beside commercial catch and catch per unit effort). Length and age compositions for all surveys plotted together. Spatial and temporal survey patterns on the same page.
 
 <!-- Paragraph 3: Ways in which this approach has proven useful. -->
-Already we have found this formative report immensely useful...
-<!-- * refer to table? -->
+Internally, the approach we describe in this paper has provided many benefits that we imagine would extend to any agency taking a similar approach (Table \@ref(tab:benefits)).
+<!-- TODO: I wrote this before making the table; either cut this or tailor it to the table; and think about the examples -->
+First, the report has become an indispensable tool for developing operating models when implementing a management procedure approach to fisheries management for data-limited stocks.
+The report gives analysts a quick overview of available data types and quantities and therefore what management procedures are possible for a given stock.
+Second, the approach has helped us identify numerous anomalies in our databases.
+For example, we noticed that 2009 was consistently a low index year in one of our longline surveys and discovered that the survey design was not followed precisely that year but this information had been lost to current stock assessment scientists. 
+We have also discovered numerous instances of incorrect  units used for data entry (e.g., fish lengths entered as mm instead of cm).
+Third, the ease with which we can skim survey indices and length/age composition data has enabled us to detect notable changes quickly.
+For instance, immediately after the 2019 survey data were entered, we regenerated the report and skimmed survey indices for any major changes noting a rapid decline in Arrowtooth Flounder indices in some regions, early signs of recovery of Boccacio.
 
-* Has made sure that we are regularly skimming survey indices and length composition data for any notable changes.
-  * Immediately after the 2019 survey data were entered, we regenerated the report and skimmed the survey indices for any major changes.
-  * E.g. noticed to survey trends for Arrowtooth Flounder, Boccacio, ...
-* It is help us identify data anomalies thereby assisting with quality control.
-  * For example, we noticed that 2009 was consistently a low year in one of our longline surveys and we discovered that the survey design was not followed exactly that year, but this information had been lost to current stock assessment scientists.
-  * For example, notice numerous instances of incorrect fish length units (e.g. entered as mm instead of cm).
-* Has been an indispensable tool for development of a framework for implementing management procedures for data-limited stocks.
-  * Gives us a quick overview of what datatypes are available and and what quantities for what stocks and therefore what management procedures are possible and guides us in conditioning the operating models.
-  * The R tools developed allow us to go straight from databases to operating model development.
+```{r benefits, results='asis', message=FALSE, warning=FALSE}
+library(magrittr)
+dt <- readr::read_csv(here::here("paper", "benefits-table.csv")) %>% 
+  dplyr::filter(!is.na(Example)) %>% 
+  dplyr::mutate(Benefit = ifelse(is.na(Benefit), "", Benefit)) %>% 
+  dplyr::mutate(Example = ifelse(is.na(Example), "", Example)) %>% 
+  dplyr::mutate(Example = gsub("\\.$", "", Example)) %>% 
+  dplyr::mutate(Benefit = gsub("\\.$", "", Benefit))
+knitr::kable(
+  dt,
+  col.names = c("Benefit", "Example"),
+  booktabs = TRUE,
+  linesep = "\\addlinespace",
+  caption = "Benefits and examples of those benefits for mass consistent-format data visualization of raw fisheries data."
+) %>% 
+  kableExtra::column_spec(1, width = "8cm") %>% 
+  kableExtra::column_spec(2, width = "8cm")
+```
 
 <!-- Paragraph 4: The importance of data extraction automation and databases. -->
 <!-- AK: Moreover, you did not pound on the functions as a building block for "rapid prototyping" of assessments in conjunction with something like DLMtool.  Nothing about extensibility -->
 <!-- AK: "living with the legacy of historical databases does not mean that entirely new, and costly databases must be built".  "Instead, data manipulation tools can produce reproducible and accessible extractions that ease the burden on analyst, and reduce the error rates inherent in filtering data from complex relational databases".  This means "that multi-regional reporting using different database structures can be achieved with data tools rather than comprehensive, costly and time-delayed super-database development".   -->
-<!-- TODO: Likely introduce a table. -->
 <!-- TODO: change the focus of this paragraph into living with a legacy of historical databases without the need to create a convoluted monolithic database -->
 The production of our groundfish report is automated---from data extraction to report generation. This is only possible because of the carefully organized and maintained relational databases housing DFO groundfish commercial and survey data. This report and its data-to-document workflow demonstrate the value of investing in the development and ongoing maintenance of organized databases for any agency collecting and housing large quantities of data [e.g. @michener2012]. Knowledge of, and accessibility to, available data within an agency is fundamentally important. The functions we created to extract groundfish data for the report are available within our organization for those requiring access to the databases, and facilitate internally reviewed, standardized, and consistent data extraction methods.
 
