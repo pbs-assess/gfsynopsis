@@ -1,4 +1,4 @@
-# gfsynopsis: An annual data synopsis report for British Columbia groundfish
+# A reproducible data synopsis report for over 100 species of British Columbia groundfish
 
 -----------------
 
