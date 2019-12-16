@@ -1,4 +1,4 @@
-# gfsynopsis: An R package for generating an annual data synopsis report for groundfish
+# gfsynopsis: An annual data synopsis report for British Columbia groundfish
 
 -----------------
 
