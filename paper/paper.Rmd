@@ -160,7 +160,7 @@ if several people independently extract data on the same species---having a
 single go-to report (as a .pdf file) is fast and efficient.
 In terms of format, the individual plots that make up our two-page species summaries are based on standard visualizations often seen scattered throughout stock assessments.
 However, we contend this is a case where "the whole is greater than the sum of its parts"---having such a variety of plot types in close proximity enables comparison and a rapid understanding of any stock (assessed or unassessed) and its data availability in a way that is not otherwise possible.
-For example, in our case, up to ten survey indices can be compared amongst themselves and with commercial catch-per-unit effort, length and age composition patterns are plotted for all surveys together, and spatial and temporal survey patterns can be considered simultaneously.
+As examples, in our case, up to ten survey indices can be compared amongst themselves and with commercial CPUE, length and age composition patterns are plotted for all surveys together, and spatial and temporal survey patterns can be considered simultaneously.
 It is easy to gloss over the sheer volume of types and quantities of data displayed in such a small space [the "data-to-ink" ratio; @tufte2001].
 
 <!-- Paragraph 3: Specific ways in which this approach has proven useful. -->
