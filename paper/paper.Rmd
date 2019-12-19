@@ -265,7 +265,8 @@ knitr::kable(
 comparison across species, and highlights missing data (blank panels). Some
 missing data are due to a lack of sampling or aging for a given species and
 others are because a given species is more susceptible to trawl or longline
-survey gear. Shown here from top to bottom are Canary Rockfish (\emph{Sebastes
+survey gear. Shown here from top to bottom are three species in decreasing order
+of data richness: Canary Rockfish (\emph{Sebastes
 pinniger}), Petrale Sole (\emph{Eopsetta jordani}), and Sand Sole
 (\emph{Psettichthys melanostictus}).}
 \label{fig:multi}
