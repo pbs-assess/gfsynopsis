@@ -209,6 +209,7 @@ dt <- readr::read_csv(here::here("paper", "benefits-table.csv")) %>%
   dplyr::mutate(Benefit = gsub("\\.$", "", Benefit))
 knitr::kable(
   dt,
+  format = "markdown",
   col.names = c("Benefit", "Example"),
   booktabs = TRUE,
   linesep = "\\addlinespace",
