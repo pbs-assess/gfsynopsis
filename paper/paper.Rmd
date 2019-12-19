@@ -162,6 +162,7 @@ In terms of format, the individual plots that make up our two-page species summa
 However, we contend this is a case where "the whole is greater than the sum of its parts"---having such a variety of plot types in close proximity enables comparison and a rapid understanding of any stock (assessed or unassessed) and its data availability in a way that is not otherwise possible.
 As examples, in our case, up to ten survey indices can be compared amongst themselves and with commercial CPUE, length and age composition patterns are plotted for all surveys together, and spatial and temporal survey patterns can be considered simultaneously.
 It is easy to gloss over the sheer volume of types and quantities of data displayed in such a small space [the "data-to-ink" ratio; @tufte2001].
+TODO: AE: Agree with that sentence, but the point isn't clear.
 
 <!-- Paragraph 3: Specific ways in which this approach has proven useful. -->
 Internally, the approach we describe here provides many benefits that we imagine would extend to any agency taking a similar approach (Table \@ref(tab:benefits)).
