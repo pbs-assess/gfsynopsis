@@ -44,7 +44,8 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 # Abstract {-}
 
 Modern survey and fishery observation programs generate vast quantities of data. However, regulatory agencies often lack the capacity to translate that data into effective monitoring information. Here, we describe an approach of automated large-scale fisheries data visualization and demonstrate it with a report on fisheries data for 113 groundfish species in Pacific Canadian waters. Our implementation includes standardized visualizations of temporal trends and spatial distributions of commercial catches and survey indices, plus analyses of ages, lengths, maturity, and growth all on two pages per species. The approach facilitates discussions on stock-assessment and survey prioritization, increases transparency about data holdings, and makes the data available for regular review by interested parties. We encourage others to consider similar approaches for their own data.
-<!-- Can we say "raw" data here and throughout the paper given the modelling done for the spatial data? -->
+<!-- EK: Can we say "raw" data here and throughout the paper given the modelling done for the spatial data? -->
+<!-- SA: to distinguish this from what else has been done, yes, I think we can use the word "raw". Nearly everything else is summarizing stock assessment output. Even the input to stock assessments often has gone through similar spatial modelling. However, I don't think we need to insert the word "raw" everywhere or it will get a bit overused. There could be a few more places to insert it. -->
 Keywords:
 automation; fisheries monitoring; groundfish; reproducible research; visualization
 
