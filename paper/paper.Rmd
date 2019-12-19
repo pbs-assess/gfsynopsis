@@ -166,7 +166,7 @@ It is easy to gloss over the sheer volume of types and quantities of data displa
 TODO: AE: Agree with that sentence, but the point isn't clear.
 
 <!-- Paragraph 3: Specific ways in which this approach has proven useful. -->
-Internally, the approach we describe here provides many benefits that we imagine would extend to any agency taking a similar approach (Table \@ref(tab:benefits)).
+Internally, the approach we describe here provides many features and resulting benefits that we imagine would extend to any agency taking a similar approach (Table \@ref(tab:benefits)).
 Specifically within our region, as one example, the report has become an indispensable tool for developing operating models when implementing a management procedure approach to fisheries management [e.g., @butterworth1999] for data-limited groundfish stocks.
 The report gives analysts a quick overview of available data types and quantities and therefore what management procedures are possible for a given stock.
 Second, the approach has helped analysts identify numerous anomalies in our databases.
