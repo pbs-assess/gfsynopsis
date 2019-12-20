@@ -74,8 +74,8 @@ Automated visualization and reporting is one solution to these problems. Data vi
 A number of governmental agencies have developed visualization reports or websites featuring fisheries data.
 For example, @ices2019 maintains a website visualizing the data in their ICES Stock Assessment Database from 2014 onwards (<http://standardgraphs.ices.dk>).
 The site includes plots of catches, recruitment, fishing mortality, spawning stock biomass, and status with respect to reference points for stocks.
-The Australian government agency maintains the "Status of Australian Fish Stocks Reports", which have visualized recent catches, stock status, and reported distribution of 120 species since 2012 (<https://www.fish.gov.au/>).
-In the United States, where species are assessed and reviewed by eight regional fisheries management councils within the National Marine Fisheries Service (NMFS), no publicly available common set of data visualizations exist, although a variety of graphics are published in stock assessments, ecosystem indicators are visualized in Regional Ecosystem Status Reports (<https://www.integratedecosystemassessment.noaa.gov/>), and graphical tools exist for specific purposes such as visualizing groundfish distributions in Alaska [@barbeaux2018].
+The Australian government agency maintains the "Status of Australian Fish Stocks Reports", which have visualized recent catches, stock status, and reported distribution of 120 species since 2012 (<https://www.fish.gov.au>).
+In the United States, where species are assessed and reviewed by eight regional fisheries management councils within the National Marine Fisheries Service (NMFS), no publicly available common set of data visualizations exist, although a variety of graphics are published in stock assessments, ecosystem indicators are visualized in Regional Ecosystem Status Reports (<https://www.integratedecosystemassessment.noaa.gov>), and graphical tools exist for specific purposes such as visualizing groundfish distributions in Alaska [@barbeaux2018].
 In Canada, examples include @ricard2013---a report summarizing Fisheries and Oceans Canada (DFO) survey data for marine fish and invertebrates on the East Coast Scotian Shelf and Bay of Fundy.
 <!-- ---and the Pacific Salmon Explorer---an ambitious interactive data visualization maintained by the Pacific Salmon Foundation (<https://www.salmonexplorer.ca/>). -->
 
@@ -106,7 +106,7 @@ What is the one place someone can go to see all the available fisheries dependen
 <!-- West Coast: https://www.integratedecosystemassessment.noaa.gov/sites/default/files/2019-04/CCIEA%202019%20ESR%20508.pdf -->
 
 <!-- Paragraph 5: Introduce what we do here. -->
-To address this gap, here we make the case for mass-scale consistent-format visualization of raw fisheries data. We demonstrate the concept through a report focussing on 113 groundfish species on the west coast of Canada [@anderson2019synopsis].
+To address this gap, here we make the case for multi-species consistent-format visualization of raw fisheries data. We demonstrate the concept through a report focussing on 113 groundfish species on the west coast of Canada [@anderson2019synopsis].
 In this region, the commercial groundfish fleet is subject to 100% on-board and dockside monitoring, while numerous fisheries-independent trawl and longline surveys are conducted annually, producing large quantities of valuable data [@stanley2015].
 At the same time, assessment scientists face limitations in personnel and time.
 As a result, most stocks are not regularly examined through stock assessment, leaving the majority of monitoring data unreported.
