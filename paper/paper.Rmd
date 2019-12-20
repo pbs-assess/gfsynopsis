@@ -230,8 +230,8 @@ knitr::kable(
   linesep = "\\addlinespace",
   caption = "Features and examples of their benefits for multi-species consistent-format visualization of raw fisheries data."
 ) %>%
-  kableExtra::column_spec(1, width = "5.7cm") %>%
-  kableExtra::column_spec(2, width = "10cm")
+  kableExtra::column_spec(1, width = "6.2cm") %>%
+  kableExtra::column_spec(2, width = "9.7cm")
 ```
 
 \clearpage
