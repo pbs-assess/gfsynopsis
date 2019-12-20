@@ -23,6 +23,7 @@ output:
 fontfamily: libertine
 fontsize: 12pt
 header-includes:
+    - \usepackage{array}
     - \usepackage{setspace}
     - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[1]
 geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
@@ -224,14 +225,13 @@ dt <- readr::read_csv(here::here("paper", "benefits-table.csv")) %>%
   dplyr::mutate(Benefit = gsub("\\.$", "", Benefit))
 knitr::kable(
   dt,
-  format = "markdown",
   col.names = c("Feature", "Example benefits"),
   booktabs = TRUE,
   linesep = "\\addlinespace",
   caption = "Features and examples of their benefits for multi-species consistent-format visualization of raw fisheries data."
 ) %>%
-  kableExtra::column_spec(1, width = "7cm") %>%
-  kableExtra::column_spec(2, width = "9cm")
+  kableExtra::column_spec(1, width = "5.7cm") %>%
+  kableExtra::column_spec(2, width = "10cm")
 ```
 
 \clearpage
