@@ -241,7 +241,7 @@ knitr::kable(
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=12.5cm]{pages/silvergray-rockfish-1.png}
+\includegraphics[width=13.4cm]{pages/silvergray-rockfish-1.png}
 \caption{Example first page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch in each geographical region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.}
 \label{fig:page1}
 \end{figure}
@@ -250,7 +250,7 @@ knitr::kable(
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=12.5cm]{pages/silvergray-rockfish-2.png}
+\includegraphics[width=13.9cm]{pages/silvergray-rockfish-2.png}
 \caption{Example second page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring biological sample, maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year and survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and survey. (Third row) Age-at-maturity and length-at-maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and ageing structures from all available survey and commercial samples.
 }
 \label{fig:page2}
