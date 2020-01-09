@@ -19,7 +19,7 @@ output:
     number_sections: yes
     toc: no
     template: "article.tex"
-    keep_tex: false
+    keep_tex: true
 fontfamily: libertine
 fontsize: 12pt
 header-includes:
@@ -28,7 +28,7 @@ header-includes:
     - \usepackage[left]{lineno}\linenumbers\modulolinenumbers[1]
 geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 bibliography: "refs.bib"
-csl: "american-fisheries-society.csl"
+csl: "fisheries.csl"
 link-citations: yes
 linkcolor: "black"
 urlcolor: "black"
@@ -41,6 +41,22 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 ```
 
 \clearpage
+
+<!--
+Figures/images should be in EPS or TIFF (preferred) formats, and tables should
+be in Excel or Word formats.
+ Word count is extremely important. (See limits for article types above.)
+ The cover letter should explain how your paper is innovative, provocative, timely,
+and of interest to a broad audience. It should also include a list of potential
+reviewers who can provide an unbiased, informed, and thorough assessment of
+the manuscript. The cover letter can also be used to provide further explanation,
+if part of the information has been published or presented previously.
+ Also in the cover letter, please include:
+1. A blurb (this should be one sentence that explains the article and captures
+the reader’s attention) for social media outlets.
+2. A potential cover teaser: 4-5 words that will go onto the cover of the
+magazine.
+-->
 
 # Abstract {-}
 
@@ -125,7 +141,7 @@ Our goals with the visualization report were manifold and included:
 for the methods section would it make sense to next follow the data to document workflow instead of leading with our report layout? I can take a stab at reorganizing this section if that makes sense. -->
 
 <!-- Paragraph 7: Reproducibility of the report. -->
-We aimed to make the report automated and reproducible so that it could be efficiently updated on a regular basis. We ensured report production was transparent and traceable with regards to how the data were extracted from databases and treated prior to plotting. Often, raw data cannot be plotted in a meaningful way without first undergoing some mathematical modelling, and for this we aimed to use consistent methods across species. To accomplish these aims, we developed a family of R packages that facilitated extraction of data from relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualizations into a report format. We wrote the packages a modular format so that individual functions could be used for other purposes---for example, so the data could be extracted and biological models fit for stock assessments in a consistent, standardized way.
+We aimed to make the report automated and reproducible so that it could be efficiently updated on a regular basis. We ensured report production was transparent with regards to how the data were extracted from databases and treated prior to plotting and developed the code and report in the open and under version control (<https://github.com/pbs-assess/gfsynopsis>). Often, raw data cannot be plotted in a meaningful way without first undergoing some mathematical modelling, and for this we aimed to use consistent methods across species. To accomplish these aims, we developed a family of R packages that facilitated extraction of data from relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualizations into a report format. We wrote the packages a modular format so that individual functions could be used for other purposes---for example, so the data could be extracted and biological models fit for stock assessments in a consistent, standardized way.
 
 <!-- Paragraph 8: Design considerations. -->
 In designing the report we made the following design considerations:
@@ -204,7 +220,7 @@ The more I think of it, the angle of having a layer of functions that removes th
 
 <!-- You might also want a short paragraph describing some of the challenges you faced such as choice of statistical analyses and how consultation was a critical component. I think play up the fact that approaches such as this are key engagement tools -->
 
-<!-- Paragraph X: This would be useful elsewhere. -->
+<!-- Paragraph 17: This would be useful elsewhere. -->
 We suggest that an approach such as we have presented would have broad utility across taxonomic groups, regions, and types of data. A similar approach could be useful nearly anywhere agencies face monitoring multiple ecosystem elements (e.g., populations, species, and/or environmental processes) with relevant data maintained in databases. The approach would be especially useful for agencies that lack the capacity to assess those elements in great depth at a frequency that meets management needs. However, even with regular detailed assessments, such an approach can provide a broad overview in a format consistent across all elements.
 <!-- Furthermore, a similar approach has been used to facilitate completion of stock assessments---for example, in automating the output of complex models and producing the assessment document under tight deadlines [@berger2019hake].  -->
 <!-- Although we caution that it can take considerable work to set up such a workflow, the approach can yield substantial efficiency gains in future years. -->
