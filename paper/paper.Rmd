@@ -75,10 +75,10 @@ consider similar approaches for their own data.
 <!-- EK: Can we say "raw" data here and throughout the paper given the modelling done for the spatial data? -->
 <!-- SA: to distinguish this from what else has been done, yes, I think we can use the word "raw". Nearly everything else is summarizing stock assessment output. Even the input to stock assessments often has gone through similar spatial modelling. However, I don't think we need to insert the word "raw" everywhere or it will get a bit overused. There could be a few more places to insert it. -->
 
-Keywords:
-automation; fisheries monitoring; groundfish; reproducible research; visualization
+<!-- Keywords: -->
+<!-- automation; fisheries monitoring; groundfish; reproducible research; visualization -->
 
-# Introduction
+# Introduction {-}
 
 <!-- Paragraph 1: We have lots of data, but it's hard to turn the data into effective broad monitoring. -->
 Survey and fishery observation programs produce large quantities of biological and environmental data. However, translating those data into effective monitoring information that is useful for decision-making remains a challenge. Agencies that collect data often lack the resources to report on all facets of their data in a timely fashion. Typically, detailed stock assessments report on data for only a small subset of species. While such focused analyses are required for management of some stocks, broad monitoring programs across an array of species and data types are essential for detecting ecological surprises and "unknown unknowns" [@hilborn1987; @wintle2010] and understanding species trends in a timely fashion. As part of a movement toward open data [e.g., @obama2013; @canada2018], many raw datasets, including those collected by government agencies, are now made available. However, processing and visualizing those datasets requires domain-specific knowledge (e.g., about sampling protocols), advanced skills (e.g., data management, population modelling, computer programming), and time. Collectively, these factors often limit the ability for interested parties to derive meaningful insights.
@@ -129,7 +129,7 @@ As a result, most stocks are not regularly examined through stock assessment, le
 Although the Canadian government is engaged in an open-data initiative [@canada2018], some of DFO's commercial data holdings cannot be shared in raw format due to privacy laws.
 Furthermore, the data that are shared are not easily digested without advanced data processing skills and extensive knowledge of the survey programs and commercial fisheries.
 
-# Methods
+# Methods {-}
 
 <!-- Paragraph 6: A broad overview of the approach. -->
 Our goals with the visualization report were manifold and included:
@@ -160,12 +160,12 @@ We focused our analysis on species of commercial, recreational, conservation, or
 <!-- Paragraph 10: Specific content of the report. -->
 We settled on presenting visualizations of: (1) temporal trends and spatial distributions of fisheries-independent survey data and commercial fisheries catch and catch per unit effort (CPUE); (2) temporal trends in length and age frequencies; and (3) biological quantities including length at age, weight at length, age at maturity, length at maturity, and maturity frequencies from fisheries-independent surveys and commercial data sources. We additionally presented a summary of counts of available biological data (ages, ageing structures such as otoliths, lengths, weights, and maturities) for all commercial and research samples. Throughout report development we solicited feedback from stakeholders and other potential users of the report on which data to include as well as on report structure and design. We also sought feedback from data experts for various species groups to ensure that the data being captured were accurate, complete, and presented faithfully.
 
-# Results
+# Results {-}
 
 <!-- Paragraph 11: Summary of the report. -->
-Our implementation included two pages of visualization for 113 species of British Columbia (BC) groundfish and sharks [@anderson2019synopsis, Figs \@ref(fig:page1)--\@ref(fig:multi)]. The species covered in the report included: 34 rockfish species; 16 elasmobranch species and one chimaera species; 15 flatfish species; nine gadiform species (cods); 16 sculpin and poacher species; three greenling/lingcod species; six eelpout species, three prickleback species, and seven other perciform species; and one species each of smelt, sablefish and snailfish. The visualizations for many data-limited species included mostly empty plots, which graphically emphasized the lack of data (Fig.\ \@ref(fig:multi), last row)---effectively turning unknown unknowns about a given species [@wintle2010] into *known* unknowns. For data-rich species, nearly all available data were visualized together on two pages for the first time. Overall, the approach has had many benefits with respect to transparency, assessment efficiency, stakeholder engagement, and monitoring (Table \@ref(tab:benefits)) and has been well-received by stakeholders, managers, and other fisheries scientists [@dfo2019synopsis].
+Our implementation included two pages of visualization for 113 species of British Columbia (BC) groundfish and sharks [@anderson2019synopsis, Figs 1--3]. The species covered in the report included: 34 rockfish species; 16 elasmobranch species and one chimaera species; 15 flatfish species; nine gadiform species (cods); 16 sculpin and poacher species; three greenling/lingcod species; six eelpout species, three prickleback species, and seven other perciform species; and one species each of smelt, sablefish and snailfish. The visualizations for many data-limited species included mostly empty plots, which graphically emphasized the lack of data (Fig.\ 3, last row)---effectively turning unknown unknowns about a given species [@wintle2010] into *known* unknowns. For data-rich species, nearly all available data were visualized together on two pages for the first time. Overall, the approach has had many benefits with respect to transparency, assessment efficiency, stakeholder engagement, and monitoring (Table 1\@ref(tab:benefits)) and has been well-received by stakeholders, managers, and other fisheries scientists [@dfo2019synopsis].
 
-# Discussion
+# Discussion {-}
 
 <!-- Paragraph 12: Discussion overview. -->
 We have described an automated large-scale visualization approach that we have implemented as a report that presents up-to-date population trends and biological data from commercial fisheries and research surveys. Additionally, the visualizations can be rapidly updated with new data in between report publications for specific purposes. Stock assessments are not available for most of the species included in our report, and are not available every year for most species that are assessed, which has limited the dissemination of these data in the past. Our approach facilitates the broad monitoring of groundfish populations---it ensures groundfish scientists, managers, and interested parties have access to consistent, up-to-date, and easily digestible visualizations of data holdings. The approach increases transparency, provides a mechanism for regular review of data for indication of surprises by relevant parties, and facilitates discussions concerning stock-assessment and survey-program prioritization.
@@ -226,9 +226,20 @@ We suggest that an approach such as we have presented would have broad utility a
 <!-- Although we caution that it can take considerable work to set up such a workflow, the approach can yield substantial efficiency gains in future years. -->
 We hope our approach can serve as a template for other regions and species groups---as one of many tools---to turn survey and fisheries data into effective broad monitoring.
 
-# Acknowledgements
+# Acknowledgements {-}
 
 We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations, and non-governmental organizations, which has made possible the collection of the valuable data that underlies the report described in this paper. For invaluable input into the report's design we thank Robyn Forrest, Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard (who suggested the window-shopping metaphor), Chris Rooper, and Greg Workman, We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for maintaining the BC groundfish databases and for help with data extraction. We thank Robyn Forrest for helpful comments on an earlier version of this paper.
+
+<!-- \vspace{9pt} -->
+
+# References {-}
+
+<!-- \setlength{\parskip}{0.9em} -->
+
+<div id="refs"></div>
+
+
+# Tables {-}
 
 \clearpage
 
@@ -253,45 +264,44 @@ knitr::kable(
 
 \clearpage
 
-\renewcommand{\figurename}{Fig.}
+# Figure captions {-}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=13.4cm]{pages/silvergray-rockfish-1.png}
-\caption{Example first page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch in each geographical region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.}
-\label{fig:page1}
-\end{figure}
+<!-- \renewcommand{\figurename}{Fig.} -->
 
-\clearpage
+<!-- \includegraphics[width=13.4cm]{pages/silvergray-rockfish-1.png} -->
+<!-- \begin{figure}[htbp] -->
+<!-- \centering -->
+<!-- \caption{ -->
+Figure 1: Example first page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch in each geographical region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.
+<!-- } -->
+<!-- \label{fig:page1} -->
+<!-- \end{figure} -->
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=13.9cm]{pages/silvergray-rockfish-2.png}
-\caption{Example second page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring biological sample, maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year and survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and survey. (Third row) Age-at-maturity and length-at-maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and ageing structures from all available survey and commercial samples.
-}
-\label{fig:page2}
-\end{figure}
+<!-- \clearpage -->
 
-\clearpage
+<!-- \includegraphics[width=13.9cm]{pages/silvergray-rockfish-2.png} -->
+<!-- \begin{figure}[htbp] -->
+<!-- \centering -->
+<!-- \caption{ -->
+Figure 2: Example second page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring biological sample, maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year and survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and survey. (Third row) Age-at-maturity and length-at-maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and ageing structures from all available survey and commercial samples.
+<!-- } -->
+<!-- \label{fig:page2} -->
+<!-- \end{figure} -->
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[height=17cm]{fig3.png}
-\caption{A consistent layout across species enables rapid comprehension of data,
+<!-- \clearpage -->
+
+<!-- \includegraphics[height=17cm]{fig3.png} -->
+<!-- \begin{figure}[htbp] -->
+<!-- \centering -->
+<!-- \caption{ -->
+Figure 3: A consistent layout across species enables rapid comprehension of data,
 comparison across species, and highlights missing data (blank panels). Some
 missing data are due to a lack of sampling or aging for a given species and
 others are because a given species is more susceptible to trawl or longline
 survey gear. Shown here from top to bottom are three species in decreasing order
 of data richness: Canary Rockfish (\emph{Sebastes
 pinniger}), Petrale Sole (\emph{Eopsetta jordani}), and Sand Sole
-(\emph{Psettichthys melanostictus}).}
-\label{fig:multi}
-\end{figure}
-
-\clearpage
-
-# References
-
-\setlength{\parskip}{0.9em}
-
-<div id="refs"></div>
+(\emph{Psettichthys melanostictus}).
+<!-- } -->
+<!-- \label{fig:multi} -->
+<!-- \end{figure} -->
