@@ -2,7 +2,7 @@
 
 -----------------
 
-### Download the latest draft: **[English [PDF]](https://www.dropbox.com/s/wdh8cyxcmrm4w43/pbs-gf-synopsis-2019-09-26.pdf?dl=1)** | **[French [PDF]](https://www.dropbox.com/s/tn00y46q8yeofp8/pbs-gf-synopsis-2019-09-26-french.pdf?dl=1)**
+### Links to the latest published report: **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
 
 -----------------
 
@@ -12,7 +12,7 @@ This package uses the data extraction, data tidying, model fitting, and plotting
 
 # Building the document
 
-*The following is for internal use only. You need to be on our network to have access to our databases.*
+*The following is for internal use. You need to be on our network to have access to our databases.*
 
 1. Install gfsynopsis and csasdown:
 
