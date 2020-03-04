@@ -54,17 +54,14 @@ latex'ed -- it nicely shows up the differences.**
 
 Comments to the Author
 
-This short paper highlights a much needed practice in global
-fisheries--improvements in transparency on data availability and presentation
-aspects. I like that it focuses attention on a data report without sacrificing
-valuable pages in a journal like yours.
-
 James Ianelli
 
 This short paper highlights a much needed practice in global
 fisheries---improvements in transparency on data availability and presentation
 aspects. I like that it focuses attention on a data report without sacrificing
 valuable pages in a journal like yours.
+
+**We thank the reviewer for his encouraging review.**
 
 There were some minor points that could be addressed.
 
@@ -74,6 +71,19 @@ plotted out in the same way, but each ''view'' (visualization) is single
 species. To avoid confusion with what a multispecies presentation might look
 like (with more than one species in a visualization), this wording might be
 modified.
+
+**TODO We only say 'multi-species' twice, including the title. Andy tried adding in
+``Given the large amount of data it was necessary to visualize data independently
+for each of the multiple species. Our general approach could certainly be used
+to view related species in single visualizations.'' (in this commit, end of
+paragraph 9). But it sounds overly defensive.
+Maybe best just to change the title to**
+
+**``Reproducible visualization of raw fisheries data for 113 species improves transparency, assessment efficiency, and monitoring''**
+
+**I think we weren't keen on that version at some point, but may be the simplest
+way to address Jim's point, which is fairly valid. And avoids getting tangled up
+with explaining why multi-species isn't quite multi-speces.**
 
 2) The introduction extolls the virtues of visualizations for communication and
 summarizations. I'm a big fan. However, there are some cases where flashy
