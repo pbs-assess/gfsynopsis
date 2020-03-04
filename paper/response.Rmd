@@ -25,6 +25,11 @@ library(knitr)
 library(here)
 opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 ```
+
+**Andy adding some thoughts in bold. Not wedded to any of them. I'll leave TODO
+in front of anything that definitely needs further edits/thoughts/discussion,
+and just do some of the simpler ones.**
+
 # Science Editor's Comments to Author {-}
 
 I agree with both reviewers that your manuscript will be a useful and
@@ -91,8 +96,15 @@ visualizations are misleading and exaggerate trends and spatial patterns. While
 I think the authors do a fantastic job of highlighting sample sizes etc., more
 mention of the issue and how they address it could be made.
 
+**TODO Not quite sure what to say, or where.**
+
 3) I would like to have seen more text on how to shoehorn this type of graphical
 presentation into a different setting outside of PBS/DFO’s system.
+
+**TODO I think asking for a bit about our workflow, R packages etc.? I see we
+have something commented out about it not being just about the R packages, but
+maybe we need to say something about this. Think this helps with one of Reviewer 2's
+comments also.**
 
 4) The main document (Anderson et al. 2019) is great. I was interested to see
 that there was an accessibility (for vision impaired etc.) link at the bottom of
@@ -105,7 +117,11 @@ somewhat. Specifically, another movement is to have visualizations also having
 direct links to the underlying data ... which might be another advancement in
 future.
 
-
+**Unfortunately, the graphical nature of the visualisations does not easily
+allow an 'alt-text' description, especially for an automatically generated
+report containing thousands of individual figures. In DFO we have automated the
+generation of rather rudimentary 'alt-text', but it seems a bit peripheral to
+mention here.''
 
 ## Reviewer: 2
 
@@ -117,6 +133,11 @@ resources. Results and maps presented thought-provoking, but its interpretation
 is not simple, requires a degree of experience, and as separate illustrations
 should be designed so that they can be interpreted just to see them, which does
 not happen in the case.
+
+**We thank the reviewer for their comments. We have added the following text to
+emphasise that the included figures are just meant to be examples, not
+explicitly used for understanding data concerning a paritcular species:
+
 
 As a result of the review I consider that the document should be improved to
 achieve a clear structure in contents (in my opinion there are texts not located

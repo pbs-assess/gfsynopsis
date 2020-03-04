@@ -166,7 +166,22 @@ We settled on presenting visualizations of: (1) temporal trends and spatial dist
 # Results {-}
 
 <!-- Paragraph 11: Summary of the report. -->
-Our implementation included two pages of visualization for 113 species of British Columbia (BC) groundfish and sharks [@anderson2019synopsis, Figs 1--3]. The species covered in the report included: 34 rockfish species; 16 elasmobranch species and one chimaera species; 15 flatfish species; nine gadiform species (cods); 16 sculpin and poacher species; three greenling/lingcod species; six eelpout species, three prickleback species, and seven other perciform species; and one species each of smelt, sablefish and snailfish. The visualizations for many data-limited species included mostly empty plots, which graphically emphasized the lack of data (Fig.\ 3, last row)---effectively turning unknown unknowns about a given species [@wintle2010] into *known* unknowns. For data-rich species, nearly all available data were visualized together on two pages for the first time. Overall, the approach has had many benefits with respect to transparency, assessment efficiency, stakeholder engagement, and monitoring (Table 1\@ref(tab:benefits)) and has been well-received by stakeholders, managers, and other fisheries scientists [@dfo2019synopsis].
+Our implementation included two pages of visualization for 113 species of
+British Columbia (BC) groundfish and sharks [@anderson2019synopsis, Figs
+1--3]. The species covered in the report included: 34 rockfish species; 16
+elasmobranch species and one chimaera species; 15 flatfish species; nine
+gadiform species (cods); 16 sculpin and poacher species; three greenling/lingcod
+species; six eelpout species, three prickleback species, and seven other
+perciform species; and one species each of smelt, sablefish and snailfish. The
+visualizations for many data-limited species included mostly empty plots, which
+graphically emphasized the lack of data (Fig.\ 3, last row)---effectively
+turning unknown unknowns about a given species [@wintle2010] into *known*
+unknowns. For data-rich species, nearly all available data were visualized
+together on two pages for the first time. Overall, the approach has had many
+benefits with respect to transparency, assessment efficiency, stakeholder
+engagement, and monitoring (Table 1\@ref(tab:benefits)) and has been
+well-received by stakeholders, managers, and other fisheries scientists
+[@dfo2019synopsis].
 
 # Discussion {-}
 
