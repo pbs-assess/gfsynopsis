@@ -121,7 +121,7 @@ future.
 allow an 'alt-text' description, especially for an automatically generated
 report containing thousands of individual figures. In DFO we have automated the
 generation of rather rudimentary 'alt-text', but it seems a bit peripheral to
-mention here.''
+mention here.**
 
 ## Reviewer: 2
 
@@ -136,8 +136,11 @@ not happen in the case.
 
 **We thank the reviewer for their comments. We have added the following text to
 emphasise that the included figures are just meant to be examples, not
-explicitly used for understanding data concerning a paritcular species:
+explicitly used for understanding data concerning a particular species:**
 
+**page ?? line ??: ``Figures 1--3 are included here as examples to demonstrate our
+visualizations; see Anderson et al. (2019) for full descriptions and
+interpretations of the data.''**
 
 As a result of the review I consider that the document should be improved to
 achieve a clear structure in contents (in my opinion there are texts not located
