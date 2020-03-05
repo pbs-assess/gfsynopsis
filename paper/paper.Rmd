@@ -69,8 +69,8 @@ waters. Our implementation includes standardized visualizations of temporal
 trends and spatial distributions of commercial catches and survey indices, plus
 analyses of ages, lengths, maturity, and growth, all on two pages per
 species. The approach facilitates discussions on stock-assessment and survey
-prioritization, increases transparency about data holdings, and makes the data
-available for regular review by interested parties. We encourage others to
+prioritization, increases transparency about data holdings, and makes data
+available for regular review by interested parties. We encourage other agencies to
 consider similar approaches for their own data.
 <!-- EK: Can we say "raw" data here and throughout the paper given the modelling done for the spatial data? -->
 <!-- SA: to distinguish this from what else has been done, yes, I think we can use the word "raw". Nearly everything else is summarizing stock assessment output. Even the input to stock assessments often has gone through similar spatial modelling. However, I don't think we need to insert the word "raw" everywhere or it will get a bit overused. There could be a few more places to insert it. -->
@@ -81,7 +81,7 @@ consider similar approaches for their own data.
 # Introduction {-}
 
 <!-- Paragraph 1: We have lots of data, but it's hard to turn the data into effective broad monitoring. -->
-Survey and fishery observation programs produce large quantities of biological and environmental data. However, translating those data into effective monitoring information that is useful for decision-making remains a challenge. Agencies that collect data often lack the resources to report on all facets of their data in a timely fashion. Typically, detailed stock assessments report on data for only a small subset of species. While such focused analyses are required for management of some stocks, broad monitoring programs across an array of species and data types are essential for detecting ecological surprises and "unknown unknowns" [@hilborn1987; @wintle2010] and understanding species trends in a timely fashion. As part of a movement toward open data [e.g., @obama2013; @canada2018], many raw datasets, including those collected by government agencies, are now made available. However, processing and visualizing those datasets requires domain-specific knowledge (e.g., about sampling protocols), advanced skills (e.g., data management, population modelling, computer programming), and time. Collectively, these factors often limit the ability for interested parties to derive meaningful insights.
+Survey and fishery observation programs produce large quantities of biological and environmental data. However, translating those data into effective monitoring information that is useful for decision-making remains a challenge. Agencies that collect data often lack the resources to report on all facets of their data in a timely fashion. Typically, detailed stock assessments report on data for only a small subset of species. While such focused analyses are required for management of some stocks, broad monitoring programs across an array of species and data types are essential for detecting ecological surprises and "unknown unknowns" [@hilborn1987; @wintle2010] as well as understanding species trends in a timely fashion. As part of a movement toward open data [e.g., @obama2013; @canada2018], many raw datasets, including those collected by government agencies, are now made available. However, processing and visualizing those datasets requires domain-specific knowledge (e.g., about sampling protocols), advanced skills (e.g., data management, population modelling, computer programming), and time. Collectively, these factors often limit the ability for interested parties to derive meaningful insights.
 
 <!-- Paragraph 2: Automated visualization is one solution. -->
 Automated visualization and reporting is one solution to these problems. Data visualization can serve as much more than just an endpoint of data analysis---it can serve as a critical component of the scientific process [@fox2011]. Visualization can facilitate rapid understanding of data, engage stakeholders, and raise awareness of data gaps. Visualization can also serve as a tool for those with domain-specific knowledge to spot errors in data sets, or identify data gaps where surveys or other data collection could be planned to gather necessary data. Furthermore, compared to the structured nature of statistical models, the unconstrained nature of visualization helps detect the unexpected [@wickham2015]. The advancement of data-analysis and dynamic-report-generation packages for the statistical software R [@r2019], such as knitr [@xie2017], makes it increasingly practical to generate reproducible visualization reports of survey and fishery monitoring data.
@@ -97,7 +97,7 @@ In Canada, examples include @ricard2013---a report summarizing Fisheries and Oce
 
 <!-- Paragraph 4: Why what has been on elsewhere is not enough. -->
 Collectively, data visualization reports and websites, such as those mentioned above, are important syntheses of information and communication tools.
-However, these visualizations primarily report on stock status and assessment *outputs* [but see @ricard2013], and no agency, to our knowledge, has a one-stop location to view all available raw fisheries dependent and independent data for all major stocks in a common format that encourages rapid comparison amongst stocks.
+However, these visualizations primarily report on stock status and assessment *outputs* [but see @ricard2013]. No agency, to our knowledge, has a one-stop location to view all available raw fisheries dependent and independent data for all major stocks in a common format that encourages rapid comparison amongst stocks.
 Furthermore, most fish stocks worldwide do not have a formal assessment, but some quantity of raw data often exists.
 Even where assessments do exist, we contend there remains value in standardized visualizations of raw data across multiple stocks, visualizing data between assessment cycles, and in collecting visualizations, which would ordinarily be scattered within hundreds of pages of individual stock assessments, so that they can be viewed simultaneously and compared.
 Such an approach facilitates new research ideas and addresses questions such as:
@@ -125,9 +125,9 @@ What is the one place someone can go to see all the available fisheries dependen
 To address this gap, here we make the case for multi-species consistent-format visualization of raw fisheries data. We demonstrate the concept through a report focussing on 113 groundfish species on the west coast of Canada [@anderson2019synopsis].
 In this region, the commercial groundfish fleet is subject to 100% on-board and dockside monitoring, while numerous fisheries-independent trawl and longline surveys are conducted annually, producing large quantities of valuable data [@stanley2015].
 At the same time, assessment scientists face limitations in personnel and time.
-As a result, most stocks are not regularly examined through stock assessment, leaving the majority of monitoring data unreported.
+As a result, most stocks are not regularly examined through stock assessment, leaving the most monitoring data unreported.
 Although the Canadian government is engaged in an open-data initiative [@canada2018], some of DFO's commercial data holdings cannot be shared in raw format due to privacy laws.
-Furthermore, the data that are shared are not easily digested without advanced data processing skills and extensive knowledge of the survey programs and commercial fisheries.
+Furthermore, data that are shared are not easily digested without advanced data processing skills and extensive knowledge of the survey programs and commercial fisheries.
 
 # Methods {-}
 
