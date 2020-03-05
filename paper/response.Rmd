@@ -155,7 +155,9 @@ consistency and meet the objectives set by the authors themselves.
 
 **TODO: Could move first paragraph of Methods into end of Introduction, since,
 yes, it does describe goals (not actual Methods). I think this may be enough
-(could also refer to any tweak in the discussion wrt number 2 below).**
+(could also refer to any tweak in the discussion wrt number 2 below). Aha --
+moving the first two paragraphs is explicitly what the reviewer suggests in 3 (I
+disagree with moving second paragraph though).**
 
 SPECIFIC COMMENTS
 
@@ -187,12 +189,25 @@ background is not used to discuss, compare and conclude about the work done. It
 seems to me that this should be considered to strengthen the discussion, and
 perhaps to defend the strengths of the proposal in this document.
 
-3.The first two paragraphs of the methodology can be used to close the
+**For this short manuscript we feel that to return to all the examples in the
+introduction is not appropriate. However, we note that we have already
+contrasted our work with the ICES (2019) summaries of stock-assessment
+output. And our report is novel in that it presents raw data, as we mentioned
+in the introduction.**
+
+3. The first two paragraphs of the methodology can be used to close the
 introduction (lines 85-96). In the following paragraphs of this section we do
 not find how it was done, rather all the design approaches and
 considerations. In that sense, for non-experts on the subject it would be very
 useful to strengthen this chapter, perhaps this is simple if a diagram or figure
 that synthesizes is used.
+
+**As suggested, we have moved the first paragraph of the Methods to the end of
+the Introduction (TODO). However, the second paragraph does include our explicit
+approach of developing a family of R packages, that we believe should remain in
+the Methods section. TODO: expand on the design considerations? Not sure if a
+figure would really help [I can't see that there's a limit on number of figures,
+but good to keep it short].**
 
 4.The discussion seems internal. It aims to explain results, considerations and
 propose new ideas to improve this work. However there is no discussion with
@@ -202,3 +217,5 @@ hand it does not have the scope of what is proposed. What I can see of ICES does
 not have the quality and complexity of what you present in this
 document. Perhaps some paragraphs in this area would result in a relevant
 academic discussion.
+
+**TODO: maybe. Might get repetitive though.**
