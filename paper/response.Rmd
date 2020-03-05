@@ -228,3 +228,113 @@ document. Perhaps some paragraphs in this area would result in a relevant
 academic discussion.
 
 **TODO: maybe. Might get repetitive though.**
+
+# Science Editor's Detailed Comments
+
+**Text: suggested changes are shown in bold , and omissions are shown with strikethroughs.**
+
+Lines 9-11  Our implementation consists of two pages per species that includes show standardized visualizations of temporal trends and spatial distributions of commercial catches and survey indices, plus along with analyses of ages, lengthssize, maturity, and growth, all on two pages per species.
+
+Line 13   transparency about data holdings, and makes the data available for
+
+Line 14  parties. We encourage others agencies to consider similar approaches for their own data.
+
+Line 23  and as well as understanding species trends
+
+Line  57  Shackell 2013), and. nNo agency, to our
+
+Line 79  the majority of most monitoring data
+
+Line 81  cannot be shared in raw format due to privacy laws. Furthermore, the data
+
+Line  90  are useful elsewhere, (e.g., in stock assessments).
+
+Line  93  extracted from databases and treated prior to plotting, and developed the
+
+Lines 100 & 101  packages in a modular format so that that individual functions could be used for other purposes—for examplee.g., so the data could be extracted
+
+Line 103  In designing the report, we made the following
+
+Line 108  colour meaning throughout (e.g., data from a given survey
+
+Line 113  interest, and as well as those that are regularly caught
+
+Line 129  species groups to ensure that the data being captured were accurate,
+
+Line 134  34 rockfish species; 16 elasmobranch species and one chimaera species;
+
+Text –continued
+
+Line 136  eelpout species, three prickleback species, and seven other perciform species; and
+
+Line 142  stakeholder engagement, and monitoring (Table 11), and has been well-received by stakeholders,
+
+Line 146  a report that presentsing up-to-date population trends
+
+Line 147  and research surveys. Additionally, the visualizations
+
+Line 149  of the species included in our report, and are not
+
+Comment re Lines 153 & 154  Could this be reworded so that it reads more clearly: “The approach … provides a mechanism for regular review of data for indication of surprises by relevant parties”  Could you omit “for indication of surprises by relevant parties,” or use this as another item that is facilitated by your method?
+
+Line 158  and useful. We first discuss the public availability and format aspects. Undoubtedly, many agencies
+
+Lines 161-163  outside of an agency. Even within an agency, having a single go-to report (as a pdf file) will increase speed and efficiency since these tools still require time and expertise to use, and effort can be is duplicated if when several people independently extract data on the same species—having a single go-to report (as a .pdf file) is fast and efficient.
+
+Lines 168-171  As examples, in our case, up to ten survey indices can be compared amongst themselves and with commercial CPUE,; length and age composition patterns are plotted for all surveys together,; and spatial and temporal survey patterns can be considered simultaneously.
+
+Lines 172 & 173  Internally, the approach we describe here provides many features and resulting benefits that we imagine would extend to any agency
+
+Line 177  overview of available data types and quantities and, therefore, what management procedures
+Text-continued
+
+Lines 180 & 181  longline surveys and discovered that the survey design was not followed precisely that year. but tThis information had been lost to current stock assessment scientists.
+
+Lines 183-184  For instance, immediately after the 2019 survey data were entered, we regenerated the report and skimmed survey indices for any major changes.  We noteding a rapid decline in some Arrowtooth Flounder survey indices and early signs of recovery of Bocaccio rockfish in survey indices and age compositions.  These have played into discussions of assessment prioritization and work planning.
+
+Line 188  generation because the product is most useful with up-to-date data and it
+
+Lines 203 & 204  sources which that are most applicable for specific species rather than those presented in the report which that were widely applicable to many species, analyze data on a finer spatial basis
+
+Lines 205 & 206  stocks along the BC coast rather than coastwide analysis), or make considerations for special cases that are not considered included in our report.
+
+Line 213  face monitoring multiple ecosystem elements
+
+Table 1 – Under “Example Benefits” – Use similar phrasing for examples:
+
+4th example
+Instead of using “All fisheries dependent and independent index trends can be compared for similarities and contrasts”, use “Allows comparisons of all fisheries dependent and independent index trends for similarities and contrasts”
+
+5th example
+Instead of using “Spatial and temporal trends can be considered simultaneously”, use “Allows simultaneous consideration of spatial and temporal trends”
+7th example
+Instead of using “Noticing recent declines in multiple survey indices for a stock with no planned assessment”, use “Shows recent declines in multiple survey indices for stocks with no planned assessment”
+
+8th example
+Instead of using “Can assist discussions of stock assessment prioritization”, use “Assists in discussions of stock assessment prioritization”
+
+9th example
+Instead of using “Industry associations that have contributed time or money to survey programs can see their data being used”, use “Allows industry association that have contributed time or money to survey programs to see how their data is being used”
+
+10th example
+Instead of using “Data collected with tax-payer funds are not left hidden on internal government servers”, use “Ensures data collected with tax-payer funds are not left hidden on internal government servers”
+
+11th example
+Instead of using “Unlike internal tools, makes visualized data available to public, Indigenous people, NGOs, fishing industry, fishery managers, consultants”, use “Makes visualized data available to public, Indigenous people, NGOs, fishing industry, fishery managers, consultants”
+
+12th example
+Instead of using “Open data is not enough—many interested parties lack the skills, time, and institutional knowledge to turn raw data into interpretable graphics”, use “Turns raw data into interpretable graphics for interested parties lacking the skills, time, and institutional knowledge to do this with avialable data (i.e., open data is not enough)”
+
+16th example
+Instead of using “Detecting consistent deviations in survey indices across stocks indicating historical deviations from survey design“, use “Shows consistent deviations in survey indices across stocks that indicate historical deviations from survey design”
+
+17th example
+Instead of using “Detecting fish lengths entered in wrong units”, use “Allows detection of fish lengths entered in wrong units”
+
+
+
+Figure Captions – Do not use parenthesis for scientific fish name following common name (also italicize genus and species of scientific names):
+
+Figures 1 & 2 - do not use “Silvergray Rockfish (Sebastes brevispinis)”.  Instead, use “Silvergray Rockfish Sebastes brevispinis”
+
+Figure 4 – do not use “Canary Rockfish (Sebastes pinniger), Petrale Sole (Eopsetta jordani), and Sand Sole (Psettichthys melanostictus)”.  Instead use “Canary Rockfish Sebastes pinniger, Petrale Sole Eopsetta jordani, and Sand Sole Psettichthys melanostictus.”
