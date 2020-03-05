@@ -267,36 +267,64 @@ Line 81  cannot be shared in raw format due to privacy laws. Furthermore, ~~the~
 
 Line  90  are useful elsewhere~~,~~ (e.g., in stock assessments).
 
-Line  93  extracted from databases and treated prior to plotting, and developed the
+**Done.**
+
+Line  93  extracted from databases and treated prior to plotting**,** and developed the
+
+**Done.**
 
 Lines 100 & 101  packages **in** a modular format so that that individual
 functions could be used for other purposes---~~for example~~**e.g.**, so ~~the~~ data could be extracted
 
+**Done.**
+
 Line 103  In designing the report**,** we made the following
+
+**Done.**
 
 Line 108  colour meaning throughout (e.g.**,** data from a given survey
 
+**Done.**
+
 Line 113  interest, ~~and~~ **as well as** those that are regularly caught
+
+**Done.**
 
 Line 129  species groups to ensure that ~~the~~ data being captured were accurate,
 
+**Done.**
+
 Line 134  34 rockfish species; 16 elasmobranch ~~species~~ and one chimaera species;
+
+**Done.**
 
 Line 136  eelpout ~~species~~, three prickleback ~~species~~, and seven other perciform species; and
 
+**Done.**
+
 Line 142  stakeholder engagement, and monitoring (Table ~~1~~1), and has been well-received by stakeholders,
+
+**Done.**
 
 Line 146  a report ~~that~~ present~~s~~ing up-to-date population trends
 
+**Done.**
+
 Line 147  and research surveys. Additionally, ~~the~~ visualizations
 
+**Not done, since referring to the explicit visualizations from the previous sentence.**
+
 Line 149  ~~of the~~ species included in our report, and are not
+
+**Done.**
 
 Comment re Lines 153 & 154  Could this be reworded so that it reads more
 clearly: “The approach … provides a mechanism for regular review of data for
 indication of surprises by relevant parties”  Could you omit “for indication of
 surprises by relevant parties,” or use this as another item that is facilitated
 by your method?
+
+**TODO: GOT TO HERE, and double check all the above ones**
 
 Line 158  and useful. ~~We first discuss the public availability and format
 aspects.~~ Undoubtedly, many agencies
