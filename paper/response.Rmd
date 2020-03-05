@@ -30,6 +30,18 @@ opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
 in front of anything that definitely needs further edits/thoughts/discussion,
 and just do some of the simpler ones.**
 
+**To make a diff file (like Tracked Changes) Andy committed
+paper-subm-fisheries.tex and then runs**
+
+shell("latexdiff paper-subm-fisheries.tex paper.tex > diff.tex")
+
+shell("pdflatex diff.tex")
+
+**which creates a pdf with changes shown. Have to tweak the bib file if we add
+anything. Sean - if you use something similar then great, else I can do this for
+the final version.**
+
+
 # Science Editor's Comments to Author {-}
 
 I agree with both reviewers that your manuscript will be a useful and
@@ -48,10 +60,7 @@ When you revise your manuscript please highlight the changes you make in the
 manuscript by using the track changes mode in MS Word or by using bold or
 coloured text.
 
-**Please see the file diff.pdf, which shows the differences. TODO: Unless you (Sean)
-have another method, I'll save and commit the .tex file for the submitted version. Then
-''latexdiff paper-subm-fisheries.tex paper.tex diff.tex'' creates a .tex file that can be
-latex'ed -- it nicely shows up the differences.**
+**Please see the file diff.pdf, which shows the differences. TODO.**
 
 # Reviewers' Comments to Author:
 
