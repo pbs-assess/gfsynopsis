@@ -233,19 +233,37 @@ academic discussion.
 
 **Text: suggested changes are shown in bold, and omissions are shown with strikethroughs.**
 
-Lines 9-11  Our implementation **consists of two pages per species that** ~~includes~~ **show** standardized visualizations of temporal trends and spatial distributions of commercial catches and survey indices, ~~plus~~ **along with** analyses of age~~s~~, ~~lengths~~**size**, maturity, and growth~~, all on two pages per species~~.
+Lines 9-11  Our implementation **consists of two pages per species that**
+~~includes~~ **show** standardized visualizations of temporal trends and spatial
+distributions of commercial catches and survey indices, ~~plus~~ **along with**
+analyses of age~~s~~, ~~lengths~~**size**, maturity, and growth~~, all on two
+pages per species~~.
+
+**TODO: Andy not sure about these, but agree with `along with'.**
 
 Line 13   transparency about data holdings, and makes ~~the~ data available for
 
+**Done.**
+
 Line 14  parties. We encourage other~~s~~ agencies to consider similar approaches for their own data.
+
+**Done.**
 
 Line 23  ~~and~~ **as well** as understanding species trends
 
+**Done.**
+
 Line  57  Shackell 2013)~~, and~~**.** ~~n~~**No** agency, to our
+
+**Done.**
 
 Line 79  ~~the majority of~~ **most** monitoring data
 
+**Done.**
+
 Line 81  cannot be shared in raw format due to privacy laws. Furthermore, ~~the~~ data
+
+**Done.**
 
 Line  90  are useful elsewhere~~,~~ (e.g., in stock assessments).
 
