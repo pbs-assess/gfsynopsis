@@ -4,9 +4,17 @@
 \alias{fit_sdmTMB_westcoast}
 \title{Fit a geostatistical index standardization model to survey data}
 \usage{
-fit_sdmTMB_westcoast(species_rds, survey, species_name = "",
-  n_knots = 200, cell_width = 2, anisotropy = FALSE, silent = TRUE,
-  bias_correct = FALSE, include_depth = FALSE)
+fit_sdmTMB_westcoast(
+  species_rds,
+  survey,
+  species_name = "",
+  n_knots = 200,
+  cell_width = 2,
+  anisotropy = FALSE,
+  silent = TRUE,
+  bias_correct = FALSE,
+  include_depth = FALSE
+)
 }
 \arguments{
 \item{species_rds}{File path to an .rds file from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}

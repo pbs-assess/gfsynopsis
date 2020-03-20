@@ -4,8 +4,7 @@
 \alias{plot_cpue_spaghetti}
 \title{Plot locality specific estimates from a CPUE standardization model}
 \usage{
-plot_cpue_spaghetti(model, fleet, index_data, era = c("modern",
-  "historical"))
+plot_cpue_spaghetti(model, fleet, index_data, era = c("modern", "historical"))
 }
 \arguments{
 \item{model}{Output from \code{\link[gfplot:fit_cpue_index_glmmtmb]{gfplot::fit_cpue_index_glmmtmb()}}.}

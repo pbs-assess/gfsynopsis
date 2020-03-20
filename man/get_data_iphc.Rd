@@ -5,8 +5,7 @@
 \title{Get the IPHC data for all years, should get merged into get_data at some point
 but before gfsynopsis meeting we don't want to re-get all the non-IPHC data}
 \usage{
-get_data_iphc(type = c("A", "B"), path = ".", compress = FALSE,
-  force = FALSE)
+get_data_iphc(type = c("A", "B"), path = ".", compress = FALSE, force = FALSE)
 }
 \arguments{
 \item{type}{A or B}

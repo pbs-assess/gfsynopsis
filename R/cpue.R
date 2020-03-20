@@ -17,7 +17,8 @@
 #'   by summed effort for the entire fleet) (if `TRUE`) or a GLM / GLMM with
 #'   only a year predictor.
 #' @param parallel Should the various areas be fit in parallel? Make sure you
-#'   have enough memory.
+#'   have enough memory. (Disabled for now.)
+#' @param year_range Year range.
 #'
 #' @import gfplot
 #' @importFrom dplyr filter mutate summarise select group_by n arrange ungroup
@@ -40,7 +41,8 @@ fit_cpue_indices <- function(dat,
   species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
   center = TRUE, cache = here::here("report", "cpue-cache"),
-  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE) {
+  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE,
+  year_range = c(1996, lubridate::year(Sys.Date()) - 1)) {
 
   # cores <- if (parallel) parallel::detectCores()[1L] else 1L
   # cl <- parallel::makeCluster(min(c(cores, length(areas))))
@@ -50,7 +52,7 @@ fit_cpue_indices <- function(dat,
       message("Determining qualified fleet for area ", area, ".")
 
       fleet <- gfplot::tidy_cpue_index(dat,
-        year_range = c(1996, 2017),
+        year_range = year_range,
         species_common = species,
         gear = "bottom trawl",
         use_alt_year = FALSE,
