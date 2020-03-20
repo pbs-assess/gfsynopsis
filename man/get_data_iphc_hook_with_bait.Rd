@@ -5,8 +5,7 @@
 \title{Get the IPHC data for all years for hooks with bait (for hook competition
 calculations.}
 \usage{
-get_data_iphc_hook_with_bait(path = ".", compress = FALSE,
-  force = FALSE)
+get_data_iphc_hook_with_bait(path = ".", compress = FALSE, force = FALSE)
 }
 \arguments{
 \item{path}{Path}

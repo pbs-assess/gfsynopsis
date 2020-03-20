@@ -54,6 +54,9 @@ get_page("spotted-ratfish-2", 57)
 get_page("north-pacific-spiny-dogfish-1", 38)
 get_page("north-pacific-spiny-dogfish-2", 39)
 
+get_page("rex-sole-1", 226)
+get_page("rex-sole-2", 227)
+
 
 system("convert paper/pages/silvergray-rockfish-1.png -compress zip paper/fig1.tiff")
 system("convert paper/pages/silvergray-rockfish-2.png -compress zip paper/fig2.tiff")

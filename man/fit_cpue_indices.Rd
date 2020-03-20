@@ -4,10 +4,17 @@
 \alias{fit_cpue_indices}
 \title{Fit commercial catch per unit effort standardization models}
 \usage{
-fit_cpue_indices(dat, species = "pacific cod",
+fit_cpue_indices(
+  dat,
+  species = "pacific cod",
   areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
-  center = TRUE, cache = here::here("report", "cpue-cache"),
-  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE)
+  center = TRUE,
+  cache = here::here("report", "cpue-cache"),
+  save_model = FALSE,
+  arith_cpue_comparison = TRUE,
+  parallel = FALSE,
+  year_range = c(1996, lubridate::year(Sys.Date()) - 1)
+)
 }
 \arguments{
 \item{dat}{A data frame from \code{\link[gfplot:get_cpue_index]{gfplot::get_cpue_index()}}.}
@@ -31,7 +38,9 @@ by summed effort for the entire fleet) (if \code{TRUE}) or a GLM / GLMM with
 only a year predictor.}
 
 \item{parallel}{Should the various areas be fit in parallel? Make sure you
-have enough memory.}
+have enough memory. (Disabled for now.)}
+
+\item{year_range}{Year range.}
 }
 \description{
 This function helps it fit the CPUE standardization models across multiple

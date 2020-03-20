@@ -4,20 +4,35 @@
 \alias{make_pages}
 \title{Make synopsis pages}
 \usage{
-make_pages(dat, dat_iphc, spp, d_geostat_index, aspect = 1.35,
-  short_page_height_ratio = 0.78, width = 11.5, debug = FALSE,
-  resolution = 170, png_format = TRUE,
-  spp_file = gfsynopsis:::clean_name(spp), report_folder = "report",
-  report_lang_folder = "report", include_map_square = FALSE,
-  map_xlim = c(360, 653), map_ylim = c(5275, 6155),
-  save_gg_objects = FALSE, survey_cols = c(RColorBrewer::brewer.pal(7L,
-  "Set2"), "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"),
-  survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-  "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial", "HBLL INS N",
-  "HBLL INS S", "MSA HS"), mat_min_n = 20, survey_map_outlier = 1,
+make_pages(
+  dat,
+  dat_iphc,
+  spp,
+  d_geostat_index,
+  aspect = 1.35,
+  short_page_height_ratio = 0.78,
+  width = 11.5,
+  debug = FALSE,
+  resolution = 170,
+  png_format = TRUE,
+  spp_file = gfsynopsis:::clean_name(spp),
+  report_folder = "report",
+  report_lang_folder = "report",
+  include_map_square = FALSE,
+  map_xlim = c(360, 653),
+  map_ylim = c(5275, 6155),
+  save_gg_objects = FALSE,
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8", "#a8a8a8",
+    "#a8a8a8"),
+  survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+    "HBLL OUT S", "IPHC FISS", "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"),
+  mat_min_n = 20,
+  survey_map_outlier = 1,
   synoptic_max_survey_years = 2018:2019,
-  hbll_out_max_survey_years = 2017:2018, parallel = FALSE,
-  french = FALSE)
+  hbll_out_max_survey_years = 2017:2018,
+  parallel = FALSE,
+  french = FALSE
+)
 }
 \arguments{
 \item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}

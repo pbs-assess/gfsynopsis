@@ -4,8 +4,13 @@
 \alias{plot_catches}
 \title{Plot catches}
 \usage{
-plot_catches(dat, blank_plot = FALSE, xlim = c(1955, 2018),
-  french = FALSE, ...)
+plot_catches(
+  dat,
+  blank_plot = FALSE,
+  xlim = c(1955, 2018),
+  french = FALSE,
+  ...
+)
 }
 \arguments{
 \item{dat}{The data}

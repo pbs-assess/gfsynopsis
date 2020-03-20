@@ -5,8 +5,13 @@
 \title{Get all data (includes some IPHC data that will get over-written
 in Survey biomass indices section of make-pages.R)}
 \usage{
-get_data(type = c("A", "B"), path = ".", compress = FALSE,
-  force = FALSE, sleep = 20)
+get_data(
+  type = c("A", "B"),
+  path = ".",
+  compress = FALSE,
+  force = FALSE,
+  sleep = 20
+)
 }
 \arguments{
 \item{type}{A or B}

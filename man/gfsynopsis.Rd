@@ -3,7 +3,6 @@
 \docType{package}
 \name{gfsynopsis}
 \alias{gfsynopsis}
-\alias{gfsynopsis-package}
 \title{gfsynopsis package}
 \description{
 gfsynopsis package

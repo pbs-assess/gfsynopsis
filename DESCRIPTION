@@ -36,7 +36,7 @@ Remotes: github::pbs-assess/gfplot,
     github::pbs-assess/sdmTMB, 
     github::pbs-assess/rosettafish,
     github::pbs-assess/gfiphc
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 Suggests:
     testthat,

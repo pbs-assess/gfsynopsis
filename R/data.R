@@ -17,10 +17,12 @@ get_data <- function(type = c("A", "B"), path = ".",
     .d <- filter(.d, !spp_w_hyphens %in% already_exists)
   if (nrow(.d) > 0L) {
     for (i in seq_along(.d$species_code)) {
-      gfdata::cache_pbs_data(species = .d$species_code[i],
+
+    tryCatch({gfdata::cache_pbs_data(species = .d$species_code[i],
         file_name = .d$spp_w_hyphens[i],
         path = path, unsorted_only = FALSE, historical_cpue = FALSE,
-        survey_sets = TRUE, verbose = FALSE, compress = compress)
+        survey_sets = TRUE, verbose = FALSE, compress = compress)}, error = function(e) e)
+
       Sys.sleep(sleep)
     }
   }
