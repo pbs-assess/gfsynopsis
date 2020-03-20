@@ -23,7 +23,7 @@ ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
-cores <- floor(future::availableCores() / 2)
+cores <- floor(future::availableCores() / 2.5)
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
@@ -37,6 +37,7 @@ if (parallel_processing) {
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
 dc <- here("report", "data-cache")
+# dc <- "~/Desktop/data-cache/"
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -151,6 +152,8 @@ out <- future.apply::future_lapply(which(missing), function(i) {
     png_format = if (ext == "png") TRUE else FALSE,
     parallel = FALSE, # for CPUE fits; need a lot of memory if true!
     save_gg_objects = spp$species_common_name[i] %in% example_spp,
+    synoptic_max_survey_years = 2018:2019,
+    hbll_out_max_survey_years = 2018:2019,
     survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
       RColorBrewer::brewer.pal(8L, "Set1")[7:8],
       "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
