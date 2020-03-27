@@ -101,7 +101,7 @@ Collectively, data visualization reports and websites, such as those mentioned a
 However, these visualizations primarily report on stock status and assessment *outputs* [but see @ricard2013]. No agency, to our knowledge, has a one-stop location to view all available raw fisheries dependent and independent data for all major stocks in a common format that encourages rapid comparison amongst stocks.
 Furthermore, most fish stocks worldwide do not have a formal assessment, but some quantity of raw data often exists.
 Even where assessments do exist, we contend there remains value in standardized visualizations of raw data across multiple stocks, visualizing data between assessment cycles, and in collecting visualizations, which would ordinarily be scattered within hundreds of pages of individual stock assessments, so that they can be viewed simultaneously and compared.
-Such an approach facilitates new research ideas and addresses questions such as:
+Such an approach facilitates new research ideas, such as: Why did a species index trend change? What correlations might exist between biological trends and population? Are there relationships between fishery trends before and after management changes? and addresses questions such as:
 What raw data are available for various stocks? Given the data available, which analyses could be used to assess various stocks?
 What data-gaps need to be filled to conduct formal assessments of new stocks, or improve on previous ones?
 <!-- Are there systematic issues with the raw data that can only be seen in aggregate (e.g., changes to survey design or data entry errors). -->
