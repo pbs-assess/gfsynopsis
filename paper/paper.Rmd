@@ -126,7 +126,7 @@ What is the one place someone can go to see all the available fisheries dependen
 To address this gap, here we make the case for large-scale consistent-format visualization of raw fisheries data. We demonstrate the concept through a report focussing on 113 groundfish species on the west coast of Canada [@anderson2019synopsis].
 In this region, the commercial groundfish fleet is subject to 100% on-board and dockside monitoring, while numerous fisheries-independent trawl and longline surveys are conducted annually, producing large quantities of valuable data [@stanley2015].
 At the same time, assessment scientists face limitations in personnel and time.
-As a result, most stocks are not regularly examined through stock assessment, leaving the most monitoring data unreported.
+As a result, most stocks are not regularly examined through stock assessment, leaving most monitoring data unreported.
 Although the Canadian government is engaged in an open-data initiative [@canada2018], some of DFO's commercial data holdings cannot be shared in raw format due to privacy laws.
 Furthermore, data that are shared are not easily digested without advanced data processing skills and extensive knowledge of the survey programs and commercial fisheries.
 
@@ -143,16 +143,17 @@ Our goals with the visualization report were manifold and included:
 We aimed to make the report automated and reproducible so that it could be efficiently updated on a regular basis. We ensured report production was transparent with regards to how the data were extracted from databases and treated prior to plotting, and developed the code and report in the open and under version control (<https://github.com/pbs-assess/gfsynopsis>). Often, raw data cannot be plotted in a meaningful way without first undergoing some mathematical modelling, and for this we aimed to use consistent methods across species. To accomplish these aims, we developed a family of R packages that facilitated extraction of data from relational databases, tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models, and compiling the visualizations into a report format. We wrote the packages in a modular format so that individual functions could be used for other purposes---e.g., so data could be extracted and biological models fit for stock assessments in a consistent, standardized way.
 
 <!-- Paragraph 8: Design considerations. -->
-In designing the report, we made the following design considerations:
-(1) Maintain a consistent layout for all species, including empty plots to emphasize a lack of data for some species;
-(2) limit the report to two pages per species so that all data for one species could be viewed at once;
-(3) focus on data types relevant to the most species;
-(4) group similarly focused visualizations together;
-(5) display metadata alongside visualizations where possible;
-(6) maintain consistent colour meaning throughout (e.g., data from a given survey always uses the same colour) and use colourblind-proof colours where possible;
-(7) describe the visualizations in detail at the beginning of the report so that the species pages are entirely visual;
-(8) highlight uncertainty wherever possible (e.g., through shading to indicate periods of increased uncertainty in reported catches or indicating sample sizes associated with age and length frequencies); and
-(9) omitting visualizations where sample sizes were clearly too low to draw meaningful inference (e.g., omitting von Bertalanffy growth model fits if < 20 fish were sampled or omitting spatial density maps if < 5% of survey sets caught the species).
+In designing the report, we made the following design considerations and incorporated them throughout construction of the report:
+
+1. Simplify understanding of the collection of plots for each species *by* maintaining a consistent layout for all species (including empty plots to emphasize a lack of data for some species),
+2. Enable rapid viewing of all data for an individual species at once *by* limiting the report to two pages per species,
+3. Maximize information that could be presented in the limited space *by* focussing on data types relevant to the most species,
+4. Organize data to facilitate clear and simple interpretation *by* grouping similarly focused visualizations together,
+5. Present contextual information essential to interpretation *by* displaying metadata alongside visualizations where possible,
+6. Enable simple differentiation among data sources *by* maintaining consistent colour meaning throughout (e.g., data from a given survey always uses the same colour) and use colourblind-proof colours where possible,
+7. Leave species pages entirely visual *by* describing the visualizations in detail at the beginning of the report,
+8. Minimize misinterpretation *by* highlighting caveats and uncertainty wherever possible (e.g., through shading to indicate periods of increased uncertainty in reported catches or indicating sample sizes associated with age and length frequencies), and
+9. Avoid false interpretation *by* omitting visualizations where sample sizes were clearly too low to draw meaningful inference (e.g., omitting von Bertalanffy growth model fits if < 20 fish were sampled or omitting spatial density maps if < 5% of survey sets caught the species).
 
 <!-- Paragraph 9: Data we focused on. -->
 We focused our analysis on species of commercial, recreational, conservation, or
