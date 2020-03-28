@@ -323,3 +323,5 @@ pinniger}, Petrale Sole \emph{Eopsetta jordani}, and Sand Sole
 <!-- } -->
 <!-- \label{fig:multi} -->
 <!-- \end{figure} -->
+
+Figure 4: Workflow. A: Illustration of the data-to-document workflow. B: Families of modular functions built and employed to ensure transparency, traceability, and reproduciblity.
