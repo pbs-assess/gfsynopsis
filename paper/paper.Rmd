@@ -69,7 +69,7 @@ waters. Our implementation consists of two pages per species that show
 standardized visualizations of temporal
 trends and spatial distributions of commercial catches and survey indices,
 along with analyses of age, size, maturity, and growth. The approach
-facilitates discussions on stock-assessment and survey prioritization,
+facilitates discussions on stock assessment and survey prioritization,
 increases transparency about data holdings, and makes data available for
 regular review by interested parties. We encourage other agencies to consider
 similar approaches for their own data.
@@ -92,15 +92,17 @@ A number of governmental agencies have developed visualization reports or websit
 For example, @ices2019 maintains a website visualizing the data in their ICES Stock Assessment Database from 2014 onwards (<http://standardgraphs.ices.dk>).
 The site includes plots of catches, recruitment, fishing mortality, spawning stock biomass, and status with respect to reference points for stocks.
 The Australian government agency maintains the "Status of Australian Fish Stocks Reports", which have visualized recent catches, stock status, and reported distribution of 120 species since 2012 (<https://www.fish.gov.au>).
-In the United States, where species are assessed and reviewed by eight regional fisheries management councils within the National Marine Fisheries Service (NMFS), no publicly available common set of data visualizations exist, although a variety of graphics are published in stock assessments, ecosystem indicators are visualized in Regional Ecosystem Status Reports (<https://www.integratedecosystemassessment.noaa.gov>), and graphical tools exist for specific purposes such as visualizing groundfish distributions in Alaska [@barbeaux2018].
+In the United States, where species are assessed and reviewed by eight regional fisheries management councils within the National Marine Fisheries Service (NMFS), no publicly available common set of data visualizations exist.
+However, a variety of graphics are published in stock assessments, ecosystem indicators are visualized in Regional Ecosystem Status Reports (<https://www.integratedecosystemassessment.noaa.gov>), and graphical tools exist for specific purposes such as visualizing groundfish distributions in Alaska [@barbeaux2018].
 In Canada, examples include @ricard2013---a report summarizing Fisheries and Oceans Canada (DFO) survey data for marine fish and invertebrates on the East Coast Scotian Shelf and Bay of Fundy.
 <!-- ---and the Pacific Salmon Explorer---an ambitious interactive data visualization maintained by the Pacific Salmon Foundation (<https://www.salmonexplorer.ca/>). -->
 
 <!-- Paragraph 4: Why what has been on elsewhere is not enough. -->
 Collectively, data visualization reports and websites, such as those mentioned above, are important syntheses of information and communication tools.
 However, these visualizations primarily report on stock status and assessment *outputs* [but see @ricard2013]. No agency, to our knowledge, has a one-stop location to view all available raw fisheries dependent and independent data for all major stocks in a common format that encourages rapid comparison amongst stocks.
-Furthermore, most fish stocks worldwide do not have a formal assessment, but some quantity of raw data often exists.
-Even where assessments do exist, we contend there remains value in standardized visualizations of raw data across multiple stocks, visualizing data between assessment cycles, and in collecting visualizations, which would ordinarily be scattered within hundreds of pages of individual stock assessments, so that they can be viewed simultaneously and compared.
+Furthermore, most fish stocks worldwide lack a formal assessment, but some quantity of raw data often exists.
+Even where assessments do exist, we contend there remains value in standardized visualizations of raw data across multiple stocks and visualizing data between assessment cycles.
+There also remains value in collecting visualizations, which would ordinarily be scattered within hundreds of pages of individual stock assessments, so that they can be viewed simultaneously and compared.
 Such an approach facilitates new research ideas---such as correlations that might exist between population trends or relationships between fishery trends before and after management changes---and addresses questions such as:
 What raw data are available for various stocks? Given the data available, which analyses could be used to assess various stocks?
 What data-gaps need to be filled to conduct formal assessments of new stocks, or improve on previous ones?
@@ -133,7 +135,7 @@ Furthermore, data that are shared are not easily digested without advanced data 
 <!-- Paragraph 6: A broad overview of the approach. -->
 Our goals with the visualization report were manifold and included:
 (1) ensuring that the current state of knowledge on indices of abundance for all groundfish stocks are available for regular review by DFO scientists, managers, and all interested parties;
-(2) facilitating discussions related to stock-assessment and survey-program prioritization;
+(2) facilitating discussions related to stock assessment and survey-program prioritization;
 (3) increasing transparency about our data holdings; and
 (4) producing standardized tools, data-set derivation, and visualizations that are useful elsewhere (e.g., in stock assessments).
 
@@ -188,7 +190,7 @@ well-received by stakeholders, managers, and other fisheries scientists
 # Discussion {-}
 
 <!-- Paragraph 12: Discussion overview. -->
-We have described an automated large-scale visualization approach that we have implemented as a report presenting up-to-date population trends and biological data from commercial fisheries and research surveys. Additionally, the visualizations can be rapidly updated with new data in between report publications for specific purposes. Stock assessments are not available for most species included in our report, and are not available every year for most species that are assessed, which has limited the dissemination of these data in the past. Our approach facilitates the broad monitoring of groundfish populations---it ensures groundfish scientists, managers, and interested parties have access to consistent, up-to-date, and easily digestible visualizations of data holdings. The approach increases transparency, provides a mechanism for regular review of data by relevant parties, allows for timely identification of changes in trends, and facilitates discussions concerning stock-assessment and survey-program prioritization.
+We have described an automated large-scale visualization approach that we have implemented as a report presenting up-to-date population trends and biological data from commercial fisheries and research surveys. Additionally, the visualizations can be rapidly updated with new data in between report publications for specific purposes. Stock assessments are not available for most species included in our report, and are not available every year for most species that are assessed, which has limited the dissemination of these data in the past. Our approach facilitates the broad monitoring of groundfish populations---it ensures groundfish scientists, managers, and interested parties have access to consistent, up-to-date, and easily digestible visualizations of data holdings. The approach increases transparency, provides a mechanism for regular review of data by relevant parties, allows for timely identification of changes in trends, and facilitates discussions concerning stock assessment and survey-program prioritization.
 
 <!-- Paragraph 13: How this is fundamentally new and different from other approaches. -->
 We contend it is the combination of public availability, large-scale consistent-format visualizations, rapid data-to-document reproducibility, and a focus on raw data that makes our approach novel and useful.
@@ -209,7 +211,7 @@ For example, we noticed that 2009 was consistently a low index year in one of ou
 This information had been lost to current stock assessment scientists.
 Third, the ease with which we can skim survey indices and composition data has enabled us to detect notable changes quickly.
 For instance, immediately after the 2019 survey data were entered, we regenerated the report and skimmed survey indices for any major changes.
-We noted a rapid decline in some Arrowtooth Flounder survey indices and early signs of recovery of Bocaccio rockfish in survey indices and age compositions. These have played into discussions of assessment prioritization and work planning.
+We noted a rapid decline in some Arrowtooth Flounder survey indices and early signs of recovery of Bocaccio rockfish in survey indices and age compositions. These types of issues have played into discussions of assessment prioritization and work planning.
 
 <!-- Paragraph 15: The importance of data extraction automation and databases. -->
 <!-- AK: Moreover, you did not pound on the functions as a building block for "rapid prototyping" of assessments in conjunction with something like DLMtool.  Nothing about extensibility -->
@@ -219,7 +221,12 @@ This is considerably easier with carefully organized and maintained relational d
 Importantly, the functions allow us to work efficiently while living with the legacy of multiple historical databases without the need to create a single monolithic database.
 
 <!-- Paragraph 16: This is raw-data window shopping not stock assessment. -->
-Unlike detailed species-specific analyses conducted in stock assessments, we liken the mass visualization of raw fisheries data to window shopping. The approach gives a quick flavour of the available data for a given stock and hints at possible indices of relative population trends. However, the outputs are not a substitute for species-specific stock assessment [or graphical syntheses of stock assessment output; e.g., @ices2019]. For example, stock assessments may use different data sources that are most applicable for specific species rather than those presented in the report that were widely applicable to many species, analyze data on a finer spatial basis (e.g., separate stocks along the BC coast rather than coastwide analysis), or make considerations for special cases that are not included in our report. Furthermore, relative biomass indices based on survey or commercial CPUE data in the report require careful, species-specific interpretation as they may not best represent abundance trends for some stocks. For example, biomass indices may be based on surveys with particularly low catchability for certain species, or commercial CPUE may be influenced by management changes.
+Unlike detailed species-specific analyses conducted in stock assessments, we liken the mass visualization of raw fisheries data to window shopping.
+The approach gives a quick flavour of the available data for a given stock and hints at possible indices of relative population trends.
+However, the outputs are not a substitute for species-specific stock assessment [or graphical syntheses of stock assessment output; e.g., @ices2019].
+For example, stock assessments may use different data sources that are most applicable for specific species, analyze data on a finer spatial basis, or make considerations for special cases that are not included in our report.
+Furthermore, relative biomass indices based on survey or commercial CPUE data in the report require careful, species-specific interpretation as they may not best represent abundance trends for some stocks.
+For example, biomass indices may be based on surveys with particularly low catchability for certain species, or commercial CPUE may be influenced by management changes.
 
 <!--
 AK: The GFSynopsis approach also protects agency IP and assets.  Instead of code for critical decisions related to resource use living on a individual analysts desktop/laptop, they live in a R package which is accessible to a broad user community.  If the individual analysts leaves, the code does not.
