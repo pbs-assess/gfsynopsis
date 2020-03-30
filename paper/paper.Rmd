@@ -101,7 +101,7 @@ Collectively, data visualization reports and websites, such as those mentioned a
 However, these visualizations primarily report on stock status and assessment *outputs* [but see @ricard2013]. No agency, to our knowledge, has a one-stop location to view all available raw fisheries dependent and independent data for all major stocks in a common format that encourages rapid comparison amongst stocks.
 Furthermore, most fish stocks worldwide do not have a formal assessment, but some quantity of raw data often exists.
 Even where assessments do exist, we contend there remains value in standardized visualizations of raw data across multiple stocks, visualizing data between assessment cycles, and in collecting visualizations, which would ordinarily be scattered within hundreds of pages of individual stock assessments, so that they can be viewed simultaneously and compared.
-Such an approach facilitates new research ideas---such as correlations that might exist between biological trends and populations, causes of change in species index trends, or relationships between fishery trends before and after management changes---and addresses questions such as:
+Such an approach facilitates new research ideas---such as correlations that might exist between population trends or relationships between fishery trends before and after management changes---and addresses questions such as:
 What raw data are available for various stocks? Given the data available, which analyses could be used to assess various stocks?
 What data-gaps need to be filled to conduct formal assessments of new stocks, or improve on previous ones?
 <!-- Are there systematic issues with the raw data that can only be seen in aggregate (e.g., changes to survey design or data entry errors). -->
@@ -140,20 +140,20 @@ Our goals with the visualization report were manifold and included:
 # Methods {-}
 
 <!-- Paragraph 7: Reproducibility of the report. -->
-We aimed to make the report automated and reproducible so that it could be efficiently updated on a regular basis. We ensured report production was transparent with regards to how the data were extracted from databases and treated prior to plotting, and developed the code and report in the open and under version control (<https://github.com/pbs-assess/gfdata>, <https://github.com/pbs-assess/gfplot>, <https://github.com/pbs-assess/gfsynopsis>). Often, raw data cannot be plotted in a meaningful way without first undergoing some data tidying [@wickham2014] and/or mathematical modelling, and for this we aimed to use consistent methods across species. To accomplish these aims, we developed a family of R packages that facilitated extraction of data from relational databases (package "gfdata"), tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models (package "gfplot"), and compiling the visualizations into a report format (package "gfsynopsis"). We wrote the packages in a modular format (Figure 4) so that individual functions could be used for other purposes---e.g., so data could be extracted and biological models fit for stock assessments in a consistent, standardized way.
+We aimed to make the report automated and reproducible so that it could be efficiently updated on a regular basis. We ensured report production was transparent with regards to how the data were extracted from databases and treated prior to plotting, and developed the code and report in the open and under version control (<https://github.com/pbs-assess/gfdata>, <https://github.com/pbs-assess/gfplot>, <https://github.com/pbs-assess/gfsynopsis>). Often, raw data cannot be plotted in a meaningful way without first undergoing some data tidying [@wickham2014] and/or mathematical modelling, and for this we aimed to use consistent methods across species. To accomplish these aims, we developed a family of R packages that facilitated extraction of data from relational databases (package "gfdata"), tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models (package "gfplot"), and compiling the visualizations into a report format (package "gfsynopsis"). We wrote the packages in a modular format (Fig. 1) so that individual functions could be used for other purposes---e.g., so data could be extracted and biological models fit for stock assessments in a consistent, standardized way.
 
 <!-- Paragraph 8: Design considerations. -->
 In designing the report, we made the following design considerations and incorporated them throughout construction of the report:
 
-1. Simplify understanding of the collection of plots for each species *by* maintaining a consistent layout for all species (including empty plots to emphasize a lack of data for some species),
-2. Enable rapid viewing of all data for an individual species at once *by* limiting the report to two pages per species,
-3. Maximize information that could be presented in the limited space *by* focussing on data types relevant to the most species,
-4. Organize data to facilitate clear and simple interpretation *by* grouping similarly focused visualizations together,
-5. Present contextual information essential to interpretation *by* displaying metadata alongside visualizations where possible,
-6. Enable simple differentiation among data sources *by* maintaining consistent colour meaning throughout (e.g., data from a given survey always uses the same colour) and use colourblind-proof colours where possible,
-7. Leave species pages entirely visual *by* describing the visualizations in detail at the beginning of the report,
-8. Minimize misinterpretation *by* highlighting caveats and uncertainty wherever possible (e.g., through shading to indicate periods of increased uncertainty in reported catches or indicating sample sizes associated with age and length frequencies), and
-9. Avoid false interpretation *by* omitting visualizations where sample sizes were clearly too low to draw meaningful inference (e.g., omitting von Bertalanffy growth model fits if < 20 fish were sampled or omitting spatial density maps if < 5% of survey sets caught the species).
+1. Simplify understanding of the collection of plots for each species by maintaining a consistent layout for all species (including empty plots to emphasize a lack of data for some species);
+2. Enable rapid viewing of all data for an individual species at once by limiting the report to two pages per species;
+3. Maximize information that could be presented in the limited space by focusing on data types relevant to the most species,
+4. Organize data to facilitate clear and simple interpretation by grouping similarly focused visualizations together;
+5. Present contextual information essential to interpretation by displaying metadata alongside visualizations where possible;
+6. Enable simple differentiation among data sources by maintaining consistent colour meaning throughout (e.g., data from a given survey always uses the same colour) and use colourblind-proof colours where possible;
+7. Leave species pages entirely visual by describing the visualizations in detail at the beginning of the report;
+8. Minimize misinterpretation by highlighting caveats and uncertainty wherever possible (e.g., through shading to indicate periods of increased uncertainty in reported catches or indicating sample sizes associated with age and length frequencies); and
+9. Avoid false interpretation by omitting visualizations where sample sizes were clearly too low to draw meaningful inference (e.g., omitting von Bertalanffy growth model fits if < 20 fish were sampled or omitting spatial density maps if < 5% of survey sets caught the species).
 
 <!-- Paragraph 9: Data we focused on. -->
 We focused our analysis on species of commercial, recreational, conservation, or
@@ -167,7 +167,7 @@ We settled on presenting visualizations of: (1) temporal trends and spatial dist
 <!-- Paragraph 11: Summary of the report. -->
 Our implementation included two pages of visualization for 113 species of
 British Columbia (BC) groundfish and sharks [@anderson2019synopsis, Figs
-1--3]. Figures 1--3 are included here as examples to demonstrate our
+2--4]. Figures 1--3 are included here as examples to demonstrate our
 visualizations; see @anderson2019synopsis for full descriptions and
 interpretations of the data.
 The species covered in the report included: 34 rockfish species; 16
@@ -176,7 +176,7 @@ gadiform species (cods); 16 sculpin and poacher species; three greenling/lingcod
 species; six eelpout, three prickleback, and seven other
 perciform species; and one species each of smelt, sablefish and snailfish. The
 visualizations for many data-limited species included mostly empty plots, which
-graphically emphasized the lack of data (Fig.\ 3, last row)---effectively
+graphically emphasized the lack of data (Fig.\ 4, last row)---effectively
 turning unknown unknowns about a given species [@wintle2010] into *known*
 unknowns. For data-rich species, nearly all available data were visualized
 together on two pages for the first time. Overall, the approach has had many
@@ -246,7 +246,7 @@ We hope our approach can serve as a template for other regions and species group
 
 # Acknowledgements {-}
 
-We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations, and non-governmental organizations, which has made possible the collection of the valuable data that underlies the report described in this paper. For invaluable input into the report's design we thank Robyn Forrest, Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard (who suggested the window-shopping metaphor), Chris Rooper, and Greg Workman. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for maintaining the BC groundfish databases and for help with data extraction. We thank Robyn Forrest, Rob Kronlund, James Ianelli, an anonymous reviewer, and the editor for helpful comments on earlier versions of this manuscript.
+We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations, and non-governmental organizations, which has made possible the collection of the valuable data that underlies the report described in this paper. For invaluable input into the report's design we thank Robyn Forrest, Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard (who suggested the window-shopping metaphor), Chris Rooper, and Greg Workman. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for maintaining the BC groundfish databases and for help with data extraction. We thank Robyn Forrest, Rob Kronlund, James Ianelli, an anonymous reviewer, and the editor (Kristen Anstead) for helpful comments on earlier versions of this manuscript.
 
 <!-- \vspace{9pt} -->
 
@@ -256,6 +256,8 @@ We are grateful for the ongoing collaboration between DFO, commercial fishers, F
 
 <div id="refs"></div>
 
+
+\clearpage
 
 # Tables {-}
 
@@ -284,13 +286,18 @@ knitr::kable(
 
 # Figure captions {-}
 
+Figure 1: Data-to-document workflow for generating the data synopsis report. (A) The automated workflow from data extraction to report production.
+(B) Example modular functions built for this report.
+Shown are functions for extracting biological data from commercial and fishery-independent surveys, which are then passed to functions for tidying and arranging the data or fitting statistical models to the data prior to generating visualizations.
+The functions are modular so that a data-extraction function can be paired with multiple data-tidying functions, the data-extraction and data-tidying functions can be used for other purposes (e.g., in stock assessments), and the plotting functions can be used with different underlying data sources.
+
 <!-- \renewcommand{\figurename}{Fig.} -->
 
 <!-- \includegraphics[width=13.4cm]{pages/silvergray-rockfish-1.png} -->
 <!-- \begin{figure}[htbp] -->
 <!-- \centering -->
 <!-- \caption{ -->
-Figure 1: Example first page for Silvergray Rockfish \emph{Sebastes brevispinis} featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch in each geographical region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.
+Figure 2: Example first page for Silvergray Rockfish \emph{Sebastes brevispinis} featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch in each geographical region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.
 <!-- } -->
 <!-- \label{fig:page1} -->
 <!-- \end{figure} -->
@@ -301,7 +308,7 @@ Figure 1: Example first page for Silvergray Rockfish \emph{Sebastes brevispinis}
 <!-- \begin{figure}[htbp] -->
 <!-- \centering -->
 <!-- \caption{ -->
-Figure 2: Example second page for Silvergray Rockfish \emph{Sebastes brevispinis} featuring biological sample, maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year and survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and survey. (Third row) Age-at-maturity and length-at-maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and ageing structures from all available survey and commercial samples.
+Figure 3: Example second page for Silvergray Rockfish \emph{Sebastes brevispinis} featuring biological sample, maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year and survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and survey. (Third row) Age-at-maturity and length-at-maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and ageing structures from all available survey and commercial samples.
 <!-- } -->
 <!-- \label{fig:page2} -->
 <!-- \end{figure} -->
@@ -312,7 +319,7 @@ Figure 2: Example second page for Silvergray Rockfish \emph{Sebastes brevispinis
 <!-- \begin{figure}[htbp] -->
 <!-- \centering -->
 <!-- \caption{ -->
-Figure 3: A consistent layout across species enables rapid comprehension of data,
+Figure 4: A consistent layout across species enables rapid comprehension of data,
 comparison across species, and highlights missing data (blank panels). Some
 missing data are due to a lack of sampling or aging for a given species and
 others are because a given species is more susceptible to trawl or longline
@@ -324,4 +331,3 @@ pinniger}, Petrale Sole \emph{Eopsetta jordani}, and Sand Sole
 <!-- \label{fig:multi} -->
 <!-- \end{figure} -->
 
-Figure 4: Data synopsis report "data-to-document" workflow. A: Illustration of the (automated) flow through data-extraction to visualization-plotting to report production for a data synopsis report. B: Examples of workflow through some of the modular functions the authors built and employed to ensure transparency, traceability, and reproduciblity. Shown are functions for extracting biological data from commercial and fishery-independent surveys, which are then passed to functions for tidying and arranging the data and/or fitting to statistical models prior to plotting visualizations.
