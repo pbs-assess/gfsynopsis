@@ -5,6 +5,7 @@ library(ggplot2)
 library(dplyr)
 library(sdmTMB)
 library(future)
+dir.create(here::here("report/geostat-cache"), showWarnings = FALSE)
 
 .spp <- gfsynopsis::get_spp_names()
 .spp <- dplyr::pull(dplyr::filter(.spp, type %in% c("A", "B")), spp_w_hyphens)
@@ -45,7 +46,6 @@ out <- future.apply::future_lapply(seq_len(nrow(all)), function(i) {
   .out
 })
 
-dir.create(here::here("report/geostat-cache"), showWarnings = FALSE)
 saveRDS(out, file = here::here("report/geostat-cache/spt-index-out.rds"))
 
 get_convergence_criteria <- function(x) {
