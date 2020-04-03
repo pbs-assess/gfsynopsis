@@ -30,13 +30,8 @@ gfdata::cache_pbs_data(
 dat <- readRDS(paste0(file.path(data_cache, this_spp), ".rds"))
 
 # If you want to fit and plot the commercial CPUE indexes then run the following:
-# (must be on PBS network)
+# (must be on PBS network; a lot of data + a bit slow)
 # dat$cpue_index <- gfdata::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
-
-max_years <- dplyr::filter(dat$survey_sets,
-  grepl("^HBLL OUT ", survey_abbrev) | grepl("^SYN ", survey_abbrev)) %>%
-  dplyr::group_by(survey_abbrev) %>%
-  dplyr::summarize(max_year = max(year))
 
 get_max_yrs <- function(x, .grep) {
   x %>%
@@ -50,13 +45,13 @@ hbll_out_max_survey_years <- get_max_yrs(dat$survey_sets, "^HBLL OUT")
 
 gfsynopsis::make_pages(
   dat = dat,
-  dat_iphc = NULL, # NULL to skip
+  dat_iphc = NULL, # NULL to skip; note these figures do not include Andy's IPHC adjustments
   spp = this_spp,
-  d_geostat_index = NULL, # geostatistical model fits; NULL to skip
+  d_geostat_index = NULL, # geostatistical index standardization; NULL to skip
   french = FALSE,
   report_lang_folder = build_dir,
   resolution = 170, # balance size with resolution
-  png_format = ext == "png",
+  png_format = TRUE, # vs. PDF
   save_gg_objects = TRUE, # save the ggplots to an .rds file?
   synoptic_max_survey_years = synoptic_max_survey_years,
   hbll_out_max_survey_years = hbll_out_max_survey_years,
