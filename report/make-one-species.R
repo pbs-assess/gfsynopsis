@@ -3,7 +3,6 @@ data_cache <- here::here("report", "data-cache")
 build_dir <- file.path("report", "report-rmd")
 dir.create(here::here("report", "data-cache"), showWarnings = FALSE)
 dir.create(here::here(build_dir), showWarnings = FALSE)
-ext <- "png" # "png" or "pdf"
 survey_cols <- c(
   RColorBrewer::brewer.pal(5L, "Set1"),
   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
