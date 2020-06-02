@@ -15,6 +15,12 @@ get_page <- function(filename, page, crop_x = 250, crop_y = 260) {
   system(call)
 }
 
+get_page("pacific-ocean-perch-1", 112)
+get_page("pacific-ocean-perch-2", 113)
+
+get_page("redbanded-rockfish-1", 116)
+get_page("redbanded-rockfish-2", 117)
+
 get_page("silvergray-rockfish-1", 120)
 get_page("silvergray-rockfish-2", 121)
 
