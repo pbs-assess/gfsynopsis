@@ -1,6 +1,6 @@
 ---
 title: |
-   Reproducible multi-species visualization of raw fisheries data improves transparency, assessment efficiency, and monitoring
+   Reproducible visualization of raw fisheries data for 113 species improves transparency, assessment efficiency, and monitoring
 author: |
   Sean C. Anderson^1\*^, Elise A. Keppel^2^\, Andrew M. Edwards^3,4^\
   ^1^Pacific Biological Station, Fisheries and Oceans Canada,\
@@ -65,6 +65,7 @@ data. However, regulatory agencies often lack the capacity to translate that
 data into effective monitoring information. Here, we describe an approach of
 automated visualization of raw fisheries data and demonstrate it with a
 report on 113 groundfish species in Pacific Canadian
+<<<<<<< HEAD
 waters. Our implementation includes standardized visualizations of temporal
 trends and spatial distributions of commercial catches and survey indices, plus
 analyses of ages, lengths, maturity, and growth, all on two pages per
@@ -72,6 +73,16 @@ species. The approach facilitates discussions on stock-assessment and survey
 prioritization, increases transparency about data holdings, and makes data
 available for regular review by interested parties. We encourage other agencies to
 consider similar approaches for their own data.
+=======
+waters. Our implementation consists of two pages per species that show
+standardized visualizations of temporal
+trends and spatial distributions of commercial catches and survey indices,
+along with analyses of age, size, maturity, and growth. The approach
+facilitates discussions on stock assessment and survey prioritization,
+increases transparency about data holdings, and makes data available for
+regular review by interested parties. We encourage other agencies to consider
+similar approaches for their own data.
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 <!-- EK: Can we say "raw" data here and throughout the paper given the modelling done for the spatial data? -->
 <!-- SA: to distinguish this from what else has been done, yes, I think we can use the word "raw". Nearly everything else is summarizing stock assessment output. Even the input to stock assessments often has gone through similar spatial modelling. However, I don't think we need to insert the word "raw" everywhere or it will get a bit overused. There could be a few more places to insert it. -->
 
@@ -91,16 +102,24 @@ A number of governmental agencies have developed visualization reports or websit
 For example, @ices2019 maintains a website visualizing the data in their ICES Stock Assessment Database from 2014 onwards (<http://standardgraphs.ices.dk>).
 The site includes plots of catches, recruitment, fishing mortality, spawning stock biomass, and status with respect to reference points for stocks.
 The Australian government agency maintains the "Status of Australian Fish Stocks Reports", which have visualized recent catches, stock status, and reported distribution of 120 species since 2012 (<https://www.fish.gov.au>).
-In the United States, where species are assessed and reviewed by eight regional fisheries management councils within the National Marine Fisheries Service (NMFS), no publicly available common set of data visualizations exist, although a variety of graphics are published in stock assessments, ecosystem indicators are visualized in Regional Ecosystem Status Reports (<https://www.integratedecosystemassessment.noaa.gov>), and graphical tools exist for specific purposes such as visualizing groundfish distributions in Alaska [@barbeaux2018].
+In the United States, where species are assessed and reviewed by eight regional fisheries management councils within the National Marine Fisheries Service (NMFS), no publicly available common set of data visualizations exist.
+However, a variety of graphics are published in stock assessments, ecosystem indicators are visualized in Regional Ecosystem Status Reports (<https://www.integratedecosystemassessment.noaa.gov>), and graphical tools exist for specific purposes such as visualizing groundfish distributions in Alaska [@barbeaux2018].
 In Canada, examples include @ricard2013---a report summarizing Fisheries and Oceans Canada (DFO) survey data for marine fish and invertebrates on the East Coast Scotian Shelf and Bay of Fundy.
 <!-- ---and the Pacific Salmon Explorer---an ambitious interactive data visualization maintained by the Pacific Salmon Foundation (<https://www.salmonexplorer.ca/>). -->
 
 <!-- Paragraph 4: Why what has been on elsewhere is not enough. -->
 Collectively, data visualization reports and websites, such as those mentioned above, are important syntheses of information and communication tools.
 However, these visualizations primarily report on stock status and assessment *outputs* [but see @ricard2013]. No agency, to our knowledge, has a one-stop location to view all available raw fisheries dependent and independent data for all major stocks in a common format that encourages rapid comparison amongst stocks.
+<<<<<<< HEAD
 Furthermore, most fish stocks worldwide do not have a formal assessment, but some quantity of raw data often exists.
 Even where assessments do exist, we contend there remains value in standardized visualizations of raw data across multiple stocks, visualizing data between assessment cycles, and in collecting visualizations, which would ordinarily be scattered within hundreds of pages of individual stock assessments, so that they can be viewed simultaneously and compared.
 Such an approach facilitates new research ideas and addresses questions such as:
+=======
+Furthermore, most fish stocks worldwide lack a formal assessment, but some quantity of raw data often exists.
+Even where assessments do exist, we contend there remains value in standardized visualizations of raw data across multiple stocks and visualizing data between assessment cycles.
+There also remains value in collecting visualizations, which would ordinarily be scattered within hundreds of pages of individual stock assessments, so that they can be viewed simultaneously and compared.
+Such an approach facilitates new research ideas---such as correlations that might exist between population trends or relationships between fishery trends before and after management changes---and addresses questions such as:
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 What raw data are available for various stocks? Given the data available, which analyses could be used to assess various stocks?
 What data-gaps need to be filled to conduct formal assessments of new stocks, or improve on previous ones?
 <!-- Are there systematic issues with the raw data that can only be seen in aggregate (e.g., changes to survey design or data entry errors). -->
@@ -122,21 +141,28 @@ What is the one place someone can go to see all the available fisheries dependen
 <!-- West Coast: https://www.integratedecosystemassessment.noaa.gov/sites/default/files/2019-04/CCIEA%202019%20ESR%20508.pdf -->
 
 <!-- Paragraph 5: Introduce what we do here. -->
-To address this gap, here we make the case for multi-species consistent-format visualization of raw fisheries data. We demonstrate the concept through a report focussing on 113 groundfish species on the west coast of Canada [@anderson2019synopsis].
+To address this gap, here we make the case for large-scale, consistent-format visualization of raw fisheries data. We demonstrate the concept through a report focussing on 113 groundfish species on the west coast of Canada [@anderson2019synopsis].
 In this region, the commercial groundfish fleet is subject to 100% on-board and dockside monitoring, while numerous fisheries-independent trawl and longline surveys are conducted annually, producing large quantities of valuable data [@stanley2015].
 At the same time, assessment scientists face limitations in personnel and time.
+<<<<<<< HEAD
 As a result, most stocks are not regularly examined through stock assessment, leaving the most monitoring data unreported.
 Although the Canadian government is engaged in an open-data initiative [@canada2018], some of DFO's commercial data holdings cannot be shared in raw format due to privacy laws.
 Furthermore, data that are shared are not easily digested without advanced data processing skills and extensive knowledge of the survey programs and commercial fisheries.
 
 # Methods {-}
+=======
+As a result, most stocks are not regularly examined through stock assessment, leaving most monitoring data unreported.
+Although the Canadian government is engaged in an open-data initiative [@canada2018], some of DFO's commercial data holdings cannot be shared in raw format due to privacy laws.
+Furthermore, data that are shared are not easily digested without advanced data processing skills and extensive knowledge of the survey programs and commercial fisheries.
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 
 <!-- Paragraph 6: A broad overview of the approach. -->
 Our goals with the visualization report were manifold and included:
 (1) ensuring that the current state of knowledge on indices of abundance for all groundfish stocks are available for regular review by DFO scientists, managers, and all interested parties;
-(2) facilitating discussions related to stock-assessment and survey-program prioritization;
+(2) facilitating discussions related to stock assessment and survey-program prioritization;
 (3) increasing transparency about our data holdings; and
 (4) producing standardized tools, data-set derivation, and visualizations that are useful elsewhere (e.g., in stock assessments).
+<<<<<<< HEAD
 <!-- EK: I like starting with the goals here. If we're trying to focus more on the 'approach' than our specific 'report',
 for the methods section would it make sense to next follow the data to document workflow instead of leading with our report layout? I can take a stab at reorganizing this section if that makes sense. -->
 
@@ -153,13 +179,36 @@ In designing the report, we made the following design considerations:
 (6) maintain consistent colour meaning throughout (e.g., data from a given survey always uses the same colour) and use colourblind-proof colours where possible;
 (7) describe the visualizations in detail at the beginning of the report so that the species pages are entirely visual; and
 (8) highlight uncertainty wherever possible (e.g., through shading to indicate periods of increased uncertainty in reported catches).
+=======
+
+# Methods {-}
+
+<!-- Paragraph 7: Reproducibility of the report. -->
+We aimed to make the report automated and reproducible so that it could be efficiently updated on a regular basis. We ensured report production was transparent with regards to how the data were extracted from databases and treated prior to plotting, and developed the code and report in the open and under version control (<https://github.com/pbs-assess/gfdata>, <https://github.com/pbs-assess/gfplot>, <https://github.com/pbs-assess/gfsynopsis>). Often, raw data cannot be plotted in a meaningful way without first undergoing some data tidying [@wickham2014] and/or mathematical modelling, and for this we aimed to use consistent methods across species. To accomplish these aims, we developed a family of R packages that facilitated extraction of data from relational databases (package "gfdata"), tidying and arranging the necessary data for modelling or plotting, fitting statistical models, plotting the data and statistical models (package "gfplot"), and compiling the visualizations into a report format (package "gfsynopsis"). We wrote the packages in a modular format (Fig. 1) so that individual functions could be used for other purposes---e.g., so data could be extracted and biological models fit for stock assessments in a consistent, standardized way.
+
+<!-- Paragraph 8: Design considerations. -->
+In designing the report, we made the following design considerations and incorporated them throughout construction of the report:
+
+1. Simplify understanding of the collection of plots for each species by maintaining a consistent layout for all species (including empty plots to emphasize a lack of data for some species);
+2. Enable rapid viewing of all data for an individual species at once by limiting the report to two pages per species;
+3. Maximize information that could be presented in the limited space by focusing on data types relevant to the most species,
+4. Organize data to facilitate clear and simple interpretation by grouping similarly focused visualizations together;
+5. Present contextual information essential to interpretation by displaying metadata alongside visualizations where possible;
+6. Enable simple differentiation among data sources by maintaining consistent colour meaning throughout (e.g., data from a given survey always uses the same colour) and use colourblind-proof colours where possible;
+7. Leave species pages entirely visual by describing the visualizations in detail at the beginning of the report;
+8. Minimize misinterpretation by highlighting caveats and uncertainty wherever possible (e.g., through shading to indicate periods of increased uncertainty in reported catches or indicating sample sizes associated with age and length frequencies); and
+9. Avoid false interpretation by omitting visualizations where sample sizes were clearly too low to draw meaningful inference (e.g., omitting von Bertalanffy growth model fits if < 20 fish were sampled or omitting spatial density maps if < 5% of survey sets caught the species).
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 
 <!-- Paragraph 9: Data we focused on. -->
 We focused our analysis on species of commercial, recreational, conservation, or
 First Nations interest, as well as those that are regularly caught in DFO surveys. We included population trends and biological data from both commercial fisheries and scientific surveys to give an overall snapshot of available information for each species. Of the fisheries-independent surveys conducted by DFO, we presented data from those that provided the greatest spatial and taxonomic coverage of the species. We chose to focus on aspects of the data that were most important to stock assessment, such as indices of abundance, catch and composition data, and growth and maturity analyses. We displayed both spatial and temporal aspects of the data.
+<<<<<<< HEAD
 Given the large amount of data it was necessary to visualize data independently
 for each of the multiple species. Our general approach could certainly be used
 to view related species in single visualizations.
+=======
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 
 <!-- Paragraph 10: Specific content of the report. -->
 We settled on presenting visualizations of: (1) temporal trends and spatial distributions of fisheries-independent survey data and commercial fisheries catch and catch per unit effort (CPUE); (2) temporal trends in length and age frequencies; and (3) biological quantities including length at age, weight at length, age at maturity, length at maturity, and maturity frequencies from fisheries-independent surveys and commercial data sources. We additionally presented a summary of counts of available biological data (ages, ageing structures such as otoliths, lengths, weights, and maturities) for all commercial and research samples. Throughout report development we solicited feedback from stakeholders and other potential users of the report on which data to include as well as on report structure and design. We also sought feedback from data experts for various species groups to ensure that data being captured were accurate, complete, and presented faithfully.
@@ -169,7 +218,11 @@ We settled on presenting visualizations of: (1) temporal trends and spatial dist
 <!-- Paragraph 11: Summary of the report. -->
 Our implementation included two pages of visualization for 113 species of
 British Columbia (BC) groundfish and sharks [@anderson2019synopsis, Figs
+<<<<<<< HEAD
 1--3]. Figures 1--3 are included here as examples to demonstrate our
+=======
+2--4]. Figures 2--4 are included here as examples to demonstrate our
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 visualizations; see @anderson2019synopsis for full descriptions and
 interpretations of the data.
 The species covered in the report included: 34 rockfish species; 16
@@ -178,7 +231,11 @@ gadiform species (cods); 16 sculpin and poacher species; three greenling/lingcod
 species; six eelpout, three prickleback, and seven other
 perciform species; and one species each of smelt, sablefish and snailfish. The
 visualizations for many data-limited species included mostly empty plots, which
+<<<<<<< HEAD
 graphically emphasized the lack of data (Fig.\ 3, last row)---effectively
+=======
+graphically emphasized the lack of data (Fig.\ 4, last row)---effectively
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 turning unknown unknowns about a given species [@wintle2010] into *known*
 unknowns. For data-rich species, nearly all available data were visualized
 together on two pages for the first time. Overall, the approach has had many
@@ -190,40 +247,47 @@ well-received by stakeholders, managers, and other fisheries scientists
 # Discussion {-}
 
 <!-- Paragraph 12: Discussion overview. -->
+<<<<<<< HEAD
 We have described an automated large-scale visualization approach that we have implemented as a report presenting up-to-date population trends and biological data from commercial fisheries and research surveys. Additionally, the visualizations can be rapidly updated with new data in between report publications for specific purposes. Stock assessments are not available for most species included in our report, and are not available every year for most species that are assessed, which has limited the dissemination of these data in the past. Our approach facilitates the broad monitoring of groundfish populations---it ensures groundfish scientists, managers, and interested parties have access to consistent, up-to-date, and easily digestible visualizations of data holdings. The approach increases transparency, provides a mechanism for regular review of data for indication of surprises by relevant parties, and facilitates discussions concerning stock-assessment and survey-program prioritization.
+=======
+We have described an automated large-scale visualization approach that we have implemented as a report presenting up-to-date population trends and biological data from commercial fisheries and research surveys. Additionally, the visualizations can be rapidly updated with new data in between report publications for specific purposes. Stock assessments are not available for most species included in our report, and are not available every year for most species that are assessed, which has limited the dissemination of these data in the past. Our approach facilitates the broad monitoring of groundfish populations---it ensures groundfish scientists, managers, and interested parties have access to consistent, up-to-date, and easily digestible visualizations of data holdings. The approach increases transparency, provides a mechanism for regular review of data by relevant parties, allows for timely identification of changes in trends, and facilitates discussions concerning stock assessment and survey-program prioritization.
+>>>>>>> ca40cb8886f618335c817b757b6bfd8fa7621b69
 
 <!-- Paragraph 13: How this is fundamentally new and different from other approaches. -->
 We contend it is the combination of public availability, large-scale consistent-format visualizations, rapid data-to-document reproducibility, and a focus on raw data that makes our approach novel and useful.
-We first discuss the public availability and format aspects.
-Undoubtedly, many agencies worldwide have internal tools (e.g., R packages) to extract data from databases and visualize it. While these tools are important and useful, they have limited utility for stakeholders and scientists outside of an agency. Even within an agency
-the tools still require time and expertise to use, and effort can be duplicated
-if several people independently extract data on the same species---having a
-single go-to report (as a .pdf file) is fast and efficient.
+Undoubtedly, many agencies worldwide have internal tools (e.g., R packages) to extract data from databases and visualize it. While these tools are important and useful, they have limited utility for stakeholders and scientists outside of an agency. Even within an agency, having a single go-to report will increase speed and efficiency since
+these tools require time and expertise to use, and effort is duplicated
+when several people independently extract data on the same species.
 In terms of format, the individual plots that make up our two-page species summaries are based on standard visualizations often seen scattered throughout stock assessments.
 However, we contend this is a case where "the whole is greater than the sum of its parts".
 Having such a variety of plot types in close proximity [a high data-to-ink ratio; @tufte2001] enables comparison and a rapid understanding of any assessed or unassessed stock in a way that is not otherwise possible.
-As examples, in our case, up to ten survey indices can be compared amongst themselves and with commercial CPUE, length and age composition patterns are plotted for all surveys together, and spatial and temporal survey patterns can be considered simultaneously.
+As examples, in our case, up to ten survey indices can be compared amongst themselves and with commercial CPUE; length and age composition patterns are plotted for all surveys together; and spatial and temporal survey patterns can be considered simultaneously.
 
 <!-- Paragraph 14: Specific ways in which this approach has proven useful. -->
-Internally, the approach we describe here provides many features and resulting benefits that we imagine would extend to any agency taking a similar approach (Table \@ref(tab:benefits)).
+Internally, the approach we describe here provides many features and resulting benefits that would extend to any agency taking a similar approach (Table \@ref(tab:benefits)).
 Specifically within our region, as one example, the report has become an indispensable tool for developing operating models when implementing a management procedure approach to fisheries management [e.g., @butterworth1999] for data-limited groundfish stocks.
-The report gives analysts a quick overview of available data types and quantities and therefore what management procedures are possible for a given stock.
+The report gives analysts a quick overview of available data types and quantities and, therefore, what management procedures are possible for a given stock.
 Second, the approach has helped analysts identify numerous anomalies in our databases.
-For example, we noticed that 2009 was consistently a low index year in one of our longline surveys and discovered that the survey design was not followed precisely that year but this information had been lost to current stock assessment scientists.
+For example, we noticed that 2009 was consistently a low index year in one of our longline surveys and discovered that the survey design was not followed precisely that year.
+This information had been lost to current stock assessment scientists.
 Third, the ease with which we can skim survey indices and composition data has enabled us to detect notable changes quickly.
-For instance, immediately after the 2019 survey data were entered, we regenerated the report and skimmed survey indices for any major changes noting a rapid decline in some Arrowtooth Flounder survey indices and early signs of recovery of Bocaccio rockfish in survey indices and age compositions. These have played into discussions of assessment prioritization and work planning.
+For instance, immediately after the 2019 survey data were entered, we regenerated the report and skimmed survey indices for any major changes.
+We noted a rapid decline in some Arrowtooth Flounder survey indices and early signs of recovery of Bocaccio rockfish in survey indices and age compositions. These types of issues have played into discussions of assessment prioritization and work planning.
 
 <!-- Paragraph 15: The importance of data extraction automation and databases. -->
 <!-- AK: Moreover, you did not pound on the functions as a building block for "rapid prototyping" of assessments in conjunction with something like DLMtool.  Nothing about extensibility -->
 <!-- AK: "living with the legacy of historical databases does not mean that entirely new, and costly databases must be built".  "Instead, data manipulation tools can produce reproducible and accessible extractions that ease the burden on analyst, and reduce the error rates inherent in filtering data from complex relational databases".  This means "that multi-regional reporting using different database structures can be achieved with data tools rather than comprehensive, costly and time-delayed super-database development".   -->
-It is important that the approach we describe is automated from data extraction to report generation---the product is most useful with up-to-date data and it would be an enormous undertaking to repeatedly recreate such a report from scratch.
+It is important that the approach we describe is automated from data extraction to report generation because the product is most useful with up-to-date data and it would be an enormous undertaking to repeatedly recreate such a report from scratch.
 This is considerably easier with carefully organized and maintained relational databases. This report and its data-to-document workflow demonstrate the value of investing in the development and ongoing maintenance of organized databases for any agency collecting and housing large quantities of data [e.g., @michener2012]. The functions we created to extract groundfish data for the report are available within our organization for those requiring access to the databases, and facilitate internally reviewed, standardized, and consistent data extraction methods.
 Importantly, the functions allow us to work efficiently while living with the legacy of multiple historical databases without the need to create a single monolithic database.
 
 <!-- Paragraph 16: This is raw-data window shopping not stock assessment. -->
-Unlike detailed species-specific analyses conducted in stock assessments, we liken the mass visualization of raw fisheries data to window shopping. The approach gives a quick flavour of the available data for a given stock and hints at possible indices of relative population trends. However, the outputs are not a substitute for species-specific stock assessment [or graphical syntheses of stock assessment output; e.g., @ices2019]. For example, stock assessments may use different data sources which are most applicable for specific species rather than those presented in the report which were widely applicable to many species, analyze data on a finer spatial basis (e.g., separate stocks along the BC coast rather than coastwide analysis), or make considerations for special cases that are not considered in our report. Furthermore, relative biomass indices based on survey or commercial CPUE data in the report require careful, species-specific interpretation as they may not best represent abundance trends for some stocks. For example, biomass indices may be based on surveys with particularly low catchability for certain species, or commercial CPUE may be influenced by management changes.
-
-<!-- RF: You could also mention that putting the data together like this can help address requirements for ecosystem-based management by providing accessible information for more species and facilitating construction of more complex models such as ecosystem models. Let me know if you want some references -->
+Unlike detailed species-specific analyses conducted in stock assessments, we liken the mass visualization of raw fisheries data to window shopping.
+The approach gives a quick flavour of the available data for a given stock and hints at possible indices of relative population trends.
+However, the outputs are not a substitute for species-specific stock assessment [or graphical syntheses of stock assessment output; e.g., @ices2019].
+For example, stock assessments may use different data sources that are most applicable for specific species, analyze data on a finer spatial basis, or make considerations for special cases that are not included in our report.
+Furthermore, relative biomass indices based on survey or commercial CPUE data in the report require careful, species-specific interpretation as they may not best represent abundance trends for some stocks.
+For example, biomass indices may be based on surveys with particularly low catchability for certain species, or commercial CPUE may be influenced by management changes.
 
 <!--
 AK: The GFSynopsis approach also protects agency IP and assets.  Instead of code for critical decisions related to resource use living on a individual analysts desktop/laptop, they live in a R package which is accessible to a broad user community.  If the individual analysts leaves, the code does not.
@@ -243,14 +307,14 @@ The more I think of it, the angle of having a layer of functions that removes th
 <!-- You might also want a short paragraph describing some of the challenges you faced such as choice of statistical analyses and how consultation was a critical component. I think play up the fact that approaches such as this are key engagement tools -->
 
 <!-- Paragraph 17: This would be useful elsewhere. -->
-We suggest that an approach such as we have presented would have broad utility across taxonomic groups, regions, and types of data. A similar approach could be useful nearly anywhere agencies face monitoring multiple ecosystem elements (e.g., populations, species, and/or environmental processes) with relevant data maintained in databases. The approach would be especially useful for agencies that lack the capacity to assess those elements in great depth at a frequency that meets management needs. However, even with regular detailed assessments, such an approach can provide a broad overview in a format consistent across all elements.
+We suggest that an approach such as we have presented would have broad utility across taxonomic groups, regions, and types of data. A similar approach could be useful nearly anywhere agencies monitor multiple ecosystem elements (e.g., populations, species, and/or environmental processes) with relevant data maintained in databases. The approach would be especially useful for agencies that lack the capacity to assess those elements in great depth at a frequency that meets management needs. However, even with regular detailed assessments, such an approach can provide a broad overview in a format consistent across all elements.
 <!-- Furthermore, a similar approach has been used to facilitate completion of stock assessments---for example, in automating the output of complex models and producing the assessment document under tight deadlines [@berger2019hake].  -->
 <!-- Although we caution that it can take considerable work to set up such a workflow, the approach can yield substantial efficiency gains in future years. -->
 We hope our approach can serve as a template for other regions and species groups---as one of many tools---to turn survey and fisheries data into effective broad monitoring.
 
 # Acknowledgements {-}
 
-We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations, and non-governmental organizations, which has made possible the collection of the valuable data that underlies the report described in this paper. For invaluable input into the report's design we thank Robyn Forrest, Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard (who suggested the window-shopping metaphor), Chris Rooper, and Greg Workman, We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for maintaining the BC groundfish databases and for help with data extraction. We thank Robyn Forrest for helpful comments on an earlier version of this paper.
+We are grateful for the ongoing collaboration between DFO, commercial fishers, First Nations, and non-governmental organizations, which has made possible the collection of the valuable data that underlies the report described in this paper. For invaluable input into the report's design we thank Robyn Forrest, Chris Grandin, Dana Haggarty, Rob Kronlund, Daniel Ricard (who suggested the window-shopping metaphor), Chris Rooper, and Greg Workman. We thank Norm Olsen, Maria Surry, and Malcolm Wyeth for maintaining the BC groundfish databases and for help with data extraction. We thank Robyn Forrest, Rob Kronlund, James Ianelli, an anonymous reviewer, and the editor (Kristen Anstead) for helpful comments on earlier versions of this manuscript.
 
 <!-- \vspace{9pt} -->
 
@@ -260,6 +324,8 @@ We are grateful for the ongoing collaboration between DFO, commercial fishers, F
 
 <div id="refs"></div>
 
+
+\clearpage
 
 # Tables {-}
 
@@ -278,15 +344,20 @@ knitr::kable(
   col.names = c("Feature", "Example benefits"),
   booktabs = TRUE,
   linesep = "\\addlinespace",
-  caption = "Features and examples of their benefits for multi-species consistent-format visualization of raw fisheries data."
+  caption = "Features and examples of their benefits for large-scale consistent-format visualization of raw fisheries data."
 ) %>%
-  kableExtra::column_spec(1, width = "6.2cm") %>%
-  kableExtra::column_spec(2, width = "9.7cm")
+  kableExtra::column_spec(1, width = "6.0cm") %>%
+  kableExtra::column_spec(2, width = "10cm")
 ```
 
 \clearpage
 
 # Figure captions {-}
+
+Figure 1: Data-to-document workflow for generating the data synopsis report. (A) The automated workflow from data extraction to report production.
+(B) Example modular functions built for this report.
+Shown are functions for extracting biological data from commercial and fishery-independent surveys, which are then passed to functions for tidying and arranging the data or fitting statistical models to the data prior to generating visualizations.
+The functions are modular so that a data-extraction function can be paired with multiple data-tidying functions, the data-extraction and data-tidying functions can be used for other purposes (e.g., in stock assessments), and the plotting functions can be used with different underlying data sources.
 
 <!-- \renewcommand{\figurename}{Fig.} -->
 
@@ -294,7 +365,7 @@ knitr::kable(
 <!-- \begin{figure}[htbp] -->
 <!-- \centering -->
 <!-- \caption{ -->
-Figure 1: Example first page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch in each geographical region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.
+Figure 2: Example first page for Silvergray Rockfish \emph{Sebastes brevispinis} featuring metadata and temporal and spatial trends from fisheries-independent surveys and commercial catch and effort data in British Columbia, Canada. (Top row) Relative biomass indices from up to ten surveys, commercial catch in each geographical region (panels) and gear type (colour), and standardized (solid line) and unstandardized (dashed line) commercial bottom catch per unit effort (CPUE). (Bottom row) Modelled relative biomass in space from four synoptic trawl surveys (left), two hard bottom long line surveys (second from left), and the International Pacific Halibut Commission (IPHC) setline survey (third from left); commercial trawl (second from right) and hook and line (right; H \& L) CPUE.
 <!-- } -->
 <!-- \label{fig:page1} -->
 <!-- \end{figure} -->
@@ -305,7 +376,7 @@ Figure 1: Example first page for Silvergray Rockfish (\emph{Sebastes brevispinis
 <!-- \begin{figure}[htbp] -->
 <!-- \centering -->
 <!-- \caption{ -->
-Figure 2: Example second page for Silvergray Rockfish (\emph{Sebastes brevispinis}) featuring biological sample, maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year and survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and survey. (Third row) Age-at-maturity and length-at-maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and ageing structures from all available survey and commercial samples.
+Figure 3: Example second page for Silvergray Rockfish \emph{Sebastes brevispinis} featuring biological sample, maturity, and growth data in British Columbia, Canada. (Top left) Length frequencies by year and survey for females (coloured) and male (grey). (Top right) Length-age von-Bertalanffy and weight-length model fits. (Second row) Age frequencies by year and survey. (Third row) Age-at-maturity and length-at-maturity model fits and frequency of maturity stage by month. (Bottom row) Counts of available fish lengths, weights, maturities, ages, and ageing structures from all available survey and commercial samples.
 <!-- } -->
 <!-- \label{fig:page2} -->
 <!-- \end{figure} -->
@@ -316,14 +387,15 @@ Figure 2: Example second page for Silvergray Rockfish (\emph{Sebastes brevispini
 <!-- \begin{figure}[htbp] -->
 <!-- \centering -->
 <!-- \caption{ -->
-Figure 3: A consistent layout across species enables rapid comprehension of data,
+Figure 4: A consistent layout across species enables rapid comprehension of data,
 comparison across species, and highlights missing data (blank panels). Some
 missing data are due to a lack of sampling or aging for a given species and
 others are because a given species is more susceptible to trawl or longline
 survey gear. Shown here from top to bottom are three species in decreasing order
-of data richness: Canary Rockfish (\emph{Sebastes
-pinniger}), Petrale Sole (\emph{Eopsetta jordani}), and Sand Sole
-(\emph{Psettichthys melanostictus}).
+of data richness: Canary Rockfish \emph{Sebastes
+pinniger}, Petrale Sole \emph{Eopsetta jordani}, and Sand Sole
+\emph{Psettichthys melanostictus}.
 <!-- } -->
 <!-- \label{fig:multi} -->
 <!-- \end{figure} -->
+

@@ -1,4 +1,12 @@
 rmarkdown::render("paper.Rmd")
+
+
+system("cp paper/workflow.tiff paper/fig1.tiff")
+system("convert paper/pages/silvergray-rockfish-1.png -compress zip paper/fig2.tiff")
+system("convert paper/pages/silvergray-rockfish-2.png -compress zip paper/fig3.tiff")
+system("convert paper/fig4.png -resize 1500x1500 -compress zip paper/fig4.tiff")
+
+
 # d <- readLines("paper.tex")
 
 # figure_line <- grep("^\\\\begin\\{figure\\}", d)[[1]]

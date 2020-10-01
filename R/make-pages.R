@@ -289,27 +289,31 @@ make_pages <- function(
 
   # Commercial CPUE indices: ---------------------------------------------------
 
-  if (nrow(dat$catch) > 0) {
-    if (!file.exists(cpue_cache_spp)) {
-      cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
-        species = unique(dat$catch$species_common_name),
-        save_model = save_gg_objects, parallel = parallel)
-      saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-    } else {
-      cpue_index <- readRDS(cpue_cache_spp)
-    }
+  if ("cpue_index" %in% names(dat)) {
+    if (nrow(dat$catch) > 0) {
+      if (!file.exists(cpue_cache_spp)) {
+        cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
+          species = unique(dat$catch$species_common_name),
+          save_model = save_gg_objects, parallel = parallel)
+        saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+      } else {
+        cpue_index <- readRDS(cpue_cache_spp)
+      }
 
-    if (!is.na(cpue_index[[1]])) { # enough vessels?
+      if (!is.na(cpue_index[[1]])) { # enough vessels?
 
-      g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
-        ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
-        ylab("") + xlab("") +
-        ggplot2::theme(
-          axis.title.y = element_blank(),
-          axis.text.y = element_blank(),
-          axis.ticks.y = element_blank()
-        )
+        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
+          ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
+          ylab("") + xlab("") +
+          ggplot2::theme(
+            axis.title.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks.y = element_blank()
+          )
+      }
     }
+  } else {
+    cpue_index <- NA
   }
   if (nrow(dat$catch) == 0 || is.na(cpue_index[[1]])) {
     g_cpue_index <-
@@ -342,24 +346,27 @@ make_pages <- function(
   # Survey biomass indices: ----------------------------------------------------
 
   # Get new IPHC calculations
-  if (!file.exists(iphc_index_cache_spp)) {
-    iphc_set_counts_sp <- tryCatch({
-      gfiphc::calc_iphc_full_res(dat_iphc$set_counts)
-    }, error = function(e) NA)
-    saveRDS(iphc_set_counts_sp, file = iphc_index_cache_spp, compress = FALSE)
-  } else {
-    iphc_set_counts_sp <- readRDS(iphc_index_cache_spp)
-  }
-
-  iphc_set_counts_sp_format <- tryCatch({
-    gfiphc::format_iphc_longest(iphc_set_counts_sp)
-  }, error = function(e) NA)
   dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
-  # Remove existing (GFbio) based IPHC series with longer ones from new calcs
-  if (!is.na(iphc_set_counts_sp_format)) {
-    dat_tidy_survey_index <- dat_tidy_survey_index %>%
-      filter(survey_abbrev != "IPHC FISS") %>%
-      rbind(iphc_set_counts_sp_format)
+
+  if (!is.null(dat_iphc)) {
+    if (!file.exists(iphc_index_cache_spp)) {
+      iphc_set_counts_sp <- tryCatch({
+        gfiphc::calc_iphc_full_res(dat_iphc$set_counts)
+      }, error = function(e) NA)
+      saveRDS(iphc_set_counts_sp, file = iphc_index_cache_spp, compress = FALSE)
+    } else {
+      iphc_set_counts_sp <- readRDS(iphc_index_cache_spp)
+    }
+
+    iphc_set_counts_sp_format <- tryCatch({
+      gfiphc::format_iphc_longest(iphc_set_counts_sp)
+    }, error = function(e) NA)
+    # Remove existing (GFbio) based IPHC series with longer ones from new calcs
+    if (!is.na(iphc_set_counts_sp_format)) {
+      dat_tidy_survey_index <- dat_tidy_survey_index %>%
+        filter(survey_abbrev != "IPHC FISS") %>%
+        rbind(iphc_set_counts_sp_format)
+    }
   }
 
   if (all(is.na(dat_tidy_survey_index$biomass))) {
@@ -372,45 +379,47 @@ make_pages <- function(
       xlim = c(1984, max(dat_tidy_survey_index$year, na.rm = TRUE)))
   }
 
-  # Get geostatistical index calculations
-  d_geostat_index <- d_geostat_index %>%
-    rename(survey_abbrev = survey, biomass_scaled = est,
-      lowerci_scaled = lwr, upperci_scaled = upr) %>%
-    filter(type == 'Spatiotemporal') %>%
-    filter(species == spp_file) %>%
-    group_by(survey_abbrev) %>%
-    mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) %>%
-    ungroup() %>%
-    mutate(survey_abbrev =
-        factor(survey_abbrev,
-          levels = levels(g_survey_index$data$survey_abbrev)))
+  if (!is.null(d_geostat_index)) {
+    # Get geostatistical index calculations
+    d_geostat_index <- d_geostat_index %>%
+      rename(survey_abbrev = survey, biomass_scaled = est,
+        lowerci_scaled = lwr, upperci_scaled = upr) %>%
+      filter(type == 'Spatiotemporal') %>%
+      filter(species == spp_file) %>%
+      group_by(survey_abbrev) %>%
+      mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) %>%
+      ungroup() %>%
+      mutate(survey_abbrev =
+          factor(survey_abbrev,
+            levels = levels(g_survey_index$data$survey_abbrev)))
 
-  # Add the geostatistical index calculations to the existing data and plot
-  if (nrow(d_geostat_index) > 0L) {
-    design_index_geo_means <- group_by(g_survey_index$data, survey_abbrev) %>%
-      summarise(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE)))
-    d_geostat_index <-
-      suppressWarnings(left_join(d_geostat_index, design_index_geo_means,
-        by = "survey_abbrev"))
-    d_geostat_index <- group_by(d_geostat_index, survey_abbrev) %>%
-      mutate(
-        lowerci_scaled = lowerci_scaled * (design_geo_mean / st_geo_mean),
-        upperci_scaled = upperci_scaled * (design_geo_mean / st_geo_mean),
-        biomass_scaled = biomass_scaled * (design_geo_mean / st_geo_mean)
-      )
+    # Add the geostatistical index calculations to the existing data and plot
+    if (nrow(d_geostat_index) > 0L) {
+      design_index_geo_means <- group_by(g_survey_index$data, survey_abbrev) %>%
+        summarise(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE)))
+      d_geostat_index <-
+        suppressWarnings(left_join(d_geostat_index, design_index_geo_means,
+          by = "survey_abbrev"))
+      d_geostat_index <- group_by(d_geostat_index, survey_abbrev) %>%
+        mutate(
+          lowerci_scaled = lowerci_scaled * (design_geo_mean / st_geo_mean),
+          upperci_scaled = upperci_scaled * (design_geo_mean / st_geo_mean),
+          biomass_scaled = biomass_scaled * (design_geo_mean / st_geo_mean)
+        )
 
-    g_survey_index <- g_survey_index +
-      ggplot2::geom_line(data = d_geostat_index, lty = 1, size = 0.85,
-        colour = "#00000050") +
-      ggplot2::geom_point(data = d_geostat_index, stroke = 0.8, size = 1.05,
-        pch = 21, fill = "grey70",
-        colour = "grey45") +
-      ggplot2::geom_ribbon(data = d_geostat_index,
-        ggplot2::aes_string(ymin = 'lowerci_scaled', ymax = 'upperci_scaled'),
-        fill = NA, lty = "12", size = 0.35, colour = "grey40")
-    g_survey_index <- suppressMessages({
-      g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
-        xlim = c(1984, max(synoptic_max_survey_years)) + c(-0.5, 0.5), expand = FALSE)})
+      g_survey_index <- g_survey_index +
+        ggplot2::geom_line(data = d_geostat_index, lty = 1, size = 0.85,
+          colour = "#00000050") +
+        ggplot2::geom_point(data = d_geostat_index, stroke = 0.8, size = 1.05,
+          pch = 21, fill = "grey70",
+          colour = "grey45") +
+        ggplot2::geom_ribbon(data = d_geostat_index,
+          ggplot2::aes_string(ymin = 'lowerci_scaled', ymax = 'upperci_scaled'),
+          fill = NA, lty = "12", size = 0.35, colour = "grey40")
+      g_survey_index <- suppressMessages({
+        g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
+          xlim = c(1984, max(synoptic_max_survey_years)) + c(-0.5, 0.5), expand = FALSE)})
+    }
   }
 
   g_survey_index <- g_survey_index +
@@ -772,15 +781,20 @@ make_pages <- function(
   })
 
   # an internal IPHC function:
-  iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
-    final_year = 2018)
-  iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
-  iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
-    iphc_map_dat$combined)
+  if (!is.null(dat_iphc)) {
+    iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
+      final_year = 2018)
+    iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
+    iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
+      iphc_map_dat$combined)
 
-  if (sum(!is.na(iphc_map_dat$combined)) >= 1L) { # calculate a density to label on the map
-    iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
-    iphc_density <- round_density(iphc_density)
+    if (sum(!is.na(iphc_map_dat$combined)) >= 1L) { # calculate a density to label on the map
+      iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
+      iphc_density <- round_density(iphc_density)
+    }
+  } else {
+    iphc_density <- ""
+    iphc_map_dat <- iphc_fits$pred_dat
   }
 
   suppressMessages({
