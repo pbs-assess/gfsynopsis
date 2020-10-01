@@ -12,7 +12,7 @@ get_spp_names <- function() {
   spp <- spp[!duplicated(spp), , drop = FALSE]
   spp$spp_w_hyphens <- gsub("/", "-", gsub(" ", "-", spp$species_common_name))
   stopifnot(sum(duplicated(spp$species_common_name)) == 0)
-  dplyr::as.tbl(spp)
+  tibble::as_tibble(spp)
 }
 
 # Add the worms ID:
