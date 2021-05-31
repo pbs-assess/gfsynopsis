@@ -48,6 +48,30 @@ out <- future.apply::future_lapply(seq_len(nrow(all)), function(i) {
 
 saveRDS(out, file = here::here("report/geostat-cache/spt-index-out.rds"))
 
+f <- list.files("report/geostat-cache/", full.names = TRUE)
+f <- f[grepl("\\.rds", f)]
+f <- f[grepl("-SYN-", f)]
+out <- purrr::map(f, function(x) {
+  cat(x, "\n")
+  readRDS(x)
+})
+
+.sum <- purrr::map(out, function(x) {
+  if (length(x) > 1) {
+    if (!is.na(x$model[[1]])) {
+      # browser()
+      .rep <- as.list(x$model$sd_report, "Estimate", report = TRUE)
+      data.frame(range = .rep$range, sigmaO = .rep$sigma_O, sigmaE = .rep$sigma_E)
+    }
+  }
+})
+
+g1 <- .sum %>% filter(sigmaE < 100) %>% ggplot(aes(sigmaE)) + geom_histogram()
+g2 <- .sum %>% filter(sigmaE < 100) %>% ggplot(aes(sigmaO)) + geom_histogram()
+g3 <- .sum %>% filter(sigmaE < 100) %>% ggplot(aes(range)) + geom_histogram()
+cowplot::plot_grid(g1, g2, g3, nrow = 1)
+
+
 get_convergence_criteria <- function(x) {
   if (length(x) > 1L) {
     eigval <- try(1 / eigen(x$model$sd_report$cov.fixed)$values, silent = TRUE)
