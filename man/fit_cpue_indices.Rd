@@ -17,7 +17,7 @@ fit_cpue_indices(
 )
 }
 \arguments{
-\item{dat}{A data frame from \code{\link[gfplot:get_cpue_index]{gfplot::get_cpue_index()}}.}
+\item{dat}{A data frame from \code{\link[gfplot:get_data]{gfplot::get_cpue_index()}}.}
 
 \item{species}{The species common name to fit.}
 

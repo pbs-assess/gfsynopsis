@@ -15,7 +15,7 @@ fit_survey_maps(
 )
 }
 \arguments{
-\item{dat}{Data from \code{\link[gfplot:get_survey_sets]{gfplot::get_survey_sets()}}.}
+\item{dat}{Data from \code{\link[gfplot:get_data]{gfplot::get_survey_sets()}}.}
 
 \item{species}{The species name.}
 
@@ -29,9 +29,9 @@ multiple surveys if desired.}
 
 \item{years}{The years of survey data to use.}
 
-\item{...}{Any other arguments to pass to \code{\link[gfplot:fit_survey_sets]{gfplot::fit_survey_sets()}}.}
+\item{...}{Any other arguments to pass to \code{\link[gfplot:survey-spatial-modelling]{gfplot::fit_survey_sets()}}.}
 }
 \description{
 \code{fit_survey_maps()} is a helper function that calls
-\code{\link[gfplot:fit_survey_sets]{gfplot::fit_survey_sets()}} appropriately for the various surveys.
+\code{\link[gfplot:survey-spatial-modelling]{gfplot::fit_survey_sets()}} appropriately for the various surveys.
 }

@@ -17,7 +17,7 @@ fit_sdmTMB_westcoast(
 )
 }
 \arguments{
-\item{species_rds}{File path to an .rds file from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
+\item{species_rds}{File path to an .rds file from \code{\link[gfplot:get_data]{gfplot::cache_pbs_data()}}.}
 
 \item{survey}{Survey abbreviation for the survey to fit.}
 

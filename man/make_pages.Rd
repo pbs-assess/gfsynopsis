@@ -22,8 +22,8 @@ make_pages(
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
   save_gg_objects = FALSE,
-  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8", "#a8a8a8",
-    "#a8a8a8"),
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8",
+    "#a8a8a8", "#a8a8a8"),
   survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
     "HBLL OUT S", "IPHC FISS", "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
@@ -35,7 +35,7 @@ make_pages(
 )
 }
 \arguments{
-\item{dat}{A data list object from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
+\item{dat}{A data list object from \code{\link[gfplot:get_data]{gfplot::cache_pbs_data()}}.}
 
 \item{dat_iphc}{A data list object from \code{\link[gfplot:cache_pbs_data_iphc]{gfplot::cache_pbs_data_iphc()}}.}
 

@@ -45,7 +45,7 @@ plot_survey_maps(
 \item{fill_column}{A character object describing the fill column name.}
 
 \item{trans}{The transformation function to apply to the color scale. Passed
-to \code{\link[viridis:scale_fill_viridis]{viridis::scale_fill_viridis()}}.}
+to \code{\link[viridis:scale_viridis]{viridis::scale_fill_viridis()}}.}
 
 \item{show_model_predictions}{Logical for whether or not to show the model
 predictions.}
