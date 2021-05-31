@@ -120,6 +120,7 @@ fit_cpue_indices <- function(dat,
 
     if (arith_cpue_comparison) {
       group_by(x$fleet, year_factor) %>%
+        mutate(effort = hours_fished) %>%
         summarise(est_unstandardized = sum(spp_catch) / sum(effort)) %>%
         mutate(area = x$area) %>%
         ungroup() %>%
