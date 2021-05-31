@@ -120,6 +120,7 @@ spp$species_common_name <- tolower(spp$species_common_name)
 
 # d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 cpue_cache <- file.path("report", "cpue-cache")
+dir.create(cpue_cache, showWarnings = FALSE)
 purrr::walk(spp$species_common_name, function(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
