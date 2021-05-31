@@ -116,6 +116,29 @@ spp$species_french_name <-
 spp$species_common_name <- tolower(spp$species_common_name)
 
 # ------------------------------------------------------------------------------
+# CPUE model fits
+
+# d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
+cpue_cache <- file.path("report", "cpue-cache")
+purrr::walk(spp$species_common_name, function(.sp) {
+  spp_file <- gfsynopsis:::clean_name(spp)
+  cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+  if (!file.exists(cpue_cache_spp)) {
+    cat(.sp, "\n")
+    cpue_index <- gfsynopsis::fit_cpue_indices(
+      dat = d_cpue,
+      species = .sp,
+      save_model = .sp %in% example_spp,
+      parallel = FALSE
+    )
+    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+  }
+  else {
+    cpue_index <- readRDS(cpue_cache_spp)
+  }
+})
+
+# ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
 
 fig_check <- file.path(build_dir, "figure-pages",
