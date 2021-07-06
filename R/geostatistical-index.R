@@ -64,7 +64,7 @@ fit_sdmTMB_westcoast <- function(species_rds, survey,
   } else {
     stats::as.formula(density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2)
   }
-  spde <- sdmTMB::make_spde(dat$X, dat$Y, n_knots = n_knots)
+  spde <- sdmTMB::make_mesh(dat, xy_cols = c("X", "Y"), n_knots = n_knots)
   m <- sdmTMB::sdmTMB(
     formula = formula,
     data = dat, time = "year", spde = spde, family = sdmTMB::tweedie(link = "log"),
