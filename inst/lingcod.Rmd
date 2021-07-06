@@ -1,0 +1,79 @@
+---
+title: "Lingcod"
+author: "Sean Anderson"
+date: "03/06/2021"
+output: html_document
+---
+
+```{r}
+library(gfplot)
+```
+
+```{r, message=FALSE, warning=FALSE}
+# On PBS network:
+# d <- gfdata::get_survey_samples("lingcod")
+# Or load cached data:
+d <- readRDS(here::here("report/data-cache/lingcod.rds"))$survey_samples
+survs <- c(
+  # "4B: STRAIT OF GEORGIA",
+  "5C: SOUTHERN HECATE STRAIT",
+  "5E: WEST COAST Q.C. ISLANDS",
+  "5D: NORTHERN HECATE STRAIT",
+  "5B: NORTHERN Q.C. SOUND",
+  "3D: N.W. VANCOUVER ISLAND",
+  "3C: S.W. VANCOUVER ISLAND",
+  "5A: SOUTHERN Q.C. SOUND"
+  # "2B:CAPE BLANCO TO CAPE PERPETUA (42 50' TO 44 18')"
+)
+surv_samp <- dplyr::filter(d, major_stat_area_name %in% survs)
+```
+
+Available samples:
+
+```{r}
+tidy_sample_avail(surv_samp) %>% plot_sample_avail() +
+  ggplot2::scale_fill_viridis_c()
+```
+
+Length-age fits (using a Stan Bayesian model):
+
+```{r vb-fits, message=FALSE, warning=FALSE, cache = FALSE}
+# mf <- fit_vb(surv_samp, sex = "female")
+# mm <- fit_vb(surv_samp, sex = "male")
+# plot_vb(object_female = mf, object_male = mm)
+# 
+# TMB::sdreport(mf$model)
+# TMB::sdreport(mm$model)
+
+mf_stan <- fit_vb(surv_samp, sex = "female", method = "mcmc", iter = 2000L)
+mm_stan <- fit_vb(surv_samp, sex = "male", method = "mcmc", iter = 2000L)
+plot_vb(object_female = mf_stan, object_male = mm_stan)
+
+mf_stan$model
+mm_stan$model
+```
+
+You can see the model and priors here: <https://github.com/pbs-assess/gfplot/blob/master/inst/stan/vb.stan>
+
+`linf_upper_sd` gets set to the 99% quantile of the sampled fish lengths.
+
+```{r, message=FALSE, warning=FALSE}
+mf <- fit_length_weight(surv_samp, sex = "female")
+mm <- fit_length_weight(surv_samp, sex = "male")
+plot_length_weight(object_female = mf, object_male = mm)
+
+TMB::sdreport(mf$model)
+TMB::sdreport(mm$model)
+```
+
+Maturity ogives. F50 and M50 give you the age (or length) at 50% maturity. 05 and 95 give you the 90% confidence interval.
+
+```{r, message=FALSE, warning=FALSE}
+m_age <- fit_mat_ogive(surv_samp, type = "age")
+plot_mat_ogive(m_age)
+
+m_length <- fit_mat_ogive(surv_samp, type = "length")
+plot_mat_ogive(m_length)
+```
+
+See detailed figure captions in the initial pages of <https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html>
