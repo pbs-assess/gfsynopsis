@@ -31,15 +31,16 @@ make_pages(
   synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` =
     2018, `SYN QCS` = 2019),
   hbll_out_max_survey_years = list(`HBLL OUT N` = 2019, `HBLL OUT S` = 2020),
+  iphc_max_survey_year = 2020,
   parallel = FALSE,
   french = FALSE,
   final_year = 2020
 )
 }
 \arguments{
-\item{dat}{A data list object from \code{\link[gfplot:get_data]{gfplot::cache_pbs_data()}}.}
+\item{dat}{A data list object from \code{\link[gfdata:get_data]{gfdata::cache_pbs_data()}}.}
 
-\item{dat_iphc}{A data list object from \code{\link[gfplot:cache_pbs_data_iphc]{gfplot::cache_pbs_data_iphc()}}.}
+\item{dat_iphc}{A data list object from \code{\link[gfiphc:iphc_data]{gfiphc::cache_pbs_data_iphc()}}.}
 
 \item{spp}{A species common name.}
 

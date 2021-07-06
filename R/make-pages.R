@@ -2,8 +2,8 @@
 #'
 #' This is the main workhorse function that creates the synopsis pages.
 #'
-#' @param dat A data list object from [gfplot::cache_pbs_data()].
-#' @param dat_iphc A data list object from [gfplot::cache_pbs_data_iphc()].
+#' @param dat A data list object from [gfdata::cache_pbs_data()].
+#' @param dat_iphc A data list object from [gfiphc::cache_pbs_data_iphc()].
 #' @param spp A species common name.
 #' @param d_geostat_index d_geostat_index
 #' @param aspect The aspect ratio of the 2nd page.

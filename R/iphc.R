@@ -2,7 +2,7 @@
 ##'
 ##' Takes the final year of data to get into the correct format to fit into
 ##'  plotting functions for gfsynopsis report.
-##' @param set_counts species-specific set-level data from [gfplot::tidy_iphc_survey()]
+##' @param set_counts species-specific set-level data from [gfiphc::tidy_iphc_survey()]
 ##' @param final_year year for which to plot the set-by-set catch rates
 ##' @return tibble in the format required by the plotting function, with a row
 ##'  of NA's if the data are not present.

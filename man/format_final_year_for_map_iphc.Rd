@@ -7,7 +7,7 @@
 format_final_year_for_map_iphc(set_counts, final_year)
 }
 \arguments{
-\item{set_counts}{species-specific set-level data from \code{\link[gfplot:tidy_iphc_survey]{gfplot::tidy_iphc_survey()}}}
+\item{set_counts}{species-specific set-level data from \code{\link[gfiphc:tidy_iphc_survey]{gfiphc::tidy_iphc_survey()}}}
 
 \item{final_year}{year for which to plot the set-by-set catch rates}
 }
