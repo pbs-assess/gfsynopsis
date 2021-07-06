@@ -399,21 +399,21 @@ if (optimize_png) {
   cores <- parallel::detectCores()
   files_per_core <- ceiling(length(spp$species_common_name) * 2 / cores)
   setwd(file.path(build_dir, "figure-pages"))
-  if (!gfplot:::is_windows() && parallel_processing) {
+  # if (!gfplot:::is_windows() && parallel_processing) {
     system(paste0(
       "find -X . -name '*.png' -print0 | xargs -0 -n ",
       files_per_core, " -P ", cores, " optipng -strip all"
     ))
-  } else if (gfplot:::is_windows() && parallel_processing) {
-    library(doParallel)
-    doParallel::registerDoParallel(cores = cores)
-    fi <- list.files(".", "*.png")
-    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
-      .parallel = TRUE
-    )
-    doParallel::stopImplicitCluster()
-  } else {
-    temp <- lapply(fi, function(i) system(paste0("optipng -strip all ", i)))
-  }
+  # } else if (gfplot:::is_windows() && parallel_processing) {
+  #   library(doParallel)
+  #   doParallel::registerDoParallel(cores = cores)
+  #   fi <- list.files(".", "*.png")
+  #   plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
+  #     .parallel = TRUE
+  #   )
+  #   doParallel::stopImplicitCluster()
+  # } else {
+  #   temp <- lapply(fi, function(i) system(paste0("optipng -strip all ", i)))
+  # }
   setwd(here())
 }
