@@ -73,6 +73,7 @@ make_pages <- function(
   synoptic_max_survey_years =
     list("SYN WCHG" = 2020, "SYN HS" = 2019, "SYN WCVI" = 2018, "SYN QCS" = 2019),
   hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
+  iphc_max_survey_year = 2020,
   parallel = FALSE,
   french = FALSE,
   final_year = 2020
@@ -719,16 +720,16 @@ make_pages <- function(
     syn_fits <- readRDS(map_cache_spp_synoptic)
   }
 
-  if (!file.exists(map_cache_spp_iphc)) {
-    iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      species = spp,
-      surveys = "IPHC FISS",
-      silent = TRUE, years = 2019)
-    iphc_fits$models <- NULL # save space
-    saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
-  } else {
-    iphc_fits <- readRDS(map_cache_spp_iphc)
-  }
+  # if (!file.exists(map_cache_spp_iphc)) {
+  #   iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
+  #     species = spp,
+  #     surveys = "IPHC FISS",
+  #     silent = TRUE, years = 2020)
+  #   iphc_fits$models <- NULL # save space
+  #   saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
+  # } else {
+  #   iphc_fits <- readRDS(map_cache_spp_iphc)
+  # }
 
   if (!file.exists(map_cache_spp_hbll)) {
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
@@ -801,34 +802,63 @@ make_pages <- function(
   })
 
   # an internal IPHC function:
-  if (!is.null(dat_iphc)) {
-    iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
-      final_year = final_year)
-    iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
-    iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
-      iphc_map_dat$combined)
+  # if (!is.null(dat_iphc)) {
+  #   iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
+  #     final_year = iphc_max_survey_year)
+  #   # iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
+  #   iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
+  #     iphc_map_dat$combined)
+  #
+  #   if (sum(!is.na(iphc_map_dat$combined)) >= 1L) { # calculate a density to label on the map
+  #     iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
+  #     iphc_density <- round_density(iphc_density)
+  #   }
+  # } else {
+  #   stop("No IPHC data.")
+  #   iphc_density <- ""
+  #   iphc_map_dat <- iphc_fits$pred_dat
+  # }
 
-    if (sum(!is.na(iphc_map_dat$combined)) >= 1L) { # calculate a density to label on the map
-      iphc_density <- mean(iphc_map_dat$combined, na.rm = TRUE)
-      iphc_density <- round_density(iphc_density)
-    }
+  # hack to create IPHC raw data as of 2020:
+  dd <- dat_iphc$set_counts
+  dd <- dd[dd$year == iphc_max_survey_year, , drop = FALSE]
+  # if (iphc_max_survey_year == 2020) {
+  #   iphc2019 <- dat_iphc$set_counts[
+  #     dat_iphc$set_counts$year == iphc_max_survey_year, , drop = FALSE]
+  #   iphc_south <- filter(iphc2019, !station %in% dd$station)
+  #   dd <- bind_rows(dd, iphc_south) # adds empty WCVI stations
+  #   dd$year <- iphc_max_survey_year # fake
+  # }
+  dd$X <- dd$lon
+  dd$Y <- dd$lat
+  dd <- dplyr::as_tibble(gfplot::ll2utm(dd, utm_zone = 9))
+  dd$present <- ifelse(dd$C_it20 > 0, 1, 0)
+  dd$density <- dd$C_it20
+  dd$combined <- dd$density
+  dd$combined <- ifelse(dd$combined == 0, NA, dd$combined)
+  dd$depth <- NA
+  dd$depth[1] <- 0 # fake for min()
+  dd$depth[2] <- 1e4 # fake for max()
+  dd$survey <- "IPHC FISS"
+  if (sum(!is.na(dd$combined)) >= 1L) { # calculate a density to label on the map
+    iphc_density <- mean(dd$C_it20, na.rm = TRUE)
+    iphc_density <- round_density(iphc_density)
   } else {
     iphc_density <- ""
-    iphc_map_dat <- iphc_fits$pred_dat
   }
 
   suppressMessages({
     g_survey_spatial_iphc <-
-      gfsynopsis::plot_survey_maps(iphc_map_dat, iphc_fits$raw_dat,
+      gfsynopsis::plot_survey_maps(pred_dat = dd, raw_dat = dd,
         show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
-        show_model_predictions = "combined" %in% names(iphc_map_dat),
-        annotations = "IPHC") +
+        show_model_predictions = TRUE, # hack to make plotting work; actually raw data
+        annotations = "IPHC", iphc_year = iphc_max_survey_year) +
       coord_cart + ggplot2::ggtitle(en2fr("IPHC survey catch rate", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'white') +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'grey35')
-    if (sum(!is.na(iphc_map_dat$combined)) >= 1L)
+    if (sum(!is.na(dd$combined)) >= 1L)
       g_survey_spatial_iphc <- g_survey_spatial_iphc +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
           label = paste0(en2fr("Mean", french), "~", iphc_density, "~", en2fr("fish/skate", french)), parse = TRUE)
