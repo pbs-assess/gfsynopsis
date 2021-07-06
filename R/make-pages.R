@@ -70,10 +70,12 @@ make_pages <- function(
     "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 1,
-  synoptic_max_survey_years = 2018:2019,
-  hbll_out_max_survey_years = 2017:2018,
+  synoptic_max_survey_years =
+    list("SYN WCHG" = 2020, "SYN HS" = 2019, "SYN WCVI" = 2018, "SYN QCS" = 2019),
+  hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
   parallel = FALSE,
-  french = FALSE
+  french = FALSE,
+  final_year = 2020
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -203,18 +205,18 @@ make_pages <- function(
   if (!is.na(sb)) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, max(synoptic_max_survey_years))) +
-      guides(fill = FALSE, colour = FALSE) +
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year)) +
+      guides(fill = "none", colour = "none") +
       ggtitle(en2fr("Age frequencies", french)) +
       labs(y = en2fr("Age (years)", french))
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
-      year = seq(2004, max(synoptic_max_survey_years), 2),
+      year = seq(2004, final_year, 2),
       max_size = 8,
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
-      year_range = c(2003, max(synoptic_max_survey_years))) +
-      guides(fill = FALSE, colour = FALSE) +
+      year_range = c(2003, final_year)) +
+      guides(fill = "none", colour = "none") +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
       ggtitle(en2fr("Age frequencies", french)) +
       labs(y = en2fr("Age (years)", french))
@@ -263,14 +265,17 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french)))
-    sb$year <- factor(sb$year, levels = seq(2003, max(synoptic_max_survey_years)))
+    sb$year <- factor(sb$year, levels = seq(2003, final_year))
 
-    g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
-      bin_size = bin_width, min_total = min_total) +
-      guides(colour = FALSE, fill = FALSE) +
-      ggtitle(en2fr("Length frequencies", french)) +
-      ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
-      ggplot2::ylab(en2fr("Relative length frequency", french))
+    suppressMessages({
+      g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
+        bin_size = bin_width, min_total = min_total) +
+        guides(colour = "none", fill = "none") +
+        ggtitle(en2fr("Length frequencies", french)) +
+        ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
+        ggplot2::ylab(en2fr("Relative length frequency", french)) +
+        scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
+    })
   } else {
     g_lengths <- ggplot() + theme_pbs() +
       ggtitle(en2fr("Length frequencies", french)) +
@@ -302,7 +307,7 @@ make_pages <- function(
 
       if (!is.na(cpue_index[[1]])) { # enough vessels?
 
-        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index) +
+        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year)) +
           ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
           ylab("") + xlab("") +
           ggplot2::theme(
@@ -331,7 +336,7 @@ make_pages <- function(
 
   # Commercial catch: ----------------------------------------------------------
   if (nrow(dat$catch) > 0) {
-    g_catch <- gfsynopsis::plot_catches(dat$catch, french = french)
+    g_catch <- gfsynopsis::plot_catches(dat$catch, french = french, xlim = c(1955, final_year))
   } else {
     g_catch <- ggplot() + theme_pbs()
     g_catch <- gfsynopsis::plot_catches(expand.grid(year = 999,
@@ -347,6 +352,11 @@ make_pages <- function(
 
   # Get new IPHC calculations
   dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
+
+  if ("OTHER HS MSA" %in% levels(dat_tidy_survey_index$survey_abbrev)) {
+    dat_tidy_survey_index$survey_abbrev <-
+      forcats::fct_recode(dat_tidy_survey_index$survey_abbrev, `MSA HS` = "OTHER HS MSA")
+  }
 
   if (!is.null(dat_iphc)) {
     if (!file.exists(iphc_index_cache_spp)) {
@@ -374,9 +384,13 @@ make_pages <- function(
   } else {
     dat_tidy_survey_index <- dplyr::filter(dat_tidy_survey_index,
       !(survey_abbrev == "HBLL INS S" & year == 2009 & !is.na(year))) # only half survey conducted
-    g_survey_index <- plot_survey_index(dat_tidy_survey_index,
-      col = c("grey60", "grey20"), survey_cols = survey_cols,
-      xlim = c(1984, max(dat_tidy_survey_index$year, na.rm = TRUE)))
+
+    suppressMessages({
+      g_survey_index <- plot_survey_index(dat_tidy_survey_index,
+        col = c("grey60", "grey20"), survey_cols = survey_cols,
+        xlim = c(1984 - 0.2, final_year + 0.2)) +
+        scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
+    })
   }
 
   if (!is.null(d_geostat_index)) {
@@ -418,7 +432,7 @@ make_pages <- function(
           fill = NA, lty = "12", size = 0.35, colour = "grey40")
       g_survey_index <- suppressMessages({
         g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
-          xlim = c(1984, max(synoptic_max_survey_years)) + c(-0.5, 0.5), expand = FALSE)})
+          xlim = c(1984, final_year) + c(-0.5, 0.5), expand = FALSE)})
     }
   }
 
@@ -431,17 +445,17 @@ make_pages <- function(
 
   # Specimen numbers: ----------------------------------------------------------
 
-  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, max(synoptic_max_survey_years)))
+  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, final_year))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, max(synoptic_max_survey_years)),
+  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, final_year),
     french = french) +
     ggplot2::ggtitle(en2fr("Commercial specimen counts", french))
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
-  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, max(synoptic_max_survey_years)))
+  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, final_year))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, max(synoptic_max_survey_years)),
+  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, final_year),
     french = french) +
     ggplot2::ggtitle(en2fr("Survey specimen counts", french))
   suppressMessages({g_survey_samples <- g_survey_samples +
@@ -455,7 +469,7 @@ make_pages <- function(
   } else {
     g_maturity_month <- dat_tidy_maturity_months %>%
       plot_maturity_months(min_fish = 0, french = french) +
-      guides(colour = FALSE, fill = FALSE) +
+      guides(colour = "none", fill = "none") +
       ggtitle(en2fr("Maturity frequencies", french))
   }
 
@@ -470,12 +484,14 @@ make_pages <- function(
     else
       tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
 
+    sink(tempfile())
     vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "tmb",
       too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
       tmb_init = tmb_init)
     vb_f <- fit_vb(dat$survey_samples, sex = "female", method = "tmb",
       too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
       tmb_init = tmb_init)
+    sink()
     vb <- list()
     vb$m <- vb_m
     vb$f <- vb_f
@@ -488,14 +504,16 @@ make_pages <- function(
     }
 
     g_vb <- plot_vb(object_female = vb$f, object_male = vb$m, french = french) +
-      guides(colour = FALSE, fill = FALSE, lty = FALSE) +
+      guides(colour = "none", fill = "none", lty = "none") +
       ggtitle(en2fr("Growth", french)) +
       xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length",french), " (cm)"))
 
+    sink(tempfile())
     lw_m <- fit_length_weight(dat$survey_samples, sex = "male", method = "tmb",
       too_high_quantile = 1)
     lw_f <- fit_length_weight(dat$survey_samples, sex = "female", method = "tmb",
       too_high_quantile = 1)
+    sink()
 
     g_length_weight <-
       plot_length_weight(object_female = lw_f, object_male = lw_m, french = french) +
@@ -569,14 +587,14 @@ make_pages <- function(
 
   if (length(mat_age) > 1L && type != "none") {
     g_mat_age <- plot_mat_ogive(mat_age, prediction_type = type) +
-      guides(colour = FALSE, fill = FALSE, lty = FALSE) +
-      ggplot2::guides(lty = FALSE, colour = FALSE) +
+      guides(colour = "none", fill = "none", lty = "none") +
+      ggplot2::guides(lty = "none", colour = "none") +
       ggtitle(en2fr("Age at maturity", french)) +
       ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french), colour =  en2fr("Sex", french), lty = en2fr("Sex", french))
   } else {
     g_mat_age <- ggplot() + theme_pbs() + ggtitle(en2fr("Age at maturity", french)) +
       ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
-      ggplot2::guides(lty = FALSE, colour = FALSE)
+      ggplot2::guides(lty = "none", colour = "none")
   }
 
   if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
@@ -627,7 +645,7 @@ make_pages <- function(
   } else {
     g_mat_length <- ggplot() + theme_pbs() + ggtitle(en2fr("Length at maturity", french)) +
       ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
-      ggplot2::guides(lty = FALSE, colour = FALSE)
+      ggplot2::guides(lty = "none", colour = "none")
   }
   # Commercial CPUE maps -------------------------------------------------------
 
@@ -649,7 +667,7 @@ make_pages <- function(
     ) +
     ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
     theme(legend.position = "none") +
-    ggplot2::annotate("text", 360, 6172, label = "2013–2018", col = "grey30",
+    ggplot2::annotate("text", 360, 6172, label = paste0("2013–", final_year), col = "grey30",
       hjust = 0)
   suppressMessages({g_cpue_spatial <- g_cpue_spatial +
     coord_cart + theme(
@@ -657,6 +675,7 @@ make_pages <- function(
       axis.text = element_blank(),
       axis.ticks = element_blank()
     )})
+  # g_cpue_spatial <- ggplot() + theme_pbs()
 
   if (include_map_square)
     g_cpue_spatial <- g_cpue_spatial + checking_square
@@ -679,22 +698,23 @@ make_pages <- function(
         axis.text = element_blank(),
         axis.ticks = element_blank()
       ) +
-      ggplot2::annotate("text", 360, 6172, label = "2008–2018", col = "grey30",
+      ggplot2::annotate("text", 360, 6172, label = paste0("2008–", final_year), col = "grey30",
         hjust = 0)
   })
+  # g_cpue_spatial_ll <- ggplot() + theme_pbs()
 
   # Survey maps: ---------------------------------------------------------------
   if (!file.exists(map_cache_spp_synoptic)) {
     # Multiply by 1000 for computational reasons.
     # Otherwise the numbers are too small sometimes:
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
+    surv <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
-      surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
-      species = spp,
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
-      model = "sdmTMB", silent = TRUE, years = synoptic_max_survey_years)
-    # syn_fits$models <- NULL # save space
-    saveRDS(syn_fits, file = map_cache_spp_synoptic, compress = FALSE)
+      surveys = surv, species = spp,
+      silent = TRUE, years = 2002:2020)
+    saveRDS(syn_fits, map_cache_spp_synoptic)
+    # file = file.path("report", "map-cache", "synoptic",
+    #   spp_file, gsub(" ", "-", surv[i]), ".rds"), compress = FALSE)
   } else {
     syn_fits <- readRDS(map_cache_spp_synoptic)
   }
@@ -703,8 +723,7 @@ make_pages <- function(
     iphc_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = "IPHC FISS",
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
-      model = "sdmTMB", silent = TRUE, years = 2017)
+      silent = TRUE, years = 2019)
     iphc_fits$models <- NULL # save space
     saveRDS(iphc_fits, file = map_cache_spp_iphc, compress = FALSE)
   } else {
@@ -715,9 +734,7 @@ make_pages <- function(
     hbll_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       species = spp,
       surveys = c("HBLL OUT N", "HBLL OUT S"),
-      # model = "inla", verbose = TRUE, max_edge = c(30, 100), years = synoptic_max_survey_years)
-      model = "sdmTMB", silent = TRUE, years = hbll_out_max_survey_years)
-    # hbll_fits$models <- NULL # save space
+      silent = TRUE, years = unlist(hbll_out_max_survey_years))
     saveRDS(hbll_fits, file = map_cache_spp_hbll, compress = FALSE)
   } else {
     hbll_fits <- readRDS(map_cache_spp_hbll)
@@ -769,6 +786,9 @@ make_pages <- function(
     g_survey_spatial_syn <-
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
         north_symbol = TRUE, annotations = "SYN",
+        syn_wchg_year = synoptic_max_survey_years[["SYN WCHG"]],
+        syn_wcvi_year = synoptic_max_survey_years[["SYN WCVI"]],
+        syn_qcs_hs_year = synoptic_max_survey_years[["SYN QCS"]], # FIXME HS hardcoded to QCS
         show_model_predictions = "combined" %in% names(syn_fits$pred_dat)) +
       coord_cart + ggplot2::ggtitle(en2fr("Synoptic survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
@@ -783,7 +803,7 @@ make_pages <- function(
   # an internal IPHC function:
   if (!is.null(dat_iphc)) {
     iphc_map_dat <- format_final_year_for_map_iphc(dat_iphc$set_counts,
-      final_year = 2018)
+      final_year = final_year)
     iphc_map_dat$akima_depth <- mean(iphc_fits$raw_dat$depth, na.rm = TRUE)
     iphc_map_dat$combined <- ifelse(iphc_map_dat$combined == 0, NA,
       iphc_map_dat$combined)
@@ -824,6 +844,8 @@ make_pages <- function(
         pos_pt_col = "#FFFFFF35",
         bin_pt_col = "#FFFFFF12",
         pos_pt_fill = "#FFFFFF03",
+        hbll_n_year = hbll_out_max_survey_years[["HBLL OUT N"]],
+        hbll_s_year = hbll_out_max_survey_years[["HBLL OUT S"]],
         show_model_predictions = "combined" %in% names(hbll_fits$pred_dat),
         annotations = "HBLL") +
       coord_cart + ggplot2::ggtitle(en2fr("HBLL OUT survey biomass", french)) +

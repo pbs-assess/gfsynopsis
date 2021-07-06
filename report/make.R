@@ -9,9 +9,11 @@ if (french) {
 # It must be run before the report can be rendered.
 library(here)
 library(dplyr)
-library(gfplot)
+# library(gfplot)
+devtools::load_all("../gfplot")
 library(gfiphc)
-library(gfsynopsis)
+# library(gfsynopsis)
+devtools::load_all(".")
 library(rosettafish)
 # library(foreach)
 library(future)
@@ -156,8 +158,9 @@ missing_spp <- spp$species_common_name[missing]
 message("Building")
 message(paste(missing_spp, "\n"))
 
+for (i in which(missing)) {
 # out <- lapply(which(missing), function(i) {
-out <- future.apply::future_lapply(which(missing), function(i) {
+# out <- future.apply::future_lapply(which(missing), function(i) {
   cat(crayon::red(clisymbols::symbol$cross),
     "Building figure pages for", spp$species_common_name[i], "\n")
   dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
@@ -176,15 +179,17 @@ out <- future.apply::future_lapply(which(missing), function(i) {
     png_format = if (ext == "png") TRUE else FALSE,
     parallel = FALSE, # for CPUE fits; need a lot of memory if true!
     save_gg_objects = spp$species_common_name[i] %in% example_spp,
-    synoptic_max_survey_years = 2018:2019,
-    hbll_out_max_survey_years = 2018:2019,
+    synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2019, "SYN WCVI" = 2018, "SYN QCS" = 2019),
+    hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
+    final_year = 2020,
     survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
       RColorBrewer::brewer.pal(8L, "Set1")[7:8],
       "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
   )
-}, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
-  "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
+# }, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
+  # "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
 # })
+}
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
