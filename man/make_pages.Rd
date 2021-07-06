@@ -28,10 +28,12 @@ make_pages(
     "HBLL OUT S", "IPHC FISS", "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 1,
-  synoptic_max_survey_years = 2018:2019,
-  hbll_out_max_survey_years = 2017:2018,
+  synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` =
+    2018, `SYN QCS` = 2019),
+  hbll_out_max_survey_years = list(`HBLL OUT N` = 2019, `HBLL OUT S` = 2020),
   parallel = FALSE,
-  french = FALSE
+  french = FALSE,
+  final_year = 2020
 )
 }
 \arguments{
