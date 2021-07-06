@@ -141,15 +141,14 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
       min_raw_depth = ifelse(!is.na(min_raw_depth), min_raw_depth, Inf),
       max_raw_depth = ifelse(!is.na(max_raw_depth), max_raw_depth, -Inf))
 
-  # Set to NA predictions outside of the range within that survey and year:
-  pred_dat <- left_join(pred_dat, raw_dat_depth_ranges)
-  pred_dat[pred_dat$akima_depth < pred_dat$min_raw_depth |
-      pred_dat$akima_depth > pred_dat$max_raw_depth, fill_column] <- NA
-
-  # # xxx <- pred_dat
-  # pred_dat <- xxx
-  .q <- quantile(pred_dat$combined, probs = 0.998, na.rm = TRUE)[[1]]
-  pred_dat$combined[pred_dat$combined > .q] <- .q
+  if (nrow(pred_dat) > 1L && annotations != "IPHC") {
+    # Set to NA predictions outside of the range within that survey and year:
+    pred_dat <- left_join(pred_dat, raw_dat_depth_ranges)
+    pred_dat[pred_dat$akima_depth < pred_dat$min_raw_depth |
+        pred_dat$akima_depth > pred_dat$max_raw_depth, fill_column] <- NA
+    .q <- quantile(pred_dat$combined, probs = 0.998, na.rm = TRUE)[[1]]
+    pred_dat$combined[pred_dat$combined > .q] <- .q
+  }
 
   g <- plot_survey_sets(pred_dat, raw_dat,
     fill_column = fill_column, show_model_predictions = show_model_predictions,
@@ -167,7 +166,7 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
     north_symbol_coord = c(130, 5975), show_axes = show_axes,
     extrapolate_depth = TRUE, ...
   ) + ggplot2::theme(legend.position = "bottom") +
-    guides(fill = FALSE, size = FALSE)
+    guides(fill = "none", size = "none")
 
   if (annotations == "SYN")
     g <- g + ggplot2::annotate("text", 390, 6090, label = syn_wchg_year, col = "grey30") +
