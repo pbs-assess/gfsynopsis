@@ -158,7 +158,10 @@ missing_spp <- spp$species_common_name[missing]
 message("Building")
 message(paste(missing_spp, "\n"))
 
+# missing <- rep(TRUE, length(missing))
 for (i in which(missing)) {
+# for (i in which(missing)[1:50]) {
+# for (i in which(missing)[51:length(missing)]) {
 # out <- lapply(which(missing), function(i) {
 # out <- future.apply::future_lapply(which(missing), function(i) {
   cat(crayon::red(clisymbols::symbol$cross),
