@@ -326,7 +326,7 @@ make_pages <- function(
       gfsynopsis::plot_cpue_indices(
         expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
           levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")), year = 2000,
-          est = NA, lwr = NA, upr = NA), blank_plot = TRUE) +
+          est = NA, lwr = NA, upr = NA), blank_plot = TRUE, xlim = c(1996, final_year)) +
       ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
       ylab("") + xlab("") +
       ggplot2::theme(
