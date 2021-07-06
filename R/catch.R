@@ -7,7 +7,7 @@
 #' @param ... Other arguments to pass to [gfplot::plot_catch()].
 #'
 #' @export
-plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2018),
+plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2020),
   french = FALSE, ...) {
 
   if (!blank_plot) {
