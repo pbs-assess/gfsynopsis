@@ -1,3 +1,17 @@
+# Context {#sec:context}
+
+Mandatory section and title.
+
+This Science Response Report results from the Science Response Process Month Day, Year on the Title of Process Here.
+
+# Background {#sec:background}
+
+Optional section.
+
+# Analysis and response
+
+Mandatory section, title may vary. Core of the report.
+
 # INTRODUCTION {#sec:intro}
 
 The combination of fishery-dependent data, such as catch and effort, and

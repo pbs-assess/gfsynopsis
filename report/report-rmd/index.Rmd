@@ -1,5 +1,6 @@
 ---
-title: "A reproducible data synopsis for over 100 species of British Columbia groundfish"
+title: "A data synopsis for British Columbia groundfish: 2020 update"
+title_short: "Groundfish Data Synopsis 2020"
 author: |
   Sean C. Anderson,
   Elise A. Keppel, and
@@ -9,37 +10,30 @@ address: |
   Pacific Biological Station\
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
   Nanaimo, British Columbia, V9T 6N7, Canada
-year: "2019"
-report_number: "041"
-citation_other_language: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2019. Synthèse des données reproductibles pour plus de 100 espèces de poissons de fond de la Colombie-Britannique. Secr. can. de consult. sci. du MPO. Doc. de rech. 2019/041. vii + 333 p."
-abstract: |
-  The combination of fishery-dependent data, such as catch and effort, and
-  fishery-independent survey data, such as biomass indices and age
-  compositions, forms the backbone of most fisheries stock assessments. For
-  British Columbia groundfish, vast quantities of such data are
-  collected annually, with 100% at-sea observer coverage, 100% dockside
-  monitoring of landings, and deployment of multiple trawl, trap, and
-  hook-and-line surveys. However, there is not the capacity to conduct formal
-  stock assessments for most stocks annually, and therefore, much of these data
-  are not summarized to represent the nature of the data holdings.
-  Here, we introduce a reproducible report to give a snapshot of population and
-  fishing trends, growth and maturity patterns, as well as data availability,
-  for 113 groundfish species in British Columbia. The report generation is
-  fully automated --- pulling data from databases, fitting models, generating
-  visualizations, and stitching the document together to facilitate frequent
-  publication, reproducibility, and transparency. Our goals are (1) to
-  facilitate regular review by groundfish scientists and managers of trends in
-  survey indices and stock composition; (2) to generate standardized datasets
-  and visualizations that will help assessment scientists develop operating
-  models and select candidate management procedures as part of a planned
-  management-procedure framework for groundfish stocks; and (3) to increase
-  data transparency between Fisheries and Oceans Canada, the fishing industry,
-  non-governmental organizations, and the public.
-output:
- csasdown::resdoc_pdf:
-   french: false
+year: "2021"
+month: "MONTH"
+report_number: 999 # Must be numeric
+approver: |
+  Approver Name\
+  Regional Director
+title_other: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2021. Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2020. Secr. can. de consult. sci. du MPO. Doc. de rech. 2020/0XX. xx + XX p."
+approval_year: 2021
+approval_month: "MONTH"
+approval_day: 01
+work_done_year: 2021
+work_done_month: "MONTH"
+branch: "Science Branch"
 region: "Pacific Region"
-header: ""
+isbn: "ISBN-Here"
+cat_no: "Cat-Number-Here"
+output:
+ csasdown::sr_pdf:
+   french: false
+   prepub: false
+   copy_sty: true
+   line_nums: false
+   line_nums_mod: 1
+type: sr
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 latex_engine: xelatex
 # ------------
