@@ -1,4 +1,6 @@
 french <- FALSE
+is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
+is_unix <- .Platform$OS.type == "unix"
 
 if (french) {
   build_dir <- "report/report-rmd-fr"
@@ -31,7 +33,11 @@ cores <- floor(future::availableCores() / 2.5)
 # Set up parallel processing or sequential
 options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 if (parallel_processing) {
-  future::plan(multisession, workers = cores)
+  if (!is_rstudio && is_unix) {
+    future::plan(multicore, workers = cores)
+  } else {
+    future::plan(sequential) # much frustration
+  }
 } else {
   future::plan(sequential)
 }
@@ -50,9 +56,9 @@ spp <- gfsynopsis::get_spp_names() %>%
 
 # ------------------------------------------------------------------------------
 # Geostatistical model fits: (a bit slow)
-fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
-if (!file.exists(fi)) source(here("report/make-geostat.R"))
-dat_geostat_index <- readRDS(fi)
+# fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
+# if (!file.exists(fi)) source(here("report/make-geostat.R"))
+# dat_geostat_index <- readRDS(fi)
 
 # ------------------------------------------------------------------------------
 # Gather and arrange some metadata
@@ -75,26 +81,23 @@ spp$order[spp$species_common_name == "deacon rockfish"] <-
 spp$family[spp$species_common_name == "deacon rockfish"] <-
   spp$family[spp$species_common_name == "vermilion rockfish"]
 
-if (!file.exists(here("report", "cosewic.rds"))) {
-  cosewic <- gfplot::get_sara_dat()
-  if (any(grepl("on_schedule", names(cosewic))))
-    names(cosewic)[7] <- "schedule"
-  saveRDS(cosewic, file = here("report", "cosewic.rds"))
-} else {
-  cosewic <- readRDS(here("report", "cosewic.rds"))
-}
-cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
-  select(species_science_name, population, range, cosewic_status,
-    schedule, sara_status) %>%
-  mutate(species_science_name = tolower(species_science_name))
-
-cosewic <- filter(cosewic, !grepl("Atlantic", population))
-cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", population))
-spp <- left_join(spp, cosewic, by = "species_science_name")
+# downloaded from:
+# https://species-registry.canada.ca/index-en.html#/species?ranges=1,18&taxonomyId=4&sortBy=commonNameSort&sortDirection=asc&pageSize=10
+cos <- readr::read_csv(here::here("report/COSEWIC-species.csv"), show_col_types = FALSE)
+cos <- dplyr::filter(cos, !grepl("Salmon", `COSEWIC common name`))
+cos <- dplyr::filter(cos, !grepl("Trout", `COSEWIC common name`))
+cos <- dplyr::filter(cos, !grepl("Eulachon", `COSEWIC common name`))
+cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`))
+cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `COSEWIC status`)
+# duplicate of inside YE:
+cos <- dplyr::filter(cos, !grepl("Pacific Ocean outside waters population", `COSEWIC population`))
+cos <- select(cos, species_science_name, cosewic_status)
+cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus", species_science_name))
+spp <- left_join(spp, cos, by = "species_science_name")
 
 # ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
-refs <- readr::read_csv(here("report/spp-refs.csv"))
+refs <- readr::read_csv(here("report/spp-refs.csv"), show_col_types = FALSE)
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$type_other_ref[!is.na(spp$type_other_ref)] <-
   rosettafish::en2fr(spp$type_other_ref[!is.na(spp$type_other_ref)], french)
