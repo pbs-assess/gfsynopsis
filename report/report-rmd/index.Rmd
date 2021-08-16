@@ -16,7 +16,7 @@ report_number: 999 # Must be numeric
 approver: |
   Approver Name\
   Regional Director
-title_other: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2021. Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2020. Secr. can. de consult. sci. du MPO. Doc. de rech. 2020/0XX. xx + XX p."
+title_other: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2021. Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021. Secr. can. de consult. sci. du MPO. Doc. de rech. 2020/0XX. xx + XX p."
 approval_year: 2021
 approval_month: "MONTH"
 approval_day: 01

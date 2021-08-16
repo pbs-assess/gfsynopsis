@@ -1,12 +1,10 @@
 # Context {#sec:context}
 
-Mandatory section and title.
-
 This Science Response Report results from the Science Response Process Month Day, Year on the Title of Process Here.
 
 # Background {#sec:background}
 
-Optional section.
+This report is an update of [@anderson2019synopsis].
 
 # Analysis and response
 
