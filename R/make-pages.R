@@ -76,7 +76,8 @@ make_pages <- function(
   iphc_max_survey_year = 2020,
   parallel = FALSE,
   french = FALSE,
-  final_year = 2020
+  final_year_comm = 2020,
+  final_year_surv = 2021
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -206,17 +207,17 @@ make_pages <- function(
   if (!is.na(sb)) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year)) +
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year_surv)) +
       guides(fill = "none", colour = "none") +
       ggtitle(en2fr("Age frequencies", french)) +
       labs(y = en2fr("Age (years)", french))
   } else {
     g_ages <- plot_ages(expand.grid(
       survey_abbrev = factor(x = samp_panels, levels = samp_panels),
-      year = seq(2004, final_year, 2),
+      year = seq(2004, final_year_surv, 2),
       max_size = 8,
       sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE),
-      year_range = c(2003, final_year)) +
+      year_range = c(2003, final_year_surv)) +
       guides(fill = "none", colour = "none") +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
       ggtitle(en2fr("Age frequencies", french)) +
@@ -266,7 +267,7 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french)))
-    sb$year <- factor(sb$year, levels = seq(2003, final_year))
+    sb$year <- factor(sb$year, levels = seq(2003, final_year_surv))
 
     suppressMessages({
       g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
@@ -308,7 +309,7 @@ make_pages <- function(
 
       if (!is.na(cpue_index[[1]])) { # enough vessels?
 
-        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year)) +
+        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
           ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
           ylab("") + xlab("") +
           ggplot2::theme(
@@ -326,7 +327,7 @@ make_pages <- function(
       gfsynopsis::plot_cpue_indices(
         expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
           levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")), year = 2000,
-          est = NA, lwr = NA, upr = NA), blank_plot = TRUE, xlim = c(1996, final_year)) +
+          est = NA, lwr = NA, upr = NA), blank_plot = TRUE, xlim = c(1996, final_year_comm)) +
       ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
       ylab("") + xlab("") +
       ggplot2::theme(
@@ -337,7 +338,7 @@ make_pages <- function(
 
   # Commercial catch: ----------------------------------------------------------
   if (nrow(dat$catch) > 0) {
-    g_catch <- gfsynopsis::plot_catches(dat$catch, french = french, xlim = c(1955, final_year))
+    g_catch <- gfsynopsis::plot_catches(dat$catch, french = french, xlim = c(1955, final_year_comm))
   } else {
     g_catch <- ggplot() + theme_pbs()
     g_catch <- gfsynopsis::plot_catches(expand.grid(year = 999,
@@ -389,7 +390,7 @@ make_pages <- function(
     suppressMessages({
       g_survey_index <- plot_survey_index(dat_tidy_survey_index,
         col = c("grey60", "grey20"), survey_cols = survey_cols,
-        xlim = c(1984 - 0.2, final_year + 0.2)) +
+        xlim = c(1984 - 0.2, final_year_surv + 0.2)) +
         scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
     })
   }
@@ -433,7 +434,7 @@ make_pages <- function(
           fill = NA, lty = "12", size = 0.35, colour = "grey40")
       g_survey_index <- suppressMessages({
         g_survey_index + coord_cartesian(ylim = c(-0.005, 1.03),
-          xlim = c(1984, final_year) + c(-0.5, 0.5), expand = FALSE)})
+          xlim = c(1984, final_year_surv) + c(-0.5, 0.5), expand = FALSE)})
     }
   }
 
@@ -446,17 +447,17 @@ make_pages <- function(
 
   # Specimen numbers: ----------------------------------------------------------
 
-  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, final_year))
+  temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, final_year_surv))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, final_year),
+  g_comm_samples <- plot_sample_avail(temp, title = en2fr("Commercial samples", french), year_range = c(1996, final_year_surv),
     french = french) +
     ggplot2::ggtitle(en2fr("Commercial specimen counts", french))
   suppressMessages({g_comm_samples <- g_comm_samples +
     viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)})
-  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, final_year))
+  temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, final_year_surv))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, final_year),
+  g_survey_samples <- plot_sample_avail(temp, title = en2fr("Survey samples", french), year_range = c(1996, final_year_surv),
     french = french) +
     ggplot2::ggtitle(en2fr("Survey specimen counts", french))
   suppressMessages({g_survey_samples <- g_survey_samples +
@@ -668,7 +669,7 @@ make_pages <- function(
     ) +
     ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
     theme(legend.position = "none") +
-    ggplot2::annotate("text", 360, 6172, label = paste0("2013–", final_year), col = "grey30",
+    ggplot2::annotate("text", 360, 6172, label = paste0("2013–", final_year_comm), col = "grey30",
       hjust = 0)
   suppressMessages({g_cpue_spatial <- g_cpue_spatial +
     coord_cart + theme(
@@ -699,7 +700,7 @@ make_pages <- function(
         axis.text = element_blank(),
         axis.ticks = element_blank()
       ) +
-      ggplot2::annotate("text", 360, 6172, label = paste0("2008–", final_year), col = "grey30",
+      ggplot2::annotate("text", 360, 6172, label = paste0("2008–", final_year_comm), col = "grey30",
         hjust = 0)
   })
   # g_cpue_spatial_ll <- ggplot() + theme_pbs()
@@ -831,7 +832,7 @@ make_pages <- function(
   # }
   dd$X <- dd$lon
   dd$Y <- dd$lat
-  dd <- dplyr::as_tibble(gfplot::ll2utm(dd, utm_zone = 9))
+  dd <- dplyr::as_tibble(gfplot:::ll2utm(dd, utm_zone = 9))
   dd$present <- ifelse(dd$C_it20 > 0, 1, 0)
   dd$density <- dd$C_it20
   dd$combined <- dd$density
