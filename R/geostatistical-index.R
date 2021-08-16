@@ -12,12 +12,12 @@
 #'
 #' @return A list object.
 #' @export
-fit_sdmTMB_westcoast <- function(species_rds, survey,
+fit_sdmTMB_westcoast <- function(dat, survey,
   species_name = "", cutoff = 15, cell_width = 2,
   anisotropy = FALSE, silent = TRUE, bias_correct = FALSE,
   include_depth = FALSE) {
 
-  d <- readRDS(species_rds)$survey_sets
+  d <- dat
   d <- dplyr::filter(d, !(year == 2014 & survey_abbrev == "SYN WCHG")) # not used
   col <- if (grepl("SYN", survey)) "density_kgpm2" else "density_ppkm2"
   dat <- gfplot:::tidy_survey_sets(d, survey, years = seq(1, 1e6),
