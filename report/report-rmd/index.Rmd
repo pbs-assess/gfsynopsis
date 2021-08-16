@@ -1,6 +1,6 @@
 ---
-title: "A data synopsis for British Columbia groundfish: 2020 update"
-title_short: "Groundfish Data Synopsis 2020"
+title: "A data synopsis for British Columbia groundfish: 2021 update"
+title_short: "Groundfish Data Synopsis 2021"
 author: |
   Sean C. Anderson,
   Elise A. Keppel, and
