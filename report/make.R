@@ -14,11 +14,11 @@ library(dplyr)
 # library(gfplot)
 devtools::load_all("../gfplot")
 library(gfiphc)
-# library(gfsynopsis)
-devtools::load_all(".")
+library(gfsynopsis)
+# devtools::load_all(".")
 library(rosettafish)
 # library(foreach)
-library(future)
+## library(future)
 setwd(here())
 
 # ------------------------------------------------------------------------------
@@ -31,20 +31,20 @@ cores <- floor(future::availableCores() / 2.5)
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
-options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
-if (parallel_processing) {
-  if (!is_rstudio && is_unix) {
-    future::plan(multicore, workers = cores)
-  } else {
-    future::plan(sequential) # much frustration
-  }
-} else {
-  future::plan(sequential)
-}
+## options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
+## if (parallel_processing) {
+##   if (!is_rstudio && is_unix) {
+##     future::plan(multisession, workers = cores)
+##   } else {
+##     future::plan(sequential) # much frustration
+##   }
+## } else {
+##   future::plan(sequential)
+## }
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
-dc <- here("report", "data-cache")
+dc <- here("report", "data-cache-3")
 # dc <- "~/Desktop/data-cache/"
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
@@ -83,6 +83,7 @@ spp$family[spp$species_common_name == "deacon rockfish"] <-
 
 # downloaded from:
 # https://species-registry.canada.ca/index-en.html#/species?ranges=1,18&taxonomyId=4&sortBy=commonNameSort&sortDirection=asc&pageSize=10
+# on 2021-08-13
 cos <- readr::read_csv(here::here("report/COSEWIC-species.csv"), show_col_types = FALSE)
 cos <- dplyr::filter(cos, !grepl("Salmon", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Trout", `COSEWIC common name`))
@@ -139,9 +140,6 @@ purrr::walk(spp$species_common_name, function(.sp) {
     )
     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
   }
-  else {
-    cpue_index <- readRDS(cpue_cache_spp)
-  }
 })
 
 # ------------------------------------------------------------------------------
@@ -158,40 +156,48 @@ for (i in which(!missing)) {
     "Figure pages for", spp$species_common_name[i], "already exist\n")
 }
 missing_spp <- spp$species_common_name[missing]
+to_build <- which(missing)
+
+# to_build <- to_build[seq(1, floor(length(to_build) / 2))]
+# to_build <- to_build[seq(ceiling(length(to_build) / 2), length(to_build))]
+
 message("Building")
-message(paste(missing_spp, "\n"))
+message(paste(spp$species_common_name[to_build], "\n"))
 
 # missing <- rep(TRUE, length(missing))
-for (i in which(missing)) {
-# for (i in which(missing)[1:50]) {
-# for (i in which(missing)[51:length(missing)]) {
+# for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
+for (i in to_build) {
 # out <- lapply(which(missing), function(i) {
 # out <- future.apply::future_lapply(which(missing), function(i) {
-  cat(crayon::red(clisymbols::symbol$cross),
-    "Building figure pages for", spp$species_common_name[i], "\n")
-  dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+  tryCatch({
+    cat(crayon::red(clisymbols::symbol$cross),
+      "Building figure pages for", spp$species_common_name[i], "\n")
+    dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
 
-  dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
-  dat$cpue_index <- d_cpue
-  gfsynopsis::make_pages(
-    dat = dat,
-    dat_iphc = dat_iphc,
-    spp = spp$species_common_name[i],
-    d_geostat_index = dat_geostat_index, # spatiotemporal model fits
-    include_map_square = FALSE, # to check the map aspect ratio
-    french = french,
-    report_lang_folder = build_dir,
-    resolution = 150, # balance size with resolution
-    png_format = if (ext == "png") TRUE else FALSE,
-    parallel = FALSE, # for CPUE fits; need a lot of memory if true!
-    save_gg_objects = spp$species_common_name[i] %in% example_spp,
-    synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2019, "SYN WCVI" = 2018, "SYN QCS" = 2019),
-    hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
-    final_year = 2020,
-    survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-      RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-      "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-  )
+    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
+    dat$cpue_index <- d_cpue
+    gfsynopsis::make_pages(
+      dat = dat,
+      dat_iphc = dat_iphc,
+      spp = spp$species_common_name[i],
+      d_geostat_index = NULL, # dat_geostat_index, # spatiotemporal model fits
+      include_map_square = FALSE, # to check the map aspect ratio
+      french = french,
+      report_lang_folder = build_dir,
+      resolution = 150, # balance size with resolution
+      png_format = if (ext == "png") TRUE else FALSE,
+      parallel = FALSE, # for CPUE fits; need a lot of memory if true!
+      save_gg_objects = spp$species_common_name[i] %in% example_spp,
+      synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2021, "SYN WCVI" = 2018, "SYN QCS" = 2019),
+      hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
+      final_year_comm = 2020,
+      final_year_surv = 2021,
+      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+    )
+  # }, error = function(e) warning("Error"))
+  }, error = function(e) stop("Error"))
 # }, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
   # "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
 # })
