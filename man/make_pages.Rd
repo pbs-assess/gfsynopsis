@@ -34,7 +34,9 @@ make_pages(
   iphc_max_survey_year = 2020,
   parallel = FALSE,
   french = FALSE,
-  final_year = 2020
+  final_year_comm = 2020,
+  final_year_surv = 2021,
+  length_ticks = NULL
 )
 }
 \arguments{
@@ -92,6 +94,9 @@ outlying cells from distorting the color scale.}
 synoptic survey years to include.}
 
 \item{parallel}{Parallel CPUE index fitting?}
+
+\item{length_ticks}{A data frame indicating optional length composition
+x-axis breaks and labels.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

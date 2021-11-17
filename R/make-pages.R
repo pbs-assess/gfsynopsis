@@ -35,6 +35,8 @@
 #' @param synoptic_max_survey_years A vector of length 2 giving the maximum
 #'   synoptic survey years to include.
 #' @param parallel Parallel CPUE index fitting?
+#' @param length_ticks A data frame indicating optional length composition
+#'   x-axis breaks and labels.
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -77,7 +79,8 @@ make_pages <- function(
   parallel = FALSE,
   french = FALSE,
   final_year_comm = 2020,
-  final_year_surv = 2021
+  final_year_surv = 2021,
+  length_ticks = NULL
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -270,13 +273,23 @@ make_pages <- function(
     sb$year <- factor(sb$year, levels = seq(2003, final_year_surv))
 
     suppressMessages({
+      x_breaks <- if (!is.na(length_ticks$breaks)) {
+        eval(parse(text = length_ticks$breaks))
+          } else {
+            ggplot2::waiver()
+          }
+      x_labels <- if (!is.na(length_ticks$labels)) {
+        eval(parse(text = length_ticks$labels))
+          } else {
+            ggplot2::waiver()
+          }
       g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
         bin_size = bin_width, min_total = min_total) +
         guides(colour = "none", fill = "none") +
         ggtitle(en2fr("Length frequencies", french)) +
         ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
         ggplot2::ylab(en2fr("Relative length frequency", french)) +
-        scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
+        scale_x_continuous(breaks = x_breaks, labels = x_labels)
     })
   } else {
     g_lengths <- ggplot() + theme_pbs() +

@@ -1,0 +1,114 @@
+species_common_name,species_code,breaks,labels
+bluntnose sixgill shark,027,NA,NA
+basking shark,034,NA,NA
+salmon shark,036,NA,NA
+brown cat shark,038,"seq(20, 70, 20)",NA
+tope shark,040,NA,NA
+blue shark,041,NA,NA
+pacific sleeper shark,043,NA,NA
+north pacific spiny dogfish,044,NA,NA
+aleutian skate,052,NA,NA
+abyssal skate,054,NA,NA
+broad skate,055,NA,NA
+big skate,056,NA,NA
+roughtail skate,057,NA,NA
+sandpaper skate,058,NA,NA
+longnose skate,059,NA,NA
+alaska skate,061,NA,NA
+spotted ratfish,066,NA,NA
+whitebait smelt,138,NA,NA
+pacific flatnose,220,NA,NA
+pacific cod,222,NA,NA
+pacific hake,225,NA,NA
+pacific tomcod,226,NA,NA
+walleye pollock,228,NA,NA
+bigfin eelpout,233,NA,NA
+twoline eelpout,235,NA,NA
+shortfin eelpout,242,NA,NA
+black eelpout,243,NA,NA
+wattled eelpout,244,NA,NA
+blackbelly eelpout,245,NA,NA
+pacific grenadier,251,NA,NA
+threadfin grenadier,254,NA,NA
+giant grenadier,256,NA,NA
+california grenadier,257,NA,NA
+shiner perch,304,NA,NA
+pearly prickleback,331,NA,NA
+snake prickleback,337,NA,NA
+whitebarred prickleback,340,NA,NA
+wolf eel,351,NA,NA
+giant wrymouth,355,NA,NA
+dwarf wrymouth,356,NA,NA
+prowfish,359,NA,NA
+pacific sand lance,361,NA,NA
+ragfish,386,NA,NA
+rougheye/blackspotted rockfish complex,394,NA,NA
+pacific ocean perch,396,NA,NA
+aurora rockfish,400,NA,NA
+redbanded rockfish,401,NA,NA
+shortraker rockfish,403,NA,NA
+silvergray rockfish,405,NA,NA
+copper rockfish,407,NA,NA
+dusky rockfish,409,NA,NA
+darkblotched rockfish,410,NA,NA
+splitnose rockfish,412,NA,NA
+greenstriped rockfish,414,NA,NA
+puget sound rockfish,415,NA,NA
+widow rockfish,417,NA,NA
+yellowtail rockfish,418,NA,NA
+chilipepper,420,NA,NA
+rosethorn rockfish,421,NA,NA
+quillback rockfish,424,"seq(10, 50, 10)","c('', seq(20, 50, 10))"
+black rockfish,426,NA,NA
+blackgill rockfish,427,NA,NA
+vermilion rockfish,428,NA,NA
+deacon rockfish,429,NA,NA
+china rockfish,431,NA,NA
+tiger rockfish,433,NA,NA
+bocaccio,435,NA,NA
+canary rockfish,437,NA,NA
+redstripe rockfish,439,NA,NA
+yellowmouth rockfish,440,NA,NA
+yelloweye rockfish,442,NA,NA
+stripetail rockfish,444,NA,NA
+harlequin rockfish,446,NA,NA
+pygmy rockfish,448,NA,NA
+sharpchin rockfish,450,NA,NA
+shortspine thornyhead,451,NA,NA
+longspine thornyhead,453,NA,NA
+sablefish,455,NA,NA
+kelp greenling,461,NA,NA
+whitespotted greenling,466,NA,NA
+lingcod,467,NA,NA
+spinyhead sculpin,497,NA,NA
+buffalo sculpin,499,NA,NA
+red irish lord,502,NA,NA
+bigmouth sculpin,505,NA,NA
+threadfin sculpin,510,NA,NA
+spotfin sculpin,513,NA,NA
+pacific staghorn sculpin,518,NA,NA
+blackfin sculpin,519,NA,NA
+great sculpin,521,NA,NA
+thornback sculpin,532,NA,NA
+giant blobsculpin,534,NA,NA
+slim sculpin,535,NA,NA
+cabezon,540,NA,NA
+sturgeon poacher,550,NA,NA
+smootheye poacher,555,NA,NA
+blacktail snailfish,574,NA,NA
+pacific sanddab,596,NA,NA
+arrowtooth flounder,602,NA,NA
+deepsea sole,605,NA,NA
+petrale sole,607,NA,NA
+rex sole,610,NA,NA
+flathead sole,612,NA,NA
+pacific halibut,614,NA,NA
+butter sole,619,NA,NA
+southern rock sole,621,NA,NA
+slender sole,625,NA,NA
+dover sole,626,NA,NA
+english sole,628,NA,NA
+starry flounder,631,NA,NA
+c-o sole,633,NA,NA
+curlfin sole,635,NA,NA
+sand sole,636,NA,NA
