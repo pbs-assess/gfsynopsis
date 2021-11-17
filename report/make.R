@@ -44,7 +44,7 @@ cores <- floor(future::availableCores() / 2.5)
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
-dc <- here("report", "data-cache-3")
+dc <- here("report", "data-cache")
 # dc <- "~/Desktop/data-cache/"
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
@@ -188,8 +188,9 @@ for (i in to_build) {
       png_format = if (ext == "png") TRUE else FALSE,
       parallel = FALSE, # for CPUE fits; need a lot of memory if true!
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
-      synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2021, "SYN WCVI" = 2018, "SYN QCS" = 2019),
+      synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2021, "SYN WCVI" = 2021, "SYN QCS" = 2021),
       hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
+      iphc_max_survey_year = 2021,
       final_year_comm = 2020,
       final_year_surv = 2021,
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
@@ -233,6 +234,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   species_code <- spp$species_code[spp$species_common_name == x]
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
   sara_status <- spp$sara_status[spp$species_common_name == x]
+  sara_status <- NA
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   cosewic_report <- spp$cosewic_status_reports[spp$species_common_name == x]
   worms_id <- spp$worms_id[spp$species_common_name == x]
