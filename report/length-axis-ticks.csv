@@ -3,31 +3,31 @@ bluntnose sixgill shark,027,NA,NA
 basking shark,034,NA,NA
 salmon shark,036,NA,NA
 brown cat shark,038,"seq(20, 70, 20)",NA
-tope shark,040,NA,NA
-blue shark,041,NA,NA
+tope shark,040,"seq(140, 200, 20)",NA
+blue shark,041,"seq(80, 200, 40)","c('', seq(120, 200, 40))"
 pacific sleeper shark,043,NA,NA
 north pacific spiny dogfish,044,NA,NA
 aleutian skate,052,NA,NA
 abyssal skate,054,NA,NA
 broad skate,055,NA,NA
 big skate,056,NA,NA
-roughtail skate,057,NA,NA
+roughtail skate,057,"seq(20, 130, 40)",NA
 sandpaper skate,058,NA,NA
 longnose skate,059,NA,NA
 alaska skate,061,NA,NA
 spotted ratfish,066,NA,NA
 whitebait smelt,138,NA,NA
-pacific flatnose,220,NA,NA
+pacific flatnose,220,"seq(10, 50, 10)","c('', seq(20, 50, 10))"
 pacific cod,222,NA,NA
 pacific hake,225,NA,NA
-pacific tomcod,226,NA,NA
+pacific tomcod,226,"seq(10, 30, 5)","c('', seq(15, 30, 5))"
 walleye pollock,228,NA,NA
 bigfin eelpout,233,NA,NA
 twoline eelpout,235,NA,NA
 shortfin eelpout,242,NA,NA
 black eelpout,243,NA,NA
 wattled eelpout,244,NA,NA
-blackbelly eelpout,245,NA,NA
+blackbelly eelpout,245,"seq(10, 30, 5)","c('', seq(15, 30, 5))"
 pacific grenadier,251,NA,NA
 threadfin grenadier,254,NA,NA
 giant grenadier,256,NA,NA
@@ -46,16 +46,16 @@ rougheye/blackspotted rockfish complex,394,NA,NA
 pacific ocean perch,396,NA,NA
 aurora rockfish,400,NA,NA
 redbanded rockfish,401,NA,NA
-shortraker rockfish,403,NA,NA
+shortraker rockfish,403,"seq(20, 100, 20)","c('', seq(40, 100, 20))"
 silvergray rockfish,405,NA,NA
 copper rockfish,407,NA,NA
-dusky rockfish,409,NA,NA
+dusky rockfish,409,"seq(40, 50, 5)","c('', seq(45, 50, 5))"
 darkblotched rockfish,410,NA,NA
 splitnose rockfish,412,NA,NA
 greenstriped rockfish,414,NA,NA
-puget sound rockfish,415,NA,NA
+puget sound rockfish,415,"seq(9, 21, 3)","c('', seq(12, 21, 3))"
 widow rockfish,417,NA,NA
-yellowtail rockfish,418,NA,NA
+yellowtail rockfish,418,"seq(10, 60, 10)","c('', seq(20, 60, 10))"
 chilipepper,420,NA,NA
 rosethorn rockfish,421,NA,NA
 quillback rockfish,424,"seq(10, 50, 10)","c('', seq(20, 50, 10))"
@@ -71,7 +71,7 @@ redstripe rockfish,439,NA,NA
 yellowmouth rockfish,440,NA,NA
 yelloweye rockfish,442,NA,NA
 stripetail rockfish,444,NA,NA
-harlequin rockfish,446,NA,NA
+harlequin rockfish,446,"seq(10, 35, 5)","c('', seq(15, 35, 5))"
 pygmy rockfish,448,NA,NA
 sharpchin rockfish,450,NA,NA
 shortspine thornyhead,451,NA,NA
@@ -106,7 +106,7 @@ pacific halibut,614,NA,NA
 butter sole,619,NA,NA
 southern rock sole,621,NA,NA
 slender sole,625,NA,NA
-dover sole,626,NA,NA
+dover sole,626,"seq(0, 60, 20)","c('', seq(20, 60, 20))"
 english sole,628,NA,NA
 starry flounder,631,NA,NA
 c-o sole,633,NA,NA

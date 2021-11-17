@@ -165,6 +165,8 @@ to_build <- which(missing)
 message("Building")
 message(paste(spp$species_common_name[to_build], "\n"))
 
+length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"))
+
 # missing <- rep(TRUE, length(missing))
 # for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
 for (i in to_build) {
@@ -194,6 +196,7 @@ for (i in to_build) {
       iphc_max_survey_year = 2021,
       final_year_comm = 2020,
       final_year_surv = 2021,
+      length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
