@@ -48,7 +48,7 @@ aurora rockfish,400,NA,NA
 redbanded rockfish,401,NA,NA
 shortraker rockfish,403,"seq(20, 100, 20)","c('', seq(40, 100, 20))"
 silvergray rockfish,405,NA,NA
-copper rockfish,407,NA,NA
+copper rockfish,407,"seq(10, 60, 10)","c('', seq(20, 60, 10))"
 dusky rockfish,409,"seq(40, 50, 5)","c('', seq(45, 50, 5))"
 darkblotched rockfish,410,NA,NA
 splitnose rockfish,412,NA,NA
@@ -79,7 +79,7 @@ longspine thornyhead,453,NA,NA
 sablefish,455,NA,NA
 kelp greenling,461,NA,NA
 whitespotted greenling,466,NA,NA
-lingcod,467,NA,NA
+lingcod,467,"seq(25, 125, 25)","c('25', '50', '75', '100', '')"
 spinyhead sculpin,497,NA,NA
 buffalo sculpin,499,NA,NA
 red irish lord,502,NA,NA
@@ -98,12 +98,12 @@ smootheye poacher,555,NA,NA
 blacktail snailfish,574,NA,NA
 pacific sanddab,596,NA,NA
 arrowtooth flounder,602,NA,NA
-deepsea sole,605,NA,NA
+deepsea sole,605,"seq(20, 45, 5)","c('', seq(25, 45, 5))"
 petrale sole,607,NA,NA
 rex sole,610,NA,NA
 flathead sole,612,NA,NA
 pacific halibut,614,NA,NA
-butter sole,619,NA,NA
+butter sole,619,"seq(10, 40, 10)","c('', seq(20, 40, 10))"
 southern rock sole,621,NA,NA
 slender sole,625,NA,NA
 dover sole,626,"seq(0, 60, 20)","c('', seq(20, 60, 20))"
