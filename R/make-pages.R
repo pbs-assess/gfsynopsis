@@ -289,7 +289,7 @@ make_pages <- function(
         ggtitle(en2fr("Length frequencies", french)) +
         ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
         ggplot2::ylab(en2fr("Relative length frequency", french)) +
-        scale_x_continuous(breaks = x_breaks, labels = x_labels, guide = ggplot2::guide_axis(check.overlap = TRUE))
+        scale_x_continuous(breaks = x_breaks, labels = x_labels)
     })
   } else {
     g_lengths <- ggplot() + theme_pbs() +
