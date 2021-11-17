@@ -89,11 +89,12 @@ cos <- dplyr::filter(cos, !grepl("Salmon", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Trout", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Eulachon", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`))
-cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `COSEWIC status`)
+cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `COSEWIC status`, sara_status = `Schedule status`)
 # duplicate of inside YE:
 cos <- dplyr::filter(cos, !grepl("Pacific Ocean outside waters population", `COSEWIC population`))
-cos <- select(cos, species_science_name, cosewic_status)
+cos <- select(cos, species_science_name, cosewic_status, sara_status)
 cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus", species_science_name))
+cos$species_science_name <- tolower(cos$species_science_name)
 spp <- left_join(spp, cos, by = "species_science_name")
 
 # ------------------------------------------------------------------------------
@@ -234,7 +235,6 @@ temp <- lapply(spp$species_common_name, function(x) {
   species_code <- spp$species_code[spp$species_common_name == x]
   other_ref <- spp$other_ref_cite[spp$species_common_name == x]
   sara_status <- spp$sara_status[spp$species_common_name == x]
-  sara_status <- NA
   cosewic_status <- spp$cosewic_status[spp$species_common_name == x]
   cosewic_report <- spp$cosewic_status_reports[spp$species_common_name == x]
   worms_id <- spp$worms_id[spp$species_common_name == x]
