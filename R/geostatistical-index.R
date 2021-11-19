@@ -3,7 +3,7 @@
 #' @param species_rds File path to an .rds file from [gfplot::cache_pbs_data()].
 #' @param survey Survey abbreviation for the survey to fit.
 #' @param species_name Species name. Only used in the output to help with processing.
-#' @param n_knots Number of knots in the SPDE approximation.
+#' @param cutoff Mesh cutoff for [sdmTMB::make_mesh()].
 #' @param cell_width Sell width for the prediction grid.
 #' @param anisotropy Logical for anisotropy.
 #' @param silent Logical for verbosity of output.
@@ -12,12 +12,12 @@
 #'
 #' @return A list object.
 #' @export
-fit_sdmTMB_westcoast <- function(species_rds, survey,
-  species_name = "", n_knots = 200, cell_width = 2,
+fit_sdmTMB_westcoast <- function(dat, survey,
+  species_name = "", cutoff = 15, cell_width = 2,
   anisotropy = FALSE, silent = TRUE, bias_correct = FALSE,
   include_depth = FALSE) {
 
-  d <- readRDS(species_rds)$survey_sets
+  d <- dat
   d <- dplyr::filter(d, !(year == 2014 & survey_abbrev == "SYN WCHG")) # not used
   col <- if (grepl("SYN", survey)) "density_kgpm2" else "density_ppkm2"
   dat <- gfplot:::tidy_survey_sets(d, survey, years = seq(1, 1e6),
@@ -64,19 +64,27 @@ fit_sdmTMB_westcoast <- function(species_rds, survey,
   } else {
     stats::as.formula(density ~ 0 + as.factor(year) + depth_scaled + depth_scaled2)
   }
-  spde <- sdmTMB::make_spde(dat$X, dat$Y, n_knots = n_knots)
+
+  spde <- sdmTMB::make_mesh(dat, xy_cols = c("X", "Y"), cutoff = cutoff)
   m <- sdmTMB::sdmTMB(
     formula = formula,
-    data = dat, time = "year", spde = spde, family = sdmTMB::tweedie(link = "log"),
-    anisotropy = anisotropy, silent = silent)
-  predictions <- stats::predict(m, newdata = grid_locs, return_tmb_object = TRUE)
-  index <- sdmTMB::get_index(predictions, bias_correct = bias_correct)
+    data = dat, time = "year",
+    spde = spde,
+    family = sdmTMB::tweedie(link = "log"),
+    anisotropy = anisotropy,
+    silent = silent
+  )
+
+  # predictions <- stats::predict(m, newdata = grid_locs, return_tmb_object = TRUE)
+  # index <- sdmTMB::get_index(predictions, bias_correct = bias_correct)
+  predictions <- predict(m, newdata = grid_locs, sims = 500L)
+  index <- get_index_sims(predictions, est_function = stats::median)
   index <- dplyr::mutate(index, cv = sqrt(exp(se^2) - 1))
   list(
     data = dat,
     model = m,
-    spde = spde,
-    predictions = predictions,
+    # spde = spde,
+    # predictions = predictions,
     index = index,
     scale = .scale,
     survey = survey,

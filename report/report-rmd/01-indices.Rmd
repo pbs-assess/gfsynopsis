@@ -6,7 +6,7 @@
 .spp <- gfsynopsis::get_spp_names()
 spp_table <- .spp %>%
   mutate(species_common_name = gfsynopsis:::first_cap(species_common_name)) %>%
-  mutate(section = paste0("\\@ref(sec:", spp_w_hyphens, ")")) %>%
+  mutate(section = paste0("\\pageref{sec:", spp_w_hyphens, "}")) %>%
   mutate(species_science_name = paste0("*", gfplot:::firstup(species_science_name), "*")) %>%
   mutate(species_science_name = gsub("Sebastes aleutianus/melanostictus complex",
     "S. aleutianus/melanostictus complex", species_science_name)) %>% 
@@ -17,7 +17,7 @@ spp_table <- .spp %>%
 spp_table %>% arrange(species_common_name) %>%
   select(species_common_name, species_science_name, section) %>%
   csasdown::csas_table(align = c("l", "l", "l"),
-   col.names = c("Common name", "Scientific name", "Section"))
+   col.names = c("Common name", "Scientific name", "Page"))
 ```
 
 \clearpage
@@ -28,7 +28,9 @@ spp_table %>% arrange(species_common_name) %>%
 spp_table %>% arrange(species_science_name) %>%
   select(species_science_name, species_common_name, section) %>%
   csasdown::csas_table(align = c("l", "l", "l"),
-  col.names = c("Scientific name", "Common name", "Section"))
+  col.names = c("Scientific name", "Common name", "Page"))
 ```
 
 \clearpage
+
+

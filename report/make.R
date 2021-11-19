@@ -1,4 +1,6 @@
 french <- FALSE
+is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
+is_unix <- .Platform$OS.type == "unix"
 
 if (french) {
   build_dir <- "report/report-rmd-fr"
@@ -9,12 +11,14 @@ if (french) {
 # It must be run before the report can be rendered.
 library(here)
 library(dplyr)
-library(gfplot)
+# library(gfplot)
+devtools::load_all("../gfplot")
 library(gfiphc)
 library(gfsynopsis)
+# devtools::load_all(".")
 library(rosettafish)
 # library(foreach)
-library(future)
+## library(future)
 setwd(here())
 
 # ------------------------------------------------------------------------------
@@ -27,12 +31,16 @@ cores <- floor(future::availableCores() / 2.5)
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
-options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
-if (parallel_processing) {
-  future::plan(multisession, workers = cores)
-} else {
-  future::plan(sequential)
-}
+## options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
+## if (parallel_processing) {
+##   if (!is_rstudio && is_unix) {
+##     future::plan(multisession, workers = cores)
+##   } else {
+##     future::plan(sequential) # much frustration
+##   }
+## } else {
+##   future::plan(sequential)
+## }
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
@@ -48,9 +56,9 @@ spp <- gfsynopsis::get_spp_names() %>%
 
 # ------------------------------------------------------------------------------
 # Geostatistical model fits: (a bit slow)
-fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
-if (!file.exists(fi)) source(here("report/make-geostat.R"))
-dat_geostat_index <- readRDS(fi)
+# fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
+# if (!file.exists(fi)) source(here("report/make-geostat.R"))
+# dat_geostat_index <- readRDS(fi)
 
 # ------------------------------------------------------------------------------
 # Gather and arrange some metadata
@@ -73,26 +81,25 @@ spp$order[spp$species_common_name == "deacon rockfish"] <-
 spp$family[spp$species_common_name == "deacon rockfish"] <-
   spp$family[spp$species_common_name == "vermilion rockfish"]
 
-if (!file.exists(here("report", "cosewic.rds"))) {
-  cosewic <- gfplot::get_sara_dat()
-  if (any(grepl("on_schedule", names(cosewic))))
-    names(cosewic)[7] <- "schedule"
-  saveRDS(cosewic, file = here("report", "cosewic.rds"))
-} else {
-  cosewic <- readRDS(here("report", "cosewic.rds"))
-}
-cosewic <- rename(cosewic, species_science_name = scientific_name) %>%
-  select(species_science_name, population, range, cosewic_status,
-    schedule, sara_status) %>%
-  mutate(species_science_name = tolower(species_science_name))
-
-cosewic <- filter(cosewic, !grepl("Atlantic", population))
-cosewic <- filter(cosewic, !grepl("Pacific Ocean outside waters population", population))
-spp <- left_join(spp, cosewic, by = "species_science_name")
+# downloaded from:
+# https://species-registry.canada.ca/index-en.html#/species?ranges=1,18&taxonomyId=4&sortBy=commonNameSort&sortDirection=asc&pageSize=10
+# on 2021-08-13
+cos <- readr::read_csv(here::here("report/COSEWIC-species.csv"), show_col_types = FALSE)
+cos <- dplyr::filter(cos, !grepl("Salmon", `COSEWIC common name`))
+cos <- dplyr::filter(cos, !grepl("Trout", `COSEWIC common name`))
+cos <- dplyr::filter(cos, !grepl("Eulachon", `COSEWIC common name`))
+cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`))
+cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `COSEWIC status`, sara_status = `Schedule status`)
+# duplicate of inside YE:
+cos <- dplyr::filter(cos, !grepl("Pacific Ocean outside waters population", `COSEWIC population`))
+cos <- select(cos, species_science_name, cosewic_status, sara_status)
+cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus", species_science_name))
+cos$species_science_name <- tolower(cos$species_science_name)
+spp <- left_join(spp, cos, by = "species_science_name")
 
 # ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
-refs <- readr::read_csv(here("report/spp-refs.csv"))
+refs <- readr::read_csv(here("report/spp-refs.csv"), show_col_types = FALSE)
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$type_other_ref[!is.na(spp$type_other_ref)] <-
   rosettafish::en2fr(spp$type_other_ref[!is.na(spp$type_other_ref)], french)
@@ -134,9 +141,6 @@ purrr::walk(spp$species_common_name, function(.sp) {
     )
     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
   }
-  else {
-    cpue_index <- readRDS(cpue_cache_spp)
-  }
 })
 
 # ------------------------------------------------------------------------------
@@ -153,38 +157,56 @@ for (i in which(!missing)) {
     "Figure pages for", spp$species_common_name[i], "already exist\n")
 }
 missing_spp <- spp$species_common_name[missing]
+to_build <- which(missing)
+
+# to_build <- to_build[seq(1, floor(length(to_build) / 2))]
+# to_build <- to_build[seq(ceiling(length(to_build) / 2), length(to_build))]
+
 message("Building")
-message(paste(missing_spp, "\n"))
+message(paste(spp$species_common_name[to_build], "\n"))
 
+length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"))
+
+# missing <- rep(TRUE, length(missing))
+# for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
+for (i in to_build) {
 # out <- lapply(which(missing), function(i) {
-out <- future.apply::future_lapply(which(missing), function(i) {
-  cat(crayon::red(clisymbols::symbol$cross),
-    "Building figure pages for", spp$species_common_name[i], "\n")
-  dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+# out <- future.apply::future_lapply(which(missing), function(i) {
+  tryCatch({
+    cat(crayon::red(clisymbols::symbol$cross),
+      "Building figure pages for", spp$species_common_name[i], "\n")
+    dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
 
-  dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
-  dat$cpue_index <- d_cpue
-  gfsynopsis::make_pages(
-    dat = dat,
-    dat_iphc = dat_iphc,
-    spp = spp$species_common_name[i],
-    d_geostat_index = dat_geostat_index, # spatiotemporal model fits
-    include_map_square = FALSE, # to check the map aspect ratio
-    french = french,
-    report_lang_folder = build_dir,
-    resolution = 150, # balance size with resolution
-    png_format = if (ext == "png") TRUE else FALSE,
-    parallel = FALSE, # for CPUE fits; need a lot of memory if true!
-    save_gg_objects = spp$species_common_name[i] %in% example_spp,
-    synoptic_max_survey_years = 2018:2019,
-    hbll_out_max_survey_years = 2018:2019,
-    survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-      RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-      "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
-  )
-}, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
-  "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
+    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
+    dat$cpue_index <- d_cpue
+    gfsynopsis::make_pages(
+      dat = dat,
+      dat_iphc = dat_iphc,
+      spp = spp$species_common_name[i],
+      d_geostat_index = NULL, # dat_geostat_index, # spatiotemporal model fits
+      include_map_square = FALSE, # to check the map aspect ratio
+      french = french,
+      report_lang_folder = build_dir,
+      resolution = 150, # balance size with resolution
+      png_format = if (ext == "png") TRUE else FALSE,
+      parallel = FALSE, # for CPUE fits; need a lot of memory if true!
+      save_gg_objects = spp$species_common_name[i] %in% example_spp,
+      synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2021, "SYN WCVI" = 2021, "SYN QCS" = 2021),
+      hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
+      iphc_max_survey_year = 2021,
+      final_year_comm = 2020,
+      final_year_surv = 2021,
+      length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
+      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
+        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+    )
+  # }, error = function(e) warning("Error"))
+  }, error = function(e) stop("Error"))
+# }, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
+  # "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
 # })
+}
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
@@ -391,21 +413,21 @@ if (optimize_png) {
   cores <- parallel::detectCores()
   files_per_core <- ceiling(length(spp$species_common_name) * 2 / cores)
   setwd(file.path(build_dir, "figure-pages"))
-  if (!gfplot:::is_windows() && parallel_processing) {
+  # if (!gfplot:::is_windows() && parallel_processing) {
     system(paste0(
       "find -X . -name '*.png' -print0 | xargs -0 -n ",
       files_per_core, " -P ", cores, " optipng -strip all"
     ))
-  } else if (gfplot:::is_windows() && parallel_processing) {
-    library(doParallel)
-    doParallel::registerDoParallel(cores = cores)
-    fi <- list.files(".", "*.png")
-    plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
-      .parallel = TRUE
-    )
-    doParallel::stopImplicitCluster()
-  } else {
-    temp <- lapply(fi, function(i) system(paste0("optipng -strip all ", i)))
-  }
+  # } else if (gfplot:::is_windows() && parallel_processing) {
+  #   library(doParallel)
+  #   doParallel::registerDoParallel(cores = cores)
+  #   fi <- list.files(".", "*.png")
+  #   plyr::l_ply(fi, function(i) system(paste0("optipng -strip all ", i)),
+  #     .parallel = TRUE
+  #   )
+  #   doParallel::stopImplicitCluster()
+  # } else {
+  #   temp <- lapply(fi, function(i) system(paste0("optipng -strip all ", i)))
+  # }
   setwd(here())
 }

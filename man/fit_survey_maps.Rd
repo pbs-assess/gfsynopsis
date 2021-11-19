@@ -8,7 +8,6 @@ fit_survey_maps(
   dat,
   species = "pacific cod",
   include_depth = TRUE,
-  model = c("inla", "glmmfields", "sdmTMB"),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
   years = c(2017, 2018),
   ...
@@ -22,14 +21,14 @@ fit_survey_maps(
 \item{include_depth}{Logical for whether or not to include depth and depth
 squared as predictors.}
 
-\item{model}{Whether to fit an INLA or glmmfields model.}
-
 \item{surveys}{Character vector describing the surveys to fit. Can include
 multiple surveys if desired.}
 
 \item{years}{The years of survey data to use.}
 
 \item{...}{Any other arguments to pass to \code{\link[gfplot:survey-spatial-modelling]{gfplot::fit_survey_sets()}}.}
+
+\item{model}{Whether to fit an INLA or glmmfields model.}
 }
 \description{
 \code{fit_survey_maps()} is a helper function that calls

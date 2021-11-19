@@ -5,10 +5,10 @@
 \title{Fit a geostatistical index standardization model to survey data}
 \usage{
 fit_sdmTMB_westcoast(
-  species_rds,
+  dat,
   survey,
   species_name = "",
-  n_knots = 200,
+  cutoff = 15,
   cell_width = 2,
   anisotropy = FALSE,
   silent = TRUE,
@@ -17,13 +17,11 @@ fit_sdmTMB_westcoast(
 )
 }
 \arguments{
-\item{species_rds}{File path to an .rds file from \code{\link[gfplot:get_data]{gfplot::cache_pbs_data()}}.}
-
 \item{survey}{Survey abbreviation for the survey to fit.}
 
 \item{species_name}{Species name. Only used in the output to help with processing.}
 
-\item{n_knots}{Number of knots in the SPDE approximation.}
+\item{cutoff}{Mesh cutoff for \code{\link[sdmTMB:make_mesh]{sdmTMB::make_mesh()}}.}
 
 \item{cell_width}{Sell width for the prediction grid.}
 
@@ -34,6 +32,8 @@ fit_sdmTMB_westcoast(
 \item{bias_correct}{Logical for bias correction from TMB.}
 
 \item{include_depth}{Logical for whether to include depth in the model.}
+
+\item{species_rds}{File path to an .rds file from \code{\link[gfplot:get_data]{gfplot::cache_pbs_data()}}.}
 }
 \value{
 A list object.

@@ -16,14 +16,16 @@
 #' @export
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE,
-  model = c("inla", "glmmfields", "sdmTMB"),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
   years = c(2017, 2018),
   ...) {
   dat <- dplyr::filter(dat, species_common_name %in% species)
   dat <- dplyr::filter(dat, year %in% years)
+  # grab last year of data only:
+  dat <- dplyr::group_by(dat, survey_abbrev) %>%
+    dplyr::filter(year == max(year)) %>%
+    dplyr::ungroup()
 
-  model <- match.arg(model)
   out <- lapply(surveys, function(surv) {
     if (!surv %in% c("HBLL OUT N", "HBLL OUT S", "IPHC FISS", "SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"))
       stop("survey value was '", surv, "' but must be one of ",
@@ -37,8 +39,9 @@ fit_survey_maps <- function(dat,
       .dat$survey_abbrev <- surv
       # .dat$year <- years[2]
       premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
+      last_year <- max(.dat$year)
       raw_dat <- tidy_survey_sets(.dat, surv,
-        years = years, density_column = density_column
+        years = last_year, density_column = density_column
       )
     }
     if (surv == "IPHC FISS") {
@@ -46,10 +49,10 @@ fit_survey_maps <- function(dat,
       # .dat <- filter(dat, year %in% years[2]) # just last year
       .dat <- filter(dat, year %in% years)
       .dat <- filter(.dat, survey_abbrev %in% surv)
+      last_year <- max(.dat$year)
       if (nrow(.dat) == 0L) stop("No survey data.")
       raw_dat <- tidy_survey_sets(.dat, surv,
-        # years = years[2], density_column = density_column
-        years = years, density_column = density_column
+        years = last_year, density_column = density_column
       )
       premade_grid <- filter(raw_dat, year == max(year)) %>%
         select(lon, lat, depth) %>%
@@ -59,34 +62,19 @@ fit_survey_maps <- function(dat,
     if (surv %in% c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")) {
       density_column <- "density_kgpm2"
       .dat <- filter(dat, survey_abbrev %in% surv)
-      premade_grid <- NULL
+      # premade_grid <- NULL
+      premade_grid <- dplyr::filter(gfplot::synoptic_grid, survey %in% surv)
+      premade_grid <- list(grid = premade_grid, cell_area = 4.0)
+      last_year <- max(.dat$year)
       raw_dat <- tidy_survey_sets(.dat, surv,
-        years = years, density_column = "density_kgpm2"
+        years = last_year, density_column = "density_kgpm2"
       )
     }
-
-    if (model == "inla") {
-      m <- fit_survey_sets(.dat, survey = surv, years = years,
-        model = "inla", mcmc_posterior_samples = 800,
-        density_column = density_column,
-        premade_grid = premade_grid, required_obs_percent = 0.02,
-        ...)
-    }
-    if (model == "glmmfields") {
-      stop("NEED TO CHECK GLMMFIELDS")
-      m <- fit_survey_sets(.dat, survey = surv, years = years,
-        model = "glmmfields", chains = 1, iter = 800,
-        mcmc_posterior_samples = 300, n_knots = 25, ...)
-    }
-    if (model == "sdmTMB") {
-      m <- fit_survey_sets(.dat, survey = surv, years = years,
-        model = "sdmTMB",
-        density_column = density_column, tmb_knots = 200,
-        premade_grid = premade_grid, required_obs_percent = 0.02,
-        ...)
-      # we may have predicted all years, but just save last year for plotting:
-      raw_dat <- filter(m$data, year == max(m$data$year))
-    }
+    m <- fit_survey_sets(.dat, survey = surv, years = max(.dat$year),
+      density_column = density_column, tmb_knots = 200,
+      premade_grid = premade_grid, required_obs_percent = 0.02, ...)
+    # we may have predicted all years, but just save last year for plotting:
+    raw_dat <- filter(m$data, year == max(m$data$year))
     list(model = m, raw_dat = raw_dat)
   })
 
@@ -136,7 +124,8 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   show_model_predictions = TRUE,
   annotations = c("SYN", "IPHC", "HBLL"),
   syn_qcs_hs_year = 2019,
-  syn_wcvi_wchg_year = 2018,
+  syn_wcvi_year = 2018,
+  syn_wchg_year = 2018,
   hbll_n_year = 2017,
   hbll_s_year = 2018,
   iphc_year = 2018,
@@ -152,15 +141,14 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
       min_raw_depth = ifelse(!is.na(min_raw_depth), min_raw_depth, Inf),
       max_raw_depth = ifelse(!is.na(max_raw_depth), max_raw_depth, -Inf))
 
-  # Set to NA predictions outside of the range within that survey and year:
-  pred_dat <- left_join(pred_dat, raw_dat_depth_ranges)
-  pred_dat[pred_dat$akima_depth < pred_dat$min_raw_depth |
-      pred_dat$akima_depth > pred_dat$max_raw_depth, fill_column] <- NA
-
-  # # xxx <- pred_dat
-  # pred_dat <- xxx
-  .q <- quantile(pred_dat$combined, probs = 0.998, na.rm = TRUE)[[1]]
-  pred_dat$combined[pred_dat$combined > .q] <- .q
+  if (nrow(pred_dat) > 1L && annotations != "IPHC") {
+    # Set to NA predictions outside of the range within that survey and year:
+    pred_dat <- left_join(pred_dat, raw_dat_depth_ranges)
+    pred_dat[pred_dat$akima_depth < pred_dat$min_raw_depth |
+        pred_dat$akima_depth > pred_dat$max_raw_depth, fill_column] <- NA
+    .q <- quantile(pred_dat$combined, probs = 0.998, na.rm = TRUE)[[1]]
+    pred_dat$combined[pred_dat$combined > .q] <- .q
+  }
 
   g <- plot_survey_sets(pred_dat, raw_dat,
     fill_column = fill_column, show_model_predictions = show_model_predictions,
@@ -178,12 +166,12 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
     north_symbol_coord = c(130, 5975), show_axes = show_axes,
     extrapolate_depth = TRUE, ...
   ) + ggplot2::theme(legend.position = "bottom") +
-    guides(fill = FALSE, size = FALSE)
+    guides(fill = "none", size = "none")
 
   if (annotations == "SYN")
-    g <- g + ggplot2::annotate("text", 390, 6090, label = syn_wcvi_wchg_year, col = "grey30") +
+    g <- g + ggplot2::annotate("text", 390, 6090, label = syn_wchg_year, col = "grey30") +
       ggplot2::annotate("text", 390, 5800, label = syn_qcs_hs_year, col = "grey30") +
-      ggplot2::annotate("text", 390, 5450, label = syn_wcvi_wchg_year, col = "grey30")
+      ggplot2::annotate("text", 390, 5450, label = syn_wcvi_year, col = "grey30")
 
   if (annotations == "HBLL")
     g <- g + ggplot2::annotate("text", 390, 5990, label = hbll_n_year, col = "grey30") +

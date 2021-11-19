@@ -12,8 +12,8 @@ dir.create(here::here("report/geostat-cache"), showWarnings = FALSE)
 survs <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
 all <- expand.grid(spp = .spp, survs = survs, stringsAsFactors = FALSE)
 
-# parallel_processing <- TRUE
-# cores <- floor(future::availableCores() / 2)
+parallel_processing <- TRUE
+cores <- floor(future::availableCores() / 2)
 
 if (!exists("cores") || !exists("parallel_processing")) {
   stop(
@@ -24,20 +24,28 @@ if (!exists("cores") || !exists("parallel_processing")) {
 }
 
 if (parallel_processing) {
-  future::plan(multiprocess, workers = cores)
+  future::plan(multisession, workers = cores)
 } else {
   future::plan(sequential)
 }
 
+# options(future.debug = TRUE)
 out <- future.apply::future_lapply(seq_len(nrow(all)), function(i) {
+# out <- purrr::map(seq_len(nrow(all)), function(i) {
+# out <- lapply(1:1, function(i) {
   file <- here::here("report", "geostat-cache",
     paste0(all$spp[i], "-", gsub(" ", "-", all$survs[i]), ".rds"))
   if (!file.exists(file)) {
+    # cat(all$survs[i], all$spp[i], "\n")
     .out <- tryCatch(gfsynopsis::fit_sdmTMB_westcoast(
       here::here("report", "data-cache", paste0(all$spp[i], ".rds")),
-      species_name = all$spp[i], include_depth = FALSE,
-      survey = all$survs[i], n_knots = 150L, bias_correct = FALSE,
-      anisotropy = FALSE
+      species_name = all$spp[i],
+      include_depth = FALSE,
+      survey = all$survs[i],
+      cutoff = 10,
+      bias_correct = FALSE,
+      silent = FALSE,
+      anisotropy = TRUE
     ), error = function(e) NA)
     saveRDS(.out, file = file)
   } else {

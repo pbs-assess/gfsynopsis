@@ -18,7 +18,8 @@ plot_survey_maps(
   show_model_predictions = TRUE,
   annotations = c("SYN", "IPHC", "HBLL"),
   syn_qcs_hs_year = 2019,
-  syn_wcvi_wchg_year = 2018,
+  syn_wcvi_year = 2018,
+  syn_wchg_year = 2018,
   hbll_n_year = 2017,
   hbll_s_year = 2018,
   iphc_year = 2018,
@@ -55,8 +56,6 @@ include. These annotations include the relevent years on the map.}
 
 \item{syn_qcs_hs_year}{Year for a synoptic survey label.}
 
-\item{syn_wcvi_wchg_year}{Year for a synoptic survey label.}
-
 \item{hbll_n_year}{Year for a HBLL N survey label.}
 
 \item{hbll_s_year}{Year for a HBLL S survey label.}
@@ -64,6 +63,8 @@ include. These annotations include the relevent years on the map.}
 \item{iphc_year}{Year for IPHC survey label.}
 
 \item{...}{Any other arguments to pass to \code{\link[gfplot:plot_survey_sets]{gfplot::plot_survey_sets()}}.}
+
+\item{syn_wcvi_wchg_year}{Year for a synoptic survey label.}
 }
 \description{
 \code{plot_survey_maps()} is a helper function that calls

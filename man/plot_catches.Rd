@@ -7,7 +7,7 @@
 plot_catches(
   dat,
   blank_plot = FALSE,
-  xlim = c(1955, 2018),
+  xlim = c(1955, 2020),
   french = FALSE,
   ...
 )

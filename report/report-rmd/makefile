@@ -10,3 +10,7 @@ compressfigs:
 compresslogos:
 	cd csas-style/images/
 	find -X . -name '*.png' -print0 | xargs -0 optipng -strip all
+
+bibclean:
+	cp bib/spp-refs.bib bib/spp-refs-backup.bib
+	bibtool --print.use.tab=Off --print.line.length=80 -i bib/spp-refs.bib -o bib/spp-refs.bib

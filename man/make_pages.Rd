@@ -28,16 +28,21 @@ make_pages(
     "HBLL OUT S", "IPHC FISS", "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 1,
-  synoptic_max_survey_years = 2018:2019,
-  hbll_out_max_survey_years = 2017:2018,
+  synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` =
+    2018, `SYN QCS` = 2019),
+  hbll_out_max_survey_years = list(`HBLL OUT N` = 2019, `HBLL OUT S` = 2020),
+  iphc_max_survey_year = 2020,
   parallel = FALSE,
-  french = FALSE
+  french = FALSE,
+  final_year_comm = 2020,
+  final_year_surv = 2021,
+  length_ticks = NULL
 )
 }
 \arguments{
-\item{dat}{A data list object from \code{\link[gfplot:get_data]{gfplot::cache_pbs_data()}}.}
+\item{dat}{A data list object from \code{\link[gfdata:get_data]{gfdata::cache_pbs_data()}}.}
 
-\item{dat_iphc}{A data list object from \code{\link[gfplot:cache_pbs_data_iphc]{gfplot::cache_pbs_data_iphc()}}.}
+\item{dat_iphc}{A data list object from \code{\link[gfiphc:iphc_data]{gfiphc::cache_pbs_data_iphc()}}.}
 
 \item{spp}{A species common name.}
 
@@ -89,6 +94,9 @@ outlying cells from distorting the color scale.}
 synoptic survey years to include.}
 
 \item{parallel}{Parallel CPUE index fitting?}
+
+\item{length_ticks}{A data frame indicating optional length composition
+x-axis breaks and labels.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

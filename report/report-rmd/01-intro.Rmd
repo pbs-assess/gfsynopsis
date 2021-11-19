@@ -1,3 +1,38 @@
+# Context {#sec:context}
+
+This Science Response Report results from the Science Response Process Month Day, Year on the Title of Process Here.
+
+# Background {#sec:background}
+
+This report is an update of [@anderson2019synopsis].
+
+# Analysis and response
+
+Mandatory section, title may vary. Core of the report.
+
+# Conclusions
+
+Mandatory section and title.
+
+# Contributors
+
+Mandatory section and title.
+
+```{r, echo=FALSE, include=FALSE}
+contributors <- tibble::tribble(
+  ~Name,          ~Affiliation,
+  "Jane Smith",   "DFO Science, Pacific Region",
+  "John Smith",   "DFO Science, Maritimes Region",
+)
+```
+
+```{r, results='asis'}
+csasdown::csas_table(contributors)
+```
+
+<!-- Decrease the table index by one to account for the contributors table: -->
+\addtocounter{table}{-1}
+
 # INTRODUCTION {#sec:intro}
 
 The combination of fishery-dependent data, such as catch and effort, and
