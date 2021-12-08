@@ -5,19 +5,8 @@ library(dplyr)
 library(gfplot)
 
 
-spp <- c("big skate",
-"longnose skate")
-
-
-out <- list()
-for (i in seq_along(spp)) {
-  spp2 <- gsub(" ", "-", spp)
-  d <- get_catch(spp)
-  out[[i]] <- d
-}
-
-dat <- bind_rows(out)
-
+spp <- c("big skate", "longnose skate")
+dat <- get_catch(spp)
 glimpse(dat)
 
 # readr::write_csv(dat, "inst/requests/skates-all-catch.csv")
@@ -28,6 +17,6 @@ glimpse(dat)
 
 tdat <- tidy_catch(dat, area = c("5[AB]+","5[CDE]", "4[B]", "3[CD]"))
 plot_catch(tdat)
-tdat2 <- tdat %>% rename(kg = value)
+tdat2 <- tdat %>% rename(kg = value) %>% filter(year < 2021)
 
 readr::write_csv(tdat2, "inst/requests/skates-catch-by-area.csv")
