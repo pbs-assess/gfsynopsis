@@ -58,8 +58,8 @@ cpue_gh$geometry <- NULL
 #   ggtitle(paste(species)) +
 #   ggsidekick::theme_sleek() + theme(legend.position = c(0.2,0.2),
 #        axis.title = element_blank(), panel.grid.major = element_line(colour = "grey93"))
-# # ggsave("Yellowmouth-Gwaii-Haanas-catch.pdf", width = 6, height = 6)
-# # ggsave("Darkblotched-Gwaii-Haanas-catch.pdf", width = 6, height = 6)
+# # ggsave("inst/requests/Yellowmouth-Gwaii-Haanas-catch.pdf", width = 6, height = 6)
+# # ggsave("inst/requests/Darkblotched-Gwaii-Haanas-catch.pdf", width = 6, height = 6)
 
 # catch_tidy <- tidy_catch(catch_gh)
 cpue_gh <- cpue_gh %>% rename(lon = X, lat = Y)
@@ -93,8 +93,8 @@ plot_cpue_spatial(cpue_w_missing, start_year = 2006, n_minimum_vessels = 1,
   ggtitle(paste(species)) +
   theme(legend.position = c(0.25,0.3))
 
-# ggsave("Yellowmouth-Gwaii-Haanas-cpue-3-vessel.pdf", width = 6, height = 6)
-# ggsave("Darkblotched-Gwaii-Haanas-cpue-1-vessel.pdf", width = 6, height = 6)
+# ggsave("inst/requests/Yellowmouth-Gwaii-Haanas-cpue-3-vessel.pdf", width = 6, height = 6)
+# ggsave("inst/requests/Darkblotched-Gwaii-Haanas-cpue-1-vessel.pdf", width = 6, height = 6)
 
 
 
