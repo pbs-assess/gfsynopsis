@@ -127,6 +127,7 @@ total_gh <- catch_gh %>% mutate(zeros = ifelse(landed_kg + discarded_kg == 0, 1,
   summarise(total_kg = sum(landed_kg) + sum(discarded_kg),
             count_zeros = sum(zeros),
             count_events = n(),
+            vessels = length(unique(vessel_registration_number)),
             landed = sum(landed_kg), discarded = sum(discarded_kg)) %>% filter(year > 2006)
 
 ggplot(total_gh) + geom_line(aes(year, total_kg, colour = species))
