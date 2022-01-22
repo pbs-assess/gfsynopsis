@@ -18,34 +18,33 @@ library(gfsynopsis)
 # devtools::load_all(".")
 library(rosettafish)
 # library(foreach)
-## library(future)
+library(future)
 setwd(here())
 
 # ------------------------------------------------------------------------------
 # Settings:
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
-optimize_png <- FALSE # optimize the figures at the end? Need optipng installed.
+optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
 cores <- floor(future::availableCores() / 2.5)
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
-## options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
-## if (parallel_processing) {
-##   if (!is_rstudio && is_unix) {
-##     future::plan(multisession, workers = cores)
-##   } else {
-##     future::plan(sequential) # much frustration
-##   }
-## } else {
-##   future::plan(sequential)
-## }
+options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
+if (parallel_processing) {
+  if (!is_rstudio && is_unix) {
+    future::plan(multisession, workers = cores)
+  } else {
+    future::plan(sequential) # much frustration
+  }
+} else {
+  future::plan(sequential)
+}
 
 # ------------------------------------------------------------------------------
 # Read in fresh data or load cached data if available:
 dc <- here("report", "data-cache")
-# dc <- "~/Desktop/data-cache/"
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -413,11 +412,12 @@ if (optimize_png) {
   cores <- parallel::detectCores()
   files_per_core <- ceiling(length(spp$species_common_name) * 2 / cores)
   setwd(file.path(build_dir, "figure-pages"))
-  # if (!gfplot:::is_windows() && parallel_processing) {
+  if (!gfplot:::is_windows() && parallel_processing) {
     system(paste0(
       "find -X . -name '*.png' -print0 | xargs -0 -n ",
       files_per_core, " -P ", cores, " optipng -strip all"
     ))
+  }
   # } else if (gfplot:::is_windows() && parallel_processing) {
   #   library(doParallel)
   #   doParallel::registerDoParallel(cores = cores)
