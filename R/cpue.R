@@ -38,85 +38,100 @@
 #' @export
 
 fit_cpue_indices <- function(dat,
-  species = "pacific cod",
-  areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
-  center = TRUE, cache = here::here("report", "cpue-cache"),
-  save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE,
-  year_range = c(1996, lubridate::year(Sys.Date()) - 1)) {
+                             species = "pacific cod",
+                             areas = c("3[CD]+|5[ABCDE]+", "5[CDE]+", "5[AB]+", "3[CD]+"),
+                             center = TRUE, cache = here::here("report", "cpue-cache"),
+                             save_model = FALSE, arith_cpue_comparison = TRUE, parallel = FALSE,
+                             year_range = c(1996, lubridate::year(Sys.Date()) - 1)) {
 
   # cores <- if (parallel) parallel::detectCores()[1L] else 1L
   # cl <- parallel::makeCluster(min(c(cores, length(areas))))
   # doParallel::registerDoParallel(cl)
-  cpue_models <- foreach::foreach(area = areas,
-    .packages = c("gfplot", "gfsynopsis")) %do% {
-      message("Determining qualified fleet for area ", area, ".")
+  # cpue_models <- foreach::foreach(area = areas,
+  cpue_models <- purrr::map(areas, function(area) {
+    # .packages = c("gfplot", "gfsynopsis")) %do% {
+    message("Determining qualified fleet for area ", area, ".")
 
-      fleet <- gfplot::tidy_cpue_index(dat,
-        year_range = year_range,
-        species_common = species,
-        gear = "bottom trawl",
-        use_alt_year = FALSE,
-        area_grep_pattern = area,
-        min_positive_tows = 100,
-        min_positive_trips = 5,
-        min_yrs_with_trips = 5,
-        lat_band_width = 0.1,
-        depth_band_width = 25,
-        depth_bin_quantiles = c(0.001, 0.999),
-        min_bin_prop = 0.001
-      )
+    fleet <- gfplot::tidy_cpue_index(dat,
+      year_range = year_range,
+      species_common = species,
+      gear = "bottom trawl",
+      use_alt_year = FALSE,
+      area_grep_pattern = area,
+      min_positive_tows = 100,
+      min_positive_trips = 5,
+      min_yrs_with_trips = 5,
+      lat_band_width = 0.1,
+      depth_band_width = 25,
+      depth_bin_quantiles = c(0.001, 0.999),
+      min_bin_prop = 0.001
+    )
 
-      if (!is.data.frame(fleet))
-        if (is.na(fleet[[1]]))
-          return(NA)
-      if (length(unique(fleet$vessel_registration_number)) < 5L)
-        return(NA)
-
-      message("Fitting standardization model for area ", area, ".")
-
-      fleet$year_locality <- paste(fleet$year, fleet$locality)
-
-      if (save_model && area == "5[AB]+") # example for report
-        saveRDS(fleet, file = file.path(cache, paste0(gsub(" ", "-", species),
-          "-", clean_area(area), "-fleet.rds")))
-
-      clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
-      model_file <- file.path(cache, paste0(gsub("\\/", "", gsub(" ", "-", species)),
-        "-", clean_area(area), "-model.rds"))
-
-      if (!file.exists(model_file)) {
-        m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
-          formula = cpue ~ 0 + year_factor +
-            depth +
-            month +
-            latitude +
-            (1 | locality) +
-            (1 | vessel) +
-            (1 | year_locality),
-          verbose = FALSE))
-        saveRDS(m_cpue, file = model_file)
-      } else {
-        m_cpue <- readRDS(model_file)
-      }
-      if (identical(class(m_cpue), "try-error")) {
-        warning("TMB CPUE model for area ", area, " did not converge.")
+    if (!is.data.frame(fleet)) {
+      if (is.na(fleet[[1]])) {
         return(NA)
       }
-      list(model = m_cpue, fleet = fleet, area = clean_area(area))
     }
+    if (length(unique(fleet$vessel_registration_number)) < 5L) {
+      return(NA)
+    }
+
+    message("Fitting standardization model for area ", area, ".")
+
+    fleet$year_locality <- paste(fleet$year, fleet$locality)
+
+    if (save_model && area == "5[AB]+") { # example for report
+      saveRDS(fleet, file = file.path(cache, paste0(
+        gsub(" ", "-", species),
+        "-", clean_area(area), "-fleet.rds"
+      )))
+    }
+
+    clean_area <- function(area) gsub("\\^|\\[|\\]|\\+|\\|", "", area)
+    model_file <- file.path(cache, paste0(
+      gsub("\\/", "", gsub(" ", "-", species)),
+      "-", clean_area(area), "-model.rds"
+    ))
+
+    if (!file.exists(model_file)) {
+      m_cpue <- try(gfplot::fit_cpue_index_glmmtmb(fleet,
+        formula = cpue ~ 0 + year_factor +
+          depth +
+          month +
+          latitude +
+          (1 | locality) +
+          (1 | vessel) +
+          (1 | year_locality),
+        verbose = FALSE
+      ))
+      saveRDS(m_cpue, file = model_file)
+    } else {
+      m_cpue <- readRDS(model_file)
+    }
+    if (identical(class(m_cpue), "try-error")) {
+      warning("TMB CPUE model for area ", area, " did not converge.")
+      return(NA)
+    }
+    list(model = m_cpue, fleet = fleet, area = clean_area(area))
+  })
   # doParallel::stopImplicitCluster()
 
   indices_centered <- purrr::map_df(cpue_models, function(x) {
-    if (is.na(x[[1]])[[1]]) return()
+    if (is.na(x[[1]])[[1]]) {
+      return()
+    }
     p <- gfplot::predict_cpue_index_tweedie(x$model, center = center)
     p$area <- x$area
     p
   })
-  if (nrow(indices_centered) == 0) # none exist
+  if (nrow(indices_centered) == 0) { # none exist
     return(NA)
+  }
 
   unstand_est <- purrr::map_df(cpue_models, function(x) {
-    if (is.na(x[[1]])[[1]]) return()
+    if (is.na(x[[1]])[[1]]) {
+      return()
+    }
 
     if (arith_cpue_comparison) {
       group_by(x$fleet, year_factor) %>%
@@ -128,7 +143,7 @@ fit_cpue_indices <- function(dat,
         mutate(year = as.numeric(as.character(year))) %>%
         dplyr::select(year, est_unstandardized, area) %>%
         mutate(est_unstandardized = est_unstandardized /
-            exp(mean(log(est_unstandardized))))
+          exp(mean(log(est_unstandardized))))
     } else {
       fit_yr <- gfplot::fit_cpue_index_glmmtmb(x$fleet,
         formula = cpue ~ 0 + year_factor
@@ -143,7 +158,8 @@ fit_cpue_indices <- function(dat,
 
   unstand_est %>%
     dplyr::inner_join(dplyr::filter(indices_centered, model == "Combined"),
-      by = c("year", "area"))
+      by = c("year", "area")
+    )
 }
 
 clean_area <- function(area) {
@@ -158,7 +174,6 @@ clean_area <- function(area) {
 #'
 #' @export
 plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
-
   yrs <- xlim
 
   if (!blank_plot) {
@@ -181,8 +196,10 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
 
   g <- g +
     geom_vline(xintercept = seq(yrs[1], yrs[2]), col = "grey98") +
-    geom_vline(xintercept = seq(gfplot:::mround(yrs[1], 5), yrs[2], 5),
-      col = "grey95") +
+    geom_vline(
+      xintercept = seq(gfplot:::mround(yrs[1], 5), yrs[2], 5),
+      col = "grey95"
+    ) +
     facet_wrap(~area, scales = "free_y", ncol = 1, drop = FALSE) +
     ylab("Estimate") + xlab("Year") +
     guides(fill = FALSE) +
@@ -207,7 +224,8 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
   if (!blank_plot) {
     g <- g + geom_ribbon(alpha = 0.3, col = NA, fill = "grey60") +
       geom_line(aes_string(x = "year", y = "est_unstandardized"),
-        inherit.aes = FALSE, lty = 2) +
+        inherit.aes = FALSE, lty = 2
+      ) +
       geom_line()
   }
 
