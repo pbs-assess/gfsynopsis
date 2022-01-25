@@ -5,6 +5,7 @@ rmd_files: [
   "00-load.Rmd",
   "01-indices.Rmd",
 # "01-intro.Rmd",
+  "01-new-iphc-text-2022.Rmd",
   "02-plot-descriptions.Rmd",
   "03-synopsis-plots.Rmd",
   "plot-pages.Rmd",
