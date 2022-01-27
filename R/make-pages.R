@@ -494,10 +494,18 @@ make_pages <- function(
 
     check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
 
-    if (spp == "yelloweye rockfish") # FIXME
+    tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
+
+    if (spp == "yelloweye rockfish")
       tmb_init <- list(k = 0.9, linf = 55, log_sigma = log(0.1), t0 = -1)
-    else
-      tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
+
+    if (spp == "sablefish")
+      tmb_init <- list(k = 0.12, linf = 70, log_sigma = log(0.1), t0 = -8)
+    # https://spo.nmfs.noaa.gov/content/estimating-von-bertalanffy-growth-parameters-sablefish-anoplopoma-fimbria-and-pacific-cod
+
+    if (spp == "shortspine thornyhead")
+      tmb_init <- list(k = 0.03, linf = 47, log_sigma = log(0.1), t0 = -8.5)
+    # https://waves-vagues.dfo-mpo.gc.ca/Library/40603039.pdf
 
     sink(tempfile())
     vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "tmb",
