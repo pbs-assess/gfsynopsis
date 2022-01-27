@@ -1,82 +1,72 @@
+## IPHC survey data update
 
-\clearpage
+For the IPHC survey, the data were updated to include 2019, 2020, and 2021
+(Table \@ref(tab:IPHCdata)). The data are available at different resolutions
+and spatial scales due to the survey design.
+<!-- TODO: SA: what does this mean? -->
+The methods (and some of the data) have been moved from the gfplot package to
+a new R package, gfiphc [@edwards2022gfiphc].
 
-\clearpage
+```{r IPHCdata, results='asis'}
+iphc_tab <- tibble::tribble(
+  ~ Year, ~`Hooks enumerated`, ~`Data resolution`, ~`Location of data`, ~WCVI,
+  "1995", "All", "Set-by-set", "gfiphc", "N",
+  "1996", "All", "Set-by-set", "gfiphc", "N",
+  "1997--1998", "First 20 of each skate", "Set-by-set", "gfiphc", "N",
+  "1999", "First 20 of each skate", "Set-by-set", "gfiphc", "Y",
+  "2000", "First 20 of each skate", "Set-by-set", "gfiphc", "N",
+  "2001--2002", "First 20 of each skate", "Set-by-set", "gfiphc", "Y",
+  "2003--2011", "All", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2012", "All (bait experiment)", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2013", "First 20 of each skate", "Set-by-set", "gfiphc", "Y",
+  "2014--2017", "All", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2018", "All (+ expansion stns)","Hook-by-hook", "DFO database GFBio", "Y",
+  "2019", "All", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2020", "First 20 of each skate","Set-by-set", "gfiphc", "N",
+  "2021", "First 20 of each skate" ,"Set-by-set", "gfiphc", "Y (reduced)"
+)
+caption <- "Summary of available data from the IPHC stock assessment longline surveys, updating Table G.1 from Anderson et al. 2019. 'Data resolution' indicates at what level the data are available, and 'WCVI' indicates whether or not the survey included locations off the west coast of Vancouver Island. 'Location of data' indicates where the data now reside (all earlier data on spreadsheets are now in gfiphc)."
+csasdown::csas_table(iphc_tab, caption = caption)
+```
 
-Andy adding new text regarding IPHC survey here, to then go into Analysis and
-response section (since figures don't currently build for him):
+The methods for calculating the IPHC index remain unchanged from those
+described in [@anderson2019synopsis], except for the following:
 
-For the IPHC survey, the data are updated to include 2019, 2020, and 2021
-(Table \@ref(tab:IPHCdata)). The data are available at different resolutions and
-spatial scales due to the survey design. The methods (and some of the data) have been moved
-from the gfplot package to a new one, gfiphc [@edwards2022gfiphc] TODO.
+1. In 2018 there were 131 new expansion stations that had not been previously
+   surveyed. These new stations, plus six further new ones in 2021, are
+   excluded from the time-series calculations; they were originally
+   inadvertently included for 2018 in the calculations and maps in
+   @anderson2019synopsis. TODO: check if include in new maps or not. Best not
+   to as some may be outside of current gfsynopsis plotting region.
 
-\begin{table}[t]
-\centering
-\caption{Summary of available data from the IPHC stock assessment longline
-surveys, updating Table~G.1 from [@anderson2019synopsis] TODO. 'Data resolution'
-indicates at what level the data are available, and
-'WCVI?' indicates whether or not the survey included locations off the west
-coast of Vancouver Island. 'Location of data' indicates where the data now
-reside (all earlier data on spreadsheets are now in gfiphc).}
-\label{tab:IPHCdata}
-\begin{tabular}{llllc}
-  \hline
-Year & Hooks enumerated & Data resolution & Location of data & WCVI?\\
-  \hline
-1995 & All & Set-by-set & gfiphc & N\\
-1996 & All & Set-by-set & gfiphc & N\\
-1997-1998 & First 20 of each skate & Set-by-set & gfiphc & N\\
-1999 & First 20 of each skate & Set-by-set & gfiphc & Y\\
-2000 & First 20 of each skate & Set-by-set & gfiphc & N\\
-2001-2002 & First 20 of each skate & Set-by-set & gfiphc & Y\\
-2003-2011 & All & Hook-by-hook & DFO database GFBio & Y\\
-2012 & All (bait experiment)      & Hook-by-hook & DFO database GFBio & Y\\
-2013 & First 20 of each skate & Set-by-set & gfiphc & Y\\
-2014-2017 & All & Hook-by-hook & DFO database GFBio & Y\\
-2018 & All (+ expansion stns) & Hook-by-hook & DFO database GFBio &	Y\\
-2019 & All & Hook-by-hook & DFO database GFBio & Y\\
-2020 & First 20 of each skate &	Set-by-set & gfiphc & N\\
-2021 & First 20 of each skate &	Set-by-set & gfiphc	& Y (reduced)\\
-\hline
-\end{tabular}
-\end{table}
+   <!--iphc-2020-data.pdf and iphc-2021-data.pdf in gfiphc have details-->
 
-Methods are unchanged from those described in [@anderson2019synopsis], except
-for the following:
+2. In 2020, fishing was mostly in July and August, whereas it is usually in May
+   to August; this has not been accounted for in the methods.
 
-1. In 2018 there were 131 new expansion stations that had not been
-previously surveyed. These new stations, plus six further new ones in 2021, are
-excluded from the time-series calculations; they were originally indavertently
-included for 2018 in the calculations and maps in @anderson2019synopsis. TODO: check if
-include in new maps or not. Best not to as some may be outside of current
-gfsynopsis plotting region.
-<!-- iphc-2020-data.pdf and iphc-2021-data.pdf in gfiphc have details-->
+3. The bootstrapping methods use 10000 bootstrap samples instead of 1000, as
+   it made a difference for some species.
 
-2. In 2020 fishing was mostly in July and August, whereas it is usually May to
-August; this is not accounted for in the methods.
+4. For 2021, the waters off the WCVI were surveyed, but only for a subsample of
+   stations. This does not affect the calculations for the waters north of
+   Vancouver Island (Series A, B, and AB in @anderson2019synopsis), but does
+   affect the calculations for the full coast (Series D and CD). This can
+   slightly affect the determination of whether or not Series AB (usually the
+   longest series that can be constructed, as shown in the results here) can be
+   considered representative of the full coast. Newer methods are being
+   developed that will deal with such subsampling, as well as accounting for
+   hook competition.
 
-3. The bootstrapping methods use 10,000 bootstrap samples instead of 1000, as it
-made a difference for some species.
+5. Also for 2021, there were six new stations that had never been surveyed
+   before. These are declared as non-standard for constructing the various
+   Series, since they do not appear in previous years. Five stations are along
+   the Alaskan border, extending further north than ever before, and the sixth
+   is just outside the Scott Islands Rockfish Conservation Area off the
+   northwest tip of Vancouver Island.
+   <!-- See iphc-2021-data.pdf for maps and further details.-->
 
-4. For 2021 the waters off the WCVI were surveyed, but only a subsample of
-stations were surveyed. This does not affect the calculations for the waters
-north of Vancouver Island (Series A, B, and AB in @anderson2019synopsis),
-but do affect the calculations for the full coast (Series D and CD). This can
-slightly affect the determination of whether or not Series AB (usually the
-longest series that can be constructed, as shown in the results here) can be
-considered representative of the full coast. Newer methods are being developed
-that will deal with such subsampling, as well as include hook competition.
-
-5. Also for 2021 there were six new stations that have never been surveyed
-before. We declare these as non-standard in for constructing the various
-Series, since they do not appear in previous years. Five stations are along the
-Alaskan border, extending further north than ever before, and the sixth is just
-outside the Scott Islands Rockfish Conservation Area off the northwest tip of
-Vancouver Island. <!-- See iphc-2021-data.pdf for maps and further details.-->
-
-Further technical details are given in gfiphc [@edwards2021gfiphc], which also
-includes details for further analysing data for individual species, groups of
+Further technical details are given in @edwards2022gfiphc, which also
+includes details for further analyzing data for individual species, groups of
 species, and restricted areas.
 
 \clearpage
