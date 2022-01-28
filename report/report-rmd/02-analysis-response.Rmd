@@ -2,9 +2,10 @@
 
 <!-- Mandatory section, title may vary. Core of the report. -->
 
-TODO We rebuilt all figures using updated data.
+TODO We rebuilt all figures using updated data. 
+Using methods as described in appendices of [@anderson2019synopsis].
 
-TODO Details of which years have been added.
+TODO Details of which years have been added in a table.
 
 TODO Details of any removals (survey index stuff?)
 
@@ -21,9 +22,9 @@ COVID-19, new caveats... TODO
 ## Data accessibility
 
 Data in this document are maintained by the Groundfish Data Unit at the Pacific Biological Station in Nanaimo, British Columbia. 
-Data from the Synoptic Bottom Trawl Surveys and the outside-water HBLL surveys are available through the [Open Government Data Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset). 
-Requests for data held by the DFO Pacific Region that are not available through the Open Government Data Portal, can be made through 
-[Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html).
+Data from the Synoptic Bottom Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset) by searching for 'groundfish synoptic' or 'HBLL'. 
+Requests for data held by the DFO Pacific Region that are not available through the Canadian Open Government Portal, can be made as described on the 
+[Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html) website.
 
 ## Reproducibility
 
@@ -39,8 +40,8 @@ TODO citations
 
 ## Update schedule
 
-The authors intend to publish approximately biennial updates of this synopsis report. 
-These updates will include another two years of data and any important corrections to the data, text, or visualizations. 
+The authors intend to publish approximately biennial updates of this report. 
+These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations. 
 On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
 
 # Conclusions

@@ -1,5 +1,5 @@
 ---
-title: "A data synopsis for British Columbia groundfish:\\newline 2021 data update"
+title: "A data synopsis for British Columbia groundfish: 2021 data update"
 title_short: "Groundfish Data Synopsis 2021"
 author: |
   Sean C. Anderson,

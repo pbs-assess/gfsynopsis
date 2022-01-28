@@ -6,8 +6,6 @@ and spatial scales due to the survey design.
 The methods (and some of the data) have been moved from the gfplot package to
 a new R package, gfiphc [@edwards2022gfiphc].
 
-\clearpage
-
 ```{r IPHCdata, results='asis'}
 iphc_tab <- tibble::tribble(
   ~ Year, ~`Hooks enumerated`, ~`Data resolution`, ~`Location of data`, ~WCVI,
