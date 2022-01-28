@@ -3,7 +3,7 @@
 <!-- Mandatory section, title may vary. Core of the report. -->
 
 TODO We rebuilt all figures using updated data. 
-Using methods as described in appendices of [@anderson2019synopsis].
+Using methods as described in appendices of @anderson2019synopsis.
 
 TODO Details of which years have been added in a table.
 
@@ -14,7 +14,7 @@ TODO Details of any removals (survey index stuff?)
 
 ## Caveats {#sec:caveats}
 
-There are many caveats when interpreting this report as outlined in [@anderson2019synopsis].
+There are many caveats when interpreting this report as outlined in @anderson2019synopsis.
 Primary caveats include: 
 
 COVID-19, new caveats... TODO

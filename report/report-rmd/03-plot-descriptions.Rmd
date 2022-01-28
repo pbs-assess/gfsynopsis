@@ -70,7 +70,7 @@ are shown in the two left panels as faint crosses (if the species was not
 caught in that set), or circles with the area of the circle proportional to the
 species density from the set. Colour shading indicates predictions from
 a spatial model that includes depth and depth squared as predictors as well
-as spatial random effects (Appendix \@ref(app:spatial-modeling)). The colour scale
+as spatial random effects (Appendix E in @anderson2019synopsis). The colour scale
 is fourth-root transformed to render a visual pattern similar to a log
 transformation without overemphasizing differences close to zero. The colour
 scale ('Viridis plasma') is perceptually uniform, robust to colour blindness,
@@ -167,13 +167,13 @@ g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Cat
 trends, with effort as hours trawled, for `r sp`. Solid lines represent CPUE trends
 standardized with a Tweedie GLMM (generalized linear mixed effects model) for
 depth, latitude, DFO locality region, vessel, and month of year (Appendix
-\@ref(app:cpue-models)). The line itself represents the estimate and the shaded
+D in @anderson2019synopsis). The line itself represents the estimate and the shaded
 ribbon represents a 95\% confidence interval. The dashed line represents an
 unstandardized commercial CPUE index calculated as the sum of catch divided by
 the sum of effort each year. Standardized time series are scaled to have the
 same maximum 95\% confidence interval. Unstandardized time series are scaled to
 have the same geometric mean as the standardized time series. These are relative
-index values --- the absolute value of the time series is not particularly
+index values---the absolute value of the time series is not particularly
 useful because it depends on arbitrary levels that the standardization
 variables are set to. Management areas, as indicated in the top left corner of
 each panel, are shown in Figure \@ref(fig:management-map).
@@ -297,7 +297,7 @@ along the top of the panels. Diagonal lines are shown at five-year intervals to
 facilitate tracing cohorts through time. See Figure \@ref(fig:survey-index) for
 survey abbreviations. Ageing precision plots comparing precision of readings by
 two individuals ageing the fish are provided for all species for which age data
-exist in Appendix \@ref(app:age-precision).
+exist in Appendix A in @anderson2019synopsis.
 
 ```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap="(ref:ages-cap)"}
 g$ages +
@@ -309,7 +309,7 @@ g$ages +
 
 ## Length-age and length-weight model fits
 
-```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model of the form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\\sigma$ represents the scale parameter. The length-weight curve is of the form $\\log (W_i) \\sim$ Student-t $(df = 3, \\log(a) + b \\log(L_i), \\sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\\sigma$ representing the observation error scale. The degrees of freedom of the Student-t distribution is set to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendices \\ref{sec:length-age-models} and \\ref{sec:length-weight-models} for details on the models.")}
+```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model of the form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\\sigma$ represents the scale parameter. The length-weight curve is of the form $\\log (W_i) \\sim$ Student-t $(df = 3, \\log(a) + b \\log(L_i), \\sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\\sigma$ representing the observation error scale. The degrees of freedom of the Student-t distribution is set to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendix H in Anderson et al. (2019) for details on the models.")}
 cowplot::plot_grid(g$vb + 
     ggtitle(en2fr("Growth", french)) +
     labs(x = en2fr("Age (years)", french), 
@@ -335,7 +335,7 @@ g$maturity_month + ggtitle(en2fr("Maturity frequencies", french))
 
 ## Maturity ogives
 
-```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age- and length-at-maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix \\ref{sec:maturity-models} for details.")}
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age- and length-at-maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix H in Anderson et al. (2019) for details.")}
 cowplot::plot_grid(g$mat_age +
     ggtitle(en2fr("Age at maturity", french)) +
     labs(x = en2fr("Age (years)", french),

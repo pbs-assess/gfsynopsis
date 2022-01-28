@@ -47,7 +47,7 @@ This page begins at the top with length and age data and their relationship with
 For surveys, the report focuses on the Synoptic Bottom Trawl surveys, the Outside Hard Bottom Long Line (HBLL) surveys (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys, because these provide the greatest spatial and taxonomic coverage of the species in this report. 
 Survey biomass index trends are also shown for the Hecate Strait Multispecies Assemblage (MSA HS) survey and the Inside HBLL survey. 
 The report does, however, include counts of available fish specimens from biological samples on all surveys and fit biological models such as growth models to all available data. 
-A brief description of the included surveys was included in Appendix XX of [@@anderson2019synopsis] along with associated references for detailed survey descriptions and designs. 
+A brief description of the included surveys is included in Appendix F of @anderson2019synopsis along with associated references for detailed survey descriptions and designs. 
 
 (ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). 
 The colours match the colour coding through the rest of the report. 
