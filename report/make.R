@@ -226,9 +226,9 @@ if (file.exists("report/report-rmd-fr/ggplot-objects")) {
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   if (french) {
-    spp_title <- toupper(spp$species_french_name[spp$species_common_name == x])
+    spp_title <- stringr::str_to_title(spp$species_french_name[spp$species_common_name == x])
   } else {
-    spp_title <- toupper(x)
+    spp_title <- stringr::str_to_title(x)
   }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()

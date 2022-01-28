@@ -1,0 +1,62 @@
+# Context {#sec:context}
+
+The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, form the backbone of most fisheries stock assessments. 
+Fisheries and Oceans Canada (DFO) manages vast quantities of such data on groundfish species in British Columbia (BC). 
+However, formal stock assessments are not conducted on an annual basis for most stocks, therefore, much of these data are not summarized to represent the nature of the data holdings.
+
+The groundfish data synopsis report was developed to provide a snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
+The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a biennial schedule.
+
+The groundfish data synopsis report has been used regularly by DFO Science and Fisheries Management staff, First Nations, environmental non-governmental organizations, and stakeholders. 
+The usefulness of the report depends on it containing up-to-date data. 
+Since the initial 2019 report, two to three new years of survey and commercial data are now available, as well as updated stock assessment Research Documents and Science Advisory Reports. 
+
+DFO Science Branch has requested an update to the groundfish data synopsis report including all commercial and survey data available up to 2021. 
+The advice arising from this CSAS Science Response (SR) will provide an overview of available groundfish data and fishing and population trends to inform DFO Science and Fisheries Management staff in stock monitoring and prioritization. 
+The update will apply the previously peer reviewed approach to generate up-to-date figures representing data such as biomass indices, commercial catch, species distribution, and age and length composition data for the 113 species.
+
+This Science Response Report results from the Science Response Process TODO-Month TODO-Day, 2022 on "A data synopsis for British Columbia groundfish: 2021 data update".
+
+# Background {#sec:background}
+
+The groundfish data synopsis report generation is fully automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
+Goals of the report have been to 
+(1) facilitate regular review by groundfish
+scientists and managers of trends in survey indices and stock composition
+across all species to provide information for discussion on assessment
+priorities;
+(2) generate standardized datasets, biological model fits, and visualizations that will help assessment scientists develop operating models and select candidate management procedures for groundfish stocks; and
+(3) increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public. 
+<!-- We provide guidance on the limits to application of the methods and summaries in the report (Section \@ref(sec:caveats)). -->
+
+```{r n_species}
+.spp <- gfsynopsis::get_spp_names()
+no_species <- nrow(.spp)
+```
+
+The main results of the synopsis report are presented in two-page species-by-species subsections that visually synthesize most available data for each species (Section \@ref(sec:synopsis-plots)). 
+The report covers `r no_species` groundfish species that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in our research surveys. 
+The report focuses on the surveys and data types applicable to the widest array of these species.
+
+Each set of pages for a single species is laid out in the same way. 
+The page layout starts with the species common name, the species scientific name, and the DFO species code, which usually corresponds to the page number referencing the species in @hart1988. 
+The figures themselves are laid out such that the first page has survey (Figure \@ref(fig:intro-maps)) time series trends and spatial patterns on the left and commercial time series by Pacific Marine Fisheries Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the right. 
+The second page is focused on biological samples from both fishery dependent and independent sources. 
+This page begins at the top with length and age data and their relationship with each other, then shows data on maturity, and finishes with an overview of available numbers of sampled fish across all survey and commercial samples for various biological measurements.
+
+For surveys, the report focuses on the Synoptic Bottom Trawl surveys, the Outside Hard Bottom Long Line (HBLL) surveys (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys, because these provide the greatest spatial and taxonomic coverage of the species in this report. 
+Survey biomass index trends are also shown for the Hecate Strait Multispecies Assemblage (MSA HS) survey and the Inside HBLL survey. 
+The report does, however, include counts of available fish specimens from biological samples on all surveys and fit biological models such as growth models to all available data. 
+A brief description of the included surveys was included in Appendix XX of [@@anderson2019synopsis] along with associated references for detailed survey descriptions and designs. 
+
+(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). 
+The colours match the colour coding through the rest of the report. 
+The coverage of the International Pacific Halibut Commission (IPHC) survey is displayed on the IPHC survey catch rate plots as all of the individual stations fished. 
+
+```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb"}
+source(here::here("report/report-rmd/intro-maps.R"))
+```
+
+```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas (Areas 3AB and 4A are outside of Canadian waters).", out.width="3.3in", fig.pos="tb"}
+knitr::include_graphics(here::here("report/report-rmd/figure/3CD5ABCDE.png"), dpi = NA)
+```

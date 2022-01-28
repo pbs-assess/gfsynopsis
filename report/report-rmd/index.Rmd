@@ -1,5 +1,5 @@
 ---
-title: "A data synopsis for British Columbia groundfish: 2021 update"
+title: "A data synopsis for British Columbia groundfish:\\newline 2021 data update"
 title_short: "Groundfish Data Synopsis 2021"
 author: |
   Sean C. Anderson,
@@ -16,12 +16,12 @@ report_number: 999 # Must be numeric
 approver: |
   Approver Name\
   Regional Director
-title_other: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2021. Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021. Secr. can. de consult. sci. du MPO. Doc. de rech. 2020/0XX. xx + XX p."
-approval_year: 2021
-approval_month: "MONTH"
+title_other: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2022. Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021. Secr. can. de consult. sci. du MPO. Doc. de rech. 2020/0XX. xx + XX p."
+approval_year: 2022
+approval_month: "March"
 approval_day: 01
-work_done_year: 2021
-work_done_month: "MONTH"
+work_done_year: 2022
+work_done_month: "February"
 branch: "Science Branch"
 region: "Pacific Region"
 isbn: "ISBN-Here"

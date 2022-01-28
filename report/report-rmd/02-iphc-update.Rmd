@@ -3,9 +3,10 @@
 For the IPHC survey, the data were updated to include 2019, 2020, and 2021
 (Table \@ref(tab:IPHCdata)). The data are available at different resolutions
 and spatial scales due to the survey design.
-<!-- TODO: SA: what does this mean? -->
 The methods (and some of the data) have been moved from the gfplot package to
 a new R package, gfiphc [@edwards2022gfiphc].
+
+\clearpage
 
 ```{r IPHCdata, results='asis'}
 iphc_tab <- tibble::tribble(
@@ -38,7 +39,6 @@ described in [@anderson2019synopsis], except for the following:
    inadvertently included for 2018 in the calculations and maps in
    @anderson2019synopsis. TODO: check if include in new maps or not. Best not
    to as some may be outside of current gfsynopsis plotting region.
-
    <!--iphc-2020-data.pdf and iphc-2021-data.pdf in gfiphc have details-->
 
 2. In 2020, fishing was mostly in July and August, whereas it is usually in May
@@ -68,5 +68,3 @@ described in [@anderson2019synopsis], except for the following:
 Further technical details are given in @edwards2022gfiphc, which also
 includes details for further analyzing data for individual species, groups of
 species, and restricted areas.
-
-\clearpage

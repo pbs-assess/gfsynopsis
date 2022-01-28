@@ -1,0 +1,48 @@
+# Analysis and response
+
+<!-- Mandatory section, title may vary. Core of the report. -->
+
+TODO We rebuilt all figures using updated data.
+
+TODO Details of which years have been added.
+
+TODO Details of any removals (survey index stuff?)
+
+```{r child="02-iphc-update.Rmd", echo=FALSE, cache=FALSE}
+```
+
+## Caveats {#sec:caveats}
+
+There are many caveats when interpreting this report as outlined in [@anderson2019synopsis].
+Primary caveats include: 
+
+COVID-19, new caveats... TODO
+
+## Data accessibility
+
+Data in this document are maintained by the Groundfish Data Unit at the Pacific Biological Station in Nanaimo, British Columbia. 
+Data from the Synoptic Bottom Trawl Surveys and the outside-water HBLL surveys are available through the [Open Government Data Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset). 
+Requests for data held by the DFO Pacific Region that are not available through the Open Government Data Portal, can be made through 
+[Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html).
+
+## Reproducibility
+
+All of the data extraction, data manipulation, model fitting, and visualization for this report is automated and reproducible. 
+The gfdata, gfplot, gfsynopsis, sdmTMB, and csasdown R packages for this purpose. 
+The gfdata package enables the data extraction. 
+The gfplot package performs the model fitting and visualizations. 
+The gfsynopsis package calls functions from the gfplot and gfdata packages to generate this report. 
+The sdmTMB package fits spatially explicit generalized linear mixed effect models with random fields to produce the survey maps.
+The csasdown package builds this report using R Markdown and bookdown.
+
+TODO citations
+
+## Update schedule
+
+The authors intend to publish approximately biennial updates of this synopsis report. 
+These updates will include another two years of data and any important corrections to the data, text, or visualizations. 
+On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
+
+# Conclusions
+
+Mandatory section and title.

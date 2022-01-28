@@ -1,4 +1,4 @@
-# PLOT DESCRIPTIONS {#sec:plot-descriptions}
+# Plot descriptions {#sec:plot-descriptions}
 
 ```{r load-example-figs}
 g <- readRDS(here::here("report/report-rmd/ggplot-objects/petrale-sole.rds"))
@@ -18,7 +18,9 @@ visualizations that form the species-by-species pages in
 Section \@ref(sec:synopsis-plots). We use `r sp` as an example species for all
 plots except for commercial catch per unit effort maps where we use Pacific Cod.
 
-## RELATIVE BIOMASS INDEX TRENDS FROM SURVEYS
+\clearpage
+
+## Relative biomass index trends from surveys
 
 ```{r make-surv-abbrev-text, eval=TRUE}
 # happens to have data for all the surveys:
@@ -52,7 +54,7 @@ g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
 
 \clearpage
 
-## MAPS OF RELATIVE BIOMASS FROM SURVEYS
+## Maps of relative biomass from surveys
 
 ```{r map-text}
 map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the maps in the available space. Depth contours are shown at 100 m, 200 m, and 500 m."
@@ -135,7 +137,7 @@ gridExtra::grid.arrange(
 
 \clearpage
 
-## COMMERCIAL FISHERY CATCHES
+## Commercial fishery catches
 
 (ref:catches-cap) Example commercial fishery catch plots for `r sp`.
 Catch from various gear types is indicated by colour shading. Catch is
@@ -157,7 +159,7 @@ g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Cat
 
 \clearpage
 
-## COMMERCIAL BOTTOM TRAWL CATCH PER UNIT EFFORT INDICES
+## Commercial bottom trawl catch per unit effort indices
 
 (ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort (CPUE)
 trends, with effort as hours trawled, for `r sp`. Solid lines represent CPUE trends
@@ -180,7 +182,7 @@ g$cpue_index + ggtitle(en2fr("Commercial bottom trawl CPUE", french))
 
 \clearpage
 
-## MAPS OF COMMERCIAL CATCH PER UNIT EFFORT
+## Maps of commercial catch per unit effort
 
 (ref:cpue-maps-cap) Example commercial trawl and commercial hook-and-line
 catch-per-unit-effort maps for Pacific Cod (note this figure is **not** `r sp`).
@@ -261,7 +263,7 @@ gridExtra::grid.arrange(
 
 \clearpage
 
-## AVAILABLE BIOLOGICAL SAMPLES {#sec:bio-samples}
+## Available biological samples {#sec:bio-samples}
 
 ```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen-availability plot for ", sp, ". Shown are the number of available fish specimens that have had their length measured, have been weighed, had their maturity assessed, had their age assessed, and for which ageing structures are available for ageing. Data are shown across all surveys (not just surveys shown elsewhere in the synopsis; top panel) and across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
 gridExtra::grid.arrange(
@@ -273,7 +275,7 @@ gridExtra::grid.arrange(
 
 \clearpage
 
-## LENGTH COMPOSITION DATA
+## Length composition data
 
 ```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length-frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish measured for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish measured for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
 g$lengths +
@@ -284,7 +286,7 @@ g$lengths +
 
 \clearpage
 
-## AGE COMPOSITION DATA
+## Age composition data
 
 (ref:ages-cap) Example age-frequency plot for `r sp`. Female fish are shown as
 coloured (or black) circles and male fish are shown behind as light grey
@@ -303,7 +305,7 @@ g$ages +
 
 \clearpage
 
-## LENGTH-AGE AND LENGTH-WEIGHT MODEL FITS
+## Length-age and length-weight model fits
 
 ```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model of the form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\\sigma$ represents the scale parameter. The length-weight curve is of the form $\\log (W_i) \\sim$ Student-t $(df = 3, \\log(a) + b \\log(L_i), \\sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\\sigma$ representing the observation error scale. We set the degrees of freedom of the Student-t distribution to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendices \\ref{sec:length-age-models} and \\ref{sec:length-weight-models} for details on the models.")}
 cowplot::plot_grid(g$vb + 
@@ -321,7 +323,7 @@ cowplot::plot_grid(g$vb +
 
 \clearpage
 
-## MATURITY FREQUENCY BY MONTH
+## Maturity frequency by month
 
 ```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature (top) to most mature (bottom); individual fish, once mature, cycle through the mature stages. The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.")}
 g$maturity_month + ggtitle(en2fr("Maturity frequencies", french))
@@ -329,7 +331,7 @@ g$maturity_month + ggtitle(en2fr("Maturity frequencies", french))
 
 \clearpage
 
-## MATURITY OGIVES
+## Maturity ogives
 
 ```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age- and length-at-maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix \\ref{sec:maturity-models} for details.")}
 cowplot::plot_grid(g$mat_age +

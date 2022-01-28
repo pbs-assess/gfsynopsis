@@ -1,0 +1,18 @@
+\clearpage
+
+# Contributors
+
+```{r, echo=FALSE, include=FALSE}
+contributors <- tibble::tribble(
+  ~Name,          ~Affiliation,
+  "TODO Jane Smith",   "DFO Science, Pacific Region",
+  "TODO John Smith",   "DFO Science, Maritimes Region",
+)
+```
+
+```{r, results='asis'}
+csasdown::csas_table(contributors)
+```
+
+<!-- Decrease the table index by one to account for the contributors table: -->
+\addtocounter{table}{-1}
