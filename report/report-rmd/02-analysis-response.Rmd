@@ -23,7 +23,7 @@ COVID-19, new caveats... TODO
 
 Data in this document are maintained by the Groundfish Data Unit at the Pacific Biological Station in Nanaimo, British Columbia. 
 Data from the Synoptic Bottom Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset) by searching for 'groundfish synoptic' or 'HBLL'. 
-Requests for data held by the DFO Pacific Region that are not available through the Canadian Open Government Portal, can be made as described on the 
+Requests for data held by the DFO Pacific Region that are not available through the Open Government Portal can be made as described on the 
 [Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html) website.
 
 ## Reproducibility
@@ -35,6 +35,7 @@ The gfplot package performs the model fitting and visualizations.
 The gfsynopsis package calls functions from the gfplot and gfdata packages to generate this report. 
 The sdmTMB package fits spatially explicit generalized linear mixed effect models with random fields to produce the survey maps.
 The csasdown package builds this report using R Markdown and bookdown.
+The source code for this report is available on the GitHub repository [pbs-assess/gfsynopsis](https://github.com/pbs-assess/gfsynopsis/), although the report can only be built with access to the Pacific Biological Station network.
 
 TODO citations
 
