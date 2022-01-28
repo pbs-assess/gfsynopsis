@@ -1,4 +1,4 @@
-# Synopses plots {#sec:synopsis-plots}
+# Figures {#sec:synopsis-plots}
 
 This section contains the main species-by-species data
 visualizations.
