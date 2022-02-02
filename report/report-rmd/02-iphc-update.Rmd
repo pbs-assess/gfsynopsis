@@ -1,10 +1,9 @@
 ## IPHC survey data update
 
-For the IPHC survey, the data were updated to include 2019, 2020, and 2021
-(Table \@ref(tab:IPHCdata)). The data are available at different resolutions
-and spatial scales due to the survey design.
-The methods (and some of the data) have been moved from the gfplot package to
-a new R package, gfiphc [@edwards2022gfiphc].
+Changes to the IPHC survey necessitated several changes to calculating the IPHC
+index. Data were updated to include 2019, 2020, and 2021 (Table
+\@ref(tab:IPHCdata)). The methods for data retrieval and index calculation are
+available in the gfiphc package [@edwards2022gfiphc].
 
 ```{r IPHCdata, results='asis'}
 iphc_tab <- tibble::tribble(
@@ -24,45 +23,47 @@ iphc_tab <- tibble::tribble(
   "2020", "First 20 of each skate","Set-by-set", "gfiphc", "N",
   "2021", "First 20 of each skate" ,"Set-by-set", "gfiphc", "Y (reduced)"
 )
-caption <- "Summary of available data from the IPHC stock assessment longline surveys, updating Table G.1 from Anderson et al. 2019. 'Data resolution' indicates at what level the data are available, and 'WCVI' indicates whether or not the survey included locations off the west coast of Vancouver Island. 'Location of data' indicates where the data now reside (all earlier data on spreadsheets are now in gfiphc)."
+caption <- "Summary of available data from the IPHC stock assessment longline surveys, updating Table G.1 from Anderson et al. (2019). 'Data resolution' indicates at what level the data are available, and 'WCVI' indicates whether or not the survey included locations off the west coast of Vancouver Island. 'Location of data' indicates where the data reside."
 csasdown::csas_table(iphc_tab, caption = caption)
 ```
 
 The methods for calculating the IPHC index remain unchanged from those
-described in [@anderson2019synopsis], except for the following:
+described in @anderson2019synopsis, except for the following:
+
+   <!-- TODO: check if include in new maps or not. Best not to as some may be outside of current  gfsynopsis plotting region. -->
+   <!--iphc-2020-data.pdf and iphc-2021-data.pdf in
+   gfiphc have details-->
 
 1. In 2018 there were 131 new expansion stations that had not been previously
-   surveyed. These new stations, plus six further new ones in 2021, are
-   excluded from the time-series calculations; they were originally
-   inadvertently included for 2018 in the calculations and maps in
-   @anderson2019synopsis. TODO: check if include in new maps or not. Best not
-   to as some may be outside of current gfsynopsis plotting region.
-   <!--iphc-2020-data.pdf and iphc-2021-data.pdf in gfiphc have details-->
+   surveyed. These new stations, plus six new ones in 2021, are excluded from
+   the time-series calculations; they were inadvertently included
+   for 2018 in the calculations and maps in @anderson2019synopsis.
 
 2. In 2020, fishing was mostly in July and August, whereas it is usually in May
    to August; this has not been accounted for in the methods.
 
-3. The bootstrapping methods use 10000 bootstrap samples instead of 1000, as
-   it made a difference for some species.
+3. The bootstrapping methods use 10000 bootstrap samples instead of 1000, since
+   the results had not stabilized by 1000 samples for some species.
 
 4. For 2021, the waters off the WCVI were surveyed, but only for a subsample of
    stations. This does not affect the calculations for the waters north of
    Vancouver Island (Series A, B, and AB in @anderson2019synopsis), but does
    affect the calculations for the full coast (Series D and CD). This can
-   slightly affect the determination of whether or not Series AB (usually the
+   affect the determination of whether or not Series AB (usually the
    longest series that can be constructed, as shown in the results here) can be
    considered representative of the full coast. Newer methods are being
    developed that will deal with such subsampling, as well as accounting for
    hook competition.
 
-5. Also for 2021, there were six new stations that had never been surveyed
-   before. These are declared as non-standard for constructing the various
+5. For 2021, there were six new stations that had never been surveyed before.
+   These stations were declared as non-standard for constructing the various
    Series, since they do not appear in previous years. Five stations are along
    the Alaskan border, extending further north than ever before, and the sixth
    is just outside the Scott Islands Rockfish Conservation Area off the
    northwest tip of Vancouver Island.
+
    <!-- See iphc-2021-data.pdf for maps and further details.-->
 
-Further technical details are given in @edwards2022gfiphc, which also
-includes details for further analyzing data for individual species, groups of
-species, and restricted areas.
+Further technical details are given in @edwards2022gfiphc, which also includes
+details for analyzing data for individual species, groups of species, and
+restricted areas.

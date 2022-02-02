@@ -5,8 +5,11 @@
 ```{r, echo=FALSE, include=FALSE}
 contributors <- tibble::tribble(
   ~Name,          ~Affiliation,
-  "TODO Jane Smith",   "DFO Science, Pacific Region",
-  "TODO John Smith",   "DFO Science, Maritimes Region",
+  "Sean Anderson",   "DFO Science, Pacific Region",
+  "Elise Keppel",    "DFO Science, Pacific Region",
+  "Andrew Edwards",  "DFO Science, Pacific Region",
+  "Philina English", "DFO Science, Pacific Region",
+  "Steven Schut",    "DFO Science, Pacific Region (reviewer)"
 )
 ```
 

@@ -1,13 +1,52 @@
-# Analysis and response
-
 <!-- Mandatory section, title may vary. Core of the report. -->
 
-TODO We rebuilt all figures using updated data. 
-Using methods as described in appendices of @anderson2019synopsis.
+# Analysis and response
 
-TODO Details of which years have been added in a table.
+In this Science Response, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis.
+Survey data from 2021, 2020, 2019, and in one case, 2018, were added (Table 1).
+Commercial data from 2021, 2020, and 2019 were added.
 
-TODO Details of any removals (survey index stuff?)
+```{r survey-years-table, results='asis'}
+# x <- readRDS("../gfsynopsis/report/data-cache-old?/longnose-skate.rds")
+# x <- x$survey_index
+# group_by(x, survey_abbrev) |>
+#   select(survey_abbrev, year) |>
+#   readr::write_csv("report/2019-resdoc-survey-years.csv")
+
+rd <- readr::read_csv(here::here("report/2019-resdoc-survey-years.csv"),
+  show_col_types = FALSE
+) |>
+  mutate(rd_year = year)
+
+sr <- readRDS(here::here("report/data-cache/longnose-skate.rds"))$survey_index
+sr <- sr |> select(survey_abbrev, year)
+
+surveys <- c(
+  "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+  "HBLL OUT N",
+  "HBLL OUT S", "HBLL INS N", "HBLL INS S",
+  "OTHER HS MSA", "IPHC FISS"
+)
+srvs <- tibble(survey_abbrev = surveys, order = seq_along(surveys))
+
+yrs <- left_join(sr, rd) |>
+  right_join(srvs) |>
+  arrange(order) |>
+  select(-order)
+yrs <- filter(yrs, is.na(rd_year)) |>
+  select(-rd_year)
+yrs <- filter(yrs, survey_abbrev != "IPHC FISS")
+yrs <- bind_rows(
+  yrs,
+  tibble(survey_abbrev = c("IPHC FISS", "IPHC FISS", "IPHC FISS"), year = c(2019, 2020, 2021))
+)
+
+csasdown::csas_table(yrs,
+   col_names = c("Survey", "Years added"),
+   caption = "Fisheries independent survey years added in this Science Response compared to the previous Anderson et al. (2019) report."
+)
+```
+
 
 ```{r child="02-iphc-update.Rmd", echo=FALSE, cache=FALSE}
 ```
@@ -17,35 +56,119 @@ TODO Details of any removals (survey index stuff?)
 There are several caveats when interpreting this report as outlined in @anderson2019synopsis.
 Primary caveats include:
 
-In addition to these caveats, ...
-COVID-19, new caveats... TODO
+1. The outputs in this report are not a substitute for stock assessment. For
+   example, although relative biomass index trends from surveys indicate the
+   biomass trend for a species in an area, such information is best combined
+   with other information such as removals by commercial catches and
+   information on the age- or length-composition of the stock to make
+   conclusions about the status of a stock.
+
+1. Biomass indices from trawl or longline surveys and commercial CPUE indices
+   need careful interpretation on a stock-by-stock basis. We have attempted to
+   flag survey index trends that may be especially suspect either because of
+   high survey variability or because only a small fraction of trawl or
+   longline sets contain the species, but this is not a guarantee in itself.
+   Survey indices are not always representative of abundance for a variety of
+   reasons, and a lack of data for a species does not necessarily indicate
+   a small population---the surveys may simply not be suitable for sampling
+   that species. Furthermore, changes through time, including fish behavioural
+   changes or range shifts, could result in biases through time even for
+   well-sampled species.
+
+1. Survey and commercial CPUE index trends do not resolve population scale and
+   the outputs in this report do not resolve conflicts in trends drawn from
+   different sources for the same species.
+
+1. The outputs in this report are not appropriate for marine spatial planning.
+   The data as presented are resolved at a coarse spatial scale and marine
+   spatial planning uses require specific data treatments beyond the general
+   approaches used in this report.
+
+1. The commercial CPUE data should not be considered to be proportional to
+   stock abundance for a multitude of reasons [e.g., @harley2001]. Nonetheless,
+   we think there is value in transparently displaying the available data for
+   all species.
+
+1. The catch history reported here reflects recorded data and may not represent
+   actual catches. The commercial catch presented here will not necessarily
+   match reconstructed time series in stock assessments. Historical catch
+   reconstructions require careful species-specific consideration and analysis.
+   Furthermore, fluctuations in commercial catch do not necessarily reflect
+   declines in stock abundance and may be due to other factors including
+   implementation of management measures. Reported discard weights are
+   considered less reliable prior to 100% observer coverage of the bottom trawl
+   fishery in 1996, and prior to fisheries integration in 2006 for the trap,
+   hook and line, midwater trawl and Strait of Georgia bottom trawl fisheries.
+   The discards in the catch plots therefore only include bottom trawl discard
+   weights from 1996 to present and trap, hook and line, midwater trawl and
+   Strait of Georgia bottom trawl discard weights from 2006 to present.
+
+1. It is not feasible to individually assess the results for all species in
+   a detailed manner. To use the results for a particular species in future
+   assessments, or to make other inference, we recommend that users carefully
+   examine the data and model results. Due to the necessary automation required
+   to construct this report, not all species-specific special cases may have
+   been fully considered.
+
+In addition to these caveats noted in @anderson2019synopsis, coronavirus
+disease 2019 (COVID-19) resulted in several cancelled surveys in 2020, some of
+which were then conducted in 2021 in addition to the scheduled surveys.
+Furthermore, COVID-19 caused several changes within the commercial fleet in
+2020 and 2021. This affects the catch figures (e.g., Figure \@ref(fig:catches)) as well
+as potentially affect the standardization process of the commercial catch per
+unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et al. 2019).
 
 ## Data accessibility
 
-Data in this document are maintained by the Groundfish Data Unit at the Pacific Biological Station in Nanaimo, British Columbia. 
-Data from the Synoptic Bottom Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset) by searching for 'groundfish synoptic' or 'HBLL'. 
-Requests for data held by the DFO Pacific Region that are not available through the Open Government Portal can be made as described on the 
-[Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html) website.
+Data in this document are maintained by the Groundfish Data Unit at the Pacific
+Biological Station in Nanaimo, British Columbia. Data from the Synoptic Bottom
+Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through
+the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset) 
+by searching for 'groundfish synoptic' or 'HBLL'. Requests for data held by the
+DFO Pacific Region that are not available through the Open Government Portal
+can be made as described on the 
+[Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html)
+website.
 
 ## Reproducibility
 
-All of the data extraction, data manipulation, model fitting, and visualization for this report is automated and reproducible. 
-The gfdata, gfplot, gfsynopsis, sdmTMB, and csasdown R packages for this purpose. 
-The gfdata package enables the data extraction. 
-The gfplot package performs the model fitting and visualizations. 
-The gfsynopsis package calls functions from the gfplot and gfdata packages to generate this report. 
+All of the data extraction, data manipulation, model fitting, and visualization for this report is automated and reproducible.
+The gfdata, gfplot, gfsynopsis, sdmTMB, and csasdown R packages were developed for this purpose.
+The gfdata package enables the data extraction.
+The gfplot package performs the model fitting and visualizations.
+The gfsynopsis package calls functions from the gfplot and gfdata packages to generate this report.
 The sdmTMB package fits spatially explicit generalized linear mixed effect models with random fields to produce the survey maps.
 The csasdown package builds this report using R Markdown and bookdown.
 The source code for this report is available on the GitHub repository [pbs-assess/gfsynopsis](https://github.com/pbs-assess/gfsynopsis/), although the report can only be built with access to the Pacific Biological Station network.
 
-TODO citations
+```{r sha}
+sha <- list()
+sha[[1]] <- system("cd ../../../gfdata; git rev-parse HEAD", intern = TRUE)
+sha[[2]] <- system("cd ../../../gfplot; git rev-parse HEAD", intern = TRUE)
+sha[[3]] <- system("cd ../../../csasdown; git rev-parse HEAD", intern = TRUE)
+sha[[4]] <- system("cd ../../../sdmTMB; git rev-parse HEAD", intern = TRUE)
+sha[[5]] <- system("cd ../../../gfiphc; git rev-parse HEAD", intern = TRUE)
+sha[[6]] <- system("git rev-parse HEAD", intern = TRUE)
+names(sha) <- c("gfdata", "gfplot", "csasdown", "sdmTMB", "gfiphc", "gfsynopsis")
+sha <- lapply(sha, function(x) substr(x, 1, 6))
+```
 
-## Update schedule
+The specific versions used to generate this report are available at:
 
-This report is expected to be updated on approximately a biennial basis.
-These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.
-On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
+<`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha$gfdata)`>\
+<`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha$gfplot)`>\
+<`r paste0("https://github.com/pbs-assess/gfiphc/tree/", sha$gfiphc)`>\
+<`r paste0("https://github.com/pbs-assess/gfsynopsis/tree/", sha$gfsynopsis)`>\
+<`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha$sdmTMB)`>\
+<`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha$csasdown)`>\
+
+https://github.com/pbs-assess/gfplot/tree/838f89
 
 # Conclusions
 
-Mandatory section and title.
+The report presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessment or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
+Temporal and spatial patterns in survey and commercial catch for species are evident by scanning the main figure pages.
+This report is expected to be updated on approximately a biennial basis.
+These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.
+On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
+It is intended that this report will continue to (1) facilitate regular review by groundfish scientists and managers of trends in survey indices and stock composition across all species, (2) facilitate generating standardized datasets and biological model fits to help assessment scientists, (3) and increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
