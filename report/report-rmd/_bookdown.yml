@@ -1,4 +1,4 @@
-book_filename: "resdoc"
+book_filename: "gfsynopsis-sr-2021"
 chapter_name: "Chapter "
 rmd_files: [
   "index.Rmd",
@@ -13,5 +13,5 @@ rmd_files: [
   "98-approval.Rmd",
   "99-references.Rmd"
   ]
-download: [["resdoc.pdf", "PDF"], ["resdoc.docx", "Word"]]
+download: [["gfsynopsis-sr-2021.pdf", "PDF"], ["gfsynopsis-sr-2021.docx", "Word"]]
 delete_merged_file: true
