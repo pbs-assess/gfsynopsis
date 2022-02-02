@@ -14,9 +14,10 @@ TODO Details of any removals (survey index stuff?)
 
 ## Caveats {#sec:caveats}
 
-There are many caveats when interpreting this report as outlined in @anderson2019synopsis.
-Primary caveats include: 
+There are several caveats when interpreting this report as outlined in @anderson2019synopsis.
+Primary caveats include:
 
+In addition to these caveats, ...
 COVID-19, new caveats... TODO
 
 ## Data accessibility
@@ -41,8 +42,8 @@ TODO citations
 
 ## Update schedule
 
-The authors intend to publish approximately biennial updates of this report. 
-These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations. 
+This report is expected to be updated on approximately a biennial basis.
+These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.
 On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
 
 # Conclusions

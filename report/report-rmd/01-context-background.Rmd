@@ -38,15 +38,15 @@ The main results of the synopsis report are presented in two-page species-by-spe
 The report covers `r no_species` groundfish species that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in our research surveys. 
 The report focuses on the surveys and data types applicable to the widest array of these species.
 
-Each set of pages for a single species is laid out in the same way. 
-The page layout starts with the species common name, the species scientific name, and the DFO species code, which usually corresponds to the page number referencing the species in @hart1988. 
-The figures themselves are laid out such that the first page has survey (Figure \@ref(fig:intro-maps)) time series trends and spatial patterns on the left and commercial time series by Pacific Marine Fisheries Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the right. 
-The second page is focused on biological samples from both fishery dependent and independent sources. 
-This page begins at the top with length and age data and their relationship with each other, then shows data on maturity, and finishes with an overview of available numbers of sampled fish across all survey and commercial samples for various biological measurements.
+Each set of pages for a single species is laid out in the same format. 
+The page layout begins with the species common name, the species scientific name, and the DFO species code, which usually corresponds to the page number referencing the species in @hart1988. 
+The figures are laid out such that the first page has survey (Figure \@ref(fig:intro-maps)) time series trends and spatial patterns on the left and commercial time series by Pacific Marine Fisheries Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the right. 
+The second page focuses on biological samples from both fishery dependent and independent sources. 
+This page begins with length and age data and their relationship with each other, then includes data on maturity, and finishes with an overview of available numbers of sampled fish across all survey and commercial samples for various biological measurements.
 
 For surveys, the report focuses on the Synoptic Bottom Trawl surveys, the Outside Hard Bottom Long Line (HBLL) surveys (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys, because these provide the greatest spatial and taxonomic coverage of the species in this report. 
 Survey biomass index trends are also shown for the Hecate Strait Multispecies Assemblage (MSA HS) survey and the Inside HBLL survey. 
-The report does, however, include counts of available fish specimens from biological samples on all surveys and fit biological models such as growth models to all available data. 
+The report does, however, include counts of available fish specimens from biological samples on all surveys and fit biological models such as growth models to all available data.
 A brief description of the included surveys is included in Appendix F of @anderson2019synopsis along with associated references for detailed survey descriptions and designs. 
 
 (ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right). 
