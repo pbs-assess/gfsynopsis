@@ -155,14 +155,12 @@ sha <- lapply(sha, function(x) substr(x, 1, 6))
 
 The specific versions used to generate this report are available at:
 
-<`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha$gfdata)`>\
-<`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha$gfplot)`>\
-<`r paste0("https://github.com/pbs-assess/gfiphc/tree/", sha$gfiphc)`>\
-<`r paste0("https://github.com/pbs-assess/gfsynopsis/tree/", sha$gfsynopsis)`>\
-<`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha$sdmTMB)`>\
-<`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha$csasdown)`>\
-
-https://github.com/pbs-assess/gfplot/tree/838f89
+* [pbs-assess/gfdata](`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha$gfdata)`)\
+* [pbs-assess/gfplot](`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha$gfplot)`)\
+* [pbs-assess/gfiphc](`r paste0("https://github.com/pbs-assess/gfiphc/tree/", sha$gfiphc)`)\
+* [pbs-assess/gfsynopsis](`r paste0("https://github.com/pbs-assess/gfsynopsis/tree/", sha$gfsynopsis)`)\
+* [pbs-assess/sdmTMB](`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha$sdmTMB)`)\
+* [pbs-assess/csasdown](`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha$csasdown)`)\
 
 # Conclusions
 
@@ -171,4 +169,4 @@ Temporal and spatial patterns in survey and commercial catch for species are evi
 This report is expected to be updated on approximately a biennial basis.
 These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.
 On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
-It is intended that this report will continue to (1) facilitate regular review by groundfish scientists and managers of trends in survey indices and stock composition across all species, (2) facilitate generating standardized datasets and biological model fits to help assessment scientists, (3) and increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
+It is intended that this report will continue to (1) facilitate regular review by groundfish scientists and managers of trends in survey indices and stock composition across all species; (2) facilitate generating standardized datasets, visualizations, and biological model fits to help assessment scientists; and (3) increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
