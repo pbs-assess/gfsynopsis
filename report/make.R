@@ -127,7 +127,9 @@ spp$species_common_name <- tolower(spp$species_common_name)
 # d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 cpue_cache <- file.path("report", "cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
-purrr::walk(spp$species_common_name, function(.sp) {
+# purrr::walk(spp$species_common_name[1:55], function(.sp) {
+purrr::walk(spp$species_common_name[56:113], function(.sp) {
+# purrr::walk(spp$species_common_name, function(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   if (!file.exists(cpue_cache_spp)) {
@@ -169,6 +171,7 @@ length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
 
 # missing <- rep(TRUE, length(missing))
 # for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
+# for (i in to_build[seq(floor(length(to_build) / 2), length(to_build))]) {
 for (i in to_build) {
 # out <- lapply(which(missing), function(i) {
 # out <- future.apply::future_lapply(which(missing), function(i) {
@@ -413,7 +416,8 @@ if (optimize_png) {
   cores <- parallel::detectCores()
   files_per_core <- ceiling(length(spp$species_common_name) * 2 / cores)
   setwd(file.path(build_dir, "figure-pages"))
-  if (!gfplot:::is_windows() && parallel_processing) {
+  # if (!gfplot:::is_windows() && parallel_processing) {
+  if (!gfplot:::is_windows()) {
     system(paste0(
       "find -X . -name '*.png' -print0 | xargs -0 -n ",
       files_per_core, " -P ", cores, " optipng -strip all"
