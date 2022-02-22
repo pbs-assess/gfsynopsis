@@ -34,10 +34,10 @@ pacific ocean perch,"edwards2013pophg, edwards2014popwcvi, haigh2018popqcs","dfo
 pacific sleeper shark,,,,,
 pacific tomcod,,,,,
 petrale sole,starr2009petrale,dfo1998petrale,,,
-quillback rockfish,yamanaka2011quillback,dfo2011quillback,,,cosewic2009quillback
+quillback rockfish,"yamanaka2011quillback, nephin2020sdms",dfo2011quillback,,,cosewic2009quillback
 redbanded rockfish,edwards2017redbanded,,,,
 redstripe rockfish,starr2021redstripe,dfo2018redstripe,,,
-rex sole,,,,,
+rex sole,anderson2021rex,,,,
 rougheye/blackspotted rockfish complex,haigh2005rougheye,dfo2020rougheye,Species at Risk Act Management Plan Series,dfo2012rougheyeblackspotted,cosewic2007rougheye
 roughtail skate,,,,,
 sablefish,cox2011sablefish,dfo2017sablefish,,,
@@ -60,7 +60,7 @@ whitebait smelt,,,,,
 whitebarred prickleback,,,,,
 widow rockfish,stanley1999widow,dfo2019widow,,,
 wolf eel,,,,,
-yelloweye rockfish,"yamanaka2011yelloweyeinside, cox2020YEout","dfo2020yelloweyeinside, dfo2020yelloweyeoutside",Species at Risk Act Management Plan Series,dfo2020yelloweye,"cosewic2008yelloweye, cosewic2020yelloweye"
+yelloweye rockfish,"yamanaka2011yelloweyeinside, cox2020YEout, nephin2020sdms","dfo2020yelloweyeinside, dfo2020yelloweyeoutside",Species at Risk Act Management Plan Series,dfo2020yelloweye,"cosewic2008yelloweye, cosewic2020yelloweye"
 yellowmouth rockfish,edwards2012yellowmouth,dfo2011yellowmouth,,,cosewic2010yellowmouth
 yellowtail rockfish,,dfo2015yellowtail,,,
 tope shark,,,,,cosewic2007tope
