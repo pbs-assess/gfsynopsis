@@ -47,7 +47,7 @@ described in @anderson2019synopsis, except for the following:
 
 4. For 2021, the waters off the WCVI were surveyed, but only for a subsample of
    stations. This does not affect the calculations for the waters north of
-   Vancouver Island (Series A, B, and AB in @anderson2019synopsis), but does
+   Vancouver Island [Series A, B, and AB in @anderson2019synopsis], but does
    affect the calculations for the full coast (Series D and CD). This can
    affect the determination of whether or not Series AB (usually the
    longest series that can be constructed, as shown in the results here) can be
@@ -61,6 +61,19 @@ described in @anderson2019synopsis, except for the following:
    the Alaskan border, extending further north than ever before, and the sixth
    is just outside the Scott Islands Rockfish Conservation Area off the
    northwest tip of Vancouver Island.
+
+6. The maps for each species show all the stations surveyed in 2021. As noted above,
+   some stations are non-standard and therefore excluded from the Series calculations and
+   the resulting time series plots.
+
+7. Given only the first 20 hooks per skate were enumerated in 2021 (Table
+   \@ref(tab:IPHCdata)), the catch rates in the maps are necessarily based on
+   only the first 20 hooks. However, in @anderson2019synopsis the maps showed
+   data for 2018, for which all hooks were enumerated (Table
+   \@ref(tab:IPHCdata)). Thus care should be taken if comparing the updated maps
+   here with those from @anderson2019synopsis, since species (particularly rarer
+   ones) are less likely to be caught on 20 hooks than on full skates (of
+   roughly 100 hooks).
 
    <!-- See iphc-2021-data.pdf for maps and further details.-->
 
