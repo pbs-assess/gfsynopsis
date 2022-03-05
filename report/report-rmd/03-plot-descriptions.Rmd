@@ -70,7 +70,7 @@ sets are shown in the two left panels as faint crosses (if the species was not
 caught in that set), or circles with the area of the circle proportional to the
 species density from the set. Colour shading indicates predictions from
 a spatial model that includes depth and depth squared as predictors as well as
-spatial random effects (Appendix E in @anderson2019synopsis). The colour scale
+spatial random effects [Appendix E in @anderson2019synopsis]. The colour scale
 is fourth-root transformed to render a visual pattern similar to a log
 transformation without overemphasizing differences close to zero. The colour
 scale ranges from zero to the highest value in the maps on each page. The

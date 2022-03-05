@@ -3,7 +3,7 @@
 Changes to the IPHC survey necessitated several changes to calculating the IPHC
 index. Data were updated to include 2019, 2020, and 2021 (Table
 \@ref(tab:IPHCdata)). The methods for data retrieval and index calculation are
-available in the gfiphc package [@edwards2022gfiphc].
+available in the [gfiphc](https://github.com/pbs-assess/gfiphc) R package.
 
 ```{r IPHCdata, results='asis'}
 iphc_tab <- tibble::tribble(
@@ -77,6 +77,7 @@ described in @anderson2019synopsis, except for the following:
 
    <!-- See iphc-2021-data.pdf for maps and further details.-->
 
-Further technical details are given in @edwards2022gfiphc, which also includes
+Further technical details are given in the
+[gfiphc](https://github.com/pbs-assess/gfiphc) package, which also includes
 details for analyzing data for individual species, groups of species, and
 restricted areas.

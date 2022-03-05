@@ -123,10 +123,13 @@ unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et
 Data in this document are maintained by the Groundfish Data Unit at the Pacific
 Biological Station in Nanaimo, British Columbia. Data from the Synoptic Bottom
 Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through
-the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset) 
-by searching for 'groundfish synoptic' or 'HBLL'. Requests for data held by the
+the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset)
+by searching for 'groundfish synoptic' or 'HBLL'.
+For the IPHC survey, [gfiphc](https://github.com/pbs-assess/gfiphc) contains
+some data and has details for requesting the rest.
+Requests for data held by the
 DFO Pacific Region that are not available through the Open Government Portal
-can be made as described on the 
+can be made as described on the
 [Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html)
 website.
 
