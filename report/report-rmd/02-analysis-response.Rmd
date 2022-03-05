@@ -136,10 +136,11 @@ website.
 ## Reproducibility
 
 All of the data extraction, data manipulation, model fitting, and visualization for this report is automated and reproducible.
-The gfdata, gfplot, gfsynopsis, sdmTMB, and csasdown R packages were developed for this purpose.
+The gfdata, gfplot, gfiphc, gfsynopsis, sdmTMB, and csasdown R packages were developed for this purpose.
 The gfdata package enables the data extraction.
 The gfplot package performs the model fitting and visualizations.
-The gfsynopsis package calls functions from the gfplot and gfdata packages to generate this report.
+The gfiphc packages enables data extraction and model fitting for the IPHC survey data.
+The gfsynopsis package calls functions from the gfplot, gfdata, and gfiphc packages to generate this report.
 The sdmTMB package fits spatially explicit generalized linear mixed effect models with random fields to produce the survey maps.
 The csasdown package builds this report using R Markdown and bookdown.
 The source code for this report is available on the GitHub repository [pbs-assess/gfsynopsis](https://github.com/pbs-assess/gfsynopsis/), although the report can only be built with access to the Pacific Biological Station network.
