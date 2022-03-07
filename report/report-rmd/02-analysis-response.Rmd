@@ -53,7 +53,7 @@ csasdown::csas_table(yrs,
 
 ## Caveats {#sec:caveats}
 
-There are several caveats when interpreting this report as outlined in @anderson2019synopsis.
+There are several caveats when interpreting this report, as outlined in @anderson2019synopsis.
 Primary caveats include:
 
 1. The outputs in this report are not a substitute for stock assessment. For
@@ -115,7 +115,7 @@ disease 2019 (COVID-19) resulted in several cancelled surveys in 2020, some of
 which were then conducted in 2021 in addition to the scheduled surveys.
 Furthermore, COVID-19 caused several changes within the commercial fleet in
 2020 and 2021. This affects the catch figures (e.g., Figure \@ref(fig:catches)) as well
-as potentially affect the standardization process of the commercial catch per
+as potentially affects the standardization process of the commercial catch per
 unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et al. 2019).
 
 ## Data accessibility
@@ -157,7 +157,7 @@ names(sha) <- c("gfdata", "gfplot", "csasdown", "sdmTMB", "gfiphc", "gfsynopsis"
 sha <- lapply(sha, function(x) substr(x, 1, 6))
 ```
 
-The specific versions used to generate this report are available at:
+The specific versions (GitHub commits) used to generate this report are available at:
 
 * [pbs-assess/gfdata](`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha$gfdata)`)\
 * [pbs-assess/gfplot](`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha$gfplot)`)\
@@ -168,7 +168,7 @@ The specific versions used to generate this report are available at:
 
 # Conclusions
 
-The report presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessment or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
+The report presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessments or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
 Temporal and spatial patterns in survey and commercial catch for species are evident by scanning the main figure pages.
 This report is expected to be updated on approximately a biennial basis.
 These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.

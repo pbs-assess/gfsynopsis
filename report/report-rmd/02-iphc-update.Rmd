@@ -36,7 +36,7 @@ described in @anderson2019synopsis, except for the following:
 
 1. In 2018 there were 131 new expansion stations that had not been previously
    surveyed. These new stations, plus six new ones in 2021, are excluded from
-   the time-series calculations; they were inadvertently included
+   the time-series calculations; they were included
    for 2018 in the calculations and maps in @anderson2019synopsis.
 
 2. In 2020, fishing was mostly in July and August, whereas it is usually in May
@@ -79,5 +79,5 @@ described in @anderson2019synopsis, except for the following:
 
 Further technical details are given in the
 [gfiphc](https://github.com/pbs-assess/gfiphc) package, which also includes
-details for analyzing data for individual species, groups of species, and
+details (and results) for analyzing data for individual species, groups of species, and
 restricted areas.
