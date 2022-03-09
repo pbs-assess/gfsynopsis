@@ -74,7 +74,7 @@ a spatial model that includes depth and depth squared as predictors as well as
 spatial random effects [Appendix E in @anderson2019synopsis]. The colour scale
 is fourth-root transformed to render a visual pattern similar to a log
 transformation without overemphasizing differences close to zero. The colour
-scale ranges from zero to the highest value in the maps on each page. The
+scale ranges from zero to the highest value within each map. The
 synoptic and HBLL maps show predicted biomass density throughout the survey
 domain. The IPHC map shows the raw unmodelled data for fixed station
 locations---stations without any observations for a given species are shown as
