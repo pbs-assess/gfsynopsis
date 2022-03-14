@@ -42,8 +42,8 @@ described in @anderson2019synopsis, except for the following:
 2. In 2020, fishing was mostly in July and August, whereas it is usually in May
    to August; this has not been accounted for in the methods.
 
-3. The bootstrapping methods use 10000 bootstrap samples instead of 1000, since
-   the results had not stabilized by 1000 samples for some species.
+3. The bootstrapping methods use 10,000 bootstrap samples instead of 1,000, since
+   the results had not stabilized by 1,000 samples for some species.
 
 4. For 2021, the waters off the WCVI were surveyed, but only for a subsample of
    stations. This does not affect the calculations for the waters north of

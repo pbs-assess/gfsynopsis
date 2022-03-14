@@ -10,7 +10,7 @@ Fisheries and Oceans Canada (DFO) manages vast quantities of such data on ground
 However, formal stock assessments are not conducted on an annual basis for most stocks, and so much of these data are not summarized to represent the nature of the data holdings.
 
 The groundfish data synopsis report was developed to provide a snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
-The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a biennial schedule.
+The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on an approximately biennial schedule.
 The usefulness of the report depends on its data remaining up-to-date.
 Since the initial 2019 report, three new years of survey and commercial data have become available, as well as updated stock assessment Research Documents, Science Advisory Reports, and Science Responses.
 
@@ -22,7 +22,7 @@ This Science Response Report results from the Science Response Process TODO-Mont
 
 # Background {#sec:background}
 
-The groundfish data synopsis report generation is somewhat automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
+The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
 The goals of the report have been to
 (1) facilitate regular review by groundfish
 scientists and managers of trends in survey indices and stock composition
@@ -31,7 +31,7 @@ priorities;
 (2) generate standardized datasets, biological model fits, and visualizations that will help assessment scientists develop operating models and select candidate management procedures for groundfish stocks; and
 (3) increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
 
-The main figures of the synopsis report are presented in two-page species-by-species subsections that visually synthesize most available data for each species (Section \@ref(sec:synopsis-plots)).
+The main figures of the synopsis report are presented in two-page species-by-species subsections that visually synthesize most available data for each species.
 The report covers `r no_species` groundfish species that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in our research surveys.
 The report focuses on the surveys and data types applicable to the widest array of these species.
 
@@ -41,7 +41,7 @@ The figures are laid out such that the first page has survey (Figure \@ref(fig:i
 The second page focuses on biological samples from both fishery dependent and independent sources.
 This page presents length and age data, maturity data, and an overview of available numbers of sampled fish across all survey and commercial samples.
 
-For surveys, the report focuses on the Synoptic Bottom Trawl surveys, the Outside Hard Bottom Long Line (HBLL) surveys (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys.
+For surveys, the report focuses on the Synoptic Bottom Trawl surveys (Figure \@ref(fig:intro-maps)), the Outside Hard Bottom Long Line (HBLL) surveys (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys.
 These surveys provide the greatest spatial and taxonomic coverage of the species in this report.
 Survey biomass index trends are also shown for the Hecate Strait Multispecies Assemblage (MSA HS) survey and the Inside HBLL survey.
 The report includes counts of available fish specimens from biological samples on all surveys.

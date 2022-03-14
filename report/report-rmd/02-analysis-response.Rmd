@@ -57,11 +57,11 @@ There are several caveats when interpreting this report, as outlined in @anderso
 Primary caveats include:
 
 1. The outputs in this report are not a substitute for stock assessment. For
-   example, although relative biomass index trends from surveys indicate the
+   example, although relative biomass or abundance index trends from surveys indicate the
    biomass trend for a species in an area, such information is best combined
    with other information such as removals by commercial catches and
    information on the age- or length-composition of the stock to make
-   conclusions about the status of a stock.
+   conclusions about the status of a stock. In particular, the survey indices do not account for estimated size selectivity the way most stock assessments do (smaller fish are typically less likely to be caught by survey gear).
 
 1. Biomass indices from trawl or longline surveys and commercial CPUE indices
    need careful interpretation on a stock-by-stock basis. We have attempted to
@@ -84,7 +84,7 @@ Primary caveats include:
    spatial planning uses require specific data treatments beyond the general
    approaches used in this report.
 
-1. The commercial CPUE data should not be considered to be proportional to
+1. The commercial CPUE data may not be proportional to
    stock abundance for a multitude of reasons [e.g., @harley2001]. Nonetheless,
    we think there is value in transparently displaying the available data for
    all species.
@@ -114,8 +114,8 @@ In addition to these caveats noted in @anderson2019synopsis, coronavirus
 disease 2019 (COVID-19) resulted in several cancelled surveys in 2020, some of
 which were then conducted in 2021 in addition to the scheduled surveys.
 Furthermore, COVID-19 caused several changes within the commercial fleet in
-2020 and 2021. This affects the catch figures (e.g., Figure \@ref(fig:catches)) as well
-as potentially affects the standardization process of the commercial catch per
+2020 and 2021. This has affected the catch figures (e.g., Figure \@ref(fig:catches)) as well
+as potentially affecting the standardization process of the commercial catch per
 unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et al. 2019).
 
 ## Data accessibility
@@ -125,7 +125,7 @@ Biological Station in Nanaimo, British Columbia. Data from the Synoptic Bottom
 Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through
 the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset)
 by searching for 'groundfish synoptic' or 'HBLL'.
-For the IPHC survey, [gfiphc](https://github.com/pbs-assess/gfiphc) contains
+For the IPHC survey, the [gfiphc](https://github.com/pbs-assess/gfiphc) R package contains
 some data and has details for requesting the rest.
 Requests for data held by the
 DFO Pacific Region that are not available through the Open Government Portal
