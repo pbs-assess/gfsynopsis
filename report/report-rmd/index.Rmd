@@ -36,9 +36,12 @@ output:
 type: sr
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 latex_engine: xelatex
+draft_watermark: true
 # ------------
 # End of options to set
 knit: bookdown::render_book
 link-citations: true
 csl: csl/csas.csl
 ---
+
+
