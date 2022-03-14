@@ -53,7 +53,7 @@ csasdown::csas_table(yrs,
 
 ## Caveats {#sec:caveats}
 
-There are several caveats when interpreting this report as outlined in @anderson2019synopsis.
+There are several caveats when interpreting this report, as outlined in @anderson2019synopsis.
 Primary caveats include:
 
 1. The outputs in this report are not a substitute for stock assessment. For
@@ -115,7 +115,7 @@ disease 2019 (COVID-19) resulted in several cancelled surveys in 2020, some of
 which were then conducted in 2021 in addition to the scheduled surveys.
 Furthermore, COVID-19 caused several changes within the commercial fleet in
 2020 and 2021. This affects the catch figures (e.g., Figure \@ref(fig:catches)) as well
-as potentially affect the standardization process of the commercial catch per
+as potentially affects the standardization process of the commercial catch per
 unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et al. 2019).
 
 ## Data accessibility
@@ -123,20 +123,24 @@ unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et
 Data in this document are maintained by the Groundfish Data Unit at the Pacific
 Biological Station in Nanaimo, British Columbia. Data from the Synoptic Bottom
 Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through
-the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset) 
-by searching for 'groundfish synoptic' or 'HBLL'. Requests for data held by the
+the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset)
+by searching for 'groundfish synoptic' or 'HBLL'.
+For the IPHC survey, [gfiphc](https://github.com/pbs-assess/gfiphc) contains
+some data and has details for requesting the rest.
+Requests for data held by the
 DFO Pacific Region that are not available through the Open Government Portal
-can be made as described on the 
+can be made as described on the
 [Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html)
 website.
 
 ## Reproducibility
 
 All of the data extraction, data manipulation, model fitting, and visualization for this report is automated and reproducible.
-The gfdata, gfplot, gfsynopsis, sdmTMB, and csasdown R packages were developed for this purpose.
+The gfdata, gfplot, gfiphc, gfsynopsis, sdmTMB, and csasdown R packages were developed for this purpose.
 The gfdata package enables the data extraction.
 The gfplot package performs the model fitting and visualizations.
-The gfsynopsis package calls functions from the gfplot and gfdata packages to generate this report.
+The gfiphc packages enables data extraction and model fitting for the IPHC survey data.
+The gfsynopsis package calls functions from the gfplot, gfdata, and gfiphc packages to generate this report.
 The sdmTMB package fits spatially explicit generalized linear mixed effect models with random fields to produce the survey maps.
 The csasdown package builds this report using R Markdown and bookdown.
 The source code for this report is available on the GitHub repository [pbs-assess/gfsynopsis](https://github.com/pbs-assess/gfsynopsis/), although the report can only be built with access to the Pacific Biological Station network.
@@ -153,7 +157,7 @@ names(sha) <- c("gfdata", "gfplot", "csasdown", "sdmTMB", "gfiphc", "gfsynopsis"
 sha <- lapply(sha, function(x) substr(x, 1, 6))
 ```
 
-The specific versions used to generate this report are available at:
+The specific versions (GitHub commits) used to generate this report are available at:
 
 * [pbs-assess/gfdata](`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha$gfdata)`)\
 * [pbs-assess/gfplot](`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha$gfplot)`)\
@@ -164,7 +168,7 @@ The specific versions used to generate this report are available at:
 
 # Conclusions
 
-The report presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessment or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
+The report presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessments or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
 Temporal and spatial patterns in survey and commercial catch for species are evident by scanning the main figure pages.
 This report is expected to be updated on approximately a biennial basis.
 These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.
