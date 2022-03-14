@@ -19,7 +19,9 @@ library(gfsynopsis)
 library(rosettafish)
 # library(foreach)
 library(future)
-setwd(here())
+# setwd(here())
+wd <- getwd()
+if (!grepl("gfsynopsis", wd)) stop("Working directory wrong? Should be this repo main folder.")
 
 # ------------------------------------------------------------------------------
 # Settings:
