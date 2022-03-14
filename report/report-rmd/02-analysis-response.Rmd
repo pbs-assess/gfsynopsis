@@ -41,6 +41,7 @@ yrs <- bind_rows(
   tibble(survey_abbrev = c("IPHC FISS", "IPHC FISS", "IPHC FISS"), year = c(2019, 2020, 2021))
 )
 
+yrs$year <- as.character(yrs$year)
 csasdown::csas_table(yrs,
    col_names = c("Survey", "Years added"),
    caption = "Fisheries independent survey years added in this Science Response compared to the previous Anderson et al. (2019) report."
