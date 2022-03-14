@@ -827,7 +827,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus)\
 Last Research Document: @haigh2005rougheye\
 Last Science Advisory Report: @dfo2020rougheye\
-Species at Risk Act Management Plan Series: @dfo2012rougheyeblackspotted\
+Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
 COSEWIC Status Report: @cosewic2007rougheye\
 COSEWIC Status: Special Concern, SARA Status: Special Concern
 
@@ -1059,7 +1059,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-entomelas), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274791)\
-Last Research Document: @stanley1999widow\
+Last Research Document: @starr2021widow\
 Last Science Advisory Report: @dfo2019widow\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/widow-rockfish-1.png}
@@ -1269,7 +1269,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274833)\
 Last Research Document: @stanley2012bocaccio\
 Last Science Advisory Report: @dfo2020bocaccio\
-Last Science Response: @dfo2021bocaccio\
+Last Science Response: @dfo2022bocaccio\
 COSEWIC Status Report: @cosewic2013bocaccio\
 COSEWIC Status: Endangered, SARA Status: No Status
 
@@ -1496,8 +1496,9 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 Order: Scorpaeniformes, Family: Anoplopomatidae,
 [FishBase](http://www.fishbase.org/summary/Anoplopoma-fimbria), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
-Last Research Document: @cox2011sablefish\
+Last Research Document: @cox2019sablefish\
 Last Science Advisory Report: @dfo2017sablefish\
+Last Science Response: @dfo2020sablefish\
 Note that Sablefish undergoes directed annual trap surveys,
     which are used for
  stock assessment and are not included in
@@ -1942,7 +1943,7 @@ Last Science Advisory Report: @dfo1998petrale\
 Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Glyptocephalus-zachirus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274287)\
-Last Research Document: @anderson2021rex\
+Research Document featuring a case study of 3CD Rex Sole: @anderson2021mp\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/rex-sole-1.png}
 \end{figure}
@@ -1980,7 +1981,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
 IPHC Report of Assessment and Research Activities: @iphc2017\
-Note that Pacific Halibut undergoes thorough assessment by the
+Note that Pacific Halibut undergoes assessment by the
     International Pacific
  Halibut Commission based on the annual
     standardized setline survey. The most
