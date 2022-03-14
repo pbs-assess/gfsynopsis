@@ -42,8 +42,7 @@ if (parallel_processing) {
   future::plan(sequential)
 }
 
-# ------------------------------------------------------------------------------
-# Read in fresh data or load cached data if available:
+# Read in fresh data or load cached data if available: ------------------------
 dc <- here("report", "data-cache")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
@@ -53,8 +52,7 @@ spp <- gfsynopsis::get_spp_names() %>%
     species_science_name, spp_w_hyphens, type, itis_tsn, worms_id
   )
 
-# ------------------------------------------------------------------------------
-# Geostatistical model fits: (a bit slow)
+# Geostatistical model fits: (a bit slow) --------------------------------------
 # fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
 # if (!file.exists(fi)) source(here("report/make-geostat.R"))
 # dat_geostat_index <- readRDS(fi)
