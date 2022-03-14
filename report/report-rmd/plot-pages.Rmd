@@ -445,7 +445,6 @@ Order: Gadiformes, Family: Gadidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=300735)\
 Last Research Document: @starr2021pollock\
 Last Science Advisory Report: @dfo2018pollock\
-Pacific Scientific Advice Review Committee (PSARC) assessment: @saunders1998pollock\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/walleye-pollock-1.png}
 \end{figure}

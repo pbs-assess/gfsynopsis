@@ -10,13 +10,13 @@ address: |
   Pacific Biological Station\
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
   Nanaimo, British Columbia, V9T 6N7, Canada
-year: "2021"
-month: "MONTH"
+year: "2022"
+month: "March"
 report_number: 999 # Must be numeric
 approver: |
   Approver Name\
   Regional Director
-title_other: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2022. Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021. Secr. can. de consult. sci. du MPO. Doc. de rech. 2020/0XX. xx + XX p."
+title_other: "Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021"
 approval_year: 2022
 approval_month: "March"
 approval_day: 01
