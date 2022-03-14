@@ -18,7 +18,7 @@ approver: |
   Regional Director
 title_other: "Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021"
 approval_year: 2022
-approval_month: "March"
+approval_month: "April"
 approval_day: 01
 work_done_year: 2022
 work_done_month: "February"
