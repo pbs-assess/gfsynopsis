@@ -21,13 +21,27 @@ rd <- readr::read_csv(here::here("report/2019-resdoc-survey-years.csv"),
 sr <- readRDS(here::here("report/data-cache/longnose-skate.rds"))$survey_index
 sr <- sr |> select(survey_abbrev, year)
 
+survey_full_names <- c(
+  "West Coast Haida Gwaii Synoptic Bottom Trawl", 
+  "Hecate Strait Synoptic Bottom Trawl", 
+  "Queen Charlotte Sound Synoptic Bottom Trawl", 
+  "West Coast Vancouver Island Synoptic Bottom Trawl",
+  "Outside Hard Bottom Long Line North",
+  "Outside Hard Bottom Long Line South", 
+  "Inside Hard Bottom Long Line North", 
+  "Inside Hard Bottom Long Line South",
+  "Hecate Strait Multispecies Assemblage", 
+  # "International Pacific Halibut Commission Fishery Independent Setline"
+  "IPHC Fishery-Independent Setline Survey"
+)
 surveys <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
   "HBLL OUT N",
   "HBLL OUT S", "HBLL INS N", "HBLL INS S",
   "OTHER HS MSA", "IPHC FISS"
 )
-srvs <- tibble(survey_abbrev = surveys, order = seq_along(surveys))
+
+srvs <- tibble(survey_full = survey_full_names, survey_abbrev = surveys, order = seq_along(surveys))
 
 yrs <- left_join(sr, rd) |>
   right_join(srvs) |>
@@ -38,12 +52,25 @@ yrs <- filter(yrs, is.na(rd_year)) |>
 yrs <- filter(yrs, survey_abbrev != "IPHC FISS")
 yrs <- bind_rows(
   yrs,
-  tibble(survey_abbrev = c("IPHC FISS", "IPHC FISS", "IPHC FISS"), year = c(2019, 2020, 2021))
+  tibble(
+     survey_full = c(
+        # "International Pacific Halibut Commission Fishery Independent Setline",
+        # "International Pacific Halibut Commission Fishery Independent Setline",
+        # "International Pacific Halibut Commission Fishery Independent Setline"
+        "IPHC Fishery-Independent Setline Survey",
+        "IPHC Fishery-Independent Setline Survey",
+        "IPHC Fishery-Independent Setline Survey"
+        ), 
+     survey_abbrev = c("IPHC FISS", "IPHC FISS", "IPHC FISS"), 
+     year = c(2019, 2020, 2021))
 )
 
 yrs$year <- as.character(yrs$year)
+
+yrs <- yrs[, c(3, 1, 2)]
+
 csasdown::csas_table(yrs,
-   col_names = c("Survey", "Years added"),
+   col_names = c("Survey","Abbreviation", "Year added"),
    caption = "Fisheries independent survey years added in this Science Response compared to the previous Anderson et al. (2019) report."
 )
 ```
