@@ -22,7 +22,7 @@ This Science Response Report results from the Science Response Process March 29,
 
 # Background {#sec:background}
 
-The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
+The groundfish data synopsis report generation is mostly automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
 The goals of the report have been to
 (1) facilitate regular review by groundfish
 scientists and managers of trends in survey indices and stock composition
