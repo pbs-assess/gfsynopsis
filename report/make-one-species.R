@@ -6,8 +6,7 @@ dir.create(here::here(build_dir), showWarnings = FALSE)
 survey_cols <- c(
   RColorBrewer::brewer.pal(5L, "Set1"),
   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-  # "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"
-  "#303030", "#60b6bb", "#1d989e", "#a8a8a8"
+  "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"
 )
 
 # Set your species here:

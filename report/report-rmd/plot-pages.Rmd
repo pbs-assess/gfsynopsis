@@ -90,7 +90,7 @@ COSEWIC Status: Data Deficient, SARA Status: No Status
 Order: Carcharhiniformes, Family: Triakidae,
 [FishBase](http://www.fishbase.org/summary/Galeorhinus-galeus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105801)\
-COSEWIC Status Report: @cosewic2007tope\
+COSEWIC Status Report: @cosewic2021tope\
 COSEWIC Status: Special Concern, SARA Status: Special Concern
 
 \begin{figure}[b!]
@@ -1981,7 +1981,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
 IPHC Report of Assessment and Research Activities: @iphc2017\
-Note that Pacific Halibut undergoes assessment by the
+Note that Pacific Halibut undergoes thorough assessment by the
     International Pacific
  Halibut Commission based on the annual
     standardized setline survey. The most
