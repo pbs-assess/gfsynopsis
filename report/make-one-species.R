@@ -6,7 +6,8 @@ dir.create(here::here(build_dir), showWarnings = FALSE)
 survey_cols <- c(
   RColorBrewer::brewer.pal(5L, "Set1"),
   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-  "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"
+  # "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"
+  "#303030", "#60b6bb", "#1d989e", "#a8a8a8"
 )
 
 # Set your species here:
@@ -26,7 +27,7 @@ gfdata::cache_pbs_data(
 )
 
 # The last function call creates this data file:
-dat <- readRDS(paste0(file.path(data_cache, this_spp), ".rds"))
+dat <- readRDS(paste0(file.path(data_cache, this_spp_hyphens), ".rds"))
 
 # If you want to fit and plot the commercial CPUE indexes then run the following:
 # (must be on PBS network; a lot of data + a bit slow)
