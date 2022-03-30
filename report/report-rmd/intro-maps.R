@@ -31,7 +31,7 @@ g <- ggplot()
 cols <- paste0(c(RColorBrewer::brewer.pal(5L, "Set1"),
   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
   # "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"), "80")
-  "#303030", "#60b6bb", "#1d989e", "#a8a8a8"), "80")
+  "#60b6bb", "#60b6bb", "#1d989e", "#a8a8a8"), "80")
 
 g <- g + geom_polygon(data = ss, aes_string(x = "X", y = "Y", fill = "survey")) +
   scale_fill_manual(values = c(
@@ -70,8 +70,8 @@ hbll <- dplyr::bind_rows(
   list(
     data.frame(hbll_n, survey = "Outside Hard Bottom Long Line (N)", stringsAsFactors = FALSE),
     data.frame(hbll_s, survey = "Outside Hard Bottom Long Line (S)", stringsAsFactors = FALSE),
-    data.frame(hbll_n_in, survey = "Inside Hard Bottom Long Line (N)", stringsAsFactors = FALSE),
-    data.frame(hbll_s_in, survey = "Inside Hard Bottom Long Line (S)", stringsAsFactors = FALSE)))
+    data.frame(hbll_n_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE),
+    data.frame(hbll_s_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE)))
 
 g2 <- ggplot()
 g2 <- g2 + geom_rect(data = hbll,
@@ -79,8 +79,8 @@ g2 <- g2 + geom_rect(data = hbll,
   scale_fill_manual(values = c(
     "Outside Hard Bottom Long Line (N)" = cols[5],
     "Outside Hard Bottom Long Line (S)" = cols[6],
-    "Inside Hard Bottom Long Line (N)" = cols[9],
-    "Inside Hard Bottom Long Line (S)" = cols[10]
+    # "Inside Hard Bottom Long Line (N)" = cols[9],
+    "Inside Hard Bottom Long Line (N & S)" = cols[10]
     )) +
   geom_path(
     data = isobath_utm, aes_string(
