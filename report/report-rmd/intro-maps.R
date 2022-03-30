@@ -31,7 +31,8 @@ g <- ggplot()
 cols <- paste0(c(RColorBrewer::brewer.pal(5L, "Set1"),
   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
   # "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"), "80")
-  "#60b6bb", "#60b6bb", "#1d989e", "#a8a8a8"), "80")
+  "#303030", "#0a0a0a", "#0a0a0a", "#0a0a0a"), "95")
+  # "#60b6bb", "#60b6bb", "#1d989e", "#a8a8a8"), "80")
 
 g <- g + geom_polygon(data = ss, aes_string(x = "X", y = "Y", fill = "survey")) +
   scale_fill_manual(values = c(
@@ -50,7 +51,7 @@ g <- g + geom_path(
 g <- g + geom_polygon(
   data = coastline_utm,
   aes_string(x = "X", y = "Y", group = "PID"),
-  inherit.aes = FALSE, lwd = 0.2, fill = "grey87", col = "grey70"
+  inherit.aes = FALSE, lwd = 0.1, fill = "grey91", col = "grey72"
 ) +
   coord_equal(xlim = xlim, ylim = ylim) +
   theme_pbs() + labs(fill = "", colour = "", y = en2fr("Northing", french), x = en2fr("Easting", french))
@@ -92,7 +93,7 @@ g2 <- g2 + geom_rect(data = hbll,
 g2 <- g2 + geom_polygon(
   data = coastline_utm,
   aes_string(x = "X", y = "Y", group = "PID"),
-  inherit.aes = FALSE, lwd = 0.2, fill = "grey87", col = "grey70"
+  inherit.aes = FALSE, lwd = 0.1, fill = "grey91", col = "grey72"
 ) +
   coord_equal(xlim = xlim, ylim = ylim) +
   theme_pbs() + labs(fill = "", colour = "", y = en2fr("Northing", french), x = en2fr("Easting", french))
