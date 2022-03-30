@@ -47,10 +47,12 @@ Survey biomass index trends are also shown for the Hecate Strait Multispecies As
 The report includes counts of available fish specimens from biological samples on all surveys.
 A brief description of the included surveys is included in Appendix F of @anderson2019synopsis along with associated references for details on design and implementation.
 
-(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Outside Hard Bottom Long Line survey boundaries (right).
+(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Long Line (HBLL) survey boundaries (right). 
+Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
+The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
 
-```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5}
+```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
 source(here::here("report/report-rmd/intro-maps.R"))
 ```
 
