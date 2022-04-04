@@ -75,9 +75,26 @@ described in @anderson2019synopsis, except for the following:
    ones) are less likely to be caught on 20 hooks than on full skates (of
    roughly 100 hooks).
 
+8. Depending on which of the calculated Series for a species was shown in
+   @anderson2019synopsis, a zero count (or no data) for a year may have been
+   plotted as a zero or not shown at all. We now use zeros for consistency (except
+   when there are never any recorded catches of the species, for which the full
+   plot remains empty).
+
+9. Furthermore, note that species identification may have improved over time for some
+   species. For example, the average catch rate of `Unidentified
+   Skates' was almost 1 fish per effective skate from 1995--1999, but then
+   declined to near zero because Big Skate and Longnose Skate were both explicity
+   identified from 1998 onwards. The more rarely caught Aleutian Skate only
+   shows up in the data from 2006 onwards. Such changes in protocol can be the
+   cause of zero counts early in the time series for some species.
+
    <!-- See iphc-2021-data.pdf for maps and further details.-->
 
 Further technical details are given in the
 [gfiphc](https://github.com/pbs-assess/gfiphc) package, which also includes
 details (and results) for analyzing data for individual species, groups of species, and
-restricted areas.
+restricted areas. The full sets of time series available for each species (based
+on all hooks or just the first 20 from each skate) can be seen in the [data for all
+ species](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/data_for_all_species.html)
+vignette, for verifying exactly what is shown in the figures here.
