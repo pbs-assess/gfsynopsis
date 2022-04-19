@@ -2,7 +2,9 @@
 
 -----------------
 
-### Links to the latest published report: **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
+### Links to the latest published report (2019): **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
+
+### Link to the latest *draft* report (2022): **[English](https://www.dropbox.com/s/k2zopgocumh6yy4/gf-pbs-synopsis-2021-april-19-2022.pdf?dl=1)**
 
 -----------------
 
