@@ -7,6 +7,7 @@
 ### Link to the latest *draft* report (2022): **[English](https://www.dropbox.com/s/k2zopgocumh6yy4/gf-pbs-synopsis-2021-april-19-2022.pdf?dl=1)**
 
 Paper on the synopsis report:
+
 Anderson, S.C., E.A. Keppel, A.M. Edwards. 2020. Reproducible visualization of raw fisheries data for 113 species improves transparency, assessment efficiency, and monitoring. Fisheries. 45:535–543. https://doi.org/10.1002/fsh.10441. ([Preprint PDF](https://www.dropbox.com/s/4mmnomvmpg0dbky/Anderson_etal_2020_reproducible_visualization_preprint.pdf?dl=1))
 
 -----------------
