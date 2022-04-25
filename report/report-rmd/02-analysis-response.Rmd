@@ -18,7 +18,7 @@ rd <- readr::read_csv(here::here("report/2019-resdoc-survey-years.csv"),
 ) |>
   mutate(rd_year = year)
 
-sr <- readRDS(here::here("report/data-cache/longnose-skate.rds"))$survey_index
+sr <- readRDS(here::here("report/data-cache-april-2022/longnose-skate.rds"))$survey_index
 sr <- sr |> select(survey_abbrev, year)
 
 survey_full_names <- c(
@@ -75,7 +75,8 @@ csasdown::csas_table(yrs,
 )
 ```
 
-These is one notable change to how the survey index data are presented in this report compared to @anderson2019synopsis. In @anderson2019synopsis, years in which a given species was not caught in a survey were omitted and the plotted line connected years with data. In this updated report, these index values are presented as zeros.
+There is one notable change to how the survey index data are presented in this Science Response compared to @anderson2019synopsis. In @anderson2019synopsis, years in which a given species was not caught in a survey were omitted and the plotted line connected years with data. In this updated report, these index values are presented as zeros.
+Furthermore, the geostatistical survey indices, which were overlaid on the synoptic trawl indices in @anderson2019synopsis, have been omitted from this report for visual clarity. Instead, we show only the design-based indices calculated from a bootstrap procedure.
 
 ```{r child="02-iphc-update.Rmd", echo=FALSE, cache=FALSE}
 ```

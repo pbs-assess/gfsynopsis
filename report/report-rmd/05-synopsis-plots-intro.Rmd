@@ -17,4 +17,4 @@ respectively.
 
 \clearpage
 
-<!-- \afterpage{\null\newpage} -->
+\afterpage{\null\newpage}

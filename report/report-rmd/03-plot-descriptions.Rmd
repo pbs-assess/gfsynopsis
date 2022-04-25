@@ -1,3 +1,5 @@
+\clearpage 
+
 # Plot descriptions {#sec:plot-descriptions}
 
 ```{r load-example-figs}
