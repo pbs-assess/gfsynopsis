@@ -46,7 +46,7 @@ make_pages(
 
 \item{spp}{A species common name.}
 
-\item{d_geostat_index}{d_geostat_index}
+\item{d_geostat_index}{\code{d_geostat_index} data}
 
 \item{aspect}{The aspect ratio of the 2nd page.}
 

@@ -5,7 +5,7 @@
 #' @param dat A data list object from [gfdata::cache_pbs_data()].
 #' @param dat_iphc A data list object from [gfiphc::cache_pbs_data_iphc()].
 #' @param spp A species common name.
-#' @param d_geostat_index d_geostat_index
+#' @param d_geostat_index `d_geostat_index` data
 #' @param aspect The aspect ratio of the 2nd page.
 #' @param short_page_height_ratio The aspect ratio of the shorter first page.
 #' @param width The width of a page.
