@@ -174,6 +174,11 @@ length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
 unlink("vb_gfplot.*")
 unlink("lw_gfplot.*")
 
+# get all survey years to convert NAs to 0s:
+dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
+all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
+  dplyr::distinct()
+
 # missing <- rep(TRUE, length(missing))
 # for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
 # for (i in to_build[seq(floor(length(to_build) / 2), length(to_build))]) {
@@ -191,6 +196,7 @@ for (i in to_build) {
       dat = dat,
       dat_iphc = dat_iphc,
       spp = spp$species_common_name[i],
+      all_survey_years = all_survey_years,
       d_geostat_index = NULL, # dat_geostat_index, # spatiotemporal model fits
       include_map_square = FALSE, # to check the map aspect ratio
       french = french,

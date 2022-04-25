@@ -37,6 +37,7 @@
 #' @param parallel Parallel CPUE index fitting?
 #' @param length_ticks A data frame indicating optional length composition
 #'   x-axis breaks and labels.
+#' @param all_survey_years DF with `survey_abbrev` and all `year`
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -80,7 +81,8 @@ make_pages <- function(
   french = FALSE,
   final_year_comm = 2020,
   final_year_surv = 2021,
-  length_ticks = NULL
+  length_ticks = NULL,
+  all_survey_years = NULL
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -371,6 +373,21 @@ make_pages <- function(
   if ("OTHER HS MSA" %in% levels(dat_tidy_survey_index$survey_abbrev)) {
     dat_tidy_survey_index$survey_abbrev <-
       forcats::fct_recode(dat_tidy_survey_index$survey_abbrev, `MSA HS` = "OTHER HS MSA")
+  }
+
+  lvls <- levels(dat_tidy_survey_index$survey_abbrev)
+
+  # Make NAs in middle of time series into 0s:
+  if (!is.null(all_survey_years)) {
+    all_survey_years <- dplyr::filter(all_survey_years, survey_abbrev %in% unique(dat_tidy_survey_index$survey_abbrev))
+    dat_tidy_survey_index <- dplyr::full_join(all_survey_years, dat_tidy_survey_index,
+      by = c("survey_abbrev", "year"))
+    if (!all(is.na(dat_tidy_survey_index$biomass))) {
+      dat_tidy_survey_index$lowerci[is.na(dat_tidy_survey_index$biomass)] <- 0
+      dat_tidy_survey_index$upperci[is.na(dat_tidy_survey_index$biomass)] <- 0
+      dat_tidy_survey_index$biomass[is.na(dat_tidy_survey_index$biomass)] <- 0
+      dat_tidy_survey_index$survey_abbrev <- factor(dat_tidy_survey_index$survey_abbrev, levels = lvls)
+    }
   }
 
   if (!is.null(dat_iphc)) {

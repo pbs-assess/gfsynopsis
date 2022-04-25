@@ -75,6 +75,7 @@ csasdown::csas_table(yrs,
 )
 ```
 
+We note one meaningful change to how the survey index data are presented: in @anderson2019synopsis, years in which a given species was not caught in a survey were omitted and the plotted line connected year with data. In this updated report, these index values are presented as zeros.
 
 ```{r child="02-iphc-update.Rmd", echo=FALSE, cache=FALSE}
 ```
