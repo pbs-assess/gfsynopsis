@@ -386,6 +386,23 @@ make_pages <- function(
     iphc_set_counts_sp_format <- tryCatch({
       gfiphc::format_iphc_longest(iphc_set_counts_sp)
     }, error = function(e) NA)
+
+    if (!identical(iphc_set_counts_sp_format, NA)) {
+      if (all(is.na(iphc_set_counts_sp_format$biomass)))
+        iphc_set_counts_sp_format <- NA
+    }
+
+    if (!identical(iphc_set_counts_sp_format, NA)) {
+      all_iphc_yrs <- data.frame(year = sort(unique(dat_iphc$set_counts$year)))
+      iphc_set_counts_sp_format <- dplyr::left_join(
+        all_iphc_yrs, iphc_set_counts_sp_format, by = "year"
+      )
+      iphc_set_counts_sp_format$lowerci[is.na(iphc_set_counts_sp_format$biomass)] <- 0
+      iphc_set_counts_sp_format$upperci[is.na(iphc_set_counts_sp_format$biomass)] <- 0
+      iphc_set_counts_sp_format$biomass[is.na(iphc_set_counts_sp_format$biomass)] <- 0
+      iphc_set_counts_sp_format$survey_abbrev <- "IPHC FISS"
+    }
+
     # Remove existing (GFbio) based IPHC series with longer ones from new calcs
     if (!identical(iphc_set_counts_sp_format, NA)) {
       dat_tidy_survey_index <- dat_tidy_survey_index %>%
