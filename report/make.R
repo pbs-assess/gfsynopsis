@@ -21,6 +21,7 @@ library(rosettafish)
 library(future)
 # setwd(here())
 wd <- getwd()
+options("sdmTMB.cores" = 4L)
 if (!grepl("gfsynopsis", wd)) stop("Working directory wrong? Should be this repo main folder.")
 
 # ------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ if (parallel_processing) {
 }
 
 # Read in fresh data or load cached data if available: ------------------------
-dc <- here("report", "data-cache")
+dc <- here("report", "data-cache-april-2022")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -163,11 +164,15 @@ to_build <- which(missing)
 # to_build <- to_build[seq(1, floor(length(to_build) / 2))]
 # to_build <- to_build[seq(ceiling(length(to_build) / 2), length(to_build))]
 
-message("Building")
-message(paste(spp$species_common_name[to_build], "\n"))
+rlang::inform("Building")
+rlang::inform(paste(spp$species_common_name[to_build]))
 
 length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
   show_col_types = FALSE)
+
+# Trash compiled objects for safety:
+unlink("vb_gfplot.*")
+unlink("lw_gfplot.*")
 
 # missing <- rep(TRUE, length(missing))
 # for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
@@ -195,7 +200,7 @@ for (i in to_build) {
       parallel = FALSE, # for CPUE fits; need a lot of memory if true!
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
       synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2021, "SYN WCVI" = 2021, "SYN QCS" = 2021),
-      hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
+      hbll_out_max_survey_years = list("HBLL OUT N" = 2021, "HBLL OUT S" = 2020),
       iphc_max_survey_year = 2021,
       final_year_comm = 2021,
       final_year_surv = 2021,
