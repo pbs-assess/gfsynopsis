@@ -400,7 +400,7 @@ Réponse des sciences : @dfo2021pcod\
 Ordre: Gadiformes, Famille: Merlucciidae,
 [FishBase](http://www.fishbase.org/summary/Merluccius-productus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272458)\
-Last joint Canada-US stock assessment: @edwards2022hake\
+Dernière évaluation conjointe des stocks Canada-États-Unis : @edwards2022hake\
 Il est à noter que le merlu du Chili fait l’objet d’un relevé et d’une évaluation annuels ciblés menés conjointement par le Canada et les É.-U. à l'échelle de la côte, qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-hake-1.png}
