@@ -329,6 +329,7 @@ temp <- lapply(spp$species_common_name, function(x) {
         # out[[i]] <- paste0(out[[i]], "\\")
       }
       if (french) {
+        out[[i]] <- gsub("Last joint Canada-US stock assessment:", "Dernière évaluation conjointe des stocks Canada-États-Unis :", out[[i]])
         out[[i]] <- gsub("Last Science Response:", "Réponse des sciences :", out[[i]])
         out[[i]] <- gsub("IPHC Report of Assessment and Research Activities:", "Rapport des activités d'évaluation et de recherche de l'CIFP :", out[[i]])
         out[[i]] <- gsub("Technical Report:", "Rapport technique :", out[[i]])
