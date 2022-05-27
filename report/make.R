@@ -3,7 +3,7 @@ is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
 is_unix <- .Platform$OS.type == "unix"
 
 if (french) {
-  build_dir <- "report/report-rmd-fr"
+  build_dir <- "report/report-rmd-fr-2021"
 } else {
   build_dir <- "report/report-rmd"
 }
@@ -227,10 +227,10 @@ for (i in to_build) {
 g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
 saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
 saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
-if (file.exists("report/report-rmd-fr/ggplot-objects")) {
-  g_alt <- readRDS("report/report-rmd-fr/ggplot-objects/pacific-cod.rds")
-  saveRDS(g_alt$cpue_spatial, file = "report/report-rmd-fr/ggplot-objects/pacific-cod-cpue-spatial.rds")
-  saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd-fr/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
+if (french) {
+  g_alt <- readRDS("report/report-rmd-fr-2021/ggplot-objects/pacific-cod.rds")
+  saveRDS(g_alt$cpue_spatial, file = "report/report-rmd-fr-2021/ggplot-objects/pacific-cod-cpue-spatial.rds")
+  saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd-fr-2021/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
 }
 
 # ------------------------------------------------------------------------------
@@ -348,6 +348,9 @@ temp <- lapply(spp$species_common_name, function(x) {
       out[[i]] <- paste0(out[[i]], "\n")
       i <- i + 1
     }
+  }
+  if (species_code == "610") {
+    out[[i - 1]] <- "Document de recherche présentant une étude de cas de 3CD Rex Sole : @anderson2021mp"
   }
   if (species_code == "394") {
     if (!french) {

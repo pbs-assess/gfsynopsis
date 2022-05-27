@@ -1,0 +1,86 @@
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = if (knitr:::is_latex_output()) "knitr-figs/" else "knitr-figs-docx/",
+  cache.path = if (knitr:::is_latex_output()) "knitr-cache-tex/" else "knitr-cache-docx/",
+  fig.asp = 0.618,
+  fig.width = 9,
+  out.width = "6in",
+  echo = FALSE,
+  autodep = TRUE,
+  cache = TRUE,
+  cache.comments = FALSE,
+  dev = if (knitr:::is_latex_output()) "png" else "png",
+  dpi = 200,
+  fig.align = "center",
+  fig.pos = "htb"
+  # optipng = "-strip all"
+)
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng) # must have optipng installed!
+
+
+options(# Prevent xtable from adding a timestamp comment to the table code it produces
+        xtable.comment = FALSE,
+        # Don't allow kableExtra to load packages, we add them manually in csasdown
+        kableExtra.latex.load_packages = FALSE,
+        # Stop chunk output (echo) running into the margins
+        width = 80,
+        # Don't use scientific notation (stops tables from showing 1.2e3, etc.)
+        scipen = 999
+)
+```
+
+```{r load-libraries, cache=FALSE}
+library(dplyr)
+library(ggplot2)
+library(gfsynopsis)
+library(gfplot)
+library(csasdown)
+library(rosettafish)
+ggplot2::theme_set(gfplot::theme_pbs())
+french <- FALSE
+```
+
+
+```{r load-libraries-etc, cache=FALSE}
+meta <- rmarkdown::metadata$output
+if (is.null(meta)) {
+  # This knitr chunk has been run in R without running bookdown::render_book("index.Rmd")
+  # so rmarkdown::metadata$output is not populated
+  options(french = FALSE)
+} else {
+  if (length(grep("pdf", names(meta)))) {
+    options(french = meta$`csasdown::sr_pdf`$french)
+    prepub <- meta$`csasdown::sr_pdf`$prepub
+  } else if (length(grep("word", names(meta)))) {
+    options(french = meta$`csasdown::sr_word`$french)
+    prepub <- meta$`csasdown::sr_word`$prepub
+  }
+}
+csl <- "csl/csas.csl"
+options(french = TRUE)
+french <- TRUE
+options(OutDec = ",")
+
+if (is.null(getOption("french"))) {
+  stop("`french` was not set up correctly in YAML header in index.Rmd. ",
+       "It must be true or false",
+       call. = FALSE)
+}
+if (getOption("french")) {
+  csl <- "csl/csas-french.csl"
+  options(OutDec = ",")
+}
+
+options(french = TRUE)
+french <- TRUE
+options(OutDec = ",")
+csl <- "csl/csas-french.csl"
+```
+
+---
+csl: `r csl`    
+---

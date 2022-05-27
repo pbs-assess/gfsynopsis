@@ -1,0 +1,94 @@
+## Mise à jour des données de l'enquête CIFP
+
+Les modifications apportées à l'enquête internationale du flétan du Pacifique (CIFP) ont nécessité plusieurs changements dans le calcul de l'CIFP
+de l'CIFP. Les données ont été mises à jour pour inclure 2019, 2020 et 2021 (Tableau
+\@ref(tab:CIFPdata)). Les méthodes d'extraction des données et de calcul de l'indice sont
+disponibles dans le paquet R [gfiphc](https://github.com/pbs-assess/gfiphc).
+
+```{r CIFPdata, results='asis'}
+CIFP_tab <- tibble::tribble(
+  ~ Year, ~`Hooks enumerated`, ~`Résolution des données`, ~`Localisation des données`, ~COIV,
+  "1995", "All", "Ensemble par ensemble", "gfiphc", "N",
+  "1996", "All", "Ensemble par ensemble", "gfiphc", "N",
+  "1997--1998", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "N",
+  "1999", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "Y",
+  "2000", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "N",
+  "2001--2002", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "Y",
+  "2003--2011", "All", "Hameçon par hameçon", "GFBio du MPO", "Y",
+  "2012", "All (bait experiment)", "Hameçon par hameçon", "GFBio du MPO", "Y",
+  "2013", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "Y",
+  "2014--2017", "All", "Hameçon par hameçon", "GFBio du MPO", "Y",
+  "2018", "All (+ expansion stns)","Hameçon par hameçon", "GFBio du MPO", "Y",
+  "2019", "All", "Hameçon par hameçon", "GFBio du MPO", "Y",
+  "2020", "20 premiers hameçons de chaque patin","Ensemble par ensemble", "gfiphc", "N",
+  "2021", "20 premiers hameçons de chaque patin" ,"Ensemble par ensemble", "gfiphc", "Y (réduit)"
+)
+caption <- "Résumé des données disponibles des relevés à la palangre de l'évaluation des stocks de l'CIFP, mettant à jour le tableau G.1 d'Anderson et al. (2019). La résolution des données indique à quel niveau les données sont disponibles, et 'COIV' (Côte Ouest de l’île de Vancouver) indique si le relevé comprenait ou non des emplacements au large de la côte ouest de l'île de Vancouver. 'Emplacement des données' indique où se trouvent les données."
+csasdown::csas_table(CIFP_tab, caption = caption)
+```
+
+Les méthodes de calcul de l'indice CIFP restent inchangées par rapport à celles
+décrites dans le @anderson2019synopsis, à l'exception de ce qui suit :
+
+1. En 2018, il y a eu 131 nouvelles stations d'expansion qui n'avaient pas été précédemment
+   étudiées auparavant. Ces nouvelles stations, plus six nouvelles en 2021, sont exclues des calculs de séries chronologiques.
+   calculs de la série chronologique ; elles ont été incluses
+   pour 2018 dans les calculs et les cartes de @anderson2019synopsis.
+
+2. En 2020, la pêche a eu lieu principalement en juillet et août, alors qu'elle a lieu habituellement de mai à août.
+   à août ; cela n'a pas été pris en compte dans les méthodes.
+
+3. Les méthodes de bootstrap utilisent 10 000 échantillons bootstrap au lieu de 1 000, car les résultats n'étaient pas stabilisés par 1 000.
+   les résultats n'étaient pas stabilisés par 1 000 échantillons pour certaines espèces.
+
+4. Pour 2021, les eaux au large du WCVI ont été étudiées, mais seulement pour un sous-échantillon de stations.
+   stations. Cela n'affecte pas les calculs pour les eaux au nord de l'île de Vancouver.
+   l'île de Vancouver [séries A, B et AB dans le synopsis de @anderson2019synopsis], mais affecte les calculs pour l'ensemble de la côte (séries A et B).
+   mais affecte les calculs pour l'ensemble de la côte (séries D et CD). Cela peut
+   déterminer si la série AB (généralement la série la plus longue pouvant être
+   série la plus longue qui peut être construite, comme le montrent les résultats ici).
+   considérée comme représentative de l'ensemble de la côte. Des méthodes plus récentes sont en cours de
+   méthodes plus récentes sont en cours d'élaboration, qui prendront en compte un tel sous-échantillonnage, ainsi que la concurrence des hameçons.
+   la concurrence des hameçons.
+
+5. Pour 2021, il y avait six nouvelles stations qui n'avaient jamais été étudiées auparavant.
+   Ces stations ont été déclarées comme non standard pour la construction des différentes séries.
+   séries, puisqu'elles n'apparaissent pas dans les années précédentes. Cinq stations se trouvent le long de
+   la frontière de l'Alaska, s'étendant plus loin au nord que jamais auparavant, et la sixième
+   est juste à l'extérieur de la zone de conservation du sébaste des îles Scott, au large de la pointe nord-ouest de l'île de Vancouver.
+   l'extrémité nord-ouest de l'île de Vancouver.
+
+6. Les cartes pour chaque espèce montrent toutes les stations étudiées en 2021. Comme indiqué ci-dessus,
+   certaines stations ne sont pas standard et sont donc exclues des calculs de séries et des graphiques de séries chronologiques qui en résultent.
+   et des graphiques de séries chronologiques qui en résultent.
+
+7. Etant donné que seuls les 20 premiers hameçons par raie ont été dénombrés en 2021 (tableau
+   \@ref(tab:CIFPdata)), les taux de capture dans les cartes sont nécessairement basés sur
+   uniquement sur les 20 premiers hameçons. Cependant, dans @anderson2019synopsis les cartes montraient
+   les données de 2018, pour lesquelles tous les hameçons ont été dénombrés (tableau
+   \@ref(tab:CIFPdata)). Il faut donc être prudent si l'on compare les cartes mises à jour ici avec celles de @anderson2019synopsis.
+   cartes mises à jour ici avec celles de @anderson2019synopsis, puisque les espèces (en particulier les plus rares) sont moins susceptibles d'être capturées que les autres.
+   rares) sont moins susceptibles d'être capturées sur 20 hameçons que sur des raies complètes (d'environ 100 hameçons).
+   environ 100 hameçons).
+
+8. Selon laquelle des séries calculées pour une espèce a été présentée dans
+   dans le synopsis d'Anderson 2019, un compte nul (ou aucune donnée) pour une année peut avoir été tracé comme un zéro ou ne pas avoir été montré.
+   année peut avoir été tracé comme un zéro ou ne pas avoir été montré du tout. Nous utilisons maintenant les zéros pour des raisons de cohérence (sauf dans les cas suivants
+   (sauf lorsqu'il n'y a jamais eu de captures enregistrées de l'espèce, pour lesquelles le graphique complet
+   pour lesquelles le graphique complet reste vide).
+
+9. En outre, notez que l'identification des espèces peut s'être améliorée au fil du temps pour certaines espèces.
+   espèces. Par exemple, le taux de capture moyen des "raies non identifiées" était de près de 1 poisson par raie effective depuis le début de l'année.
+   raies non identifiées " était de presque 1 poisson par raie effective de 1995 à 1999, mais a ensuite
+   a ensuite baissé jusqu'à près de zéro parce que la grande raie et la raie à long nez ont toutes deux été explicitement
+   identifiés à partir de 1998. La raie aléoutienne, plus rarement capturée, n'apparaît dans les données qu'à partir de 2006.
+   n'apparaît dans les données qu'à partir de 2006. De tels changements dans le protocole peuvent être la
+   cause des comptes nuls au début de la série chronologique pour certaines espèces.
+
+D'autres détails techniques sont donnés dans le
+[gfiphc](https://github.com/pbs-assess/gfiphc), qui comprend également des détails (et des résultats) pour l'analyse des données.
+détails (et des résultats) pour l'analyse des données pour les espèces individuelles, les groupes d'espèces et les
+zones restreintes. Les ensembles complets de séries temporelles disponibles pour chaque espèce (basés
+espèces (sur la base de tous les hameçons ou seulement des 20 premiers de chaque raie) peuvent être consultés dans le paquet [data for all
+ espèces](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/data_for_all_species.html)
+pour vérifier exactement ce qui est montré dans les figures ici.

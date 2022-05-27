@@ -1,0 +1,46 @@
+---
+title: "Synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2021"
+title_short: "Mise à jour des données sur les poissons de fond 2021"
+author: |
+  Sean C. Anderson,
+  Elise A. Keppel, and
+  Andrew M. Edwards
+author_list: "Anderson, S.C., Keppel, E.A., Edwards, A.M."
+address: |
+  Station biologique du Pacifique\
+  Pêches et Océans Canada, 3190, chemin Hammond Bay\
+  Nanaimo, Colombie-Britannique, V9T 6N7, Canada
+year: "2022"
+month: "March"
+report_number: 999 # Must be numeric
+approver: |
+  Andrew Thomson\
+  Directeur régional
+title_other: "A data synopsis for British Columbia groundfish: 2021 data update"
+approval_year: 2022
+approval_month: "Mars"
+approval_day: 30
+work_done_year: 2022
+work_done_month: "Mars"
+branch: "Branche scientifique"
+region: "Région du Pacifique"
+isbn: "ISBN-Here"
+cat_no: "Cat-Number-Here"
+output:
+ csasdown::sr_pdf:
+   french: true
+   prepub: false
+   copy_sty: true
+   line_nums: false
+   line_nums_mod: 1
+type: sr
+bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
+latex_engine: xelatex
+draft_watermark: false
+# ------------
+# End of options to set
+knit: bookdown::render_book
+link-citations: true
+---
+
+

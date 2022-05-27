@@ -1,0 +1,58 @@
+```{r n_species}
+.spp <- gfsynopsis::get_spp_names()
+no_species <- nrow(.spp)
+```
+
+# Contexte {#sec:context}
+
+La combinaison de données dépendant de la pêche, comme les prises et l'effort, et de données de relevés indépendants de la pêche, comme les indices de biomasse et les compositions par âge, constitue l'épine dorsale de la plupart des évaluations de stocks de pêche.
+Pêches et Océans Canada (MPO) gère de vastes quantités de données de ce type sur les espèces de poisson de fond en Colombie-Britannique (C.-B.).
+Toutefois, les évaluations officielles des stocks ne sont pas effectuées sur une base annuelle pour la plupart des stocks, de sorte qu'une grande partie de ces données ne sont pas résumées pour représenter la nature des fonds de données.
+
+Le rapport synoptique des données sur les poissons de fond a été élaboré afin de fournir un aperçu des tendances à long terme et récentes des populations et des pêches, ainsi que de la disponibilité des données, pour toutes les principales espèces de poissons de fond de la Colombie-Britannique présentant un intérêt commercial et de conservation [@anderson2019synopsis ; @anderson2020fisheries].
+Le rapport a été publié en tant que document de recherche du Secrétariat canadien de consultation scientifique (SCCS) [@anderson2019synopsis] pour faciliter l'examen des méthodes, avec l'intention de mettre à jour le rapport selon un calendrier approximativement bisannuel.
+L'utilité du rapport dépend de la mise à jour de ses données.
+Depuis le rapport initial de 2019, trois nouvelles années de données d'enquête et de données commerciales sont devenues disponibles, ainsi que des documents de recherche, des rapports d'avis scientifiques et des réponses scientifiques actualisés sur l'évaluation des stocks.
+
+La Direction des sciences du MPO a demandé une mise à jour du rapport synoptique des données sur le poisson de fond comprenant toutes les données commerciales et de sondage disponibles jusqu'à la fin de 2021.
+L'avis découlant de cette réponse scientifique du SCCS fournira un aperçu des données disponibles sur le poisson de fond et des tendances en matière de pêche et de population afin d'informer le personnel de la Direction des sciences et de la gestion des pêches du MPO dans la surveillance des stocks et l'établissement des priorités.
+Cette mise à jour applique l'approche précédemment examinée par les pairs pour générer des chiffres à jour représentant des données telles que les indices de biomasse, les prises commerciales, la distribution des espèces et les données sur la composition par âge et par longueur pour l'espèce `r no_species`.
+
+La présente réponse des Sciences découle du processus de réponse Sciences du 29 mars 2022 sur le synopsis des données sur le poisson de fond de la Colombie-Britannique : mise à jour des données de 2021.
+
+# Renseignements de base {#sec:background}
+
+La génération du rapport synoptique des données sur les poissons de fond est en grande partie automatisée - extraction des données des bases de données, ajustement des modèles, génération de visualisations et assemblage du document pour faciliter la publication rapide, la reproductibilité et la transparence.
+Les objectifs du rapport sont les suivants
+(1) faciliter l'examen régulier par les scientifiques et
+les scientifiques et les gestionnaires des poissons de fond des tendances des indices d'enquête et de la composition des stocks, afin de fournir des informations pour la discussion.
+de toutes les espèces afin de fournir des informations pour la discussion sur les priorités d'évaluation.
+d'évaluation ;
+(2) générer des ensembles de données normalisés, des ajustements de modèles biologiques et des visualisations qui aideront les scientifiques chargés de l'évaluation à développer des modèles opérationnels et à sélectionner des procédures de gestion candidates pour les stocks de poisson de fond ; et
+(3) accroître la transparence des données entre le MPO, l'industrie de la pêche, les Premières nations, les organisations non gouvernementales et le grand public.
+
+Les principaux chiffres du rapport synoptique sont présentés dans des sous-sections de deux pages, espèce par espèce, qui synthétisent visuellement la plupart des données disponibles pour chaque espèce.
+Le rapport couvre les espèces de poissons de fond qui présentent un intérêt commercial, récréatif, de conservation ou pour les Premières Nations, ou qui sont régulièrement capturées dans nos relevés de recherche.
+Le rapport se concentre sur les relevés et les types de données applicables au plus large éventail de ces espèces.
+
+Chaque ensemble de pages pour une seule espèce est présenté dans le même format.
+La mise en page commence par le nom commun de l'espèce, le nom scientifique de l'espèce et le code de l'espèce du MPO, qui correspond généralement au numéro de page de l'espèce dans @hart1988.
+Les figures sont disposées de telle sorte que la première page présente les tendances et les modèles spatiaux des séries chronologiques des relevés (figure \@ref(fig:intro-maps)) sur la gauche et les séries chronologiques commerciales par zones de la Commission des pêches maritimes du Pacifique (figure \@ref(fig:management-map)) et les modèles spatiaux sur la droite.
+La deuxième page porte sur les échantillons biologiques provenant de sources indépendantes et dépendantes de la pêche.
+Cette page présente les données relatives à la longueur et à l'âge, les données relatives à la maturité, ainsi qu'un aperçu du nombre disponible de poissons échantillonnés pour l'ensemble des échantillons des enquêtes et des échantillons commerciaux.
+
+En ce qui concerne les relevés, le rapport se concentre sur les relevés au chalut de fond synoptique (figure \@ref(fig:intro-maps)), les relevés à la palangre de fond dur (HBLL) (figure \@ref(fig:intro-maps)) et les relevés à la palangre indépendants de la Commission internationale du flétan du Pacifique (IPHC).
+Ces relevés offrent la plus grande couverture spatiale et taxonomique des espèces visées par le présent rapport.
+Les tendances de l'indice de biomasse des relevés sont également présentées pour le relevé d'assemblage multi-espèces du détroit d'Hécate (MSA HS) et le relevé Inside HBLL.
+Le rapport comprend le dénombrement des spécimens de poissons disponibles provenant des échantillons biologiques de tous les relevés.
+Une brève description des relevés inclus est incluse dans l'annexe F de @anderson2019synopsis ainsi que les références associées pour les détails sur la conception et la mise en œuvre.
+
+(ref:intro-maps-cap) Limites du relevé synoptique au chalut (à gauche) et limites du relevé mené à la palangre à l’extérieur du fond dur (à droite). Les couleurs correspondent aux codes de couleur utilisés dans le reste du rapport. La couverture du relevé de la Commission internationale du flétan du Pacifique (CIFP) est indiquée sur les graphiques des taux de capture des relevés de la CIFP à mesure que toutes les stations individuelles sont exploitées.
+
+```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
+source(here::here("report/report-rmd/intro-maps.R"))
+```
+
+```{r management-map, fig.cap="Carte des zones 5AB (détroit de la Reine-Charlotte), 5CD (détroit d’Hécate), 5E (côte ouest de Haïda Gwaii) et 3CD (côte ouest de l’île de Vancouver) de la Commission des pêches maritimes du Pacifique. Ces zones sont proches, mais non identiques, aux zones des unités de gestion du poisson de fond qui portent le même nom.", out.width="5.2in", fig.pos="tb"}
+knitr::include_graphics(here::here("report/report-rmd/figure/3CD5ABCDE.png"), dpi = NA)
+```
