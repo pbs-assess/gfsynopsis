@@ -328,6 +328,15 @@ temp <- lapply(spp$species_common_name, function(x) {
       if (!is.na(cosewic_status) && cosewic_status != "") {
         # out[[i]] <- paste0(out[[i]], "\\")
       }
+      if (french) {
+        out[[i]] <- gsub("Last Science Response:", "Réponse des sciences :", out[[i]])
+        out[[i]] <- gsub("IPHC Report of Assessment and Research Activities:", "Rapport des activités d'évaluation et de recherche de l'CIFP :", out[[i]])
+        out[[i]] <- gsub("Technical Report:", "Rapport technique :", out[[i]])
+        out[[i]] <- gsub("Species at Risk Act Management Plan Series:", "Série de plans de gestion de la Loi sur les espèces en péril :", out[[i]])
+      }
+      if (species_code == "034" && french) {
+        out[[i]] <- "Stratégie et plan d'action pour le rétablissement de la Loi sur les espèces en péril : @dfo2011baskingshark, @cosewic2020baskingshark"
+      }
       i <- i + 1
     }
   }
@@ -349,7 +358,7 @@ temp <- lapply(spp$species_common_name, function(x) {
       i <- i + 1
     }
   }
-  if (species_code == "610") {
+  if (species_code == "610" && french) {
     out[[i - 1]] <- "Document de recherche présentant une étude de cas de 3CD Rex Sole : @anderson2021mp"
   }
   if (species_code == "394") {
