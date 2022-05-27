@@ -16,15 +16,31 @@ isobath_utm <- gfplot:::load_isobath(
 
 # synoptic surveys -------------------------------------------------------------
 
+#   1. Relevé synoptique, bassin de la Reine-Charlotte (SYN BRC) : @williams2018synqcs
+#
+# 1. Relevé synoptique, côte ouest de l’île de Vancouver (SYN COIV) : @nottingham2017synwcvi
+#
+# 1. Relevé synoptique, détroit d’Hécate (SYN DH) : @wyeth2018synhs
+#
+# 1. Relevé synoptique, côte ouest de Haida Gwaii (SYN COHG) : @williams2018synwchg
+#
+# 1. Relevé à la palangre sur fond dur dans les eaux extérieures (RPFD EXT) : @doherty2019hbllout
+#
+# 1. Relevé à la palangre sur fond dur dans les eaux intérieures (RPFD INT) : @lochead2007irf
+#
+# 1. Relevé de la communauté d’espèces dans le détroit d’Hécate (RCE DH) : @choromanski2004hsmsa
+#
+# 1. Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique (RIP CIFP)
+
 hs_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$HS, utm_zone = 9)
 qcs_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$QCS, utm_zone = 9)
 wcvi_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCVI, utm_zone = 9)
 wchg_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCHG, utm_zone = 9)
 ss <- dplyr::bind_rows(
-  list(data.frame(hs_utm, survey = "Hecate Strait (HS)", stringsAsFactors = FALSE),
-    data.frame(qcs_utm, survey = "Queen Charlotte Sound (QCS)", stringsAsFactors = FALSE),
-    data.frame(wcvi_utm, survey = "West Coast Vancouver Island (WCVI)", stringsAsFactors = FALSE),
-    data.frame(wchg_utm, survey = "West Coast Haida Gwaii (WCHG)", stringsAsFactors = FALSE)))
+  list(data.frame(hs_utm, survey = "SYN DH", stringsAsFactors = FALSE),
+    data.frame(qcs_utm, survey = "SYN BRC", stringsAsFactors = FALSE),
+    data.frame(wcvi_utm, survey = "SYN COIV", stringsAsFactors = FALSE),
+    data.frame(wchg_utm, survey = "SYN COHG", stringsAsFactors = FALSE)))
 
 g <- ggplot()
 
@@ -36,10 +52,10 @@ cols <- paste0(c(RColorBrewer::brewer.pal(5L, "Set1"),
 
 g <- g + geom_polygon(data = ss, aes_string(x = "X", y = "Y", fill = "survey")) +
   scale_fill_manual(values = c(
-    "Hecate Strait (HS)" = cols[2],
-    "Queen Charlotte Sound (QCS)" = cols[3],
-    "West Coast Vancouver Island (WCVI)" = cols[4],
-    "West Coast Haida Gwaii (WCHG)" = cols[1]))
+    "SYN DH" = cols[2],
+    "SYN BRC" = cols[3],
+    "SYN COIV" = cols[4],
+    "SYN COHG" = cols[1]))
 
 g <- g + geom_path(
   data = isobath_utm, aes_string(
@@ -69,19 +85,19 @@ hbll_s_in <- gfplot:::ll2utm(gfplot::hbll_inside_s_grid$grid, utm_zone = 9)
 
 hbll <- dplyr::bind_rows(
   list(
-    data.frame(hbll_n, survey = "Outside Hard Bottom Long Line (N)", stringsAsFactors = FALSE),
-    data.frame(hbll_s, survey = "Outside Hard Bottom Long Line (S)", stringsAsFactors = FALSE),
-    data.frame(hbll_n_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE),
-    data.frame(hbll_s_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE)))
+    data.frame(hbll_n, survey = "RPFD EXT (N)", stringsAsFactors = FALSE),
+    data.frame(hbll_s, survey = "RPFD EXT (S)", stringsAsFactors = FALSE),
+    data.frame(hbll_n_in, survey = "RPFD INT (N & S)", stringsAsFactors = FALSE),
+    data.frame(hbll_s_in, survey = "RPFD INT (N & S)", stringsAsFactors = FALSE)))
 
 g2 <- ggplot()
 g2 <- g2 + geom_rect(data = hbll,
   aes_string(xmax = "X + 1", ymax = "Y + 1", xmin = "X - 1", ymin = "Y - 1", fill = "survey")) +
   scale_fill_manual(values = c(
-    "Outside Hard Bottom Long Line (N)" = cols[5],
-    "Outside Hard Bottom Long Line (S)" = cols[6],
+    "RPFD EXT (N)" = cols[5],
+    "RPFD EXT (S)" = cols[6],
     # "Inside Hard Bottom Long Line (N)" = cols[9],
-    "Inside Hard Bottom Long Line (N & S)" = cols[10]
+    "RPFD INT (N & S)" = cols[10]
     )) +
   geom_path(
     data = isobath_utm, aes_string(
