@@ -6,4 +6,4 @@ Cette section contient les principales visualisations des données espèce par e
 
 \clearpage
 
-\afterpage{\null\newpage}
+<!-- \afterpage{\null\newpage} -->
