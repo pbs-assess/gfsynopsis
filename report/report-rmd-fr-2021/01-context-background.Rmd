@@ -50,6 +50,7 @@ Une brève description des relevés inclus est incluse dans l'annexe F de @ander
 (ref:intro-maps-cap) Limites du relevé synoptique au chalut (à gauche) et limites du relevé mené à la palangre à l’extérieur du fond dur (à droite). Les couleurs correspondent aux codes de couleur utilisés dans le reste du rapport. La couverture du relevé de la Commission internationale du flétan du Pacifique (CIFP) est indiquée sur les graphiques des taux de capture des relevés de la CIFP à mesure que toutes les stations individuelles sont exploitées.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
+# source(here::here("report/report-rmd-fr-2021/intro-maps.R"))
 source(here::here("report/report-rmd/intro-maps.R"))
 ```
 
