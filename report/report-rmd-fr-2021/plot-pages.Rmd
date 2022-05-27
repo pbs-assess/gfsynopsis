@@ -30,7 +30,7 @@ Ordre: Lamniformes, Famille: Cetorhinidae,
 [FishBase](http://www.fishbase.org/summary/Cetorhinus-maximus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105837)\
 Plus récent document de recherche: @mcfarlane2008basking\
-Species at Risk Act Recovery Strategy and Action Plan: @dfo2011baskingshark, @cosewic2020baskingshark\
+Stratégie et plan d'action pour le rétablissement de la Loi sur les espèces en péril : @dfo2011baskingshark, @cosewic2020baskingshark
 Rapports de situation du COSEPAC: @cosewic2018baskingshark\
 Désignation du COSEPAC: En voie de disparition, Statut en vertu de la LEP: En voie de disparition
 
@@ -381,7 +381,7 @@ Ordre: Gadiformes, Famille: Gadidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254538)\
 Plus récent document de recherche: @forrest2020pcod\
 Dernier avis scientifique: @dfo2019pcod3cd5abcd\
-Last Science Response: @dfo2021pcod\
+Réponse des sciences : @dfo2021pcod\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-cod-1.png}
 \end{figure}
@@ -822,7 +822,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus)\
 Plus récent document de recherche: @haigh2005rougheye\
 Dernier avis scientifique: @dfo2020rougheye\
-Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
+Série de plans de gestion de la Loi sur les espèces en péril : @dfo2012longspineidiots\
 Rapports de situation du COSEPAC: @cosewic2007rougheye\
 Désignation du COSEPAC:Espèce préoccupante, Statut en vertu de la LEP:Espèce préoccupante
 
@@ -941,7 +941,7 @@ Dernier avis scientifique: @dfo2014silvergray\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-caurinus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274780)\
-Technical Report: @yamanaka2001inshore\
+Rapport technique : @yamanaka2001inshore\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/copper-rockfish-1.png}
 \end{figure}
@@ -1264,7 +1264,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274833)\
 Plus récent document de recherche: @stanley2012bocaccio\
 Dernier avis scientifique: @dfo2020bocaccio\
-Last Science Response: @dfo2022bocaccio\
+Réponse des sciences : @dfo2022bocaccio\
 Rapports de situation du COSEPAC: @cosewic2013bocaccio\
 Désignation du COSEPAC: En voie de disparition, Statut en vertu de la LEP: Sans statut
 
@@ -1354,7 +1354,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Plus récent document de recherches: @yamanaka2011yelloweyeinside, @cox2020YEout\
 Dernier avis scientifiques: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside\
-Species at Risk Act Management Plan Series: @dfo2020yelloweye\
+Série de plans de gestion de la Loi sur les espèces en péril : @dfo2020yelloweye\
 Rapports de situation du COSEPAC: @cosewic2020yelloweye\
 Désignation du COSEPAC: Menacée, Statut en vertu de la LEP: Espèce préoccupante
 
@@ -1469,7 +1469,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastolobus-altivelis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282741)\
 Plus récent document de recherche: @haigh2005longspineidiots\
-Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
+Série de plans de gestion de la Loi sur les espèces en péril : @dfo2012longspineidiots\
 Rapports de situation du COSEPAC: @cosewic2007longspine\
 Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Espèce préoccupante
 
@@ -1493,7 +1493,7 @@ Ordre: Scorpaeniformes, Famille: Anoplopomatidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
 Plus récent document de recherche: @cox2019sablefish\
 Dernier avis scientifique: @dfo2017sablefish\
-Last Science Response: @dfo2020sablefish\
+Réponse des sciences : @dfo2020sablefish\
 Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sablefish-1.png}
@@ -1970,7 +1970,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
-IPHC Report of Assessment and Research Activities: @iphc2017\
+Rapport des activités d'évaluation et de recherche de l'CIFP : @iphc2017\
 Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-halibut-1.png}

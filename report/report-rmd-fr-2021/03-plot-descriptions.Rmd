@@ -15,9 +15,6 @@ checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
   inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
 ```
 
-This section provides captions for each of the visualizations that form the species-by-species pages.
-`r sp` is used as an example species for all plots except for commercial catch per unit effort maps where Pacific Cod is used.
-
 Dans cette section, nous fournissons des légendes complètes pour chacune des visualisations qui forment les figures espèce par espèce. 
 Nous utilisons la sole de Petrale comme exemple pour tous les graphiques, sauf pour les cartes des captures par unité d’effort commerciales, où nous utilisons la morue du Pacifique.
 
@@ -96,14 +93,14 @@ p1 <- g$survey_spatial_syn +
   labs(fill = labs1, parse = TRUE) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = breaks,
     labels = breaks * units_transformation) +
-  guides(fill = guide_colorbar(), size = FALSE)
-  # ggtitle(en2fr("Synoptic survey biomass", french))
+  guides(fill = guide_colorbar(), size = FALSE) +
+  ggtitle("Biomasse du\nrelevé synoptique")
 
 p2 <- g$survey_spatial_hbll +
   labs(fill = labs2, parse = TRUE) +
   ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
-  guides(fill = guide_colorbar(), size = FALSE)
-  # ggtitle(en2fr("HBLL OUT survey biomass", french))
+  guides(fill = guide_colorbar(), size = FALSE) +
+  ggtitle("Biomasse du relevé\nRPFD EXT")
 
 p3 <- g$survey_spatial_iphc +
   labs(colour = labs3, parse = TRUE) +
@@ -111,8 +108,8 @@ p3 <- g$survey_spatial_iphc +
   ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
     na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +
   ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
-    na.value = 'grey35', breaks = c(0.2, 0.4, 0.7))
-  # ggtitle(en2fr("IPHC survey catch rate", french))
+    na.value = 'grey35', breaks = c(0.2, 0.4, 0.7)) +
+  ggtitle("Taux de capture\ndu relevé CIFP")
 
 gridExtra::grid.arrange(
   p1,
