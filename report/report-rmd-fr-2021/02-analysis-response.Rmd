@@ -70,8 +70,8 @@ yrs$year <- as.character(yrs$year)
 yrs <- yrs[, c(3, 1, 2)]
 
 csasdown::csas_table(yrs,
-   col_names = c("Survey","Abbreviation", "Year added"),
-   caption = "Fisheries independent survey years added in this Science Response compared to the previous Anderson et al. (2019) report."
+   col_names = c("Relevés","Abréviation", "Année ajoutée"),
+   caption = "Années d'enquête indépendante sur la pêche ajoutées dans cette réponse scientifique par rapport au rapport précédent d'Anderson et al. (2019)."
 )
 ```
 
