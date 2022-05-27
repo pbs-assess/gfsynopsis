@@ -93,7 +93,7 @@ Primary caveats include:
    information on the age- or length-composition of the stock to make
    conclusions about the status of a stock. In particular, the survey indices do not account for estimated size selectivity the way most stock assessments do (smaller fish are typically less likely to be caught by survey gear).
 
-1. Biomass indices from trawl or longline surveys and commercial CPUE indices
+1. Biomass indices from trawl or longline surveys and commercial CPUE (catch per unit effort) indices
    need careful interpretation on a stock-by-stock basis. We have attempted to
    flag survey index trends that may be especially suspect either because of
    high survey variability or because only a small fraction of trawl or
@@ -198,9 +198,12 @@ The specific versions (GitHub commits) used to generate this report are availabl
 
 # Conclusions
 
-The report presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessments or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
-Temporal and spatial patterns in survey and commercial catch for species are evident by scanning the main figure pages.
-This report is expected to be updated on approximately a biennial basis.
+This Science Response presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessments or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
+The report is expected to be updated on a regular basis.
 These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.
 On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
-It is intended that this report will continue to (1) facilitate regular review by groundfish scientists and managers of trends in survey indices and stock composition across all species; (2) facilitate generating standardized datasets, visualizations, and biological model fits to help assessment scientists; and (3) increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
+
+In conclusion, this report gathers, applies careful data filtering and quality control, models, and thoughtfully visualizes nearly all Pacific groundfish data DFO has available.
+This includes an analysis of relative biomass and abundance indices and spatial distribution from scientific surveys along with modelled time series and spatial distributions of commercial catch and CPUE from groundfish fisheries.
+Furthermore, this report summarizes key stock parameters such as length and age frequencies and analyzes growth and length-weight relationships, age at maturity, length at maturity, and maturity frequencies wherever possible for the 113 species.
+DFO groundfish Science and Fisheries Management staff, and all interested parties---including fishing industry, First Nations, non-governmental organizations, seafood certification agencies, and the general public---can use this report to monitor stocks without a formal stock assessment, monitor key stocks between assessments, or to signal when an assessment should be considered.
