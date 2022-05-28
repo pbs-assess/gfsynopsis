@@ -5,8 +5,6 @@ de l'CIFP. Les données ont été mises à jour pour inclure 2019, 2020 et 2021 
 \@ref(tab:CIFPdata)). Les méthodes d'extraction des données et de calcul de l'indice sont
 disponibles dans le paquet R [gfiphc](https://github.com/pbs-assess/gfiphc).
 
-
-
 ```{r CIFPdata, results='asis'}
 CIFP_tab <- tibble::tribble(
   ~ "Année", ~`Hameçons ayant fait l’objet d’un dénombrement`, ~`Résolution des données`, ~`Localisation des données`, ~COIV,
@@ -17,10 +15,10 @@ CIFP_tab <- tibble::tribble(
   "2000", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "N",
   "2001--2002", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "Y",
   "2003--2011", "Tous", "Hameçon par hameçon", "GFBio du MPO", "Y",
-  "2012", "Tous (bait experiment)", "Hameçon par hameçon", "GFBio du MPO", "Y",
+  "2012", "Tous (expérience des appâts)", "Hameçon par hameçon", "GFBio du MPO", "Y",
   "2013", "20 premiers hameçons de chaque patin", "Ensemble par ensemble", "gfiphc", "Y",
   "2014--2017", "Tous", "Hameçon par hameçon", "GFBio du MPO", "Y",
-  "2018", "Tous (+ expansion stns)","Hameçon par hameçon", "GFBio du MPO", "Y",
+  "2018", "Tous (+ stations d'extension)","Hameçon par hameçon", "GFBio du MPO", "Y",
   "2019", "Tous", "Hameçon par hameçon", "GFBio du MPO", "Y",
   "2020", "20 premiers hameçons de chaque patin","Ensemble par ensemble", "gfiphc", "N",
   "2021", "20 premiers hameçons de chaque patin" ,"Ensemble par ensemble", "gfiphc", "Y (réduit)"

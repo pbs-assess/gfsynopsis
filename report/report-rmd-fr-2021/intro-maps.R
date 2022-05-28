@@ -37,10 +37,10 @@ qcs_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$QCS, utm_zone = 9)
 wcvi_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCVI, utm_zone = 9)
 wchg_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCHG, utm_zone = 9)
 ss <- dplyr::bind_rows(
-  list(data.frame(hs_utm, survey = "SYN DH", stringsAsFactors = FALSE),
-    data.frame(qcs_utm, survey = "SYN BRC", stringsAsFactors = FALSE),
-    data.frame(wcvi_utm, survey = "SYN COIV", stringsAsFactors = FALSE),
-    data.frame(wchg_utm, survey = "SYN COHG", stringsAsFactors = FALSE)))
+  list(data.frame(hs_utm, survey = "SYN HS", stringsAsFactors = FALSE),
+    data.frame(qcs_utm, survey = "SYN QCS", stringsAsFactors = FALSE),
+    data.frame(wcvi_utm, survey = "SYN WCVI", stringsAsFactors = FALSE),
+    data.frame(wchg_utm, survey = "SYN WCHG", stringsAsFactors = FALSE)))
 
 g <- ggplot()
 
@@ -52,10 +52,10 @@ cols <- paste0(c(RColorBrewer::brewer.pal(5L, "Set1"),
 
 g <- g + geom_polygon(data = ss, aes_string(x = "X", y = "Y", fill = "survey")) +
   scale_fill_manual(values = c(
-    "SYN DH" = cols[2],
-    "SYN BRC" = cols[3],
-    "SYN COIV" = cols[4],
-    "SYN COHG" = cols[1]))
+    "SYN HS" = cols[2],
+    "SYN QCS" = cols[3],
+    "SYN WCVI" = cols[4],
+    "SYN WCHG" = cols[1]))
 
 g <- g + geom_path(
   data = isobath_utm, aes_string(
@@ -85,19 +85,19 @@ hbll_s_in <- gfplot:::ll2utm(gfplot::hbll_inside_s_grid$grid, utm_zone = 9)
 
 hbll <- dplyr::bind_rows(
   list(
-    data.frame(hbll_n, survey = "RPFD EXT (N)", stringsAsFactors = FALSE),
-    data.frame(hbll_s, survey = "RPFD EXT (S)", stringsAsFactors = FALSE),
-    data.frame(hbll_n_in, survey = "RPFD INT (N & S)", stringsAsFactors = FALSE),
-    data.frame(hbll_s_in, survey = "RPFD INT (N & S)", stringsAsFactors = FALSE)))
+    data.frame(hbll_n, survey = "HBLL OUT (N)", stringsAsFactors = FALSE),
+    data.frame(hbll_s, survey = "HBLL OUT (S)", stringsAsFactors = FALSE),
+    data.frame(hbll_n_in, survey = "HBLL INS (N & S)", stringsAsFactors = FALSE),
+    data.frame(hbll_s_in, survey = "HBLL INS (N & S)", stringsAsFactors = FALSE)))
 
 g2 <- ggplot()
 g2 <- g2 + geom_rect(data = hbll,
   aes_string(xmax = "X + 1", ymax = "Y + 1", xmin = "X - 1", ymin = "Y - 1", fill = "survey")) +
   scale_fill_manual(values = c(
-    "RPFD EXT (N)" = cols[5],
-    "RPFD EXT (S)" = cols[6],
+    "HBLL OUT (N)" = cols[5],
+    "HBLL OUT (S)" = cols[6],
     # "Inside Hard Bottom Long Line (N)" = cols[9],
-    "RPFD INT (N & S)" = cols[10]
+    "HBLL INS (N & S)" = cols[10]
     )) +
   geom_path(
     data = isobath_utm, aes_string(

@@ -21,6 +21,22 @@ rd <- readr::read_csv(here::here("report/2019-resdoc-survey-years.csv"),
 sr <- readRDS(here::here("report/data-cache-april-2022/longnose-skate.rds"))$survey_index
 sr <- sr |> select(survey_abbrev, year)
 
+#   1. Relevé synoptique, bassin de la Reine-Charlotte (SYN BRC) : @williams2018synqcs
+#
+# 1. Relevé synoptique, côte ouest de l’île de Vancouver (SYN COIV) : @nottingham2017synwcvi
+#
+# 1. Relevé synoptique, détroit d’Hécate (SYN DH) : @wyeth2018synhs
+#
+# 1. Relevé synoptique, côte ouest de Haida Gwaii (SYN COHG) : @williams2018synwchg
+#
+# 1. Relevé à la palangre sur fond dur dans les eaux extérieures (RPFD EXT) : @doherty2019hbllout
+#
+# 1. Relevé à la palangre sur fond dur dans les eaux intérieures (RPFD INT) : @lochead2007irf
+#
+# 1. Relevé de la communauté d’espèces dans le détroit d’Hécate (RCE DH) : @choromanski2004hsmsa
+#
+# 1. Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique (RIP CIFP)
+
 survey_full_names <- c(
   "West Coast Haida Gwaii Synoptic Bottom Trawl", 
   "Hecate Strait Synoptic Bottom Trawl", 
@@ -34,6 +50,21 @@ survey_full_names <- c(
   # "International Pacific Halibut Commission Fishery Independent Setline"
   "IPHC Fishery-Independent Setline Survey"
 )
+
+survey_full_names <- c(
+  "Relevé synoptique, côte ouest de Haida Gwaii", 
+  "Relevé synoptique, détroit d’Hécate", 
+  "Relevé synoptique, bassin de la Reine-Charlotte", 
+  "Relevé synoptique, côte ouest de l’île de Vancouver",
+  "Relevé à la palangre sur fond dur dans les eaux extérieures (N)",
+  "Relevé à la palangre sur fond dur dans les eaux extérieures (S)", 
+  "Relevé à la palangre sur fond dur dans les eaux intérieures (N)", 
+  "Relevé à la palangre sur fond dur dans les eaux intérieures (S)",
+  "Relevé de la communauté d’espèces dans le détroit d’Hécate", 
+  # "International Pacific Halibut Commission Fishery Independent Setline"
+  "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique"
+)
+
 surveys <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
   "HBLL OUT N",
@@ -57,9 +88,9 @@ yrs <- bind_rows(
         # "International Pacific Halibut Commission Fishery Independent Setline",
         # "International Pacific Halibut Commission Fishery Independent Setline",
         # "International Pacific Halibut Commission Fishery Independent Setline"
-        "IPHC Fishery-Independent Setline Survey",
-        "IPHC Fishery-Independent Setline Survey",
-        "IPHC Fishery-Independent Setline Survey"
+        "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique",
+        "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique",
+        "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique"
         ), 
      survey_abbrev = c("IPHC FISS", "IPHC FISS", "IPHC FISS"), 
      year = c(2019, 2020, 2021))
@@ -70,9 +101,11 @@ yrs$year <- as.character(yrs$year)
 yrs <- yrs[, c(3, 1, 2)]
 
 csasdown::csas_table(yrs,
-   col_names = c("Relevés","Abréviation", "Année ajoutée"),
-   caption = "Années d'enquête indépendante sur la pêche ajoutées dans cette réponse scientifique par rapport au rapport précédent d'Anderson et al. (2019)."
-)
+   col_names = c("Relevé","Abréviation", "Année ajoutée"),
+   caption = "Années d'enquête indépendante sur la pêche ajoutées dans cette réponse scientifique par rapport au rapport précédent d'Anderson et al. (2019).", format = "latex"
+) %>% 
+  kableExtra::kable_styling(full_width = FALSE) %>%
+  kableExtra::column_spec(1, width = "26em")
 ```
 
 Il y a un changement notable dans la façon dont les données de l'indice d'enquête sont présentées dans cette réponse scientifique par rapport à @anderson2019synopsis. Dans le synopsis de @anderson2019synopsis, les années au cours desquelles une espèce donnée n'a pas été capturée dans une enquête ont été omises et la ligne tracée a relié les années avec des données. Dans ce rapport actualisé, ces valeurs d'indice sont présentées comme des zéros.
@@ -190,7 +223,7 @@ Les versions spécifiques (commits GitHub) utilisées pour générer ce rapport 
 Cette réponse scientifique présente une mise à jour du synopsis de @anderson2019synopsis qui ajoute des données principalement de 2019 à 2021 ainsi que des citations à toute nouvelle évaluation de stock ou rapport du Comité sur la situation des espèces en péril au Canada (COSEPAC).
 Il est prévu que le rapport soit mis à jour régulièrement.
 Ces mises à jour comprendront toute nouvelle donnée depuis le rapport précédent et toute correction importante aux données, au texte ou aux visualisations.
-Moins fréquemment, les auteurs envisageront d'apporter des changements plus importants à la structure, aux méthodes ou au contenu du rapport dans le cadre d'un processus de révision du SCCS.
+Moins fréquemment, les auteurs envisageront d'apporter des changements plus importants à la structure, aux méthodes ou au contenu du rapport dans le cadre d'un processus de révision du SCAS.
 
 En conclusion, ce rapport rassemble, applique un filtrage minutieux des données et un contrôle de qualité, modélise et visualise de manière réfléchie presque toutes les données sur les poissons de fond du Pacifique dont dispose le MPO.
 Cela comprend une analyse de la biomasse relative, des indices d'abondance et de la distribution spatiale des relevés scientifiques, ainsi que des séries chronologiques modélisées et des distributions spatiales des prises commerciales et des PUE des pêches au poisson de fond.

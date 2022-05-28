@@ -10,12 +10,15 @@ Pêches et Océans Canada (MPO) gère de vastes quantités de données de ce typ
 Toutefois, les évaluations officielles des stocks ne sont pas effectuées sur une base annuelle pour la plupart des stocks, de sorte qu'une grande partie de ces données ne sont pas résumées pour représenter la nature des fonds de données.
 
 Le rapport synoptique des données sur les poissons de fond a été élaboré afin de fournir un aperçu des tendances à long terme et récentes des populations et des pêches, ainsi que de la disponibilité des données, pour toutes les principales espèces de poissons de fond de la Colombie-Britannique présentant un intérêt commercial et de conservation [@anderson2019synopsis ; @anderson2020fisheries].
-Le rapport a été publié en tant que document de recherche du Secrétariat canadien de consultation scientifique (SCCS) [@anderson2019synopsis] pour faciliter l'examen des méthodes, avec l'intention de mettre à jour le rapport selon un calendrier approximativement bisannuel.
+Le rapport a été publié en tant que document de recherche du 
+Secrétariat canadien des avis scientifiques (SCAS)
+<!-- Secrétariat canadien de consultation scientifique (SCCS) -->
+[@anderson2019synopsis] pour faciliter l'examen des méthodes, avec l'intention de mettre à jour le rapport selon un calendrier approximativement bisannuel.
 L'utilité du rapport dépend de la mise à jour de ses données.
 Depuis le rapport initial de 2019, trois nouvelles années de données d'enquête et de données commerciales sont devenues disponibles, ainsi que des documents de recherche, des rapports d'avis scientifiques et des réponses scientifiques actualisés sur l'évaluation des stocks.
 
 La Direction des sciences du MPO a demandé une mise à jour du rapport synoptique des données sur le poisson de fond comprenant toutes les données commerciales et de sondage disponibles jusqu'à la fin de 2021.
-L'avis découlant de cette réponse scientifique du SCCS fournira un aperçu des données disponibles sur le poisson de fond et des tendances en matière de pêche et de population afin d'informer le personnel de la Direction des sciences et de la gestion des pêches du MPO dans la surveillance des stocks et l'établissement des priorités.
+L'avis découlant de cette réponse scientifique du SCAS fournira un aperçu des données disponibles sur le poisson de fond et des tendances en matière de pêche et de population afin d'informer le personnel de la Direction des sciences et de la gestion des pêches du MPO dans la surveillance des stocks et l'établissement des priorités.
 Cette mise à jour applique l'approche précédemment examinée par les pairs pour générer des chiffres à jour représentant des données telles que les indices de biomasse, les prises commerciales, la distribution des espèces et les données sur la composition par âge et par longueur pour l'espèce `r no_species`.
 
 La présente réponse des Sciences découle du processus de réponse Sciences du 29 mars 2022 sur le synopsis des données sur le poisson de fond de la Colombie-Britannique : mise à jour des données de 2021.
@@ -50,8 +53,8 @@ Une brève description des relevés inclus est incluse dans l'annexe F de @ander
 (ref:intro-maps-cap) Limites du relevé synoptique au chalut (à gauche) et limites du relevé mené à la palangre à l’extérieur du fond dur (à droite). Les couleurs correspondent aux codes de couleur utilisés dans le reste du rapport. La couverture du relevé de la Commission internationale du flétan du Pacifique (CIFP) est indiquée sur les graphiques des taux de capture des relevés de la CIFP à mesure que toutes les stations individuelles sont exploitées.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
-# source(here::here("report/report-rmd-fr-2021/intro-maps.R"))
-source(here::here("report/report-rmd/intro-maps.R"))
+source(here::here("report/report-rmd-fr-2021/intro-maps.R"))
+# source(here::here("report/report-rmd/intro-maps.R"))
 ```
 
 ```{r management-map, fig.cap="Carte des zones 5AB (détroit de la Reine-Charlotte), 5CD (détroit d’Hécate), 5E (côte ouest de Haïda Gwaii) et 3CD (côte ouest de l’île de Vancouver) de la Commission des pêches maritimes du Pacifique. Ces zones sont proches, mais non identiques, aux zones des unités de gestion du poisson de fond qui portent le même nom.", out.width="5.2in", fig.pos="tb"}

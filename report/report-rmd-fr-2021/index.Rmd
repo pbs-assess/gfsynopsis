@@ -30,7 +30,7 @@ output:
  csasdown::sr_pdf:
    french: true
    prepub: false
-   copy_sty: true
+   copy_sty: false
    line_nums: false
    line_nums_mod: 1
 type: sr
