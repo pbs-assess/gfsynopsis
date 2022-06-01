@@ -6,7 +6,7 @@ rmd_files: [
   "01-context-background.Rmd",
   "02-analysis-response.Rmd",
   "03-plot-descriptions.Rmd",
-#  "04-indices.Rmd",
+  "04-indices.Rmd",
   "05-synopsis-plots-intro.Rmd",
   "plot-pages.Rmd",
   "97-contributors.Rmd",
