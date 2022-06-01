@@ -9,11 +9,8 @@ Register of Marine Species) web pages, details of the most recent DFO Research
 Documents and Science Advisory Reports, and any information related to
 designations by the Committee on the Status of Endangered Wildlife in Canada
 (COSEWIC) and to listings under the *Species at Risk Act* (SARA). The species are
-ordered according to DFO species codes. The Table of Contents at the beginning
-of the document includes links to the species pages in order of species codes,
-and the previous two sections
-provide links to the pages sorted alphabetically by common and scientific name,
-respectively.
+ordered according to DFO species codes. The previous section
+provides links to the pages sorted alphabetically by common name.
 
 \clearpage
 

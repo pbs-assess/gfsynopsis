@@ -1,6 +1,8 @@
 # Graphiques synoptiques {#sec:synopsis-plots}
 
 Cette section contient les principales visualisations des données espèce par espèce. Chaque espèce est présentée sur deux pages, avec la même mise en page. Voir la section précédente pour les légendes détaillées des figures. Outre les chiffres, nous fournissons également le nom scientifique, les détails taxonomiques, le code des espèces du MPO, un lien vers les pages Web FishBase et WoRMS (Registre mondial des espèces marines), les détails figurant dans les documents de recherche et avis scientifiques les plus récents du MPO et toute information relative aux désignations par le Comité sur la situation des espèces en péril au Canada (COSEPAC) et aux inscriptions sur la liste établie en vertu de la Loi sur les espèces en péril (LEP). Les espèces sont classées selon les codes d’espèces du MPO. 
+La section précédente
+fournit des liens vers les pages classées par ordre alphabétique des noms communs.
 
 <!-- La table des matières qui se trouve au début du document comprend des liens vers les pages sur les espèces par ordre de codes d’espèces, et les sections\ \@ref(sec:common-name-index) et\ \@ref(sec:scientific-name-index) fournissent des liens vers les pages classées par ordre alphabétique de noms communs et scientifiques, respectivement. -->
 
