@@ -21,16 +21,3 @@ spp_table %>% arrange(species_common_name) %>%
 ```
 
 \clearpage
-
-# Species index by scientific name {#sec:scientific-name-index}
-
-```{r index-alpha-latin, results='asis', cache=FALSE}
-spp_table %>% arrange(species_science_name) %>%
-  select(species_science_name, species_common_name, section) %>%
-  csasdown::csas_table(align = c("l", "l", "l"),
-  col.names = c("Scientific name", "Common name", "Page"))
-```
-
-\clearpage
-
-
