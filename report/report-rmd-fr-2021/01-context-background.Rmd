@@ -13,7 +13,8 @@ Le rapport synoptique des données sur les poissons de fond a été élaboré af
 Le rapport a été publié en tant que document de recherche du 
 Secrétariat canadien des avis scientifiques (SCAS)
 <!-- Secrétariat canadien de consultation scientifique (SCCS) -->
-[@anderson2019synopsis] pour faciliter l'examen des méthodes, avec l'intention de mettre à jour le rapport selon un calendrier approximativement bisannuel.
+[@anderson2019synopsis] pour faciliter l'examen des méthodes, 
+avec l'intention de mettre à jour le rapport à intervalles réguliers.
 L'utilité du rapport dépend de la mise à jour de ses données.
 Depuis le rapport initial de 2019, trois nouvelles années de données d'enquête et de données commerciales sont devenues disponibles, ainsi que des documents de recherche, des rapports d'avis scientifiques et des réponses scientifiques actualisés sur l'évaluation des stocks.
 
