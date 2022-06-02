@@ -86,67 +86,22 @@ Furthermore, the geostatistical survey indices, which were overlaid on the synop
 There are several caveats when interpreting this report, as outlined in @anderson2019synopsis.
 Primary caveats include:
 
-1. The outputs in this report are not a substitute for stock assessment. For
-   example, although relative biomass or abundance index trends from surveys indicate the
-   biomass trend for a species in an area, such information is best combined
-   with other information such as removals by commercial catches and
-   information on the age- or length-composition of the stock to make
-   conclusions about the status of a stock. In particular, the survey indices do not account for estimated size selectivity the way most stock assessments do (smaller fish are typically less likely to be caught by survey gear).
+1. The outputs in this report are not a substitute for stock assessment. For example, although relative biomass or abundance index trends from surveys indicate the biomass trend for a species in an area, such information is best combined with other information such as removals by commercial catches and information on the age- or length-composition of the stock to make conclusions about the status of a stock. In particular, the survey indices do not account for estimated size selectivity the way most stock assessments do (smaller fish are typically less likely to be caught by survey gear).
 
-1. Biomass indices from trawl or longline surveys and commercial CPUE (catch per unit effort) indices
-   need careful interpretation on a stock-by-stock basis. We have attempted to
-   flag survey index trends that may be especially suspect either because of
-   high survey variability or because only a small fraction of trawl or
-   longline sets contain the species, but this is not a guarantee in itself.
-   Survey indices are not always representative of abundance for a variety of
-   reasons, and a lack of data for a species does not necessarily indicate
-   a small population---the surveys may simply not be suitable for sampling
-   that species. Furthermore, changes through time, including fish behavioural
-   changes or range shifts, could result in biases through time even for
-   well-sampled species.
+1. Biomass indices from trawl or longline surveys and commercial CPUE (catch per unit effort) indices need careful interpretation on a stock-by-stock basis. We have attempted to flag survey index trends that may be especially suspect either because of high survey variability or because only a small fraction of trawl or longline sets contain the species, but this is not a guarantee in itself. Survey indices are not always representative of abundance for a variety of reasons, and a lack of data for a species does not necessarily indicate a small population---the surveys may simply not be suitable for sampling that species. Furthermore, changes through time, including fish behavioural changes or range shifts, could result in biases through time even for well-sampled species.
 
-1. Survey and commercial CPUE index trends do not resolve population scale and
-   the outputs in this report do not resolve conflicts in trends drawn from
-   different sources for the same species.
+1. Survey and commercial CPUE index trends do not resolve population scale and the outputs in this report do not resolve conflicts in trends drawn from different sources for the same species.
 
-1. The outputs in this report are not appropriate for marine spatial planning.
-   The data as presented are resolved at a coarse spatial scale and marine
-   spatial planning uses require specific data treatments beyond the general
-   approaches used in this report.
+1. The outputs in this report are not appropriate for marine spatial planning. The data as presented are resolved at a coarse spatial scale and marine spatial planning uses require specific data treatments beyond the general approaches used in this report.
 
-1. The commercial CPUE data may not be proportional to
-   stock abundance for a multitude of reasons [e.g., @harley2001]. Nonetheless,
-   we think there is value in transparently displaying the available data for
-   all species.
+1. The commercial CPUE data may not be proportional to stock abundance for a multitude of reasons [e.g., @harley2001]. Nonetheless, we think there is value in transparently displaying the available data for all species.
 
-1. The catch history reported here reflects recorded data and may not represent
-   actual catches. The commercial catch presented here will not necessarily
-   match reconstructed time series in stock assessments. Historical catch
-   reconstructions require careful species-specific consideration and analysis.
-   Furthermore, fluctuations in commercial catch do not necessarily reflect
-   declines in stock abundance and may be due to other factors including
-   implementation of management measures. Reported discard weights are
-   considered less reliable prior to 100% observer coverage of the bottom trawl
-   fishery in 1996, and prior to fisheries integration in 2006 for the trap,
-   hook and line, midwater trawl and Strait of Georgia bottom trawl fisheries.
-   The discards in the catch plots therefore only include bottom trawl discard
-   weights from 1996 to present and trap, hook and line, midwater trawl and
-   Strait of Georgia bottom trawl discard weights from 2006 to present.
+1. The catch history reported here reflects recorded data and may not represent actual catches. The commercial catch presented here will not necessarily match reconstructed time series in stock assessments. Historical catch reconstructions require careful species-specific consideration and analysis. Furthermore, fluctuations in commercial catch do not necessarily reflect declines in stock abundance and may be due to other factors including implementation of management measures. Reported discard weights are considered less reliable prior to 100% observer coverage of the bottom trawl fishery in 1996, and prior to fisheries integration in 2006 for the trap, hook and line, midwater trawl and Strait of Georgia bottom trawl fisheries. The discards in the catch plots therefore only include bottom trawl discard weights from 1996 to present and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl discard weights from 2006 to present.
 
-1. It is not feasible to individually assess the results for all species in
-   a detailed manner. To use the results for a particular species in future
-   assessments, or to make other inference, we recommend that users carefully
-   examine the data and model results. Due to the necessary automation required
-   to construct this report, not all species-specific special cases may have
-   been fully considered.
+1. It is not feasible to individually assess the results for all species in a detailed manner. To use the results for a particular species in future assessments, or to make other inference, we recommend that users carefully examine the data and model results. Due to the necessary automation required to construct this report, not all species-specific special cases may have been fully considered.
 
-In addition to these caveats noted in @anderson2019synopsis, coronavirus
-disease 2019 (COVID-19) resulted in several cancelled surveys in 2020, some of
-which were then conducted in 2021 in addition to the scheduled surveys.
-Furthermore, COVID-19 caused several changes within the commercial fleet in
-2020 and 2021. This has affected the catch figures (e.g., Figure \@ref(fig:catches)) as well
-as potentially affecting the standardization process of the commercial catch per
-unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et al. 2019).
+In addition to these caveats noted in @anderson2019synopsis, coronavirus disease 2019 (COVID-19) resulted in several cancelled surveys in 2020, some of which were then conducted in 2021 in addition to the scheduled surveys.
+Furthermore, COVID-19 caused several changes within the commercial fleet in 2020 and 2021. This has affected the catch figures (e.g., Figure \@ref(fig:catches)) as well as potentially affecting the standardization process of the commercial catch per unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et al. 2019).
 
 ## Data accessibility
 

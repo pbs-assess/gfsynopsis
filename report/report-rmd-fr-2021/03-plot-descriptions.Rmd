@@ -4,7 +4,7 @@
 
 ```{r load-example-figs}
 g <- readRDS(here::here("report/report-rmd-fr-2021/ggplot-objects/petrale-sole.rds"))
-sp <- "Petrale Sole"
+sp <- "sole de Petrale"
 ```
 
 <!-- A fake square to use to get the aspect ratio of the maps correct: -->
@@ -250,7 +250,7 @@ cowplot::plot_grid(
 
 ## Fréquence de la maturité par mois
 
-```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Exemple de graphique fréquence-maturité-par-mois pour les ", sp, ". Les catégories de maturité sont présentées du stade le plus immature (en haut) au stade le plus mature (en bas); les poissons individuels, une fois matures, suivent un cycle d’un stade de maturité à l’autre. La superficie de chaque cercle correspond au nombre de spécimens de poissons dans une catégorie de maturité donnée pour un mois donné. Les poissons femelles sont indiqués par des cercles noirs, et les poissons mâles sont indiqués derrière par des cercles gris clair. Le nombre total de spécimens de poissons pour chaque mois est indiqué par les chiffres figurant en haut du graphique. Ce graphique comprend les données issues de l’échantillon commercial et de l’échantillon du relevé.")}
+```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Exemple de graphique fréquence-maturité-par-mois pour la sole de Petrale. Les catégories de maturité sont présentées du stade le plus immature (en haut) au stade le plus mature (en bas); les poissons individuels, une fois matures, suivent un cycle d’un stade de maturité à l’autre. La superficie de chaque cercle correspond au nombre de spécimens de poissons dans une catégorie de maturité donnée pour un mois donné. Les poissons femelles sont indiqués par des cercles noirs, et les poissons mâles sont indiqués derrière par des cercles gris clair. Le nombre total de spécimens de poissons pour chaque mois est indiqué par les chiffres figurant en haut du graphique. Ce graphique comprend les données issues de l’échantillon commercial et de l’échantillon du relevé.")}
 g$maturity_month
 ```
 
@@ -258,7 +258,7 @@ g$maturity_month
 
 ## Courbes de fréquences cumulées de la maturité
 
-```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Exemples de graphiques sur l’âge-et-la-longueur-à-maturité pour les courbes de fréquences cumulées pour ", sp, ". Les courbes de fréquences cumulées de maturité sont ajustées en tant que régressions logistiques aux spécimens de poissons individuels, qui sont classés comme étant matures ou non matures. Les lignes noires pleines représentent les ajustements aux poissons femelles et les lignes grises tiretées représentent les ajustements aux poissons mâles. Les lignes verticales indiquent l’âge ou la longueur estimée à 50\\% de maturité. Le texte sur les panneaux indique l’âge et la longueur estimés à 5, 50 et 95\\% de maturité pour les femelles (F) et les mâles (M). Les ajustements du modèle ne sont montrés que dans les cas où il y a au moins 20 mâles et 20 femelles matures et 20 mâles et 20 femelles immatures. De courtes lignes le long du haut et du bas de chaque panneau représentent jusqu’à 1 500 poissons individuels choisis au hasard, avec une petite gigue aléatoire dans le cas des âges pour aider à différencier les poissons individuels. Les modèles sont ajustés à tous les échantillons de relevé disponibles, quelle que soit la période de l’année. Voir l’annexe H Anderson et al. (2019) pour davantage de détails.")}
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Exemples de graphiques sur l’âge-et-la-longueur-à-maturité pour les courbes de fréquences cumulées pour la sole de Petrale. Les courbes de fréquences cumulées de maturité sont ajustées en tant que régressions logistiques aux spécimens de poissons individuels, qui sont classés comme étant matures ou non matures. Les lignes noires pleines représentent les ajustements aux poissons femelles et les lignes grises tiretées représentent les ajustements aux poissons mâles. Les lignes verticales indiquent l’âge ou la longueur estimée à 50\\% de maturité. Le texte sur les panneaux indique l’âge et la longueur estimés à 5, 50 et 95\\% de maturité pour les femelles (F) et les mâles (M). Les ajustements du modèle ne sont montrés que dans les cas où il y a au moins 20 mâles et 20 femelles matures et 20 mâles et 20 femelles immatures. De courtes lignes le long du haut et du bas de chaque panneau représentent jusqu’à 1 500 poissons individuels choisis au hasard, avec une petite gigue aléatoire dans le cas des âges pour aider à différencier les poissons individuels. Les modèles sont ajustés à tous les échantillons de relevé disponibles, quelle que soit la période de l’année. Voir l’annexe H Anderson et al. (2019) pour davantage de détails.")}
 cowplot::plot_grid(
   g$mat_age,
   g$mat_length,

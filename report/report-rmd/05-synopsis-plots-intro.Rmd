@@ -14,4 +14,4 @@ provides links to the pages sorted alphabetically by common name.
 
 \clearpage
 
-\afterpage{\null\newpage}
+<!-- \afterpage{\null\newpage} -->

@@ -18,20 +18,16 @@ avec l'intention de mettre à jour le rapport à intervalles réguliers.
 L'utilité du rapport dépend de la mise à jour de ses données.
 Depuis le rapport initial de 2019, trois nouvelles années de données d'enquête et de données commerciales sont devenues disponibles, ainsi que des documents de recherche, des rapports d'avis scientifiques et des réponses scientifiques actualisés sur l'évaluation des stocks.
 
-La Direction des sciences du MPO a demandé une mise à jour du rapport synoptique des données sur le poisson de fond comprenant toutes les données commerciales et de sondage disponibles jusqu'à la fin de 2021.
-L'avis découlant de cette réponse scientifique du SCAS fournira un aperçu des données disponibles sur le poisson de fond et des tendances en matière de pêche et de population afin d'informer le personnel de la Direction des sciences et de la gestion des pêches du MPO dans la surveillance des stocks et l'établissement des priorités.
-Cette mise à jour applique l'approche précédemment examinée par les pairs pour générer des chiffres à jour représentant des données telles que les indices de biomasse, les prises commerciales, la distribution des espèces et les données sur la composition par âge et par longueur pour l'espèce `r no_species`.
+La Direction des sciences du MPO a demandé une mise à jour du rapport synoptique des données sur le poisson de fond comprenant toutes les données commerciales et de sondage disponibles jusqu'à la fin de 2021. L'avis découlant de cette réponse scientifique du SCCS fournira un aperçu des données disponibles sur le poisson de fond et des tendances en matière de pêche et de population afin d'informer le personnel de la Direction des sciences et de la gestion des pêches du MPO dans la surveillance des stocks et l'établissement des priorités. Cette mise à jour applique l'approche précédemment examinée par les pairs pour générer des chiffres à jour représentant des données telles que les indices de biomasse, les prises commerciales, la distribution des espèces et les données sur la composition par âge et par longueur pour les 113 espèces.
 
-La présente réponse des Sciences découle du processus de réponse Sciences du 29 mars 2022 sur le synopsis des données sur le poisson de fond de la Colombie-Britannique : mise à jour des données de 2021.
+Cette réponse des Sciences résulte du processus de réponse des Sciences du 29 mars 2022 sur la 
+synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2021.
 
 # Renseignements de base {#sec:background}
 
-La génération du rapport synoptique des données sur les poissons de fond est en grande partie automatisée - extraction des données des bases de données, ajustement des modèles, génération de visualisations et assemblage du document pour faciliter la publication rapide, la reproductibilité et la transparence.
+La génération du rapport synthèse des données pour les poissons de fond est en grande partie automatisée - extraction des données des bases de données, ajustement des modèles, génération de visualisations et assemblage du document pour faciliter la publication rapide, la reproductibilité et la transparence.
 Les objectifs du rapport sont les suivants
-(1) faciliter l'examen régulier par les scientifiques et
-les scientifiques et les gestionnaires des poissons de fond des tendances des indices d'enquête et de la composition des stocks, afin de fournir des informations pour la discussion.
-de toutes les espèces afin de fournir des informations pour la discussion sur les priorités d'évaluation.
-d'évaluation ;
+(1) faciliter l'examen régulier par les scientifiques et les gestionnaires des poissons de fond des tendances des indices d'enquête et de la composition des stocks, afin de fournir des informations pour la discussion sur les priorités d'évaluation ;
 (2) générer des ensembles de données normalisés, des ajustements de modèles biologiques et des visualisations qui aideront les scientifiques chargés de l'évaluation à développer des modèles opérationnels et à sélectionner des procédures de gestion candidates pour les stocks de poisson de fond ; et
 (3) accroître la transparence des données entre le MPO, l'industrie de la pêche, les Premières nations, les organisations non gouvernementales et le grand public.
 
@@ -51,7 +47,7 @@ Les tendances de l'indice de biomasse des relevés sont également présentées 
 Le rapport comprend le dénombrement des spécimens de poissons disponibles provenant des échantillons biologiques de tous les relevés.
 Une brève description des relevés inclus est incluse dans l'annexe F de @anderson2019synopsis ainsi que les références associées pour les détails sur la conception et la mise en œuvre.
 
-(ref:intro-maps-cap) Limites du relevé synoptique au chalut (à gauche) et limites du relevé mené à la palangre à l’extérieur du fond dur (à droite). Les couleurs correspondent aux codes de couleur utilisés dans le reste du rapport. La couverture du relevé de la Commission internationale du flétan du Pacifique (CIFP) est indiquée sur les graphiques des taux de capture des relevés de la CIFP à mesure que toutes les stations individuelles sont exploitées.
+(ref:intro-maps-cap) Limites du relevé synoptique au chalut (à gauche) et limites du relevé mené à la palangre à l’extérieur du fond dur (à droite). Les couleurs correspondent aux codes de couleur utilisés dans le reste du rapport. La couverture du relevé de la Commission internationale du flétan du Pacifique (IPHC/CIFP) est indiquée sur les graphiques des taux de capture des relevés de la CIFP à mesure que toutes les stations individuelles sont exploitées.
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
 source(here::here("report/report-rmd-fr-2021/intro-maps.R"))
