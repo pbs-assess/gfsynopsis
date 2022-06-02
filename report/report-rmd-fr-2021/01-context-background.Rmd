@@ -18,10 +18,11 @@ avec l'intention de mettre à jour le rapport à intervalles réguliers.
 L'utilité du rapport dépend de la mise à jour de ses données.
 Depuis le rapport initial de 2019, trois nouvelles années de données d'enquête et de données commerciales sont devenues disponibles, ainsi que des documents de recherche, des rapports d'avis scientifiques et des réponses scientifiques actualisés sur l'évaluation des stocks.
 
-La Branche scientifique du MPO a demandé une mise à jour du rapport de synthèse des données sur les poissons de fond comprenant toutes les données commerciales et de sondage disponibles jusqu'à la fin de 2021. L'avis découlant de cette réponse scientifique du SCCS fournira un aperçu des données disponibles sur le poisson de fond et des tendances en matière de pêche et de population afin d'informer le personnel de la Direction des sciences et de la gestion des pêches du MPO dans la surveillance des stocks et l'établissement des priorités. Cette mise à jour applique l'approche précédemment examinée par les pairs pour générer des chiffres à jour représentant des données telles que les indices de biomasse, les prises commerciales, la distribution des espèces et les données sur la composition par âge et par longueur pour les 113 espèces.
+La Branche scientifique du MPO a demandé une mise à jour du rapport de synthèse des données sur les poissons de fond comprenant toutes les données commerciales et de sondage disponibles jusqu'à la fin de 2021. 
+Les avis découlant de la présente réponse scientifique du SCCS fourniront un aperçu des données disponibles sur le poisson de fond et des tendances en matière de pêche et de population afin d'informer le personnel des sciences et de la gestion des pêches du MPO dans la surveillance des stocks et l'établissement des priorités.
+Cette mise à jour applique l'approche précédemment examinée par les pairs pour générer des chiffres à jour représentant des données telles que les indices de biomasse, les prises commerciales, la distribution des espèces et les données sur la composition par âge et par longueur pour les 113 espèces.
 
-Cette réponse des Sciences résulte du processus de réponse des Sciences du 29 mars 2022 sur la 
-synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2021.
+Cette réponse des Sciences résulte du processus de réponse des Sciences du 29 mars 2022 sur une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2021.
 
 # Renseignements de base {#sec:background}
 

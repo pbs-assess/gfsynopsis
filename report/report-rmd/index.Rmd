@@ -12,11 +12,11 @@ address: |
   Nanaimo, British Columbia, V9T 6N7, Canada
 year: "2022"
 month: "March"
-report_number: 999 # Must be numeric
+report_number: 020 # Must be numeric
 approver: |
   Andrew Thomson\
   Regional Director
-title_other: "Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021"
+title_other: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2021"
 approval_year: 2022
 approval_month: "March"
 approval_day: 30
