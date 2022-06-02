@@ -1,4 +1,4 @@
-book_filename: "gfsynopsis-sr-2021-fr"
+book_filename: "gfsynopsis-sr-2021"
 chapter_name: "Chapter "
 rmd_files: [
   "index.Rmd",

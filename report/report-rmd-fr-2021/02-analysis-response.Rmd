@@ -143,7 +143,7 @@ Les données contenues dans ce document sont conservées par l'Unité des donné
 ## Reproductibilité
 
 L'ensemble de l'extraction et de la manipulation des données, l'ajustement des modèles et la visualisation pour ce rapport sont automatisés et reproductibles.
-Les paquets R gfdata, gfplot, gfiphc, gfsynopsis, sdmTMB et csasdown ont été développés à cette fin.
+Les paquets R gfdata, gfplot, gfiphc, gfsynopsis, sdmTMB [@anderson2022sdmTMB] et csasdown ont été développés à cette fin.
 Le paquet gfdata permet l'extraction des données.
 Le paquet gfplot effectue l'ajustement du modèle et les visualisations.
 Le paquet gfiphc permet l'extraction des données et l'ajustement du modèle pour les données de l'enquête IPHC.
