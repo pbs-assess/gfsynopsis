@@ -3,7 +3,7 @@
 # Analyse et réponse
 
 Dans cette réponse scientifique, toutes les pages de figures ont été reconstruites avec des données actualisées en utilisant les méthodes décrites dans @anderson2019synopsis.
-Les données d'enquête de 2021, 2020, 2019, et dans un cas, 2018, ont été ajoutées (Tableau 1).
+Les données d'enquête de 2021, 2020, 2019, et dans un cas, 2018, ont été ajoutées (tableau 1).
 Les données commerciales de 2021, 2020 et 2019 ont été ajoutées.
 
 ```{r survey-years-table, results='asis'}
@@ -138,7 +138,7 @@ En outre, la COVID-19 a entraîné plusieurs changements au sein de la flotte co
 
 ## Accessibilité des données
 
-Les données contenues dans ce document sont conservées par l'Unité des données sur les poissons de fond de la Station biologique du Pacifique à Nanaimo, en Colombie-Britannique. Les données des relevés synoptiques au chalut de fond et des relevés à la palangre de fond dur (HBLL) sont disponibles sur le [Portail canadien du gouvernement ouvert](https://rechercher.ouvert.canada.ca/fr/od/) en recherchant 'groundfish synoptic' ou 'HBLL'. Pour l'enquête IPHC, le paquetage R [gfiphc](https://github.com/pbs-assess/gfiphc) contient certaines données et des détails pour demander le reste. Les demandes de données détenues par la région du Pacifique du MPO qui ne sont pas disponibles par le biais du portail du gouvernement ouvert peuvent être faites de la manière décrite sur le [site Web des statistiques sur les prises des pêches du Pacifique](http://www.pac.dfo-mpo.gc.ca/stats/index-fra.html).
+Les données contenues dans ce document sont conservées par l'Unité des données sur les poissons de fond de la Station biologique du Pacifique à Nanaimo, en Colombie-Britannique. Les données des relevés synoptiques au chalut de fond et des relevés à la palangre de fond dur (HBLL) sont disponibles sur le [Portail canadien du gouvernement ouvert](https://rechercher.ouvert.canada.ca/fr/od/) en recherchant « relevé synoptique » ou « relevés à la palangre Pacifique ». Pour l'enquête IPHC, le paquetage R [gfiphc](https://github.com/pbs-assess/gfiphc) contient certaines données et des détails pour demander le reste. Les demandes de données détenues par la région du Pacifique du MPO qui ne sont pas disponibles par le biais du portail du gouvernement ouvert peuvent être faites de la manière décrite sur le [site Web des statistiques sur les prises des pêches du Pacifique](http://www.pac.dfo-mpo.gc.ca/stats/index-fra.html).
 
 ## Reproductibilité
 
