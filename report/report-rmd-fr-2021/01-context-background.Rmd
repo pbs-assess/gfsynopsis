@@ -31,7 +31,7 @@ Les objectifs du rapport sont les suivants
 (2) générer des ensembles de données normalisés, des ajustements de modèles biologiques et des visualisations qui aideront les scientifiques chargés de l'évaluation à développer des modèles opérationnels et à sélectionner des procédures de gestion candidates pour les stocks de poisson de fond ; et
 (3) accroître la transparence des données entre le MPO, l'industrie de la pêche, les Premières nations, les organisations non gouvernementales et le grand public.
 
-Les principaux chiffres du rapport synoptique sont présentés dans des sous-sections de deux pages, espèce par espèce, qui synthétisent visuellement la plupart des données disponibles pour chaque espèce.
+Les principaux chiffres du rapport synthèse sont présentés dans des sous-sections de deux pages, espèce par espèce, qui synthétisent visuellement la plupart des données disponibles pour chaque espèce.
 Le rapport couvre les espèces de poissons de fond qui présentent un intérêt commercial, récréatif, de conservation ou pour les Premières Nations, ou qui sont régulièrement capturées dans nos relevés de recherche.
 Le rapport se concentre sur les relevés et les types de données applicables au plus large éventail de ces espèces.
 
