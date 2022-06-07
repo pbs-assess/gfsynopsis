@@ -651,7 +651,7 @@ make_pages <- function(
   }
 
   if (length(mat_age) > 1L && type != "none") {
-    g_mat_age <- plot_mat_ogive(mat_age, prediction_type = type) +
+    g_mat_age <- gfplot::plot_mat_ogive(mat_age, prediction_type = type, french = french) +
       guides(colour = "none", fill = "none", lty = "none") +
       ggplot2::guides(lty = "none", colour = "none") +
       ggtitle(en2fr("Age at maturity", french)) +
@@ -700,7 +700,7 @@ make_pages <- function(
   if (spp == "curlfin sole") type <- "none" # FIXME almost none; way off
 
   if (length(mat_length) > 1L && type != "none") {
-   g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
+   g_mat_length <- gfplot::plot_mat_ogive(mat_length, prediction_type = type, french = french) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =

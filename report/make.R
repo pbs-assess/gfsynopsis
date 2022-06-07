@@ -1,4 +1,4 @@
-french <- FALSE
+french <- TRUE
 
 if (french) {
   options(french = TRUE)
@@ -185,8 +185,8 @@ length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
   show_col_types = FALSE)
 
 # Trash compiled objects for safety:
-unlink("vb_gfplot.*")
-unlink("lw_gfplot.*")
+# unlink("vb_gfplot.*")
+# unlink("lw_gfplot.*")
 
 # get all survey years to convert NAs to 0s:
 dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
