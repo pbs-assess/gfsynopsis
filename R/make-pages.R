@@ -192,24 +192,25 @@ make_pages <- function(
     sample_type = "survey")
   sc <- tidy_ages_raw(dat$commercial_samples_no_keepers,
     sample_type = "commercial")
-  if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
+
+  if (all(!is.na(sc[[1]]))) sc <- sc %>% dplyr::filter(year >= 2003)
   if (is.data.frame(sc))
     if (nrow(sc) == 0)
       sc <- NA
 
-  if (!is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- suppressWarnings(bind_rows(ss, sc))
   }
-  if (!is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- ss
   }
-  if (is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- sc
   }
-  if (is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- NA
   }
-  if (!is.na(sb)) {
+  if (all(!is.na(sb))) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
     g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year_surv)) +
@@ -231,9 +232,9 @@ make_pages <- function(
 
   # Length compositions: -------------------------------------------------------
 
-  length_samples_survey <- filter(dat$survey_samples,
+  length_samples_survey <- dplyr::filter(dat$survey_samples,
     !length %in% find_length_outliers(dat$survey_samples$length))
-  length_samples_commercial <- filter(dat$commercial_samples_no_keepers,
+  length_samples_commercial <- dplyr::filter(dat$commercial_samples_no_keepers,
     !length %in% find_length_outliers(dat$commercial_samples_no_keepers$length))
 
   bin_width1 <- diff(quantile(length_samples_survey$length, na.rm = TRUE,
@@ -249,26 +250,26 @@ make_pages <- function(
     tidy_lengths_raw(bin_size = bin_width,
       sample_type = "commercial", spp_cat_code = 1)
 
-  if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
+  if (all(!is.na(sc[[1]]))) sc <- sc %>% dplyr::filter(year >= 2003)
   if (is.data.frame(sc))
     if (nrow(sc) == 0)
       sc <- NA
 
-  if (!is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- suppressWarnings(bind_rows(ss, sc))
   }
-  if (!is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- ss
   }
-  if (is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- sc
   }
-  if (is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- NA
   }
 
   min_total <- 20
-  if (!is.na(sb) && max(sb$total) >= min_total) {
+  if (all(!is.na(sb)) && max(sb$total) >= min_total) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french)))
@@ -311,6 +312,13 @@ make_pages <- function(
 
   # Commercial CPUE indices: ---------------------------------------------------
 
+  all_not_NA <- function(x) {
+    all(!is.na(x[[1L]]))
+  }
+  all_NA <- function(x) {
+    all(is.na(x[[1L]]))
+  }
+
   if ("cpue_index" %in% names(dat)) {
     if (nrow(dat$catch) > 0) {
       if (!file.exists(cpue_cache_spp)) {
@@ -322,7 +330,7 @@ make_pages <- function(
         cpue_index <- readRDS(cpue_cache_spp)
       }
 
-      if (!is.na(cpue_index[[1]])) { # enough vessels?
+      if (all_not_NA(cpue_index)) { # enough vessels?
 
         g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
           ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
@@ -337,7 +345,7 @@ make_pages <- function(
   } else {
     cpue_index <- NA
   }
-  if (nrow(dat$catch) == 0 || is.na(cpue_index[[1]])) {
+  if (nrow(dat$catch) == 0 || all_NA(cpue_index)) {
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
         expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
@@ -437,7 +445,7 @@ make_pages <- function(
     suppressMessages({
       g_survey_index <- plot_survey_index(dat_tidy_survey_index,
         col = c("grey60", "grey20"), survey_cols = survey_cols,
-        xlim = c(1984 - 0.2, final_year_surv + 0.2)) +
+        xlim = c(1984 - 0.2, final_year_surv + 0.2), french = french) +
         scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
     })
   }
@@ -827,8 +835,9 @@ make_pages <- function(
     x
   }
 
-  format_french_1000s <- function(x) {
-    format(as.numeric(x), big.mark = " ", scientific = FALSE, trim = TRUE)
+  format_french_1000s_expr <- function(x) {
+    out <- format(as.numeric(x), big.mark = " ", scientific = FALSE, trim = TRUE)
+    gsub(" ", "~", out)
   }
 
   if (nrow(syn_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
