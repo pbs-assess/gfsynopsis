@@ -181,7 +181,7 @@ plot_map <- function(.dat, column) {
     theme(legend.position = "bottom") +
     geom_point(data = dat, aes(X, Y, size = density), pch = 21, inherit.aes = FALSE) +
     scale_size_area() +
-    guides(size = FALSE)
+    guides(size = "none")
 }
 ```
 

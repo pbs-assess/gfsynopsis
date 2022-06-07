@@ -202,7 +202,7 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
     ) +
     facet_wrap(~area, scales = "free_y", ncol = 1, drop = FALSE) +
     ylab("Estimate") + xlab("Year") +
-    guides(fill = FALSE) +
+    guides(fill = "none") +
     theme_pbs() +
     theme(panel.spacing = unit(-0.1, "lines")) +
     ylim(0, 1.03) +
@@ -213,7 +213,7 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
       strip.background = element_blank(),
       strip.text.x = element_blank()
     ) +
-    guides(fill = FALSE, colour = FALSE) +
+    guides(fill = "none", colour = "none") +
     geom_text(
       data = labs, x = yrs[1] + 0.5, y = 0.92,
       aes_string(label = "area"),
