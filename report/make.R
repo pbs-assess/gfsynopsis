@@ -110,7 +110,7 @@ spp <- left_join(spp, cos, by = "species_science_name")
 refs <- readr::read_csv(here("report/spp-refs.csv"), show_col_types = FALSE)
 spp <- left_join(spp, refs, by = "species_common_name")
 spp$type_other_ref[!is.na(spp$type_other_ref)] <-
-  rosettafish::en2fr(spp$type_other_ref[!is.na(spp$type_other_ref)], french)
+  rosettafish::en2fr(spp$type_other_ref[!is.na(spp$type_other_ref)], french, allow_missing = TRUE)
 
 spp$species_science_name <- gfplot:::firstup(spp$species_science_name)
 spp$species_science_name <- gsub(" complex", "", spp$species_science_name)
@@ -254,7 +254,7 @@ if (french) {
 temp <- lapply(spp$species_common_name, function(x) {
   spp_file <- gfsynopsis:::clean_name(x)
   if (french) {
-    spp_title <- stringr::str_to_title(spp$species_french_name[spp$species_common_name == x])
+    spp_title <- spp$species_french_name[spp$species_common_name == x]
   } else {
     spp_title <- stringr::str_to_title(x)
   }
