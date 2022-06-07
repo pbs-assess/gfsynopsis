@@ -1,6 +1,6 @@
 <!-- Mandatory section, title may vary. Core of the report. -->
 
-# Analysis and response
+# Analysis and Response
 
 In this Science Response, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis.
 Survey data from 2021, 2020, 2019, and in one case, 2018, were added (Table 1).

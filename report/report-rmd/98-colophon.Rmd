@@ -30,7 +30,7 @@ sha_csasdown <- get_sha("pbs-assess/csasdown")
 ```
 
 The data extraction was accomplished with the gfdata R package Git SHA (Secure Hash Algorithm)
-`r sha_gfdata`; model fitting and plots were accomplished with the gfplot R 
+`r sha_gfdata`; model fitting and plots were accomplished with the gfplot R
 package (Figure \@ref(fig:gfplot-web)) Git SHA `r sha_gfplot`.
 The spatial and spatiotemporal models were fit with the sdmTMB package Git SHA `r sha_sdmTMB`.
 The IPHC survey index calculations were performed with the gfiphc package Git SHA `r sha_gfiphc`.
@@ -60,10 +60,10 @@ or installed via:
 Copies of these R package versions and a copy of the cached data will be archived on
 a local Pacific Biological Station server to ensure future reproducibility.
 
-Our functions dynamically scrape COSEWIC and SARA status information from the 
+Our functions dynamically scrape COSEWIC and SARA status information from the
 [Species at risk public registry](http://www.registrelep-sararegistry.gc.ca/sar/index/default_e.cfm)
-with rvest [@rvest2016] and join it to the species list by scientific name. 
-We scrape taxonomic information from the Integrated Taxonomic Information 
+with rvest [@rvest2016] and join it to the species list by scientific name.
+We scrape taxonomic information from the Integrated Taxonomic Information
 System (ITIS) with the taxize package [@chamerberlain2013].
 
 The figure pages can be built while on the PBS network by (1) installing the

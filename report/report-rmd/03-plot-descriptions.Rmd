@@ -1,6 +1,6 @@
-\clearpage 
+\clearpage
 
-# Plot descriptions {#sec:plot-descriptions}
+# Plot Descriptions {#sec:plot-descriptions}
 
 ```{r load-example-figs}
 g <- readRDS(here::here("report/report-rmd/ggplot-objects/petrale-sole.rds"))

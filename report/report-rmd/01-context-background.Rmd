@@ -18,7 +18,7 @@ DFO Science Branch has requested an update to the groundfish data synopsis repor
 The advice arising from this CSAS Science Response will provide an overview of available groundfish data and fishing and population trends to inform DFO Science and Fisheries Management staff in stock monitoring and prioritization.
 This update applies the previously peer-reviewed approach to generate up-to-date figures representing data such as biomass indices, commercial catch, species distribution, and age and length composition data for the `r no_species` species.
 
-This Science Response Report results from the Science Response Process March 29, 2022 on "A data synopsis for British Columbia groundfish: 2021 data update".
+This Science Response results from the Science Response Process of March 29, 2022 on A data synopsis for British Columbia groundfish: 2021 update".
 
 # Background {#sec:background}
 
