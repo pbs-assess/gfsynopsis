@@ -18,19 +18,19 @@ approver: |
   Directeur régional
 title_other: "A data synopsis for British Columbia groundfish: 2021 data update"
 approval_year: 2022
-approval_month: "Mars"
-approval_day: 30
+approval_month: "Juin"
+approval_day: 3
 work_done_year: 2022
 work_done_month: "Mars"
-branch: "Branche scientifique"
+branch: "Direction des sciences"
 region: "Région du Pacifique"
-isbn: "ISBN-Here"
-cat_no: "Cat-Number-Here"
+isbn: "Fs70-7/2022-020F-PDF"
+cat_no: "978-0-660-43318-9"
 output:
  csasdown::sr_pdf:
    french: true
    prepub: false
-   copy_sty: false
+   copy_sty: true
    line_nums: false
    line_nums_mod: 1
 type: sr
