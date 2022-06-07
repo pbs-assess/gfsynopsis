@@ -827,8 +827,12 @@ make_pages <- function(
     x
   }
 
+  format_french_1000s <- function(x) {
+    format(as.numeric(x), big.mark = " ", scientific = FALSE, trim = TRUE)
+  }
+
   if (nrow(syn_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
-    # we've already multiply the density by 1000 for computational reasons
+    # we've already multiplied the density by 1000 for computational reasons
     # so we need to divided by 1000 here to get back to the original units:
     syn_density <- mean(syn_fits$raw_dat$density, na.rm = TRUE) * (1000 * 1000) / 1000
     dens_units <- "~kg/km^2"
@@ -837,6 +841,7 @@ make_pages <- function(
       syn_density <- syn_density / 1000
     }
     syn_density <- round_density(syn_density)
+    if (french) syn_density <- format_french_1000s(syn_density)
   }
 
   suppressMessages({
@@ -899,6 +904,7 @@ make_pages <- function(
   if (sum(!is.na(dd$combined)) >= 1L) { # calculate a density to label on the map
     iphc_density <- mean(dd$C_it20, na.rm = TRUE)
     iphc_density <- round_density(iphc_density)
+    if (french) iphc_density <- format_french_1000s(iphc_density)
   } else {
     iphc_density <- ""
   }
@@ -923,6 +929,7 @@ make_pages <- function(
   if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
     hbll_density <- mean(hbll_fits$raw_dat$density, na.rm = TRUE)
     hbll_density <- round_density(hbll_density)
+    if (french) hbll_density <- format_french_1000s(hbll_density)
   }
   suppressMessages({
     g_survey_spatial_hbll <-
