@@ -8,4 +8,4 @@ fournit des liens vers les pages classées par ordre alphabétique des noms comm
 
 \clearpage
 
-\afterpage{\null\newpage}
+<!-- \afterpage{\null\newpage} -->
