@@ -89,7 +89,7 @@ COSEWIC Status: Data Deficient, SARA Status: No Status
 \emph{Galeorhinus galeus} (040)\
 Order: Carcharhiniformes, Family: Triakidae,
 [FishBase](http://www.fishbase.org/summary/Galeorhinus-galeus), 
-[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105801)\
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105820)\
 COSEWIC Status Report: @cosewic2021tope\
 COSEWIC Status: Special Concern, SARA Status: Special Concern
 
