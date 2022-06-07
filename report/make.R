@@ -75,6 +75,8 @@ cls <- plyr::ldply(cls) %>%
 spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
 
+spp[grep("tope", spp$species_common_name),"worms_id"] <- "105820"
+
 # Missing from ITIS:
 spp$order[spp$species_common_name == "deacon rockfish"] <-
   spp$order[spp$species_common_name == "vermilion rockfish"]
