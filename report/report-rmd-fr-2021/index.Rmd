@@ -11,17 +11,17 @@ address: |
   Pêches et Océans Canada, 3190, chemin Hammond Bay\
   Nanaimo, Colombie-Britannique, V9T 6N7, Canada
 year: "2022"
-month: "March"
+month: "mars"
 report_number: 020 # Must be numeric
 approver: |
   Andrew Thomson\
   Directeur régional
 title_other: "A data synopsis for British Columbia groundfish: 2021 data update"
 approval_year: 2022
-approval_month: "Juin"
+approval_month: "juin"
 approval_day: 3
 work_done_year: 2022
-work_done_month: "Mars"
+work_done_month: "mars"
 branch: "Direction des sciences"
 region: "Région du Pacifique"
 isbn: "Fs70-7/2022-020F-PDF"
