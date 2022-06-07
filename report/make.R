@@ -126,9 +126,15 @@ spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish
   "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
   mutate(species_common_name = gsub("c-o sole",
     "C-O Sole", species_common_name))
-spp$species_french_name <-
-  tolower(rosettafish::en2fr(gfsynopsis:::first_cap(spp$species_common_name)))
-spp$species_common_name <- tolower(spp$species_common_name)
+if (isFALSE(french)) {
+  spp$species_french_name <-
+    tolower(rosettafish::en2fr(gfsynopsis:::first_cap(spp$species_common_name)))
+  spp$species_common_name <- tolower(spp$species_common_name)
+} else { # French
+  spp$species_french_name <- rosettafish::en2fr(spp$species_common_name)
+  spp$species_french_name <- purrr::map_chr(spp$species_french_name, gfsynopsis:::cap)
+  spp$species_common_name <- tolower(spp$species_common_name)
+}
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
