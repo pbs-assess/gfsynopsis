@@ -213,7 +213,7 @@ make_pages <- function(
   if (all(!is.na(sb))) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year_surv)) +
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year_surv), french = french) +
       guides(fill = "none", colour = "none") +
       ggtitle(en2fr("Age frequencies", french)) +
       labs(y = en2fr("Age (years)", french))
@@ -287,7 +287,7 @@ make_pages <- function(
             ggplot2::waiver()
           }
       g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
-        bin_size = bin_width, min_total = min_total) +
+        bin_size = bin_width, min_total = min_total, french = french) +
         guides(colour = "none", fill = "none") +
         ggtitle(en2fr("Length frequencies", french)) +
         ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
