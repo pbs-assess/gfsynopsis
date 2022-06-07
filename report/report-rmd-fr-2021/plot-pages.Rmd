@@ -2,7 +2,7 @@
 
 \clearpage
 
-## Requin Griset {#sec:bluntnose-sixgill-shark}
+## Requin griset {#sec:bluntnose-sixgill-shark}
 
 \emph{Hexanchus griseus} (027)\
 Ordre: Hexanchiformes, Famille: Hexanchidae,
@@ -23,7 +23,7 @@ Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Espè
 
 \clearpage
 
-## Requin-Pèlerin {#sec:basking-shark}
+## Requin-pèlerin {#sec:basking-shark}
 
 \emph{Cetorhinus maximus} (034)\
 Ordre: Lamniformes, Famille: Cetorhinidae,
@@ -46,7 +46,7 @@ Désignation du COSEPAC: En voie de disparition, Statut en vertu de la LEP: En v
 
 \clearpage
 
-## Taupe Du Pacifique {#sec:salmon-shark}
+## Taupe du Pacifique {#sec:salmon-shark}
 
 \emph{Lamna ditropis} (036)\
 Ordre: Lamniformes, Famille: Lamnidae,
@@ -64,7 +64,7 @@ Ordre: Lamniformes, Famille: Lamnidae,
 
 \clearpage
 
-## Holbiche Brune {#sec:brown-cat-shark}
+## Holbiche brune {#sec:brown-cat-shark}
 
 \emph{Apristurus brunneus} (038)\
 Ordre: Carcharhiniformes, Famille: Scyliorhinidae,
@@ -89,7 +89,7 @@ Désignation du COSEPAC: Données insuffisantes, Statut en vertu de la LEP: Sans
 \emph{Galeorhinus galeus} (040)\
 Ordre: Carcharhiniformes, Famille: Triakidae,
 [FishBase](http://www.fishbase.org/summary/Galeorhinus-galeus), 
-[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105801)\
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105820)\
 Rapports de situation du COSEPAC: @cosewic2021tope\
 Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Espèce préoccupante
 
@@ -105,7 +105,7 @@ Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Espè
 
 \clearpage
 
-## Requin Bleu {#sec:blue-shark}
+## Requin bleu {#sec:blue-shark}
 
 \emph{Prionace glauca} (041)\
 Ordre: Carcharhiniformes, Famille: Carcharhinidae,
@@ -126,7 +126,7 @@ Désignation du COSEPAC: Non en péril, Statut en vertu de la LEP: Sans statut
 
 \clearpage
 
-## Laimargue Du Pacifique {#sec:pacific-sleeper-shark}
+## Laimargue du Pacifique {#sec:pacific-sleeper-shark}
 
 \emph{Somniosus pacificus} (043)\
 Ordre: Squaliformes, Famille: Somniosidae,
@@ -144,7 +144,7 @@ Ordre: Squaliformes, Famille: Somniosidae,
 
 \clearpage
 
-## Aiguillat Commun Du Pacifique Nord {#sec:north-pacific-spiny-dogfish}
+## Aiguillat commun du Pacifique Nord {#sec:north-pacific-spiny-dogfish}
 
 \emph{Squalus suckleyi} (044)\
 Ordre: Squaliformes, Famille: Squalidae,
@@ -167,7 +167,7 @@ Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Sans 
 
 \clearpage
 
-## Raie Aléoutienne {#sec:aleutian-skate}
+## Raie aléoutienne {#sec:aleutian-skate}
 
 \emph{Bathyraja aleutica} (052)\
 Ordre: Rajiformes, Famille: Arhynchobatidae,
@@ -185,7 +185,7 @@ Ordre: Rajiformes, Famille: Arhynchobatidae,
 
 \clearpage
 
-## Raie Abyssale {#sec:abyssal-skate}
+## Raie abyssale {#sec:abyssal-skate}
 
 \emph{Bathyraja abyssicola} (054)\
 Ordre: Rajiformes, Famille: Arhynchobatidae,
@@ -203,7 +203,7 @@ Ordre: Rajiformes, Famille: Arhynchobatidae,
 
 \clearpage
 
-## Raie Large {#sec:broad-skate}
+## Raie large {#sec:broad-skate}
 
 \emph{Amblyraja badia} (055)\
 Ordre: Rajiformes, Famille: Rajidae,
@@ -221,7 +221,7 @@ Ordre: Rajiformes, Famille: Rajidae,
 
 \clearpage
 
-## Raie Biocellée {#sec:big-skate}
+## Raie biocellée {#sec:big-skate}
 
 \emph{Beringraja binoculata} (056)\
 Ordre: Rajiformes, Famille: Rajidae,
@@ -241,7 +241,7 @@ Dernier avis scientifique: @dfo2014biglongnoseskate\
 
 \clearpage
 
-## Raie À Queue Rude {#sec:roughtail-skate}
+## Raie à queue rude {#sec:roughtail-skate}
 
 \emph{Bathyraja trachura} (057)\
 Ordre: Rajiformes, Famille: Arhynchobatidae,
@@ -259,7 +259,7 @@ Ordre: Rajiformes, Famille: Arhynchobatidae,
 
 \clearpage
 
-## Raie Rugueuse {#sec:sandpaper-skate}
+## Raie rugueuse {#sec:sandpaper-skate}
 
 \emph{Bathyraja interrupta} (058)\
 Ordre: Rajiformes, Famille: Arhynchobatidae,
@@ -279,7 +279,7 @@ Désignation du COSEPAC: Non en péril, Statut en vertu de la LEP: Sans statut
 
 \clearpage
 
-## Pocheteau Long-Nez {#sec:longnose-skate}
+## Pocheteau long-nez {#sec:longnose-skate}
 
 \emph{Raja rhina} (059)\
 Ordre: Rajiformes, Famille: Rajidae,
@@ -301,7 +301,7 @@ Désignation du COSEPAC: Non en péril, Statut en vertu de la LEP: Sans statut
 
 \clearpage
 
-## Raie De L’alaska {#sec:alaska-skate}
+## Raie de l’Alaska {#sec:alaska-skate}
 
 \emph{Bathyraja parmifera} (061)\
 Ordre: Rajiformes, Famille: Arhynchobatidae,
@@ -319,7 +319,7 @@ Ordre: Rajiformes, Famille: Arhynchobatidae,
 
 \clearpage
 
-## Chimère D'amérique {#sec:spotted-ratfish}
+## Chimère d'Amérique {#sec:spotted-ratfish}
 
 \emph{Hydrolagus colliei} (066)\
 Ordre: Chimaeriformes, Famille: Chimaeridae,
@@ -337,7 +337,7 @@ Ordre: Chimaeriformes, Famille: Chimaeridae,
 
 \clearpage
 
-## Éperlan Blanchaille {#sec:whitebait-smelt}
+## Éperlan blanchaille {#sec:whitebait-smelt}
 
 \emph{Allosmerus elongatus} (138)\
 Ordre: Osmeriformes, Famille: Osmeridae,
@@ -355,7 +355,7 @@ Ordre: Osmeriformes, Famille: Osmeridae,
 
 \clearpage
 
-## Antimore À Petites Écailles {#sec:pacific-flatnose}
+## Antimore à petites écailles {#sec:pacific-flatnose}
 
 \emph{Antimora microlepis} (220)\
 Ordre: Gadiformes, Famille: Moridae,
@@ -373,7 +373,7 @@ Ordre: Gadiformes, Famille: Moridae,
 
 \clearpage
 
-## Morue Du Pacifique {#sec:pacific-cod}
+## Morue du Pacifique {#sec:pacific-cod}
 
 \emph{Gadus macrocephalus} (222)\
 Ordre: Gadiformes, Famille: Gadidae,
@@ -394,7 +394,7 @@ Réponse des sciences : @dfo2021pcod\
 
 \clearpage
 
-## Merlu Du Chili {#sec:pacific-hake}
+## Merlu du Chili {#sec:pacific-hake}
 
 \emph{Merluccius productus} (225)\
 Ordre: Gadiformes, Famille: Merlucciidae,
@@ -414,7 +414,7 @@ Il est à noter que le merlu du Chili fait l’objet d’un relevé et d’une �
 
 \clearpage
 
-## Poulamon Du Pacifique {#sec:pacific-tomcod}
+## Poulamon du Pacifique {#sec:pacific-tomcod}
 
 \emph{Microgadus proximus} (226)\
 Ordre: Gadiformes, Famille: Gadidae,
@@ -452,7 +452,7 @@ Dernier avis scientifique: @dfo2018pollock\
 
 \clearpage
 
-## Lycode À Grandes Nageoires {#sec:bigfin-eelpout}
+## Lycode à grandes nageoires {#sec:bigfin-eelpout}
 
 \emph{Lycodes cortezianus} (233)\
 Ordre: Perciformes, Famille: Zoarcidae,
@@ -470,7 +470,7 @@ Ordre: Perciformes, Famille: Zoarcidae,
 
 \clearpage
 
-## Lycode À Deux Lignes {#sec:twoline-eelpout}
+## Lycode à deux lignes {#sec:twoline-eelpout}
 
 \emph{Bothrocara brunneum} (235)\
 Ordre: Perciformes, Famille: Zoarcidae,
@@ -488,7 +488,7 @@ Ordre: Perciformes, Famille: Zoarcidae,
 
 \clearpage
 
-## Lycode À Courtes Nageoires {#sec:shortfin-eelpout}
+## Lycode à courtes nageoires {#sec:shortfin-eelpout}
 
 \emph{Lycodes brevipes} (242)\
 Ordre: Perciformes, Famille: Zoarcidae,
@@ -506,7 +506,7 @@ Ordre: Perciformes, Famille: Zoarcidae,
 
 \clearpage
 
-## Lycode Noire {#sec:black-eelpout}
+## Lycode noire {#sec:black-eelpout}
 
 \emph{Lycodes diapterus} (243)\
 Ordre: Perciformes, Famille: Zoarcidae,
@@ -524,7 +524,7 @@ Ordre: Perciformes, Famille: Zoarcidae,
 
 \clearpage
 
-## Lycode Tressée {#sec:wattled-eelpout}
+## Lycode tressée {#sec:wattled-eelpout}
 
 \emph{Lycodes palearis} (244)\
 Ordre: Perciformes, Famille: Zoarcidae,
@@ -542,7 +542,7 @@ Ordre: Perciformes, Famille: Zoarcidae,
 
 \clearpage
 
-## Lycode À Ventre Noir {#sec:blackbelly-eelpout}
+## Lycode à ventre noir {#sec:blackbelly-eelpout}
 
 \emph{Lycodes pacificus} (245)\
 Ordre: Perciformes, Famille: Zoarcidae,
@@ -560,7 +560,7 @@ Ordre: Perciformes, Famille: Zoarcidae,
 
 \clearpage
 
-## Grenadier Du Pacifique {#sec:pacific-grenadier}
+## Grenadier du Pacifique {#sec:pacific-grenadier}
 
 \emph{Coryphaenoides acrolepis} (251)\
 Ordre: Gadiformes, Famille: Macrouridae,
@@ -578,7 +578,7 @@ Ordre: Gadiformes, Famille: Macrouridae,
 
 \clearpage
 
-## Grenadier À Filaments {#sec:threadfin-grenadier}
+## Grenadier à filaments {#sec:threadfin-grenadier}
 
 \emph{Coryphaenoides filifer} (254)\
 Ordre: Gadiformes, Famille: Macrouridae,
@@ -596,7 +596,7 @@ Ordre: Gadiformes, Famille: Macrouridae,
 
 \clearpage
 
-## Grenadier Géant {#sec:giant-grenadier}
+## Grenadier géant {#sec:giant-grenadier}
 
 \emph{Albatrossia pectoralis} (256)\
 Ordre: Gadiformes, Famille: Macrouridae,
@@ -614,7 +614,7 @@ Ordre: Gadiformes, Famille: Macrouridae,
 
 \clearpage
 
-## Grenadier De Californie {#sec:california-grenadier}
+## Grenadier de Californie {#sec:california-grenadier}
 
 \emph{Nezumia stelgidolepis} (257)\
 Ordre: Gadiformes, Famille: Macrouridae,
@@ -632,7 +632,7 @@ Ordre: Gadiformes, Famille: Macrouridae,
 
 \clearpage
 
-## Perche-Méné {#sec:shiner-perch}
+## Perche-méné {#sec:shiner-perch}
 
 \emph{Cymatogaster aggregata} (304)\
 Ordre: Perciformes, Famille: Embiotocidae,
@@ -650,7 +650,7 @@ Ordre: Perciformes, Famille: Embiotocidae,
 
 \clearpage
 
-## Stichée Perlée {#sec:pearly-prickleback}
+## Stichée perlée {#sec:pearly-prickleback}
 
 \emph{Bryozoichthys marjorius} (331)\
 Ordre: Perciformes, Famille: Stichaeidae,
@@ -668,7 +668,7 @@ Ordre: Perciformes, Famille: Stichaeidae,
 
 \clearpage
 
-## Lompénie-Serpent {#sec:snake-prickleback}
+## Lompénie-serpent {#sec:snake-prickleback}
 
 \emph{Lumpenus sagitta} (337)\
 Ordre: Perciformes, Famille: Stichaeidae,
@@ -686,7 +686,7 @@ Ordre: Perciformes, Famille: Stichaeidae,
 
 \clearpage
 
-## Lompénie À Barres Blanches {#sec:whitebarred-prickleback}
+## Lompénie à barres blanches {#sec:whitebarred-prickleback}
 
 \emph{Poroclinus rothrocki} (340)\
 Ordre: Perciformes, Famille: Stichaeidae,
@@ -704,7 +704,7 @@ Ordre: Perciformes, Famille: Stichaeidae,
 
 \clearpage
 
-## Loup Ocellé {#sec:wolf-eel}
+## Loup ocellé {#sec:wolf-eel}
 
 \emph{Anarrhichthys ocellatus} (351)\
 Ordre: Perciformes, Famille: Anarhichadidae,
@@ -724,7 +724,7 @@ Désignation du COSEPAC: Non en péril, Statut en vertu de la LEP: Sans statut
 
 \clearpage
 
-## Terrassier Géant {#sec:giant-wrymouth}
+## Terrassier géant {#sec:giant-wrymouth}
 
 \emph{Cryptacanthodes giganteus} (355)\
 Ordre: Perciformes, Famille: Cryptacanthodidae,
@@ -742,7 +742,7 @@ Ordre: Perciformes, Famille: Cryptacanthodidae,
 
 \clearpage
 
-## Terrassier Nain {#sec:dwarf-wrymouth}
+## Terrassier nain {#sec:dwarf-wrymouth}
 
 \emph{Cryptacanthodes aleutensis} (356)\
 Ordre: Perciformes, Famille: Cryptacanthodidae,
@@ -778,7 +778,7 @@ Ordre: Perciformes, Famille: Zaproridae,
 
 \clearpage
 
-## Lançon Du Pacifique {#sec:pacific-sand-lance}
+## Lançon du Pacifique {#sec:pacific-sand-lance}
 
 \emph{Ammodytes personatus} (361)\
 Ordre: Perciformes, Famille: Ammodytidae,
@@ -796,7 +796,7 @@ Ordre: Perciformes, Famille: Ammodytidae,
 
 \clearpage
 
-## Torchon Mou {#sec:ragfish}
+## Torchon mou {#sec:ragfish}
 
 \emph{Icosteus aenigmaticus} (386)\
 Ordre: Perciformes, Famille: Icosteidae,
@@ -814,7 +814,7 @@ Ordre: Perciformes, Famille: Icosteidae,
 
 \clearpage
 
-## Complexe Du Sébaste À Œil Épineux/Sébaste À Taches Noires {#sec:rougheye-blackspotted-rockfish-complex}
+## Complexe du sébaste à œil épineux/sébaste à taches noires {#sec:rougheye-blackspotted-rockfish-complex}
 
 \emph{Sebastes aleutianus/melanostictus} (394)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -822,7 +822,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus)\
 Plus récent document de recherche: @haigh2005rougheye\
 Dernier avis scientifique: @dfo2020rougheye\
-Série de plans de gestion de la Loi sur les espèces en péril : @dfo2012longspineidiots\
+Série des plans de gestion de la Loi sur les espèces en péril.: @dfo2012longspineidiots\
 Rapports de situation du COSEPAC: @cosewic2007rougheye\
 Désignation du COSEPAC:Espèce préoccupante, Statut en vertu de la LEP:Espèce préoccupante
 
@@ -838,7 +838,7 @@ Désignation du COSEPAC:Espèce préoccupante, Statut en vertu de la LEP:Espèce
 
 \clearpage
 
-## Sébaste À Longue Mâchoire {#sec:pacific-ocean-perch}
+## Sébaste à longue mâchoire {#sec:pacific-ocean-perch}
 
 \emph{Sebastes alutus} (396)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -858,7 +858,7 @@ Dernier avis scientifiques: @dfo2013popwcvihg, @dfo2017popqcs\
 
 \clearpage
 
-## Sébaste Aurore {#sec:aurora-rockfish}
+## Sébaste aurore {#sec:aurora-rockfish}
 
 \emph{Sebastes aurora} (400)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -876,7 +876,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Bandes Rouges {#sec:redbanded-rockfish}
+## Sébaste bandes rouges {#sec:redbanded-rockfish}
 
 \emph{Sebastes babcocki} (401)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -895,7 +895,7 @@ Plus récent document de recherche: @edwards2017redbanded\
 
 \clearpage
 
-## Sébaste Boréal {#sec:shortraker-rockfish}
+## Sébaste boréal {#sec:shortraker-rockfish}
 
 \emph{Sebastes borealis} (403)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -915,7 +915,7 @@ Dernier avis scientifique: @dfo1999shortraker\
 
 \clearpage
 
-## Sébaste Argenté {#sec:silvergray-rockfish}
+## Sébaste argenté {#sec:silvergray-rockfish}
 
 \emph{Sebastes brevispinis} (405)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -935,13 +935,13 @@ Dernier avis scientifique: @dfo2014silvergray\
 
 \clearpage
 
-## Sébaste Cuivré {#sec:copper-rockfish}
+## Sébaste cuivré {#sec:copper-rockfish}
 
 \emph{Sebastes caurinus} (407)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-caurinus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274780)\
-Rapport technique : @yamanaka2001inshore\
+Rapport technique: @yamanaka2001inshore\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/copper-rockfish-1.png}
 \end{figure}
@@ -954,7 +954,7 @@ Rapport technique : @yamanaka2001inshore\
 
 \clearpage
 
-## Sébaste Cilié {#sec:dusky-rockfish}
+## Sébaste cilié {#sec:dusky-rockfish}
 
 \emph{Sebastes variabilis} (409)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -972,7 +972,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Tacheté {#sec:darkblotched-rockfish}
+## Sébaste tacheté {#sec:darkblotched-rockfish}
 
 \emph{Sebastes crameri} (410)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -994,7 +994,7 @@ Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Sans 
 
 \clearpage
 
-## Bec-De-Lièvre {#sec:splitnose-rockfish}
+## Bec-de-lièvre {#sec:splitnose-rockfish}
 
 \emph{Sebastes diploproa} (412)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1012,7 +1012,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste À Bandes Vertes {#sec:greenstriped-rockfish}
+## Sébaste à bandes vertes {#sec:greenstriped-rockfish}
 
 \emph{Sebastes elongatus} (414)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1030,7 +1030,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Paradeur {#sec:puget-sound-rockfish}
+## Sébaste paradeur {#sec:puget-sound-rockfish}
 
 \emph{Sebastes emphaeus} (415)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1048,7 +1048,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Veuve {#sec:widow-rockfish}
+## Sébaste veuve {#sec:widow-rockfish}
 
 \emph{Sebastes entomelas} (417)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1068,7 +1068,7 @@ Dernier avis scientifique: @dfo2019widow\
 
 \clearpage
 
-## Sébaste À Queue Jaune {#sec:yellowtail-rockfish}
+## Sébaste à queue jaune {#sec:yellowtail-rockfish}
 
 \emph{Sebastes flavidus} (418)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1087,7 +1087,7 @@ Dernier avis scientifique: @dfo2015yellowtail\
 
 \clearpage
 
-## Sébaste De Goode {#sec:chilipepper}
+## Sébaste de Goode {#sec:chilipepper}
 
 \emph{Sebastes goodei} (420)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1105,7 +1105,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Rosacé {#sec:rosethorn-rockfish}
+## Sébaste rosacé {#sec:rosethorn-rockfish}
 
 \emph{Sebastes helvomaculatus} (421)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1123,7 +1123,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste À Dos Épineux {#sec:quillback-rockfish}
+## Sébaste à dos épineux {#sec:quillback-rockfish}
 
 \emph{Sebastes maliger} (424)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1146,7 +1146,7 @@ Désignation du COSEPAC: Menacée, Statut en vertu de la LEP: Sans statut
 
 \clearpage
 
-## Sébaste Noir {#sec:black-rockfish}
+## Sébaste noir {#sec:black-rockfish}
 
 \emph{Sebastes melanops} (426)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1165,7 +1165,7 @@ Plus récent document de recherche: @yamanaka2001inshore\
 
 \clearpage
 
-## Sébaste Blackgill {#sec:blackgill-rockfish}
+## Sébaste blackgill {#sec:blackgill-rockfish}
 
 \emph{Sebastes melanostomus} (427)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1183,7 +1183,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Vermillon {#sec:vermilion-rockfish}
+## Sébaste vermillon {#sec:vermilion-rockfish}
 
 \emph{Sebastes miniatus} (428)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1218,7 +1218,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste À Bandes Jaunes {#sec:china-rockfish}
+## Sébaste à bandes jaunes {#sec:china-rockfish}
 
 \emph{Sebastes nebulosus} (431)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1237,7 +1237,7 @@ Plus récent document de recherche: @yamanaka2001inshore\
 
 \clearpage
 
-## Sébaste-Tigre {#sec:tiger-rockfish}
+## Sébaste-tigre {#sec:tiger-rockfish}
 
 \emph{Sebastes nigrocinctus} (433)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1256,7 +1256,7 @@ Plus récent document de recherche: @yamanaka2001inshore\
 
 \clearpage
 
-## Sébaste Bocace {#sec:bocaccio}
+## Sébaste bocace {#sec:bocaccio}
 
 \emph{Sebastes paucispinis} (435)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1280,7 +1280,7 @@ Désignation du COSEPAC: En voie de disparition, Statut en vertu de la LEP: Sans
 
 \clearpage
 
-## Sébaste Canari {#sec:canary-rockfish}
+## Sébaste canari {#sec:canary-rockfish}
 
 \emph{Sebastes pinniger} (437)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1303,7 +1303,7 @@ Désignation du COSEPAC: Menacée, Statut en vertu de la LEP: Sans statut
 
 \clearpage
 
-## Sébaste À Raie Rouge {#sec:redstripe-rockfish}
+## Sébaste à raie rouge {#sec:redstripe-rockfish}
 
 \emph{Sebastes proriger} (439)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1323,7 +1323,7 @@ Dernier avis scientifique: @dfo2018redstripe\
 
 \clearpage
 
-## Sébaste À Bouche Jaune {#sec:yellowmouth-rockfish}
+## Sébaste à bouche jaune {#sec:yellowmouth-rockfish}
 
 \emph{Sebastes reedi} (440)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1346,7 +1346,7 @@ Désignation du COSEPAC: Menacée, Statut en vertu de la LEP: Sans statut
 
 \clearpage
 
-## Sébastes Aux Yeux Jaunes {#sec:yelloweye-rockfish}
+## Sébastes aux yeux jaunes {#sec:yelloweye-rockfish}
 
 \emph{Sebastes ruberrimus} (442)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1354,7 +1354,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Plus récent document de recherches: @yamanaka2011yelloweyeinside, @cox2020YEout\
 Dernier avis scientifiques: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside\
-Série de plans de gestion de la Loi sur les espèces en péril : @dfo2020yelloweye\
+Série des plans de gestion de la Loi sur les espèces en péril.: @dfo2020yelloweye\
 Rapports de situation du COSEPAC: @cosewic2020yelloweye\
 Désignation du COSEPAC: Menacée, Statut en vertu de la LEP: Espèce préoccupante
 
@@ -1370,7 +1370,7 @@ Désignation du COSEPAC: Menacée, Statut en vertu de la LEP: Espèce préoccupa
 
 \clearpage
 
-## Sébaste À Queue Rayée {#sec:stripetail-rockfish}
+## Sébaste à queue rayée {#sec:stripetail-rockfish}
 
 \emph{Sebastes saxicola} (444)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1388,7 +1388,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Arlequin {#sec:harlequin-rockfish}
+## Sébaste arlequin {#sec:harlequin-rockfish}
 
 \emph{Sebastes variegatus} (446)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1406,7 +1406,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste Pygmée {#sec:pygmy-rockfish}
+## Sébaste pygmée {#sec:pygmy-rockfish}
 
 \emph{Sebastes wilsoni} (448)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1424,7 +1424,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébaste À Menton Pointu {#sec:sharpchin-rockfish}
+## Sébaste à menton pointu {#sec:sharpchin-rockfish}
 
 \emph{Sebastes zacentrus} (450)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1442,7 +1442,7 @@ Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 
 \clearpage
 
-## Sébastolobe À Courtes Épines {#sec:shortspine-thornyhead}
+## Sébastolobe à courtes épines {#sec:shortspine-thornyhead}
 
 \emph{Sebastolobus alascanus} (451)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
@@ -1462,14 +1462,14 @@ Dernier avis scientifique: @dfo2016shortspineidiots\
 
 \clearpage
 
-## Sébastolobe À Longues Épines {#sec:longspine-thornyhead}
+## Sébastolobe à longues épines {#sec:longspine-thornyhead}
 
 \emph{Sebastolobus altivelis} (453)\
 Ordre: Scorpaeniformes, Famille: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastolobus-altivelis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282741)\
 Plus récent document de recherche: @haigh2005longspineidiots\
-Série de plans de gestion de la Loi sur les espèces en péril : @dfo2012longspineidiots\
+Série des plans de gestion de la Loi sur les espèces en péril.: @dfo2012longspineidiots\
 Rapports de situation du COSEPAC: @cosewic2007longspine\
 Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Espèce préoccupante
 
@@ -1485,7 +1485,7 @@ Désignation du COSEPAC: Espèce préoccupante, Statut en vertu de la LEP: Espè
 
 \clearpage
 
-## Morue Charbonnière {#sec:sablefish}
+## Morue charbonnière {#sec:sablefish}
 
 \emph{Anoplopoma fimbria} (455)\
 Ordre: Scorpaeniformes, Famille: Anoplopomatidae,
@@ -1507,7 +1507,7 @@ Il est à noter que la morue charbonnière fait l’objet de relevés annuels au
 
 \clearpage
 
-## Sourcil De Varech {#sec:kelp-greenling}
+## Sourcil de varech {#sec:kelp-greenling}
 
 \emph{Hexagrammos decagrammus} (461)\
 Ordre: Scorpaeniformes, Famille: Hexagrammidae,
@@ -1525,7 +1525,7 @@ Ordre: Scorpaeniformes, Famille: Hexagrammidae,
 
 \clearpage
 
-## Sourcil À Taches Blanches {#sec:whitespotted-greenling}
+## Sourcil à taches blanches {#sec:whitespotted-greenling}
 
 \emph{Hexagrammos stelleri} (466)\
 Ordre: Scorpaeniformes, Famille: Hexagrammidae,
@@ -1543,7 +1543,7 @@ Ordre: Scorpaeniformes, Famille: Hexagrammidae,
 
 \clearpage
 
-## Morue-Lingue {#sec:lingcod}
+## Morue-lingue {#sec:lingcod}
 
 \emph{Ophiodon elongatus} (467)\
 Ordre: Scorpaeniformes, Famille: Hexagrammidae,
@@ -1563,7 +1563,7 @@ Dernier avis scientifiques: @dfo2011lingOutside, @dfo2015lingSOG\
 
 \clearpage
 
-## Chabot À Tête Épineuse {#sec:spinyhead-sculpin}
+## Chabot à tête épineuse {#sec:spinyhead-sculpin}
 
 \emph{Dasycottus setiger} (497)\
 Ordre: Scorpaeniformes, Famille: Psychrolutidae,
@@ -1581,7 +1581,7 @@ Ordre: Scorpaeniformes, Famille: Psychrolutidae,
 
 \clearpage
 
-## Chabot-Bison {#sec:buffalo-sculpin}
+## Chabot-bison {#sec:buffalo-sculpin}
 
 \emph{Enophrys bison} (499)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1599,7 +1599,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Chabot Trilobé Rouge {#sec:red-irish-lord}
+## Chabot trilobé rouge {#sec:red-irish-lord}
 
 \emph{Hemilepidotus hemilepidotus} (502)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1617,7 +1617,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Hémitriptère À Grande Bouche {#sec:bigmouth-sculpin}
+## Hémitriptère à grande bouche {#sec:bigmouth-sculpin}
 
 \emph{Hemitripterus bolini} (505)\
 Ordre: Scorpaeniformes, Famille: Hemitripteridae,
@@ -1635,7 +1635,7 @@ Ordre: Scorpaeniformes, Famille: Hemitripteridae,
 
 \clearpage
 
-## Icéline Filamenteuse {#sec:threadfin-sculpin}
+## Icéline filamenteuse {#sec:threadfin-sculpin}
 
 \emph{Icelinus filamentosus} (510)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1653,7 +1653,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Icéline À Nageoires Tachetées {#sec:spotfin-sculpin}
+## Icéline à nageoires tachetées {#sec:spotfin-sculpin}
 
 \emph{Icelinus tenuis} (513)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1671,7 +1671,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Chabot Armé {#sec:pacific-staghorn-sculpin}
+## Chabot armé {#sec:pacific-staghorn-sculpin}
 
 \emph{Leptocottus armatus} (518)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1689,7 +1689,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Chabot À Nageoires Noires {#sec:blackfin-sculpin}
+## Chabot à nageoires noires {#sec:blackfin-sculpin}
 
 \emph{Malacocottus kincaidi} (519)\
 Ordre: Scorpaeniformes, Famille: Psychrolutidae,
@@ -1707,7 +1707,7 @@ Ordre: Scorpaeniformes, Famille: Psychrolutidae,
 
 \clearpage
 
-## Grand Chaboisseau {#sec:great-sculpin}
+## Grand chaboisseau {#sec:great-sculpin}
 
 \emph{Myoxocephalus polyacanthocephalus} (521)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1725,7 +1725,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Chabot À Dos Épineux {#sec:thornback-sculpin}
+## Chabot à dos épineux {#sec:thornback-sculpin}
 
 \emph{Paricelinus hopliticus} (532)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1743,7 +1743,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Chabot Maculé {#sec:giant-blobsculpin}
+## Chabot maculé {#sec:giant-blobsculpin}
 
 \emph{Psychrolutes phrictus} (534)\
 Ordre: Scorpaeniformes, Famille: Psychrolutidae,
@@ -1761,7 +1761,7 @@ Ordre: Scorpaeniformes, Famille: Psychrolutidae,
 
 \clearpage
 
-## Chabot Élancé {#sec:slim-sculpin}
+## Chabot élancé {#sec:slim-sculpin}
 
 \emph{Radulinus asprellus} (535)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1779,7 +1779,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Chabot Marbré {#sec:cabezon}
+## Chabot marbré {#sec:cabezon}
 
 \emph{Scorpaenichthys marmoratus} (540)\
 Ordre: Scorpaeniformes, Famille: Cottidae,
@@ -1797,7 +1797,7 @@ Ordre: Scorpaeniformes, Famille: Cottidae,
 
 \clearpage
 
-## Agone-Esturgeon {#sec:sturgeon-poacher}
+## Agone-esturgeon {#sec:sturgeon-poacher}
 
 \emph{Podothecus accipenserinus} (550)\
 Ordre: Scorpaeniformes, Famille: Agonidae,
@@ -1815,7 +1815,7 @@ Ordre: Scorpaeniformes, Famille: Agonidae,
 
 \clearpage
 
-## Agone À Nageoire Coupée {#sec:smootheye-poacher}
+## Agone à nageoire coupée {#sec:smootheye-poacher}
 
 \emph{Xeneretmus leiops} (555)\
 Ordre: Scorpaeniformes, Famille: Agonidae,
@@ -1833,7 +1833,7 @@ Ordre: Scorpaeniformes, Famille: Agonidae,
 
 \clearpage
 
-## Limace À Queue Noire {#sec:blacktail-snailfish}
+## Limace à queue noire {#sec:blacktail-snailfish}
 
 \emph{Careproctus melanurus} (574)\
 Ordre: Scorpaeniformes, Famille: Liparidae,
@@ -1851,7 +1851,7 @@ Ordre: Scorpaeniformes, Famille: Liparidae,
 
 \clearpage
 
-## Limande Sordide {#sec:pacific-sanddab}
+## Limande sordide {#sec:pacific-sanddab}
 
 \emph{Citharichthys sordidus} (596)\
 Ordre: Pleuronectiformes, Famille: Paralichthyidae,
@@ -1869,7 +1869,7 @@ Ordre: Pleuronectiformes, Famille: Paralichthyidae,
 
 \clearpage
 
-## Plie À Grande Bouche {#sec:arrowtooth-flounder}
+## Plie à grande bouche {#sec:arrowtooth-flounder}
 
 \emph{Atheresthes stomias} (602)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -1889,7 +1889,7 @@ Dernier avis scientifique: @dfo2015arrowtooth\
 
 \clearpage
 
-## Plie De Profondeur {#sec:deepsea-sole}
+## Plie de profondeur {#sec:deepsea-sole}
 
 \emph{Embassichthys bathybius} (605)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -1907,7 +1907,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 
 \clearpage
 
-## Plie De Californie {#sec:petrale-sole}
+## Plie de Californie {#sec:petrale-sole}
 
 \emph{Eopsetta jordani} (607)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -1927,7 +1927,7 @@ Dernier avis scientifique: @dfo1998petrale\
 
 \clearpage
 
-## Plie Cynoglosse Royale {#sec:rex-sole}
+## Plie cynoglosse royale {#sec:rex-sole}
 
 \emph{Glyptocephalus zachirus} (610)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -1946,7 +1946,7 @@ Document de recherche présentant une étude de cas de 3CD Rex Sole : @anderson2
 
 \clearpage
 
-## Balai Du Japon {#sec:flathead-sole}
+## Balai du Japon {#sec:flathead-sole}
 
 \emph{Hippoglossoides elassodon} (612)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -1964,13 +1964,13 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 
 \clearpage
 
-## Flétan Du Pacifique {#sec:pacific-halibut}
+## Flétan du Pacifique {#sec:pacific-halibut}
 
 \emph{Hippoglossus stenolepis} (614)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
-Rapport des activités d'évaluation et de recherche de l'CIFP : @iphc2017\
+Rapport de la CIFP sur les activités d'évaluation et de recherche: @iphc2017\
 Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-halibut-1.png}
@@ -1984,7 +1984,7 @@ Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation a
 
 \clearpage
 
-## Plie À Écailles Régulières {#sec:butter-sole}
+## Plie à écailles régulières {#sec:butter-sole}
 
 \emph{Isopsetta isolepis} (619)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2002,7 +2002,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 
 \clearpage
 
-## Fausse Limande Du Pacifique Sud {#sec:southern-rock-sole}
+## Fausse limande du Pacifique sud {#sec:southern-rock-sole}
 
 \emph{Lepidopsetta bilineata} (621)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2022,7 +2022,7 @@ Dernier avis scientifique: @dfo2014rocksole\
 
 \clearpage
 
-## Plie Mince {#sec:slender-sole}
+## Plie mince {#sec:slender-sole}
 
 \emph{Lyopsetta exilis} (625)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2040,7 +2040,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 
 \clearpage
 
-## Limande Sole Du Pacifique {#sec:dover-sole}
+## Limande sole du Pacifique {#sec:dover-sole}
 
 \emph{Microstomus pacificus} (626)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2059,7 +2059,7 @@ Dernier avis scientifique: @dfo1999dover\
 
 \clearpage
 
-## Carlottin Anglais {#sec:english-sole}
+## Carlottin anglais {#sec:english-sole}
 
 \emph{Parophrys vetulus} (628)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2079,7 +2079,7 @@ Dernier avis scientifique: @dfo1999english5CD\
 
 \clearpage
 
-## Flet Étoilé {#sec:starry-flounder}
+## Flet étoilé {#sec:starry-flounder}
 
 \emph{Platichthys stellatus} (631)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2097,7 +2097,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 
 \clearpage
 
-## C-O Sole {#sec:c-o-sole}
+## C-O sole {#sec:c-o-sole}
 
 \emph{Pleuronichthys coenosus} (633)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2115,7 +2115,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 
 \clearpage
 
-## Plie À Nageoires Frisées {#sec:curlfin-sole}
+## Plie à nageoires frisées {#sec:curlfin-sole}
 
 \emph{Pleuronichthys decurrens} (635)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
@@ -2133,7 +2133,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 
 \clearpage
 
-## Sole-Pole {#sec:sand-sole}
+## Sole-pole {#sec:sand-sole}
 
 \emph{Psettichthys melanostictus} (636)\
 Ordre: Pleuronectiformes, Famille: Pleuronectidae,
