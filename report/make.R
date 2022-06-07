@@ -1,4 +1,10 @@
 french <- FALSE
+
+if (french) {
+  options(french = TRUE)
+  options(OutDec = ",")
+}
+
 is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
 is_unix <- .Platform$OS.type == "unix"
 
