@@ -850,7 +850,7 @@ make_pages <- function(
       syn_density <- syn_density / 1000
     }
     syn_density <- round_density(syn_density)
-    if (french) syn_density <- format_french_1000s(syn_density)
+    if (french) syn_density <- format_french_1000s_expr(syn_density)
   }
 
   suppressMessages({
@@ -865,10 +865,15 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
 
-    if (nrow(syn_fits$raw_dat) >= 1L)  # calculate a density to label on the map
+    if (nrow(syn_fits$raw_dat) >= 1L) {  # calculate a density to label on the map
+      .text <- paste0(en2fr("Mean", french), "~", syn_density, dens_units)
+      if (french) {
+        .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy; yikes
+      }
       g_survey_spatial_syn <- g_survey_spatial_syn +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-          label = paste0(en2fr("Mean", french), "~", syn_density, dens_units), parse = TRUE)
+          label = .text, parse = TRUE)
+    }
   })
 
   # an internal IPHC function:
@@ -913,7 +918,7 @@ make_pages <- function(
   if (sum(!is.na(dd$combined)) >= 1L) { # calculate a density to label on the map
     iphc_density <- mean(dd$C_it20, na.rm = TRUE)
     iphc_density <- round_density(iphc_density)
-    if (french) iphc_density <- format_french_1000s(iphc_density)
+    if (french) iphc_density <- format_french_1000s_expr(iphc_density)
   } else {
     iphc_density <- ""
   }
@@ -929,16 +934,21 @@ make_pages <- function(
         na.value = 'white') +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'grey35')
-    if (sum(!is.na(dd$combined)) >= 1L)
+    if (sum(!is.na(dd$combined)) >= 1L) {
+      .text <- paste0(en2fr("Mean", french), "~", iphc_density, "~", en2fr("fish/skate", french))
+      if (french) {
+        .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy
+      }
       g_survey_spatial_iphc <- g_survey_spatial_iphc +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-          label = paste0(en2fr("Mean", french), "~", iphc_density, "~", en2fr("fish/skate", french)), parse = TRUE)
+          label = .text, parse = TRUE)
+    }
   })
 
   if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
     hbll_density <- mean(hbll_fits$raw_dat$density, na.rm = TRUE)
     hbll_density <- round_density(hbll_density)
-    if (french) hbll_density <- format_french_1000s(hbll_density)
+    if (french) hbll_density <- format_french_1000s_expr(hbll_density)
   }
   suppressMessages({
     g_survey_spatial_hbll <-
@@ -954,10 +964,16 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
     dens_units <- paste0("~", en2fr("fish", french), "/km^2")
-    if (nrow(hbll_fits$raw_dat) >= 1L)  # calculate a density to label on the map
+    if (nrow(hbll_fits$raw_dat) >= 1L) {  # calculate a density to label on the map
+
+      .text <- paste0(en2fr("Mean", french), "~", hbll_density, dens_units)
+      if (french) {
+        .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy
+      }
       g_survey_spatial_hbll <- g_survey_spatial_hbll +
-      ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-        label = paste0(en2fr("Mean", french), "~", hbll_density, dens_units), parse = TRUE)
+        ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+          label = .text, parse = TRUE)
+    }
   })
 
   # Page 1 layout: -------------------------------------------------------------
