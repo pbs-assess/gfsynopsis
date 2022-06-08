@@ -52,7 +52,6 @@ Une brève description des relevés inclus est incluse dans l'annexe F de @ander
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
 source(here::here("report/report-rmd-fr-2021/intro-maps.R"))
-# source(here::here("report/report-rmd/intro-maps.R"))
 ```
 
 ```{r management-map, fig.cap="Carte des zones 5AB (détroit de la Reine-Charlotte), 5CD (détroit d’Hécate), 5E (côte ouest de Haïda Gwaii) et 3CD (côte ouest de l’île de Vancouver) de la Commission des pêches maritimes du Pacifique. Ces zones sont proches, mais non identiques, aux zones des unités de gestion du poisson de fond qui portent le même nom.", out.width="5.2in", fig.pos="tb"}

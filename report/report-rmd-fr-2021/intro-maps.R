@@ -116,4 +116,12 @@ g2 <- g2 + geom_polygon(
 
 g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 
+g <- g +
+  scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE))
+
+g2 <- g2 +
+  scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE))
+
 gridExtra::grid.arrange(g, g2, nrow = 1)
