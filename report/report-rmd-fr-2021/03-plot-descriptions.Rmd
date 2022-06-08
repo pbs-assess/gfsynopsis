@@ -173,7 +173,9 @@ p1_trawl <-
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
   ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
-    theme_pbs() + theme(legend.position = "bottom")
+    theme_pbs() + theme(legend.position = "bottom") +
+   scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE))
 
 
 p2_ll <-
@@ -195,7 +197,9 @@ p2_ll <-
   ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
   guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
-    theme_pbs() + theme(legend.position = "bottom")
+    theme_pbs() + theme(legend.position = "bottom") +
+     scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE))
 
 gridExtra::grid.arrange(
   p1_trawl, # + checking_square,
