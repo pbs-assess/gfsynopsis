@@ -238,9 +238,11 @@ for (i in to_build) {
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
-g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
-saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
-saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
+if (!french) {
+  g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
+  saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
+  saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
+}
 if (french) {
   g_alt <- readRDS("report/report-rmd-fr-2021/ggplot-objects/pacific-cod.rds")
   saveRDS(g_alt$cpue_spatial, file = "report/report-rmd-fr-2021/ggplot-objects/pacific-cod-cpue-spatial.rds")
