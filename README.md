@@ -4,7 +4,7 @@
 
 ### Links to the latest published report (2019): **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
 
-### Link to the latest *draft* report (2022): **[PDF](https://www.dropbox.com/s/d7oyq48w42x0hmv/gf-pbs-synopsis-2021-april-25-2022.pdf?dl=1)**
+### Link to the latest *draft* report (June 2022): **[PDF](https://www.dropbox.com/s/iqc0kdxusqajdon/gfsynopsis-sr-2021-en-2022-06-08-DRAFT.pdf?dl=1)**
 
 Paper on the synopsis report:
 
@@ -18,7 +18,7 @@ This package uses the data extraction, data tidying, model fitting, and plotting
 
 # Building the document
 
-*The following is for internal use. You need to be on our network to have access to our databases.*
+*The following is for internal use only. You need to be on the Pacific Biological Station network with access to the groundfish databases.*
 
 1. Install gfsynopsis and csasdown:
 
