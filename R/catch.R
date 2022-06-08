@@ -66,7 +66,7 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2020),
   if (french) {
     g <- g + theme(legend.spacing.x = ggplot2::unit(0.5, "mm"))
     g <- g +
-    scale_y_continuous(labels = function(x) format(x, big.mark = ".", scientific = FALSE)) # e.g. 1 000
+    scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE)) # e.g. 1 000
   }
 
   g
