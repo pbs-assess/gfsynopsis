@@ -2,9 +2,9 @@
 
 -----------------
 
-### Links to the latest published report (2019): **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
+### Link to the latest Science Response (data up to 2021): **[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-eng.html)** | **[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-fra.html)**
 
-### Link to the latest *draft* report (June 2022): **[PDF](https://www.dropbox.com/s/iqc0kdxusqajdon/gfsynopsis-sr-2021-en-2022-06-08-DRAFT.pdf?dl=1)**
+Links to the 2019 Research Document (includes appendices): **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
 
 Paper on the synopsis report:
 
@@ -15,34 +15,3 @@ Anderson, S.C., E.A. Keppel, A.M. Edwards. 2020. Reproducible visualization of r
 <img src="report/silvergray.jpg" alt="Silver Gray Rockfish Example" width="750" height="478.5">
 
 This package uses the data extraction, data tidying, model fitting, and plotting functions from [gfplot](https://github.com/pbs-assess/gfplot) and [gfdata](https://github.com/pbs-assess/gfdata).
-
-# Building the document
-
-*The following is for internal use only. You need to be on the Pacific Biological Station network with access to the groundfish databases.*
-
-1. Install gfsynopsis and csasdown:
-
-```r
-# install.packages("devtools")
-devtools::install_github("pbs-assess/gfsynopsis", dependencies = TRUE)
-```
-
-2. Clone or download the gfsynopsis GitHub repository.
-
-3. **On the Pacific Biological Station network** and with the R working directory set to the root folder of the project (e.g., open the RStudio `gfsynopsis.Rproj` file), install any missing packages used in `report/make.R` and run:
-
-```r
-source("report/make.R")
-```
-
-4. Wait for a long time for all the data to download, all the models to fit, and all the plots to generate. If you are starting from scratch then it may take a day or so to download all the data and fit all the spatiotemporal survey models and commercial CPUE index standardization models. If you already have these results cached, then it could take anywhere from ~10 minutes to a couple hours depending what needs to be built.
-
-5. In RStudio, open `gfsynopsis/report/report-rmd/index.Rmd` and click the "Knit" button, or in any R console run:
-
-```r
-setwd("report/report-rmd")
-bookdown::render_book("index.Rmd")
-setwd("../../")
-```
-
-Problems? File an [issue](https://github.com/pbs-assess/gfsynopsis/issues).
