@@ -49,8 +49,10 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2020),
   max_val <- if (!blank_plot) max(gdat[[5]]$ymax) else 1
 
   labs <- unique(select(catch, area))
+
+  if (isTRUE(french)) .mult <- 0.91 else .mult <- 0.935 # vertical area label
   g <- g + geom_text(
-      data = labs, x = yrs[1] + 1.1, y = max_val * 0.935,
+      data = labs, x = yrs[1] + 1.1, y = max_val * .mult,
       aes_string(label = "area"),
       inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
     )
@@ -61,8 +63,11 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2020),
     ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2)) +
     ggplot2::ggtitle("Commercial catch")
 
-  if (french)
+  if (french) {
     g <- g + theme(legend.spacing.x = ggplot2::unit(0.5, "mm"))
+    g <- g +
+    scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE)) # e.g. 1 000
+  }
 
   g
 }

@@ -1,0 +1,164 @@
+<!-- Mandatory section, title may vary. Core of the report. -->
+
+# Analysis and Response
+
+In this Science Response, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis.
+Survey data from 2021, 2020, 2019, and in one case, 2018, were added (Table 1).
+Commercial data from 2021, 2020, and 2019 were added.
+
+```{r survey-years-table, results='asis'}
+# x <- readRDS("../gfsynopsis/report/data-cache-old?/longnose-skate.rds")
+# x <- x$survey_index
+# group_by(x, survey_abbrev) |>
+#   select(survey_abbrev, year) |>
+#   readr::write_csv("report/2019-resdoc-survey-years.csv")
+
+rd <- readr::read_csv(here::here("report/2019-resdoc-survey-years.csv"),
+  show_col_types = FALSE
+) |>
+  mutate(rd_year = year)
+
+sr <- readRDS(here::here("report/data-cache-april-2022/longnose-skate.rds"))$survey_index
+sr <- sr |> select(survey_abbrev, year)
+
+survey_full_names <- c(
+  "West Coast Haida Gwaii Synoptic Bottom Trawl", 
+  "Hecate Strait Synoptic Bottom Trawl", 
+  "Queen Charlotte Sound Synoptic Bottom Trawl", 
+  "West Coast Vancouver Island Synoptic Bottom Trawl",
+  "Outside Hard Bottom Long Line North",
+  "Outside Hard Bottom Long Line South", 
+  "Inside Hard Bottom Long Line North", 
+  "Inside Hard Bottom Long Line South",
+  "Hecate Strait Multispecies Assemblage", 
+  # "International Pacific Halibut Commission Fishery Independent Setline"
+  "IPHC Fishery-Independent Setline Survey"
+)
+surveys <- c(
+  "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+  "HBLL OUT N",
+  "HBLL OUT S", "HBLL INS N", "HBLL INS S",
+  "OTHER HS MSA", "IPHC FISS"
+)
+
+srvs <- tibble(survey_full = survey_full_names, survey_abbrev = surveys, order = seq_along(surveys))
+
+yrs <- left_join(sr, rd) |>
+  right_join(srvs) |>
+  arrange(order) |>
+  select(-order)
+yrs <- filter(yrs, is.na(rd_year)) |>
+  select(-rd_year)
+yrs <- filter(yrs, survey_abbrev != "IPHC FISS")
+yrs <- bind_rows(
+  yrs,
+  tibble(
+     survey_full = c(
+        # "International Pacific Halibut Commission Fishery Independent Setline",
+        # "International Pacific Halibut Commission Fishery Independent Setline",
+        # "International Pacific Halibut Commission Fishery Independent Setline"
+        "IPHC Fishery-Independent Setline Survey",
+        "IPHC Fishery-Independent Setline Survey",
+        "IPHC Fishery-Independent Setline Survey"
+        ), 
+     survey_abbrev = c("IPHC FISS", "IPHC FISS", "IPHC FISS"), 
+     year = c(2019, 2020, 2021))
+)
+
+yrs$year <- as.character(yrs$year)
+
+yrs <- yrs[, c(3, 1, 2)]
+
+csasdown::csas_table(yrs,
+   col_names = c("Survey","Abbreviation", "Year added"),
+   caption = "Fisheries independent survey years added in this Science Response compared to the previous Anderson et al. (2019) report."
+)
+```
+
+There is one notable change to how the survey index data are presented in this Science Response compared to @anderson2019synopsis. In @anderson2019synopsis, years in which a given species was not caught in a survey were omitted and the plotted line connected years with data. In this updated report, these index values are presented as zeros.
+Furthermore, the geostatistical survey indices, which were overlaid on the synoptic trawl indices in @anderson2019synopsis, have been omitted from this report for visual clarity. Instead, we show only the design-based indices calculated from a bootstrap procedure.
+
+```{r child="02-iphc-update.Rmd", echo=FALSE, cache=FALSE}
+```
+
+## Caveats {#sec:caveats}
+
+There are several caveats when interpreting this report, as outlined in @anderson2019synopsis.
+Primary caveats include:
+
+1. The outputs in this report are not a substitute for stock assessment. For example, although relative biomass or abundance index trends from surveys indicate the biomass trend for a species in an area, such information is best combined with other information such as removals by commercial catches and information on the age- or length-composition of the stock to make conclusions about the status of a stock. In particular, the survey indices do not account for estimated size selectivity the way most stock assessments do (smaller fish are typically less likely to be caught by survey gear).
+
+1. Biomass indices from trawl or longline surveys and commercial CPUE (catch per unit effort) indices need careful interpretation on a stock-by-stock basis. We have attempted to flag survey index trends that may be especially suspect either because of high survey variability or because only a small fraction of trawl or longline sets contain the species, but this is not a guarantee in itself. Survey indices are not always representative of abundance for a variety of reasons, and a lack of data for a species does not necessarily indicate a small population---the surveys may simply not be suitable for sampling that species. Furthermore, changes through time, including fish behavioural changes or range shifts, could result in biases through time even for well-sampled species.
+
+1. Survey and commercial CPUE index trends do not resolve population scale and the outputs in this report do not resolve conflicts in trends drawn from different sources for the same species.
+
+1. The outputs in this report are not appropriate for marine spatial planning. The data as presented are resolved at a coarse spatial scale and marine spatial planning uses require specific data treatments beyond the general approaches used in this report.
+
+1. The commercial CPUE data may not be proportional to stock abundance for a multitude of reasons [e.g., @harley2001]. Nonetheless, we think there is value in transparently displaying the available data for all species.
+
+1. The catch history reported here reflects recorded data and may not represent actual catches. The commercial catch presented here will not necessarily match reconstructed time series in stock assessments. Historical catch reconstructions require careful species-specific consideration and analysis. Furthermore, fluctuations in commercial catch do not necessarily reflect declines in stock abundance and may be due to other factors including implementation of management measures. Reported discard weights are considered less reliable prior to 100% observer coverage of the bottom trawl fishery in 1996, and prior to fisheries integration in 2006 for the trap, hook and line, midwater trawl and Strait of Georgia bottom trawl fisheries. The discards in the catch plots therefore only include bottom trawl discard weights from 1996 to present and trap, hook and line, midwater trawl and Strait of Georgia bottom trawl discard weights from 2006 to present.
+
+1. It is not feasible to individually assess the results for all species in a detailed manner. To use the results for a particular species in future assessments, or to make other inference, we recommend that users carefully examine the data and model results. Due to the necessary automation required to construct this report, not all species-specific special cases may have been fully considered.
+
+In addition to these caveats noted in @anderson2019synopsis, coronavirus disease 2019 (COVID-19) resulted in several cancelled surveys in 2020, some of which were then conducted in 2021 in addition to the scheduled surveys.
+Furthermore, COVID-19 caused several changes within the commercial fleet in 2020 and 2021. This has affected the catch figures (e.g., Figure \@ref(fig:catches)) as well as potentially affecting the standardization process of the commercial catch per unit effort (e.g., Figure \@ref(fig:trawl-cpue-index), Appendix D in Anderson et al. 2019).
+
+## Data accessibility
+
+Data in this document are maintained by the Groundfish Data Unit at the Pacific
+Biological Station in Nanaimo, British Columbia. Data from the Synoptic Bottom
+Trawl Surveys and the Hard Bottom Longline (HBLL) surveys are available through
+the Canadian [Open Government Portal](https://open.canada.ca/data/en/dataset?portal_type=dataset)
+by searching for 'groundfish synoptic' or 'HBLL'.
+For the IPHC survey, the [gfiphc](https://github.com/pbs-assess/gfiphc) R package contains
+some data and has details for requesting the rest.
+Requests for data held by the
+DFO Pacific Region that are not available through the Open Government Portal
+can be made as described on the
+[Pacific Fisheries Catch Statistics](http://www.pac.dfo-mpo.gc.ca/stats/index-eng.html)
+website.
+
+## Reproducibility
+
+All of the data extraction, data manipulation, model fitting, and visualization for this report is automated and reproducible.
+The gfdata, gfplot, gfiphc, gfsynopsis, sdmTMB [@anderson2022sdmTMB], and csasdown R packages were developed for this purpose.
+The gfdata package enables the data extraction.
+The gfplot package performs the model fitting and visualizations.
+The gfiphc packages enables data extraction and model fitting for the IPHC survey data.
+The gfsynopsis package calls functions from the gfplot, gfdata, and gfiphc packages to generate this report.
+The sdmTMB package fits spatially explicit generalized linear mixed effect models with random fields to produce the survey maps.
+The csasdown package builds this report using R Markdown and bookdown.
+The source code for this report is available on the GitHub repository [pbs-assess/gfsynopsis](https://github.com/pbs-assess/gfsynopsis/), although the report can only be built with access to the Pacific Biological Station network.
+
+```{r sha}
+sha <- list()
+sha[[1]] <- system("cd ../../../gfdata; git rev-parse HEAD", intern = TRUE)
+sha[[2]] <- system("cd ../../../gfplot; git rev-parse HEAD", intern = TRUE)
+sha[[3]] <- system("cd ../../../csasdown; git rev-parse HEAD", intern = TRUE)
+sha[[4]] <- system("cd ../../../sdmTMB; git rev-parse HEAD", intern = TRUE)
+sha[[5]] <- system("cd ../../../gfiphc; git rev-parse HEAD", intern = TRUE)
+sha[[6]] <- system("git rev-parse HEAD", intern = TRUE)
+names(sha) <- c("gfdata", "gfplot", "csasdown", "sdmTMB", "gfiphc", "gfsynopsis")
+sha <- lapply(sha, function(x) substr(x, 1, 6))
+```
+
+The specific versions (GitHub commits) used to generate this report are available at:
+
+* [pbs-assess/gfdata](`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha$gfdata)`)\
+* [pbs-assess/gfplot](`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha$gfplot)`)\
+* [pbs-assess/gfiphc](`r paste0("https://github.com/pbs-assess/gfiphc/tree/", sha$gfiphc)`)\
+* [pbs-assess/gfsynopsis](`r paste0("https://github.com/pbs-assess/gfsynopsis/tree/", sha$gfsynopsis)`)\
+* [pbs-assess/sdmTMB](`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha$sdmTMB)`)\
+* [pbs-assess/csasdown](`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha$csasdown)`)\
+
+# Conclusions
+
+This Science Response presents an update to @anderson2019synopsis that adds data primarily from 2019 to 2021 as well as adding citations to any new stock assessments or Committee on the Status of Endangered Wildlife in Canada (COSEWIC) reports.
+The report is expected to be updated on a regular basis.
+These updates will include any new data since the previous report and any important corrections to the data, text, or visualizations.
+On a less frequent basis, the authors will consider making larger changes to the structure, methods, or content of the report within the context of a CSAS review process.
+
+In conclusion, this report gathers, applies careful data filtering and quality control, models, and thoughtfully visualizes nearly all Pacific groundfish data DFO has available.
+This includes an analysis of relative biomass and abundance indices and spatial distribution from scientific surveys along with modelled time series and spatial distributions of commercial catch and CPUE from groundfish fisheries.
+Furthermore, this report summarizes key stock parameters such as length and age frequencies and analyzes growth and length-weight relationships, age at maturity, length at maturity, and maturity frequencies wherever possible for the 113 species.
+DFO groundfish Science and Fisheries Management staff, and all interested parties---including fishing industry, First Nations, non-governmental organizations, seafood certification agencies, and the general public---can use this report to monitor stocks without a formal stock assessment, monitor key stocks between assessments, or to signal when an assessment should be considered.

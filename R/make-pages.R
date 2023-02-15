@@ -5,7 +5,7 @@
 #' @param dat A data list object from [gfdata::cache_pbs_data()].
 #' @param dat_iphc A data list object from [gfiphc::cache_pbs_data_iphc()].
 #' @param spp A species common name.
-#' @param d_geostat_index d_geostat_index
+#' @param d_geostat_index `d_geostat_index` data
 #' @param aspect The aspect ratio of the 2nd page.
 #' @param short_page_height_ratio The aspect ratio of the shorter first page.
 #' @param width The width of a page.
@@ -37,6 +37,7 @@
 #' @param parallel Parallel CPUE index fitting?
 #' @param length_ticks A data frame indicating optional length composition
 #'   x-axis breaks and labels.
+#' @param all_survey_years DF with `survey_abbrev` and all `year`
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -80,7 +81,8 @@ make_pages <- function(
   french = FALSE,
   final_year_comm = 2020,
   final_year_surv = 2021,
-  length_ticks = NULL
+  length_ticks = NULL,
+  all_survey_years = NULL
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -190,27 +192,28 @@ make_pages <- function(
     sample_type = "survey")
   sc <- tidy_ages_raw(dat$commercial_samples_no_keepers,
     sample_type = "commercial")
-  if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
+
+  if (all(!is.na(sc[[1]]))) sc <- sc %>% dplyr::filter(year >= 2003)
   if (is.data.frame(sc))
     if (nrow(sc) == 0)
       sc <- NA
 
-  if (!is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- suppressWarnings(bind_rows(ss, sc))
   }
-  if (!is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- ss
   }
-  if (is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- sc
   }
-  if (is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- NA
   }
-  if (!is.na(sb)) {
+  if (all(!is.na(sb))) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year_surv)) +
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year_surv), french = french) +
       guides(fill = "none", colour = "none") +
       ggtitle(en2fr("Age frequencies", french)) +
       labs(y = en2fr("Age (years)", french))
@@ -229,9 +232,9 @@ make_pages <- function(
 
   # Length compositions: -------------------------------------------------------
 
-  length_samples_survey <- filter(dat$survey_samples,
+  length_samples_survey <- dplyr::filter(dat$survey_samples,
     !length %in% find_length_outliers(dat$survey_samples$length))
-  length_samples_commercial <- filter(dat$commercial_samples_no_keepers,
+  length_samples_commercial <- dplyr::filter(dat$commercial_samples_no_keepers,
     !length %in% find_length_outliers(dat$commercial_samples_no_keepers$length))
 
   bin_width1 <- diff(quantile(length_samples_survey$length, na.rm = TRUE,
@@ -247,26 +250,26 @@ make_pages <- function(
     tidy_lengths_raw(bin_size = bin_width,
       sample_type = "commercial", spp_cat_code = 1)
 
-  if (!is.na(sc[[1]])) sc <- sc %>% filter(year >= 2003)
+  if (all(!is.na(sc[[1]]))) sc <- sc %>% dplyr::filter(year >= 2003)
   if (is.data.frame(sc))
     if (nrow(sc) == 0)
       sc <- NA
 
-  if (!is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- suppressWarnings(bind_rows(ss, sc))
   }
-  if (!is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(!is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- ss
   }
-  if (is.na(ss[[1]]) && !is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(!is.na(sc[[1]]))) {
     sb <- sc
   }
-  if (is.na(ss[[1]]) && is.na(sc[[1]])) {
+  if (all(is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- NA
   }
 
   min_total <- 20
-  if (!is.na(sb) && max(sb$total) >= min_total) {
+  if (all(!is.na(sb)) && max(sb$total) >= min_total) {
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
         "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french)))
@@ -284,7 +287,7 @@ make_pages <- function(
             ggplot2::waiver()
           }
       g_lengths <- plot_lengths(sb, survey_cols = survey_cols,
-        bin_size = bin_width, min_total = min_total) +
+        bin_size = bin_width, min_total = min_total, french = french) +
         guides(colour = "none", fill = "none") +
         ggtitle(en2fr("Length frequencies", french)) +
         ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
@@ -309,6 +312,13 @@ make_pages <- function(
 
   # Commercial CPUE indices: ---------------------------------------------------
 
+  all_not_NA <- function(x) {
+    all(!is.na(x[[1L]]))
+  }
+  all_NA <- function(x) {
+    all(is.na(x[[1L]]))
+  }
+
   if ("cpue_index" %in% names(dat)) {
     if (nrow(dat$catch) > 0) {
       if (!file.exists(cpue_cache_spp)) {
@@ -320,7 +330,7 @@ make_pages <- function(
         cpue_index <- readRDS(cpue_cache_spp)
       }
 
-      if (!is.na(cpue_index[[1]])) { # enough vessels?
+      if (all_not_NA(cpue_index)) { # enough vessels?
 
         g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
           ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
@@ -335,7 +345,7 @@ make_pages <- function(
   } else {
     cpue_index <- NA
   }
-  if (nrow(dat$catch) == 0 || is.na(cpue_index[[1]])) {
+  if (nrow(dat$catch) == 0 || all_NA(cpue_index)) {
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
         expand.grid(area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
@@ -373,6 +383,21 @@ make_pages <- function(
       forcats::fct_recode(dat_tidy_survey_index$survey_abbrev, `MSA HS` = "OTHER HS MSA")
   }
 
+  lvls <- levels(dat_tidy_survey_index$survey_abbrev)
+
+  # Make NAs in middle of time series into 0s:
+  if (!is.null(all_survey_years)) {
+    all_survey_years <- dplyr::filter(all_survey_years, survey_abbrev %in% unique(dat_tidy_survey_index$survey_abbrev))
+    dat_tidy_survey_index <- dplyr::full_join(all_survey_years, dat_tidy_survey_index,
+      by = c("survey_abbrev", "year"))
+    if (!all(is.na(dat_tidy_survey_index$biomass))) {
+      dat_tidy_survey_index$lowerci[is.na(dat_tidy_survey_index$biomass)] <- 0
+      dat_tidy_survey_index$upperci[is.na(dat_tidy_survey_index$biomass)] <- 0
+      dat_tidy_survey_index$biomass[is.na(dat_tidy_survey_index$biomass)] <- 0
+      dat_tidy_survey_index$survey_abbrev <- factor(dat_tidy_survey_index$survey_abbrev, levels = lvls)
+    }
+  }
+
   if (!is.null(dat_iphc)) {
     if (!file.exists(iphc_index_cache_spp)) {
       iphc_set_counts_sp <- tryCatch({
@@ -386,8 +411,25 @@ make_pages <- function(
     iphc_set_counts_sp_format <- tryCatch({
       gfiphc::format_iphc_longest(iphc_set_counts_sp)
     }, error = function(e) NA)
+
+    if (!identical(iphc_set_counts_sp_format, NA)) {
+      if (all(is.na(iphc_set_counts_sp_format$biomass)))
+        iphc_set_counts_sp_format <- NA
+    }
+
+    if (!identical(iphc_set_counts_sp_format, NA)) {
+      all_iphc_yrs <- data.frame(year = sort(unique(dat_iphc$set_counts$year)))
+      iphc_set_counts_sp_format <- dplyr::left_join(
+        all_iphc_yrs, iphc_set_counts_sp_format, by = "year"
+      )
+      iphc_set_counts_sp_format$lowerci[is.na(iphc_set_counts_sp_format$biomass)] <- 0
+      iphc_set_counts_sp_format$upperci[is.na(iphc_set_counts_sp_format$biomass)] <- 0
+      iphc_set_counts_sp_format$biomass[is.na(iphc_set_counts_sp_format$biomass)] <- 0
+      iphc_set_counts_sp_format$survey_abbrev <- "IPHC FISS"
+    }
+
     # Remove existing (GFbio) based IPHC series with longer ones from new calcs
-    if (!is.na(iphc_set_counts_sp_format)) {
+    if (!identical(iphc_set_counts_sp_format, NA)) {
       dat_tidy_survey_index <- dat_tidy_survey_index %>%
         filter(survey_abbrev != "IPHC FISS") %>%
         rbind(iphc_set_counts_sp_format)
@@ -403,7 +445,7 @@ make_pages <- function(
     suppressMessages({
       g_survey_index <- plot_survey_index(dat_tidy_survey_index,
         col = c("grey60", "grey20"), survey_cols = survey_cols,
-        xlim = c(1984 - 0.2, final_year_surv + 0.2)) +
+        xlim = c(1984 - 0.2, final_year_surv + 0.2), french = french) +
         scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
     })
   }
@@ -494,10 +536,18 @@ make_pages <- function(
 
     check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
 
-    if (spp == "yelloweye rockfish") # FIXME
+    tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
+
+    if (spp == "yelloweye rockfish")
       tmb_init <- list(k = 0.9, linf = 55, log_sigma = log(0.1), t0 = -1)
-    else
-      tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
+
+    if (spp == "sablefish")
+      tmb_init <- list(k = 0.12, linf = 70, log_sigma = log(0.1), t0 = -8)
+    # https://spo.nmfs.noaa.gov/content/estimating-von-bertalanffy-growth-parameters-sablefish-anoplopoma-fimbria-and-pacific-cod
+
+    if (spp == "shortspine thornyhead")
+      tmb_init <- list(k = 0.03, linf = 47, log_sigma = log(0.1), t0 = -8.5)
+    # https://waves-vagues.dfo-mpo.gc.ca/Library/40603039.pdf
 
     sink(tempfile())
     vb_m <- fit_vb(dat$survey_samples, sex = "male", method = "tmb",
@@ -601,7 +651,7 @@ make_pages <- function(
   }
 
   if (length(mat_age) > 1L && type != "none") {
-    g_mat_age <- plot_mat_ogive(mat_age, prediction_type = type) +
+    g_mat_age <- gfplot::plot_mat_ogive(mat_age, prediction_type = type, french = french) +
       guides(colour = "none", fill = "none", lty = "none") +
       ggplot2::guides(lty = "none", colour = "none") +
       ggtitle(en2fr("Age at maturity", french)) +
@@ -650,7 +700,7 @@ make_pages <- function(
   if (spp == "curlfin sole") type <- "none" # FIXME almost none; way off
 
   if (length(mat_length) > 1L && type != "none") {
-   g_mat_length <- plot_mat_ogive(mat_length, prediction_type = type) +
+   g_mat_length <- gfplot::plot_mat_ogive(mat_length, prediction_type = type, french = french) +
       ggplot2::theme(legend.position = c(0.9, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")) +
       ggplot2::guides(lty =
@@ -785,8 +835,13 @@ make_pages <- function(
     x
   }
 
+  format_french_1000s_expr <- function(x) {
+    out <- format(as.numeric(x), big.mark = " ", scientific = FALSE, trim = TRUE)
+    gsub(" ", "~", out)
+  }
+
   if (nrow(syn_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
-    # we've already multiply the density by 1000 for computational reasons
+    # we've already multiplied the density by 1000 for computational reasons
     # so we need to divided by 1000 here to get back to the original units:
     syn_density <- mean(syn_fits$raw_dat$density, na.rm = TRUE) * (1000 * 1000) / 1000
     dens_units <- "~kg/km^2"
@@ -795,6 +850,7 @@ make_pages <- function(
       syn_density <- syn_density / 1000
     }
     syn_density <- round_density(syn_density)
+    if (french) syn_density <- format_french_1000s_expr(syn_density)
   }
 
   suppressMessages({
@@ -809,10 +865,15 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
 
-    if (nrow(syn_fits$raw_dat) >= 1L)  # calculate a density to label on the map
+    if (nrow(syn_fits$raw_dat) >= 1L) {  # calculate a density to label on the map
+      .text <- paste0(en2fr("Mean", french), "~", syn_density, dens_units)
+      if (french) {
+        .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy; yikes
+      }
       g_survey_spatial_syn <- g_survey_spatial_syn +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-          label = paste0(en2fr("Mean", french), "~", syn_density, dens_units), parse = TRUE)
+          label = .text, parse = TRUE)
+    }
   })
 
   # an internal IPHC function:
@@ -857,6 +918,7 @@ make_pages <- function(
   if (sum(!is.na(dd$combined)) >= 1L) { # calculate a density to label on the map
     iphc_density <- mean(dd$C_it20, na.rm = TRUE)
     iphc_density <- round_density(iphc_density)
+    if (french) iphc_density <- format_french_1000s_expr(iphc_density)
   } else {
     iphc_density <- ""
   }
@@ -872,15 +934,21 @@ make_pages <- function(
         na.value = 'white') +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
         na.value = 'grey35')
-    if (sum(!is.na(dd$combined)) >= 1L)
+    if (sum(!is.na(dd$combined)) >= 1L) {
+      .text <- paste0(en2fr("Mean", french), "~", iphc_density, "~", en2fr("fish/skate", french))
+      if (french) {
+        .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy
+      }
       g_survey_spatial_iphc <- g_survey_spatial_iphc +
         ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-          label = paste0(en2fr("Mean", french), "~", iphc_density, "~", en2fr("fish/skate", french)), parse = TRUE)
+          label = .text, parse = TRUE)
+    }
   })
 
   if (nrow(hbll_fits$raw_dat) >= 1L)  { # calculate a density to label on the map
     hbll_density <- mean(hbll_fits$raw_dat$density, na.rm = TRUE)
     hbll_density <- round_density(hbll_density)
+    if (french) hbll_density <- format_french_1000s_expr(hbll_density)
   }
   suppressMessages({
     g_survey_spatial_hbll <-
@@ -896,10 +964,16 @@ make_pages <- function(
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
     dens_units <- paste0("~", en2fr("fish", french), "/km^2")
-    if (nrow(hbll_fits$raw_dat) >= 1L)  # calculate a density to label on the map
+    if (nrow(hbll_fits$raw_dat) >= 1L) {  # calculate a density to label on the map
+
+      .text <- paste0(en2fr("Mean", french), "~", hbll_density, dens_units)
+      if (french) {
+        .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy
+      }
       g_survey_spatial_hbll <- g_survey_spatial_hbll +
-      ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
-        label = paste0(en2fr("Mean", french), "~", hbll_density, dens_units), parse = TRUE)
+        ggplot2::annotate("text", 360, 5253, col = "grey30", hjust = 0,
+          label = .text, parse = TRUE)
+    }
   })
 
   # Page 1 layout: -------------------------------------------------------------

@@ -1,0 +1,21 @@
+\clearpage
+
+# Collaborateurs
+
+```{r, echo=FALSE, include=FALSE}
+contributors <- tibble::tribble(
+  ~Collaborateur,    ~"Organisme d’appartenance",
+  "Sean Anderson",   "Secteur des sciences du MPO, Région du Pacifique",
+  "Elise Keppel",    "Secteur des sciences du MPO, Région du Pacifique",
+  "Andrew Edwards",  "Secteur des sciences du MPO, Région du Pacifique",
+  "Philina English", "Secteur des sciences du MPO, Région du Pacifique",
+  "Steven Schut",    "Secteur des sciences du MPO, Région du Pacifique (examinateur)"
+)
+```
+
+```{r, results='asis'}
+csasdown::csas_table(contributors)
+```
+
+<!-- Decrease the table index by one to account for the contributors table: -->
+\addtocounter{table}{-1}

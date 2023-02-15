@@ -1,0 +1,657 @@
+%% sr-french.sty - Unofficial LaTeX style file for Canadian
+%%  Science Response Documents.
+
+%% See res-doc.sty for more information on contents of this file
+\usepackage{tabularx}
+
+%% ------------------------------------------------------------------------------
+\usepackage{natbib}
+%% add PDF metadata
+\AtBeginDocument{%
+  \hypersetup{%
+    pdftitle={\rdTitle{}},%
+    pdfauthor={Pêches et Océans Canada. Secrétariat canadien de consultation scientifique.},%
+    pdfkeywords={Pêches et Océans Canada; Secrétariat canadien de consultation scientifique; Réponse des Sciences},
+  }%
+}
+
+%% ------------------------------------------------------------------------------
+%% Load hyperlink package and set up link colors
+\usepackage[breaklinks=true,
+            bookmarksopen=true,
+            bookmarksdepth=3]
+           {hyperref}
+\hypersetup{colorlinks,
+            plainpages=true,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue,
+            bookmarksopen=true,
+            bookmarksopenlevel=1}
+% Underlines
+\usepackage[normalem]{ulem}
+% hack into hyperref (from https://tex.stackexchange.com/q/208808)
+\makeatletter
+\newcommand*{\link}{\begingroup\@makeother\#\@mylink}
+\newcommand*{\@mylink}[2]{\href{#1}{\sffamily\uline{#2}}\endgroup}
+\makeatother
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Set up numbering of bookmarks in the final pdf
+\usepackage{bookmark}
+\bookmarksetup{numbered}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% For fleqn, which aligns equations
+\usepackage{nccmath}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% If you want to show line numbers in the document
+\usepackage[running]
+           {lineno}
+%% Page margins
+\usepackage[top=1in,
+            bottom=0.45in,
+            left=1in,
+            right=1in,
+            includefoot,
+            headheight=1in,
+            footskip=27pt]
+           {geometry}
+
+\setlength{\headsep}{15pt}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% To add in headers and footers
+\usepackage{fancyhdr}
+\usepackage[format=plain,
+            indention=0cm,
+            labelsep=period,
+            font={small, it},
+            justification=raggedright,
+            singlelinecheck=false]
+           {caption}
+%% ------------------------------------------------------------------------------
+\usepackage{afterpage}
+
+% Included so that the kableExtra::linebreak function can be used
+\usepackage{makecell}
+
+%% ------------------------------------------------------------------------------
+%% Table of Contents
+\usepackage{tocloft}
+%% Enable dots for chapters in the TOC
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+%% Un-bold the chapter text in the TOC
+\renewcommand{\cftchapfont}{\mdseries}
+%% Un-bold the chapter page numbers in the TOC
+\renewcommand{\cftchappagefont}{\mdseries}
+%% Make the chapter entries the same indentation as the sections
+%%  (entry, indent, numWidth)
+%% See the tocloft documentation to get these values
+\cftsetindents{chapter}{1.5em}{2.3em}
+%% Make vertical spacing between chapter entries in TOC = zero.
+\setlength{\cftbeforechapskip}{0pt}
+%% Remove space between the Table of contents title and it's content.
+\setlength\cftaftertoctitleskip{6pt}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% To have less whitespace after Table caption. 'above' tells it to put the
+%%  skip after caption, but you may still need to have the caption before the
+%%  table in .tex
+\captionsetup[table]{position=above, skip=10pt}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% If you are including EPS files these are necessary
+%% For epsfbox
+\usepackage{epsfig}
+%% for \includegraphics (eps and others)
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% For ragged right and bottom margins (yes, ugly, but that's the rules, which
+%%  of course exist because right justified in Word always looks so bad)
+\RequirePackage[document]{ragged2e}
+\RequirePackage{microtype}
+% Default is 50 (lots of hyphenation); bigger values penalize hyphenation more; make it huge to completely avoid them;
+\hyphenpenalty=10000 % https://tex.stackexchange.com/questions/291685/minimize-hyphenations-with-ragged2e
+\RaggedRight
+\raggedbottom
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Paragraph text settings
+%% To not indent paragraphs.
+\setlength\parindent{0pt}
+%% To increase white space between paragraphs (since not indenting).
+\parskip 2ex
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Contraction after fake subsubheading
+\def\headc{\vspace{-2ex}}
+%% Fake subsubsubheading
+\def\subsubsub#1{\vspace{1ex} \noindent {\underline{#1}} \vspace{1ex}}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Commands which match the CSAS template guide for sections, subsections,
+%%  subsubsections, and chapters. There is also a command for appsection, which
+%%  left-justifies sections in the appendices as they are now below chapters.
+%% There are also macros to set up the table of contents, main body, and
+%%  appendices correctly for CSAS.
+%% The bibliography is renamed REFERENCES as well.
+\makeatletter
+%% These two commands are required to use Arial for the document.
+% \renewcommand{\rmdefault}{phv}
+% \renewcommand{\sfdefault}{phv}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+%% Useful shortcuts for equations
+\newcommand{\eb}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+
+\newcommand{\nonumsection}{\@startsection
+{section}{1}{0mm}                 %% name, level, indent
+{-1.5ex \@plus -0.25ex \@minus -.1ex}
+{1ex \@plus.1ex}
+{\centering\normalfont\Large\bfseries}}
+
+\renewcommand{\section}{\@startsection
+{section}{2}{0mm}
+{-1.5ex \@plus -0.25ex \@minus -.1ex}
+{1ex \@plus.1ex}
+{\centering\normalfont\Large\bfseries}}
+
+\renewcommand{\subsection}{\@startsection
+{subsection}{3}{0mm}
+{-1.5ex \@plus -0.25ex \@minus -.1ex}
+{1ex \@plus.1ex}
+{\normalfont\large\bf}}
+
+\renewcommand{\subsubsection}{\@startsection
+{subsubsection}{4}{0.63cm}
+{-1.5ex \@plus -0.25ex \@minus -.1ex}
+{1ex \@plus.1ex}
+{\normalfont\bf}}
+
+\renewcommand{\chapter}{\@startsection
+{chapter}{1}{0mm}
+{-1ex \@plus -0.25ex \@minus -.1ex}
+{1ex \@plus.1ex}
+{\centering\normalfont\Large\bfseries}}
+
+%% Section headings in appendices must be left-justified not centered;
+%%  this is same as \section above but without \centering.
+%%  \section is now redefined in \Appendices command, so \section can
+%%  be used as normal (or use \appsection) in appendices.
+\newcommand{\appsection}{\@startsection
+{section}{1}{0mm}                 %% name, level, indent
+{-3.5ex \@plus -1ex \@minus -.2ex}%% beforeskip
+{2.3ex \@plus.2ex}                %% afterskip
+{\normalfont\Large\bfseries}} %% style
+
+\newcommand\Citation[1]{
+  %% Start citation indentation
+  \leftskip=3em
+  \parindent=-3em
+  {\bf Correct citation for this publication:}
+
+  #1
+
+  %% End citation indentation
+  \leftskip=0em
+  \parindent=-0em
+}
+
+\newcommand\Main{
+  %% To number the main document sections, tables, etc.
+  %%  as 1.1, 1.2, etc.
+  \renewcommand{\thesection}{\arabic{section}.}
+  \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+  \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thetable}{\arabic{table}}
+  \renewcommand{\thefigure}{\arabic{figure}}
+  \renewcommand{\theequation}{\arabic{equation}}
+}
+
+\newcommand\Appendices{
+  %% Start appendices. Sets up numbering for appendix sections
+  %%  and their contents (tables, figures) to look like:
+  %%  A.1, A.2, A.1.2
+  \appendix
+  %% Always start a new page for appendices
+  \newpage
+  \renewcommand{\thesection}{\thechapter.\arabic{section}}
+  \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}}
+  \renewcommand{\thesubsubsection}{\thechapter.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+  \renewcommand{\thetable}{\thechapter.\arabic{table}}
+  \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+  \renewcommand{\theequation}{\thechapter.\arabic{equation}}
+  %% Set up Appendices in the TOC to not show subsections
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+  %% Set up first Appendix heading value
+  \setcounter{chapter}{0}
+  %% Section headings now use \appsection command
+  \renewcommand{\section}{\appsection}
+}
+
+%% Changes the name of the bibliography.
+\renewcommand{\bibname}{Sources de renseignements}
+%% To make REFERENCES a section
+\renewcommand{\bibsection}{\section{\bibname}}
+
+%% Makes figures stick to the top of the page. i.e. if there is a single figure
+%%  on a page, it will be placed in the center. This forces it to stick
+%%  to the top.
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{18pt}  % Reduce space betwen floats too
+
+%% From hake.sty:
+%% Change default options for float rules for figure and tables, from:
+%%  http://www.tex.ac.uk/FAQ-floats.html  . Also see p55 of
+%%  http://tug.ctan.org/tex-archive/info/epslatex/english/epslatex.pdf
+%%  Allows a larger percentage of a page to be a figure than in the defaults
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+
+%% Make all minipages be ragged right like the main text
+\let\@minipagerestore=\raggedright
+
+%% Make appendices have entry in the table of contents
+\newcommand{\starredchapter}[1]{
+  \clearpage
+  %% Make spacing between top of page and heading less.
+  \vspace*{-50\p@}
+  \phantomsection
+  %% Add the appendix name to the table of contents.
+  \addcontentsline{toc}{chapter}{#1}\chapter*{#1}
+}
+
+%% ------------------------------------------------------------------------------
+%% To add headers and footers to landscape pages
+\usepackage{everypage}
+
+%% Make a landscape page properly, with the page numbers and bars rotated to
+%%  be along the long side for ease of reading in a PDF viewer.
+\newenvironment{landscapepage}[1]{
+  \newgeometry{hmargin=1in,vmargin=1in}
+\pagestyle{empty} % to clear portrait header and footer from page
+  \begin{landscape}
+    \centering
+    #1
+}{
+  \end{landscape}
+  \restoregeometry
+  \clearpage
+}
+
+\makeatother
+%% Creates a header and footer on the long page sides on landscape pages
+\newcommand{\regionlandWidth}{\widthof{\selectfont\fontsize{11}{13.2}\textbf{\rdRegion{}}}}
+\newcommand{\shorttitlelandWidth}{\widthof{\selectfont\fontsize{11}{13.2}\textbf{R\'{e}ponse des sciences: \rdTitleShort{}}}}
+\newcommand{\remainderlandWidth}{9in - \regionlandWidth - \shorttitlelandWidth}
+
+\AddEverypageHook{\ifdim\textwidth=\textheight
+  \fancyhf{}\fancyfoot{}
+  \begin{textblock*}{11pt}(0.68in,1in+\shorttitlelandWidth+\remainderlandWidth)
+{\rotatebox{90}{\selectfont\fontsize{11}{13.2}\textbf{\rdRegion{}}}}\end{textblock*}
+\begin{textblock}{0.05}(0.08,0.0909)
+{\rotatebox{90}{\selectfont\fontsize{11}{13.2}\textbf{R\'{e}ponse des sciences: \rdTitleShort{}}}}\end{textblock}
+\begin{textblock}{0.05}(0.925,0.5)
+{\rotatebox{90}{\sffamily\selectfont\small\thepage}}\end{textblock}
+ \begin{textblock}{1}(0.1,0.0909)
+{\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+  \begin{textblock}{1}(0.9,0.0909)
+  {\rotatebox{90}{\rule{9in}{0.25pt}}}\end{textblock}
+\fi}
+
+%% For landscape pages in CSAS documents
+\usepackage{pdflscape} % rotates landscape pages
+\usepackage[absolute]{textpos}
+\setlength{\TPHorizModule}
+  {8.5in}
+\setlength{\TPVertModule}
+  {11.0in}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Defines the header and footer rules for a CSAS paper.
+\fancyhf{}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\newcommand{\regionWidth}{\widthof{\textbf{\rdRegion{}}}}
+\newcommand{\remainderWidth}{\linewidth - \regionWidth - 0.5cm}
+\fancyhead[L]{\parbox[b]{\regionWidth}{\textbf{\rdRegion{}}}}
+\fancyhead[R]{\parbox[b]{\remainderWidth}{\RaggedLeft{\textbf{R\'{e}ponse des sciences: \rdTitleShort{}}}}}
+\fancypagestyle{csapfancy}{
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\footrulewidth}{0.4pt}
+  \renewcommand{\headrulewidth}{0.4pt}
+}
+\pagestyle{csapfancy}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Indentation, types, and numbering of enumerated or bullet-point lists
+\usepackage{enumerate}
+%% These are done manually here -- doesn't perfectly flush left since
+%%  need to allow space if you get up to double-digit enumeration. Is fine
+%%  though.
+\setlength{\leftmargini}{6mm}  %% not actually based on enumerate package
+\setlength{\leftmarginii}{4mm} %%  (had already been done).
+\setlength{\leftmarginiii}{4mm}
+\setlength{\leftmarginiv}{4mm}
+
+%% The following controls the look of the second-level in an enumeration list
+\renewcommand{\labelenumii}{\theenumii}
+%% This will make list items like 1.1, 1.2, etc
+%%\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+%% This will make list items like A., B., etc.
+%%\renewcommand{\theenumii}{\Alph{enumii}.}
+%% This will make list items like a., b., etc.
+\renewcommand{\theenumii}{\alph{enumii}.}
+
+%% The following controls the look of the second-level in an enumeration list
+%% This will make list items circles instead of stars
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemi}{$\bullet$}
+%% Sets up the levels of lists with types to use for each,
+%%  e.g. level 2 uses small alphabetic characters and
+%%  level 3 uses roman numerals.
+\usepackage{enumitem}
+\setenumerate{
+  align=left,        % Left align labels
+  topsep=0pt,        % Vertical space before the list
+  labelindent=0pt,   % Space betw. margin of list and label
+  %% Even though the specs say 0.25 inches for labelsep, need 0.01 here.
+  labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
+  leftmargin=!,      % No space betw. margin of list and following lines
+  itemindent=0pt,    % Hanging indentation (after first line)
+  itemsep=3pt        % Vertical space between list items
+}
+\setenumerate[1]{label=\arabic*.}
+\setenumerate[2]{label=\alph*.}
+\setenumerate[3]{label=\roman*.}
+\setenumerate[4]{label=\arabic*.}
+\setenumerate[5]{label=\alph*.}
+\setenumerate{itemsep=3pt} % This needs to be here for itemsep above to be recognized
+\setitemize{
+  align=left,        % Left align labels
+  topsep=0pt,        % Vertical space before the list
+  labelindent=0pt,   % Space betw. margin of list and label
+  %% Even though the specs say 0.25 inches for labelsep, need 0.01 here.
+  labelsep*=0.01in,  % Space betw. numbers and text (note * is req'd)
+  leftmargin=!,      % No space betw. margin of list and following lines
+  itemindent=0pt,    % Hanging indentation (after first line)
+  itemsep=3pt        % Vertical space between list items
+}
+\setitemize{itemsep=3pt}   % This needs to be here for itemsep above to be recognized
+
+% This actually does most of the bullet spacing:
+\setlist[itemize,1]{leftmargin=14pt,labelsep=10pt}
+\setlist[itemize,2]{leftmargin=15pt,labelsep=10pt}
+\setlist[enumerate,1]{leftmargin=14pt}
+\setlist[enumerate,2]{leftmargin=15pt}
+
+%% Hanging indent of the bibliography items.
+\setlength{\bibhang}{0.25in}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% For display of pseudocode
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{linegoal}
+%% A \Let command for defining assignments within the algorithmic environment
+%%  which supports automatic indentation when the second argument is too long to
+%%  fit on one line
+\newcommand*{\Let}[2]{\State #1 $\gets$
+\parbox[t]{\linegoal}{#2\strut}}
+%% A \State command that supports automatic indentation when the argument's
+%% content is too long to fit on one line
+\newcommand*{\LongState}[1]{\State
+\parbox[t]{\linegoal}{#1\strut}}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Other included packages
+\usepackage{cite}
+%% Need array when specifying a ragged right column:
+%%  >{\raggedright\arraybackslash}{p2in}.
+\usepackage{longtable,array}
+%% For figures in chapter subdirectories
+\usepackage{import}
+%% For inclusion of figures
+\usepackage{graphicx}
+\usepackage{verbatim,fancyvrb}
+%% Provides \ifthenelse and \isempty
+\usepackage{xifthen}
+\usepackage{color, colortbl}
+%% For dashed lines in tables
+\usepackage{arydshln}
+%% So paragraphs will have a blank line between them
+\usepackage[parfill]{parskip}
+\setlength{\parskip}{6pt}  % Note that "6 pts before and 6 pts after" a paragaph means 6 pts between paragraphs
+%% So links will anchor at figure, not caption
+\usepackage{hypcap}
+%% For two-panel plots
+\usepackage{subfig}
+%% For mathlarger, which makes equations bigger
+\usepackage{relsize}
+%% For booktabs, which allows xtables to render moew nicely
+\usepackage{booktabs}
+%% For cells spanning multiple rows in xtables
+\usepackage{multirow}
+% To do 'for' loops in latex
+\usepackage{pgffor}
+% For float barriers --  add a silent floatbarrier to section commands
+\usepackage[section]{placeins}
+% Include PDFs (i.e., whole page)
+\usepackage{pdfpages}
+
+\usepackage{textcomp}
+\usepackage{lastpage}
+
+% https://tex.stackexchange.com/questions/311132/how-to-style-hrefs-underlined-and-coloured-throughout-the-document
+\usepackage{xcolor,soul}
+
+% Sections without numbers
+\setcounter{secnumdepth}{0}
+
+%% Allows the french abstract to be pasted in with special characters intact
+%% Make sure maindoc.rnw is saved in utf8 encoding.
+%% In emacs you can change the coding with Ctrl-x Ctrl-m f
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% The \sum command creates encoding errors in the final PDF so it is replaced
+%%  globally here with Sigma. The * in DeclareMathOperator* makes the limits
+%%  appear above and below the Sigma symbol instead of in front of it.
+%% This declaration means you can just use \sum in the latex code and the errors
+%%  for character encoding will not occur.
+\usepackage{scalerel}
+\let\oldsum\sum
+\DeclareMathOperator*{\summ}{\scalerel*{\Sigma}{\oldsum}}
+\renewcommand{\sum}{\summ}
+
+%% To create alternate text for figures using
+%%   \pdftooltip{ \includegraphics{fig-file} }
+%%              {Figure~\ref{fig:haida}}   (see longer examples in readme)
+\usepackage{pdfcomment}
+
+% For uppercase title
+\usepackage{textcase}
+
+%% Needed for \ExplSyntaxOn in commit 796975d3 that fixed Issue #105
+\usepackage{xparse}
+%% ------------------------------------------------------------------------------
+
+%% ------------------------------------------------------------------------------
+%% Variables used in assessments
+%% For subscripts in text mode
+\newcommand{\subscr}[1]{$_{\text{#1}}$}
+%% Allow newline breaks in a table cell = Multi-Line-Cell = mlc
+%%  syntax is \mlc{first line\\second line\\more if necessary..}
+%% Don't change the name of this, as it is embedded in R xtable code.
+\newcommand{\mlc}[2][c]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\newcommand{\Bmsy}{B_\mathrm{MSY}}
+\newcommand{\umsy}{u_\mathrm{MSY}}
+
+% Multi-letter identifier (i.e., multi-character variable such as `SB`)
+\newcommand{\mli}[1]{\mathit{#1}}
+% Better treatment of input (no extra trailing space)
+\newcommand{\inputsp}[1]{\input{#1}\unskip}
+
+% Custom commands:
+\newcommand{\sQuote}[1]{`#1'}
+\newcommand{\dQuote}[1]{``#1''}
+\newcommand{\eqn}[1]{\begin{equation}#1\end{equation}}
+\newcommand{\gfrac}[2]{\genfrac{}{}{}{0}{#1}{#2}}
+
+% eor - Show two things with a vertical bar between them. e.g. A|B
+\newcommand{\eor}[2]{{#1$\Vert$#2}}
+
+% bM - makes equations larger
+\newcommand{\bM}[1]{\mathlarger{\mathlarger{#1}}}
+%% ------------------------------------------------------------------------------
+
+% \usepackage{afterpage}
+
+%% ------------------------------------------------------------------------------
+%% Set up first page (header and footer)
+\fancypagestyle{firstPage}{%
+    \newgeometry{top=0.90in, headheight=0.5in}
+    \fancyhf{}
+    \fancyhead{}
+    \lhead{\includegraphics[width=9.2cm]{\locRepo/images/Fip-stacked-DFO-EOS-fra_bw.png}\\
+    \vspace{0.6cm}
+    \textbf{\rdRegion{}}}
+    \rhead{\textbf{Secr\'{e}tariat canadien des avis scientifique}\\
+    \textbf{R\'{e}ponse des sciences \rdWorkDoneYear{}/\rdNumber{}}}
+    \lfoot{\rdWorkDoneMonth{} \rdWorkDoneYear{}}
+    \rfoot{\includegraphics[width=3.54cm]{\locRepo/images/canada_bw.png}}
+    \afterpage{\cfoot{\thepage}}
+    \afterpage{\restoregeometry}
+}
+
+% Generate the first page
+\newcommand{\MakeFirstPage}{
+  % Headers and footers for the first page
+  \thispagestyle{firstPage}
+  % Make the title -- needs a big space to print below the header
+  \vspace*{1.20cm}
+  \begin{center}
+  \hypertarget{PageOne}{}
+  \Large{\textbf{\MakeTextUppercase{\rdTitle{}}}}
+  %\vspace{1in}
+  \end{center}
+}
+
+% Generate the approval
+\newcommand{\MakeApproval}{
+  \section{Approuv\'{e} par}
+  \begin{minipage}[c]{\linewidth}
+  \begin{center}
+  \rdApp{}\\
+  \rdBranch{}, \rdRegion{}\\
+  P\^{e}ches et Oc\'{e}ans Canada\\
+  \vspace{0.1cm}
+  Le \rdAppDate{}\\
+  \end{center}
+  \end{minipage}
+  \vspace{1mm}
+}
+
+% Generate the availability
+\newcommand{\MakeAvailable}[4]{
+}
+
+% Packages for landscape pages
+\usepackage[contents={}]{background}
+\usepackage{varwidth}
+
+% Background for landscape pages (header and footer)
+\newenvironment{turn}{
+  \newgeometry{hmargin=1.25in, vmargin=1in}
+  \begin{landscape}
+  \newcommand{\regionWidthW}{\widthof{\textbf{\rdRegion{}}}}
+  \newcommand{\remainderWidthW}{\linewidth - \regionWidthW - 0.5cm}
+  \pagestyle{empty}
+  \backgroundsetup{
+    angle=90,
+    opacity=1,
+    scale=1,
+    color=black,
+    nodeanchor=south,
+    position={current page.west},
+    vshift=-8.5in,
+    contents={\begin{varwidth}{\linewidth}{
+      \vspace*{2cm}
+      \parbox[b]{\regionWidthW}{\textbf{\rdRegion{}}}
+      \hfill
+      \parbox[b]{\remainderWidthW}{\RaggedLeft{\textbf{R\'{e}ponse des sciences: \rdTitleShort{}}}}\\
+      \vspace{-0.3cm}
+      \rule{\linewidth}{0.4pt}\\
+      \vspace{16.75cm}
+      \vfill
+      \rule{\linewidth}{0.4pt}\\
+      \begin{center}\thepage{}\end{center}
+      \vspace{0.9cm}
+      \hphantom{.}
+      }
+      \end{varwidth}
+    }
+  }
+  }
+  {
+  \end{landscape}
+  \pagestyle{csapfancy}
+  \restoregeometry
+  \clearpage
+}
+
+% Add leading zeros to get length 3
+\newcommand{\threedigits}[1]{\ifnum#1<10 00#1\else\ifnum#1<100 0#1\else#1\fi\fi}
+
+% French citation
+\newcommand{\citeFr}[1]{
+\hangindent=0.6cm
+MPO. \rdWorkDoneYear{}. \rdTitle{}.
+Secr.\ can.\ des avis sci.\ du MPO. R\'{e}p.\ des Sci.\
+#1.}
+
+% English citation
+\newcommand{\citeEng}[1]{
+\hangindent=0.6cm
+\emph{DFO. \rdWorkDoneYear{}. \rdTitleFr{}.
+DFO Can.\ Sci.\ Advis.\ Sec.\ Sci.\ Resp.
+#1.}}
+
+\newenvironment{CSLReferences}[2]{}{}
+
+% Footnote spacing
+\setlength{\footnotesep}{1.2pc} % Between footnotes
+\setlength{\skip\footins}{1.5pc plus 5pt minus 2pt} % Between text and footnote
+
+% Prevent widow and orphan lines (especially in the list of references)
+\usepackage[all]{nowidow}

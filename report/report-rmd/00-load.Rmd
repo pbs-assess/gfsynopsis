@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
   dpi = 200,
   fig.align = "center",
   fig.pos = "htb"
+  # optipng = "-strip all"
 )
+# knitr::knit_hooks$set(optipng = knitr::hook_optipng) # must have optipng installed!
 ```
 
 ```{r load-libraries, cache=FALSE}

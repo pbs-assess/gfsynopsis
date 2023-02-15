@@ -36,7 +36,8 @@ make_pages(
   french = FALSE,
   final_year_comm = 2020,
   final_year_surv = 2021,
-  length_ticks = NULL
+  length_ticks = NULL,
+  all_survey_years = NULL
 )
 }
 \arguments{
@@ -46,7 +47,7 @@ make_pages(
 
 \item{spp}{A species common name.}
 
-\item{d_geostat_index}{d_geostat_index}
+\item{d_geostat_index}{\code{d_geostat_index} data}
 
 \item{aspect}{The aspect ratio of the 2nd page.}
 
@@ -97,6 +98,8 @@ synoptic survey years to include.}
 
 \item{length_ticks}{A data frame indicating optional length composition
 x-axis breaks and labels.}
+
+\item{all_survey_years}{DF with \code{survey_abbrev} and all \code{year}}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

@@ -1,0 +1,186 @@
+<!-- Mandatory section, title may vary. Core of the report. -->
+
+# Analyse et réponse
+
+Dans cette réponse scientifique, toutes les pages de figures ont été reconstruites avec des données actualisées en utilisant les méthodes décrites dans @anderson2019synopsis.
+Les données d'enquête de 2021, 2020, 2019, et dans un cas, 2018, ont été ajoutées (tableau 1).
+Les données commerciales de 2021, 2020 et 2019 ont été ajoutées.
+
+```{r survey-years-table, results='asis'}
+# x <- readRDS("../gfsynopsis/report/data-cache-old?/longnose-skate.rds")
+# x <- x$survey_index
+# group_by(x, survey_abbrev) |>
+#   select(survey_abbrev, year) |>
+#   readr::write_csv("report/2019-resdoc-survey-years.csv")
+
+rd <- readr::read_csv(here::here("report/2019-resdoc-survey-years.csv"),
+  show_col_types = FALSE
+) |>
+  mutate(rd_year = year)
+
+sr <- readRDS(here::here("report/data-cache-april-2022/longnose-skate.rds"))$survey_index
+sr <- sr |> select(survey_abbrev, year)
+
+#   1. Relevé synoptique, bassin de la Reine-Charlotte (SYN BRC) : @williams2018synqcs
+#
+# 1. Relevé synoptique, côte ouest de l’île de Vancouver (SYN COIV) : @nottingham2017synwcvi
+#
+# 1. Relevé synoptique, détroit d’Hécate (SYN DH) : @wyeth2018synhs
+#
+# 1. Relevé synoptique, côte ouest de Haida Gwaii (SYN COHG) : @williams2018synwchg
+#
+# 1. Relevé à la palangre sur fond dur dans les eaux extérieures (RPFD EXT) : @doherty2019hbllout
+#
+# 1. Relevé à la palangre sur fond dur dans les eaux intérieures (RPFD INT) : @lochead2007irf
+#
+# 1. Relevé de la communauté d’espèces dans le détroit d’Hécate (RCE DH) : @choromanski2004hsmsa
+#
+# 1. Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique (RIP CIFP)
+
+survey_full_names <- c(
+  "West Coast Haida Gwaii Synoptic Bottom Trawl", 
+  "Hecate Strait Synoptic Bottom Trawl", 
+  "Queen Charlotte Sound Synoptic Bottom Trawl", 
+  "West Coast Vancouver Island Synoptic Bottom Trawl",
+  "Outside Hard Bottom Long Line North",
+  "Outside Hard Bottom Long Line South", 
+  "Inside Hard Bottom Long Line North", 
+  "Inside Hard Bottom Long Line South",
+  "Hecate Strait Multispecies Assemblage", 
+  # "International Pacific Halibut Commission Fishery Independent Setline"
+  "IPHC Fishery-Independent Setline Survey"
+)
+
+survey_full_names <- c(
+  "Relevé synoptique, côte ouest de Haida Gwaii", 
+  "Relevé synoptique, détroit d’Hécate", 
+  "Relevé synoptique, bassin de la Reine-Charlotte", 
+  "Relevé synoptique, côte ouest de l’île de Vancouver",
+  "Relevé à la palangre sur fond dur dans les eaux extérieures (N)",
+  "Relevé à la palangre sur fond dur dans les eaux extérieures (S)", 
+  "Relevé à la palangre sur fond dur dans les eaux intérieures (N)", 
+  "Relevé à la palangre sur fond dur dans les eaux intérieures (S)",
+  "Relevé de la communauté d’espèces dans le détroit d’Hécate", 
+  # "International Pacific Halibut Commission Fishery Independent Setline"
+  "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique"
+)
+
+surveys <- c(
+  "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+  "HBLL OUT N",
+  "HBLL OUT S", "HBLL INS N", "HBLL INS S",
+  "OTHER HS MSA", "IPHC FISS"
+)
+
+srvs <- tibble(survey_full = survey_full_names, survey_abbrev = surveys, order = seq_along(surveys))
+
+yrs <- left_join(sr, rd) |>
+  right_join(srvs) |>
+  arrange(order) |>
+  select(-order)
+yrs <- filter(yrs, is.na(rd_year)) |>
+  select(-rd_year)
+yrs <- filter(yrs, survey_abbrev != "IPHC FISS")
+yrs <- bind_rows(
+  yrs,
+  tibble(
+     survey_full = c(
+        # "International Pacific Halibut Commission Fishery Independent Setline",
+        # "International Pacific Halibut Commission Fishery Independent Setline",
+        # "International Pacific Halibut Commission Fishery Independent Setline"
+        "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique",
+        "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique",
+        "Relevé indépendant de la pêche de la Commission internationale du flétan du Pacifique"
+        ), 
+     survey_abbrev = c("IPHC FISS", "IPHC FISS", "IPHC FISS"), 
+     year = c(2019, 2020, 2021))
+)
+
+yrs$year <- as.character(yrs$year)
+
+yrs <- yrs[, c(3, 1, 2)]
+
+csasdown::csas_table(yrs,
+   col_names = c("Relevé","Abréviation", "Année ajoutée"),
+   caption = "Années d'enquête indépendante sur la pêche ajoutées dans cette réponse scientifique par rapport au rapport précédent d'Anderson et al. (2019).", format = "latex"
+) %>% 
+  kableExtra::kable_styling(full_width = FALSE) %>%
+  kableExtra::column_spec(1, width = "26em")
+```
+
+Il y a un changement notable dans la façon dont les données de l'indice d'enquête sont présentées dans cette réponse scientifique par rapport à @anderson2019synopsis. Dans le synopsis de @anderson2019synopsis, les années au cours desquelles une espèce donnée n'a pas été capturée dans une enquête ont été omises et la ligne tracée a relié les années avec des données. Dans ce rapport actualisé, ces valeurs d'indice sont présentées comme des zéros.
+En outre, les indices des enquêtes géostatistiques, qui étaient superposés aux indices du chalut synoptique dans @anderson2019synopsis, ont été omis de ce rapport pour des raisons de clarté visuelle. A la place, nous ne montrons que les indices basés sur la conception calculés à partir d'une procédure bootstrap.
+
+```{r child="02-iphc-update.Rmd", echo=FALSE, cache=FALSE}
+```
+
+## Mises en garde {#sec:caveats}
+
+Il y a plusieurs mises en garde à faire lors de l'interprétation de ce rapport, comme indiqué dans le synopsis de @anderson2019synopsis.
+Les principales mises en garde sont les suivantes :
+
+1. Les résultats présentés dans ce rapport ne remplacent pas l'évaluation des stocks. Par exemple, bien que les tendances de la biomasse relative ou de l'indice d'abondance des relevés indiquent la tendance de la biomasse d'une espèce dans une zone, il est préférable de combiner ces informations avec d'autres informations telles que les prélèvements par les captures commerciales et les informations sur la composition par âge ou par longueur du stock pour tirer des conclusions sur l'état d'un stock. En particulier, les indices des relevés ne tiennent pas compte de la sélectivité de la taille estimée comme le font la plupart des évaluations de stock (les poissons plus petits sont généralement moins susceptibles d'être capturés par les engins de relevé).
+
+1. Les indices de biomasse provenant des relevés au chalut ou à la palangre et les indices de PUE (prise par unité d'effort) commerciaux doivent être interprétés avec soin, stock par stock. Nous avons tenté de signaler les tendances des indices des relevés qui peuvent être particulièrement suspectes, soit en raison de la grande variabilité des relevés, soit parce que seule une petite fraction des relevés au chalut ou à la palangre contient l'espèce, mais cela ne constitue pas une garantie en soi. Les indices des relevés ne sont pas toujours représentatifs de l'abondance pour diverses raisons, et un manque de données pour une espèce n'indique pas nécessairement une petite population - les relevés peuvent simplement ne pas convenir à l'échantillonnage de cette espèce. En outre, les changements au fil du temps, y compris les changements de comportement des poissons ou les déplacements d'aire de répartition, peuvent entraîner des biais au fil du temps, même pour les espèces bien échantillonnées.
+
+1. Les tendances de l'indice CPUE de l'enquête et du commerce ne résolvent pas l'échelle de la population et les résultats de ce rapport ne résolvent pas les conflits dans les tendances tirées de différentes sources pour la même espèce.
+
+1. Les résultats de ce rapport ne sont pas appropriés pour la planification spatiale marine. Les données présentées sont résolues à une échelle spatiale grossière et les utilisations de la planification spatiale marine nécessitent des traitements de données spécifiques au-delà des approches générales utilisées dans ce rapport.
+
+1. Les données sur les PUE commerciales peuvent ne pas être proportionnelles à l'abondance des stocks pour une multitude de raisons [par exemple, @harley2001]. Néanmoins, nous pensons qu'il est utile d'afficher de manière transparente les données disponibles pour toutes les espèces.
+
+1. L'historique des captures rapporté ici reflète les données enregistrées et peut ne pas représenter les captures réelles. Les prises commerciales présentées ici ne correspondront pas nécessairement aux séries chronologiques reconstituées dans les évaluations de stocks. La reconstitution des captures historiques nécessite un examen et une analyse minutieux de chaque espèce. En outre, les fluctuations des prises commerciales ne reflètent pas nécessairement les déclins de l'abondance des stocks et peuvent être dues à d'autres facteurs, notamment la mise en œuvre de mesures de gestion. Les poids des rejets déclarés sont considérés comme moins fiables avant la couverture à 100 % par des observateurs de la pêche au chalut de fond en 1996, et avant l'intégration des pêches en 2006 pour les pêches au piège, à l'hameçon et à la ligne, au chalut pélagique et au chalut de fond du détroit de Georgia. Les rejets dans les diagrammes des prises ne comprennent donc que les poids des rejets du chalut de fond de 1996 à aujourd'hui et les poids des rejets du chalut de fond de 2006 à aujourd'hui pour la pêche au piège, à l'hameçon et à la ligne, au chalut pélagique et dans le détroit de Georgia.
+
+1. Il n'est pas possible d'évaluer individuellement les résultats pour toutes les espèces de manière détaillée. Pour utiliser les résultats pour une espèce particulière dans des évaluations futures, ou pour faire d'autres déductions, nous recommandons aux utilisateurs d'examiner soigneusement les données et les résultats du modèle. En raison de l'automatisation nécessaire à l'élaboration de ce rapport, il se peut que tous les cas spéciaux spécifiques aux espèces n'aient pas été pleinement pris en compte.
+
+En plus de ces mises en garde notées dans @anderson2019synopsis, la maladie à coronavirus 2019 (COVID-19) a entraîné l'annulation de plusieurs enquêtes en 2020, dont certaines ont ensuite été réalisées en 2021 en plus des enquêtes prévues.
+En outre, la COVID-19 a entraîné plusieurs changements au sein de la flotte commerciale en 2020 et 2021. Cela a affecté les chiffres de capture (par exemple, la figure \@ref(fig:catches)) et a potentiellement affecté le processus de normalisation de la capture commerciale par unité d'effort (par exemple, la figure \@ref(fig:trawl-cpue-index), annexe D dans Anderson et al. 2019).
+
+## Accessibilité des données
+
+Les données contenues dans ce document sont conservées par l'Unité des données sur les poissons de fond de la Station biologique du Pacifique à Nanaimo, en Colombie-Britannique. Les données des relevés synoptiques au chalut de fond et des relevés à la palangre de fond dur (HBLL) sont disponibles sur le [Portail canadien du gouvernement ouvert](https://rechercher.ouvert.canada.ca/fr/od/) en recherchant « relevé synoptique » ou « relevés à la palangre Pacifique ». Pour l'enquête IPHC, le paquetage R [gfiphc](https://github.com/pbs-assess/gfiphc) contient certaines données et des détails pour demander le reste. Les demandes de données détenues par la région du Pacifique du MPO qui ne sont pas disponibles par le biais du portail du gouvernement ouvert peuvent être faites de la manière décrite sur le [site Web des statistiques sur les prises des pêches du Pacifique](http://www.pac.dfo-mpo.gc.ca/stats/index-fra.html).
+
+## Reproductibilité
+
+L'ensemble de l'extraction et de la manipulation des données, l'ajustement des modèles et la visualisation pour ce rapport sont automatisés et reproductibles.
+Les paquets R gfdata, gfplot, gfiphc, gfsynopsis, sdmTMB [@anderson2022sdmTMB] et csasdown ont été développés à cette fin.
+Le paquet gfdata permet l'extraction des données.
+Le paquet gfplot effectue l'ajustement du modèle et les visualisations.
+Le paquet gfiphc permet l'extraction des données et l'ajustement du modèle pour les données de l'enquête IPHC.
+Le paquet gfsynopsis appelle les fonctions des paquets gfplot, gfdata et gfiphc pour générer ce rapport.
+Le paquet sdmTMB ajuste des modèles linéaires généralisés à effet mixte explicites sur le plan spatial avec des champs aléatoires pour produire les cartes d'enquête.
+Le paquet csasdown construit ce rapport en utilisant R Markdown et bookdown.
+Le code source de ce rapport est disponible sur le dépôt GitHub [pbs-assess/gfsynopsis](https://github.com/pbs-assess/gfsynopsis/), bien que le rapport ne puisse être construit qu'avec un accès au réseau de la Station biologique du Pacifique.
+
+```{r sha}
+sha <- list()
+sha[[1]] <- system("cd ../../../gfdata; git rev-parse HEAD", intern = TRUE)
+sha[[2]] <- system("cd ../../../gfplot; git rev-parse HEAD", intern = TRUE)
+sha[[3]] <- system("cd ../../../csasdown; git rev-parse HEAD", intern = TRUE)
+sha[[4]] <- system("cd ../../../sdmTMB; git rev-parse HEAD", intern = TRUE)
+sha[[5]] <- system("cd ../../../gfiphc; git rev-parse HEAD", intern = TRUE)
+sha[[6]] <- system("git rev-parse HEAD", intern = TRUE)
+names(sha) <- c("gfdata", "gfplot", "csasdown", "sdmTMB", "gfiphc", "gfsynopsis")
+sha <- lapply(sha, function(x) substr(x, 1, 6))
+```
+
+Les versions spécifiques (commits GitHub) utilisées pour générer ce rapport sont disponibles à l'adresse suivante :
+
+* [pbs-assess/gfdata](`r paste0("https://github.com/pbs-assess/gfdata/tree/", sha$gfdata)`)\
+* [pbs-assess/gfplot](`r paste0("https://github.com/pbs-assess/gfplot/tree/", sha$gfplot)`)\
+* [pbs-assess/gfiphc](`r paste0("https://github.com/pbs-assess/gfiphc/tree/", sha$gfiphc)`)\
+* [pbs-assess/gfsynopsis](`r paste0("https://github.com/pbs-assess/gfsynopsis/tree/", sha$gfsynopsis)`)\
+* [pbs-assess/sdmTMB](`r paste0("https://github.com/pbs-assess/sdmTMB/tree/", sha$sdmTMB)`)\
+* [pbs-assess/csasdown](`r paste0("https://github.com/pbs-assess/csasdown/tree/", sha$csasdown)`)\
+
+# Conclusions
+
+Cette réponse scientifique présente une mise à jour du synopsis de @anderson2019synopsis qui ajoute des données principalement de 2019 à 2021 ainsi que des citations à toute nouvelle évaluation de stock ou rapport du Comité sur la situation des espèces en péril au Canada (COSEPAC).
+Il est prévu que le rapport soit mis à jour régulièrement.
+Ces mises à jour comprendront toute nouvelle donnée depuis le rapport précédent et toute correction importante aux données, au texte ou aux visualisations.
+Moins fréquemment, les auteurs envisageront d'apporter des changements plus importants à la structure, aux méthodes ou au contenu du rapport dans le cadre d'un processus de révision du SCAS.
+
+En conclusion, ce rapport rassemble, applique un filtrage minutieux des données et un contrôle de qualité, modélise et visualise de manière réfléchie presque toutes les données sur les poissons de fond du Pacifique dont dispose le MPO.
+Cela comprend une analyse de la biomasse relative, des indices d'abondance et de la distribution spatiale des relevés scientifiques, ainsi que des séries chronologiques modélisées et des distributions spatiales des prises commerciales et des PUE des pêches au poisson de fond.
+De plus, le présent rapport résume les paramètres des stocks, comme les fréquences de longueur et d'âge, et analyse la croissance et les relations longueur-poids, l'âge à la maturité, la longueur à la maturité et les fréquences de maturité, dans la mesure du possible, pour les 113 espèces.
+Le personnel des Sciences du poisson de fond et de la Gestion des pêches du MPO et toutes les parties intéressées - y compris l'industrie de la pêche, les Premières nations, les organisations non gouvernementales, les organismes de certification des produits de la mer et le grand public - peuvent utiliser ce rapport pour surveiller les stocks qui n'ont pas fait l'objet d'une évaluation officielle, pour surveiller les stocks entre les évaluations ou pour signaler qu'une évaluation devrait être envisagée.

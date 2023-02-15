@@ -113,5 +113,5 @@ out_prec %>% group_by(species_common_name) %>%
   theme_pbs() +
   ggplot2::ggtitle("") +
   scale_colour_manual(values = c("real" = "grey25", "fake" = NA)) +
-  guides(colour = FALSE)
+  guides(colour = "none")
 ```

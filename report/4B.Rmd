@@ -1,0 +1,127 @@
+```{r, echo=FALSE}
+this_spp <- "walleye pollock"
+# this_spp <- "pacific hake"
+```
+
+---
+title: `r paste0("4B data availability for ", this_spp)`
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+data_cache <- here::here("report", "data-cache-april-2022")
+survey_cols <- c(
+  RColorBrewer::brewer.pal(5L, "Set1"),
+  RColorBrewer::brewer.pal(8L, "Set1")[7:8],
+  "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"
+)
+this_spp_hyphens <- gsub(" ", "-", this_spp)
+dat <- readRDS(paste0(file.path(data_cache, this_spp_hyphens), ".rds"))
+library(dplyr)
+library(ggplot2)
+theme_set(gfplot::theme_pbs())
+```
+
+```{r catch}
+dat$catch |>
+  filter(grepl("4B", major_stat_area_name)) |>
+  gfplot::tidy_catch() |>
+  gfplot::plot_catch()
+```
+
+### Commercial
+
+```{r samps, fig.asp=0.2, fig.width=10}
+dat$commercial_samples |>
+  filter(grepl("4B", major_stat_area_name)) |>
+  gfplot::tidy_sample_avail() |>
+  gfplot::plot_sample_avail() +
+  scale_fill_viridis_c(option = "D", end = 0.82, na.value = "transparent") +
+  ggtitle("Commercial")
+```
+
+### Survey
+
+```{r samps2, fig.asp=0.4}
+dat$survey_samples |>
+  filter(grepl("4B", major_stat_area_name)) |>
+  gfplot::tidy_sample_avail() |>
+  gfplot::plot_sample_avail() +
+  scale_fill_viridis_c(option = "C", end = 0.82, na.value = "transparent") +
+  ggtitle("Survey")
+```
+
+### Commercial
+
+```{r tables}
+dat$commercial_samples |>
+  filter(grepl("4B", major_stat_area_name)) |>
+  group_by(year, gear_desc) |>
+  summarize(
+    n_length = sum(!is.na(length)),
+    n_age = sum(!is.na(age)),
+    n_weight = sum(!is.na(weight)),
+    n_structure = sum(age_specimen_collected == 1)
+  ) |> 
+  mutate(gear_desc = stringr::str_to_title(gear_desc)) |> 
+  knitr::kable(format = "pandoc")
+```
+
+### Survey
+
+```{r}
+dat$survey_samples |>
+  filter(grepl("4B", major_stat_area_name)) |>
+  group_by(year, survey_series_desc) |>
+  summarize(
+    n_length = sum(!is.na(length)),
+    n_age = sum(!is.na(age)),
+    n_weight = sum(!is.na(weight)),
+    n_structure = sum(age_specimen_collected == 1)
+  ) |> 
+  knitr::kable(format = "pandoc")
+
+```
+
+### Commercial lengths
+
+```{r lengths1, fig.width=13, fig.asp=1.5}
+dat$commercial_samples |>
+  filter(grepl("4B", major_stat_area_name)) |> 
+  ggplot(aes(x = length, fill = gear_desc)) +
+  geom_histogram(alpha = 0.65, position = "identity", colour = "grey70") +
+  facet_wrap(~year, ncol = 3, dir="v", scales = "free_y") +
+  scale_fill_brewer(palette = "Set2")
+```
+
+### Survey lengths
+
+```{r lengths2, fig.asp=0.5, fig.width=10}
+dat$survey_samples |>
+  filter(grepl("4B", major_stat_area_name)) |> 
+  ggplot(aes(x = length, fill = survey_series_desc)) +
+  geom_histogram(alpha = 0.65, position = "identity", colour = "grey70") +
+  facet_wrap(~year, ncol = 3, dir="v", scales = "free_y") +
+  scale_fill_brewer(palette = "Set2")
+```
+
+### Commercial ages
+
+```{r ages1, fig.width=13, fig.asp=1.5}
+dat$commercial_samples |>
+  filter(grepl("4B", major_stat_area_name)) |> 
+  ggplot(aes(x = age, fill = gear_desc)) +
+  geom_histogram(alpha = 0.65, position = "identity", colour = "grey70") +
+  facet_wrap(~year, ncol = 3, dir="v", scales = "free_y") +
+  scale_fill_brewer(palette = "Set2")
+```
+
+### Survey ages
+
+```{r ages2, fig.asp=0.5, fig.width=10, eval=this_spp=="pacific hake"}
+dat$survey_samples |>
+  filter(grepl("4B", major_stat_area_name)) |> 
+  ggplot(aes(x = age, fill = survey_series_desc)) +
+  geom_histogram(alpha = 0.65, position = "identity", colour = "grey70") +
+  facet_wrap(~year, ncol = 3, dir="v", scales = "free_y") +
+  scale_fill_brewer(palette = "Set2")
+```

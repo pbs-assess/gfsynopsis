@@ -44,6 +44,7 @@ resdoc/spatial-appendix.tex
 *.sublime-workspace
 framed.sty
 inst/doc
+report/READ-downloaded.txt
 report/report/doc/02-plots.Rnw
 report/report/knit*
 report/report/*.rtf
@@ -55,7 +56,7 @@ report/report-rmd/_bookdown_files/
 report/report-rmd/_book/
 report/report-rmd/knitr-cache*
 report/report-rmd/plot-pages.Rmd
-cpue-cache.zip
+*.zip
 report/report-rmd/resdoc.Rmd
 report/report-rmd/resdoc_cache/
 report/report-rmd/resdoc.utf8.md
@@ -102,3 +103,4 @@ report/report-rmd/figure-pages/
 lw_gfplot.cpp
 vb.stan
 vb_gfplot.cpp
+report/report-rmd-fr-2021/gfsynopsis-sr-2021.tex

@@ -1,0 +1,17 @@
+book_filename: "gfsynopsis-sr-2021-fr"
+chapter_name: "Chapter "
+rmd_files: [
+  "index.Rmd",
+  "00-load.Rmd",
+  "01-context-background.Rmd",
+  "02-analysis-response.Rmd",
+  "03-plot-descriptions.Rmd",
+  "04-indices.Rmd",
+  "05-synopsis-plots-intro.Rmd",
+  "plot-pages.Rmd",
+  "97-contributors.Rmd",
+  "98-approval.Rmd",
+  "99-references.Rmd"
+  ]
+download: [["gfsynopsis-sr-2021.pdf", "PDF"], ["gfsynopsis-sr-2021.docx", "Word"]]
+delete_merged_file: true

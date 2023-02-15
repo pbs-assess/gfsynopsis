@@ -1,0 +1,33 @@
+\clearpage
+
+# Index des espèces par nom commun {#sec:common-name-index}
+
+```{r index-alpha-common, results='asis', cache=FALSE}
+# note this is custom for French!!
+.spp <- gfsynopsis::get_spp_names()
+spp_table <- .spp %>%
+  mutate(species_common_name = gfsynopsis:::first_cap(species_common_name)) %>%
+  mutate(section = paste0("\\pageref{sec:", spp_w_hyphens, "}")) %>%
+  mutate(species_science_name = paste0("*", gfplot:::firstup(species_science_name), "*")) %>%
+  mutate(species_science_name = gsub("Sebastes aleutianus\\/melanostictus complex",
+    "S. aleutianus/melanostictus", species_science_name)) %>% 
+  mutate(species_common_name = gsub("C-o Sole", "C-O Sole", species_common_name))
+
+if (french){
+  spp_table <- spp_table %>%
+  mutate(species_common_name = rosettafish::en2fr(species_common_name, french))
+  spp_table$species_common_name <- 
+    purrr::map_chr(spp_table$species_common_name, gfsynopsis:::cap) 
+   spp_table <- spp_table %>% mutate(
+     species_common_name = gsub("Complexe du sébaste à œil épineux\\/sébaste à taches noires",
+    "Œil épineux/taches noires", species_common_name))
+
+}
+
+spp_table %>% arrange(species_common_name) %>%
+  select(species_common_name, species_science_name, section) %>%
+  csasdown::csas_table(align = c("l", "l", "l"),
+   col.names = rosettafish::en2fr(c("Common name", "Scientific name", "Page"), french))
+```
+
+\clearpage

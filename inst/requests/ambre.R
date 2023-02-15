@@ -15,10 +15,6 @@ spp <- c("pacific cod",
 
 
 dat <- get_catch(spp)
-
-
-# readr::write_csv(dat, "inst/requests/all-silvergray-catch.csv")
-# dat <- readr::read_csv("inst/requests/all-silvergray-catch.csv")
 # readr::write_csv(d, "inst/requests/all-north-shelf-catch.csv")
 dat <- readr::read_csv("inst/requests/all-north-shelf-catch.csv")
 
@@ -28,6 +24,18 @@ plot_catch(tdat)
 tdat2 <- tdat %>% rename(kg = value) %>% filter(year < 2021)
 
 readr::write_csv(tdat2, "inst/requests/north-shelf-catch-by-area.csv")
+#d <- readr::read_csv("inst/requests/north-shelf-catch-by-area.csv")
+
+
+# get survey sets
+
+dat <- get_survey_sets(spp, ssid = c(14,36))
+
+d14 <- filter(dat, survey_series_id == 14)
+readr::write_csv(d14, "inst/requests/all-survey-sets-IPHC.csv")
+d36 <- filter(dat, survey_series_id == 36)
+readr::write_csv(d36, "inst/requests/all-survey-sets-HBLLS.csv")
+
 
 
 ## survey indices
@@ -35,15 +43,14 @@ readr::write_csv(tdat2, "inst/requests/north-shelf-catch-by-area.csv")
 i <- get_survey_index(spp)
 
 unique(i$survey_abbrev)
-
 i2 <- filter(i, survey_abbrev %in%
-                         c("HBLL OUT N", #"HBLL OUT S",
-                           "OTHER HS MSA", #"IPHC FISS",
-                           "MSSM QCS",
-                           "SYN WCHG",
-                           "SYN HS",
-                           "SYN QCS"
-                         ))
+                          c("HBLL OUT N", "HBLL OUT S",
+                            "OTHER HS MSA", "IPHC FISS",
+                            "MSSM QCS",
+                            "SYN WCHG",
+                            "SYN HS",
+                            "SYN QCS"
+                          ))
 
 
 readr::write_csv(i2, "inst/requests/north-shelf-survey-indices.csv")

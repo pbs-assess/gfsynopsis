@@ -1,0 +1,57 @@
+## IPHC survey data update
+
+Changes to the IPHC survey necessitated several changes to calculating the IPHC
+index. Data were updated to include 2019, 2020, and 2021 (Table
+\@ref(tab:IPHCdata)). The methods for data retrieval and index calculation are
+available in the [gfiphc](https://github.com/pbs-assess/gfiphc) R package.
+
+```{r IPHCdata, results='asis'}
+iphc_tab <- tibble::tribble(
+  ~ Year, ~`Hooks enumerated`, ~`Data resolution`, ~`Location of data`, ~WCVI,
+  "1995", "All", "Set-by-set", "gfiphc", "N",
+  "1996", "All", "Set-by-set", "gfiphc", "N",
+  "1997--1998", "First 20 of each skate", "Set-by-set", "gfiphc", "N",
+  "1999", "First 20 of each skate", "Set-by-set", "gfiphc", "Y",
+  "2000", "First 20 of each skate", "Set-by-set", "gfiphc", "N",
+  "2001--2002", "First 20 of each skate", "Set-by-set", "gfiphc", "Y",
+  "2003--2011", "All", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2012", "All (bait experiment)", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2013", "First 20 of each skate", "Set-by-set", "gfiphc", "Y",
+  "2014--2017", "All", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2018", "All (+ expansion stns)","Hook-by-hook", "DFO database GFBio", "Y",
+  "2019", "All", "Hook-by-hook", "DFO database GFBio", "Y",
+  "2020", "First 20 of each skate","Set-by-set", "gfiphc", "N",
+  "2021", "First 20 of each skate" ,"Set-by-set", "gfiphc", "Y (reduced)"
+)
+caption <- "Summary of available data from the IPHC stock assessment longline surveys, updating Table G.1 from Anderson et al. (2019). 'Data resolution' indicates at what level the data are available, and 'WCVI' indicates whether or not the survey included locations off the west coast of Vancouver Island. 'Location of data' indicates where the data reside."
+csasdown::csas_table(iphc_tab, caption = caption)
+```
+
+The methods for calculating the IPHC index remain unchanged from those
+described in @anderson2019synopsis, except for the following:
+
+   <!-- TODO: check if include in new maps or not. Best not to as some may be outside of current  gfsynopsis plotting region. -->
+   <!--iphc-2020-data.pdf and iphc-2021-data.pdf in
+   gfiphc have details-->
+
+1. In 2018 there were 131 new expansion stations that had not been previously surveyed. These new stations, plus six new ones in 2021, are excluded from the time-series calculations; they were included for 2018 in the calculations and maps in @anderson2019synopsis.
+
+2. In 2020, fishing was mostly in July and August, whereas it is usually in May to August; this has not been accounted for in the methods.
+
+3. The bootstrapping methods use 10,000 bootstrap samples instead of 1,000, since the results had not stabilized by 1,000 samples for some species.
+
+4. For 2021, the waters off the WCVI were surveyed, but only for a subsample of stations. This does not affect the calculations for the waters north of Vancouver Island [Series A, B, and AB in @anderson2019synopsis], but does affect the calculations for the full coast (Series D and CD). This can affect the determination of whether or not Series AB (usually the longest series that can be constructed, as shown in the results here) can be considered representative of the full coast. Newer methods are being developed that will deal with such subsampling, as well as accounting for hook competition.
+
+5. For 2021, there were six new stations that had never been surveyed before. These stations were declared as non-standard for constructing the various Series, since they do not appear in previous years. Five stations are along the Alaskan border, extending further north than ever before, and the sixth is just outside the Scott Islands Rockfish Conservation Area off the northwest tip of Vancouver Island.
+
+6. The maps for each species show all the stations surveyed in 2021. As noted above, some stations are non-standard and therefore excluded from the Series calculations and the resulting time series plots. 
+
+7. Given only the first 20 hooks per skate were enumerated in 2021 (Table \@ref(tab:IPHCdata)), the catch rates in the maps are necessarily based on only the first 20 hooks. However, in @anderson2019synopsis the maps showed data for 2018, for which all hooks were enumerated (Table \@ref(tab:IPHCdata)). Thus care should be taken if comparing the updated maps here with those from @anderson2019synopsis, since species (particularly rarer ones) are less likely to be caught on 20 hooks than on full skates (of roughly 100 hooks).
+
+8. Depending on which of the calculated Series for a species was shown in @anderson2019synopsis, a zero count (or no data) for a year may have been plotted as a zero or not shown at all. We now use zeros for consistency (except when there are never any recorded catches of the species, for which the full plot remains empty).
+
+9. Furthermore, note that species identification may have improved over time for some species. For example, the average catch rate of `Unidentified Skates' was almost 1 fish per effective skate from 1995--1999, but then declined to near zero because Big Skate and Longnose Skate were both explicity identified from 1998 onwards. The more rarely caught Aleutian Skate only shows up in the data from 2006 onwards. Such changes in protocol can be the cause of zero counts early in the time series for some species.
+
+   <!-- See iphc-2021-data.pdf for maps and further details.-->
+
+Further technical details are given in the [gfiphc](https://github.com/pbs-assess/gfiphc) package, which also includes details (and results) for analyzing data for individual species, groups of species, and restricted areas. The full sets of time series available for each species (based on all hooks or just the first 20 from each skate) can be seen in the [data for all species](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/data_for_all_species.html) vignette, for verifying exactly what is shown in the figures here.

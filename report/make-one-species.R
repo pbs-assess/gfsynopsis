@@ -26,7 +26,7 @@ gfdata::cache_pbs_data(
 )
 
 # The last function call creates this data file:
-dat <- readRDS(paste0(file.path(data_cache, this_spp), ".rds"))
+dat <- readRDS(paste0(file.path(data_cache, this_spp_hyphens), ".rds"))
 
 # If you want to fit and plot the commercial CPUE indexes then run the following:
 # (must be on PBS network; a lot of data + a bit slow)

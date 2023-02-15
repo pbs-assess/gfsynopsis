@@ -1,6 +1,6 @@
 ---
-title: "A data synopsis for British Columbia groundfish: 2021 update"
-title_short: "Groundfish Data Synopsis 2021"
+title: "A data synopsis for British Columbia groundfish: 2021 data update"
+title_short: "Groundfish Data Update 2021"
 author: |
   Sean C. Anderson,
   Elise A. Keppel, and
@@ -10,22 +10,22 @@ address: |
   Pacific Biological Station\
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
   Nanaimo, British Columbia, V9T 6N7, Canada
-year: "2021"
-month: "MONTH"
-report_number: 999 # Must be numeric
+year: "2022"
+month: "March"
+report_number: 020 # Must be numeric
 approver: |
-  Approver Name\
+  Andrew Thomson\
   Regional Director
-title_other: "Anderson, S.C., Keppel, E.A., Edwards, A.M. 2021. Une synthèse des données pour le poissons de fond de la Colombie-Britannique : mise à jour 2021. Secr. can. de consult. sci. du MPO. Doc. de rech. 2020/0XX. xx + XX p."
-approval_year: 2021
-approval_month: "MONTH"
-approval_day: 01
-work_done_year: 2021
-work_done_month: "MONTH"
+title_other: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2021"
+approval_year: 2022
+approval_month: "June"
+approval_day: 3
+work_done_year: 2022
+work_done_month: "March"
 branch: "Science Branch"
 region: "Pacific Region"
-isbn: "ISBN-Here"
-cat_no: "Cat-Number-Here"
+isbn: "Fs70-7/2022-020E-PDF"
+cat_no: "978-0-660-43317-2"
 output:
  csasdown::sr_pdf:
    french: false
@@ -36,9 +36,12 @@ output:
 type: sr
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 latex_engine: xelatex
+draft_watermark: false
 # ------------
 # End of options to set
 knit: bookdown::render_book
 link-citations: true
 csl: csl/csas.csl
 ---
+
+
