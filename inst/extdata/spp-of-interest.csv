@@ -1,4 +1,6 @@
 species_common_name,type,species_code,species_science_name,itis_tsn,taxonomic_rank,parent_taxonomic_unit,worms_id
+shortbelly rockfish,B,423,sebastes jordani,166725,species,sebastes,274806
+popeye,B,250,coryphaenoides cinereus,165335,species,macrouridae(grenadiers),272326
 north pacific spiny dogfish,A,044,squalus suckleyi,160617,species,squalidae(dogfish sharks),299224
 big skate,A,056,beringraja binoculata,160848,species,rajidae(skates),1021330
 longnose skate,A,059,raja rhina,160851,species,rajidae(skates),271581
