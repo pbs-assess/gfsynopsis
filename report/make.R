@@ -1,4 +1,4 @@
-french <- TRUE
+french <- FALSE
 
 if (french) {
   options(french = TRUE)
@@ -9,9 +9,9 @@ is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
 is_unix <- .Platform$OS.type == "unix"
 
 if (french) {
-  build_dir <- "report/report-rmd-fr-2021"
+  build_dir <- "report/tech-report-fr"
 } else {
-  build_dir <- "report/report-rmd"
+  build_dir <- "report/tech-report"
 }
 # This file generates all the main synopsis figures in `report/figure-pages`.
 # It must be run before the report can be rendered.
@@ -27,7 +27,6 @@ library(rosettafish)
 library(future)
 # setwd(here())
 wd <- getwd()
-options("sdmTMB.cores" = 4L)
 if (!grepl("gfsynopsis", wd)) stop("Working directory wrong? Should be this repo main folder.")
 
 # ------------------------------------------------------------------------------
@@ -52,7 +51,7 @@ if (parallel_processing) {
 }
 
 # Read in fresh data or load cached data if available: ------------------------
-dc <- here("report", "data-cache-april-2022")
+dc <- here("report", "data-cache-feb-2023")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
