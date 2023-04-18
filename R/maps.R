@@ -74,7 +74,7 @@ fit_survey_maps <- function(dat,
       density_column = density_column, tmb_knots = 200,
       premade_grid = premade_grid, required_obs_percent = 0.02, ...)
     # we may have predicted all years, but just save last year for plotting:
-    raw_dat <- filter(m$data, year == max(m$data$year))
+    raw_dat <- dplyr::filter(m$data, year == max(m$data$year))
     list(model = m, raw_dat = raw_dat)
   })
 

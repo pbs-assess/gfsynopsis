@@ -5,6 +5,7 @@ if (french) {
   options(OutDec = ",")
 }
 
+
 is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
 is_unix <- .Platform$OS.type == "unix"
 
@@ -20,8 +21,8 @@ library(dplyr)
 # library(gfplot)
 devtools::load_all("../gfplot")
 library(gfiphc)
-library(gfsynopsis)
-# devtools::load_all(".")
+# library(gfsynopsis)
+devtools::load_all(".")
 library(rosettafish)
 # library(foreach)
 library(future)
@@ -36,6 +37,7 @@ example_spp <- c("petrale sole", "pacific cod") # a species used as an example i
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- FALSE
 cores <- floor(future::availableCores() / 2.5)
+cores <- future::availableCores() - 3L
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
@@ -81,6 +83,7 @@ spp <- left_join(spp, mutate(cls, itis_tsn = as.integer(itis_tsn)),
   by = "itis_tsn")
 
 spp[grep("tope", spp$species_common_name),"worms_id"] <- "105820"
+spp[spp$worms_id == "unknown", ]
 
 # Missing from ITIS:
 spp$order[spp$species_common_name == "deacon rockfish"] <-
@@ -90,7 +93,7 @@ spp$family[spp$species_common_name == "deacon rockfish"] <-
 
 # downloaded from:
 # https://species-registry.canada.ca/index-en.html#/species?ranges=1,18&taxonomyId=4&sortBy=commonNameSort&sortDirection=asc&pageSize=10
-# on 2021-08-13
+# on 2023-04-18
 cos <- readr::read_csv(here::here("report/COSEWIC-species.csv"), show_col_types = FALSE)
 cos <- dplyr::filter(cos, !grepl("Salmon", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Trout", `COSEWIC common name`))
@@ -138,12 +141,26 @@ if (isFALSE(french)) {
 # ------------------------------------------------------------------------------
 # CPUE model fits
 
-# d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
+### parallel_processing <- TRUE
+### # Set up parallel processing or sequential
+### options(future.globals.maxSize = 2000 * 1024 ^ 2) # 2000 mb
+### if (parallel_processing) {
+###   if (!is_rstudio && is_unix) {
+###     future::plan(multicore, workers = cores)
+###   } else {
+###     future::plan(multisession) # much frustration
+###   }
+### } else {
+###   future::plan(sequential)
+### }
+### parallel_processing <- FALSE
+
 cpue_cache <- file.path("report", "cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
-# purrr::walk(spp$species_common_name[1:55], function(.sp) {
-purrr::walk(spp$species_common_name[56:113], function(.sp) {
-# purrr::walk(spp$species_common_name, function(.sp) {
+xx <- spp$species_common_name
+xx <- sample(xx, length(xx), replace = FALSE)
+furrr::future_walk(xx, function(.sp) {
+  # purrr::walk(xx, function(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   if (!file.exists(cpue_cache_spp)) {
@@ -157,6 +174,7 @@ purrr::walk(spp$species_common_name[56:113], function(.sp) {
     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
   }
 })
+future::plan(sequential)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
@@ -180,9 +198,6 @@ to_build <- which(missing)
 rlang::inform("Building")
 rlang::inform(paste(spp$species_common_name[to_build]))
 
-length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
-  show_col_types = FALSE)
-
 # Trash compiled objects for safety:
 # unlink("vb_gfplot.*")
 # unlink("lw_gfplot.*")
@@ -195,8 +210,27 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
 # missing <- rep(TRUE, length(missing))
 # for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
 # for (i in to_build[seq(floor(length(to_build) / 2), length(to_build))]) {
-for (i in to_build) {
-# out <- lapply(which(missing), function(i) {
+# plan(multisession, workers = 10L)
+
+
+# options(future.globals.maxSize = 2000 * 1024 ^ 2) # 2000 mb
+# options(future.globals.onReference = "error")
+# if (parallel_processing) {
+  # if (!is_rstudio && is_unix) {
+    # future::plan(multicore, workers = 2L)
+    # future::plan(multisession, workers = 2L)
+  # } else {
+    # future::plan(multisession) # much frustration
+
+# furrr::future_walk(to_build, function(i) {
+purrr::walk(to_build[1:40], function(i) {
+# purrr::walk(to_build[41:80], function(i) {
+# purrr::walk(to_build[81:length(to_build)], function(i) {
+# purrr::walk(to_build, function(i) {
+# for (i in to_build) {
+  # out <- lapply(which(missing), function(i) {
+
+# future::plan(multisession, workers = 9L)
 # out <- future.apply::future_lapply(which(missing), function(i) {
   tryCatch({
     cat(crayon::red(clisymbols::symbol$cross),
@@ -205,6 +239,8 @@ for (i in to_build) {
 
     dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
     dat$cpue_index <- d_cpue
+    length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
+      show_col_types = FALSE) |> as.data.frame()
     gfsynopsis::make_pages(
       dat = dat,
       dat_iphc = dat_iphc,
@@ -218,34 +254,38 @@ for (i in to_build) {
       png_format = if (ext == "png") TRUE else FALSE,
       parallel = FALSE, # for CPUE fits; need a lot of memory if true!
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
-      synoptic_max_survey_years = list("SYN WCHG" = 2020, "SYN HS" = 2021, "SYN WCVI" = 2021, "SYN QCS" = 2021),
-      hbll_out_max_survey_years = list("HBLL OUT N" = 2021, "HBLL OUT S" = 2020),
+      synoptic_max_survey_years = list("SYN WCHG" = 2022, "SYN HS" = 2021, "SYN WCVI" = 2022, "SYN QCS" = 2021),
+      hbll_out_max_survey_years = list("HBLL OUT N" = 2021, "HBLL OUT S" = 2022),
       iphc_max_survey_year = 2021,
-      final_year_comm = 2021,
-      final_year_surv = 2021,
+      final_year_comm = 2022,
+      final_year_surv = 2022,
       length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
       survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
         RColorBrewer::brewer.pal(8L, "Set1")[7:8],
         "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
     )
-  # }, error = function(e) warning("Error"))
+    # }, error = function(e) warning("Error"))
   }, error = function(e) stop("Error"))
-# }, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
+  # }, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
   # "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
-# })
-}
+# }
+  # .options = furrr::furrr_options(globals = c("build_dir", "dat_iphc, dat", "spp", "example_spp", "d_cpue", "dc"))
+
+  })
+# future::plan(sequential)
+
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
 if (!french) {
-  g_alt <- readRDS("report/report-rmd/ggplot-objects/pacific-cod.rds")
-  saveRDS(g_alt$cpue_spatial, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial.rds")
-  saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
+  g_alt <- readRDS(paste0(build_dir, "/ggplot-objects/pacific-cod.rds"))
+  saveRDS(g_alt$cpue_spatial, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+  saveRDS(g_alt$cpue_spatial_ll, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
 }
 if (french) {
-  g_alt <- readRDS("report/report-rmd-fr-2021/ggplot-objects/pacific-cod.rds")
-  saveRDS(g_alt$cpue_spatial, file = "report/report-rmd-fr-2021/ggplot-objects/pacific-cod-cpue-spatial.rds")
-  saveRDS(g_alt$cpue_spatial_ll, file = "report/report-rmd-fr-2021/ggplot-objects/pacific-cod-cpue-spatial-ll.rds")
+  g_alt <- readRDS(paste0(build_dir, "/ggplot-objects/pacific-cod.rds"))
+  saveRDS(g_alt$cpue_spatial, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+  saveRDS(g_alt$cpue_spatial_ll, file = paste0(build_dir, "ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
 }
 
 # ------------------------------------------------------------------------------
@@ -388,9 +428,9 @@ temp <- lapply(spp$species_common_name, function(x) {
   if (species_code == "225") {
     if (!french) {
       out[[i]] <- "Note that Pacific Hake undergoes a directed joint
-    Canada-US coastwide\n survey and annual assessment, which are not
-    included in this report. The most recent\n stock assessment
-    should be consulted for details on stock status."
+      Canada-US coastwide\n survey and annual assessment, which are not
+      included in this report. The most recent\n stock assessment
+      should be consulted for details on stock status."
     } else {
       out[[i]] <- "Il est à noter que le merlu du Chili fait l’objet d’un relevé et d’une évaluation annuels ciblés menés conjointement par le Canada et les É.-U. à l'échelle de la côte, qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
@@ -399,9 +439,9 @@ temp <- lapply(spp$species_common_name, function(x) {
   if (species_code == "614") {
     if (!french) {
       out[[i]] <- "Note that Pacific Halibut undergoes thorough assessment by the
-    International Pacific\n Halibut Commission based on the annual
-    standardized setline survey. The most\n recent stock assessment
-    should be consulted for details on stock status."
+      International Pacific\n Halibut Commission based on the annual
+      standardized setline survey. The most\n recent stock assessment
+      should be consulted for details on stock status."
     } else {
       out[[i]] <- "Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
@@ -410,9 +450,9 @@ temp <- lapply(spp$species_common_name, function(x) {
   if (species_code == "455") {
     if (!french) {
       out[[i]] <- "Note that Sablefish undergoes directed annual trap surveys,
-    which are used for\n stock assessment and are not included in
-    this report. The most recent\n stock assessment should be
-    consulted for details on stock status."
+      which are used for\n stock assessment and are not included in
+      this report. The most recent\n stock assessment should be
+      consulted for details on stock status."
     } else {
       out[[i]] <- "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
@@ -475,3 +515,5 @@ if (optimize_png) {
   # }
   setwd(here())
 }
+
+

@@ -776,7 +776,7 @@ make_pages <- function(
     surv <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       surveys = surv, species = spp,
-      silent = TRUE, years = 2002:2020)
+      silent = TRUE, years = seq(2002, max(unlist(synoptic_max_survey_years))))
     saveRDS(syn_fits, map_cache_spp_synoptic)
     # file = file.path("report", "map-cache", "synoptic",
     #   spp_file, gsub(" ", "-", surv[i]), ".rds"), compress = FALSE)
