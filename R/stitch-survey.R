@@ -1,62 +1,45 @@
-# spp_files <- list.files(here::here('data', 'data-cache-feb-2023')) %>%
-#   .[!grepl('iphc|cpue-index-dat', .)] %>%
-#   here::here('data', 'data-cache-feb-2023', .)
+# Data cleaning/prep -----------------------------------------------------------
+prep_stitch_dat <- function(species_dat) {
+  species_dat |>
+    sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
+    dplyr::mutate(
+      area_swept1 = doorspread_m * (speed_mpm * duration_min),
+      area_swept2 = tow_length_m * doorspread_m,
+      area_swept = ifelse(!is.na(area_swept2), area_swept2, area_swept1)
+    ) |>
+    dplyr::mutate(trawl_offset = log(area_swept / 1e5)) |> # Value used for offset
+    dplyr::mutate(hook_offset = log(hook_count)) |> # Value used for offset
+    dplyr::mutate(
+      catch = ifelse(grepl("SYN", survey_abbrev), catch_weight, catch_count),
+      offset = ifelse(grepl("SYN", survey_abbrev), trawl_offset, hook_offset)
+    ) |>
+    dplyr::mutate(present = ifelse(catch > 0, 1, 0)) |>
+    dplyr::mutate(survey_type = dplyr::case_when(
+      grepl("SYN", survey_abbrev) ~ "synoptic",
+      grepl("HBLL OUT", survey_abbrev) ~ "hbll_outside",
+      grepl("HBLL INS", survey_abbrev) ~ "hbll_inside"
+    )) |>
+    dplyr::filter(!is.na(offset))
+}
 
-# spp_dat <- lapply(spp_files, readRDS) %>%
-#   lapply(., `[[`, 'survey_sets') %>%
-#   dplyr::bind_rows() %>%
-#   dplyr::filter(grepl(pattern = "^SYN|^HBLL", x = survey_abbrev))
-
-# saveRDS(spp_dat, file = here::here('data', 'survey-sets.rds'))
-
-# Exclude 2014 WCHG? excluded in in the fit_sdmTMB_westcoast() function, but not noted in the report?
-
-spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
-  dplyr::tibble() |>
-  sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
-  dplyr::mutate(
-    area_swept1 = doorspread_m * (speed_mpm * duration_min),
-    area_swept2 = tow_length_m * doorspread_m,
-    area_swept = ifelse(!is.na(area_swept2), area_swept2, area_swept1)
-  ) |>
-  dplyr::mutate(trawl_offset = log(area_swept / 1e5)) |> # Value used for offset
-  dplyr::mutate(hook_offset = log(hook_count)) |> # Value used for offset
-  dplyr::mutate(
-    catch = ifelse(grepl("SYN", survey_abbrev), catch_weight, catch_count),
-    offset = ifelse(grepl("SYN", survey_abbrev), trawl_offset, hook_offset)
-  ) |>
-  dplyr::mutate(present = ifelse(catch > 0, 1, 0)) |>
-  dplyr::mutate(survey_type = dplyr::case_when(
-    grepl("SYN", survey_abbrev) ~ "synoptic",
-    grepl("HBLL OUT", survey_abbrev) ~ "hbll_outside",
-    grepl("HBLL INS", survey_abbrev) ~ "hbll_inside"
-  )) |>
-  dplyr::filter(!is.na(offset))
-
-# Check how much data is missing due to missing offset
-# spp_dat |> filter(is.na(offset)) |> distinct(survey_desc)
-
-
-
-stitch_lu <- spp_dat |>
-  dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
-  dplyr::add_count(name = "n_sets") |>
-  dplyr::add_tally(present, name = "n_pos") |>
-  dplyr::distinct(species_common_name, year, survey_type, survey_abbrev, n_pos, n_sets) |>
-  dplyr::group_by(species_common_name, survey_type, survey_abbrev) |>
-  dplyr::summarise(
-    mean_n_pos = mean(n_pos), mean_n_sets = mean(n_sets),
-    prop_pos = mean_n_pos / mean_n_sets
-  ) |>
-  dplyr::mutate_at(c("mean_n_pos", "mean_n_sets"), round, 0) |>
-  dplyr::mutate_at("prop_pos", round, 2) |>
-  dplyr::mutate(include_in_stitch = ifelse(prop_pos <= 0.05, 0, 1)) |>
-  dplyr::ungroup() |>
-  dplyr::arrange(survey_type, species_common_name)
-
-# saveRDS(stitch_lu, here::here("data-outputs", "stitch-lu.rds"))
-
-
+get_stitch_lu <- function(species_dat, species, survey_type) {
+  species_dat |>
+    dplyr::filter(species_common_name %in% !!species, survey_type %in% !!survey_type) |>
+    dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
+    dplyr::add_count(name = "n_sets") |>
+    dplyr::add_tally(present, name = "n_pos") |>
+    dplyr::distinct(species_common_name, year, survey_type, survey_abbrev, n_pos, n_sets) |>
+    dplyr::group_by(species_common_name, survey_type, survey_abbrev) |>
+    dplyr::summarise(
+      mean_n_pos = mean(n_pos), mean_n_sets = mean(n_sets),
+      prop_pos = mean_n_pos / mean_n_sets
+    ) |>
+    dplyr::mutate_at(c("mean_n_pos", "mean_n_sets"), round, 0) |>
+    dplyr::mutate_at("prop_pos", round, 2) |>
+    dplyr::mutate(include_in_stitch = ifelse(prop_pos <= 0.05, 0, 1)) |>
+    dplyr::ungroup() |>
+    dplyr::arrange(survey_type, species_common_name)
+}
 
 # Prepare grids ----------------------------------------------------------------
 prep_stitch_grids <- function() {
@@ -103,10 +86,11 @@ prep_stitch_grids <- function() {
 }
 
 # Utility functions ------------------------------------------------------------
-get_stitch_regions <- function(species, survey_type) {
-  stitch_lu <- readRDS(here::here("data-outputs", "stitch-lu.rds"))
+get_stitch_regions <- function(species_dat, species, survey_type) {
+  # stitch_lu <- readRDS(here::here("data-outputs", "stitch-lu.rds"))
+  stitch_lu <- get_stitch_lu(species_dat, species, survey_type)
   stitch_regions <- stitch_lu |>
-    dplyr::filter(species_common_name == species & survey_type %in% !!(survey_type) &
+    dplyr::filter(species_common_name %in% !!species & survey_type %in% !!(survey_type) &
       include_in_stitch == 1)
   stitch_regions[["survey_abbrev"]]
 }
@@ -130,7 +114,7 @@ make_grid <- function(.x, years) {
   .nd
 }
 
-check_cache <- function(filename, cache) {
+check_cache <- function(cache, filename) {
   filecheck <- grep(filename, list.files(cache))
   if (length(filecheck) >= 1) {
     return(filename)
@@ -146,26 +130,18 @@ get_stitched_index <- function(
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
     cache = here::here("report", "stitch-cache"), parallel = FALSE,
     overwrite_cache = FALSE) {
+  cache <- file.path(cache, survey_type)
   if (!file.exists(cache)) dir.create(cache)
 
-  out_name <- paste(species, survey_type, sep = "-")
   out <- list()
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
-  stitch_regions <- get_stitch_regions(species = species, survey_type = survey_type)
+  stitch_regions <- get_stitch_regions(species_dat = dat, species = species, survey_type = survey_type)
   if (length(stitch_regions) < 2) {
     message(cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n"))
     out[[1]] <- "insufficient data to stitch regions"
-    saveRDS(out, here::here(cache, paste0(out_name, "_no-stitch.rds")))
+    saveRDS(out, here::here(cache, paste0(species, "_no-stitch.rds")))
     return(out)
-  }
-
-  # # Don't fit model and get index if prediction file is already cached
-  pred_filecheck <- FALSE
-  pred_filecheck <- check_cache(filename = paste0(out_name, "_pred.rds"), cache = cache)
-
-  if (isFALSE(overwrite_cache) & isTRUE(pred_file_check)) {
-    stop(cat("\n\tFile", pred_filecheck, "alredy exists, not making prediction"))
   }
 
   dat <- dat |>
@@ -174,7 +150,7 @@ get_stitched_index <- function(
 
   dat <- droplevels(dat) # drop extra factor levels before running models
 
-  message(cat("\n\tStitching index for:", out_name))
+  message(cat("\n\tStitching index for:", species))
   message(cat("\t\t- Using", unique(dat$species_common_name), unique(dat$survey_abbrev)))
 
   if (is.null(mesh)) {
@@ -212,7 +188,7 @@ get_stitched_index <- function(
   if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
     message(cat("\n\tFailed sanity check, skipping predictions and index"))
     out[[1]] <- "Failed sanity check"
-    saveRDS(out, here::here(cache, paste0(out_name, "_failed-sanity.rds")))
+    saveRDS(out, here::here(cache, paste0(species, "_failed-sanity.rds")))
     return(out)
   }
 
@@ -231,41 +207,49 @@ get_stitched_index <- function(
     pred <- predict(fit, newdata, return_tmb_object = TRUE)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
-    saveRDS(pred, here::here(cache, paste0(out_name, "_pred.rds")))
+    saveRDS(pred, here::here(cache, paste0(species, "_pred.rds")))
   }
 
   if (length(pred) > 1) {
     message("\n\t Calculating index")
-    out[[1]] <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$cell_area)
+    out[[1]] <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
   }
 
-  saveRDS(out, here::here(cache, paste0(out_name, "_index.rds")))
+  saveRDS(out, here::here(cache, paste0(species, "_index.rds")))
   out
 }
 
 # Look at what is being excluded/included --------------------------------------
 # Useful for looking at what gets stitched
-stitch_ft <- positive_sets |>
-  dplyr::group_by(species_common_name, survey_type) |>
-  dplyr::summarise(stitch_tally = sum(include_in_stitch)) |>
-  dplyr::mutate(to_stitch = ifelse(stitch_tally < 2, 0, 1)) |>
-  dplyr::right_join(positive_sets) |>
-  dplyr::arrange(survey_type, species_common_name)
+# spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
+#   dplyr::tibble() |>
+#   prep_stitch_dat()
+# positive_sets <- get_stitch_lu(spp_dat,
+#   species = unique(spp_dat$species_common_name),
+#   survey_type = "synoptic"
+# )
 
-cl <- officer::fp_border(color = "black", width = 3)
+# stitch_ft <- positive_sets |>
+#   dplyr::group_by(species_common_name, survey_type) |>
+#   dplyr::summarise(stitch_tally = sum(include_in_stitch)) |>
+#   dplyr::mutate(to_stitch = ifelse(stitch_tally < 2, 0, 1)) |>
+#   dplyr::right_join(positive_sets) |>
+#   dplyr::arrange(survey_type, species_common_name)
 
-break_position <- function(x) {
-  z <- data.table::rleidv(x)
-  c(z[-length(z)] != z[-1], FALSE)
-}
+# cl <- officer::fp_border(color = "black", width = 3)
 
-inclusion_table <- stitch_ft |>
-  flextable::flextable() |>
-  flextable::merge_v(x = _, j = "species_common_name") |>
-  flextable::hline(i = ~ break_position(species_common_name)) |>
-  flextable::fix_border_issues() |>
-  flextable::bg(x = _, i = ~ prop_pos <= 0.01, j = 5, bg = "red") |>
-  flextable::bg(x = _, i = ~ (prop_pos > 0.01 & prop_pos <= 0.03), j = 5, bg = "orange") |>
-  flextable::bg(x = _, i = ~ (prop_pos > 0.03 & prop_pos <= 0.05), j = 5, bg = "yellow")
-inclusion_table
+# break_position <- function(x) {
+#   z <- data.table::rleidv(x)
+#   c(z[-length(z)] != z[-1], FALSE)
+# }
+
+# inclusion_table <- stitch_ft |>
+#   flextable::flextable() |>
+#   flextable::merge_v(x = _, j = "species_common_name") |>
+#   flextable::hline(i = ~ break_position(species_common_name)) |>
+#   flextable::fix_border_issues() |>
+#   flextable::bg(x = _, i = ~ prop_pos <= 0.01, j = 5, bg = "red") |>
+#   flextable::bg(x = _, i = ~ (prop_pos > 0.01 & prop_pos <= 0.03), j = 5, bg = "orange") |>
+#   flextable::bg(x = _, i = ~ (prop_pos > 0.03 & prop_pos <= 0.05), j = 5, bg = "yellow")
+# inclusion_table
 # ------------------------------------------------------------------------------
