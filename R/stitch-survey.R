@@ -19,8 +19,10 @@ prep_stitch_dat <- function(species_dat) {
       grepl("HBLL OUT", survey_abbrev) ~ "hbll_outside",
       grepl("HBLL INS", survey_abbrev) ~ "hbll_inside"
     )) |>
-    dplyr::mutate(species_common_name = gsub("rougheye/blackspotted",
-      "rougheye-blackspotted", species_common_name)) |>
+    dplyr::mutate(species_common_name = gsub(
+      "rougheye/blackspotted",
+      "rougheye-blackspotted", species_common_name
+    )) |>
     dplyr::filter(!is.na(offset))
 }
 
@@ -92,8 +94,8 @@ prep_stitch_grids <- function() {
 choose_survey_grid <- function(survey) {
   switch(survey,
     synoptic = readRDS(here::here("data-outputs", "grids", "synoptic_grid.rds")),
-    hbll_out_grid = readRDS(here::here("data-outputs", "grids", "hbll_out_grid.rds")),
-    hbll_ins_grid = readRDS(here::here("data-outputs", "grids", "hbll_ins_grid.rds")),
+    hbll_outside = readRDS(here::here("data-outputs", "grids", "hbll_out_grid.rds")),
+    hbll_inside = readRDS(here::here("data-outputs", "grids", "hbll_ins_grid.rds")),
     stop("Invalid `survey` value")
   )
 }
@@ -120,6 +122,7 @@ check_cache <- function(cache, filename) {
 get_stitched_index <- function(
     dat, species = "arrowtooth flounder",
     survey_type = c("synoptic", "hbll_outside", "hbll_inside"),
+    model_type = c("st-rw", "st-rw_tv-rw"),
     mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
     cache = here::here("report", "stitch-cache"), parallel = FALSE,
@@ -127,7 +130,6 @@ get_stitched_index <- function(
   cache <- file.path(cache, survey_type)
   if (!file.exists(cache)) dir.create(cache)
 
-  out <- list()
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(dat, species, survey_type)
@@ -142,7 +144,7 @@ get_stitched_index <- function(
 
   if (length(stitch_regions) < 2) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
-    out[[1]] <- "insufficient data to stitch regions"
+    out <- "insufficient data to stitch regions"
     saveRDS(out, here::here(cache, paste0(species, "_no-stitch.rds")))
     return(out)
   }
@@ -172,38 +174,39 @@ get_stitched_index <- function(
 
   if (!is.null(offset)) offset <- dat[[offset]]
 
-  cat("\n\tFitting st RW, time_varying RW for:", species, "\n")
-  fit <- try(
-    sdmTMB::sdmTMB(
-      formula = catch ~ 0, family = family,
-      time_varying = ~1, time_varying_type = "rw",
-      time = "year", spatiotemporal = "rw", spatial = "on",
-      data = dat, mesh = mesh, offset = offset, extra_time = missing_years,
-      silent = silent, control = ctrl
-    )
-  )
+  cat("\n\tFitting: ", model_type, ' ', species, "\n")
 
-  if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
-    cat("\n\tFailed sanity check. Fitting st RW, no time_varying:", species, "\n")
-    fit <- try(
+  fit <- switch(model_type,
+    `st-rw` = try(
       sdmTMB::sdmTMB(
         formula = catch ~ 1, family = family,
         time = "year", spatiotemporal = "rw", spatial = "on",
         data = dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
-    )
+    ),
+    `st-rw_tv-rw` = try(
+      sdmTMB::sdmTMB(
+        formula = catch ~ 0, family = family,
+        time_varying = ~1, time_varying_type = "rw",
+        time = "year", spatiotemporal = "rw", spatial = "on",
+        data = dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        silent = silent, control = ctrl
+      )
+    ),
+    stop("Invalid `model_type` value")
+  )
 
-    if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
-      cat("\n\tFailed sanity check, skipping predictions and index\n")
-      out[[1]] <- "Failed sanity check"
-      saveRDS(out, here::here(cache, paste0(species, "_failed-sanity.rds")))
-      return(out)
-    }
+  if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
+    cat("\n\tFailed sanity check. Fitting st RW, no time_varying:", species, "\n")
+    out <- "Failed sanity check"
+    sanity_filename <- here::here(cache, paste0(species, "_", model_type, "_failed-sanity.rds"))
+    saveRDS(out, sanity_filename)
+    return(out)
   }
 
   if (inherits(fit, "sdmTMB")) {
-    message("\n\t Getting predictions")
+    cat("\n\t Getting predictions\n")
     # Prepare newdata for getting predictions
     year_range_seq <- min(dat$year):max(dat$year)
     grid <- choose_survey_grid(survey_type)
@@ -217,23 +220,24 @@ get_stitched_index <- function(
     pred <- predict(fit, newdata, return_tmb_object = TRUE)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
-    saveRDS(pred, here::here(cache, paste0(species, "_pred.rds")))
+    pred_filename <- here::here(cache, paste0(species, "_", model_type, "_pred.rds"))
+    cat("\n\tSaving: ", pred_filename)
+    saveRDS(pred, pred_filename)
   }
 
   if (length(pred) > 1) {
-    message("\n\t Calculating index")
-    out[[1]] <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
     cat("\t Calculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
     index$mean_se <- mean(index$se)
     index$num_sets <- mean_num_sets
-    index$pos_sets <- mean_num_pos_sets
-    #index$num_pos_sets <- mean_num_pos_sets UPDATE outputs later and replace with this
+    index$num_pos_sets <- mean_num_pos_sets
     index$survey_type <- survey_type
     index$stitch_regions <- paste(stitch_regions, collapse = ", ")
+    out <- index
   }
-
-  saveRDS(out, here::here(cache, paste0(species, "_index.rds")))
+  index_filename <- here::here(cache, paste0(species, "_", model_type, "_index.rds")
+  cat("\n\tSaving: ", index_filename)
+  saveRDS(out, index_filename)
   out
 }
 
