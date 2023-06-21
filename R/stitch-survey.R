@@ -25,8 +25,9 @@ prep_stitch_dat <- function(species_dat) {
 }
 
 get_stitch_lu <- function(species_dat, species, survey_type) {
+  stopifnot(survey_type %in% c("synoptic", "hbll_outside", "hbll_inside"))
   species_dat |>
-    dplyr::filter(species_common_name %in% !!species, survey_type %in% !!survey_type) |>
+    dplyr::filter(species_common_name %in% {{ species }}, survey_type %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
     dplyr::add_count(name = "n_sets") |>
     dplyr::add_tally(present, name = "n_pos") |>
@@ -88,15 +89,6 @@ prep_stitch_grids <- function() {
 }
 
 # Utility functions ------------------------------------------------------------
-get_stitch_regions <- function(species_dat, species, survey_type) {
-  # stitch_lu <- readRDS(here::here("data-outputs", "stitch-lu.rds"))
-  stitch_lu <- get_stitch_lu(species_dat, species, survey_type)
-  stitch_regions <- stitch_lu |>
-    dplyr::filter(species_common_name %in% !!species & survey_type %in% !!(survey_type) &
-      include_in_stitch == 1)
-  stitch_regions[["survey_abbrev"]]
-}
-
 choose_survey_grid <- function(survey) {
   switch(survey,
     synoptic = readRDS(here::here("data-outputs", "grids", "synoptic_grid.rds")),
@@ -138,9 +130,18 @@ get_stitched_index <- function(
   out <- list()
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
-  stitch_regions <- get_stitch_regions(species_dat = dat, species = species, survey_type = survey_type)
+  stitch_lu <- get_stitch_lu(dat, species, survey_type)
+  stitch_regions <- stitch_lu |>
+    dplyr::filter(species_common_name %in% {{ species }} & survey_type %in% {{ survey_type }} &
+      include_in_stitch == 1)
+
+  mean_num_sets <- sum(stitch_regions$mean_n_sets)
+  mean_num_pos_sets <- sum(stitch_regions$mean_n_pos)
+
+  stitch_regions <- stitch_regions[["survey_abbrev"]]
+
   if (length(stitch_regions) < 2) {
-    message(cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n"))
+    cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
     out[[1]] <- "insufficient data to stitch regions"
     saveRDS(out, here::here(cache, paste0(species, "_no-stitch.rds")))
     return(out)
@@ -152,8 +153,8 @@ get_stitched_index <- function(
 
   dat <- droplevels(dat) # drop extra factor levels before running models
 
-  message(cat("\n\tStitching index for:", species))
-  message(cat("\t\t- Using", unique(dat$species_common_name), unique(dat$survey_abbrev)))
+  cat("\n\tStitching index for:", species)
+  cat("\n\t\t- For regions: ", paste(stitch_regions, collapse = ", "))
 
   if (is.null(mesh)) {
     message(cat("\t\t- No mesh provided, making mesh with cutoff:", cutoff))
