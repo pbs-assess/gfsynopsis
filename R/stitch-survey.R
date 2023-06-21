@@ -19,6 +19,8 @@ prep_stitch_dat <- function(species_dat) {
       grepl("HBLL OUT", survey_abbrev) ~ "hbll_outside",
       grepl("HBLL INS", survey_abbrev) ~ "hbll_inside"
     )) |>
+    dplyr::mutate(species_common_name = gsub("rougheye/blackspotted",
+      "rougheye-blackspotted", species_common_name)) |>
     dplyr::filter(!is.na(offset))
 }
 
