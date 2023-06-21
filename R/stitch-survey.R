@@ -157,42 +157,49 @@ get_stitched_index <- function(
   cat("\n\t\t- For regions: ", paste(stitch_regions, collapse = ", "))
 
   if (is.null(mesh)) {
-    message(cat("\t\t- No mesh provided, making mesh with cutoff:", cutoff))
+    cat("\n\t\t- No mesh provided, making mesh with cutoff:", cutoff)
     mesh <- sdmTMB::make_mesh(dat, c("X", "Y"), cutoff = 20)
   }
 
   missing_years <- sdmTMB:::find_missing_time(dat$year)
 
   if (length(missing_years) < 1L) {
-    message(cat("\t\t- No missing time to be filled in."))
+    cat("\n\t\t- No missing time to be filled in.")
     missing_years <- NULL
   } else {
-    message(cat("\t\t- Filling in extra_time with:", missing_years))
+    cat("\n\t\t- Filling in extra_time with:", missing_years)
   }
 
   if (!is.null(offset)) offset <- dat[[offset]]
 
-  message(cat("\n\tFitting st RW, time_varying RW for:", species))
+  cat("\n\tFitting st RW, time_varying RW for:", species, "\n")
   fit <- try(
     sdmTMB::sdmTMB(
-      catch ~ 0,
-      family = family,
+      formula = catch ~ 0, family = family,
       time_varying = ~1, time_varying_type = "rw",
       time = "year", spatiotemporal = "rw", spatial = "on",
-      data = dat,
-      mesh = mesh,
-      offset = offset,
-      silent = silent,
-      extra_time = missing_years,
-      control = ctrl
+      data = dat, mesh = mesh, offset = offset, extra_time = missing_years,
+      silent = silent, control = ctrl
     )
   )
 
   if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
-    message(cat("\n\tFailed sanity check, skipping predictions and index"))
-    out[[1]] <- "Failed sanity check"
-    saveRDS(out, here::here(cache, paste0(species, "_failed-sanity.rds")))
-    return(out)
+    cat("\n\tFailed sanity check. Fitting st RW, no time_varying:", species, "\n")
+    fit <- try(
+      sdmTMB::sdmTMB(
+        formula = catch ~ 1, family = family,
+        time = "year", spatiotemporal = "rw", spatial = "on",
+        data = dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        silent = silent, control = ctrl
+      )
+    )
+
+    if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
+      cat("\n\tFailed sanity check, skipping predictions and index\n")
+      out[[1]] <- "Failed sanity check"
+      saveRDS(out, here::here(cache, paste0(species, "_failed-sanity.rds")))
+      return(out)
+    }
   }
 
   if (inherits(fit, "sdmTMB")) {
@@ -216,6 +223,14 @@ get_stitched_index <- function(
   if (length(pred) > 1) {
     message("\n\t Calculating index")
     out[[1]] <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
+    cat("\t Calculating index\n")
+    index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
+    index$mean_se <- mean(index$se)
+    index$num_sets <- mean_num_sets
+    index$pos_sets <- mean_num_pos_sets
+    #index$num_pos_sets <- mean_num_pos_sets UPDATE outputs later and replace with this
+    index$survey_type <- survey_type
+    index$stitch_regions <- paste(stitch_regions, collapse = ", ")
   }
 
   saveRDS(out, here::here(cache, paste0(species, "_index.rds")))
