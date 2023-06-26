@@ -249,6 +249,34 @@ get_stitched_index <- function(
   out
 }
 
+# Stitch indices ---------------------------------------------------------------
+# spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
+#   dplyr::tibble()
+
+# cache <- here::here("report", "stitch-cache", 'synoptic')
+# #cache <- here::here("report", "stitch-cache", 'hbll_outside')
+# cached_spp <- NULL
+# #cached_spp <- gsub('(_.*)', '', list.files(cache))
+# missing_spp <- cached_spp[!(unique(spp_dat$species_common_name) %in% cached_spp)]
+# spp_dat |>
+#   prep_stitch_dat() |> dplyr::distinct(survey_type)
+# get_stitch_lu(species_dat = _, species = unique(spp_dat$species_common_name), survey_type == 'hbll_inside')
+
+# spp_df_list <- spp_dat |>
+#   dplyr::filter(!(species_common_name %in% cached_spp)) |>
+#   dplyr::group_split(species_common_name) |>
+#   purrr::map(prep_stitch_dat)
+
+# Stitch SYN -------
+# spp_df_list |>
+#   purrr::map(\(df) get_stitched_index(dat = df, species = unique(df$species_common_name),
+#     survey_type = 'synoptic', model_type = 'st-rw'))
+
+# Stitch HBLL OUT -------
+# spp_df_list |>
+#   purrr::map(\(df) get_stitched_index(dat = df, species = unique(df$species_common_name),
+#     survey_type = 'hbll_outside', model_type = 'st-rw'))
+
 # Look at what is being excluded/included --------------------------------------
 # Useful for looking at what gets stitched
 # spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
