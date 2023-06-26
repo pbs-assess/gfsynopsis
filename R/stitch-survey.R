@@ -37,12 +37,12 @@ get_stitch_lu <- function(species_dat, species, survey_type) {
     dplyr::group_by(species_common_name, survey_type, survey_abbrev) |>
     dplyr::summarise(
       mean_n_pos = mean(n_pos), mean_n_sets = mean(n_sets),
-      prop_pos = mean_n_pos / mean_n_sets
+      prop_pos = mean_n_pos / mean_n_sets,
+      .groups = "drop"
     ) |>
     dplyr::mutate_at(c("mean_n_pos", "mean_n_sets"), round, 0) |>
     dplyr::mutate_at("prop_pos", round, 2) |>
     dplyr::mutate(include_in_stitch = ifelse(prop_pos <= 0.05, 0, 1)) |>
-    dplyr::ungroup() |>
     dplyr::arrange(survey_type, species_common_name)
 }
 
@@ -174,7 +174,7 @@ get_stitched_index <- function(
 
   if (!is.null(offset)) offset <- dat[[offset]]
 
-  cat("\n\tFitting: ", model_type, ' ', species, "\n")
+  cat("\n\tFitting:", model_type, " ", species, "\n")
 
   fit <- switch(model_type,
     `st-rw` = try(
@@ -206,7 +206,7 @@ get_stitched_index <- function(
   }
 
   if (inherits(fit, "sdmTMB")) {
-    cat("\n\t Getting predictions\n")
+    cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
     year_range_seq <- min(dat$year):max(dat$year)
     grid <- choose_survey_grid(survey_type)
@@ -221,22 +221,22 @@ get_stitched_index <- function(
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
     pred_filename <- here::here(cache, paste0(species, "_", model_type, "_pred.rds"))
-    cat("\n\tSaving: ", pred_filename)
+    cat("\n\tSaving:", pred_filename, "\n")
     saveRDS(pred, pred_filename)
   }
 
   if (length(pred) > 1) {
-    cat("\t Calculating index\n")
+    cat("\n\tCalculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
-    index$mean_se <- mean(index$se)
+    index$mean_cv <- mean(sqrt(exp(index$se^2) - 1))
     index$num_sets <- mean_num_sets
     index$num_pos_sets <- mean_num_pos_sets
     index$survey_type <- survey_type
     index$stitch_regions <- paste(stitch_regions, collapse = ", ")
     out <- index
   }
-  index_filename <- here::here(cache, paste0(species, "_", model_type, "_index.rds")
-  cat("\n\tSaving: ", index_filename)
+  index_filename <- here::here(cache, paste0(species, "_", model_type, "_index.rds"))
+  cat("\n\tSaving:", index_filename, "\n")
   saveRDS(out, index_filename)
   out
 }
