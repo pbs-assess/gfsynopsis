@@ -117,6 +117,14 @@ check_cache <- function(cache, filename) {
   }
 }
 
+tidy_stitched_index <- function(stitched_index) {
+  stitched_index |>
+    dplyr::rename(
+      survey_abbrev = "stitch_regions", biomass = "est",
+      lowerci = "lwr", upperci = "upr"
+    )
+}
+
 # ------------------------------------------------------------------------------
 
 get_stitched_index <- function(
