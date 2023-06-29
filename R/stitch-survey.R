@@ -141,14 +141,31 @@ get_stitched_index <- function(
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(dat, species, survey_type)
-  stitch_regions <- stitch_lu |>
-    dplyr::filter(species_common_name %in% {{ species }} & survey_type %in% {{ survey_type }} &
-      include_in_stitch == 1)
 
-  mean_num_sets <- sum(stitch_regions$mean_n_sets)
-  mean_num_pos_sets <- sum(stitch_regions$mean_n_pos)
+  if (survey_type != 'synoptic') {
+    stitch_regions_df <- stitch_lu |>
+      dplyr::filter(species_common_name %in% {{ species }} & survey_type %in% {{ survey_type }} &
+        include_in_stitch == 1)
+  } else {
+    wchg_pos_0.05 <- stitch_lu[[which(stitch_lu$survey_abbrev == 'SYN WCHG'), 'prop_pos']] > 0.05
+    other_regions_0.05 <- sum(stitch_lu[which(stitch_lu$survey_abbrev != 'SYN WCHG'), 'prop_pos']) > 0.05
 
-  stitch_regions <- stitch_regions[["survey_abbrev"]]
+    # If WCHG and other regions are all > 0.05 stitch use all regions
+    if (wchg_pos_0.05 & other_regions_0.05) {
+      stitch_regions_df <- stitch_lu
+    }
+
+    # If WCHG < 0.05 but other regions > 0.05, stitch other regions
+    if (!wchg_pos_0.05 & other_regions_0.05) {
+      stitch_regions_df <- stitch_lu[which(stitch_lu$survey_abbrev != 'SYN WCHG'), ]
+    }
+    # If no region > 0.05 do not stitch
+    if (!wchg_pos_0.05 & !other_regions_0.05) {
+      stitch_regions_df <- NULL
+    }
+  }
+
+  stitch_regions <- stitch_regions_df[["survey_abbrev"]]
 
   if (length(stitch_regions) < 2) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
@@ -156,6 +173,10 @@ get_stitched_index <- function(
     saveRDS(out, here::here(cache, paste0(species, "_no-stitch.rds")))
     return(out)
   }
+
+  # Only calculate positive sets if stitching
+  mean_num_sets <- sum(stitch_regions_df$mean_n_sets)
+  mean_num_pos_sets <- sum(stitch_regions_df$mean_n_pos)
 
   dat <- dat |>
     dplyr::filter(species_common_name == species & survey_type == survey_type &
@@ -206,7 +227,7 @@ get_stitched_index <- function(
   )
 
   if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
-    cat("\n\tFailed sanity check. Fitting st RW, no time_varying:", species, "\n")
+    cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
     out <- "Failed sanity check"
     sanity_filename <- here::here(cache, paste0(species, "_", model_type, "_failed-sanity.rds"))
     saveRDS(out, sanity_filename)
