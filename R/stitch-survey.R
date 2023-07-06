@@ -1,6 +1,11 @@
-# Data cleaning/prep -----------------------------------------------------------
-prep_stitch_dat <- function(species_dat) {
-  species_dat |>
+#' Prepare survey set data for index stitching
+#'
+#' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
+#'
+#' @returns A dataframe the same length as `spp_dat`
+
+#' @export
+prep_stitch_dat <- function(spp_dat) {
   # Add baited hook counts to spp_dat for LL surveys
   # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
   ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
@@ -41,11 +46,21 @@ prep_stitch_dat <- function(species_dat) {
       "rougheye-blackspotted", species_common_name
     )) |>
     dplyr::filter(!is.na(offset))
+  out
 }
 
-get_stitch_lu <- function(species_dat, species, survey_type) {
+
+#' Get table of positive sets for each region and survey type
+#'
+#' @param spp_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
+#' @param species A string specifying the `species_common_name`
+#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#'
+#' @returns A dataframe
+#' @export
+get_stitch_lu <- function(spp_dat, species, survey_type) {
   stopifnot(survey_type %in% c("synoptic", "hbll_outside", "hbll_inside"))
-  species_dat |>
+  spp_dat |>
     dplyr::filter(species_common_name %in% {{ species }}, survey_type %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
     dplyr::add_count(name = "n_sets") |>
@@ -64,6 +79,16 @@ get_stitch_lu <- function(species_dat, species, survey_type) {
 }
 
 # Prepare grids ----------------------------------------------------------------
+#' Write grids used for stitching index
+#'
+#' @description
+#' Write grid objects used for stitching index. These are written to a
+#' <data-outputs/grids> directory.
+#' Note: Might not be needed if clean grids are added to `gfdata`
+#'
+#' @return
+#' @export
+#'
 prep_stitch_grids <- function() {
   grid_dir <- here::here("data-outputs", "grids")
   if (!file.exists(grid_dir)) dir.create(grid_dir)
@@ -71,7 +96,7 @@ prep_stitch_grids <- function() {
   synoptic_grid_file <- here::here(grid_dir, "synoptic_grid.rds")
   hbll_out_grid_file <- here::here(grid_dir, "hbll_out_grid.rds")
   hbll_ins_grid_file <- here::here(grid_dir, "hbll_ins_grid.rds")
-
+  # @TODO will update when grids are added to gfdata
   if (!file.exists(synoptic_grid_file)) {
     syn_grid <-
       gfplot::synoptic_grid |>
@@ -94,10 +119,6 @@ prep_stitch_grids <- function() {
     saveRDS(hbll_out_grid, hbll_out_grid_file)
   }
 
-  # This inside grid is corrected for area overlapping with land
-  # From https://github.com/Blue-Matter/quillback-rockfish/blob/master/data-generated/hbll-inside-grid.rds
-  # QUESTION: Is there source code available for generating this grid?
-  # Should it be included in gfplot?
   if (!file.exists(hbll_ins_grid_file)) {
     hbll_ins_grid <-
       readRDS(here::here("data", "hbll-inside-grid.rds")) |>
@@ -108,32 +129,51 @@ prep_stitch_grids <- function() {
 }
 
 # Utility functions ------------------------------------------------------------
-choose_survey_grid <- function(survey) {
-  switch(survey,
+#' Choose the survey grid matching the survey type
+#'
+#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#'
+#' @return A dataframe containing a survey grid from [gfsynopsis::prep_stitch_grids()]
+#' @export
+#'
+choose_survey_grid <- function(survey_type) {
+  switch(survey_type,
     synoptic = readRDS(here::here("data-outputs", "grids", "synoptic_grid.rds")),
     hbll_outside = readRDS(here::here("data-outputs", "grids", "hbll_out_grid.rds")),
     hbll_inside = readRDS(here::here("data-outputs", "grids", "hbll_ins_grid.rds")),
-    stop("Invalid `survey` value")
+    stop("Invalid `survey_type` value")
   )
 }
 
-make_grid <- function(.x, years) {
+#' Make prediction grid over years and survey grid
+#'
+#' @param survey_grid A dataframe from [gfsynopsis::prep_stitch_grids()]
+#' @param years A numeric vector of years
+#'
+#' @return A dataframe with as many rows as `nrow(survey_grid) * length(years)`
+#'
+make_grid <- function(survey_grid, years) {
   years <- sort(unique(years))
   .nd <- do.call(
     "rbind",
-    replicate(length(years), .x, simplify = FALSE)
+    replicate(length(years), survey_grid, simplify = FALSE)
   )
-  .nd$year <- rep(years, each = nrow(.x))
+  .nd$year <- rep(years, each = nrow(survey_grid))
   .nd
 }
 
-check_cache <- function(cache, filename) {
-  filecheck <- grep(filename, list.files(cache))
-  if (length(filecheck) >= 1) {
-    return(filename)
-  }
-}
-
+#' Format stitched index for plotting
+#'
+#' @description
+#' Formats output of [gfsynopsis::get_stitched_index()] to match output of
+#' [gfplot::tidy_survey_index()] so that synopsis plots can be made using
+#' [gfplot::plot_survey_index()]
+#'
+#' @param stitched_index A dataframe from [gfsynopsis::get_stiched_index()]
+#'
+#' @return
+#' @export
+#'
 tidy_stitched_index <- function(stitched_index) {
   stitched_index |>
     dplyr::rename(
@@ -144,17 +184,35 @@ tidy_stitched_index <- function(stitched_index) {
 
 # ------------------------------------------------------------------------------
 
+#' Get stitched index across survey regions in synoptic trawl and HBLL surveys
+#'
+#' @param dat A dataframe from [gfsynopsis::prep_stitch_dat()].
+#' @param species A string specifying the `species_common_name`.
+#' @param survey_type A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".
+#' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw".
+#' @param mesh Optional mesh object created using [sdmTMB::make_mesh()].
+#' @param cutoff If `mesh = NULL`, mesh cutoff for [sdmTMB::make_mesh()].
+#' @param family The family and link for [sdmTMB::sdmTMB()].
+#' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
+#' @param silent A boolean. Silent or include optimization details.
+#' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
+#' @param cache A string specifying file path to cache location.
+#'
+#' @returns Either a string or dataframe:
+#' * `insufficient data to stitch regions` if the number of positive sets is too low to stitch
+#' * `Failed sanity check` if the model failed to converge
+#' * A dataframe containing the stitched index
+#' @export
+#'
 get_stitched_index <- function(
     dat, species = "arrowtooth flounder",
-    survey_type = c("synoptic", "hbll_outside", "hbll_inside"),
-    model_type = c("st-rw", "st-rw_tv-rw"),
+    survey_type = "synoptic",
+    model_type = "st-rw",
     mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
-    cache = here::here("report", "stitch-cache"), parallel = FALSE,
-    overwrite_cache = FALSE) {
+    cache = here::here("report", "stitch-cache")) {
   cache <- file.path(cache, survey_type)
   if (!file.exists(cache)) dir.create(cache)
-
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(dat, species, survey_type)
@@ -256,7 +314,7 @@ get_stitched_index <- function(
     # Prepare newdata for getting predictions
     year_range_seq <- min(dat$year):max(dat$year)
     grid <- choose_survey_grid(survey_type)
-    newdata <- make_grid(.x = grid, years = year_range_seq) |>
+    newdata <- gfsynopsis:::make_grid(survey_grid = grid, years = year_range_seq) |>
       dplyr::filter(
         survey %in% fit$data$survey_abbrev,
         year %in% fit$data$year
@@ -287,7 +345,7 @@ get_stitched_index <- function(
   out
 }
 
-# Stitch indices ---------------------------------------------------------------
+## Stitch indices ---------------------------------------------------------------
 # spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
 #   dplyr::tibble()
 
@@ -298,31 +356,32 @@ get_stitched_index <- function(
 # missing_spp <- cached_spp[!(unique(spp_dat$species_common_name) %in% cached_spp)]
 # spp_dat |>
 #   prep_stitch_dat() |> dplyr::distinct(survey_type)
-# get_stitch_lu(species_dat = _, species = unique(spp_dat$species_common_name), survey_type == 'hbll_inside')
+# get_stitch_lu(spp_dat = _, species = unique(spp_dat$species_common_name), survey_type == 'hbll_inside')
 
 # spp_df_list <- spp_dat |>
 #   dplyr::filter(!(species_common_name %in% cached_spp)) |>
 #   dplyr::group_split(species_common_name) |>
 #   purrr::map(prep_stitch_dat)
 
-# Stitch SYN -------
+## Stitch SYN -------
 # spp_df_list |>
 #   purrr::map(\(df) get_stitched_index(dat = df, species = unique(df$species_common_name),
 #     survey_type = 'synoptic', model_type = 'st-rw'))
 
-# Stitch HBLL OUT -------
+## Stitch HBLL OUT -------
 # spp_df_list |>
 #   purrr::map(\(df) get_stitched_index(dat = df, species = unique(df$species_common_name),
 #     survey_type = 'hbll_outside', model_type = 'st-rw'))
 
-# Look at what is being excluded/included --------------------------------------
-# Useful for looking at what gets stitched
+## Look at what is being excluded/included --------------------------------------
+## Useful for looking at what gets stitched
 # spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
 #   dplyr::tibble() |>
 #   prep_stitch_dat()
+
 # positive_sets <- get_stitch_lu(spp_dat,
 #   species = unique(spp_dat$species_common_name),
-#   survey_type = "synoptic"
+#   survey_type = "hbll_inside"
 # )
 
 # stitch_ft <- positive_sets |>
