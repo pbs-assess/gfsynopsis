@@ -159,13 +159,13 @@ get_stitched_index <- function(
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(dat, species, survey_type)
 
-  if (survey_type != 'synoptic') {
+  if (survey_type != "synoptic") {
     stitch_regions_df <- stitch_lu |>
       dplyr::filter(species_common_name %in% {{ species }} & survey_type %in% {{ survey_type }} &
         include_in_stitch == 1)
   } else {
-    wchg_pos_0.05 <- stitch_lu[[which(stitch_lu$survey_abbrev == 'SYN WCHG'), 'prop_pos']] > 0.05
-    other_regions_0.05 <- sum(stitch_lu[which(stitch_lu$survey_abbrev != 'SYN WCHG'), 'prop_pos']) > 0.05
+    wchg_pos_0.05 <- stitch_lu[[which(stitch_lu$survey_abbrev == "SYN WCHG"), "prop_pos"]] > 0.05
+    other_regions_0.05 <- sum(stitch_lu[which(stitch_lu$survey_abbrev != "SYN WCHG"), "prop_pos"]) > 0.05
 
     # If WCHG and other regions are all > 0.05 stitch use all regions
     if (wchg_pos_0.05 & other_regions_0.05) {
@@ -174,7 +174,7 @@ get_stitched_index <- function(
 
     # If WCHG < 0.05 but other regions > 0.05, stitch other regions
     if (!wchg_pos_0.05 & other_regions_0.05) {
-      stitch_regions_df <- stitch_lu[which(stitch_lu$survey_abbrev != 'SYN WCHG'), ]
+      stitch_regions_df <- stitch_lu[which(stitch_lu$survey_abbrev != "SYN WCHG"), ]
     }
     # If no region > 0.05 do not stitch
     if (!wchg_pos_0.05 & !other_regions_0.05) {
