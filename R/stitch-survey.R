@@ -1,18 +1,35 @@
 # Data cleaning/prep -----------------------------------------------------------
 prep_stitch_dat <- function(species_dat) {
   species_dat |>
+  # Add baited hook counts to spp_dat for LL surveys
+  # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
+  ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
+  if (length(ll > 0)) {
+    bait_count <- readRDS(here::here("data-outputs", "bait_counts.rds"))
+    spp_dat <- left_join(spp_dat, bait_count,
+      by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
+    ) |>
+      mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) %>%
+      mutate(prop_bait_hooks = count_bait_only / hook_count) %>%
+      mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks))
+  }
+  out <-
+    spp_dat |>
     sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
     dplyr::mutate(
       area_swept1 = doorspread_m * (speed_mpm * duration_min),
       area_swept2 = tow_length_m * doorspread_m,
-      area_swept = ifelse(!is.na(area_swept2), area_swept2, area_swept1)
+      area_swept = dplyr::case_when(
+        grepl("SYN", survey_abbrev) & !is.na(area_swept2) ~ area_swept2,
+        grepl("SYN", survey_abbrev) & is.na(area_swept2) ~ area_swept1,
+        grepl("HBLL", survey_abbrev) ~ hook_count * 0.0024384 * 0.009144 * 1000
+      )
     ) |>
-    dplyr::mutate(trawl_offset = log(area_swept / 1e5)) |> # Value used for offset
-    dplyr::mutate(hook_offset = log(hook_count)) |> # Value used for offset
-    dplyr::mutate(
-      catch = ifelse(grepl("SYN", survey_abbrev), catch_weight, catch_count),
-      offset = ifelse(grepl("SYN", survey_abbrev), trawl_offset, hook_offset)
-    ) |>
+    dplyr::mutate(offset = dplyr::case_when(
+      grepl("SYN", survey_abbrev) ~ log(area_swept / 1e5),
+      grepl("HBLL", survey_abbrev) ~ log(area_swept / hook_adjust_factor)
+    )) |>
+    dplyr::mutate(catch = ifelse(grepl("SYN", survey_abbrev), catch_weight, catch_count)) |>
     dplyr::mutate(present = ifelse(catch > 0, 1, 0)) |>
     dplyr::mutate(survey_type = dplyr::case_when(
       grepl("SYN", survey_abbrev) ~ "synoptic",
