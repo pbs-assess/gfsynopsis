@@ -186,7 +186,7 @@ tidy_stitched_index <- function(stitched_index) {
 
 #' Get stitched index across survey regions in synoptic trawl and HBLL surveys
 #'
-#' @param dat A dataframe from [gfsynopsis::prep_stitch_dat()].
+#' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()].
 #' @param species A string specifying the `species_common_name`.
 #' @param survey_type A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".
 #' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw".
@@ -205,7 +205,7 @@ tidy_stitched_index <- function(stitched_index) {
 #' @export
 #'
 get_stitched_index <- function(
-    dat, species = "arrowtooth flounder",
+    survey_dat, species = "arrowtooth flounder",
     survey_type = "synoptic",
     model_type = "st-rw",
     mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
@@ -215,7 +215,7 @@ get_stitched_index <- function(
   if (!file.exists(cache)) dir.create(cache)
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
-  stitch_lu <- get_stitch_lu(dat, species, survey_type)
+  stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
 
   if (survey_type != "synoptic") {
     stitch_regions_df <- stitch_lu |>
@@ -254,21 +254,21 @@ get_stitched_index <- function(
   mean_num_sets <- sum(stitch_regions_df$mean_n_sets)
   mean_num_pos_sets <- sum(stitch_regions_df$mean_n_pos)
 
-  dat <- dat |>
+  survey_dat <- survey_dat |>
     dplyr::filter(species_common_name == species & survey_type == survey_type &
       survey_abbrev %in% stitch_regions)
 
-  dat <- droplevels(dat) # drop extra factor levels before running models
+  survey_dat <- droplevels(survey_dat) # drop extra factor levels before running models
 
   cat("\n\tStitching index for:", species)
   cat("\n\t\t- For regions: ", paste(stitch_regions, collapse = ", "))
 
   if (is.null(mesh)) {
     cat("\n\t\t- No mesh provided, making mesh with cutoff:", cutoff)
-    mesh <- sdmTMB::make_mesh(dat, c("X", "Y"), cutoff = 20)
+    mesh <- sdmTMB::make_mesh(survey_dat, c("X", "Y"), cutoff = 20)
   }
 
-  missing_years <- sdmTMB:::find_missing_time(dat$year)
+  missing_years <- sdmTMB:::find_missing_time(survey_dat$year)
 
   if (length(missing_years) < 1L) {
     cat("\n\t\t- No missing time to be filled in.")
@@ -277,7 +277,7 @@ get_stitched_index <- function(
     cat("\n\t\t- Filling in extra_time with:", missing_years)
   }
 
-  if (!is.null(offset)) offset <- dat[[offset]]
+  if (!is.null(offset)) offset <- survey_dat[[offset]]
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
 
@@ -286,7 +286,7 @@ get_stitched_index <- function(
       sdmTMB::sdmTMB(
         formula = catch ~ 1, family = family,
         time = "year", spatiotemporal = "rw", spatial = "on",
-        data = dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
     ),
@@ -295,7 +295,7 @@ get_stitched_index <- function(
         formula = catch ~ 0, family = family,
         time_varying = ~1, time_varying_type = "rw",
         time = "year", spatiotemporal = "rw", spatial = "on",
-        data = dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
     ),
@@ -313,7 +313,7 @@ get_stitched_index <- function(
   if (inherits(fit, "sdmTMB")) {
     cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
-    year_range_seq <- min(dat$year):max(dat$year)
+    year_range_seq <- min(survey_dat$year):max(survey_dat$year)
     grid <- choose_survey_grid(survey_type)
     newdata <- gfsynopsis:::make_grid(survey_grid = grid, years = year_range_seq) |>
       dplyr::filter(
