@@ -7,15 +7,15 @@ basking shark,mcfarlane2008basking,,Species at Risk Act Recovery Strategy and Ac
 big skate,king2015biglongnoseskate,dfo2014biglongnoseskate,,,
 bigfin eelpout,,,,,
 black eelpout,,,,,
-black rockfish, yamanaka2001inshore,,,,
+black rockfish,yamanaka2001inshore,,,,
 blackbelly eelpout,,,,,
 blue shark,,,,,cosewic2016blueshark
 bluntnose sixgill shark,,,,,cosewic2007bluntnose
 bocaccio,stanley2012bocaccio,dfo2020bocaccio,Last Science Response,dfo2022bocaccio,cosewic2013bocaccio
 broad skate,,,,,
 brown cat shark,,,,,
-canary rockfish,stanley2009canary,dfo2009canary,,,cosewic2007canary
-china rockfish, yamanaka2001inshore,,,,
+canary rockfish,stanley2009canary,"dfo2009canary, dfo2023canary",,,cosewic2007canary
+china rockfish,yamanaka2001inshore,,,,
 copper rockfish,,,Technical Report,yamanaka2001inshore,
 darkblotched rockfish,haigh2008darkblotched,,,,cosewic2010darkblotched
 dover sole,,dfo1999dover,,,
@@ -38,9 +38,9 @@ quillback rockfish,yamanaka2011quillback,dfo2011quillback,,,cosewic2009quillback
 redbanded rockfish,edwards2017redbanded,,,,
 redstripe rockfish,starr2021redstripe,dfo2018redstripe,,,
 rex sole,,,Research Document featuring a case study of 3CD Rex Sole,anderson2021mp,
-rougheye/blackspotted rockfish complex,haigh2005rougheye,dfo2020rougheye,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007rougheye
+rougheye/blackspotted rockfish complex,"haigh2005rougheye, starr2020rougheye",dfo2020rougheye,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007rougheye
 roughtail skate,,,,,
-sablefish,cox2019sablefish,dfo2017sablefish,Last Science Response,dfo2020sablefish,
+sablefish,"cox2019sablefish, cox2023sablefish","dfo2017sablefish, dfo2023sablefish",Last Science Response,dfo2020sablefish,
 salmon shark,,,,,
 sandpaper skate,,,,,
 shiner perch,,,,,
@@ -52,7 +52,7 @@ snake prickleback,,,,,
 southern rock sole,holt2016rocksole,dfo2014rocksole,,,
 spotted ratfish,,,,,
 threadfin grenadier,,,,,
-tiger rockfish, yamanaka2001inshore,,,,
+tiger rockfish,yamanaka2001inshore,,,,
 twoline eelpout,,,,,
 walleye pollock,starr2021pollock,dfo2018pollock,,,
 wattled eelpout,,,,,
@@ -60,8 +60,8 @@ whitebait smelt,,,,,
 whitebarred prickleback,,,,,
 widow rockfish,starr2021widow,dfo2019widow,,,
 wolf eel,,,,,
-yelloweye rockfish,"yamanaka2011yelloweyeinside, cox2020YEout","dfo2020yelloweyeinside, dfo2020yelloweyeoutside",Species at Risk Act Management Plan Series,dfo2020yelloweye,cosewic2020yelloweye
-yellowmouth rockfish,edwards2012yellowmouth,dfo2022yellowmouth,,,cosewic2010yellowmouth
+yelloweye rockfish,"yamanaka2011yelloweyeinside, cox2020YEout","dfo2020yelloweyeinside, dfo2020yelloweyeoutside","Species at Risk Act Management Plan Series, Last Science Response","dfo2020yelloweye, dfo2023yelloweye",cosewic2020yelloweye
+yellowmouth rockfish,"edwards2012yellowmouth, starr2022yellowmouth",dfo2022yellowmouth,,,cosewic2010yellowmouth
 yellowtail rockfish,,dfo2015yellowtail,,,
 tope shark,,,,,cosewic2021tope
 pacific halibut,,,IPHC Report of Assessment and Research Activities,iphc2017,
