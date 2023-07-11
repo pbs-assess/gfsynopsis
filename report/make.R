@@ -103,7 +103,7 @@ cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `C
 # duplicate of inside YE:
 cos <- dplyr::filter(cos, !grepl("Pacific Ocean outside waters population", `COSEWIC population`))
 cos <- select(cos, species_science_name, cosewic_status, sara_status)
-cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus", species_science_name))
+cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus complex", species_science_name))
 cos$species_science_name <- tolower(cos$species_science_name)
 spp <- left_join(spp, cos, by = "species_science_name")
 
