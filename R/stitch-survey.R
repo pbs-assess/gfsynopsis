@@ -3,7 +3,7 @@
 #' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
 #'
 #' @returns A dataframe the same length as `spp_dat`
-
+#'
 #' @export
 prep_stitch_dat <- function(spp_dat) {
   # Add baited hook counts to spp_dat for LL surveys
@@ -11,12 +11,12 @@ prep_stitch_dat <- function(spp_dat) {
   ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
   if (length(ll > 0)) {
     bait_count <- readRDS(here::here("data-outputs", "bait_counts.rds"))
-    spp_dat <- left_join(spp_dat, bait_count,
+    spp_dat <- dplyr::left_join(spp_dat, bait_count,
       by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
     ) |>
-      mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) %>%
-      mutate(prop_bait_hooks = count_bait_only / hook_count) %>%
-      mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks))
+      dplyr::mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) |>
+      dplyr::mutate(prop_bait_hooks = count_bait_only / hook_count) |>
+      dplyr::mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks))
   }
   out <-
     spp_dat |>
@@ -176,12 +176,12 @@ make_grid <- function(survey_grid, years) {
 #' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
 #' @param silent A boolean. Silent or include optimization details.
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
-#' @param cache A string specifying file path to cache location.
+#' @param cache A string specifying file path to cache directory.
 #'
 #' @returns Either a string or dataframe:
 #' * `insufficient data to stitch regions` if the number of positive sets is too low to stitch
 #' * `Failed sanity check` if the model failed to converge
-#' * A dataframe containing the stitched index
+#' * A dataframe containing the stitched index formatted to use with [gfplot::plot_survey_index()]
 #' @export
 #'
 get_stitched_index <- function(
