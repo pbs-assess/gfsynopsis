@@ -234,9 +234,10 @@ get_stitched_index <- function(
     if (!wchg_pos_0.05 & other_regions_0.05) {
       stitch_regions_df <- stitch_lu[which(stitch_lu$survey_abbrev != "SYN WCHG"), ]
     }
-    # If no region > 0.05 do not stitch
-    if (!wchg_pos_0.05 & !other_regions_0.05) {
-      stitch_regions_df <- NULL
+    # If WCHG > 0.05 but total coverage of other regions < 0.05, do not stitch
+    # Or, if WCGH and all other regions < 0.05 do not stitch
+    if ((wchg_pos_0.05 & !other_regions_0.05) | (!wchg_pos_0.05 & !other_regions_0.05)) {
+      stitch_regions_df <- data.frame("survey_abbrev" = NA)
     }
   }
 
