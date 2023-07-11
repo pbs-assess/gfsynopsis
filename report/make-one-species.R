@@ -1,5 +1,5 @@
 setwd(here::here())
-data_cache <- here::here("report", "data-cache")
+data_cache <- here::here("report", "data-cache-feb-2023")
 build_dir <- file.path("report", "report-rmd")
 dir.create(here::here("report", "data-cache"), showWarnings = FALSE)
 dir.create(here::here(build_dir), showWarnings = FALSE)
@@ -10,7 +10,7 @@ survey_cols <- c(
 )
 
 # Set your species here:
-this_spp <- "eulachon"
+this_spp <- "arrowtooth flounder"
 this_spp_hyphens <- gsub(" ", "-", this_spp)
 
 # Must be on PBS network:
@@ -27,24 +27,25 @@ gfdata::cache_pbs_data(
 
 # The last function call creates this data file:
 dat <- readRDS(paste0(file.path(data_cache, this_spp_hyphens), ".rds"))
-
+dat_iphc <- readRDS(paste0(file.path(data_cache, 'iphc', this_spp_hyphens), ".rds"))
 # If you want to fit and plot the commercial CPUE indexes then run the following:
 # (must be on PBS network; a lot of data + a bit slow)
 # dat$cpue_index <- gfdata::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
 
 get_max_yrs <- function(x, .grep) {
-  x %>%
+  dat$survey_sets %>%
     dplyr::filter(grepl(.grep, survey_abbrev)) %>%
     dplyr::group_by(survey_abbrev) %>%
     dplyr::summarize(max_year = max(year)) %>%
-    dplyr::pull(max_year) %>% unique() %>% sort()
+    split(x = .$max_year, f = .$survey_abbrev)
 }
+
 synoptic_max_survey_years <- get_max_yrs(dat$survey_sets, "^SYN")
 hbll_out_max_survey_years <- get_max_yrs(dat$survey_sets, "^HBLL OUT")
 
 gfsynopsis::make_pages(
   dat = dat,
-  dat_iphc = NULL, # NULL to skip; note these figures do not include Andy's IPHC adjustments
+  dat_iphc = dat_iphc, # note these figures do not include Andy's IPHC adjustments
   spp = this_spp,
   d_geostat_index = NULL, # geostatistical index standardization; NULL to skip
   french = FALSE,
