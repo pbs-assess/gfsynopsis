@@ -43,6 +43,9 @@ get_max_yrs <- function(x, .grep) {
 synoptic_max_survey_years <- get_max_yrs(dat$survey_sets, "^SYN")
 hbll_out_max_survey_years <- get_max_yrs(dat$survey_sets, "^HBLL OUT")
 
+length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
+      show_col_types = FALSE) |> as.data.frame()
+
 gfsynopsis::make_pages(
   dat = dat,
   dat_iphc = dat_iphc, # note these figures do not include Andy's IPHC adjustments
@@ -55,6 +58,7 @@ gfsynopsis::make_pages(
   save_gg_objects = TRUE, # save the ggplots to an .rds file?
   synoptic_max_survey_years = synoptic_max_survey_years,
   hbll_out_max_survey_years = hbll_out_max_survey_years,
+  length_ticks = length_ticks[length_ticks$species_common_name == this_spp,],
   survey_cols = survey_cols
 )
 
