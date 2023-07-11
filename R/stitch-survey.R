@@ -330,66 +330,149 @@ get_stitched_index <- function(
   out
 }
 
-## Stitch indices ---------------------------------------------------------------
-# spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
-#   dplyr::tibble()
 
-# cache <- here::here("report", "stitch-cache", 'synoptic')
-# #cache <- here::here("report", "stitch-cache", 'hbll_outside')
-# cached_spp <- NULL
-# #cached_spp <- gsub('(_.*)', '', list.files(cache))
-# missing_spp <- cached_spp[!(unique(spp_dat$species_common_name) %in% cached_spp)]
-# spp_dat |>
-#   prep_stitch_dat() |> dplyr::distinct(survey_type)
-# get_stitch_lu(spp_dat = _, species = unique(spp_dat$species_common_name), survey_type == 'hbll_inside')
+#' Cache stitched indexes
+#'
+#' @description
+#' This function is useful for iterating over a list of species to stitch SYN
+#' and HBLL survey regions into a single index. This can be used in make.R
+#'
+#' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()].
+#' @param survey_type A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".
+#' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw".
+#' @param cache A string specifying file path to cache directory.
+#' @param check_cacheA boolean. Check cache and skip model fitting `TRUE` (the default), or `FALSE` overwrite cache.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+cache_stitched_indexes <- function(
+    survey_dat,
+    survey_type = c("synoptic", "hbll_outside", "hbll_inside"),
+    model_type = "st-rw",
+    cache = here::here("report", "stitch-cache"),
+    check_cache = TRUE) {
+  survey_dat <- survey_dat |>
+    dplyr::mutate(species_common_name = gsub(
+      "rougheye/blackspotted", "rougheye-blackspotted", species_common_name
+    ))
 
-# spp_df_list <- spp_dat |>
-#   dplyr::filter(!(species_common_name %in% cached_spp)) |>
-#   dplyr::group_split(species_common_name) |>
-#   purrr::map(prep_stitch_dat)
+  get_cached_spp <- function(survey_dat, cache, survey_type) {
+    cache <- here::here(cache, survey_type)
+    assertthat::assert_that(file.exists(cache))
+    message("\t Checking cache", cache)
+    cached_spp <- NULL
+    cached_spp <- gsub("(_.*)", "", list.files(cache))
 
-## Stitch SYN -------
-# spp_df_list |>
-#   purrr::map(\(df) get_stitched_index(dat = df, species = unique(df$species_common_name),
-#     survey_type = 'synoptic', model_type = 'st-rw'))
+    unique(survey_dat$species_common_name)[unique(survey_dat$species_common_name) %in% cached_spp]
+    # missing_spp <- cached_spp[!(unique(survey_dat$species_common_name) %in% cached_spp)]
+  }
 
-## Stitch HBLL OUT -------
-# spp_df_list |>
-#   purrr::map(\(df) get_stitched_index(dat = df, species = unique(df$species_common_name),
-#     survey_type = 'hbll_outside', model_type = 'st-rw'))
+  make_spp_df_list <- function(survey_dat, cached_spp = NULL) {
+    survey_dat |>
+      dplyr::filter(!(species_common_name %in% cached_spp)) |>
+      dplyr::group_split(species_common_name) |>
+      purrr::map(prep_stitch_dat)
+  }
+
+  if ("synoptic" %in% survey_type) {
+    if (check_cache) {
+      cached_spp <- get_cached_spp(survey_dat, cache, "synoptic")
+      if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
+    }
+    spp_df_list <- make_spp_df_list(survey_dat, cached_spp)
+
+    spp_df_list |>
+      purrr::map(\(df) get_stitched_index(
+        survey_dat = df, species = unique(df$species_common_name),
+        survey_type = "synoptic", model_type = "st-rw", cache = cache
+      ))
+  }
+
+  if ("hbll_outside" %in% survey_type) {
+    if (check_cache) {
+      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_outside")
+      if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
+    }
+
+    spp_df_list <- make_spp_df_list(survey_dat, cached_spp)
+
+    spp_df_list |>
+      purrr::map(\(df) get_stitched_index(
+        survey_dat = df, species = unique(df$species_common_name),
+        survey_type = "hbll_outside", model_type = "st-rw", cache = cache
+      ))
+  }
+
+  if ("hbll_inside" %in% survey_type) {
+    if (check_cache) {
+      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_inside")
+      if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
+    }
+
+    spp_df_list <- make_spp_df_list(survey_dat, cached_spp)
+
+    spp_df_list |>
+      purrr::map(\(df) get_stitched_index(
+        survey_dat = df, species = unique(df$species_common_name),
+        survey_type = "hbll_inside", model_type = "st-rw", cache = cache
+      ))
+  }
+}
 
 ## Look at what is being excluded/included --------------------------------------
 ## Useful for looking at what gets stitched
-# spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
-#   dplyr::tibble() |>
-#   prep_stitch_dat()
 
-# positive_sets <- get_stitch_lu(spp_dat,
-#   species = unique(spp_dat$species_common_name),
-#   survey_type = "hbll_inside"
-# )
+#' Get proportion of positive sets in each SYN or HBLL region
+#'
+#' @description
+#' A lookup table to see the proportion of positive sets across species and regions.
+#' Renders a `flextable` object in a browser with rows highlighted based on
+#' the proportion of positive sets ("red" less than or equal to 0.01, "orange"
+#' between 0.01 and 0.03, "yellow" between 0.03 and 0.05).
+#'
+#' @param survey_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#'
+#' @returns A `flextable` object in a browser.
+#'
+#' @examples
+get_inclusion_table <- function(survey_dat = NULL, survey_type) {
+  spp_dat <- spp_dat
+  if (is.null(spp_dat)) {
+    spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
+      dplyr::tibble() |>
+      prep_stitch_dat()
+  }
 
-# stitch_ft <- positive_sets |>
-#   dplyr::group_by(species_common_name, survey_type) |>
-#   dplyr::summarise(stitch_tally = sum(include_in_stitch)) |>
-#   dplyr::mutate(to_stitch = ifelse(stitch_tally < 2, 0, 1)) |>
-#   dplyr::right_join(positive_sets) |>
-#   dplyr::arrange(survey_type, species_common_name)
+  positive_sets <- get_stitch_lu(spp_dat,
+    species = unique(spp_dat$species_common_name),
+    survey_type = survey_type
+  )
 
-# cl <- officer::fp_border(color = "black", width = 3)
+  stitch_ft <- positive_sets |>
+    dplyr::group_by(species_common_name, survey_type) |>
+    dplyr::summarise(stitch_tally = sum(include_in_stitch)) |>
+    dplyr::mutate(to_stitch = ifelse(stitch_tally < 2, 0, 1)) |>
+    dplyr::right_join(positive_sets) |>
+    dplyr::arrange(survey_type, species_common_name)
 
-# break_position <- function(x) {
-#   z <- data.table::rleidv(x)
-#   c(z[-length(z)] != z[-1], FALSE)
-# }
+  cl <- officer::fp_border(color = "black", width = 3)
 
-# inclusion_table <- stitch_ft |>
-#   flextable::flextable() |>
-#   flextable::merge_v(x = _, j = "species_common_name") |>
-#   flextable::hline(i = ~ break_position(species_common_name)) |>
-#   flextable::fix_border_issues() |>
-#   flextable::bg(x = _, i = ~ prop_pos <= 0.01, j = 5, bg = "red") |>
-#   flextable::bg(x = _, i = ~ (prop_pos > 0.01 & prop_pos <= 0.03), j = 5, bg = "orange") |>
-#   flextable::bg(x = _, i = ~ (prop_pos > 0.03 & prop_pos <= 0.05), j = 5, bg = "yellow")
-# inclusion_table
+  break_position <- function(x) {
+    z <- data.table::rleidv(x)
+    c(z[-length(z)] != z[-1], FALSE)
+  }
+
+  inclusion_table <- stitch_ft |>
+    flextable::flextable() |>
+    flextable::merge_v(x = _, j = "species_common_name") |>
+    flextable::hline(i = ~ break_position(species_common_name)) |>
+    flextable::fix_border_issues() |>
+    flextable::bg(x = _, i = ~ prop_pos <= 0.01, j = 5, bg = "red") |>
+    flextable::bg(x = _, i = ~ (prop_pos > 0.01 & prop_pos <= 0.03), j = 5, bg = "orange") |>
+    flextable::bg(x = _, i = ~ (prop_pos > 0.03 & prop_pos <= 0.05), j = 5, bg = "yellow")
+  inclusion_table
+}
 # ------------------------------------------------------------------------------
