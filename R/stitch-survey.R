@@ -162,26 +162,6 @@ make_grid <- function(survey_grid, years) {
   .nd
 }
 
-#' Format stitched index for plotting
-#'
-#' @description
-#' Formats output of [gfsynopsis::get_stitched_index()] to match output of
-#' [gfplot::tidy_survey_index()] so that synopsis plots can be made using
-#' [gfplot::plot_survey_index()]
-#'
-#' @param stitched_index A dataframe from [gfsynopsis::get_stiched_index()]
-#'
-#' @return
-#' @export
-#'
-tidy_stitched_index <- function(stitched_index) {
-  stitched_index |>
-    dplyr::rename(
-      survey_abbrev = "stitch_regions", biomass = "est",
-      lowerci = "lwr", upperci = "upr"
-    )
-}
-
 # ------------------------------------------------------------------------------
 
 #' Get stitched index across survey regions in synoptic trawl and HBLL surveys
@@ -338,7 +318,11 @@ get_stitched_index <- function(
     index$num_pos_sets <- mean_num_pos_sets
     index$survey_type <- survey_type
     index$stitch_regions <- paste(stitch_regions, collapse = ", ")
-    out <- index
+    out <- index |>
+      dplyr::rename(
+        survey_abbrev = "stitch_regions", biomass = "est",
+        lowerci = "lwr", upperci = "upr"
+      )
   }
   index_filename <- here::here(cache, paste0(species, "_", model_type, "_index.rds"))
   cat("\n\tSaving:", index_filename, "\n")
