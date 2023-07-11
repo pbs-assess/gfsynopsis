@@ -439,15 +439,10 @@ cache_stitched_indexes <- function(
 #'
 #' @examples
 get_inclusion_table <- function(survey_dat = NULL, survey_type) {
-  spp_dat <- spp_dat
-  if (is.null(spp_dat)) {
-    spp_dat <- readRDS(file = here::here("data-outputs", "survey-sets.rds")) |>
-      dplyr::tibble() |>
-      prep_stitch_dat()
-  }
+  survey_dat <- prep_stitch_dat(survey_dat)
 
-  positive_sets <- get_stitch_lu(spp_dat,
-    species = unique(spp_dat$species_common_name),
+  positive_sets <- get_stitch_lu(survey_dat,
+    species = unique(survey_dat$species_common_name),
     survey_type = survey_type
   )
 
