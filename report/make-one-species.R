@@ -6,11 +6,19 @@ dir.create(here::here(build_dir), showWarnings = FALSE)
 survey_cols <- c(
   RColorBrewer::brewer.pal(5L, "Set1"),
   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-  "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"
+  "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8",
+  "#a8a8a8", "#a8a8a8", "#a8a8a8", "#a8a8a8"
 )
+survey_col_names <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+    "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
+    "HBLL INS N", "HBLL INS S", "MSA HS",
+    "SYN HS/QCS/WCHG/WCVI", "SYN HS/QCS/WCVI",
+    "HBLL OUT N/S", "HBLL INS N/S"
+    )
 
 # Set your species here:
 this_spp <- "arrowtooth flounder"
+this_spp <- "shortspine thornyhead"
 this_spp_hyphens <- gsub(" ", "-", this_spp)
 
 # Must be on PBS network:
@@ -54,12 +62,14 @@ gfsynopsis::make_pages(
   french = FALSE,
   report_lang_folder = build_dir,
   resolution = 170, # balance size with resolution
+  short_page_height_ratio = 0.85,
   png_format = TRUE, # vs. PDF
   save_gg_objects = TRUE, # save the ggplots to an .rds file?
   synoptic_max_survey_years = synoptic_max_survey_years,
   hbll_out_max_survey_years = hbll_out_max_survey_years,
   length_ticks = length_ticks[length_ticks$species_common_name == this_spp,],
-  survey_cols = survey_cols
+  survey_cols = survey_cols,
+  survey_col_names = survey_col_names
 )
 
 # Now go look in `report/report-rmd/figure-pages`
