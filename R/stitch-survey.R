@@ -192,7 +192,12 @@ get_stitched_index <- function(
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
     cache = here::here("report", "stitch-cache")) {
   cache <- file.path(cache, survey_type)
+  pred_cache <- file.path(cache, 'predictions')
   if (!file.exists(cache)) dir.create(cache)
+  if (!file.exists(pred_cache)) dir.create(pred_cache)
+
+  species_hyphens <- gsub(" ", "-", species)
+  out_filename <- here::here(cache, paste0(species_hyphens, "_", model_type, ".rds"))
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
@@ -226,7 +231,7 @@ get_stitched_index <- function(
   if (length(stitch_regions) < 2) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
     out <- "insufficient data to stitch regions"
-    saveRDS(out, here::here(cache, paste0(species, "_no-stitch.rds")))
+    saveRDS(out, out_filename)
     return(out)
   }
 
@@ -285,8 +290,7 @@ get_stitched_index <- function(
   if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
     cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
     out <- "Failed sanity check"
-    sanity_filename <- here::here(cache, paste0(species, "_", model_type, "_failed-sanity.rds"))
-    saveRDS(out, sanity_filename)
+    saveRDS(out, out_filename)
     return(out)
   }
 
@@ -305,7 +309,7 @@ get_stitched_index <- function(
     pred <- predict(fit, newdata, return_tmb_object = TRUE)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
-    pred_filename <- here::here(cache, paste0(species, "_", model_type, "_pred.rds"))
+    pred_filename <- here::here(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
     cat("\n\tSaving:", pred_filename, "\n")
     saveRDS(pred, pred_filename)
   }
@@ -324,9 +328,8 @@ get_stitched_index <- function(
         lowerci = "lwr", upperci = "upr"
       )
   }
-  index_filename <- here::here(cache, paste0(species, "_", model_type, "_index.rds"))
-  cat("\n\tSaving:", index_filename, "\n")
-  saveRDS(out, index_filename)
+  cat("\n\tSaving:", out_filename, "\n")
+  saveRDS(out, out_filename)
   out
 }
 
@@ -358,13 +361,12 @@ cache_stitched_indexes <- function(
       "rougheye/blackspotted", "rougheye-blackspotted", species_common_name
     ))
 
-  get_cached_spp <- function(survey_dat, cache, survey_type) {
+  get_cached_spp <- function(survey_dat, cache, survey_type, model_type) {
     cache <- here::here(cache, survey_type)
     assertthat::assert_that(file.exists(cache))
     message("\t Checking cache", cache)
     cached_spp <- NULL
-    cached_spp <- gsub("(_.*)", "", list.files(cache))
-
+    cached_spp <- gsub(paste0("_", model_type, ".rds"), "", list.files(cache))
     unique(survey_dat$species_common_name)[unique(survey_dat$species_common_name) %in% cached_spp]
     # missing_spp <- cached_spp[!(unique(survey_dat$species_common_name) %in% cached_spp)]
   }
@@ -378,7 +380,7 @@ cache_stitched_indexes <- function(
 
   if ("synoptic" %in% survey_type) {
     if (check_cache) {
-      cached_spp <- get_cached_spp(survey_dat, cache, "synoptic")
+      cached_spp <- get_cached_spp(survey_dat, cache, "synoptic", model_type)
       if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
     }
     spp_df_list <- make_spp_df_list(survey_dat, cached_spp)
@@ -392,7 +394,7 @@ cache_stitched_indexes <- function(
 
   if ("hbll_outside" %in% survey_type) {
     if (check_cache) {
-      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_outside")
+      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_outside", model_type)
       if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
     }
 
@@ -407,7 +409,7 @@ cache_stitched_indexes <- function(
 
   if ("hbll_inside" %in% survey_type) {
     if (check_cache) {
-      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_inside")
+      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_inside", model_type)
       if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
     }
 
