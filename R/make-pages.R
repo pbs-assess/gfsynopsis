@@ -82,7 +82,8 @@ make_pages <- function(
   final_year_comm = 2020,
   final_year_surv = 2021,
   length_ticks = NULL,
-  all_survey_years = NULL
+  all_survey_years = NULL,
+  stitch_model_type = 'st-rw'
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -163,6 +164,7 @@ make_pages <- function(
   survey_map_cache <- file.path(report_folder, "map-cache")
   vb_cache <- file.path(report_folder, "vb-cache")
   iphc_index_cache <- file.path(report_folder, "iphc-cache")
+  stitch_cache <- file.path(report_folder, "stitch-cache")
 
   dir.create(fig_folder, showWarnings = FALSE, recursive = TRUE)
   dir.create(ggplot_folder, showWarnings = FALSE, recursive = TRUE)
@@ -173,6 +175,9 @@ make_pages <- function(
   dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
   dir.create(vb_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(stitch_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(stitch_cache, "hbll_outside"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(stitch_cache, "hbll_inside"), showWarnings = FALSE, recursive = TRUE)
 
   gg_folder_spp <- paste0(file.path(ggplot_folder, spp_file), ".rds")
   fig_folder_spp1 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-1.png" else "-1.pdf")
@@ -183,6 +188,9 @@ make_pages <- function(
   map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
   vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
   iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_file), ".rds")
+  stitch_cache_spp_synoptic <- paste0(file.path(stitch_cache, "synoptic", spp_file), "_", stitch_model_type, ".rds")
+  stitch_cache_spp_hbll_out <- paste0(file.path(stitch_cache, "hbll_outside", spp_file), "_", stitch_model_type, ".rds")
+  stitch_cache_spp_hbll_ins <- paste0(file.path(stitch_cache, "hbll_inside", spp_file), "_", stitch_model_type, ".rds")
 
   samp_panels <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
     "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french))
@@ -435,6 +443,62 @@ make_pages <- function(
         rbind(iphc_set_counts_sp_format)
     }
   }
+
+# Add stitched index: ----------------------------------------------------------
+  # Generate stitched index if not already cached
+  if (!file.exists(stitch_cache_spp_synoptic)) {
+    get_stitched_index(survey_dat = dat$survey_sets, species = spp,
+      survey_type = "synoptic", model_type = stitch_model_type, cache = stitch_cache)
+  }
+  if (!file.exists(stitch_cache_spp_hbll_out)) {
+    get_stitched_index(survey_dat = dat$survey_sets, species = spp,
+      survey_type = "hbll_outside", model_type = stitch_model_type, cache = stitch_cache)
+  }
+  if (!file.exists(stitch_cache_spp_hbll_ins)) {
+    get_stitched_index(survey_dat = dat$survey_sets, species = spp,
+      survey_type = "hbll_inside", model_type = stitch_model_type, cache = stitch_cache)
+  }
+  # Load cached stitched index outputs
+  stitched_syn <- readRDS(stitch_cache_spp_synoptic)
+  stitched_out <- readRDS(stitch_cache_spp_hbll_ins)
+  stitched_ins <- readRDS(stitch_cache_spp_hbll_out)
+
+  if (length(stitched_syn) > 1) {
+    stitched_syn <- stitched_syn |>
+      mutate(survey_abbrev = gsub("SYN ", "", survey_abbrev),
+         survey_abbrev = gsub(", ", "/", survey_abbrev)) |>
+      mutate(survey_abbrev = paste0("SYN ", survey_abbrev)) |>
+      select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets)
+  } else {
+    stitched_syn <- data.frame(survey_abbrev = "SYN", year = NA, biomass = NA,
+      lowerci = NA, upperci = NA, mean_cv = NA, num_sets = NA, num_pos_sets = NA)
+  }
+
+  if (length(stitched_out) > 1) {
+    stitched_out <- stitched_out |>
+      mutate(survey_abbrev = "HBLL OUT N/S") |>
+      select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets)
+  } else {
+    stitched_out <- data.frame(survey_abbrev = "HBLL OUT N/S", year = NA, biomass = NA,
+      lowerci = NA, upperci = NA, mean_cv = NA, num_sets = NA, num_pos_sets = NA)
+  }
+
+  if (length(stitched_ins) > 1) {
+    stitched_ins <- stitched_ins |>
+      mutate(survey_abbrev = "HBLL INS N/S") |>
+      select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets)
+  } else {
+    stitched_ins <- data.frame(survey_abbrev = "HBLL INS N/S", year = NA, biomass = NA,
+      lowerci = NA, upperci = NA, mean_cv = NA, num_sets = NA, num_pos_sets = NA)
+  }
+
+  stitched_df <- bind_rows(stitched_syn, stitched_out, stitched_ins)
+  stitched_lvls <- unique(stitched_df$survey_abbrev)
+  stitched_df <- stitched_df |>
+    mutate(survey_abbrev = factor(survey_abbrev, levels = stitched_lvls))
+
+  dat_tidy_survey_index <- bind_rows(dat_tidy_survey_index, stitched_df) |>
+    filter(!survey_abbrev %in% c("HBLL INS N", "HBLL INS S"))
 
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() + theme_pbs()
@@ -1000,7 +1064,7 @@ make_pages <- function(
   f_topleft <- egg::gtable_frame(
     fg_survey_index,
     width = grid::unit(1, "null"),
-    height = grid::unit(1, "null"),
+    height = grid::unit(1.35, "null"),
     debug = debug)
 
   f_topright <- egg::gtable_frame(

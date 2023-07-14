@@ -101,9 +101,9 @@ cos <- dplyr::filter(cos, !grepl("Eulachon", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`))
 cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `COSEWIC status`, sara_status = `Schedule status`)
 # duplicate of inside YE:
-cos <- dplyr::filter(cos, !grepl("Pacific Ocean outside waters population", `COSEWIC population`))
 cos <- select(cos, species_science_name, cosewic_status, sara_status)
-cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus complex", species_science_name))
+cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus complex", species_science_name)) |>
+       distinct() # to remove duplicates (e.g., YE and RE/BS rockfish)
 cos$species_science_name <- tolower(cos$species_science_name)
 spp <- left_join(spp, cos, by = "species_science_name")
 
@@ -137,6 +137,66 @@ if (isFALSE(french)) {
   spp$species_french_name <- purrr::map_chr(spp$species_french_name, gfsynopsis:::cap)
   spp$species_common_name <- tolower(spp$species_common_name)
 }
+
+# ------------------------------------------------------------------------------
+# Cache stitched index
+dc_stitch <- file.path(dc, 'stitch-data') # Data used
+stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
+dir.create(stitch_cache, showWarnings = FALSE)
+
+stitch_cache_synoptic <- file.path(stitch_cache, "synoptic")
+stitch_cache_hbll_out <- file.path(stitch_cache, "hbll_outside")
+stitch_cache_hbll_ins <- file.path(stitch_cache, "hbll_inside")
+dir.create(stitch_cache_synoptic, showWarnings = FALSE)
+dir.create(stitch_cache_hbll_out, showWarnings = FALSE)
+dir.create(stitch_cache_hbll_ins, showWarnings = FALSE)
+
+# Inputs
+model_type <- 'st-rw'
+spp_vector <- spp$species_common_name[order(spp$species_common_name)]
+
+# 2023 specific code ------
+# For 2023, let's use the below chunk because we have not updated the grids.
+prep_stitch_grids(grid_dir = file.path(dc_stitch, 'grids'),
+                  hbll_ins_grid_input = file.path(dc_stitch, "hbll-inside-grid.rds"))
+
+# We will also used the provided survey-sets.rds now because the original get-data call
+# did not include the HBLL INS data for each species.
+survey_dat <- readRDS(file.path(dc_stitch, "survey-sets.rds")) |>
+  prep_stitch_dat(spp_dat = _, bait_count_path = file.path(dc_stitch, 'bait-counts.rds'))
+
+# @TODO in 2024: can interatively load and prep_stitch_dat for each spp_w_hyphens.rds
+# stored in the data cache.
+# -----
+
+# Stitch surveys if not cached
+cached_files <- list.files(stitch_cache_synoptic)
+furrr::future_walk(spp_vector, function(.sp) {
+  sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
+  if (!sp_cached) {
+    get_stitched_index(survey_dat = survey_dat, species = .sp,
+          survey_type = "synoptic", model_type = model_type, cache = stitch_cache)
+  }
+})
+
+cached_files <- list.files(stitch_cache_hbll_out)
+furrr::future_walk(spp_vector, function(.sp) {
+  sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
+  if (!sp_cached) {
+    get_stitched_index(survey_dat = survey_dat, species = .sp,
+          survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache)
+  }
+})
+
+cached_files <- list.files(stitch_cache_hbll_ins)
+furrr::future_walk(spp_vector, function(.sp) {
+  sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
+  if (!sp_cached) {
+    get_stitched_index(survey_dat = survey_dat, species = .sp,
+          survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache)
+  }
+})
+future::plan(sequential)
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
