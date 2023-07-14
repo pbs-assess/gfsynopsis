@@ -5,12 +5,12 @@
 #' @returns A dataframe the same length as `spp_dat`
 #'
 #' @export
-prep_stitch_dat <- function(spp_dat) {
+prep_stitch_dat <- function(spp_dat, bait_count_path) {
   # Add baited hook counts to spp_dat for LL surveys
   # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
   ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
   if (length(ll > 0)) {
-    bait_count <- readRDS(here::here("data-outputs", "bait_counts.rds"))
+    bait_count <- readRDS(bait_count_path)
     spp_dat <- dplyr::left_join(spp_dat, bait_count,
       by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
     ) |>
@@ -21,6 +21,7 @@ prep_stitch_dat <- function(spp_dat) {
   out <-
     spp_dat |>
     sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
+    # @FIXME: area swept has been or will be added to gfdata function
     dplyr::mutate(
       area_swept1 = doorspread_m * (speed_mpm * duration_min),
       area_swept2 = tow_length_m * doorspread_m,
@@ -89,13 +90,13 @@ get_stitch_lu <- function(spp_dat, species, survey_type) {
 #' @return
 #' @export
 #'
-prep_stitch_grids <- function() {
-  grid_dir <- here::here("data-outputs", "grids")
+prep_stitch_grids <- function(grid_dir = file.path("data-outputs", "grids"),
+  hbll_ins_grid_input = file.path("data-cache", "hbll-inside-grid.rds")) {
   if (!file.exists(grid_dir)) dir.create(grid_dir)
 
-  synoptic_grid_file <- here::here(grid_dir, "synoptic_grid.rds")
-  hbll_out_grid_file <- here::here(grid_dir, "hbll_out_grid.rds")
-  hbll_ins_grid_file <- here::here(grid_dir, "hbll_ins_grid.rds")
+  synoptic_grid_file <- file.path(grid_dir, "synoptic_grid.rds")
+  hbll_out_grid_file <- file.path(grid_dir, "hbll_out_grid.rds")
+  hbll_ins_grid_file <- file.path(grid_dir, "hbll_ins_grid.rds")
   # @TODO will update when grids are added to gfdata
   if (!file.exists(synoptic_grid_file)) {
     syn_grid <-
@@ -121,7 +122,7 @@ prep_stitch_grids <- function() {
 
   if (!file.exists(hbll_ins_grid_file)) {
     hbll_ins_grid <-
-      readRDS(here::here("data", "hbll-inside-grid.rds")) |>
+      readRDS(hbll_ins_grid_input) |>
       sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
       dplyr::select(survey, X, Y, depth, area)
     saveRDS(hbll_ins_grid, hbll_ins_grid_file)
@@ -136,11 +137,11 @@ prep_stitch_grids <- function() {
 #' @return A dataframe containing a survey grid from [gfsynopsis::prep_stitch_grids()]
 #' @export
 #'
-choose_survey_grid <- function(survey_type) {
+choose_survey_grid <- function(survey_type, grid_dir = file.path("data-cache", "grids")) {
   switch(survey_type,
-    synoptic = readRDS(here::here("data-outputs", "grids", "synoptic_grid.rds")),
-    hbll_outside = readRDS(here::here("data-outputs", "grids", "hbll_out_grid.rds")),
-    hbll_inside = readRDS(here::here("data-outputs", "grids", "hbll_ins_grid.rds")),
+    synoptic = readRDS(file.path(grid_dir, "synoptic_grid.rds")),
+    hbll_outside = readRDS(file.path(grid_dif, "hbll_out_grid.rds")),
+    hbll_inside = readRDS(file.path(grid_dif, "hbll_ins_grid.rds")),
     stop("Invalid `survey_type` value")
   )
 }
@@ -190,14 +191,14 @@ get_stitched_index <- function(
     model_type = "st-rw",
     mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
-    cache = here::here("report", "stitch-cache")) {
+    cache = file.path("report", "stitch-cache")) {
   cache <- file.path(cache, survey_type)
   pred_cache <- file.path(cache, 'predictions')
   if (!file.exists(cache)) dir.create(cache)
   if (!file.exists(pred_cache)) dir.create(pred_cache)
 
   species_hyphens <- gsub(" ", "-", species)
-  out_filename <- here::here(cache, paste0(species_hyphens, "_", model_type, ".rds"))
+  out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
@@ -309,7 +310,7 @@ get_stitched_index <- function(
     pred <- predict(fit, newdata, return_tmb_object = TRUE)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
-    pred_filename <- here::here(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+    pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
     cat("\n\tSaving:", pred_filename, "\n")
     saveRDS(pred, pred_filename)
   }
@@ -333,95 +334,6 @@ get_stitched_index <- function(
   out
 }
 
-
-#' Cache stitched indexes
-#'
-#' @description
-#' This function is useful for iterating over a list of species to stitch SYN
-#' and HBLL survey regions into a single index. This can be used in make.R
-#'
-#' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()].
-#' @param survey_type A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".
-#' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw".
-#' @param cache A string specifying file path to cache directory.
-#' @param check_cacheA boolean. Check cache and skip model fitting `TRUE` (the default), or `FALSE` overwrite cache.
-#'
-#' @return
-#' @export
-#'
-#' @examples
-cache_stitched_indexes <- function(
-    survey_dat,
-    survey_type = c("synoptic", "hbll_outside", "hbll_inside"),
-    model_type = "st-rw",
-    cache = here::here("report", "stitch-cache"),
-    check_cache = TRUE) {
-  survey_dat <- survey_dat |>
-    dplyr::mutate(species_common_name = gsub(
-      "rougheye/blackspotted", "rougheye-blackspotted", species_common_name
-    ))
-
-  get_cached_spp <- function(survey_dat, cache, survey_type, model_type) {
-    cache <- here::here(cache, survey_type)
-    assertthat::assert_that(file.exists(cache))
-    message("\t Checking cache", cache)
-    cached_spp <- NULL
-    cached_spp <- gsub(paste0("_", model_type, ".rds"), "", list.files(cache))
-    unique(survey_dat$species_common_name)[unique(survey_dat$species_common_name) %in% cached_spp]
-    # missing_spp <- cached_spp[!(unique(survey_dat$species_common_name) %in% cached_spp)]
-  }
-
-  make_spp_df_list <- function(survey_dat, cached_spp = NULL) {
-    survey_dat |>
-      dplyr::filter(!(species_common_name %in% cached_spp)) |>
-      dplyr::group_split(species_common_name) |>
-      purrr::map(prep_stitch_dat)
-  }
-
-  if ("synoptic" %in% survey_type) {
-    if (check_cache) {
-      cached_spp <- get_cached_spp(survey_dat, cache, "synoptic", model_type)
-      if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
-    }
-    spp_df_list <- make_spp_df_list(survey_dat, cached_spp)
-
-    spp_df_list |>
-      purrr::map(\(df) get_stitched_index(
-        survey_dat = df, species = unique(df$species_common_name),
-        survey_type = "synoptic", model_type = "st-rw", cache = cache
-      ))
-  }
-
-  if ("hbll_outside" %in% survey_type) {
-    if (check_cache) {
-      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_outside", model_type)
-      if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
-    }
-
-    spp_df_list <- make_spp_df_list(survey_dat, cached_spp)
-
-    spp_df_list |>
-      purrr::map(\(df) get_stitched_index(
-        survey_dat = df, species = unique(df$species_common_name),
-        survey_type = "hbll_outside", model_type = "st-rw", cache = cache
-      ))
-  }
-
-  if ("hbll_inside" %in% survey_type) {
-    if (check_cache) {
-      cached_spp <- get_cached_spp(survey_dat, cache, "hbll_inside", model_type)
-      if (length(cached_spp) > 0) message("\t- skipping cached species, n = ", length(cached_spp))
-    }
-
-    spp_df_list <- make_spp_df_list(survey_dat, cached_spp)
-
-    spp_df_list |>
-      purrr::map(\(df) get_stitched_index(
-        survey_dat = df, species = unique(df$species_common_name),
-        survey_type = "hbll_inside", model_type = "st-rw", cache = cache
-      ))
-  }
-}
 
 ## Look at what is being excluded/included --------------------------------------
 ## Useful for looking at what gets stitched
