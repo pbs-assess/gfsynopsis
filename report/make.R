@@ -101,9 +101,9 @@ cos <- dplyr::filter(cos, !grepl("Eulachon", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`))
 cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `COSEWIC status`, sara_status = `Schedule status`)
 # duplicate of inside YE:
-cos <- dplyr::filter(cos, !grepl("Pacific Ocean outside waters population", `COSEWIC population`))
 cos <- select(cos, species_science_name, cosewic_status, sara_status)
-cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus complex", species_science_name))
+cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus complex", species_science_name)) |>
+       distinct() # to remove duplicates (e.g., YE and RE/BS rockfish)
 cos$species_science_name <- tolower(cos$species_science_name)
 spp <- left_join(spp, cos, by = "species_science_name")
 
