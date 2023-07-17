@@ -22,14 +22,14 @@ make_pages(
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
   save_gg_objects = FALSE,
-  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8",
-    "#a8a8a8", "#a8a8a8"),
+  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8", "#a8a8a8",
+    "#a8a8a8"),
   survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
     "HBLL OUT S", "IPHC FISS", "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"),
   mat_min_n = 20,
   survey_map_outlier = 1,
-  synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` =
-    2018, `SYN QCS` = 2019),
+  synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` = 2018,
+    `SYN QCS` = 2019),
   hbll_out_max_survey_years = list(`HBLL OUT N` = 2019, `HBLL OUT S` = 2020),
   iphc_max_survey_year = 2020,
   parallel = FALSE,
@@ -37,7 +37,8 @@ make_pages(
   final_year_comm = 2020,
   final_year_surv = 2021,
   length_ticks = NULL,
-  all_survey_years = NULL
+  all_survey_years = NULL,
+  stitch_model_type = "st-rw"
 )
 }
 \arguments{
@@ -100,6 +101,10 @@ synoptic survey years to include.}
 x-axis breaks and labels.}
 
 \item{all_survey_years}{DF with \code{survey_abbrev} and all \code{year}}
+
+\item{stitch_model_type}{A string indicating what type of stitch model to fit.
+Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
+\code{\link[=get_stitched_index]{get_stitched_index()}}.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

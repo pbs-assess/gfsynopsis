@@ -4,10 +4,12 @@
 \alias{prep_stitch_dat}
 \title{Prepare survey set data for index stitching}
 \usage{
-prep_stitch_dat(spp_dat, bait_count_path)
+prep_stitch_dat(spp_dat, bait_counts)
 }
 \arguments{
 \item{spp_dat}{A dataframe from \code{\link[gfplot:get_survey_sets]{gfplot::get_survey_sets()}}}
+
+\item{bait_counts}{A dataframe from \code{\link[=get_ll_bait_counts]{get_ll_bait_counts()}}}
 }
 \value{
 A dataframe the same length as \code{spp_dat}
