@@ -165,12 +165,13 @@ hbll_ins_cache <- list.files(stitch_cache_hbll_ins)
 model_type <- "st-rw"
 spp_vector <- spp$species_common_name[order(spp$species_common_name)]
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
+grid_dir <- file.path(dc, 'grids')
 
 # 2023 specific code ------
 # For 2023, let's use the below chunk because we have not updated the grids.
 prep_stitch_grids(
-  grid_dir = file.path(dc_stitch, "grids"),
-  hbll_ins_grid_input = file.path(dc_stitch, "hbll-inside-grid.rds")
+  grid_dir = grid_dir,
+  hbll_ins_grid_input = file.path(dc_stitch, "hbll-inside-grid_water-area.rds")
 )
 # -----
 
@@ -193,7 +194,8 @@ furrr::future_walk(spp_vector, function(.sp) {
     message("No cached stitched synoptic found for: ", .sp, ". Stitching synoptic.")
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
-      survey_type = "synoptic", model_type = model_type, cache = stitch_cache
+      survey_type = "synoptic", model_type = model_type, cache = stitch_cache,
+      grid_dir = grid_dir
     )
   }
   message("Cached stitched synoptic found for: ", .sp)
@@ -202,7 +204,8 @@ furrr::future_walk(spp_vector, function(.sp) {
     message("No cached stitched HBLL OUT found for: ", .sp, ". Stitching HBLL OUT.")
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
-      survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache
+      survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache,
+      grid_dir = grid_dir
     )
   }
   message("Cached stitched HBLL OUT found for: ", .sp)
@@ -211,7 +214,8 @@ furrr::future_walk(spp_vector, function(.sp) {
     message("No cached stitched HBLL INS found for: ", .sp, ". Stitching HBLL INS.")
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
-      survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache
+      survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache,
+      grid_dir = grid_dir
     )
   }
   message("Cached stitched HBLL INS found for: ", .sp)

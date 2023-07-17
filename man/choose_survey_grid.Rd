@@ -4,10 +4,12 @@
 \alias{choose_survey_grid}
 \title{Choose the survey grid matching the survey type}
 \usage{
-choose_survey_grid(survey_type, grid_dir = file.path("data-cache", "grids"))
+choose_survey_grid(survey_type, grid_dir)
 }
 \arguments{
 \item{survey_type}{A string matching one of: "synoptic", "hbll_outside", "hbll_inside"}
+
+\item{grid_dir}{Path where cleaned grids were stored from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}}
 }
 \value{
 A dataframe containing a survey grid from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}

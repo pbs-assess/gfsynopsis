@@ -1,5 +1,5 @@
 setwd(here::here())
-data_cache <- here::here("report", "data-cache-feb-2023")
+data_cache <- here::here("report", "data-cache-july-2023")
 build_dir <- file.path("report", "report-rmd")
 dir.create(here::here("report", "data-cache"), showWarnings = FALSE)
 dir.create(here::here(build_dir), showWarnings = FALSE)
@@ -69,7 +69,9 @@ gfsynopsis::make_pages(
   hbll_out_max_survey_years = hbll_out_max_survey_years,
   length_ticks = length_ticks[length_ticks$species_common_name == this_spp,],
   survey_cols = survey_cols,
-  survey_col_names = survey_col_names
+  survey_col_names = survey_col_names,
+  stitch_model_type = 'st-rw',
+  grid_dir = file.path(data_cache, 'grids')
 )
 
 # Now go look in `report/report-rmd/figure-pages`

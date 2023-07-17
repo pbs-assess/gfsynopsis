@@ -86,7 +86,8 @@ make_pages <- function(
   final_year_surv = 2021,
   length_ticks = NULL,
   all_survey_years = NULL,
-  stitch_model_type = 'st-rw'
+  stitch_model_type = 'st-rw',
+  grid_dir
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -449,6 +450,7 @@ make_pages <- function(
 
 # Add stitched index: ----------------------------------------------------------
   # Generate stitched index if not already cached
+  grid_dir <-
   if (!file.exists(stitch_cache_spp_synoptic)) {
     get_stitched_index(survey_dat = dat$survey_sets, species = spp,
       survey_type = "synoptic", model_type = stitch_model_type, cache = stitch_cache)

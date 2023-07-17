@@ -4,13 +4,19 @@
 \alias{prep_stitch_grids}
 \title{Write grids used for stitching index}
 \usage{
-prep_stitch_grids(
-  grid_dir = file.path("data-outputs", "grids"),
-  hbll_ins_grid_input = file.path("data-cache", "hbll-inside-grid.rds")
-)
+prep_stitch_grids(grid_dir, hbll_ins_grid_input)
+}
+\arguments{
+\item{grid_dir}{Path where cleaned grids should be stored}
+
+\item{hbll_ins_grid_input}{RDS object containing the HBLL INS grid with water
+area values.}
+}
+\value{
+Synoptic, HBLL OUT, and HBLL INS grids as .rds files.
 }
 \description{
 Write grid objects used for stitching index. These are written to a
 <data-outputs/grids> directory.
-Note: Might not be needed if clean grids are added to \code{gfdata}
+Will not be needed if clean grids are added to \code{gfdata}
 }
