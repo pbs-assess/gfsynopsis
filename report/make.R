@@ -181,7 +181,6 @@ furrr::future_walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
   syn_check <- syn_cache[syn_cache %in% spp_filename]
-  syn_check <- syn_cache[syn_cache %in% test]
   hbll_out_check <- hbll_out_cache[hbll_out_cache %in% spp_filename]
   hbll_ins_check <- hbll_ins_cache[hbll_ins_cache %in% spp_filename]
 
@@ -191,34 +190,28 @@ furrr::future_walk(spp_vector, function(.sp) {
   }
 
   if (rlang::is_empty(syn_check)) {
-    message("No cached stitched synoptic found for: ", .sp, ". Stitching synoptic.")
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
       survey_type = "synoptic", model_type = model_type, cache = stitch_cache,
       grid_dir = grid_dir
     )
   }
-  message("Cached stitched synoptic found for: ", .sp)
 
   if (rlang::is_empty(hbll_out_check)) {
-    message("No cached stitched HBLL OUT found for: ", .sp, ". Stitching HBLL OUT.")
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
       survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache,
       grid_dir = grid_dir
     )
   }
-  message("Cached stitched HBLL OUT found for: ", .sp)
 
   if (rlang::is_empty(hbll_ins_check)) {
-    message("No cached stitched HBLL INS found for: ", .sp, ". Stitching HBLL INS.")
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
       survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache,
       grid_dir = grid_dir
     )
   }
-  message("Cached stitched HBLL INS found for: ", .sp)
 })
 future::plan(sequential)
 

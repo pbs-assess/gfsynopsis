@@ -2,7 +2,8 @@
 % Please edit documentation in R/stitch-survey.R
 \name{choose_survey_grid}
 \alias{choose_survey_grid}
-\title{Choose the survey grid matching the survey type}
+\title{Choose the survey grid matching the survey type.
+TODO: update with calls to gfdata once updated grid functions are added there.}
 \usage{
 choose_survey_grid(survey_type, grid_dir)
 }
@@ -15,5 +16,6 @@ choose_survey_grid(survey_type, grid_dir)
 A dataframe containing a survey grid from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}
 }
 \description{
-Choose the survey grid matching the survey type
+Choose the survey grid matching the survey type.
+TODO: update with calls to gfdata once updated grid functions are added there.
 }

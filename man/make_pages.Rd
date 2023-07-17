@@ -38,7 +38,8 @@ make_pages(
   final_year_surv = 2021,
   length_ticks = NULL,
   all_survey_years = NULL,
-  stitch_model_type = "st-rw"
+  stitch_model_type = "st-rw",
+  grid_dir
 )
 }
 \arguments{
