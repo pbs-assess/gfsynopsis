@@ -1,17 +1,17 @@
 #' Prepare survey set data for index stitching
 #'
 #' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param bait_counts A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
 #' @returns A dataframe the same length as `spp_dat`
 #'
 #' @export
-prep_stitch_dat <- function(spp_dat, bait_count_path) {
+prep_stitch_dat <- function(spp_dat, bait_counts) {
   # Add baited hook counts to spp_dat for LL surveys
   # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
   ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
   if (length(ll > 0)) {
-    bait_count <- readRDS(bait_count_path)
-    spp_dat <- dplyr::left_join(spp_dat, bait_count,
+    spp_dat <- dplyr::left_join(spp_dat, bait_counts,
       by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
     ) |>
       dplyr::mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) |>
