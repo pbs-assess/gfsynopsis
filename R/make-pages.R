@@ -38,6 +38,9 @@
 #' @param length_ticks A data frame indicating optional length composition
 #'   x-axis breaks and labels.
 #' @param all_survey_years DF with `survey_abbrev` and all `year`
+#' @param stitch_model_type A string indicating what type of stitch model to fit.
+#'   Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
+#'   [gfsynopsis::get_stitched_index()].
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -83,7 +86,8 @@ make_pages <- function(
   final_year_surv = 2021,
   length_ticks = NULL,
   all_survey_years = NULL,
-  stitch_model_type = 'st-rw'
+  stitch_model_type = 'st-rw',
+  grid_dir
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -446,6 +450,7 @@ make_pages <- function(
 
 # Add stitched index: ----------------------------------------------------------
   # Generate stitched index if not already cached
+  grid_dir <-
   if (!file.exists(stitch_cache_spp_synoptic)) {
     get_stitched_index(survey_dat = dat$survey_sets, species = spp,
       survey_type = "synoptic", model_type = stitch_model_type, cache = stitch_cache)

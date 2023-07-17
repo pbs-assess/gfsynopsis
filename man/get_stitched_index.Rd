@@ -15,7 +15,8 @@ get_stitched_index(
   offset = "offset",
   silent = TRUE,
   ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
-  cache = file.path("report", "stitch-cache")
+  cache = file.path("report", "stitch-cache"),
+  grid_dir
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ get_stitched_index(
 \item{ctrl}{Optimization control options via \code{\link[sdmTMB:sdmTMBcontrol]{sdmTMB::sdmTMBcontrol()}}.}
 
 \item{cache}{A string specifying file path to cache directory.}
+
+\item{grid_dir}{Path where cleaned grids were stored from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}}
 }
 \value{
 Either a string or dataframe:

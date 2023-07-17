@@ -1,17 +1,17 @@
 #' Prepare survey set data for index stitching
 #'
 #' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param bait_counts A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
 #' @returns A dataframe the same length as `spp_dat`
 #'
 #' @export
-prep_stitch_dat <- function(spp_dat, bait_count_path) {
+prep_stitch_dat <- function(spp_dat, bait_counts) {
   # Add baited hook counts to spp_dat for LL surveys
   # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
   ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
   if (length(ll > 0)) {
-    bait_count <- readRDS(bait_count_path)
-    spp_dat <- dplyr::left_join(spp_dat, bait_count,
+    spp_dat <- dplyr::left_join(spp_dat, bait_counts,
       by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
     ) |>
       dplyr::mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) |>
@@ -85,13 +85,16 @@ get_stitch_lu <- function(spp_dat, species, survey_type) {
 #' @description
 #' Write grid objects used for stitching index. These are written to a
 #' <data-outputs/grids> directory.
-#' Note: Might not be needed if clean grids are added to `gfdata`
+#' Will not be needed if clean grids are added to `gfdata`
+#' @param grid_dir Path where cleaned grids should be stored
+#' @param hbll_ins_grid_input RDS object containing the HBLL INS grid with water
+#'   area values.
 #'
-#' @return
+#' @returns Synoptic, HBLL OUT, and HBLL INS grids as .rds files.
+#'
 #' @export
 #'
-prep_stitch_grids <- function(grid_dir = file.path("data-outputs", "grids"),
-  hbll_ins_grid_input = file.path("data-cache", "hbll-inside-grid.rds")) {
+prep_stitch_grids <- function(grid_dir, hbll_ins_grid_input) {
   if (!file.exists(grid_dir)) dir.create(grid_dir)
 
   synoptic_grid_file <- file.path(grid_dir, "synoptic_grid.rds")
@@ -130,14 +133,16 @@ prep_stitch_grids <- function(grid_dir = file.path("data-outputs", "grids"),
 }
 
 # Utility functions ------------------------------------------------------------
-#' Choose the survey grid matching the survey type
+#' Choose the survey grid matching the survey type.
+#' TODO: update with calls to gfdata once updated grid functions are added there.
 #'
 #' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
 #'
 #' @return A dataframe containing a survey grid from [gfsynopsis::prep_stitch_grids()]
 #' @export
 #'
-choose_survey_grid <- function(survey_type, grid_dir = file.path("data-cache", "grids")) {
+choose_survey_grid <- function(survey_type, grid_dir) {
   switch(survey_type,
     synoptic = readRDS(file.path(grid_dir, "synoptic_grid.rds")),
     hbll_outside = readRDS(file.path(grid_dif, "hbll_out_grid.rds")),
@@ -178,6 +183,7 @@ make_grid <- function(survey_grid, years) {
 #' @param silent A boolean. Silent or include optimization details.
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
 #' @param cache A string specifying file path to cache directory.
+#' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
 #'
 #' @returns Either a string or dataframe:
 #' * `insufficient data to stitch regions` if the number of positive sets is too low to stitch
@@ -191,7 +197,8 @@ get_stitched_index <- function(
     model_type = "st-rw",
     mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
-    cache = file.path("report", "stitch-cache")) {
+    cache = file.path("report", "stitch-cache"),
+    grid_dir) {
   cache <- file.path(cache, survey_type)
   pred_cache <- file.path(cache, 'predictions')
   if (!file.exists(cache)) dir.create(cache)
@@ -299,7 +306,7 @@ get_stitched_index <- function(
     cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
-    grid <- choose_survey_grid(survey_type)
+    grid <- choose_survey_grid(survey_type, grid_dir)
     newdata <- gfsynopsis:::make_grid(survey_grid = grid, years = year_range_seq) |>
       dplyr::filter(
         survey %in% fit$data$survey_abbrev,
@@ -351,7 +358,6 @@ get_stitched_index <- function(
 #'
 #' @returns A `flextable` object in a browser.
 #'
-#' @examples
 get_inclusion_table <- function(survey_dat = NULL, survey_type) {
   survey_dat <- prep_stitch_dat(survey_dat)
 

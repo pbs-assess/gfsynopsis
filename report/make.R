@@ -53,7 +53,7 @@ if (parallel_processing) {
 }
 
 # Read in fresh data or load cached data if available: ------------------------
-dc <- here("report", "data-cache-feb-2023")
+dc <- here("report", "data-cache-july-2023")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -103,7 +103,7 @@ cos <- rename(cos, species_science_name = `Scientific name`, cosewic_status = `C
 # duplicate of inside YE:
 cos <- select(cos, species_science_name, cosewic_status, sara_status)
 cos <- mutate(cos, species_science_name = ifelse(grepl("type I", species_science_name), "Sebastes aleutianus/melanostictus complex", species_science_name)) |>
-       distinct() # to remove duplicates (e.g., YE and RE/BS rockfish)
+  distinct() # to remove duplicates (e.g., YE and RE/BS rockfish)
 cos$species_science_name <- tolower(cos$species_science_name)
 spp <- left_join(spp, cos, by = "species_science_name")
 
@@ -121,13 +121,19 @@ spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("@", spp$resdoc, ""))
 spp$sar <- gsub(", ", ", @", spp$sar)
 spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
-  paste0(spp$type_other_ref, ": @", spp$other_ref, ""))
+  paste0(spp$type_other_ref, ": @", spp$other_ref, "")
+)
 spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 spp <- arrange(spp, species_code)
-spp <- spp %>% mutate(species_common_name = gsub("rougheye/blackspotted rockfish complex",
-  "Rougheye/Blackspotted Rockfish Complex", species_common_name)) %>%
-  mutate(species_common_name = gsub("c-o sole",
-    "C-O Sole", species_common_name))
+spp <- spp %>%
+  mutate(species_common_name = gsub(
+    "rougheye/blackspotted rockfish complex",
+    "Rougheye/Blackspotted Rockfish Complex", species_common_name
+  )) %>%
+  mutate(species_common_name = gsub(
+    "c-o sole",
+    "C-O Sole", species_common_name
+  ))
 if (isFALSE(french)) {
   spp$species_french_name <-
     tolower(rosettafish::en2fr(gfsynopsis:::first_cap(spp$species_common_name)))
@@ -140,7 +146,7 @@ if (isFALSE(french)) {
 
 # ------------------------------------------------------------------------------
 # Cache stitched index
-dc_stitch <- file.path(dc, 'stitch-data') # Data used
+dc_stitch <- file.path(dc, "stitch-data") # Data used
 stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
 dir.create(stitch_cache, showWarnings = FALSE)
 
@@ -151,49 +157,60 @@ dir.create(stitch_cache_synoptic, showWarnings = FALSE)
 dir.create(stitch_cache_hbll_out, showWarnings = FALSE)
 dir.create(stitch_cache_hbll_ins, showWarnings = FALSE)
 
+syn_cache <- list.files(stitch_cache_synoptic)
+hbll_out_cache <- list.files(stitch_cache_hbll_out)
+hbll_ins_cache <- list.files(stitch_cache_hbll_ins)
+
 # Inputs
-model_type <- 'st-rw'
+model_type <- "st-rw"
 spp_vector <- spp$species_common_name[order(spp$species_common_name)]
+bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
+grid_dir <- file.path(dc, 'grids')
 
 # 2023 specific code ------
 # For 2023, let's use the below chunk because we have not updated the grids.
-prep_stitch_grids(grid_dir = file.path(dc_stitch, 'grids'),
-                  hbll_ins_grid_input = file.path(dc_stitch, "hbll-inside-grid.rds"))
-
-# We will also used the provided survey-sets.rds now because the original get-data call
-# did not include the HBLL INS data for each species.
-survey_dat <- readRDS(file.path(dc_stitch, "survey-sets.rds")) |>
-  prep_stitch_dat(spp_dat = _, bait_count_path = file.path(dc_stitch, 'bait-counts.rds'))
-
-# @TODO in 2024: can interatively load and prep_stitch_dat for each spp_w_hyphens.rds
-# stored in the data cache.
+prep_stitch_grids(
+  grid_dir = grid_dir,
+  hbll_ins_grid_input = file.path(dc_stitch, "hbll-inside-grid_water-area.rds")
+)
 # -----
 
 # Stitch surveys if not cached
-cached_files <- list.files(stitch_cache_synoptic)
 furrr::future_walk(spp_vector, function(.sp) {
-  sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
-  if (!sp_cached) {
-    get_stitched_index(survey_dat = survey_dat, species = .sp,
-          survey_type = "synoptic", model_type = model_type, cache = stitch_cache)
-  }
-})
+  # purrr::walk(spp_vector, function(.sp) {
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
-cached_files <- list.files(stitch_cache_hbll_out)
-furrr::future_walk(spp_vector, function(.sp) {
-  sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
-  if (!sp_cached) {
-    get_stitched_index(survey_dat = survey_dat, species = .sp,
-          survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache)
-  }
-})
+  syn_check <- syn_cache[syn_cache %in% spp_filename]
+  hbll_out_check <- hbll_out_cache[hbll_out_cache %in% spp_filename]
+  hbll_ins_check <- hbll_ins_cache[hbll_ins_cache %in% spp_filename]
 
-cached_files <- list.files(stitch_cache_hbll_ins)
-furrr::future_walk(spp_vector, function(.sp) {
-  sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
-  if (!sp_cached) {
-    get_stitched_index(survey_dat = survey_dat, species = .sp,
-          survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache)
+  if (rlang::is_empty(syn_check) | rlang::is_empty(hbll_out_check) | rlang::is_empty(hbll_out_check)) {
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+      prep_stitch_dat(spp_dat = _, bait_counts = bait_counts)
+  }
+
+  if (rlang::is_empty(syn_check)) {
+    get_stitched_index(
+      survey_dat = survey_dat, species = .sp,
+      survey_type = "synoptic", model_type = model_type, cache = stitch_cache,
+      grid_dir = grid_dir
+    )
+  }
+
+  if (rlang::is_empty(hbll_out_check)) {
+    get_stitched_index(
+      survey_dat = survey_dat, species = .sp,
+      survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache,
+      grid_dir = grid_dir
+    )
+  }
+
+  if (rlang::is_empty(hbll_ins_check)) {
+    get_stitched_index(
+      survey_dat = survey_dat, species = .sp,
+      survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache,
+      grid_dir = grid_dir
+    )
   }
 })
 future::plan(sequential)
