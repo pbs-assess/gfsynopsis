@@ -53,7 +53,7 @@ if (parallel_processing) {
 }
 
 # Read in fresh data or load cached data if available: ------------------------
-dc <- here("report", "data-cache-feb-2023")
+dc <- here("report", "data-cache-july-2023")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -154,47 +154,49 @@ dir.create(stitch_cache_hbll_ins, showWarnings = FALSE)
 # Inputs
 model_type <- 'st-rw'
 spp_vector <- spp$species_common_name[order(spp$species_common_name)]
+bait_counts <- readRDS(file.path(dc, 'bait-counts.rds'))
 
 # 2023 specific code ------
 # For 2023, let's use the below chunk because we have not updated the grids.
 prep_stitch_grids(grid_dir = file.path(dc_stitch, 'grids'),
                   hbll_ins_grid_input = file.path(dc_stitch, "hbll-inside-grid.rds"))
-
-# We will also used the provided survey-sets.rds now because the original get-data call
-# did not include the HBLL INS data for each species.
-survey_dat <- readRDS(file.path(dc_stitch, "survey-sets.rds")) |>
-  prep_stitch_dat(spp_dat = _, bait_count_path = file.path(dc_stitch, 'bait-counts.rds'))
-
-# @TODO in 2024: can interatively load and prep_stitch_dat for each spp_w_hyphens.rds
-# stored in the data cache.
 # -----
 
 # Stitch surveys if not cached
 cached_files <- list.files(stitch_cache_synoptic)
 furrr::future_walk(spp_vector, function(.sp) {
+  .sp = 'arrowtooth flounder'
   sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
   if (!sp_cached) {
+    message('No cached stitched synoptic found for : ', .sp, ". Stitching synoptic.")
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), '.rds')))$survey_sets |>
+      prep_stitch_dat(spp_dat = _, bait_counts = bait_counts)
     get_stitched_index(survey_dat = survey_dat, species = .sp,
           survey_type = "synoptic", model_type = model_type, cache = stitch_cache)
   }
+  message('Cached stitched synoptic found for : ', .sp)
 })
 
 cached_files <- list.files(stitch_cache_hbll_out)
 furrr::future_walk(spp_vector, function(.sp) {
   sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
   if (!sp_cached) {
+    message('No cached stitched HBLL OUT found for : ', .sp, ". Stitching HBLL OUT.")
     get_stitched_index(survey_dat = survey_dat, species = .sp,
           survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache)
   }
+  message('Cached stitched HBLL OUT found for : ', .sp)
 })
 
 cached_files <- list.files(stitch_cache_hbll_ins)
 furrr::future_walk(spp_vector, function(.sp) {
   sp_cached <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, '.rds') %in% cached_files
   if (!sp_cached) {
+    message('No cached stitched HBLL INS found for : ', .sp, ". Stitching HBLL INS.")
     get_stitched_index(survey_dat = survey_dat, species = .sp,
           survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache)
   }
+  message('Cached stitched HBLL INS found for : ', .sp)
 })
 future::plan(sequential)
 
