@@ -88,7 +88,6 @@ get_data_iphc_hook_with_bait <- function(path = ".",
 #' @returns RDS object with a stored dataframe ssid, year, fishing_event_id, and baited hook count
 #' @export
 #'
-#' @examples
 get_ll_bait_counts <- function(path = ".", species = 442, ssid = c(22, 36, 39, 40)) {
   ll_hook_data <- gfdata::get_ll_hook_data(species = species, ssid = ssid)
   # Use bait counts only because other columns have questionable data quality
