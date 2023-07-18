@@ -10,7 +10,7 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
   # Add baited hook counts to spp_dat for LL surveys
   # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
   ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
-  if (length(ll > 0)) {
+  if (sum(ll) > 0) {
     spp_dat <- dplyr::left_join(spp_dat, bait_counts,
       by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
     ) |>
@@ -31,6 +31,7 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
         grepl("HBLL", survey_abbrev) ~ hook_count * 0.0024384 * 0.009144 * 1000
       )
     ) |>
+    dplyr::mutate(hook_adjust_factor = ifelse(grepl("SYN", survey_abbrev), NA, hook_adjust_factor)) |>
     dplyr::mutate(offset = dplyr::case_when(
       grepl("SYN", survey_abbrev) ~ log(area_swept / 1e5),
       grepl("HBLL", survey_abbrev) ~ log(area_swept / hook_adjust_factor)
