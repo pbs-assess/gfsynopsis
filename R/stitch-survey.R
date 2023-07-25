@@ -205,7 +205,7 @@ get_stitched_index <- function(
   if (!file.exists(cache)) dir.create(cache)
   if (!file.exists(pred_cache)) dir.create(pred_cache)
 
-  species_hyphens <- gsub(" ", "-", species)
+  species_hyphens <- gfsynopsis:::clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
