@@ -457,11 +457,13 @@ make_pages <- function(
   }
   if (!file.exists(stitch_cache_spp_hbll_out)) {
     get_stitched_index(survey_dat = dat$survey_sets, species = spp,
-      survey_type = "hbll_outside", model_type = stitch_model_type, cache = stitch_cache)
+      survey_type = "hbll_outside", model_type = stitch_model_type,
+      family = sdmTMB::nbinom2(link = "log"), cache = stitch_cache)
   }
   if (!file.exists(stitch_cache_spp_hbll_ins)) {
     get_stitched_index(survey_dat = dat$survey_sets, species = spp,
-      survey_type = "hbll_inside", model_type = stitch_model_type, cache = stitch_cache)
+      survey_type = "hbll_inside", model_type = stitch_model_type,
+      family = sdmTMB::nbinom2(link = "log"), cache = stitch_cache)
   }
   # Load cached stitched index outputs
   stitched_syn <- readRDS(stitch_cache_spp_synoptic)

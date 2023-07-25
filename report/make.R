@@ -201,7 +201,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
       survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache,
-      grid_dir = grid_dir
+      family = sdmTMB::nbinom1(link = "log"), grid_dir = grid_dir
     )
   }
 
@@ -209,7 +209,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     get_stitched_index(
       survey_dat = survey_dat, species = .sp,
       survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache,
-      grid_dir = grid_dir
+      family = sdmTMB::nbinom1(link = "log"), grid_dir = grid_dir
     )
   }
 })

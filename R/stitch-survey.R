@@ -146,8 +146,8 @@ prep_stitch_grids <- function(grid_dir, hbll_ins_grid_input) {
 choose_survey_grid <- function(survey_type, grid_dir) {
   switch(survey_type,
     synoptic = readRDS(file.path(grid_dir, "synoptic_grid.rds")),
-    hbll_outside = readRDS(file.path(grid_dif, "hbll_out_grid.rds")),
-    hbll_inside = readRDS(file.path(grid_dif, "hbll_ins_grid.rds")),
+    hbll_outside = readRDS(file.path(grid_dir, "hbll_out_grid.rds")),
+    hbll_inside = readRDS(file.path(grid_dir, "hbll_ins_grid.rds")),
     stop("Invalid `survey_type` value")
   )
 }
