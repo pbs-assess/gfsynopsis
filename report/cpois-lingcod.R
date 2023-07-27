@@ -93,12 +93,13 @@ quantile(test_dat$prop_removed)
 # i <- c(941, 942)
 # i <- c(33L, 107L, 532L, 538L, 597L, 660L, 701L, 703L, 941L, 1026L,
   # 1181L, 2540L)
-i <- seq(1, nrow(test_dat))
-set.seed(1)
+# i <- seq(1, nrow(test_dat))
+# set.seed(1)
 # i <- sample(seq_len(nrow(test_dat)), 200)
 # i <- 1:200
-dat <- test_dat[i, , drop=FALSE]
-dat$id <- factor(seq_len(nrow(dat)))
+# dat <- test_dat[i, , drop=FALSE]
+# dat$id <- factor(seq_len(nrow(dat)))
+dat <- test_dat
 
 tictoc::tic()
 fit3 <- sdmTMB(
@@ -106,12 +107,13 @@ fit3 <- sdmTMB(
   family = censored_poisson(),
   # family = poisson(),
   time = "year",
+  extra_time = missing_years,
   spatiotemporal = "rw",
   spatial = "on",
   mesh = mesh,
   data = dat,
   offset = 'log_eff_skate',
-  experimental = list(lwr = lwr[c(i)], upr = upr[c(i)]),
+  experimental = list(lwr = lwr, upr = upr),
   silent = FALSE,
   do_fit = TRUE
 )
