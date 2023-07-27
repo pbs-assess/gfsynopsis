@@ -1,6 +1,6 @@
 #source(here::here('R', 'scratch', 'cpois-gam-functions.R'))
-# library(sdmTMB)
-devtools::load_all("../sdmTMB") # note path
+library(sdmTMB)
+# devtools::load_all("../sdmTMB") # note path
 
 library(tictoc)
 library(tidyverse)
@@ -50,16 +50,14 @@ test_dat <- dat %>% filter(year >= 2003) |>
 mesh <- make_mesh(test_dat, xy_cols = c("X", "Y"), cutoff = 15)
 missing_years <- sdmTMB:::find_missing_time(test_dat$year)
 
-
-
-fit1 <- sdmTMB(
-  formula = catch ~ 0 + as.factor(year), #catch ~ 1,
-  family = poisson(),
-  # time = "year", spatiotemporal = "rw", spatial = "on",
-  mesh = mesh, data = test_dat, offset = 'log_eff_skate',
-  #extra_time = missing_years
-  silent = FALSE
-)
+# fit1 <- sdmTMB(
+#   formula = catch ~ 0 + as.factor(year), #catch ~ 1,
+#   family = poisson(),
+#   # time = "year", spatiotemporal = "rw", spatial = "on",
+#   mesh = mesh, data = test_dat, offset = 'log_eff_skate',
+#   #extra_time = missing_years
+#   silent = FALSE
+# )
 # saveRDS(fit1, here::here('scratch-out', 'fit1.rds'))
 #fit1 <- readRDS(here::here('scratch-out', 'fit1.rds'))
 
@@ -74,10 +72,12 @@ test_dat |>
 
 lwr <- test_dat$catch
 upr <- test_dat$catch
-pstar <- 0.99 # lingcod
-upr[which(test_dat$prop_removed > pstar)] <- upr[which(test_dat$prop_removed > pstar)] + 10
+pstar <- 0.9 # lingcod
+# upr[which(test_dat$prop_removed > pstar)] <- upr[which(test_dat$prop_removed > pstar)] + 10
+upr[which(test_dat$prop_removed > pstar)] <- NA
 plot(test_dat$catch, upr)
 table(test_dat$catch == upr) / nrow(test_dat)
+table(is.na(upr)) / nrow(test_dat)
 
 quantile(test_dat$prop_removed)
 
@@ -89,18 +89,93 @@ quantile(test_dat$prop_removed)
 # upr[200]<- test_dat$catch[200] + 10
 
 # upr ==
-fit2 <- sdmTMB(
-  formula = catch ~ 0 + as.factor(year), #catch ~ 1,
+
+# i <- c(941, 942)
+# i <- c(33L, 107L, 532L, 538L, 597L, 660L, 701L, 703L, 941L, 1026L,
+  # 1181L, 2540L)
+i <- seq(1, nrow(test_dat))
+set.seed(1)
+# i <- sample(seq_len(nrow(test_dat)), 200)
+# i <- 1:200
+dat <- test_dat[i, , drop=FALSE]
+dat$id <- factor(seq_len(nrow(dat)))
+
+tictoc::tic()
+fit3 <- sdmTMB(
+  formula = catch ~ 1 + (1 | id),
   family = censored_poisson(),
   # family = poisson(),
   time = "year",
-  spatiotemporal = "iid", spatial = "on",
+  spatiotemporal = "rw",
+  spatial = "on",
   mesh = mesh,
-  data = test_dat,
-  #offset = 'log_eff_skate',
-  experimental = list(lwr = lwr, upr = upr),
-  # control = sdmTMBcontrol(start = list(b_j = b$b_j)),
-  #control = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
-  silent = F
+  data = dat,
+  offset = 'log_eff_skate',
+  experimental = list(lwr = lwr[c(i)], upr = upr[c(i)]),
+  silent = FALSE,
+  do_fit = TRUE
 )
-fit2
+tictoc::toc()
+
+fit3
+
+# dat$catch
+#
+# fit2$tmb_obj$par
+# fit2$tmb_obj$fn()
+# # fit2$tmb_obj$gr(1)
+# # fit2
+#
+# dcenspois_sean(8, 10, 20, give_log = 1L)
+#
+# dcenspois_sean <- function(x, lambda, upr, give_log = 0L) {
+#   if (is.na(upr)) { # full right censored
+#     if (x == 0) {
+#       ll <- 0
+#     } else {
+#       ll <- log(dcens_pois_joe(x, lambda))
+#     }
+#   } else if (upr > x) { # upper truncated right censored
+#     ll <- log(dcens_pois_upper_joe(x, lambda, upr))
+#   } else if (x == upr) { # not censored
+#     ll <- dpois(x, lambda, log = TRUE)
+#   }
+#   if (give_log) {
+#     return(ll)
+#   } else {
+#     return(exp(ll))
+#   }
+# }
+#
+# ll <- purrr::map2_dbl(dat$catch, upr[i], function(x, y) dcenspois_sean(x, 1, y, give_log = 1L))
+# which(is.infinite(ll))
+# ll
+# dat$catch[which(is.infinite(ll))]
+# test_dat$catch[941]
+# upr[941]
+#
+# dcens_pois_upper_joe_log <- function(x, lambda, upper) {
+#   # tmp_ll = log(ppois(upper, lambda)) # // F(upr)
+#   tmp_ll = ppois(upper, lambda, log.p = TRUE) # // F(upr)
+#   if (x > 0) {
+#     tmp_ll = logspace_sub(tmp_ll, ppois(x-1, lambda, log.p = TRUE)) #// F(upr) - F(lwr-1) iff lwr>0
+#   }
+#   tmp_ll
+# }
+#
+# dcens_pois_upper_joe_log(21, 1, upper = 31)
+# log(ppois(21, 1))
+# ll <- ppois(21, 1, log.p = TRUE)
+# ll
+#
+# ll2 <- ppois(21-1, 1, log.p = TRUE)
+# ll2
+#
+# logspace_sub(ll, ll2)
+#
+#
+# ll == ll2
+# ll > ll2
+#
+# ll + log1p(-exp(ll2 - ll))
+#
