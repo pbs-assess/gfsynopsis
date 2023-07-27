@@ -98,14 +98,13 @@ quantile(test_dat$prop_removed)
 # i <- sample(seq_len(nrow(test_dat)), 200)
 # i <- 1:200
 # dat <- test_dat[i, , drop=FALSE]
-# dat$id <- factor(seq_len(nrow(dat)))
 dat <- test_dat
+dat$id <- factor(seq_len(nrow(dat)))
 
 tictoc::tic()
 fit3 <- sdmTMB(
   formula = catch ~ 1 + (1 | id),
   family = censored_poisson(),
-  # family = poisson(),
   time = "year",
   extra_time = missing_years,
   spatiotemporal = "rw",
@@ -113,7 +112,7 @@ fit3 <- sdmTMB(
   mesh = mesh,
   data = dat,
   offset = 'log_eff_skate',
-  experimental = list(lwr = lwr, upr = upr),
+  control = sdmTMBcontrol(censored_upper = upr),
   silent = FALSE,
   do_fit = TRUE
 )
