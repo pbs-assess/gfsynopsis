@@ -6,7 +6,7 @@ dc <- here::here('report', 'data-cache-aug-2023')
 iphc_data <- file.path(dc, 'iphc')
 
 # Load species data (from `gfsynopsis::get_data()`)
-sp <- 'pacific halibut'
+sp <- 'pacific halibut' # Use single example species
 sp_file <- paste0(gfsynopsis:::clean_name(sp), '.rds')
 sp_dat <- readRDS(file.path(dc, 'iphc', sp_file))$set_counts |>
   mutate(species = sp)
@@ -63,9 +63,9 @@ set_info <-
 #       # 4. IPHC Charter Regions: (All)
 #       # 5. NA
 #       # 6. Select non-Pacific halibut species: (All)
-iphc_raw_dat <- read_tsv('iphc-data/Non-Pacific halibut data_2B_NULL.tsv',
+iphc_raw_dat <- read_tsv(file.path(iphc_data, 'Non-Pacific halibut data_2B_NULL.tsv'),
   locale = locale(encoding = "UTF-16LE"), guess_max = 10000)
-iphc_raw_hal <- read_tsv('iphc-data/Set and Pacific halibut data_2B_NULL.tsv',
+iphc_raw_hal <- read_tsv(file.path(iphc_data, 'Set and Pacific halibut data_2B_NULL.tsv'),
   locale = locale(encoding = "UTF-16LE")) # watchout for encoding!!!!
 iphc_raw_hal <- iphc_raw_hal |>
   distinct(Date, Stlkey, `Effective skates hauled`, `Purpose Code`, Eff)
