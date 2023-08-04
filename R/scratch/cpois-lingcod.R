@@ -20,6 +20,19 @@ iphc_grid <- iphc_set_info |>
   select(year, station, lon, lat) |>
   add_utm_columns(ll_names = c('lon', 'lat'))
 
+# ----------
+# Use the same species as Joe to compare results
+# spp_list <- c("yelloweye rockfish",
+#             "arrowtooth flounder",
+#             "lingcod",
+#             "north pacific spiny dogfish",
+#             "pacific cod",
+#             "pacific halibut",
+#             "redbanded rockfish",
+#             "sablefish",
+#             "big skate",
+#             "longnose skate",
+#             "shortspine thornyhead")
 spp_list <- "pacific halibut"
 #spp_list <- "arrowtooth flounder"
 #spp_list <- "lingcod"
@@ -48,17 +61,16 @@ dat <- left_join(dat, hook_bait) |>
 dat <- dat |> select(
   year, station, lat, lon, sample_n,
   species, catch, effSkate, hook_removed,
-
+  obsHooksPerSet, iphcUsabilityCode, standard,
   prop_removed, log_eff_skate,
   fyear, fstation
 )
 
 # For now, work with N_it20 values and then can compare effect of sampling design
 test_dat <- dat %>% filter(year >= 2003) |>
-  filter(sample_n == "all") %>% # Have to choose an option because Andy has scaled down the
+  filter(sample_n == "all") |> # Have to choose an option because Andy has scaled down the
   filter(iphcUsabilityCode %in% c(1, 3), standard == "Y") |> # Match Joe's data use filtering
-  mutate(prop_removed = hook_removed / obsHooksPerSet) |>
-  add_utm_columns(ll_names = c("lon", "lat"))
+  sdmTMB::add_utm_columns(ll_names = c("lon", "lat"))
 
 mesh <- make_mesh(test_dat, xy_cols = c("X", "Y"), cutoff = 15)
 missing_years <- sdmTMB:::find_missing_time(test_dat$year)
@@ -89,8 +101,8 @@ fit1 <- sdmTMB(
 pstar <- 0.99 # halibut
 
 test_dat <- test_dat |>
-  mutate(lwr = catch,
-    upr = sdmTMB:::get_censored_upper(prop_removed, n_catch = catch, n_hooks = obsHooksPerSet, pstar = pstar))
+  mutate(upr = sdmTMB:::get_censored_upper(prop_removed, n_catch = catch,
+    n_hooks = obsHooksPerSet, pstar = pstar))
   #mutate(upr = ifelse(upr > catch, floor(upr / 4), upr))
   #mutate(upr = ifelse(prop_removed > pstar, catch + 20, catch))
 
@@ -103,8 +115,8 @@ fit2 <- sdmTMB(
   mesh = mesh,
   data = test_dat,
   offset = 'log_eff_skate',
-  experimental = list(lwr = test_dat$lwr, upr = test_dat$upr),
-  control = sdmTMBcontrol(censored_upper = upr),
+  #experimental = list(lwr = test_dat$lwr, upr = test_dat$upr),
+  control = sdmTMBcontrol(censored_upper = test_dat$upr),
   extra_time = missing_years,
   #control = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
   silent = FALSE)
@@ -117,12 +129,12 @@ max_year <- max(test_dat$year)
 newdata <- sdmTMB::replicate_df(iphc_grid, "year", unique(test_dat$year)) |>
   mutate(fstation = factor(station))
 
-fit1_pred <- predict.sdmTMB(object = fit1, newdata = newdata, type = "link", return_tmb_object = TRUE)
-fit2_pred <- predict.sdmTMB(object = fit2, newdata = newdata, type = "link", return_tmb_object = TRUE)
+fit1_pred <- sdmTMB:::predict.sdmTMB(object = fit1, newdata = newdata, type = "link", return_tmb_object = TRUE)
+fit2_pred <- sdmTMB:::predict.sdmTMB(object = fit2, newdata = newdata, type = "link", return_tmb_object = TRUE)
 beepr::beep()
 
-fit1_ind <- get_index(obj = fit1_pred, bias_correct = TRUE) |> mutate(dist = 'poisson')
-fit2_ind <- get_index(obj = fit2_pred, bias_correct = TRUE) |> mutate(dist = 'censored')
+fit1_ind <- sdmTMB::get_index(obj = fit1_pred, bias_correct = TRUE) |> mutate(dist = 'poisson')
+fit2_ind <- sdmTMB::get_index(obj = fit2_pred, bias_correct = TRUE) |> mutate(dist = 'censored')
 inds <- bind_rows(fit1_ind, fit2_ind)
 
 ggplot(data = inds, aes(x = year, y = est, fill = dist)) +

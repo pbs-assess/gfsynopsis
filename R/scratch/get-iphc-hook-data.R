@@ -2,8 +2,7 @@ library(tidyverse)
 library(gfiphc)
 devtools::load_all()
 
-
-dc <- here::here('report', 'data-cache-july-2023')
+dc <- here::here('report', 'data-cache-aug-2023')
 iphc_data <- file.path(dc, 'iphc')
 
 # Load species data (from `gfsynopsis::get_data()`)
@@ -11,7 +10,7 @@ sp <- 'pacific halibut'
 sp_file <- paste0(gfsynopsis:::clean_name(sp), '.rds')
 sp_dat <- readRDS(file.path(dc, 'iphc', sp_file))$set_counts |>
   mutate(species = sp)
-# Get hook_bait counts matching GFBio species counts: 1995:2021
+# Get hook_bait counts matching GFBio species counts: 1995:2022
 hook_bait <- readRDS(file.path(iphc_data, 'hook-with-bait.rds'))$set_counts |>
   mutate(baited_hooks = ifelse(!is.na(N_it), N_it, N_it20)) |>
   select(year, station, lat, lon, baited_hooks)
@@ -29,9 +28,8 @@ iphc_set_info <- readRDS(here::here(dc, 'iphc', 'iphc_set_info.rds')) |>
 unique(sp_dat$year)[!unique(sp_dat$year) %in% unique(iphc_set_info$year)]
 
 # Need hook counts for 1996 - 2002
-data('data1996to2002')
 set_1996_2002 <-
-  data1996to2002 |>
+  gfiphc::data1996to2002 |>
     mutate(species = tolower(spNameIPHC), station = as.character(station)) |>
     rename(N_it = 'catchCount', obsHooksPerSet = hooksObserved) |>
     select(year, station, lat, lon, obsHooksPerSet, usable)
@@ -42,14 +40,13 @@ set_info <- bind_rows(iphc_set_info, set_1996_2002)
 unique(sp_dat$year)[!unique(sp_dat$year) %in% unique(c(set_info$year))]
 
 # No data for hook counts in 2013
-data('setData2013'); setData2013
+gfiphc::setData2013
 
 # No data for hook counts in 1995
-data('setData1995'); setData1995
+gfiphc::setData1995
 
 # Add hook counts for 2020 and 2021
-data('setData2020'); data('setData2021')
-set_2020_2021 <- bind_rows(setData2020, setData2021) |>
+set_2020_2021 <- bind_rows(gfiphc::setData2020, gfiphc::setData2021) |>
   rename(obsHooksPerSet = "hooksObs") |>
   select(year, station, lat, lon, obsHooksPerSet, usable, standard)
 
@@ -58,15 +55,14 @@ set_info <-
   select(year, setID, station, obsHooksPerSet, effSkateIPHC, iphcUsabilityCode, iphcUsabilityDesc) %>%
   distinct(year, setID, station, .keep_all = TRUE)
 
-# Need to add 2022 data, this includes hook counts
-# -----
-# data('setData2022');
-# setData2022 <- setData2022 |>
-#   rename(obsHooksPerSet = "hooksObs") |>
-#   select(year, station, lat, lon, obsHooksPerSet, usable, standard)
-# sp_dat <- bind_rows(sp_dat, setData2022)
-
-# Add 2013 hook counts from raw IPHC FISS data download (see below for query information)
+# Add 2013 hook counts from raw IPHC FISS data download
+  # Query data from: https://www.iphc.int/data/fiss-data-query with following parameters
+#       # 1. Year Range: 1995 - 2022
+#       # 2. IPHC Regulatory Areas: 2B & NULL (in case this field is NULL)
+#       # 3. Purpose Codes: (All)
+#       # 4. IPHC Charter Regions: (All)
+#       # 5. NA
+#       # 6. Select non-Pacific halibut species: (All)
 iphc_raw_dat <- read_tsv('iphc-data/Non-Pacific halibut data_2B_NULL.tsv',
   locale = locale(encoding = "UTF-16LE"), guess_max = 10000)
 iphc_raw_hal <- read_tsv('iphc-data/Set and Pacific halibut data_2B_NULL.tsv',
@@ -124,7 +120,7 @@ iphc_hook_out <-
   bind_rows(year2019_stations) |>
   arrange(year, station)
 
-saveRDS(iphc_hook_out, file.path(iphc_data, 'iphc-hook-counts_1998-2021.rds'))
+saveRDS(iphc_hook_out, file.path(iphc_data, 'iphc-hook-counts_1998-2022.rds'))
 
 stop()
 

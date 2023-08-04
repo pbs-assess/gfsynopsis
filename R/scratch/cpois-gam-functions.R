@@ -13,14 +13,16 @@ fit_gam <- function(dat) {
   return(mod)
 }
 
-pred_gam <- function(object, by = 0.005) {
+pred_gam <- function(object, by = 0.005, prop_removed_min = NULL) {
   dat <- object$data
   species <- unique(dat$species)
-  prop_removed_min <- 0.15#floor(min(dat$prop_removed) * 100) / 100
+  if (is.null(prop_removed_min)) {
+    prop_removed_min <- floor(min(dat$prop_removed) * 100) / 100
+  }
   pred_df <- expand_grid(
     prop_removed = seq(from = prop_removed_min, to = 1, by = by),
-    log_eff_skate = 0, fyear = dat$fyear[[1]], fstation = dat$fstation[[1]]
-    # fyear = 1, fstation = 1 # This is what joe did but it doesn't work in his code, nor here
+    log_eff_skate = 0, #fyear = dat$fyear[[1]], fstation = dat$fstation[[1]]
+    fyear = 0, fstation = 0 # This is what joe did but it doesn't work in his code, nor here
   )
 
   pred_mod <- predict.gam(object = object, newdata = pred_df, se.fit = TRUE,
