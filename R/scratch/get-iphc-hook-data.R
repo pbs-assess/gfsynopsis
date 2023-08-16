@@ -142,127 +142,75 @@ stop()
 #       # 5. NA
 #       # 6. Select non-Pacific halibut species: (All)
 # # Wrangle halibut so it can be added to the non-halibut data
-# iphc_raw_hal <- read_tsv('iphc-data/Set and Pacific halibut data_2B_NULL.tsv',
-#   locale = locale(encoding = "UTF-16LE")) # watchout for encoding!!!!
-# iphc_raw_hal <- iphc_raw_hal |>
-#   mutate(halibut_count = `O32 Pacific halibut count` + `U32 Pacific halibut count`) |>
-#   select(Year, Date, Stlkey, `Vessel code`, Eff, Ineffcde, `IPHC Reg Area`,
-#     halibut_count, # keep this for quality control for now
-#     `Effective skates hauled`,
-#     BeginLat, BeginLon, EndLat, EndLon, `MidLat fished`, `MidLon fished`,
-#     `Lat - Grid target`, `Lon - Grid target`) # `MidLat fished`/`MidLon fished` is equivalent to gfiphc lat/lon
-
+iphc_raw_hal <- read_tsv(file.path(iphc_data, 'Set and Pacific halibut data_2B_NULL.tsv'),
+  locale = locale(encoding = "UTF-16LE")) |>
+  select(-`Row number`) |>
+  mutate(halibut_count = `O32 Pacific halibut count` + `U32 Pacific halibut count`)
 # # Combine the wrangled halibut data with non-halibut species
-# iphc_raw_dat <- read_tsv('iphc-data/Non-Pacific halibut data_2B_NULL.tsv',
-#   locale = locale(encoding = "UTF-16LE"), guess_max = 10000)
-# range(iphc_raw_dat$Year)
-# # Add halibut data in same format as other species
-# raw_hal_counts <- iphc_raw_hal |>
-#   mutate(`Species Name` = "Pacific Halibut") |>
-#   rename(`Number Observed` = "halibut_count") |>
-#   select(Year, Stlkey, #Date, Stlkey, `Vessel code`, Eff, Ineffcde, `IPHC Reg Area`,
-#     `Species Name`, `Number Observed`) |>#,
-#     # BeginLat, BeginLon, EndLat, EndLon, `MidLat fished`, `MidLon fished`,
-#     # `Lat - Grid target`, `Lon - Grid target`) |>
-#   left_join(distinct(iphc_raw_dat, Year, Stlkey, Station, Setno, SampleType, HooksFished, HooksRetrieved, HooksObserved, `Effective skates hauled`))
+iphc_raw_dat <- read_tsv(file.path(iphc_data, 'Non-Pacific halibut data_2B_NULL.tsv'),
+  locale = locale(encoding = "UTF-16LE"), guess_max = 10000)
+range(iphc_raw_dat$Year)
 
-# iphc_raw_dat <- iphc_raw_dat |>
-#   bind_rows(raw_hal_counts) |>
-#   arrange(Year, Stlkey)
+raw_dat <- left_join(iphc_raw_dat, iphc_raw_hal)
 
-# iphc_raw_dat <-
-#   left_join(iphc_raw_dat, iphc_raw_hal, by = c('Year', 'Stlkey')) |>
-#   filter(Year >= 1998) # No useful hook data before this
+# Add halibut data in same format as other species
+raw_hal_counts <-
+  iphc_raw_hal |>
+  mutate(`Species Name` = "Pacific Halibut") |>
+  mutate(`Number Observed` = halibut_count) # keep this for quality control for now
 
+dat <- bind_rows(raw_dat, raw_hal_counts) |>
+  filter(Year >= 1998) |>
+  arrange(Year, Date, Stlkey, SampleType, `Species Name`) |>
+  select(-c(`IPHC Charter Region`,
+            `O32 Pacific halibut count`, `U32 Pacific halibut count`,
+            `O32 Pacific halibut weight`, `U32 Pacific halibut weight`)) |>
+  select(-(`Profiler Lat`:Oxygen_sat))
 
+total_obs <-
+  dat |>
+    group_by(Stlkey, Station, Setno, Year) |>
+    summarise(total_obs = sum(`Number Observed`),
+      SampleType = first(SampleType),
+      HooksFished = first(HooksFished),
+      HooksRetrieved = first(HooksRetrieved),
+      HooksObserved = first(HooksObserved),
+      SkatesHauled = first(`No. skates hauled`),
+      EffSkates = first(`Effective skates hauled`),
+      halibut_count = first(halibut_count),
+      .groups = "drop") |>
+    mutate(obs_diff = HooksObserved - total_obs) |>
+    arrange(desc(abs(obs_diff))) |>
+    mutate(Station = as.character(Station))
 
+view(slice(total_obs %>% filter(SampleType != '20Hook'), 1:200))
 
-# # ----
-# # Select hook counts and other identifying columns
-# iphc_raw_subset <- iphc_raw_dat |>
-#   select(Year, Station, Stlkey, SampleType, Date, `Vessel code`,
-#     `MidLat fished`, `MidLon fished`, HooksObserved, HooksRetrieved, Eff, Ineffcde,
-#     halibut_count, `Effective skates hauled`) |>
-#   distinct() |>
-#   rename(year = "Year", station = "Station", date = "Date") |>
-#   mutate(station = as.character(station))
+gfiphc_df <- readRDS(file.path(iphc_data, 'iphc-hook-counts_1998-2022.rds')) |>
+  filter(year >= 1998)
 
-# # Calculate hook counts based on sum of observed fish/hooks/bait
-# raw_group_obs_counts <- iphc_raw_dat |>
-#   group_by(Stlkey) |>
-#   summarise(Stlkey_spp_counts = sum(`Number Observed`), .groups = "drop")
+# Ignore many to many problem for now. Probably that 2019 business
+test <- left_join(total_obs, gfiphc_df, by = c('Year' = 'year', 'Station' = 'station'))
 
-# iphc_raw_subset <- left_join(iphc_raw_subset, raw_group_obs_counts)
-
-# iphc_raw_2013 <- filter(iphc_raw_subset, year == 2013)
-
-# # Find many-to-many relationships (should not be many-to-many)
-# sp_with_hooks_raw <- left_join(sp_dat, iphc_raw_subset)
-# dim(sp_with_hooks_raw)
-
-# # Investigate
-# # Turns out two stations were sampled twice in 1 year
-# # ℹ Row 4051 of `x` matches multiple rows in `y`.
-# slice(sp_dat, 4051)
-# filter(sp_with_hooks_raw, year == 2019, station == "2099")
-# filter(sp_dat, year == 2019, station == "2099")
-
-# #ℹ Row 613 of `y` matches multiple rows in `x`.
-# slice(sp_with_hooks_raw, 3620)
-# filter(sp_with_hooks_raw, year == 2017, station == "2073")
-# filter(sp_dat, year == 2017, station == "2073")
-
-# # Use date to keep unique fishing events that match data in GFBio
-# sp_with_hooks_raw <- sp_with_hooks_raw %>%
-#   distinct(year, station, date, .keep_all = TRUE)
-
-# nrow(sp_with_hooks_raw) == nrow(sp_dat)
+# Use dogfish as the base dataset (this doesn't matter)
+test2 <- left_join(total_obs, iphc_hook_out, by = c('Year' = 'year', 'Station' = 'station'))
+test2 <- left_join(total_obs, iphc_set_info, by = c('Year' = 'year', 'Station' = 'station'))
 
 
-# sp_with_hooks_raw %>% names()
+#test |>
+test2 |>
+  mutate(iphc_minus_gf_obs = HooksObserved - obsHooksPerSet) |>
+  arrange(desc(abs(iphc_minus_gf_obs))) |>
+  filter(Year != 2012) |>
+  slice(1:100) |>
+  select(-iphcUsabilityCode, -iphcUsabilityDesc, -tripID, -setID) |>
+  view()
 
-# sp_with_hooks %>% names()
+view(slice(total_obs %>% filter(SampleType != '20Hook' & Year != 2012), 1:200))
 
-# # Compare observed hook counts between GFBio and gfiphc data with raw data from
-# # the IPHC FISS data portal
-# test <-
-# sp_with_hooks %>%
-#   filter(year >= 1998) %>%
-#   select(year, station, N_it, N_it20,
-#     obsHooksPerSet, effSkateIPHC, iphcUsabilityCode, iphcUsabilityDesc, usable)
-
-# test2 <-
-#   sp_with_hooks_raw %>%
-#   filter(year >= 1998) %>%
-#     select(year, station, SampleType, date, HooksObserved, HooksRetrieved, Eff, Ineffcde, Stlkey_spp_counts, halibut_count, `Effective skates hauled`)
-
-# test3 <-
-# left_join(test, test2, by = c('year', 'station')) %>%
-#   mutate(diff = obsHooksPerSet - HooksObserved) %>%
-#   mutate(diff2 = obsHooksPerSet - Stlkey_spp_counts) %>%
-#   select(year, station, date, SampleType, obsHooksPerSet, HooksObserved, Stlkey_spp_counts,
-#          diff, diff2, halibut_count, N_it, N_it20, Eff, Ineffcde, usable, iphcUsabilityDesc,
-#          effSkateIPHC, `Effective skates hauled`, HooksRetrieved) %>%
-#   arrange(desc(abs(diff)))
-# test3 %>%
-#   write_csv('scratch-out/test.csv')
-
-# filter(test3, year == 2013) %>% view()
-
-# # More many to many
-# slice(test, 3931)
-# slice(test2, 3931)
-
-
-# filter(sp_dat, year == 1998, station == "2070")
-
-# filter(sp_with_hooks, year == 2004, station == "2166") %>% as.data.frame()
-
-# test
-
-# iphc_raw_dat %>% filter(Year == 2006, Station == 2034) |> view()
-
-# iphc_raw_dat %>% filter(Stlkey == 20060114) |> view()
-# iphc_raw_hal %>% filter(Stlkey == 20060114) |> view()
-
-# sp_dat %>% filter(station == '2034', year == 2006)
+# Questions for Andy
+# - I think there is 2022 data in GFBio that shouldn't be there and the observed
+#   hook counts there are wrong
+# - There are 50 stations where the raw FISS data and GFBio hook count data
+#   do not match by ~100 hooks
+# - There are quite a few random cases where there is a diff of 10 or more.
+#   7 of these are diffs > 20; 3 of these are 56, 74, and 75.
