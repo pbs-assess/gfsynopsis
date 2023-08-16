@@ -7,6 +7,7 @@ iphc_data <- file.path(dc, 'iphc')
 
 # Load species data (from `gfsynopsis::get_data()`)
 sp <- 'pacific halibut' # Use single example species
+#sp <- 'north pacific spiny dogfish' # Use single example species (as expected this does not matter)
 sp_file <- paste0(gfsynopsis:::clean_name(sp), '.rds')
 sp_dat <- readRDS(file.path(dc, 'iphc', sp_file))$set_counts |>
   mutate(species = sp)
@@ -22,7 +23,8 @@ sp_dat <- left_join(sp_dat, hook_bait)
 # iphc_set_info <- get_iphc_sets_info() # requires VPN connection
 # saveRDS(iphc_set_info, 'iphc_set_info.rds')
 iphc_set_info <- readRDS(here::here(dc, 'iphc', 'iphc_set_info.rds')) |>
-  rename(lon = 'long')
+  rename(lon = 'long') |>
+  filter(year != 2022) # these hook counts are wrong from GFBio
 
 # Missing hook data years:
 unique(sp_dat$year)[!unique(sp_dat$year) %in% unique(iphc_set_info$year)]
@@ -46,12 +48,12 @@ gfiphc::setData2013
 gfiphc::setData1995
 
 # Add hook counts for 2020 and 2021
-set_2020_2021 <- bind_rows(gfiphc::setData2020, gfiphc::setData2021) |>
+set_2020_2021_2022 <- bind_rows(gfiphc::setData2020, gfiphc::setData2021, gfiphc::setData2022) |>
   rename(obsHooksPerSet = "hooksObs") |>
   select(year, station, lat, lon, obsHooksPerSet, usable, standard)
 
 set_info <-
-  bind_rows(iphc_set_info, set_1996_2002, set_2020_2021) %>%
+  bind_rows(iphc_set_info, set_1996_2002, set_2020_2021_2022) %>%
   select(year, setID, station, obsHooksPerSet, effSkateIPHC, iphcUsabilityCode, iphcUsabilityDesc) %>%
   distinct(year, setID, station, .keep_all = TRUE)
 
@@ -83,7 +85,7 @@ iphc_raw_2013 <- left_join(iphc_raw_dat, iphc_raw_hal) |>
   select(year, station, obsHooksPerSet, effSkateIPHC) |>
   mutate(station = as.character(station))
 
-set_info <- bind_rows(iphc_set_info, set_1996_2002, set_2020_2021, iphc_raw_2013) |>
+set_info <- bind_rows(iphc_set_info, set_1996_2002, set_2020_2021_2022, iphc_raw_2013) |>
   select(year, setID, station, lat, lon, obsHooksPerSet, effSkateIPHC,
     iphcUsabilityCode, iphcUsabilityDesc) |>
   distinct() |>
@@ -123,7 +125,6 @@ iphc_hook_out <-
 saveRDS(iphc_hook_out, file.path(iphc_data, 'iphc-hook-counts_1998-2022.rds'))
 
 stop()
-
 
 
 # # Start exploring use of raw data to get hook counts for 1995 and 2013
