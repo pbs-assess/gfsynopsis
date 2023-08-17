@@ -260,7 +260,7 @@ get_stitched_index <- function(
 
   if (is.null(mesh)) {
     cat("\n\t\t- No mesh provided, making mesh with cutoff:", cutoff)
-    mesh <- sdmTMB::make_mesh(survey_dat, c("X", "Y"), cutoff = 20)
+    mesh <- sdmTMB::make_mesh(survey_dat, c("X", "Y"), cutoff = cutoff)
   }
 
   missing_years <- sdmTMB:::find_missing_time(survey_dat$year)
