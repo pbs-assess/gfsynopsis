@@ -139,6 +139,9 @@ hbll_stitch_dat <- spp_dat |>
 
 # GET INDEX
 # ------------------------------------------------------------------------------
+
+dir.create("report/stitch-cache/hbll_outside/cpois/hbll_outside/predictions/", recursive = TRUE, showWarnings = FALSE)
+
 nbin_index <-
   names(hbll_stitch_dat) |>
   map(\(sp) get_stitched_index(survey_dat = hbll_stitch_dat[[sp]]$survey_dat, species = sp,
