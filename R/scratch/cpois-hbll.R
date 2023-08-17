@@ -69,8 +69,8 @@ pstar_list <-
   map(\(dat) get_pstar(dat, gam_formula, survey_type = survey_type, pstar_cache = pstar_cache,
     save_out = FALSE))
 
-# pstar_plots <- names(pstar_list) |>
-#   map(\(name) plot_pstar(pstar_list[[name]], sp_dat = spp_dat[[name]]))
+pstar_plots <- names(pstar_list) |>
+  map(\(name) plot_pstar(pstar_list[[name]], sp_dat = spp_dat[[name]]))
 
 
 # @QUESTION: should we add that the value at 1 is greater than at

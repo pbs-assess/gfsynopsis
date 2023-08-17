@@ -72,12 +72,11 @@ plot_pstar <- function(pstar_object, sp_dat) {
     geom_line(data = pstar_object$pred_df, aes(x = prop_removed, y = fit)) +
     geom_ribbon(data = pstar_object$pred_df, aes(x = prop_removed, y = fit,
       ymin = lwr, ymax = upr), alpha = 0.3) +
-    geom_vline(data = pstar_object$pstar_df,
-      aes(xintercept = prop_removed)) +
+    geom_vline(data = pstar_object$pstar_df, aes(xintercept = pstar)) +
     theme_pbs() +
-    ggtitle(pstar_object$species) +
-    geom_rug(data = sp_dat, aes(x = prop_removed),
-             sides = 'b', alpha = 0.5)
+    ggtitle(pstar_object$species) #+
+    # geom_rug(data = sp_dat, aes(x = prop_removed),
+    #          sides = 'b', alpha = 0.5)
 }
 
 # First derivative
