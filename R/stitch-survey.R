@@ -16,7 +16,8 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
     ) |>
       dplyr::mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) |>
       dplyr::mutate(prop_bait_hooks = count_bait_only / hook_count) |>
-      dplyr::mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks))
+      dplyr::mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
+                    prop_removed = 1 - prop_bait_hooks)
   }
   out <-
     spp_dat |>
@@ -43,10 +44,9 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
       grepl("HBLL OUT", survey_abbrev) ~ "hbll_outside",
       grepl("HBLL INS", survey_abbrev) ~ "hbll_inside"
     )) |>
-    dplyr::mutate(species_common_name = gsub(
-      "rougheye/blackspotted",
-      "rougheye-blackspotted", species_common_name
-    )) |>
+    dplyr::mutate(log_hook_count = log(hook_count)) |>
+    dplyr::mutate(fyear = as.factor(year)) |>
+    dplyr::mutate(prop_removed = ifelse(grepl("HBLL", survey_abbrev), 1 - prop_bait_hooks, NA)) |>
     dplyr::filter(!is.na(offset))
   out
 }
@@ -198,6 +198,7 @@ get_stitched_index <- function(
     model_type = "st-rw",
     mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
+    upr = NULL,
     cache = file.path("report", "stitch-cache"),
     grid_dir) {
   cache <- file.path(cache, survey_type)
@@ -274,7 +275,6 @@ get_stitched_index <- function(
   if (!is.null(offset)) offset <- survey_dat[[offset]]
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
-
   fit <- switch(model_type,
     `st-rw` = try(
       sdmTMB::sdmTMB(
