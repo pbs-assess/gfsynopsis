@@ -275,10 +275,21 @@ get_stitched_index <- function(
   if (!is.null(offset)) offset <- survey_dat[[offset]]
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
+
+  is_cpois <- family$family == "censored_poisson"
+  intercept <- as.integer(model_type == "st-rw")
+  if (is_cpois) {
+    survey_dat$obs_id <- as.factor(seq(1, nrow(survey_dat)))
+    form <- paste0("catch ~ ", intercept, " + (1 | obs_id)")
+  } else {
+    form <- paste0("catch ~ ", intercept)
+  }
+  form <- as.formula(form)
+
   fit <- switch(model_type,
     `st-rw` = try(
       sdmTMB::sdmTMB(
-        formula = catch ~ 1, family = family,
+        formula = form, family = family,
         time = "year", spatiotemporal = "rw", spatial = "on",
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
@@ -286,7 +297,7 @@ get_stitched_index <- function(
     ),
     `st-rw_tv-rw` = try(
       sdmTMB::sdmTMB(
-        formula = catch ~ 0, family = family,
+        formula = form, family = family,
         time_varying = ~1, time_varying_type = "rw",
         time = "year", spatiotemporal = "rw", spatial = "on",
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
@@ -315,7 +326,9 @@ get_stitched_index <- function(
       ) |>
       droplevels()
 
-    pred <- predict(fit, newdata, return_tmb_object = TRUE)
+    newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
+    # re_form_iid = NA, so obs_id ignored in prediction
+    pred <- predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
     pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
