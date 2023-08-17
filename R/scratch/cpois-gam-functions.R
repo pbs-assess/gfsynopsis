@@ -61,6 +61,8 @@ get_pstar <- function(sp_dat, gam_formula, survey_type = c('hbll_outside', 'hbll
 
   if (save_out) {
     saveRDS(out, file.path(pstar_cache, survey_type, paste0(gfsynopsis:::clean_name(species), '.rds')))
+  } else {
+    out
   }
 }
 
