@@ -90,7 +90,7 @@ model_type <- "st-rw"
 # family <- sdmTMB::nbinom1(link = "log")
 # family <- poisson(link = "log")
 pstar_df <- readRDS(file.path(pstar_cache, survey_type, 'pstar-df.rds')) |>
-  mutate(pstar = "prop_removed") |> # This still needs to be updated for hbll out and ins
+  rename(pstar = "prop_removed") |> # This still needs to be updated for hbll out and ins
   right_join(tibble(species_common_name = spp_list))
 
 add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
