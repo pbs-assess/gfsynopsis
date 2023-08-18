@@ -1,5 +1,6 @@
 library(tidyverse)
 library(mgcv)
+library(patchwork)
 devtools::load_all()
 
 save_plots_to_pdf <- function(ggplot_list, filename, width = 7, height = 3.7) {
@@ -27,7 +28,7 @@ pstar_hbll_cache <- file.path(pstar_cache, survey_type)
 dir.create(pstar_hbll_cache, showWarnings = FALSE)
 
 #spp_list <- gfsynopsis::get_spp_names()$species_common_name |> sort()
-spp_list <- "quillback rockfish"
+spp_list <- "copper rockfish"
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 grid_dir <- file.path(dc, 'grids')
 
@@ -37,7 +38,7 @@ spp_dat  <-
   map(\(dat) prep_stitch_dat(spp_dat = dat, bait_counts = bait_counts)) |>
   map(\(dat) filter(dat, survey_type == {{survey_type}})) |>
   setNames(spp_list)
-beepr::beep()
+#beepr::beep()
 
 # Save time because I keep screwing up the models
 #saveRDS(spp_dat, 'scratch-out/spp_dat.rds')
@@ -90,27 +91,27 @@ family <- sdmTMB::nbinom1(link = "log")
 pstar_df <- readRDS(file.path(pstar_cache, survey_type, 'pstar-df.rds')) |>
   right_join(tibble(species_common_name = spp_list))
 
-add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
-  pstar_col = 'pstar', pstar = NULL) {
-  if (is.null(pstar)) {
-    pstar <- dat[[pstar_col]][1]
-  }
+# add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
+#   pstar_col = 'pstar', pstar = NULL) {
+#   if (is.null(pstar)) {
+#     pstar <- dat[[pstar_col]][1]
+#   }
 
-  if (is.na(pstar) | pstar == 1) {
-    dat$upr <- as.numeric(NA)
-  } else {
-    dat$upr <- sdmTMB:::get_censored_upper(dat[[prop_removed_col]], dat[[n_catch_col]],
-        dat[[n_hooks_col]], pstar)
-  }
+#   if (is.na(pstar) | pstar == 1) {
+#     dat$upr <- as.numeric(NA)
+#   } else {
+#     dat$upr <- sdmTMB:::get_censored_upper(dat[[prop_removed_col]], dat[[n_catch_col]],
+#         dat[[n_hooks_col]], pstar)
+#   }
 
-  if (all(is.na(dat$upr))) {
-    control_upr <- NULL
-  }  else {
-    control_upr <- dat$upr
-  }
+#   if (all(is.na(dat$upr))) {
+#     control_upr <- NULL
+#   }  else {
+#     control_upr <- dat$upr
+#   }
 
-  list(survey_dat = dat, control_upr = control_upr)
-}
+#   list(survey_dat = dat, control_upr = control_upr)
+# }
 
 add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
   pstar_col = 'pstar', pstar = NULL) {
@@ -124,13 +125,13 @@ add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
 }
 
 # Use poisson as default to be consistent with using censored poisson
-get_pois_flavour <- function(upr) {
-  if (is.null(upr)) {
-    family <- poisson(link = "log")
-  } else {
-    family <- sdmTMB::censored_poisson(link = "log")
-  }
-}
+# get_pois_flavour <- function(upr) {
+#   if (is.null(upr)) {
+#     family <- poisson(link = "log")
+#   } else {
+#     family <- sdmTMB::censored_poisson(link = "log")
+#   }
+# }
 
 
 hbll_stitch_dat <- spp_dat |>
@@ -186,7 +187,6 @@ index_list <-
     left_join(stats_family_lu)
   )
 
-
 survey_cols <- c(
   RColorBrewer::brewer.pal(5L, "Set1"),
   RColorBrewer::brewer.pal(8L, "Set1")[7:8],
@@ -210,12 +210,12 @@ cpois_plots <-
   ) |>
   imap(\(x, idx) x + ggtitle(paste0(index_list[[idx]]$species_common_name, ': ', index_list[[idx]]$family)))
 
-save_plots_to_pdf(cpois_plots, 'scratch-out/hbll_out_cpois_plots.pdf', width = 7, height = 3.7)
+#save_plots_to_pdf(cpois_plots, 'scratch-out/hbll_out_cpois_plots.pdf', width = 7, height = 3.7)
 
 negbin_index <-
   spp_list |>
   map(\(sp) readRDS(
-    file.path(stitch_cache_hbll_out,
+    file.path(stitch_cache_hbll,
       paste0(gfsynopsis:::clean_name(sp), '_', model_type, '.rds')))) |>
   setNames(spp_list)
 
@@ -229,10 +229,32 @@ negbin_plots <-
           xlim = c(1984 - 0.2, 2022 + 0.2), french = FALSE) +
           scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
   ) |>
-  imap(\(x, idx) x + ggtitle(paste0(idx, ': nbinom1, hook comp offset')))
+  imap(\(x, idx) x + ggtitle(paste0(idx, ': nbinom1, hook comp')))
 
-save_plots_to_pdf(negbin_plots, 'scratch-out/hbll_out_negbin_plots.pdf', width = 7, height = 3.7)
+#save_plots_to_pdf(negbin_plots, 'scratch-out/hbll_out_negbin_plots.pdf', width = 7, height = 3.7)
 
+empty_plots <- map(names(cpois_plots), ~ ggplot() + ggtitle(.x))
+
+cpois_plots <- names(negbin_plots) |>
+  map(~ if (.x %in% names(cpois_plots)) {
+      cpois_plots[[.x]]
+    } else {
+      ggplot() + theme_pbs() + ggtitle(paste0(.x, ": poisson/cpois"))
+    }
+  ) |>
+  map(\(p) p + theme(axis.title.y = element_blank(), axis.text.y = element_blank()))
+
+# Combine the plots using patchwork
+combined_plots <- plot_layout(
+  map2(negbin_plots, cpois_plots, ~ .x + .y),
+  nrow = 2
+)
+
+# save_plots_to_pdf(combined_plots, 'scratch-out/hbll_out_comparison.pdf',
+#   height = 3)
+
+# save_plots_to_pdf(combined_plots, 'scratch-out/hbll_ins_comparison.pdf',
+#   height = 3)
 
 # Use inside hbll for qb:
 pstar_df <- readRDS(file.path(pstar_cache, 'hbll_inside', 'pstar-df.rds')) |>
