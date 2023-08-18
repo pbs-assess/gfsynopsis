@@ -152,23 +152,6 @@ choose_survey_grid <- function(survey_type, grid_dir) {
   )
 }
 
-#' Make prediction grid over years and survey grid
-#'
-#' @param survey_grid A dataframe from [gfsynopsis::prep_stitch_grids()]
-#' @param years A numeric vector of years
-#'
-#' @return A dataframe with as many rows as `nrow(survey_grid) * length(years)`
-#'
-make_grid <- function(survey_grid, years) {
-  years <- sort(unique(years))
-  .nd <- do.call(
-    "rbind",
-    replicate(length(years), survey_grid, simplify = FALSE)
-  )
-  .nd$year <- rep(years, each = nrow(survey_grid))
-  .nd
-}
-
 # ------------------------------------------------------------------------------
 
 #' Get stitched index across survey regions in synoptic trawl and HBLL surveys
@@ -318,7 +301,7 @@ get_stitched_index <- function(
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
     grid <- choose_survey_grid(survey_type, grid_dir)
-    newdata <- gfsynopsis:::make_grid(survey_grid = grid, years = year_range_seq) |>
+    newdata <- sdmTMB::replicate_df(survey_grid = grid, years = year_range_seq) |>
       dplyr::filter(
         survey %in% fit$data$survey_abbrev,
         year %in% fit$data$year
