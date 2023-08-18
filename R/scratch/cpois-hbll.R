@@ -32,7 +32,7 @@ spp_list <- "copper rockfish"
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 grid_dir <- file.path(dc, 'grids')
 
-spp_dat  <- 
+spp_dat  <-
   spp_list |>
   map(\(sp) readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_sets) |>
   map(\(dat) prep_stitch_dat(spp_dat = dat, bait_counts = bait_counts)) |>
@@ -80,7 +80,7 @@ pstar_df <-
     map(\(i) i$pstar_df) |>
     bind_rows(.id = 'species_common_name')
 
-#saveRDS(pstar_df, file.path(pstar_hbll_cache, 'pstar-df.rds'))
+# saveRDS(pstar_df, file.path(pstar_hbll_cache, 'pstar-df.rds'))
 
 # -------
 # Stitch HBLL index using censored poisson where applicable
@@ -88,8 +88,8 @@ model_type <- "st-rw"
 # family <- sdmTMB::censored_poisson()
 family <- sdmTMB::nbinom1(link = "log")
 # family <- poisson(link = "log")
-pstar_df <- readRDS(file.path(pstar_cache, survey_type, 'pstar-df.rds')) |>
-  right_join(tibble(species_common_name = spp_list))
+# pstar_df <- readRDS(file.path(pstar_cache, survey_type, 'pstar-df.rds')) |>
+#   right_join(tibble(species_common_name = spp_list))
 
 # add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
 #   pstar_col = 'pstar', pstar = NULL) {
@@ -121,7 +121,7 @@ add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
 
   dat$upr <- sdmTMB:::get_censored_upper(dat[[prop_removed_col]], dat[[n_catch_col]],
         dat[[n_hooks_col]], pstar)
-  return(dat)
+  dat
 }
 
 # Use poisson as default to be consistent with using censored poisson
