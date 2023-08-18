@@ -18,11 +18,9 @@ dc <- file.path("report", "data-cache-aug-2023")
 
 # @ FIXME The cpois caches are really goofy right now....
 stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
-stitch_cache_hbll_out <- file.path(stitch_cache, "hbll_outside")
-stitch_cache_hbll_ins <- file.path(stitch_cache, "hbll_inside")
+stitch_cache_hbll <- file.path(stitch_cache, survey_type)
 
-dir.create(file.path(stitch_cache_hbll_out, 'cpois'), showWarnings = FALSE)
-dir.create(file.path(stitch_cache_hbll_ins, 'cpois'), showWarnings = FALSE)
+dir.create(file.path(stitch_cache_hbll, 'cpois'), showWarnings = FALSE)
 
 pstar_cache <- file.path('report', 'pstar-cache')
 pstar_hbll_cache <- file.path(pstar_cache, survey_type)
@@ -139,9 +137,6 @@ hbll_stitch_dat <- spp_dat |>
 
 # GET INDEX
 # ------------------------------------------------------------------------------
-
-dir.create("report/stitch-cache/hbll_outside/cpois/hbll_outside/predictions/", recursive = TRUE, showWarnings = FALSE)
-
 nbin_index <-
   names(hbll_stitch_dat) |>
   map(\(sp) get_stitched_index(survey_dat = hbll_stitch_dat[[sp]]$survey_dat, species = sp,
@@ -150,7 +145,7 @@ nbin_index <-
     family = sdmTMB::nbinom1(link = "log"), ctrl = sdmTMB::sdmTMBcontrol(
       censored_upper = NULL),
     grid_dir = grid_dir, silent = FALSE,
-    cache = file.path(stitch_cache_hbll_out))
+    cache = file.path(stitch_cache_hbll))
   )
 
 # @QUESTION: should the offset be plain log(hook_count)?
@@ -162,7 +157,7 @@ index_list <-
     family = hbll_stitch_dat[[sp]]$family, ctrl = sdmTMB::sdmTMBcontrol(
       censored_upper = hbll_stitch_dat[[sp]]$control_upr),
     grid_dir = grid_dir, silent = FALSE,
-    cache = file.path(stitch_cache_hbll_out, 'cpois'))  # mb... lives in a weird dir structure
+    cache = file.path(stitch_cache_hbll, 'cpois'))
   )
 #beepr::beep()
 
@@ -176,8 +171,7 @@ stats_family_lu <- hbll_stitch_dat |>
 index_list <-
   spp_list |>
   map(\(sp) readRDS(
-    file.path(stitch_cache_hbll_out, 'cpois', survey_type,
-      paste0(gfsynopsis:::clean_name(sp), '_', model_type, '.rds')))) |>
+    file.path(stitch_cache_hbll, 'cpois', paste0(gfsynopsis:::clean_name(sp), '_', model_type, '.rds')))) |>
   setNames(spp_list) |>
   keep(is.data.frame) |>
   imap(\(x, idx) mutate(x, survey_abbrev = "HBLL OUT N/S", species = idx) |>

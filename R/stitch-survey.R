@@ -199,9 +199,8 @@ get_stitched_index <- function(
     mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
     upr = NULL,
-    cache = file.path("report", "stitch-cache"),
+    cache = NULL,
     grid_dir) {
-  cache <- file.path(cache, survey_type)
   pred_cache <- file.path(cache, 'predictions')
   if (!file.exists(cache)) dir.create(cache)
   if (!file.exists(pred_cache)) dir.create(pred_cache)
