@@ -1,67 +1,67 @@
-species_common_name,resdoc,sar,type_other_ref,other_ref,cosewic_status_reports
-abyssal skate,,,,,
-alaska skate,,,,,
-aleutian skate,,,,,
-arrowtooth flounder,grandin2017arrowtooth,dfo2015arrowtooth,,,
-basking shark,mcfarlane2008basking,,Species at Risk Act Recovery Strategy and Action Plan,"dfo2011baskingshark, cosewic2020baskingshark",cosewic2018baskingshark
-big skate,king2015biglongnoseskate,dfo2014biglongnoseskate,,,
-bigfin eelpout,,,,,
-black eelpout,,,,,
-black rockfish,yamanaka2001inshore,,,,
-blackbelly eelpout,,,,,
-blue shark,,,,,cosewic2016blueshark
-bluntnose sixgill shark,,,,,cosewic2007bluntnose
-bocaccio,stanley2012bocaccio,dfo2020bocaccio,Last Science Response,dfo2022bocaccio,cosewic2013bocaccio
-broad skate,,,,,
-brown cat shark,,,,,
-canary rockfish,stanley2009canary,"dfo2009canary, dfo2023canary",,,cosewic2007canary
-china rockfish,yamanaka2001inshore,,,,
-copper rockfish,,,Technical Report,yamanaka2001inshore,
-darkblotched rockfish,haigh2008darkblotched,,,,cosewic2010darkblotched
-dover sole,,dfo1999dover,,,
-english sole,starr2009english,dfo1999english5CD,,,
-giant grenadier,,,,,
-giant wrymouth,,,,,
-lingcod,"king2011lingOutside, holt2016lingSOG","dfo2011lingOutside, dfo2015lingSOG",,,
-longnose skate,king2015biglongnoseskate,dfo2014biglongnoseskate,,,
-longspine thornyhead,haigh2005longspineidiots,,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007longspine
-north pacific spiny dogfish,galluci2011dogfish,dfo2010dogfish,,,cosewic2011dogfish
-pacific cod,forrest2020pcod,dfo2019pcod3cd5abcd,Last Science Response,dfo2021pcod,
-pacific flatnose,,,,,
-pacific grenadier,,,,,
-pacific hake,,,Last joint Canada-US stock assessment,edwards2022hake,
-pacific ocean perch,"edwards2013pophg, edwards2014popwcvi, haigh2018popqcs","dfo2013popwcvihg, dfo2017popqcs",,,
-pacific sleeper shark,,,,,
-pacific tomcod,,,,,
-petrale sole,starr2009petrale,dfo1998petrale,,,
-quillback rockfish,yamanaka2011quillback,dfo2011quillback,,,cosewic2009quillback
-redbanded rockfish,edwards2017redbanded,,,,
-redstripe rockfish,starr2021redstripe,dfo2018redstripe,,,
-rex sole,,,Research Document featuring a case study of 3CD Rex Sole,anderson2021mp,
-rougheye/blackspotted rockfish complex,"haigh2005rougheye, starr2020rougheye",dfo2020rougheye,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007rougheye
-roughtail skate,,,,,
-sablefish,"cox2019sablefish, cox2023sablefish","dfo2017sablefish, dfo2023sablefish",Last Science Response,dfo2020sablefish,
-salmon shark,,,,,
-sandpaper skate,,,,,
-shiner perch,,,,,
-shortfin eelpout,,,,,
-shortraker rockfish,schnute1999shortraker,dfo1999shortraker,,,
-shortspine thornyhead,starr2015shortspineidiots,dfo2016shortspineidiots,,,
-silvergray rockfish,starr2016silvergray,dfo2014silvergray,,,
-snake prickleback,,,,,
-southern rock sole,holt2016rocksole,dfo2014rocksole,,,
-spotted ratfish,,,,,
-threadfin grenadier,,,,,
-tiger rockfish,yamanaka2001inshore,,,,
-twoline eelpout,,,,,
-walleye pollock,starr2021pollock,dfo2018pollock,,,
-wattled eelpout,,,,,
-whitebait smelt,,,,,
-whitebarred prickleback,,,,,
-widow rockfish,starr2021widow,dfo2019widow,,,
-wolf eel,,,,,
-yelloweye rockfish,"yamanaka2011yelloweyeinside, cox2020YEout","dfo2020yelloweyeinside, dfo2020yelloweyeoutside","Species at Risk Act Management Plan Series, Last Science Response","dfo2020yelloweye, dfo2023yelloweye",cosewic2020yelloweye
-yellowmouth rockfish,"edwards2012yellowmouth, starr2022yellowmouth",dfo2022yellowmouth,,,cosewic2010yellowmouth
-yellowtail rockfish,,dfo2015yellowtail,,,
-tope shark,,,,,cosewic2021tope
-pacific halibut,,,IPHC Report of Assessment and Research Activities,iphc2017,
+species_common_name                    ,resdoc                                                  ,sar                                               ,type_other_ref                                                      ,other_ref                                      ,cosewic_status_reports
+abyssal skate                          ,                                                        ,                                                  ,                                                                    ,                                               ,
+alaska skate                           ,                                                        ,                                                  ,                                                                    ,                                               ,
+aleutian skate                         ,                                                        ,                                                  ,                                                                    ,                                               ,
+arrowtooth flounder                    ,grandin2017arrowtooth                                   ,dfo2015arrowtooth                                 ,                                                                    ,                                               ,
+basking shark                          ,mcfarlane2008basking                                    ,                                                  ,Species at Risk Act Recovery Strategy and Action Plan               ,"dfo2011baskingshark, cosewic2020baskingshark" ,cosewic2018baskingshark
+big skate                              ,king2015biglongnoseskate                                ,dfo2014biglongnoseskate                           ,                                                                    ,                                               ,
+bigfin eelpout                         ,                                                        ,                                                  ,                                                                    ,                                               ,
+black eelpout                          ,                                                        ,                                                  ,                                                                    ,                                               ,
+black rockfish                         ,yamanaka2001inshore                                     ,                                                  ,                                                                    ,                                               ,
+blackbelly eelpout                     ,                                                        ,                                                  ,                                                                    ,                                               ,
+blue shark                             ,                                                        ,                                                  ,                                                                    ,                                               ,cosewic2016blueshark
+bluntnose sixgill shark                ,                                                        ,                                                  ,                                                                    ,                                               ,cosewic2007bluntnose
+bocaccio                               ,stanley2012bocaccio                                     ,dfo2020bocaccio                                   ,Last Science Response                                               ,dfo2022bocaccio                                ,cosewic2013bocaccio
+broad skate                            ,                                                        ,                                                  ,                                                                    ,                                               ,
+brown cat shark                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+canary rockfish                        ,stanley2009canary                                       ,"dfo2009canary, dfo2023canary"                    ,                                                                    ,                                               ,cosewic2007canary
+china rockfish                         ,yamanaka2001inshore                                     ,                                                  ,                                                                    ,                                               ,
+copper rockfish                        ,                                                        ,                                                  ,Technical Report                                                    ,yamanaka2001inshore                            ,
+darkblotched rockfish                  ,haigh2008darkblotched                                   ,                                                  ,                                                                    ,                                               ,cosewic2010darkblotched
+dover sole                             ,                                                        ,dfo1999dover                                      ,                                                                    ,                                               ,
+english sole                           ,starr2009english                                        ,dfo1999english5CD                                 ,                                                                    ,                                               ,
+giant grenadier                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+giant wrymouth                         ,                                                        ,                                                  ,                                                                    ,                                               ,
+lingcod                                ,"king2011lingOutside, holt2016lingSOG"                  ,"dfo2011lingOutside, dfo2015lingSOG"              ,                                                                    ,                                               ,
+longnose skate                         ,king2015biglongnoseskate                                ,dfo2014biglongnoseskate                           ,                                                                    ,                                               ,
+longspine thornyhead                   ,haigh2005longspineidiots                                ,                                                  ,Species at Risk Act Management Plan Series                          ,dfo2012longspineidiots                         ,cosewic2007longspine
+north pacific spiny dogfish            ,galluci2011dogfish                                      ,dfo2010dogfish                                    ,                                                                    ,                                               ,cosewic2011dogfish
+pacific cod                            ,forrest2020pcod                                         ,dfo2019pcod3cd5abcd                               ,Last Science Response                                               ,dfo2021pcod                                    ,
+pacific flatnose                       ,                                                        ,                                                  ,                                                                    ,                                               ,
+pacific grenadier                      ,                                                        ,                                                  ,                                                                    ,                                               ,
+pacific hake                           ,                                                        ,                                                  ,Last joint Canada-US stock assessment                               ,edwards2022hake                                ,
+pacific ocean perch                    ,"edwards2013pophg, edwards2014popwcvi, haigh2018popqcs" ,"dfo2013popwcvihg, dfo2017popqcs"                 ,                                                                    ,                                               ,
+pacific sleeper shark                  ,                                                        ,                                                  ,                                                                    ,                                               ,
+pacific tomcod                         ,                                                        ,                                                  ,                                                                    ,                                               ,
+petrale sole                           ,starr2009petrale                                        ,dfo1998petrale                                    ,                                                                    ,                                               ,
+quillback rockfish                     ,yamanaka2011quillback                                   ,"dfo2011quillback, dfo2023quillback"                                  ,                                                                    ,                                               ,cosewic2009quillback
+redbanded rockfish                     ,edwards2017redbanded                                    ,                                                  ,                                                                    ,                                               ,
+redstripe rockfish                     ,starr2021redstripe                                      ,dfo2018redstripe                                  ,                                                                    ,                                               ,
+rex sole                               ,                                                        ,                                                  ,Research Document featuring a case study of 3CD Rex Sole            ,anderson2021mp                                 ,
+rougheye/blackspotted rockfish complex ,"haigh2005rougheye, starr2020rougheye"                  ,dfo2020rougheye                                   ,Species at Risk Act Management Plan Series                          ,dfo2012longspineidiots                         ,cosewic2007rougheye
+roughtail skate                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+sablefish                              ,"cox2019sablefish, cox2023sablefish"                    ,"dfo2017sablefish, dfo2023sablefish"              ,Last Science Response                                               ,dfo2020sablefish                               ,
+salmon shark                           ,                                                        ,                                                  ,                                                                    ,                                               ,
+sandpaper skate                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+shiner perch                           ,                                                        ,                                                  ,                                                                    ,                                               ,
+shortfin eelpout                       ,                                                        ,                                                  ,                                                                    ,                                               ,
+shortraker rockfish                    ,schnute1999shortraker                                   ,dfo1999shortraker                                 ,                                                                    ,                                               ,
+shortspine thornyhead                  ,starr2015shortspineidiots                               ,dfo2016shortspineidiots                           ,                                                                    ,                                               ,
+silvergray rockfish                    ,starr2016silvergray                                     ,dfo2014silvergray                                 ,                                                                    ,                                               ,
+snake prickleback                      ,                                                        ,                                                  ,                                                                    ,                                               ,
+southern rock sole                     ,holt2016rocksole                                        ,dfo2014rocksole                                   ,                                                                    ,                                               ,
+spotted ratfish                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+threadfin grenadier                    ,                                                        ,                                                  ,                                                                    ,                                               ,
+tiger rockfish                         ,yamanaka2001inshore                                     ,                                                  ,                                                                    ,                                               ,
+twoline eelpout                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+walleye pollock                        ,starr2021pollock                                        ,dfo2018pollock                                    ,                                                                    ,                                               ,
+wattled eelpout                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+whitebait smelt                        ,                                                        ,                                                  ,                                                                    ,                                               ,
+whitebarred prickleback                ,                                                        ,                                                  ,                                                                    ,                                               ,
+widow rockfish                         ,starr2021widow                                          ,dfo2019widow                                      ,                                                                    ,                                               ,
+wolf eel                               ,                                                        ,                                                  ,                                                                    ,                                               ,
+yelloweye rockfish                     ,"yamanaka2011yelloweyeinside, cox2020YEout"             ,"dfo2020yelloweyeinside, dfo2020yelloweyeoutside" ,"Species at Risk Act Management Plan Series, Last Science Response" ,"dfo2020yelloweye, dfo2023yelloweye"           ,cosewic2020yelloweye
+yellowmouth rockfish                   ,"edwards2012yellowmouth, starr2022yellowmouth"          ,dfo2022yellowmouth                                ,                                                                    ,                                               ,cosewic2010yellowmouth
+yellowtail rockfish                    ,                                                        ,dfo2015yellowtail                                 ,                                                                    ,                                               ,
+tope shark                             ,                                                        ,                                                  ,                                                                    ,                                               ,cosewic2021tope
+pacific halibut                        ,                                                        ,                                                  ,IPHC Report of Assessment and Research Activities                   ,iphc2017                                       ,
