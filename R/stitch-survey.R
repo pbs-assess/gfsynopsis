@@ -153,6 +153,21 @@ choose_survey_grid <- function(survey_type, grid_dir) {
 }
 
 # ------------------------------------------------------------------------------
+# Add documentation
+add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
+  pstar_col = 'pstar', pstar = NULL) {
+  pstar <- unique(dat[[pstar_col]])
+  na_catch <- sum(is.na(dat[[n_catch_col]]))
+  stopifnot("\n\tError: missing catch values, filter before adding cpois upr" = (na_catch == 0))
+
+  if (is.null(pstar)) {
+    pstar <- dat[[pstar_col]][1]
+  }
+
+  dat$upr <- sdmTMB:::get_censored_upper(dat[[prop_removed_col]], dat[[n_catch_col]],
+        dat[[n_hooks_col]], pstar)
+  dat
+}
 
 #' Get stitched index across survey regions in synoptic trawl and HBLL surveys
 #'
@@ -179,14 +194,29 @@ get_stitched_index <- function(
     survey_dat, species = "arrowtooth flounder",
     survey_type = "synoptic",
     model_type = "st-rw",
-    mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
+    form = NULL,
+    family = sdmTMB::tweedie(),
+    time = 'year',
+    spatial = 'on',
+    spatiotemporal = 'rw',
+    time_varying = NULL,
+    time_varying_type = NULL,
+    data = survey_dat,
+    mesh = NULL, cutoff = 20,
+    offset = 'offset',
+    extra_time = NULL,
+    priors = sdmTMB::sdmTMBpriors(),
+    silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
+    gradient_thresh = 0.001,
     upr = NULL,
     cache = NULL,
     grid_dir) {
   pred_cache <- file.path(cache, 'predictions')
+  fit_cache <- file.path(cache, 'fits')
   if (!file.exists(cache)) dir.create(cache)
   if (!file.exists(pred_cache)) dir.create(pred_cache)
+  if (!file.exists(fit_cache)) dir.create(fit_cache)
 
   species_hyphens <- gfsynopsis:::clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
@@ -260,11 +290,13 @@ get_stitched_index <- function(
 
   is_cpois <- family$family == "censored_poisson"
   intercept <- as.integer(model_type == "st-rw")
-  if (is_cpois) {
-    survey_dat$obs_id <- as.factor(seq(1, nrow(survey_dat)))
-    form <- paste0("catch ~ ", intercept, " + (1 | obs_id)")
-  } else {
-    form <- paste0("catch ~ ", intercept)
+  if (is.null(form)) {
+    if (is_cpois) {
+      survey_dat$obs_id <- as.factor(seq(1, nrow(survey_dat)))
+      form <- paste0("catch ~ ", intercept, " + (1 | obs_id)")
+    } else {
+      form <- paste0("catch ~ ", intercept)
+    }
   }
   form <- as.formula(form)
 
@@ -286,10 +318,28 @@ get_stitched_index <- function(
         silent = silent, control = ctrl
       )
     ),
+    custom = try(
+      sdmTMB::sdmTMB(
+        formula = form,
+        family = family,
+        time = time,
+        spatial = spatial,
+        spatiotemporal = spatiotemporal,
+        time_varying = time_varying,
+        time_varying_type = time_varying_type,
+        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        priors = priors,
+        silent = silent, control = ctrl
+      )
+    ),
     stop("Invalid `model_type` value")
   )
 
-  if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
+  fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+  cat("\n\tSaving:", fit_filename, "\n")
+  saveRDS(fit, fit_filename)
+
+  if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))) {
     cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
     out <- "Failed sanity check"
     saveRDS(out, out_filename)
@@ -301,7 +351,7 @@ get_stitched_index <- function(
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
     grid <- choose_survey_grid(survey_type, grid_dir)
-    newdata <- sdmTMB::replicate_df(survey_grid = grid, years = year_range_seq) |>
+    newdata <- sdmTMB::replicate_df(dat = grid, time_name = "year", time_values = year_range_seq) |>
       dplyr::filter(
         survey %in% fit$data$survey_abbrev,
         year %in% fit$data$year
