@@ -86,8 +86,10 @@ gam_formula <- formula(catch ~ -1 + s(prop_removed) + fyear +
 # ------------------------------------------------------------------------------
 # Stitch IPHC index using censored poisson where applicable
 model_type <- "st-rw" # 'custom', 'st-rw-tv-rw'
-pstar_df <- readRDS(file.path(pstar_cache, 'pstar-df.rds')) |>
-  right_join(tibble(species_common_name = spp_list))
+# pstar_df <- readRDS(file.path(pstar_cache, 'pstar-df.rds')) |>
+#   right_join(tibble(species_common_name = spp_list))
+
+pstar_hal <- 0.935
 
 # # @NOTE: If species were not observed at a station in 2020 - 2022, they
 # # Will have an NA value rather than 0. This may not matter given these are the
@@ -105,10 +107,12 @@ iphc_stitch_dat <-
   map(\(dat) filter(dat, usable == "Y", standard == "Y", !is.na(catch))) |> # some species weren't measured at different points in time series
   keep(~ !is.null(.x) && nrow(.x) > 0) |> # After filtering some species df are empty
   map(\(dat) mutate(dat, obs_id = factor(row_number()))) |> # use (1 | obs_id) for poisson
-  map(\(dat) left_join(dat, pstar_df, by = 'species_common_name')) |>
-  map(\(dat) mutate(dat, pstar = ifelse(is.na(pstar), 1, pstar))) |>
+  #map(\(dat) left_join(dat, pstar_df, by = 'species_common_name')) |>
+  #map(\(dat) mutate(dat, pstar = ifelse(is.na(pstar), 1, pstar))) |>
   map(\(dat) upr = add_upr(dat, 'prop_removed', 'catch',
-    'obsHooksPerSet', 'pstar'))
+     'obsHooksPerSet', pstar_col = NULL, pstar = pstar_hal))
+  # map(\(dat) upr = add_upr(dat, 'prop_removed', 'catch',
+  #   'obsHooksPerSet', 'pstar'))
 
 # GET INDEX
 # ------------------------------------------------------------------------------

@@ -156,7 +156,6 @@ choose_survey_grid <- function(survey_type, grid_dir) {
 # Add documentation
 add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
   pstar_col = 'pstar', pstar = NULL) {
-  pstar <- unique(dat[[pstar_col]])
   na_catch <- sum(is.na(dat[[n_catch_col]]))
   stopifnot("\n\tError: missing catch values, filter before adding cpois upr" = (na_catch == 0))
 
