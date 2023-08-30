@@ -94,7 +94,7 @@ diff_10_pstar <- tibble(species = spp_list) |>
 # beepr::beep()
 
 # Use custom function to force using the same x-values as predict is done one
-d1_custom <- as.list(seq_along(mods)) |>
+d1_custom <- seq_along(mods) |>
   #purrr::set_names(nm = mods) |>
   map(\(i) get_fderiv(gam_object = mods[[i]], newdata = newdata[[i]], terms = "prop_removed", term_columns = "prop_removed",
   x = prop_removed, h =0.0005, nsim = 100, exclude_re = "fstation") |>
