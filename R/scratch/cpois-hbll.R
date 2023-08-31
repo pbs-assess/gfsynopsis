@@ -23,15 +23,15 @@ dc <- file.path("report", "data-cache-aug-2023")
 
 # Stitch output cache
 stitch_cache <- file.path('report', 'stitch-cache', survey_type)
-dir.create(file.path(stitch_cache, 'cpois'), showWarnings = FALSE)
+dir.create(file.path(stitch_cache, 'cpois'), showWarnings = FALSE, recursive = TRUE)
 
 # Pstar cache
-pstar_cache <- file.path('report', 'pstar-cache')
-pstar_hbll_cache <- file.path(pstar_cache, survey_type)
-dir.create(pstar_hbll_cache, showWarnings = FALSE)
+pstar_cache <- file.path('report', 'pstar-cache', survey_type)
+dir.create(pstar_cache, showWarnings = FALSE, recursive = TRUE)
 
 # Prepare data --------------------
 spp_list <- gfsynopsis::get_spp_names()$species_common_name |> sort()
+spp_list <- 'lingcod'
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 grid_dir <- file.path(dc, 'grids')
 
@@ -71,62 +71,19 @@ pstar_plots <- names(pstar_list) |>
 
 # @QUESTION: should we add that the value at 1 is greater than at
 # prop_removed < 1 (see rougheye/blackspotted outside gam fit)
-#save_plots_to_pdf(pstar_plots, file.path(pstar_hbll_cache, 'pstar-plots_offset.pdf'))
+#save_plots_to_pdf(pstar_plots, file.path(pstar_cache, 'pstar-plots_offset.pdf'))
 pstar_df <-
   pstar_list |>
     map(\(i) i$pstar_df) |>
     bind_rows(.id = 'species_common_name')
 
-# saveRDS(pstar_df, file.path(pstar_hbll_cache, 'pstar-df.rds'))
+# saveRDS(pstar_df, file.path(pstar_cache, 'pstar-df.rds'))
 
 # -------
 # Stitch HBLL index using censored poisson where applicable
 model_type <- "st-rw"
 pstar_df <- readRDS(file.path(pstar_cache, survey_type, 'pstar-df.rds')) |>
   right_join(tibble(species_common_name = spp_list))
-
-# add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
-#   pstar_col = 'pstar', pstar = NULL) {
-#   if (is.null(pstar)) {
-#     pstar <- dat[[pstar_col]][1]
-#   }
-
-#   if (is.na(pstar) | pstar == 1) {
-#     dat$upr <- as.numeric(NA)
-#   } else {
-#     dat$upr <- sdmTMB:::get_censored_upper(dat[[prop_removed_col]], dat[[n_catch_col]],
-#         dat[[n_hooks_col]], pstar)
-#   }
-
-#   if (all(is.na(dat$upr))) {
-#     control_upr <- NULL
-#   }  else {
-#     control_upr <- dat$upr
-#   }
-
-#   list(survey_dat = dat, control_upr = control_upr)
-# }
-
-add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
-  pstar_col = 'pstar', pstar = NULL) {
-
-  if (is.null(pstar)) {
-    pstar <- dat[[pstar_col]][1]
-  }
-
-  dat$upr <- sdmTMB:::get_censored_upper(dat[[prop_removed_col]], dat[[n_catch_col]],
-        dat[[n_hooks_col]], pstar)
-  dat
-}
-
-# Use poisson as default to be consistent with using censored poisson
-# get_pois_flavour <- function(upr) {
-#   if (is.null(upr)) {
-#     family <- poisson(link = "log")
-#   } else {
-#     family <- sdmTMB::censored_poisson(link = "log")
-#   }
-# }
 
 hbll_stitch_dat <- spp_dat |>
   map(\(dat) mutate(dat, obs_id = factor(row_number()))) |>
@@ -137,14 +94,15 @@ hbll_stitch_dat <- spp_dat |>
 
 # GET INDEX
 # ------------------------------------------------------------------------------
-nbin_index <-
+nbin2_index <-
   names(hbll_stitch_dat) |>
   map(\(sp) get_stitched_index(survey_dat = hbll_stitch_dat[[sp]], species = sp,
     survey_type = survey_type, model_type = model_type,
     offset = 'offset', # original offset with hook competition
-    family = sdmTMB::nbinom1(link = "log"),
+    #offset = 'log_hook_count',
+    family = sdmTMB::nbinom2(link = "log"),
     grid_dir = grid_dir, silent = FALSE,
-    cache = file.path(stitch_cache_hbll))
+    cache = file.path(stitch_cache, 'nbin2'))
   )
 
 index_list <-
@@ -157,8 +115,65 @@ index_list <-
     grid_dir = grid_dir, silent = FALSE,
     cache = file.path(stitch_cache, 'cpois'))
   )
+
+#assert_that(mean(upr-y_i, na.rm = TRUE)>=0)
+
+# ------------------------------------------------------------------------------
+nbin2_fits <- hbll_stitch_lu |>
+  map(\(sp) readRDS(
+    file.path(stitch_cache, 'nbin2', 'fits', paste0(clean_name(sp), '_', model_type, '.rds')))) |>
+  setNames(hbll_stitch_lu)
+
+fit_list <-
+  hbll_stitch_lu |>
+  map(\(sp) readRDS(
+    file.path(stitch_cache, 'cpois', 'fits', paste0(clean_name(sp), '_', model_type, '.rds')))) |>
+  setNames(hbll_stitch_lu)
+
+sanity_list <- fit_list |> map(\(x) sdmTMB::sanity(x, gradient_thresh = 0.01) |> as_tibble()) |>
+  bind_rows(.id = 'species')
+
+bad_fits <- sanity_list |> filter(!all_ok | is.na(all_ok))
+
+test_inds <-
+#bad_fits$species[c(2, 3, 5)] |>
+c('china rockfish', 'copper rockfish', 'petrale sole') |>
+map(\(sp) get_stitched_index(survey_dat = hbll_stitch_dat[[sp]], species = sp,
+    survey_type = survey_type, model_type = 'custom',
+    form = 'catch ~ 1 + (1 | obs_id)',
+    family = sdmTMB::censored_poisson(link = "log"),
+    time = 'year',
+    spatial = "off",
+    spatiotemporal = "ar1",
+    time_varying = ~1,
+    time_varying_type = 'ar1',
+    offset = 'log_hook_count',
+    priors = sdmTMB::sdmTMBpriors(
+      sigma_G = sdmTMB::halfnormal(0, 1),
+      matern_st = sdmTMB::pc_matern(range_gt = 20, sigma_lt = 1),
+      #matern_s = sdmTMB::pc_matern(range_gt = 10, sigma_lt = 5)
+    ),
+    ctrl = sdmTMB::sdmTMBcontrol(censored_upper = hbll_stitch_dat[[sp]]$upr
+    ),
+    grid_dir = grid_dir, silent = FALSE,
+    gradient_thresh = 0.001,
+    cache = file.path(stitch_cache, 'badfits-drop-sp-off_st-ar1_tv-ar1'))
   )
 beepr::beep()
+
+test <- as.list(fit_list[[2]]$sd_report, "Estimate")
+
+
+
+sds <- fit_list |>
+  map(\(x) if (inherits(x, 'sdmTMB')) as.list(x$sd_report, "Estimate")) |>
+  map(\(x) if (is.list(x)) tibble(ln_tau_O = x$ln_tau_O, ln_tau_E = x$ln_tau_E,
+      ln_tau_V = x$ln_tau_V, ln_tau_G = x$ln_tau_G,
+      omega_s = mean(x$omega_s), epsilon_st = mean(x$epsilon_st)))
+
+sigmas <- fit_list |> map(\(x) try(sdmTMB::tidy(x, "ran_pars")))
+test2 <- sdmTMB::tidy(fit_list[['petrale sole']], "ran_pars")
+
 
 # ------------------------------------------------------------------------------
 
@@ -180,8 +195,30 @@ index_list <-
   imap(\(x, idx) mutate(x, survey_abbrev = survey_type, species_common_name = idx) |>
     left_join(stats_family_lu)
   )
+
+
+test_fits <- bad_fits$species |>
+  map(\(sp) readRDS(file.path(stitch_cache, 'badfits-drop-sp-st', paste0(clean_name(sp), '_custom.rds')))) |>
+  setNames(bad_fits$species)
+
+test_sanity <- sanity_list |> filter(!all_ok | is.na(all_ok))
+
+sdmTMB::sanity(test_fits[['yellowtail rockfish']])
+
+test_index <- bad_fits$species |>
+  map(\(sp) readRDS(file.path(stitch_cache, 'badfits-drop-sp-st', paste0(clean_name(sp), '_custom.rds')))) |>
+  setNames(bad_fits$species) |>
+  keep(is.data.frame) |>
   imap(\(x, idx) mutate(x, survey_abbrev = "HBLL OUT N/S", species_common_name = idx) |>
     left_join(stats_family_lu)
+  )
+
+test_index |>
+map(\(index)
+    gfplot::plot_survey_index(index,
+          col = c("grey60", "grey20"), survey_cols = survey_cols,
+          xlim = c(1984 - 0.2, 2022 + 0.2), french = FALSE) +
+          scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
   )
 
 survey_cols <- c(
@@ -197,23 +234,27 @@ survey_col_names <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
     "HBLL OUT N/S", "HBLL INS N/S"
     )
 
-cpois_plots <-
-  index_list |>
+index_list <- c(index_list |> map(\(x) mutate(x, st = "on")),
+  test_index |> map(\(x) mutate(x, st = "off, rw0 int, matern prior"))) %>% `[`(sort(names(.)))
+
+cpois_plots <- index_list |>
   map(\(index)
     gfplot::plot_survey_index(index,
           col = c("grey60", "grey20"), survey_cols = survey_cols,
           xlim = c(1984 - 0.2, 2022 + 0.2), french = FALSE) +
           scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
   ) |>
-  imap(\(x, idx) x + ggtitle(paste0(index_list[[idx]]$species_common_name, ': ', index_list[[idx]]$family)))
+  imap(\(x, idx) x + ggtitle(paste0(index_list[[idx]]$species_common_name, '\n',
+    index_list[[idx]]$family,
+   "(st: ", index_list[[idx]]$st, ")")))
 
 #save_plots_to_pdf(cpois_plots, 'scratch-out/hbll_out_cpois_plots.pdf', width = 7, height = 3.7)
 
 negbin_index <-
   spp_list |>
   map(\(sp) readRDS(
-    file.path(stitch_cache_hbll,
-      paste0(gfsynopsis:::clean_name(sp), '_', model_type, '.rds')))) |>
+    file.path(stitch_cache, 'nbin2',
+      paste0(clean_name(sp), '_', model_type, '.rds')))) |>
   setNames(spp_list)
 
 negbin_plots <-
@@ -226,7 +267,7 @@ negbin_plots <-
           xlim = c(1984 - 0.2, 2022 + 0.2), french = FALSE) +
           scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
   ) |>
-  imap(\(x, idx) x + ggtitle(paste0(idx, ': nbinom1, hook comp')))
+  imap(\(x, idx) x + ggtitle(paste0(idx, '\nnbinom2, hook comp')))
 
 #save_plots_to_pdf(negbin_plots, 'scratch-out/hbll_out_negbin_plots.pdf', width = 7, height = 3.7)
 
@@ -236,7 +277,8 @@ cpois_plots <- names(negbin_plots) |>
   map(~ if (.x %in% names(cpois_plots)) {
       cpois_plots[[.x]]
     } else {
-      ggplot() + theme_pbs() + ggtitle(paste0(.x, ": poisson/cpois"))
+      family <- stats_family_lu[stats_family_lu$species_common_name == .x, 'family'][[1]]
+      ggplot() + theme_pbs() + ggtitle(paste0(.x, "\n", family))
     }
   ) |>
   map(\(p) p + theme(axis.title.y = element_blank(), axis.text.y = element_blank()))

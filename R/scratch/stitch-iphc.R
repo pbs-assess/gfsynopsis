@@ -12,16 +12,17 @@ source(here::here('R', 'scratch', 'cpois-gam-functions.R'))
 survey_type <- 'iphc'
 
 # Caches -------------------------
+# Data
 dc <- file.path('report', 'data-cache-aug-2023')
 iphc_dc <- file.path(dc, 'iphc')
 
-# Stitch output cache
+# Stitch output
 stitch_cache <- file.path('report', 'stitch-cache', survey_type)
-dir.create(file.path(stitch_cache, 'cpois'), showWarnings = FALSE)
+dir.create(file.path(stitch_cache, 'cpois'), showWarnings = FALSE, recursive = TRUE)
 
-# Pstar cache
+# Pstar
 pstar_cache <- file.path('report', 'pstar-cache', survey_type)
-dir.create(pstar_cache, showWarnings = FALSE)
+dir.create(pstar_cache, showWarnings = FALSE, recursive = TRUE)
 
 # Prepare data --------------------
 # hook data created in get-iphc-hook-data.R
@@ -34,8 +35,7 @@ iphc_grid <- iphc_hook |>
   select(year, station, lon, lat) |>
   sdmTMB::add_utm_columns(ll_names = c('lon', 'lat'))
 
-#spp_list <- gfsynopsis::get_spp_names()$species_common_name |> sort()
-spp_list <- 'pacific halibut'
+spp_list <- gfsynopsis::get_spp_names()$species_common_name |> sort()
 
 # Clean data --------------------
 spp_dat  <-
@@ -86,10 +86,10 @@ gam_formula <- formula(catch ~ -1 + s(prop_removed) + fyear +
 # ------------------------------------------------------------------------------
 # Stitch IPHC index using censored poisson where applicable
 model_type <- "st-rw" # 'custom', 'st-rw-tv-rw'
-# pstar_df <- readRDS(file.path(pstar_cache, 'pstar-df.rds')) |>
-#   right_join(tibble(species_common_name = spp_list))
+pstar_df <- readRDS(file.path(pstar_cache, 'pstar-df.rds')) |>
+  right_join(tibble(species_common_name = spp_list))
 
-pstar_hal <- 0.935
+#pstar_hal <- 0.935
 
 # # @NOTE: If species were not observed at a station in 2020 - 2022, they
 # # Will have an NA value rather than 0. This may not matter given these are the
@@ -107,12 +107,12 @@ iphc_stitch_dat <-
   map(\(dat) filter(dat, usable == "Y", standard == "Y", !is.na(catch))) |> # some species weren't measured at different points in time series
   keep(~ !is.null(.x) && nrow(.x) > 0) |> # After filtering some species df are empty
   map(\(dat) mutate(dat, obs_id = factor(row_number()))) |> # use (1 | obs_id) for poisson
-  #map(\(dat) left_join(dat, pstar_df, by = 'species_common_name')) |>
-  #map(\(dat) mutate(dat, pstar = ifelse(is.na(pstar), 1, pstar))) |>
-  map(\(dat) upr = add_upr(dat, 'prop_removed', 'catch',
-     'obsHooksPerSet', pstar_col = NULL, pstar = pstar_hal))
+  map(\(dat) left_join(dat, pstar_df, by = 'species_common_name')) |>
+  map(\(dat) mutate(dat, pstar = ifelse(is.na(pstar), 1, pstar))) |>
   # map(\(dat) upr = add_upr(dat, 'prop_removed', 'catch',
-  #   'obsHooksPerSet', 'pstar'))
+  #    'obsHooksPerSet', pstar_col = NULL, pstar = pstar_hal))
+  map(\(dat) upr = add_upr(dat, 'prop_removed', 'catch',
+    'obsHooksPerSet', 'pstar'))
 
 # GET INDEX
 # ------------------------------------------------------------------------------
@@ -128,39 +128,43 @@ nbin2_index <-
     offset = 'log_eff_skate',
     gradient_thresh = 0.001,
     ctrl = sdmTMB::sdmTMBcontrol(),
-    cutoff = 30,
+    cutoff = 20,
     grid = iphc_grid, silent = FALSE,
     cache = file.path(stitch_cache, 'nbin2-no-hook'))
   )
+
+# QUESTION: to use hook count offset, like HBLL, can we do 100 * effSkate and
+  # then apply the proportion baited?
 
 index_list <-
   names(iphc_stitch_dat) |>
   map(\(sp) get_iphc_stitched_index(survey_dat = iphc_stitch_dat[[sp]], species = sp,
     form = 'catch ~ 1 + (1 | obs_id)',
-    family = poisson(link = "log"),
-    #family = sdmTMB::censored_poisson(link = "log"),
+    family = sdmTMB::censored_poisson(link = "log"),
     time = 'year',
     spatial = 'on',
     spatiotemporal = 'rw',
     model_type = 'st-rw', # naming purposes only right now
     offset = 'log_eff_skate',
     gradient_thresh = 0.001,
-    #ctrl = sdmTMB::sdmTMBcontrol(censored_upper = iphc_stitch_dat[[sp]]$upr),
+    ctrl = sdmTMB::sdmTMBcontrol(censored_upper = iphc_stitch_dat[[sp]]$upr),
     cutoff = 20,
     grid = iphc_grid, silent = FALSE,
-    cache = file.path(stitch_cache, 'pois'))
+    cache = file.path(stitch_cache, 'cpois'))
   )
 
 # ------------------------------------------------------------------------------
 
 stats_family_lu <- iphc_stitch_dat |>
-  map(\(dat) mutate(dat, family = ifelse(pstar == 1, 'poisson', 'censored poisson'))) |>
   bind_rows() |>
+  mutate(family = ('censored poisson')) |>
   distinct(species_common_name, pstar, family)
 
-hfit_nb <- readRDS(file.path(stitch_cache, 'nbin2-no-hook/fits', paste0(('pacific-halibut'), '_', model_type, '.rds')))
+arrow_fit_nb <- readRDS(file.path(stitch_cache, 'nbin2-no-hook/fits',
+  paste0(('arrowtooth-flounder'), '_', model_type, '.rds')))
 
-hfit_cpois <- readRDS(file.path(stitch_cache, 'cpois/fits', paste0(('pacific-halibut'), '_', model_type, '.rds')))
+arrow_fit_cpois <- readRDS(file.path(stitch_cache, 'cpois/fits',
+  paste0(('arrowtooth-flounder'), '_', model_type, '.rds')))
 
 nb_index_list <-
   names(iphc_stitch_dat) |>
@@ -168,10 +172,9 @@ nb_index_list <-
       file.path(stitch_cache, 'nbin2-no-hook', paste0(clean_name(sp), '_', model_type, '.rds')))) |>
   setNames(names(iphc_stitch_dat)) |>
   keep(is.data.frame) |>
-  imap(\(x, idx) mutate(x, survey_abbrev = survey_type, species_common_name = idx) |>
-    mutate(family = 'nb2')
+  imap(\(x, idx) mutate(x, survey_abbrev = survey_type,
+    species_common_name = idx, family = 'nb2')
   )
-
 
 index_list <-
   names(iphc_stitch_dat) |>
@@ -179,9 +182,21 @@ index_list <-
       file.path(stitch_cache, 'cpois', paste0(clean_name(sp), '_', model_type, '.rds')))) |>
   setNames(names(iphc_stitch_dat)) |>
   keep(is.data.frame) |>
-  imap(\(x, idx) mutate(x, survey_abbrev = survey_type, species_common_name = idx) |>
-    left_join(stats_family_lu) |>
+  imap(\(x, idx) mutate(x, survey_abbrev = survey_type,
+    species_common_name = idx,
+    family = 'censored poisson')
   )
+
+prop_censored <- bind_rows(iphc_stitch_dat) |>
+  group_by(species_common_name, year) |>
+  summarise(prop_censored = sum(prop_removed >= pstar) / n(), .groups = 'drop')
+
+filter(prop_censored, species_common_name %in% names(index_list)) |>
+  ggplot(aes(x = year, y = prop_censored)) +
+    geom_point() +
+    theme_pbs() +
+    facet_wrap(~ species_common_name)
+
 
 survey_cols <- c(
   RColorBrewer::brewer.pal(5L, "Set1"),
@@ -203,8 +218,8 @@ cpois_plots <- index_list |>
           xlim = c(1984 - 0.2, 2022 + 0.2), french = FALSE) +
           scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
   ) |>
-  imap(\(x, idx) x + ggtitle(paste0(index_list[[idx]]$species_common_name, '\n',
-    #index_list[[idx]]$family)))
+  imap(\(x, idx) x + ggtitle(paste(index_list[[idx]]$species_common_name,
+    'censored poisson', sep = " ")))
 
 cpois_plots
 
@@ -215,7 +230,27 @@ nb2_plots <- nb_index_list |>
           xlim = c(1984 - 0.2, 2022 + 0.2), french = FALSE) +
           scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
   ) |>
-  imap(\(x, idx) x + ggtitle(paste0(nb_index_list[[idx]]$species_common_name, '\n',
-    nb_index_list[[idx]]$family)))
+  imap(\(x, idx) x + ggtitle(paste(nb_index_list[[idx]]$species_common_name,
+    nb_index_list[[idx]]$family, sep = " ")))
 
 nb2_plots
+
+empty_plots <- map(names(cpois_plots), ~ ggplot() + ggtitle(.x))
+
+cpois_plots <- names(nb2_plots) |>
+  map(~ if (.x %in% names(cpois_plots)) {
+      cpois_plots[[.x]]
+    } else {
+      ggplot() + theme_pbs() + ggtitle(paste(.x, 'censored poisson', sep = " "))
+    }
+  ) |>
+  map(\(p) p + theme(axis.title.y = element_blank(), axis.text.y = element_blank()))
+
+# Combine the plots using patchwork
+combined_plots <- patchwork::plot_layout(
+  map2(nb2_plots, cpois_plots, ~ .x + .y),
+  nrow = 2
+)
+
+save_plots_to_pdf(combined_plots, 'scratch-out/iphc_comparison.pdf',
+  height = 3.4)
