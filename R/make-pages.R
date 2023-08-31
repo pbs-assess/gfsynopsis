@@ -450,7 +450,6 @@ make_pages <- function(
 
 # Add stitched index: ----------------------------------------------------------
   # Generate stitched index if not already cached
-  grid_dir <-
   if (!file.exists(stitch_cache_spp_synoptic)) {
     get_stitched_index(survey_dat = dat$survey_sets, species = spp,
       survey_type = "synoptic", model_type = stitch_model_type, cache = stitch_cache)
