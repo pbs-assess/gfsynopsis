@@ -96,7 +96,7 @@ get_stitch_lu <- function(spp_dat, species, survey_type) {
 #' @export
 #'
 prep_stitch_grids <- function(grid_dir, hbll_ins_grid_input) {
-  if (!file.exists(grid_dir)) dir.create(grid_dir)
+  dir.create(grid_dir, showWarnings = FALSE, recursive = TRUE)
 
   synoptic_grid_file <- file.path(grid_dir, "synoptic_grid.rds")
   hbll_out_grid_file <- file.path(grid_dir, "hbll_out_grid.rds")
@@ -153,11 +153,32 @@ choose_survey_grid <- function(survey_type, grid_dir) {
 }
 
 # ------------------------------------------------------------------------------
-# Add documentation
+#' Add column containing upper limit for censored poisson
+#'
+#' @param dat A data frame from [gfsynopsis::prep_stitch_dat()].
+#' @param prop_removed_col Name of the column containing the proportion of
+#' baits removed in each fishing event from *any* species. I.e., the proportion
+#' of hooks returning without bait for any reason.
+#' @param n_catch_col Name of the column containing the observed catch counts on
+#' each fishing event of the target species.
+#' @param n_hooks_col Name of the column containing the number of hooks retrieved
+#' on each fishing event.
+#' @param pstar_col Name of the column containing a single value between
+#' `0 <= pstar <= 1` specifying the breakdown point of observed catch counts as
+#' a result of hook competition. See [gfsynopsis::get_pstar()], [sdmTMB::censored_poisson()]
+#' @param pstar Optional. If `pstar_col` is not specified, pstar can be provided
+#' as a single value between 0 <= pstar <= 1` default = NULL.
+#'
+#' @returns `dat` with a new column `upr` containing  numeric vector of upper
+#' bound catch counts of the target species to improve convergence of the censored
+#' method. See the documentation in [sdmTMB::get_censored_upper()]
+#'
+#' @export
 add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
   pstar_col = 'pstar', pstar = NULL) {
   na_catch <- sum(is.na(dat[[n_catch_col]]))
-  stopifnot("\n\tError: missing catch values, filter before adding cpois upr" = (na_catch == 0))
+  stopifnot("\n\tError: missing catch values, filter before adding cpois upr" =
+    (na_catch == 0))
 
   if (is.null(pstar)) {
     pstar <- dat[[pstar_col]][1]
@@ -170,7 +191,7 @@ add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
 
 #' Get stitched index across survey regions in synoptic trawl and HBLL surveys
 #'
-#' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()].
+#' @param survey_dat A data frame from [gfsynopsis::prep_stitch_dat()].
 #' @param species A string specifying the `species_common_name`.
 #' @param survey_type A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".
 #' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw".
@@ -180,6 +201,7 @@ add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
 #' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
 #' @param silent A boolean. Silent or include optimization details.
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
+#' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
 #' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
 #'
@@ -213,9 +235,9 @@ get_stitched_index <- function(
     grid_dir) {
   pred_cache <- file.path(cache, 'predictions')
   fit_cache <- file.path(cache, 'fits')
-  if (!file.exists(cache)) dir.create(cache)
-  if (!file.exists(pred_cache)) dir.create(pred_cache)
-  if (!file.exists(fit_cache)) dir.create(fit_cache)
+  dir.create(cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
   species_hyphens <- gfsynopsis:::clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
@@ -385,10 +407,6 @@ get_stitched_index <- function(
   saveRDS(out, out_filename)
   out
 }
-
-
-## Look at what is being excluded/included --------------------------------------
-## Useful for looking at what gets stitched
 
 #' Get proportion of positive sets in each SYN or HBLL region
 #'

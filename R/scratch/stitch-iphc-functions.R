@@ -1,6 +1,13 @@
-prep_iphc_stitch_dat <- function(sp_dat, hook_dat) {
+#' Prepare IPHC FISS data for index stitching
+#'
+#' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param hook_dat A dataframe from [gfsynopsis::get_ll_bait_counts()]
+#'
+#' @returns A dataframe the same length as `spp_dat`
+
+prep_iphc_stitch_dat <- function(spp_dat, hook_dat) {
   clean_dat <-
-    left_join(sp_dat, hook_dat, by = join_by('year', 'station', 'lat', 'lon')) |> # get observed hook counts
+    left_join(spp_dat, hook_dat, by = join_by('year', 'station', 'lat', 'lon')) |> # get observed hook counts
     # @QUESTION: Should we calculate hook values from effective skate for 1995?
     # For now for 1995, multiply effective skate number by 100, since and effective
     # skate of 1 is meant to represent 100 hooks (with a few other caveats).
@@ -17,6 +24,14 @@ prep_iphc_stitch_dat <- function(sp_dat, hook_dat) {
            fstation = factor(station)) # mgcv needs factor inputs
 }
 
+#' Get table of positive sets for IPHC FISS data
+#'
+#' @param spp_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
+#' @param species A string specifying the `species_common_name`
+#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#'
+#' @returns A dataframe
+#' @export
 get_iphc_pos_sets <- function(clean_iphc_dat) {
   clean_iphc_dat |>
   mutate(measured = ifelse(!is.na(present), 1, 0)) |>
@@ -31,6 +46,27 @@ get_iphc_pos_sets <- function(clean_iphc_dat) {
     )
 }
 
+#' Get index using `sdmTMB` for IPHC surveys
+#'
+#' @param survey_dat A data frame from [gfsynopsis::prep_iphc_stitch_dat()].
+#' @param species A string specifying the `species_common_name`.
+#' @param model_type An suffix to the filename indicating model type (default = "st-rw").
+#' @param mesh Optional mesh object created using [sdmTMB::make_mesh()].
+#' @param cutoff If `mesh = NULL`, mesh cutoff for [sdmTMB::make_mesh()].
+#' @param family The family and link for [sdmTMB::sdmTMB()].
+#' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()] (default = 'log_eff_skate').
+#' @param silent A boolean. Silent or include optimization details.
+#' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
+#' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
+#' @param cache A string specifying file path to cache directory.
+#' @param grid A data frame containing the locations of IPHC stations used to make predictions and generate the index.
+#'
+#' @returns Either a string or dataframe:
+#' * `insufficient data to stitch regions` if the number of positive sets is too low to stitch
+#' * `Failed sanity check` if the model failed to converge
+#' * A dataframe containing the stitched index formatted to use with [gfplot::plot_survey_index()]
+#' @export
+#'
 get_iphc_stitched_index <- function(survey_dat,
     species,
     model_type = "st-rw",
@@ -43,7 +79,7 @@ get_iphc_stitched_index <- function(survey_dat,
     time_varying_type = NULL,
     data = survey_dat,
     mesh = NULL, cutoff = 20,
-    offset = 'offset',
+    offset = 'log_eff_skate',
     extra_time = missing_years,
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
@@ -55,9 +91,9 @@ get_iphc_stitched_index <- function(survey_dat,
   pred_cache <- file.path(cache, 'predictions')
   fit_cache <- file.path(cache, 'fits')
 
-  if (!file.exists(cache)) dir.create(cache)
-  if (!file.exists(pred_cache)) dir.create(pred_cache)
-  if (!file.exists(fit_cache)) dir.create(fit_cache)
+  dir.create(cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
   species_hyphens <- gfsynopsis:::clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
@@ -144,7 +180,7 @@ get_iphc_stitched_index <- function(survey_dat,
     dplyr::filter(year %in% fit$data$year) |>
     droplevels()
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
-    pred <- predict(fit, newdata, return_tmb_object = TRUE)
+    pred <- predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$species <- unique(fit$data$species)
 
     pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
