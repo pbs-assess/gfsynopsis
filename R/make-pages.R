@@ -87,7 +87,9 @@ make_pages <- function(
   length_ticks = NULL,
   all_survey_years = NULL,
   stitch_model_type = 'st-rw',
-  grid_dir
+  grid_dir,
+  hbll_bait_counts,
+  iphc_hook_counts
 ) {
 
   survey_cols <- stats::setNames(survey_cols, survey_col_names)
@@ -112,11 +114,13 @@ make_pages <- function(
   dat$age_precision <- dplyr::filter(dat$age_precision,
     species_code == unique(dat$survey_sets$species_code))
 
+  dat_iphc$set_counts <- dplyr::mutate(dat_iphc$set_counts, species_common_name = spp)
+
   # FIXME: (not needed anymore?)
-  if (nrow(dat$survey_samples) > 0L)
-    dat$survey_samples$maturity_convention_maxvalue <- 1e6
-  if (nrow(dat$commercial_samples) > 0L)
-    dat$commercial_samples$maturity_convention_maxvalue <- 1e6
+  # if (nrow(dat$survey_samples) > 0L)
+  #   dat$survey_samples$maturity_convention_maxvalue <- 1e6
+  # if (nrow(dat$commercial_samples) > 0L)
+  #   dat$commercial_samples$maturity_convention_maxvalue <- 1e6
 
   # FIXME: (get this fixed in the raw data)
   if (identical(spp, "rosethorn rockfish")) {
@@ -192,9 +196,10 @@ make_pages <- function(
   map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
   vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
   iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_file), ".rds")
-  stitch_cache_spp_synoptic <- paste0(file.path(stitch_cache, "synoptic", spp_file), "_", stitch_model_type, ".rds")
-  stitch_cache_spp_hbll_out <- paste0(file.path(stitch_cache, "hbll_outside", spp_file), "_", stitch_model_type, ".rds")
-  stitch_cache_spp_hbll_ins <- paste0(file.path(stitch_cache, "hbll_inside", spp_file), "_", stitch_model_type, ".rds")
+  sc_spp_synoptic <- paste0(file.path(stitch_cache, "synoptic", spp_file), "_", stitch_model_type, ".rds")
+  sc_spp_hbll_out <- paste0(file.path(stitch_cache, "hbll_outside", spp_file), "_", stitch_model_type, ".rds")
+  sc_spp_hbll_ins <- paste0(file.path(stitch_cache, "hbll_inside", spp_file), "_", stitch_model_type, ".rds")
+  sc_spp_iphc <- paste0(file.path(stitch_cache, "iphc", spp_file), "_", stitch_model_type, ".rds")
 
   samp_panels <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
     "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french))
@@ -450,24 +455,28 @@ make_pages <- function(
 
 # Add stitched index: ----------------------------------------------------------
   # Generate stitched index if not already cached
-  if (!file.exists(stitch_cache_spp_synoptic)) {
-    get_stitched_index(survey_dat = dat$survey_sets, species = spp,
-      survey_type = "synoptic", model_type = stitch_model_type, cache = stitch_cache)
+  if(any(!file.exists(c(sc_spp_synoptic, sc_spp_hbll_out,
+      sc_spp_hbll_ins)))) {
+    stitch_dat <- prep_stitch_dat(survey_dat = dat$survey_sets, bait_counts = hbll_bait_counts)
   }
-  if (!file.exists(stitch_cache_spp_hbll_out)) {
-    get_stitched_index(survey_dat = dat$survey_sets, species = spp,
-      survey_type = "hbll_outside", model_type = stitch_model_type,
-      family = sdmTMB::nbinom2(link = "log"), cache = stitch_cache)
-  }
-  if (!file.exists(stitch_cache_spp_hbll_ins)) {
-    get_stitched_index(survey_dat = dat$survey_sets, species = spp,
-      survey_type = "hbll_inside", model_type = stitch_model_type,
-      family = sdmTMB::nbinom2(link = "log"), cache = stitch_cache)
-  }
-  # Load cached stitched index outputs
-  stitched_syn <- readRDS(stitch_cache_spp_synoptic)
-  stitched_out <- readRDS(stitch_cache_spp_hbll_ins)
-  stitched_ins <- readRDS(stitch_cache_spp_hbll_out)
+
+  stitched_syn <- get_stitched_index(survey_dat = stitch_dat, species = spp,
+    survey_type = "synoptic", model_type = stitch_model_type,
+    grid_dir = grid_dir,
+    cache = file.path(stitch_cache, "synoptic"),
+    check_cache = TRUE)
+
+  stitched_out <- get_stitched_index(survey_dat = stitch_dat, species = spp,
+    survey_type = "hbll_outside", model_type = stitch_model_type,
+    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    cache = file.path(stitch_cache, "hbll_outside"),
+    check_cache = TRUE)
+
+  stitched_ins <- get_stitched_index(survey_dat = stitch_dat, species = spp,
+    survey_type = "hbll_inside", model_type = stitch_model_type,
+    family = sdmTMB::nbinom2(link = "log"),
+    cache = file.path(stitch_cache, "hbll_inside"),
+    check_cache = TRUE)
 
   if (length(stitched_syn) > 1) {
     stitched_syn <- stitched_syn |>
@@ -498,7 +507,45 @@ make_pages <- function(
       lowerci = NA, upperci = NA, mean_cv = NA, num_sets = NA, num_pos_sets = NA)
   }
 
-  stitched_df <- bind_rows(stitched_syn, stitched_out, stitched_ins)
+# IPHC stitching
+# Use 2017 grid for predictions (can be changed)
+iphc_grid <- iphc_hook_counts |>
+  filter(year == 2017) |>
+  select(year, station, lon, lat) |>
+  sdmTMB::add_utm_columns(ll_names = c('lon', 'lat'))
+
+  if(!file.exists(sc_spp_iphc)) {
+    iphc_stitch_dat <- prep_iphc_stitch_dat(
+      survey_dat = dat_iphc$set_counts,
+      hook_dat = iphc_hook_counts)
+  }
+
+  stitched_iphc <- get_iphc_stitched_index(
+      survey_dat = iphc_stitch_dat,
+      species = spp,
+      form = 'catch ~ 1',
+      family = sdmTMB::nbinom2(link = "log"),
+      time = 'year',
+      spatial = 'on',
+      spatiotemporal = 'rw',
+      model_type = stitch_model_type,
+      offset = 'offset',
+      gradient_thresh = 0.001,
+      cutoff = 20,
+      grid = iphc_grid, silent = FALSE,
+      cache = file.path(stitch_cache, 'iphc'),
+      check_cache = TRUE)
+
+  if (length(stitched_iphc) > 1) {
+    stitched_iphc <- stitched_iphc |>
+      mutate(survey_abbrev = "IPHC Geostat") |>
+      select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets)
+  } else {
+    stitched_iphc <- data.frame(survey_abbrev = "IPHC Geostat", year = NA, biomass = NA,
+      lowerci = NA, upperci = NA, mean_cv = NA, num_sets = NA, num_pos_sets = NA)
+  }
+
+  stitched_df <- bind_rows(stitched_syn, stitched_out, stitched_ins, stitched_iphc)
   stitched_lvls <- unique(stitched_df$survey_abbrev)
   stitched_df <- stitched_df |>
     mutate(survey_abbrev = factor(survey_abbrev, levels = stitched_lvls))

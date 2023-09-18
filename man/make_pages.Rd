@@ -39,7 +39,9 @@ make_pages(
   length_ticks = NULL,
   all_survey_years = NULL,
   stitch_model_type = "st-rw",
-  grid_dir
+  grid_dir,
+  hbll_bait_counts,
+  iphc_hook_counts
 )
 }
 \arguments{

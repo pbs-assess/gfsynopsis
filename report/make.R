@@ -53,7 +53,7 @@ if (parallel_processing) {
 }
 
 # Read in fresh data or load cached data if available: ------------------------
-dc <- here("report", "data-cache-july-2023")
+dc <- here("report", "data-cache-aug-2023")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -146,26 +146,34 @@ if (isFALSE(french)) {
 
 # ------------------------------------------------------------------------------
 # Cache stitched index
+dc_iphc <- file.path(dc, "iphc") # @QUESTION: should this be higher up?
 dc_stitch <- file.path(dc, "stitch-data") # Data used
 stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
-dir.create(stitch_cache, showWarnings = FALSE)
+dir.create(stitch_cache, showWarnings = FALSE, recursive = TRUE)
 
-stitch_cache_synoptic <- file.path(stitch_cache, "synoptic")
-stitch_cache_hbll_out <- file.path(stitch_cache, "hbll_outside")
-stitch_cache_hbll_ins <- file.path(stitch_cache, "hbll_inside")
-dir.create(stitch_cache_synoptic, showWarnings = FALSE)
-dir.create(stitch_cache_hbll_out, showWarnings = FALSE)
-dir.create(stitch_cache_hbll_ins, showWarnings = FALSE)
+sc_synoptic <- file.path(stitch_cache, "synoptic")
+sc_hbll_out <- file.path(stitch_cache, "hbll_outside")
+sc_hbll_ins <- file.path(stitch_cache, "hbll_inside")
+sc_iphc     <- file.path(stitch_cache, "iphc")
+dir.create(sc_synoptic, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_hbll_out, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_hbll_ins, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_iphc, showWarnings = FALSE, recursive = TRUE)
 
-syn_cache <- list.files(stitch_cache_synoptic)
-hbll_out_cache <- list.files(stitch_cache_hbll_out)
-hbll_ins_cache <- list.files(stitch_cache_hbll_ins)
-
-# Inputs
+# Stitch inputs
 model_type <- "st-rw"
 spp_vector <- spp$species_common_name[order(spp$species_common_name)]
+# Synoptic/HBLL
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 grid_dir <- file.path(dc, 'grids')
+# IPHC
+iphc_hook_counts <- readRDS(file.path(dc_iphc, 'iphc-hook-counts.rds'))
+# @QUESTION - should this be added to data.R instead of buried in here?
+# Use 2017 grid for predictions (can be changed)
+iphc_grid <- iphc_hook_counts |>
+  filter(year == 2017) |>
+  select(year, station, lon, lat) |>
+  sdmTMB::add_utm_columns(ll_names = c('lon', 'lat'))
 
 # 2023 specific code ------
 # For 2023, let's use the below chunk because we have not updated the grids.
@@ -176,44 +184,64 @@ prep_stitch_grids(
 # -----
 
 # Stitch surveys if not cached
-furrr::future_walk(spp_vector, function(.sp) {
-  # purrr::walk(spp_vector, function(.sp) {
+#furrr::future_walk(spp_vector, function(.sp) {
+  purrr::walk(spp_vector, function(.sp) {
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
+  stitch_cached_sp <- file.path(c(sc_synoptic, sc_hbll_out, sc_hbll_ins), spp_filename)
+
+  if(any(!file.exists(stitch_cached_sp))) {
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
+  }
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp,
+    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic,
+    grid_dir = grid_dir, check_cache = TRUE
+  )
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp,
+    survey_type = "hbll_outside", model_type = model_type, cache = sc_hbll_out,
+    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    check_cache = TRUE
+  )
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp,
+    survey_type = "hbll_inside", model_type = model_type, cache = sc_hbll_ins,
+    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    check_cache = TRUE
+  )
+})
+#future::plan(sequential)
+
+# Stitch IPHC surveys if not cached
+#furrr::future_walk(spp_vector, function(.sp) {
+purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
-  syn_check <- syn_cache[syn_cache %in% spp_filename]
-  hbll_out_check <- hbll_out_cache[hbll_out_cache %in% spp_filename]
-  hbll_ins_check <- hbll_ins_cache[hbll_ins_cache %in% spp_filename]
+  if(!file.exists(file.path(sc_iphc, spp_filename))) {
+    survey_dat <- readRDS(file.path(dc_iphc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$set_counts |>
+      mutate(species_common_name = .sp) |>
+      prep_iphc_stitch_dat(survey_dat = _, hook_dat = iphc_hook_counts)
 
-  if (rlang::is_empty(syn_check) | rlang::is_empty(hbll_out_check) | rlang::is_empty(hbll_out_check)) {
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      prep_stitch_dat(spp_dat = _, bait_counts = bait_counts)
-  }
-
-  if (rlang::is_empty(syn_check)) {
-    get_stitched_index(
-      survey_dat = survey_dat, species = .sp,
-      survey_type = "synoptic", model_type = model_type, cache = stitch_cache,
-      grid_dir = grid_dir
-    )
-  }
-
-  if (rlang::is_empty(hbll_out_check)) {
-    get_stitched_index(
-      survey_dat = survey_dat, species = .sp,
-      survey_type = "hbll_outside", model_type = model_type, cache = stitch_cache,
-      family = sdmTMB::nbinom1(link = "log"), grid_dir = grid_dir
-    )
-  }
-
-  if (rlang::is_empty(hbll_ins_check)) {
-    get_stitched_index(
-      survey_dat = survey_dat, species = .sp,
-      survey_type = "hbll_inside", model_type = model_type, cache = stitch_cache,
-      family = sdmTMB::nbinom1(link = "log"), grid_dir = grid_dir
-    )
+    get_iphc_stitched_index(survey_dat = survey_dat, species = .sp,
+      form = 'catch ~ 1',
+      family = sdmTMB::nbinom2(link = "log"),
+      time = 'year',
+      spatial = 'on',
+      spatiotemporal = 'rw',
+      model_type = 'st-rw',
+      offset = 'offset',
+      gradient_thresh = 0.001,
+      cutoff = 20,
+      grid = iphc_grid, silent = FALSE,
+      cache = file.path(stitch_cache, 'iphc'),
+      check_cache = TRUE)
   }
 })
-future::plan(sequential)
+
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
@@ -314,7 +342,7 @@ purrr::walk(to_build[1:40], function(i) {
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
 
-    dat_iphc <- readRDS(file.path(dc, paste0("iphc/", spp$spp_w_hyphens[i], ".rds")))
+    dat_iphc <- readRDS(file.path(dc, "iphc", paste0(spp$spp_w_hyphens[i], ".rds")))
     dat$cpue_index <- d_cpue
     length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
       show_col_types = FALSE) |> as.data.frame()
