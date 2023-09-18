@@ -237,7 +237,7 @@ purrr::walk(spp_vector, function(.sp) {
       gradient_thresh = 0.001,
       cutoff = 20,
       grid = iphc_grid, silent = FALSE,
-      cache = file.path(stitch_cache, 'iphc'),
+      cache = sc_iphc,
       check_cache = TRUE)
   }
 })
