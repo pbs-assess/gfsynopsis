@@ -1,5 +1,5 @@
 setwd(here::here())
-data_cache <- here::here("report", "data-cache-july-2023")
+data_cache <- here::here("report", "data-cache-aug-2023")
 build_dir <- file.path("report", "report-rmd")
 dir.create(here::here("report", "data-cache"), showWarnings = FALSE)
 dir.create(here::here(build_dir), showWarnings = FALSE)
@@ -36,6 +36,8 @@ gfdata::cache_pbs_data(
 # The last function call creates this data file:
 dat <- readRDS(paste0(file.path(data_cache, this_spp_hyphens), ".rds"))
 dat_iphc <- readRDS(paste0(file.path(data_cache, 'iphc', this_spp_hyphens), ".rds"))
+hbll_bait_counts <- readRDS(file.path(data_cache, 'bait-counts.rds'))
+iphc_hook_counts <- readRDS(file.path(data_cache, 'iphc', 'iphc-hook-counts.rds'))
 # If you want to fit and plot the commercial CPUE indexes then run the following:
 # (must be on PBS network; a lot of data + a bit slow)
 # dat$cpue_index <- gfdata::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
@@ -71,7 +73,9 @@ gfsynopsis::make_pages(
   survey_cols = survey_cols,
   survey_col_names = survey_col_names,
   stitch_model_type = 'st-rw',
-  grid_dir = file.path(data_cache, 'grids')
+  grid_dir = file.path(data_cache, 'grids'),
+  hbll_bait_counts = hbll_bait_counts,
+  iphc_hook_counts = iphc_hook_counts
 )
 
 # Now go look in `report/report-rmd/figure-pages`

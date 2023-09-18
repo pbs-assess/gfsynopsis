@@ -4,10 +4,10 @@
 \alias{get_stitch_lu}
 \title{Get table of positive sets for each region and survey type}
 \usage{
-get_stitch_lu(spp_dat, species, survey_type)
+get_stitch_lu(survey_dat, species, survey_type)
 }
 \arguments{
-\item{spp_dat}{A dataframe from \code{\link[=prep_stitch_dat]{prep_stitch_dat()}}}
+\item{survey_dat}{A dataframe from \code{\link[=prep_stitch_dat]{prep_stitch_dat()}}}
 
 \item{species}{A string specifying the \code{species_common_name}}
 
