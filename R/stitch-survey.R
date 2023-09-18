@@ -1,17 +1,17 @@
 #' Prepare survey set data for index stitching
 #'
-#' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param survey_dat A dataframe from [gfplot::get_survey_sets()]
 #' @param bait_counts A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
-#' @returns A dataframe the same length as `spp_dat`
+#' @returns A dataframe the same length as `survey_dat`
 #'
 #' @export
-prep_stitch_dat <- function(spp_dat, bait_counts) {
-  # Add baited hook counts to spp_dat for LL surveys
-  # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
-  ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
+prep_stitch_dat <- function(survey_dat, bait_counts) {
+  # Add baited hook counts to survey_dat for LL surveys
+  # @FIXME this chunk is probably unecessary if all surveys are in survey_dat
+  ll <- grepl("HBLL", unique(survey_dat$survey_abbrev))
   if (sum(ll) > 0) {
-    spp_dat <- dplyr::left_join(spp_dat, bait_counts,
+    survey_dat <- dplyr::left_join(survey_dat, bait_counts,
       by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
     ) |>
       dplyr::mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) |>
@@ -20,7 +20,7 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
                     prop_removed = 1 - prop_bait_hooks)
   }
   out <-
-    spp_dat |>
+    survey_dat |>
     sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
     # @FIXME: area swept has been or will be added to gfdata function
     dplyr::mutate(
@@ -54,15 +54,15 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
 
 #' Get table of positive sets for each region and survey type
 #'
-#' @param spp_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
+#' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
 #' @param species A string specifying the `species_common_name`
 #' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
 #'
 #' @returns A dataframe
 #' @export
-get_stitch_lu <- function(spp_dat, species, survey_type) {
+get_stitch_lu <- function(survey_dat, species, survey_type) {
   stopifnot(survey_type %in% c("synoptic", "hbll_outside", "hbll_inside"))
-  spp_dat |>
+  survey_dat |>
     dplyr::filter(species_common_name %in% {{ species }}, survey_type %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
     dplyr::add_count(name = "n_sets") |>
@@ -232,6 +232,7 @@ get_stitched_index <- function(
     gradient_thresh = 0.001,
     upr = NULL,
     cache = NULL,
+    check_cache = FALSE,
     grid_dir) {
   pred_cache <- file.path(cache, 'predictions')
   fit_cache <- file.path(cache, 'fits')
@@ -241,6 +242,11 @@ get_stitched_index <- function(
 
   species_hyphens <- gfsynopsis:::clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
+
+  if (check_cache & file.exists(out_filename)) {
+    out <- readRDS(out_filename)
+    return(out)
+  }
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)

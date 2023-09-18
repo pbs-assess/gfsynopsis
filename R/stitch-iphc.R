@@ -1,34 +1,36 @@
 #' Prepare IPHC FISS data for index stitching
 #'
-#' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param survey_dat A dataframe from [gfplot::get_survey_sets()]
 #' @param hook_dat A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
-#' @returns A dataframe the same length as `spp_dat`
+#' @returns A dataframe the same length as `survey_dat`
 
-prep_iphc_stitch_dat <- function(spp_dat, hook_dat) {
+prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
   clean_dat <-
-    left_join(spp_dat, hook_dat, by = join_by('year', 'station', 'lat', 'lon')) |> # get observed hook counts
-    # @QUESTION: Should we calculate hook values from effective skate for 1995?
-    # For now for 1995, multiply effective skate number by 100, since and effective
-    # skate of 1 is meant to represent 100 hooks (with a few other caveats).
+    dplyr::left_join(survey_dat, hook_dat, by = join_by('year', 'station', 'lat', 'lon')) |> # get observed hook counts
     sdmTMB::add_utm_columns(c("lon", "lat"), utm_crs = 32609) |>
-    mutate(obsHooksPerSet = ifelse(year == 1995 & is.na(obsHooksPerSet), E_it * 100, obsHooksPerSet)) |>
-    mutate(catch = ifelse(!is.na(N_it), N_it, N_it20),
+    dplyr::mutate(catch = ifelse(!is.na(N_it), N_it, N_it20),
            sample_n = ifelse(!is.na(N_it), 'whole_haul', '20_hook'),
            effSkate = ifelse(!is.na(N_it), E_it, E_it20),
            hook_removed = obsHooksPerSet - baited_hooks) |>
-    mutate(prop_removed = hook_removed / obsHooksPerSet) |>
-    mutate(present = case_when(catch > 0 ~ 1, catch == 0 ~ 0, TRUE ~ NA)) |> # useful for plotting and pos sets
-    mutate(fyear = factor(year),
-           log_eff_skate = log(effSkate),
-           fstation = factor(station)) # mgcv needs factor inputs
+    dplyr::mutate(prop_removed = hook_removed / obsHooksPerSet) |>
+    dplyr::mutate(baited_hooks = replace(baited_hooks, which(baited_hooks == 0), 1)) |>
+    dplyr::mutate(prop_bait_hooks = baited_hooks / obsHooksPerSet) |>
+    dplyr::mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
+                  prop_removed = 1 - prop_bait_hooks) |>
+    dplyr::mutate(offset = log(effSkate * hook_adjust_factor)) |> # use ICR for hook competition for now
+    dplyr::mutate(present = case_when(catch > 0 ~ 1, catch == 0 ~ 0, TRUE ~ NA)) |> # useful for plotting and pos sets
+    dplyr::mutate(fyear = factor(year),
+           fstation = factor(station)) |> # mgcv needs factor inputs
+    dplyr::filter(usable == "Y", standard == "Y", !is.na(catch)) |> # some species weren't measured at different points in time series
+    # ADD filtering out of species before they were explicitly identified
+    dplyr::filter(!(species_common_name %in% c('big skate', 'longnose skate') & year < 1998)) |>
+    dplyr::filter(!(species_common_name == 'shortspine thornyhead' & year < 1998)) # first shows up in 1998
 }
 
 #' Get table of positive sets for IPHC FISS data
 #'
-#' @param spp_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
-#' @param species A string specifying the `species_common_name`
-#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#' @param survey_dat A dataframe from [gfsynopsis::prep_iphc_stitch_dat()]
 #'
 #' @returns A dataframe
 #' @export
@@ -86,6 +88,7 @@ get_iphc_stitched_index <- function(survey_dat,
     ctrl = sdmTMB::sdmTMBcontrol(), #sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
     gradient_thresh = 0.001,
     cache = NULL,
+    check_cache = FALSE,
     grid) {
 
   pred_cache <- file.path(cache, 'predictions')
@@ -97,6 +100,11 @@ get_iphc_stitched_index <- function(survey_dat,
 
   species_hyphens <- gfsynopsis:::clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
+
+  if (check_cache & file.exists(out_filename)) {
+    out <- readRDS(out_filename)
+    return(out)
+  }
 
   iphc_pos_sets <- bind_rows(survey_dat) |>
     get_iphc_pos_sets()
@@ -181,22 +189,22 @@ get_iphc_stitched_index <- function(survey_dat,
     droplevels()
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
     pred <- predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
-    pred$species <- unique(fit$data$species)
+    pred$species <- unique(fit$data$species_common_name)
 
     pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
     cat("\n\tSaving:", pred_filename, "\n")
     saveRDS(pred, pred_filename)
   }
 
-  message('Getting index for: ', pred$species)
+  message('Getting index for: ', species)
   index <- try(sdmTMB::get_index(pred, bias_correct = TRUE, area = 1))
   index$mean_cv <- mean(sqrt(exp(index$se^2) - 1))
   index$num_sets <- mean_num_sets
   index$num_pos_sets <- mean_num_pos_sets
-  index$survey_type <- survey_type
+  index$survey_type <- 'iphc'
   out <- index |>
     dplyr::rename(biomass = "est", lowerci = "lwr", upperci = "upr") |>
-    dplyr::mutate(species = pred$species)
+    dplyr::mutate(species = species)
 
   cat("\n\tSaving:", out_filename, "\n")
   saveRDS(out, out_filename)
