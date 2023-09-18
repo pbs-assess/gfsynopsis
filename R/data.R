@@ -30,10 +30,11 @@ get_data <- function(type = c("A", "B"), path = ".",
     .dat <- gfdata::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
     saveRDS(.dat, file = file.path(path, "cpue-index-dat.rds"), compress = compress)
   }
-  get_data_iphc(type = type, path = paste0(path, "/iphc"),
+  get_data_iphc(type = type, path = file.path(path, "iphc"),
     compress = compress, force = force)
-  get_data_iphc_hook_with_bait(path = paste0(path, "/iphc"),
+  get_data_iphc_hook_with_bait(path = file.path(path, "iphc"),
     compress = compress, force = force)
+  get_iphc_hook_data(path = file.path(path, "iphc"))
 }
 
 #' Get the IPHC data for all years, should get merged into get_data at some point
@@ -68,7 +69,7 @@ get_data_iphc <- function(type = c("A", "B"), path = ".",
 get_data_iphc_hook_with_bait <- function(path = ".",
   compress = FALSE, force = FALSE) {
   dir.create(path, showWarnings = FALSE)
-  if (!force & file.exists(paste0(path, "/hook-with-bait.rds"))) {
+  if (!force & file.exists(file.path(path, "hook-with-bait.rds"))) {
      return() } else {
   gfiphc::cache_pbs_data_iphc(species = "hook with bait",
     file_name = "hook-with-bait",
@@ -103,7 +104,7 @@ get_ll_bait_counts <- function(path = ".", species = 442, ssid = c(22, 36, 39, 4
 #' @param species Species common name to query, defaults to 'pacific halibut'
 #'   because to date this species does not affect the output.
 #'
-#' @return An RDS object containing a dataframe with the following columns:
+#' @returns An RDS object containing a dataframe with the following columns:
 #'   - year: The year of the data.
 #'   - station: The station identifier.
 #'   - lat: The latitude coordinates.
