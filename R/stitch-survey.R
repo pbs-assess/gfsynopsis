@@ -1,25 +1,28 @@
 #' Prepare survey set data for index stitching
 #'
-#' @param spp_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param survey_dat A dataframe from [gfplot::get_survey_sets()]
 #' @param bait_counts A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
-#' @returns A dataframe the same length as `spp_dat`
+#' @returns A dataframe the same length as `survey_dat`
 #'
 #' @export
-prep_stitch_dat <- function(spp_dat, bait_counts) {
-  # Add baited hook counts to spp_dat for LL surveys
-  # @FIXME this chunk is probably unecessary if all surveys are in spp_dat
-  ll <- grepl("HBLL", unique(spp_dat$survey_abbrev))
+prep_stitch_dat <- function(survey_dat, bait_counts) {
+  # Add baited hook counts to survey_dat for LL surveys
+  # @FIXME this chunk is probably unecessary if all surveys are in survey_dat
+  ll <- grepl("HBLL", unique(survey_dat$survey_abbrev))
   if (sum(ll) > 0) {
-    spp_dat <- dplyr::left_join(spp_dat, bait_counts,
+    survey_dat <- dplyr::left_join(survey_dat, bait_counts,
       by = c("year", "fishing_event_id", "survey_series_id" = "ssid")
     ) |>
       dplyr::mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) |>
       dplyr::mutate(prop_bait_hooks = count_bait_only / hook_count) |>
-      dplyr::mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks))
+      dplyr::mutate(
+        hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
+        prop_removed = 1 - prop_bait_hooks
+      )
   }
   out <-
-    spp_dat |>
+    survey_dat |>
     sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
     # @FIXME: area swept has been or will be added to gfdata function
     dplyr::mutate(
@@ -43,10 +46,9 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
       grepl("HBLL OUT", survey_abbrev) ~ "hbll_outside",
       grepl("HBLL INS", survey_abbrev) ~ "hbll_inside"
     )) |>
-    dplyr::mutate(species_common_name = gsub(
-      "rougheye/blackspotted",
-      "rougheye-blackspotted", species_common_name
-    )) |>
+    dplyr::mutate(log_hook_count = log(hook_count)) |>
+    dplyr::mutate(fyear = as.factor(year)) |>
+    dplyr::mutate(prop_removed = ifelse(grepl("HBLL", survey_abbrev), 1 - prop_bait_hooks, NA)) |>
     dplyr::filter(!is.na(offset))
   out
 }
@@ -54,15 +56,15 @@ prep_stitch_dat <- function(spp_dat, bait_counts) {
 
 #' Get table of positive sets for each region and survey type
 #'
-#' @param spp_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
+#' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
 #' @param species A string specifying the `species_common_name`
 #' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
 #'
 #' @returns A dataframe
 #' @export
-get_stitch_lu <- function(spp_dat, species, survey_type) {
+get_stitch_lu <- function(survey_dat, species, survey_type) {
   stopifnot(survey_type %in% c("synoptic", "hbll_outside", "hbll_inside"))
-  spp_dat |>
+  survey_dat |>
     dplyr::filter(species_common_name %in% {{ species }}, survey_type %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
     dplyr::add_count(name = "n_sets") |>
@@ -96,7 +98,7 @@ get_stitch_lu <- function(spp_dat, species, survey_type) {
 #' @export
 #'
 prep_stitch_grids <- function(grid_dir, hbll_ins_grid_input) {
-  if (!file.exists(grid_dir)) dir.create(grid_dir)
+  dir.create(grid_dir, showWarnings = FALSE, recursive = TRUE)
 
   synoptic_grid_file <- file.path(grid_dir, "synoptic_grid.rds")
   hbll_out_grid_file <- file.path(grid_dir, "hbll_out_grid.rds")
@@ -152,28 +154,51 @@ choose_survey_grid <- function(survey_type, grid_dir) {
   )
 }
 
-#' Make prediction grid over years and survey grid
-#'
-#' @param survey_grid A dataframe from [gfsynopsis::prep_stitch_grids()]
-#' @param years A numeric vector of years
-#'
-#' @return A dataframe with as many rows as `nrow(survey_grid) * length(years)`
-#'
-make_grid <- function(survey_grid, years) {
-  years <- sort(unique(years))
-  .nd <- do.call(
-    "rbind",
-    replicate(length(years), survey_grid, simplify = FALSE)
-  )
-  .nd$year <- rep(years, each = nrow(survey_grid))
-  .nd
-}
-
 # ------------------------------------------------------------------------------
+#' Add column containing upper limit for censored poisson
+#'
+#' @param dat A data frame from [gfsynopsis::prep_stitch_dat()].
+#' @param prop_removed_col Name of the column containing the proportion of
+#' baits removed in each fishing event from *any* species. I.e., the proportion
+#' of hooks returning without bait for any reason.
+#' @param n_catch_col Name of the column containing the observed catch counts on
+#' each fishing event of the target species.
+#' @param n_hooks_col Name of the column containing the number of hooks retrieved
+#' on each fishing event.
+#' @param pstar_col Name of the column containing a single value between
+#' `0 <= pstar <= 1` specifying the breakdown point of observed catch counts as
+#' a result of hook competition. See [gfsynopsis::get_pstar()], [sdmTMB::censored_poisson()]
+#' @param pstar Optional. If `pstar_col` is not specified, pstar can be provided
+#' as a single value between 0 <= pstar <= 1` default = NULL.
+#'
+#' @returns `dat` with a new column `upr` containing  numeric vector of upper
+#' bound catch counts of the target species to improve convergence of the censored
+#' method. See the documentation in [sdmTMB::get_censored_upper()]
+#'
+#' @export
+add_upr <- function(
+    dat, prop_removed_col, n_catch_col, n_hooks_col,
+    pstar_col = "pstar", pstar = NULL) {
+  na_catch <- sum(is.na(dat[[n_catch_col]]))
+  stopifnot(
+    "\n\tError: missing catch values, filter before adding cpois upr" =
+      (na_catch == 0)
+  )
+
+  if (is.null(pstar)) {
+    pstar <- dat[[pstar_col]][1]
+  }
+
+  dat$upr <- sdmTMB:::get_censored_upper(
+    dat[[prop_removed_col]], dat[[n_catch_col]],
+    dat[[n_hooks_col]], pstar
+  )
+  dat
+}
 
 #' Get stitched index across survey regions in synoptic trawl and HBLL surveys
 #'
-#' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()].
+#' @param survey_dat A data frame from [gfsynopsis::prep_stitch_dat()].
 #' @param species A string specifying the `species_common_name`.
 #' @param survey_type A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".
 #' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw".
@@ -183,6 +208,7 @@ make_grid <- function(survey_grid, years) {
 #' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
 #' @param silent A boolean. Silent or include optimization details.
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
+#' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
 #' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
 #'
@@ -196,17 +222,38 @@ get_stitched_index <- function(
     survey_dat, species = "arrowtooth flounder",
     survey_type = "synoptic",
     model_type = "st-rw",
-    mesh = NULL, cutoff = 20, family = sdmTMB::tweedie(), offset = "offset", silent = TRUE,
+    form = NULL,
+    family = sdmTMB::tweedie(),
+    time = "year",
+    spatial = "on",
+    spatiotemporal = "rw",
+    time_varying = NULL,
+    time_varying_type = NULL,
+    data = survey_dat,
+    mesh = NULL, cutoff = 20,
+    offset = "offset",
+    extra_time = NULL,
+    priors = sdmTMB::sdmTMBpriors(),
+    silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
-    cache = file.path("report", "stitch-cache"),
+    gradient_thresh = 0.001,
+    upr = NULL,
+    cache = NULL,
+    check_cache = FALSE,
     grid_dir) {
-  cache <- file.path(cache, survey_type)
-  pred_cache <- file.path(cache, 'predictions')
-  if (!file.exists(cache)) dir.create(cache)
-  if (!file.exists(pred_cache)) dir.create(pred_cache)
+  pred_cache <- file.path(cache, "predictions")
+  fit_cache <- file.path(cache, "fits")
+  dir.create(cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
+  dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
   species_hyphens <- gfsynopsis:::clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
+
+  if (check_cache & file.exists(out_filename)) {
+    out <- readRDS(out_filename)
+    return(out)
+  }
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
@@ -259,7 +306,7 @@ get_stitched_index <- function(
 
   if (is.null(mesh)) {
     cat("\n\t\t- No mesh provided, making mesh with cutoff:", cutoff)
-    mesh <- sdmTMB::make_mesh(survey_dat, c("X", "Y"), cutoff = 20)
+    mesh <- sdmTMB::make_mesh(survey_dat, c("X", "Y"), cutoff = cutoff)
   }
 
   missing_years <- sdmTMB:::find_missing_time(survey_dat$year)
@@ -275,10 +322,22 @@ get_stitched_index <- function(
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
 
+  is_cpois <- family$family == "censored_poisson"
+  intercept <- as.integer(model_type == "st-rw")
+  if (is.null(form)) {
+    if (is_cpois) {
+      survey_dat$obs_id <- as.factor(seq(1, nrow(survey_dat)))
+      form <- paste0("catch ~ ", intercept, " + (1 | obs_id)")
+    } else {
+      form <- paste0("catch ~ ", intercept)
+    }
+  }
+  form <- as.formula(form)
+
   fit <- switch(model_type,
     `st-rw` = try(
       sdmTMB::sdmTMB(
-        formula = catch ~ 1, family = family,
+        formula = form, family = family,
         time = "year", spatiotemporal = "rw", spatial = "on",
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
@@ -286,17 +345,35 @@ get_stitched_index <- function(
     ),
     `st-rw_tv-rw` = try(
       sdmTMB::sdmTMB(
-        formula = catch ~ 0, family = family,
+        formula = form, family = family,
         time_varying = ~1, time_varying_type = "rw",
         time = "year", spatiotemporal = "rw", spatial = "on",
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
     ),
+    custom = try(
+      sdmTMB::sdmTMB(
+        formula = form,
+        family = family,
+        time = time,
+        spatial = spatial,
+        spatiotemporal = spatiotemporal,
+        time_varying = time_varying,
+        time_varying_type = time_varying_type,
+        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        priors = priors,
+        silent = silent, control = ctrl
+      )
+    ),
     stop("Invalid `model_type` value")
   )
 
-  if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = 0.01)))) {
+  fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+  cat("\n\tSaving:", fit_filename, "\n")
+  saveRDS(fit, fit_filename)
+
+  if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))) {
     cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
     out <- "Failed sanity check"
     saveRDS(out, out_filename)
@@ -308,14 +385,16 @@ get_stitched_index <- function(
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
     grid <- choose_survey_grid(survey_type, grid_dir)
-    newdata <- gfsynopsis:::make_grid(survey_grid = grid, years = year_range_seq) |>
+    newdata <- sdmTMB::replicate_df(dat = grid, time_name = "year", time_values = year_range_seq) |>
       dplyr::filter(
         survey %in% fit$data$survey_abbrev,
         year %in% fit$data$year
       ) |>
       droplevels()
 
-    pred <- predict(fit, newdata, return_tmb_object = TRUE)
+    newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
+    # re_form_iid = NA, so obs_id ignored in prediction
+    pred <- predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
     pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
@@ -341,10 +420,6 @@ get_stitched_index <- function(
   saveRDS(out, out_filename)
   out
 }
-
-
-## Look at what is being excluded/included --------------------------------------
-## Useful for looking at what gets stitched
 
 #' Get proportion of positive sets in each SYN or HBLL region
 #'

@@ -14,7 +14,7 @@ fit_survey_maps(
 )
 }
 \arguments{
-\item{dat}{Data from \code{\link[gfplot:get_data]{gfplot::get_survey_sets()}}.}
+\item{dat}{Data from \code{\link[gfplot:get_survey_sets]{gfplot::get_survey_sets()}}.}
 
 \item{species}{The species name.}
 

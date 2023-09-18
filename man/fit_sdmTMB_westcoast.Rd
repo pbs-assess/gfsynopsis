@@ -33,7 +33,7 @@ fit_sdmTMB_westcoast(
 
 \item{include_depth}{Logical for whether to include depth in the model.}
 
-\item{species_rds}{File path to an .rds file from \code{\link[gfplot:get_data]{gfplot::cache_pbs_data()}}.}
+\item{species_rds}{File path to an .rds file from \code{\link[gfplot:cache_pbs_data]{gfplot::cache_pbs_data()}}.}
 }
 \value{
 A list object.
