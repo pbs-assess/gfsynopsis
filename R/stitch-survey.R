@@ -16,8 +16,10 @@ prep_stitch_dat <- function(survey_dat, bait_counts) {
     ) |>
       dplyr::mutate(count_bait_only = replace(count_bait_only, which(count_bait_only == 0), 1)) |>
       dplyr::mutate(prop_bait_hooks = count_bait_only / hook_count) |>
-      dplyr::mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
-                    prop_removed = 1 - prop_bait_hooks)
+      dplyr::mutate(
+        hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
+        prop_removed = 1 - prop_bait_hooks
+      )
   }
   out <-
     survey_dat |>
@@ -174,18 +176,23 @@ choose_survey_grid <- function(survey_type, grid_dir) {
 #' method. See the documentation in [sdmTMB::get_censored_upper()]
 #'
 #' @export
-add_upr <- function(dat, prop_removed_col, n_catch_col, n_hooks_col,
-  pstar_col = 'pstar', pstar = NULL) {
+add_upr <- function(
+    dat, prop_removed_col, n_catch_col, n_hooks_col,
+    pstar_col = "pstar", pstar = NULL) {
   na_catch <- sum(is.na(dat[[n_catch_col]]))
-  stopifnot("\n\tError: missing catch values, filter before adding cpois upr" =
-    (na_catch == 0))
+  stopifnot(
+    "\n\tError: missing catch values, filter before adding cpois upr" =
+      (na_catch == 0)
+  )
 
   if (is.null(pstar)) {
     pstar <- dat[[pstar_col]][1]
   }
 
-  dat$upr <- sdmTMB:::get_censored_upper(dat[[prop_removed_col]], dat[[n_catch_col]],
-        dat[[n_hooks_col]], pstar)
+  dat$upr <- sdmTMB:::get_censored_upper(
+    dat[[prop_removed_col]], dat[[n_catch_col]],
+    dat[[n_hooks_col]], pstar
+  )
   dat
 }
 
@@ -217,14 +224,14 @@ get_stitched_index <- function(
     model_type = "st-rw",
     form = NULL,
     family = sdmTMB::tweedie(),
-    time = 'year',
-    spatial = 'on',
-    spatiotemporal = 'rw',
+    time = "year",
+    spatial = "on",
+    spatiotemporal = "rw",
     time_varying = NULL,
     time_varying_type = NULL,
     data = survey_dat,
     mesh = NULL, cutoff = 20,
-    offset = 'offset',
+    offset = "offset",
     extra_time = NULL,
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
@@ -234,8 +241,8 @@ get_stitched_index <- function(
     cache = NULL,
     check_cache = FALSE,
     grid_dir) {
-  pred_cache <- file.path(cache, 'predictions')
-  fit_cache <- file.path(cache, 'fits')
+  pred_cache <- file.path(cache, "predictions")
+  fit_cache <- file.path(cache, "fits")
   dir.create(cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)

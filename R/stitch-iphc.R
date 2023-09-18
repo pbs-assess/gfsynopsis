@@ -7,25 +7,31 @@
 
 prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
   clean_dat <-
-    dplyr::left_join(survey_dat, hook_dat, by = join_by('year', 'station', 'lat', 'lon')) |> # get observed hook counts
+    dplyr::left_join(survey_dat, hook_dat, by = join_by("year", "station", "lat", "lon")) |> # get observed hook counts
     sdmTMB::add_utm_columns(c("lon", "lat"), utm_crs = 32609) |>
-    dplyr::mutate(catch = ifelse(!is.na(N_it), N_it, N_it20),
-           sample_n = ifelse(!is.na(N_it), 'whole_haul', '20_hook'),
-           effSkate = ifelse(!is.na(N_it), E_it, E_it20),
-           hook_removed = obsHooksPerSet - baited_hooks) |>
+    dplyr::mutate(
+      catch = ifelse(!is.na(N_it), N_it, N_it20),
+      sample_n = ifelse(!is.na(N_it), "whole_haul", "20_hook"),
+      effSkate = ifelse(!is.na(N_it), E_it, E_it20),
+      hook_removed = obsHooksPerSet - baited_hooks
+    ) |>
     dplyr::mutate(prop_removed = hook_removed / obsHooksPerSet) |>
     dplyr::mutate(baited_hooks = replace(baited_hooks, which(baited_hooks == 0), 1)) |>
     dplyr::mutate(prop_bait_hooks = baited_hooks / obsHooksPerSet) |>
-    dplyr::mutate(hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
-                  prop_removed = 1 - prop_bait_hooks) |>
+    dplyr::mutate(
+      hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
+      prop_removed = 1 - prop_bait_hooks
+    ) |>
     dplyr::mutate(offset = log(effSkate * hook_adjust_factor)) |> # use ICR for hook competition for now
     dplyr::mutate(present = case_when(catch > 0 ~ 1, catch == 0 ~ 0, TRUE ~ NA)) |> # useful for plotting and pos sets
-    dplyr::mutate(fyear = factor(year),
-           fstation = factor(station)) |> # mgcv needs factor inputs
+    dplyr::mutate(
+      fyear = factor(year),
+      fstation = factor(station)
+    ) |> # mgcv needs factor inputs
     dplyr::filter(usable == "Y", standard == "Y", !is.na(catch)) |> # some species weren't measured at different points in time series
     # ADD filtering out of species before they were explicitly identified
-    dplyr::filter(!(species_common_name %in% c('big skate', 'longnose skate') & year < 1998)) |>
-    dplyr::filter(!(species_common_name == 'shortspine thornyhead' & year < 1998)) # first shows up in 1998
+    dplyr::filter(!(species_common_name %in% c("big skate", "longnose skate") & year < 1998)) |>
+    dplyr::filter(!(species_common_name == "shortspine thornyhead" & year < 1998)) # first shows up in 1998
 }
 
 #' Get table of positive sets for IPHC FISS data
@@ -36,12 +42,14 @@ prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
 #' @export
 get_iphc_pos_sets <- function(clean_iphc_dat) {
   clean_iphc_dat |>
-  mutate(measured = ifelse(!is.na(present), 1, 0)) |>
-  group_by(species_common_name, year) |>
-  summarise(n_sets = sum(measured), # get sets where we are pretty sure they counted this species
-            n_pos  = sum(present, na.rm = TRUE),
-            .groups = 'drop_last') |>
-  dplyr::summarise(
+    mutate(measured = ifelse(!is.na(present), 1, 0)) |>
+    group_by(species_common_name, year) |>
+    summarise(
+      n_sets = sum(measured), # get sets where we are pretty sure they counted this species
+      n_pos = sum(present, na.rm = TRUE),
+      .groups = "drop_last"
+    ) |>
+    dplyr::summarise(
       mean_n_pos = mean(n_pos), mean_n_sets = mean(n_sets),
       mean_prop_pos = mean_n_pos / mean_n_sets,
       .groups = "drop"
@@ -69,30 +77,30 @@ get_iphc_pos_sets <- function(clean_iphc_dat) {
 #' * A dataframe containing the stitched index formatted to use with [gfplot::plot_survey_index()]
 #' @export
 #'
-get_iphc_stitched_index <- function(survey_dat,
+get_iphc_stitched_index <- function(
+    survey_dat,
     species,
     model_type = "st-rw",
     form = NULL,
     family = sdmTMB::tweedie(),
-    time = 'year',
-    spatial = 'on',
-    spatiotemporal = 'rw',
+    time = "year",
+    spatial = "on",
+    spatiotemporal = "rw",
     time_varying = NULL,
     time_varying_type = NULL,
     data = survey_dat,
     mesh = NULL, cutoff = 20,
-    offset = 'log_eff_skate',
+    offset = "log_eff_skate",
     extra_time = missing_years,
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
-    ctrl = sdmTMB::sdmTMBcontrol(), #sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
+    ctrl = sdmTMB::sdmTMBcontrol(), # sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
     gradient_thresh = 0.001,
     cache = NULL,
     check_cache = FALSE,
     grid) {
-
-  pred_cache <- file.path(cache, 'predictions')
-  fit_cache <- file.path(cache, 'fits')
+  pred_cache <- file.path(cache, "predictions")
+  fit_cache <- file.path(cache, "fits")
 
   dir.create(cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
@@ -156,18 +164,17 @@ get_iphc_stitched_index <- function(survey_dat,
   cat("\n\tFitting:", model_type, " ", species, "\n")
 
   fit <- try(sdmTMB::sdmTMB(
-        formula = form,
-        family = family,
-        time = time,
-        spatial = spatial,
-        spatiotemporal = spatiotemporal,
-        time_varying = time_varying,
-        time_varying_type = time_varying_type,
-        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
-        priors = priors,
-        silent = silent, control = ctrl
-      )
-    )
+    formula = form,
+    family = family,
+    time = time,
+    spatial = spatial,
+    spatiotemporal = spatiotemporal,
+    time_varying = time_varying,
+    time_varying_type = time_varying_type,
+    data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
+    priors = priors,
+    silent = silent, control = ctrl
+  ))
 
   fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
   cat("\n\tSaving:", fit_filename, "\n")
@@ -184,9 +191,9 @@ get_iphc_stitched_index <- function(survey_dat,
     cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
     year_range_seq <- min(fit$data$year):max(fit$data$year)
-    newdata <- sdmTMB::replicate_df(dat = grid, time_name = 'year', time_values = year_range_seq) |>
-    dplyr::filter(year %in% fit$data$year) |>
-    droplevels()
+    newdata <- sdmTMB::replicate_df(dat = grid, time_name = "year", time_values = year_range_seq) |>
+      dplyr::filter(year %in% fit$data$year) |>
+      droplevels()
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
     pred <- predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$species <- unique(fit$data$species_common_name)
@@ -196,12 +203,12 @@ get_iphc_stitched_index <- function(survey_dat,
     saveRDS(pred, pred_filename)
   }
 
-  message('Getting index for: ', species)
+  message("Getting index for: ", species)
   index <- try(sdmTMB::get_index(pred, bias_correct = TRUE, area = 1))
   index$mean_cv <- mean(sqrt(exp(index$se^2) - 1))
   index$num_sets <- mean_num_sets
   index$num_pos_sets <- mean_num_pos_sets
-  index$survey_type <- 'iphc'
+  index$survey_type <- "iphc"
   out <- index |>
     dplyr::rename(biomass = "est", lowerci = "lwr", upperci = "upr") |>
     dplyr::mutate(species = species)
