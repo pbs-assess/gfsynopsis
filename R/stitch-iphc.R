@@ -1,6 +1,6 @@
 #' Prepare IPHC FISS data for index stitching
 #'
-#' @param survey_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param survey_dat A dataframe from `[gfplot::get_survey_sets()]`
 #' @param hook_dat A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
 #' @returns A dataframe the same length as `survey_dat`

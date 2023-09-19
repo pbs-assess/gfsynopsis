@@ -1,6 +1,6 @@
 #' Prepare survey set data for index stitching
 #'
-#' @param survey_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param survey_dat A dataframe from `[gfplot::get_survey_sets()]`
 #' @param bait_counts A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
 #' @returns A dataframe the same length as `survey_dat`
@@ -167,13 +167,13 @@ choose_survey_grid <- function(survey_type, grid_dir) {
 #' on each fishing event.
 #' @param pstar_col Name of the column containing a single value between
 #' `0 <= pstar <= 1` specifying the breakdown point of observed catch counts as
-#' a result of hook competition. See [gfsynopsis::get_pstar()], [sdmTMB::censored_poisson()]
+#' a result of hook competition. See [gfsynopsis::get_pstar()], `[sdmTMB::censored_poisson()]`
 #' @param pstar Optional. If `pstar_col` is not specified, pstar can be provided
 #' as a single value between 0 <= pstar <= 1` default = NULL.
 #'
 #' @returns `dat` with a new column `upr` containing  numeric vector of upper
 #' bound catch counts of the target species to improve convergence of the censored
-#' method. See the documentation in [sdmTMB::get_censored_upper()]
+#' method. See the documentation in `[sdmTMB::get_censored_upper()]`
 #'
 #' @export
 add_upr <- function(
@@ -429,7 +429,7 @@ get_stitched_index <- function(
 #' the proportion of positive sets ("red" less than or equal to 0.01, "orange"
 #' between 0.01 and 0.03, "yellow" between 0.03 and 0.05).
 #'
-#' @param survey_dat A dataframe from [gfplot::get_survey_sets()]
+#' @param survey_dat A dataframe from `[gfplot::get_survey_sets()]`
 #' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
 #'
 #' @returns A `flextable` object in a browser.

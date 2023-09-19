@@ -7,7 +7,7 @@
 prep_stitch_dat(survey_dat, bait_counts)
 }
 \arguments{
-\item{survey_dat}{A dataframe from \code{\link[gfplot:get_survey_sets]{gfplot::get_survey_sets()}}}
+\item{survey_dat}{A dataframe from \verb{[gfplot::get_survey_sets()]}}
 
 \item{bait_counts}{A dataframe from \code{\link[=get_ll_bait_counts]{get_ll_bait_counts()}}}
 }

@@ -7,7 +7,7 @@
 prep_iphc_stitch_dat(survey_dat, hook_dat)
 }
 \arguments{
-\item{survey_dat}{A dataframe from \code{\link[gfplot:get_survey_sets]{gfplot::get_survey_sets()}}}
+\item{survey_dat}{A dataframe from \verb{[gfplot::get_survey_sets()]}}
 
 \item{hook_dat}{A dataframe from \code{\link[=get_ll_bait_counts]{get_ll_bait_counts()}}}
 }

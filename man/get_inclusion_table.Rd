@@ -7,7 +7,7 @@
 get_inclusion_table(survey_dat = NULL, survey_type)
 }
 \arguments{
-\item{survey_dat}{A dataframe from \code{\link[gfplot:get_survey_sets]{gfplot::get_survey_sets()}}}
+\item{survey_dat}{A dataframe from \verb{[gfplot::get_survey_sets()]}}
 
 \item{survey_type}{A string matching one of: "synoptic", "hbll_outside", "hbll_inside"}
 }
