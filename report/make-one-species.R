@@ -52,6 +52,7 @@ get_max_yrs <- function(x, .grep) {
 
 synoptic_max_survey_years <- get_max_yrs(dat$survey_sets, "^SYN")
 hbll_out_max_survey_years <- get_max_yrs(dat$survey_sets, "^HBLL OUT")
+age_comp_first_year <- lubridate::year(Sys.Date()) - 14
 
 length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
       show_col_types = FALSE) |> as.data.frame()
@@ -69,6 +70,7 @@ gfsynopsis::make_pages(
   save_gg_objects = TRUE, # save the ggplots to an .rds file?
   synoptic_max_survey_years = synoptic_max_survey_years,
   hbll_out_max_survey_years = hbll_out_max_survey_years,
+  age_comp_first_year = age_comp_first_year,
   length_ticks = length_ticks[length_ticks$species_common_name == this_spp,],
   survey_cols = survey_cols,
   survey_col_names = survey_col_names,

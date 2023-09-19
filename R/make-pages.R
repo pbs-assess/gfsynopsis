@@ -34,6 +34,8 @@
 #'   outlying cells from distorting the color scale.
 #' @param synoptic_max_survey_years A vector of length 2 giving the maximum
 #'   synoptic survey years to include.
+#' @param age_comp_first_year Minimum year to be shown in the age frequency plots,
+#'   such that all survey panels can be shown.
 #' @param parallel Parallel CPUE index fitting?
 #' @param length_ticks A data frame indicating optional length composition
 #'   x-axis breaks and labels.
@@ -83,7 +85,8 @@ make_pages <- function(
     synoptic_max_survey_years =
       list("SYN WCHG" = 2020, "SYN HS" = 2019, "SYN WCVI" = 2018, "SYN QCS" = 2019),
     hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
-    iphc_max_survey_year = 2020,
+    iphc_max_survey_year = 2022,
+    age_comp_first_year = NULL,
     parallel = FALSE,
     french = FALSE,
     final_year_comm = 2020,
@@ -211,16 +214,19 @@ make_pages <- function(
 
   samp_panels <- c(
     "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-    "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french)
+    "HBLL OUT S", "HBLL INS N", "HBLL INS S", "IPHC FISS",
+    en2fr("Commercial", french)
   )
   # Age compositions: ----------------------------------------------------------
-
   ss <- tidy_ages_raw(dat$survey_samples,
-    sample_type = "survey"
-  )
+    sample_type = "survey", survey = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+    "HBLL OUT N", "HBLL OUT S", "HBLL INS N", "HBLL INS S", "IPHC FISS")
+  ) |>
+    dplyr::filter(year >= age_comp_first_year)
   sc <- tidy_ages_raw(dat$commercial_samples_no_keepers,
     sample_type = "commercial"
-  )
+  ) |>
+    dplyr::filter(year >= age_comp_first_year)
 
   if (all(!is.na(sc[[1]]))) sc <- sc %>% dplyr::filter(year >= 2003)
   if (is.data.frame(sc)) {
@@ -245,7 +251,7 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = samp_panels
     )
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(2003, final_year_surv), french = french) +
+    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(age_comp_first_year, final_year_surv), french = french) +
       guides(fill = "none", colour = "none") +
       ggtitle(en2fr("Age frequencies", french)) +
       labs(y = en2fr("Age (years)", french))
@@ -253,11 +259,11 @@ make_pages <- function(
     g_ages <- plot_ages(
       expand.grid(
         survey_abbrev = factor(x = samp_panels, levels = samp_panels),
-        year = seq(2004, final_year_surv, 2),
+        year = seq(age_comp_first_year, final_year_surv, 2),
         max_size = 8,
         sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE
       ),
-      year_range = c(2003, final_year_surv)
+      year_range = c(age_comp_first_year, final_year_surv)
     ) +
       guides(fill = "none", colour = "none") +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
@@ -1348,7 +1354,6 @@ make_pages <- function(
   dev.off()
 
   # Page 2 layout: -------------------------------------------------------------
-
   gg_mat_age <- ggplot2::ggplotGrob(g_mat_age)
   gg_mat_length <- ggplot2::ggplotGrob(g_mat_length)
   gg_mat_month <- ggplot2::ggplotGrob(g_maturity_month)

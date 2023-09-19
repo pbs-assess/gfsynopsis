@@ -31,7 +31,8 @@ make_pages(
   synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` = 2018,
     `SYN QCS` = 2019),
   hbll_out_max_survey_years = list(`HBLL OUT N` = 2019, `HBLL OUT S` = 2020),
-  iphc_max_survey_year = 2020,
+  iphc_max_survey_year = 2022,
+  age_comp_first_year = NULL,
   parallel = FALSE,
   french = FALSE,
   final_year_comm = 2020,
@@ -97,6 +98,9 @@ outlying cells from distorting the color scale.}
 
 \item{synoptic_max_survey_years}{A vector of length 2 giving the maximum
 synoptic survey years to include.}
+
+\item{age_comp_first_year}{Minimum year to be shown in the age frequency plots,
+such that all survey panels can be shown.}
 
 \item{parallel}{Parallel CPUE index fitting?}
 
