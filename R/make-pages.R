@@ -299,7 +299,8 @@ make_pages <- function(
     sample_type = "survey",
     survey = c(
       "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-      "HBLL OUT N", "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS")
+      "HBLL OUT N", "HBLL OUT S", "HBLL INS N/S",
+      "MSSM WCVI", "IPHC FISS")
   )
   sc <- length_samples_commercial %>%
     mutate(sex = 2) %>% # fake all sex as female for commercial samples; often not sexed
@@ -330,10 +331,22 @@ make_pages <- function(
 
   min_total <- 20
   if (all(!is.na(sb)) && max(sb$total) >= min_total) {
+    sb <- sb |>
+      mutate(survey_abbrev2 = case_when(
+        survey_abbrev %in% c('HBLL OUT N', 'HBLL OUT S') ~ 'HBLL OUT',
+        survey_abbrev == 'HBLL INS N/S' ~ 'HBLL INS',
+        TRUE ~ survey_abbrev)) |>
+      mutate(survey_abbrev2 = factor(survey_abbrev2,
+      levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+        "HBLL OUT", "HBLL INS",
+        "MSSM WCVI", "IPHC FISS",
+        en2fr("Commercial", french)))
+    )
+
     sb$survey_abbrev <- factor(sb$survey_abbrev,
-      levels = c(
-        "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-        "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS",
+      levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+        "HBLL OUT N", "HBLL OUT S", "HBLL INS N/S",
+        "MSSM WCVI", "IPHC FISS",
         en2fr("Commercial", french)
       )
     )
@@ -352,6 +365,7 @@ make_pages <- function(
       }
       g_lengths <- plot_lengths(sb,
         survey_cols = survey_cols,
+        survey_facets = "survey_abbrev2",
         bin_size = bin_width, min_total = min_total, french = french
       ) +
         guides(colour = "none", fill = "none") +
@@ -651,9 +665,7 @@ make_pages <- function(
   }
 
   stitched_df <- bind_rows(stitched_syn, stitched_out, stitched_ins, stitched_iphc)
-  # stitched_lvls <- unique(stitched_df$survey_abbrev)
-  # stitched_df <- stitched_df |>
-  #   mutate(survey_abbrev = factor(survey_abbrev, levels = stitched_lvls))
+
   dat_tidy_survey_index <- bind_rows(dat_tidy_survey_index, stitched_df) |>
     mutate(iphc_type = case_when(survey_abbrev == "IPHC FISS" ~ 'design iphc',
                                  survey_abbrev == "IPHC Geostat" ~ 'stitched iphc',
@@ -670,14 +682,20 @@ make_pages <- function(
       g_survey_index <- plot_survey_index(
         dat = dat_tidy_survey_index |> filter(is.na(iphc_type) | iphc_type != 'design iphc'),
         col = c("grey60", "grey20"), survey_cols = survey_cols,
-        xlim = c(1984 - 0.2, final_year_surv + 0.2), french = french
+        xlim = c(1984 - 0.2, final_year_surv + 0.2), french = french,
+        scale_type = "max-CI",
+        geo_scale_years = seq(2000, as.integer(format(Sys.Date(), "%Y"))),
       ) +
-        scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
+        scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE)) +
+        coord_cartesian(
+          ylim = c(-0.005, 1.03),
+          xlim = c(1984, final_year_surv) + c(-0.5, 0.5), expand = FALSE
+        )
     })
   }
 
 # Overlay design based IPHC
-  if (nrow(stitched_iphc) > 0) {
+  if (nrow(stitched_iphc) > 1) {
     iphc_geostat_index_geo_mean <- g_survey_index$data |>
         filter(survey_abbrev == "IPHC FISS") |>
         mutate(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) |>
@@ -700,11 +718,7 @@ make_pages <- function(
       ggplot2::geom_pointrange(data = scaled_iphc_design_index,
         ggplot2::aes(ymin = lowerci_scaled, ymax = upperci_scaled),
         stroke = 0.8, size = 0.35,
-        pch = 21, fill = "grey70", colour = "grey45") +
-      coord_cartesian(
-          ylim = c(-0.005, 1.03),
-          xlim = c(1984, final_year_surv) + c(-0.5, 0.5), expand = FALSE
-        )
+        pch = 21, fill = "grey70", colour = "grey45")
   }
 
   if (!is.null(d_geostat_index)) {
