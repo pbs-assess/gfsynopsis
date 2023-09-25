@@ -60,7 +60,7 @@ spp <- gfsynopsis::get_spp_names() %>%
   select(
     species_common_name, species_code,
     species_science_name, spp_w_hyphens, type, itis_tsn, worms_id
-  )
+  ) |> arrange(species_common_name)
 
 # Geostatistical model fits: (a bit slow) --------------------------------------
 # fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
@@ -298,7 +298,7 @@ future::plan(sequential)
 # This is the guts of where the figure pages get made:
 
 fig_check <- file.path(build_dir, "figure-pages",
-  gfsynopsis:::clean_name(spp$species_common_name))
+  gfsynopsis:::clean_name(sort(spp$species_common_name)))
 fig_check1 <- paste0(fig_check, "-1.", ext)
 fig_check2 <- paste0(fig_check, "-2.", ext)
 missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
