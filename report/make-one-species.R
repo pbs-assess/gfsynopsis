@@ -3,18 +3,6 @@ data_cache <- here::here("report", "data-cache-aug-2023")
 build_dir <- file.path("report", "report-rmd")
 dir.create(here::here("report", "data-cache"), showWarnings = FALSE)
 dir.create(here::here(build_dir), showWarnings = FALSE)
-survey_cols <- c(
-  RColorBrewer::brewer.pal(5L, "Set1"),
-  RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-  "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8",
-  "#a8a8a8", "#a8a8a8", "#a8a8a8", "#a8a8a8"
-)
-survey_col_names <- c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-    "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
-    "HBLL INS N", "HBLL INS S", "MSA HS",
-    "SYN HS/QCS/WCHG/WCVI", "SYN HS/QCS/WCVI",
-    "HBLL OUT N/S", "HBLL INS N/S"
-    )
 
 # Set your species here:
 this_spp <- "arrowtooth flounder"
@@ -71,9 +59,9 @@ gfsynopsis::make_pages(
   synoptic_max_survey_years = synoptic_max_survey_years,
   hbll_out_max_survey_years = hbll_out_max_survey_years,
   age_comp_first_year = age_comp_first_year,
+  final_year_comm = 2022,
+  final_year_surv = 2022,
   length_ticks = length_ticks[length_ticks$species_common_name == this_spp,],
-  survey_cols = survey_cols,
-  survey_col_names = survey_col_names,
   stitch_model_type = 'st-rw',
   grid_dir = file.path(data_cache, 'grids'),
   hbll_bait_counts = hbll_bait_counts,

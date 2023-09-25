@@ -71,14 +71,20 @@ make_pages <- function(
     map_xlim = c(360, 653),
     map_ylim = c(5275, 6155),
     save_gg_objects = FALSE,
-    survey_cols = c(
-      RColorBrewer::brewer.pal(7L, "Set2"),
-      "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"
-    ),
-    survey_col_names = c(
-      "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-      "HBLL OUT N", "HBLL OUT S", "IPHC FISS", "Commercial",
-      "HBLL INS N", "HBLL INS S", "MSA HS"
+    survey_cols = c("SYN WCHG" = "#E41A1C",
+      "SYN HS" = "#377EB8",
+      "SYN QCS" = "#4DAF4A",
+      "SYN WCVI" = "#984EA3",
+      "HBLL OUT N" = "#FF7F00",
+      "HBLL OUT S" = "#FDBF6F",
+      "HBLL INS N/S" = "#A65628",
+      "IPHC FISS" = "#F781BF",
+      "MSSM WCVI" = "#a8a8a8",
+      "MSA HS" = "#a8a8a8",
+      "SYN HS/QCS/WCHG/WCVI" = "#a8a8a8",
+      "SYN HS/QCS/WCVI" = "#a8a8a8",
+      "HBLL OUT N/S" = "#a8a8a8",
+      "Commercial" = "#303030"
     ),
     mat_min_n = 20,
     survey_map_outlier = 1,
@@ -89,21 +95,21 @@ make_pages <- function(
     age_comp_first_year = NULL,
     parallel = FALSE,
     french = FALSE,
-    final_year_comm = 2020,
-    final_year_surv = 2021,
+    final_year_comm = 2021,
+    final_year_surv = 2022,
     length_ticks = NULL,
     all_survey_years = NULL,
     stitch_model_type = "st-rw",
     grid_dir,
     hbll_bait_counts,
     iphc_hook_counts) {
-  survey_cols <- stats::setNames(survey_cols, survey_col_names)
-
+  message("\nMaking pages for species: ", spp)
   # Internal setup calculations: -----------------------------------------------
   height <- width * aspect
 
   dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
-  dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp)
+  dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp) |>
+    mutate(survey_abbrev = ifelse(survey_abbrev %in% c("HBLL INS N", "HBLL INS S"), "HBLL INS N/S", survey_abbrev))
   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == spp)
   dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
 
