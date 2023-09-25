@@ -7,7 +7,7 @@
 
 prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
   clean_dat <-
-    dplyr::left_join(survey_dat, hook_dat, by = join_by("year", "station", "lat", "lon")) |> # get observed hook counts
+    dplyr::left_join(survey_dat, hook_dat, by = c("year", "station", "lat", "lon")) |> # get observed hook counts
     sdmTMB::add_utm_columns(c("lon", "lat"), utm_crs = 32609) |>
     dplyr::mutate(
       catch = ifelse(!is.na(N_it), N_it, N_it20),

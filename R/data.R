@@ -142,13 +142,13 @@ get_ll_bait_counts <- function(path = ".", species = 442, ssid = c(22, 36, 39, 4
 get_iphc_hook_data <- function(path = ".", species = "pacific halibut") {
   sp_file <- paste0(gfsynopsis:::clean_name(species), ".rds")
   sp_dat <- readRDS(file.path(path, sp_file))$set_counts |>
-    mutate(species = species)
+    dplyr::mutate(species = species)
   # Get hook_bait counts matching GFBio species counts: 1995:2022
 
   hook_bait <- readRDS(file.path(path, "hook-with-bait.rds"))$set_counts |>
-    mutate(baited_hooks = ifelse(!is.na(N_it), N_it, N_it20)) |>
-    select(year, station, lat, lon, baited_hooks)
-  sp_dat <- left_join(sp_dat, hook_bait)
+    dplyr::mutate(baited_hooks = ifelse(!is.na(N_it), N_it, N_it20)) |>
+    dplyr::select(year, station, lat, lon, baited_hooks)
+  sp_dat <- dplyr::left_join(sp_dat, hook_bait)
 
   # Need total observed hook counts to calculate prop_removed
   # ---------------------------------------------------------
@@ -161,60 +161,60 @@ get_iphc_hook_data <- function(path = ".", species = "pacific halibut") {
   }
 
   iphc_set_info <- readRDS(file.path(path, "iphc-set-info.rds")) |>
-    rename(lon = "long") |>
-    filter(year != 2022) # these hook counts are wrong from GFBio
+    dplyr::rename(lon = "long") |>
+    dplyr::filter(year != 2022) # these hook counts are wrong from GFBio
 
   # Hook counts for 1996 - 2002
   set_1996_2002 <-
     gfiphc::data1996to2002 |>
-    mutate(species = tolower(spNameIPHC), station = as.character(station)) |>
-    rename(N_it = "catchCount", obsHooksPerSet = hooksObserved) |>
-    select(year, station, lat, lon, obsHooksPerSet, usable)
+    dplyr::mutate(species = tolower(spNameIPHC), station = as.character(station)) |>
+    dplyr::rename(N_it = "catchCount", obsHooksPerSet = hooksObserved) |>
+    dplyr::select(year, station, lat, lon, obsHooksPerSet, usable)
 
   # Hook counts for 1995 and 2013
   # Need to sum observations of all 'species' observed to get hook counts
-  set_1995 <- left_join(
+  set_1995 <- dplyr::left_join(
     gfiphc::setData1995,
     gfiphc::countData1995 |> group_by(station) |> summarise(obsHooksPerSet = sum(specCount))
   ) |>
-    mutate(year = 1995)
+    dplyr::mutate(year = 1995)
 
-  set_2013 <- left_join(
+  set_2013 <- dplyr::left_join(
     gfiphc::setData2013,
     gfiphc::countData2013 |> group_by(station) |> summarise(obsHooksPerSet = sum(specCount))
   )
 
   # Hook counts for 2020, 2021, 2022
-  set_2020_2021_2022 <- bind_rows(gfiphc::setData2020, gfiphc::setData2021, gfiphc::setData2022) |>
-    rename(obsHooksPerSet = "hooksObs") |>
-    select(year, station, lat, lon, obsHooksPerSet, usable, standard)
+  set_2020_2021_2022 <- dplyr::bind_rows(gfiphc::setData2020, gfiphc::setData2021, gfiphc::setData2022) |>
+    dplyr::rename(obsHooksPerSet = "hooksObs") |>
+    dplyr::select(year, station, lat, lon, obsHooksPerSet, usable, standard)
 
   set_info <-
-    bind_rows(iphc_set_info, set_1995, set_1996_2002, set_2013, set_2020_2021_2022) %>%
-    select(year, setID, station, obsHooksPerSet, effSkateIPHC, iphcUsabilityCode, iphcUsabilityDesc) %>%
-    distinct(year, setID, station, .keep_all = TRUE)
+    dplyr::bind_rows(iphc_set_info, set_1995, set_1996_2002, set_2013, set_2020_2021_2022) %>%
+    dplyr::select(year, setID, station, obsHooksPerSet, effSkateIPHC, iphcUsabilityCode, iphcUsabilityDesc) %>%
+    dplyr::distinct(year, setID, station, .keep_all = TRUE)
 
   # unique(sp_dat$year)[!unique(sp_dat$year) %in% unique(c(set_info$year))]
 
   # Combine set information with species count data
-  sp_with_hooks <- left_join(sp_dat, set_info) |>
-    select(-species, -(E_it:C_it20))
+  sp_with_hooks <- dplyr::left_join(sp_dat, set_info) |>
+    dplyr::select(-species, -(E_it:C_it20))
 
   # Resolve the many-to-many by using lat/lon as additional key values
   year2019_stations <-
-    left_join(
-      filter(sp_dat, (year == 2019 & station %in% c("2099", "2107"))),
-      filter(set_info, (year == 2019 & station %in% c("2099", "2107")))
+    dplyr::left_join(
+      dplyr::filter(sp_dat, (year == 2019 & station %in% c("2099", "2107"))),
+      dplyr::filter(set_info, (year == 2019 & station %in% c("2099", "2107")))
     ) |>
-    select(all_of(colnames(sp_with_hooks)))
+    dplyr::select(all_of(colnames(sp_with_hooks)))
 
   iphc_hook_out <-
     sp_with_hooks |>
     # simplest to remove unresolved many-to-many and add proper values in
-    filter(!(year == 2019 & station %in% c("2099", "2107"))) |>
-    bind_rows(year2019_stations) |>
-    arrange(year, station) |>
-    select(-usable, -standard)
+    dplyr::filter(!(year == 2019 & station %in% c("2099", "2107"))) |>
+    dplyr::bind_rows(year2019_stations) |>
+    dplyr::arrange(year, station) |>
+    dplyr::select(-usable, -standard)
 
   saveRDS(iphc_hook_out, file.path(path, "iphc-hook-counts.rds"))
 }

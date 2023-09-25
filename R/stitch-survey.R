@@ -7,6 +7,9 @@
 #'
 #' @export
 prep_stitch_dat <- function(survey_dat, bait_counts) {
+  if ("survey_series_id.x" %in% names(survey_dat)) {
+    colnames(survey_dat)[colnames(survey_dat) == "survey_series_id.x"] <- "survey_series_id"
+  }
   # Add baited hook counts to survey_dat for LL surveys
   # @FIXME this chunk is probably unecessary if all surveys are in survey_dat
   ll <- grepl("HBLL", unique(survey_dat$survey_abbrev))
