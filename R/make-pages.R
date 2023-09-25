@@ -129,32 +129,9 @@ make_pages <- function(
 
   dat_iphc$set_counts <- dplyr::mutate(dat_iphc$set_counts, species_common_name = spp)
 
-  # FIXME: (not needed anymore?)
-  # if (nrow(dat$survey_samples) > 0L)
-  #   dat$survey_samples$maturity_convention_maxvalue <- 1e6
-  # if (nrow(dat$commercial_samples) > 0L)
-  #   dat$commercial_samples$maturity_convention_maxvalue <- 1e6
-
-  # FIXME: (get this fixed in the raw data)
-  if (identical(spp, "rosethorn rockfish")) {
-    # one over 1 meter!
-    dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 60)
-    dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 60)
-  }
-  if (identical(spp, "aleutian skate")) {
-    dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 500)
-    dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 500)
-  }
   if (identical(spp, "sablefish")) {
     dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 110)
     dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 110)
-  }
-  # These ones look very off:
-  if (identical(spp, "spotted ratfish")) {
-    dat$survey_samples <- dplyr::filter(dat$survey_samples, !(survey_abbrev == "SYN HS" & year == 2005))
-  }
-  if (identical(spp, "shortspine thornyhead")) {
-    dat$survey_samples <- dplyr::filter(dat$survey_samples, age < 80)
   }
 
   dat$commercial_samples_no_keepers <- dplyr::filter(
