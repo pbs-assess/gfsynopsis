@@ -129,6 +129,24 @@ make_pages <- function(
 
   dat_iphc$set_counts <- dplyr::mutate(dat_iphc$set_counts, species_common_name = spp)
 
+  # Filter IPHC species known to be only enumerated explicitly since a certain year:
+  # See HG predators analysis: gfiphc/vignettes/analysis_for_HG_herring_predators.html
+  #   Aleutian Skate: Looks like only enumerated explicitly since 2007, 2018 map shows mean 0.31 fish/skate. Include.
+  #   Abyssal Skate - no catch, ignore.
+  #   Broad Skate - no catch, ignore.
+  #   Big Skate - looks like enumerated explicitly since 1998, and 2018 map shows mean 0.69 fish/skate. Include.
+  #   Roughtail Skate - looks like only caught in three or four years (mean +ve sets 1/177). No catch in 2018. Include.
+  #   Sandpaper Skate - only shows up for a few years. Mean +ve sets 5/177, 2018 mean 0.14 fish/skate. Include.
+  #   Longnose Skate - only shows up since 1998 (presumably unidentified beforehand), mean +ve sets 57/135, 2018 mean 0.96 fish/skate. Include.
+  #   Alaska Skate - only showed up in five years, 2018 mean 0.14 fish/skate. Only plotted since 2003 (like Sandpaper). Include.
+  if (spp == "aleutian skate") dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 2007)
+  if (spp == 'big skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 1998)
+  if (spp == 'longnose skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 1998)
+  if (spp == 'alaska skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 2003)
+  if (spp == 'sandpaper skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 2003)
+  # Not analysed in HG analysis, but is not explicitly identified until 1998 ('unidentified idiots' until then)
+  if (spp == 'shortspine thornyhead') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 1998)
+
   if (identical(spp, "sablefish")) {
     dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 110)
     dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 110)
