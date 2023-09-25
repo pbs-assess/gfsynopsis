@@ -1,8 +1,8 @@
 ---
 title: |
-  "A data synopsis for British Columbia groundfish: 2021 data update"
+  "A data synopsis for British Columbia groundfish: 2023 data update"
 french_title: Titre ici (*Nom latin de l'espèce*)
-year: 2022
+year: 2023
 report_number: nnn
 author: |
   Sean C. Anderson,
