@@ -114,3 +114,4 @@ curlfin sole,635,NA,NA
 sand sole,636,NA,NA
 shortbelly rockfish,423,NA,NA
 popeye,250,NA,NA
+eulachon,148,"seq(8, 18, 2)","c('', seq(10, 18, 2))"
