@@ -354,11 +354,15 @@ purrr::walk(to_build[1:40], function(i) {
     cat(crayon::red(clisymbols::symbol$cross),
       "Building figure pages for", spp$species_common_name[i], "\n")
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-
     dat_iphc <- readRDS(file.path(dc, "iphc", paste0(spp$spp_w_hyphens[i], ".rds")))
+    hbll_bait_counts <- readRDS(file.path(dc, 'bait-counts.rds'))
+    iphc_hook_counts <- readRDS(file.path(dc, 'iphc', 'iphc-hook-counts.rds'))
     dat$cpue_index <- d_cpue
+
     length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
       show_col_types = FALSE) |> as.data.frame()
+
+    message("\nMaking pages for species: ", spp$species_common_name[i])
     gfsynopsis::make_pages(
       dat = dat,
       dat_iphc = dat_iphc,
@@ -379,9 +383,10 @@ purrr::walk(to_build[1:40], function(i) {
       final_year_comm = 2022,
       final_year_surv = 2022,
       length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
-      survey_cols = c(RColorBrewer::brewer.pal(5L, "Set1"),
-        RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-        "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8")
+      stitch_model_type = 'st-rw',
+      grid_dir = file.path(data_cache, 'grids'),
+      hbll_bait_counts = hbll_bait_counts,
+      iphc_hook_counts = iphc_hook_counts
     )
     # }, error = function(e) warning("Error"))
   }, error = function(e) stop("Error"))
