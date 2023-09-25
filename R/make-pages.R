@@ -220,21 +220,23 @@ make_pages <- function(
 
   samp_panels <- c(
     "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-    "HBLL OUT S", "HBLL INS N", "HBLL INS S", "IPHC FISS",
+    "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS",
     en2fr("Commercial", french)
   )
-  # Age compositions: ----------------------------------------------------------
-  ss <- tidy_ages_raw(dat$survey_samples,
-    sample_type = "survey", survey = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-    "HBLL OUT N", "HBLL OUT S", "HBLL INS N", "HBLL INS S", "IPHC FISS")
-  ) |>
-    dplyr::filter(year >= age_comp_first_year)
-  sc <- tidy_ages_raw(dat$commercial_samples_no_keepers,
-    sample_type = "commercial"
-  ) |>
-    dplyr::filter(year >= age_comp_first_year)
 
-  if (all(!is.na(sc[[1]]))) sc <- sc %>% dplyr::filter(year >= 2003)
+  # Age compositions: ----------------------------------------------------------
+  message("\tAge compositions")
+  ss <- tidy_ages_raw(dat$survey_samples,
+    sample_type = "survey", survey = c(
+      "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+      "HBLL OUT N", "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS"
+    )
+  )
+  if (all(!is.na(ss))) ss <- ss |> dplyr::filter(year >= age_comp_first_year)
+
+  sc <- tidy_ages_raw(dat$commercial_samples_no_keepers, sample_type = "commercial")
+  if (all(!is.na(sc))) sc <- sc |> dplyr::filter(year >= age_comp_first_year)
+
   if (is.data.frame(sc)) {
     if (nrow(sc) == 0) {
       sc <- NA
@@ -299,7 +301,10 @@ make_pages <- function(
 
   ss <- tidy_lengths_raw(length_samples_survey,
     bin_size = bin_width,
-    sample_type = "survey"
+    sample_type = "survey",
+    survey = c(
+      "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+      "HBLL OUT N", "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS")
   )
   sc <- length_samples_commercial %>%
     mutate(sex = 2) %>% # fake all sex as female for commercial samples; often not sexed
@@ -333,7 +338,8 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev,
       levels = c(
         "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-        "HBLL OUT S", "IPHC FISS", en2fr("Commercial", french)
+        "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS",
+        en2fr("Commercial", french)
       )
     )
     sb$year <- factor(sb$year, levels = seq(2003, final_year_surv))
@@ -452,16 +458,30 @@ make_pages <- function(
     ggtitle(en2fr("Commercial catch", french))
 
   # Survey biomass indices: ----------------------------------------------------
-
+  message("\tBiomass indices")
   # Get new IPHC calculations
-  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index)
+  dat_tidy_survey_index <- tidy_survey_index(dat$survey_index,
+    survey = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
+        "HBLL OUT S", "OTHER HS MSA", "MSSM WCVI", "IPHC FISS"))
 
   if ("OTHER HS MSA" %in% levels(dat_tidy_survey_index$survey_abbrev)) {
     dat_tidy_survey_index$survey_abbrev <-
       forcats::fct_recode(dat_tidy_survey_index$survey_abbrev, `MSA HS` = "OTHER HS MSA")
   }
 
-  lvls <- levels(dat_tidy_survey_index$survey_abbrev)
+  lvls <- c("SYN WCHG",
+        "SYN HS",
+        "SYN QCS",
+        "SYN WCVI",
+        "HBLL OUT N",
+        "HBLL OUT S",
+        "HBLL INS N/S",
+        "IPHC FISS",
+        "MSSM WCVI",
+        "MSA HS",
+        "SYN HS/QCS/WCHG/WCVI",
+        "SYN HS/QCS/WCVI",
+        "HBLL OUT N/S")
 
   # Make NAs in middle of time series into 0s:
   if (!is.null(all_survey_years)) {
