@@ -656,29 +656,60 @@ make_pages <- function(
   }
 
   stitched_df <- bind_rows(stitched_syn, stitched_out, stitched_ins, stitched_iphc)
-  stitched_lvls <- unique(stitched_df$survey_abbrev)
-  stitched_df <- stitched_df |>
-    mutate(survey_abbrev = factor(survey_abbrev, levels = stitched_lvls))
-
+  # stitched_lvls <- unique(stitched_df$survey_abbrev)
+  # stitched_df <- stitched_df |>
+  #   mutate(survey_abbrev = factor(survey_abbrev, levels = stitched_lvls))
   dat_tidy_survey_index <- bind_rows(dat_tidy_survey_index, stitched_df) |>
-    filter(!survey_abbrev %in% c("HBLL INS N", "HBLL INS S"))
+    mutate(iphc_type = case_when(survey_abbrev == "IPHC FISS" ~ 'design iphc',
+                                 survey_abbrev == "IPHC Geostat" ~ 'stitched iphc',
+                                 TRUE ~ NA)) |>
+    mutate(survey_abbrev = ifelse(survey_abbrev == "IPHC Geostat", "IPHC FISS", survey_abbrev)) |>
+    mutate(survey_abbrev = factor(survey_abbrev, levels = (lvls)))
 
   if (all(is.na(dat_tidy_survey_index$biomass))) {
     g_survey_index <- ggplot() +
       theme_pbs()
   } else {
-    dat_tidy_survey_index <- dplyr::filter(
-      dat_tidy_survey_index,
-      !(survey_abbrev == "HBLL INS S" & year == 2009 & !is.na(year))
-    ) # only half survey conducted
-
     suppressMessages({
-      g_survey_index <- plot_survey_index(dat_tidy_survey_index,
+      # Omit design based IPHC index from base plot
+      g_survey_index <- plot_survey_index(
+        dat = dat_tidy_survey_index |> filter(is.na(iphc_type) | iphc_type != 'design iphc'),
         col = c("grey60", "grey20"), survey_cols = survey_cols,
         xlim = c(1984 - 0.2, final_year_surv + 0.2), french = french
       ) +
         scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
     })
+  }
+
+# Overlay design based IPHC
+  if (nrow(stitched_iphc) > 0) {
+    iphc_geostat_index_geo_mean <- g_survey_index$data |>
+        filter(survey_abbrev == "IPHC FISS") |>
+        mutate(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) |>
+        purrr::pluck('design_geo_mean', 1)
+
+    scaled_iphc_design_index <- dat_tidy_survey_index |>
+      filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'design iphc') |>
+      mutate(biomass_scaled = biomass / max(upperci),
+        lowerci_scaled = lowerci / max(upperci),
+        upperci_scaled = upperci / max(upperci)
+      ) |>
+      mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) |>
+      mutate(biomass_scaled = biomass_scaled * (iphc_geostat_index_geo_mean / st_geo_mean),
+        lowerci_scaled = lowerci_scaled * (iphc_geostat_index_geo_mean / st_geo_mean),
+        upperci_scaled = upperci_scaled * (iphc_geostat_index_geo_mean / st_geo_mean)
+      )
+
+    g_survey_index <- g_survey_index +
+      ggplot2::geom_line(data = scaled_iphc_design_index, colour = "#a8a8a8") +
+      ggplot2::geom_pointrange(data = scaled_iphc_design_index,
+        ggplot2::aes(ymin = lowerci_scaled, ymax = upperci_scaled),
+        stroke = 0.8, size = 0.35,
+        pch = 21, fill = "grey70", colour = "grey45") +
+      coord_cartesian(
+          ylim = c(-0.005, 1.03),
+          xlim = c(1984, final_year_surv) + c(-0.5, 0.5), expand = FALSE
+        )
   }
 
   if (!is.null(d_geostat_index)) {
