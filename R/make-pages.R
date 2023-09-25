@@ -1449,7 +1449,7 @@ make_pages <- function(
 
   f_topleft <- egg::gtable_frame(
     fg_lengths,
-    width = grid::unit(2.2, "null"),
+    width = grid::unit(3, "null"),
     height = grid::unit(1, "null"),
     debug = debug
   )
