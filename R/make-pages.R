@@ -703,14 +703,10 @@ make_pages <- function(
 
     scaled_iphc_design_index <- dat_tidy_survey_index |>
       filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'design iphc') |>
-      mutate(biomass_scaled = biomass / max(upperci),
-        lowerci_scaled = lowerci / max(upperci),
-        upperci_scaled = upperci / max(upperci)
-      ) |>
-      mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) |>
-      mutate(biomass_scaled = biomass_scaled * (iphc_geostat_index_geo_mean / st_geo_mean),
-        lowerci_scaled = lowerci_scaled * (iphc_geostat_index_geo_mean / st_geo_mean),
-        upperci_scaled = upperci_scaled * (iphc_geostat_index_geo_mean / st_geo_mean)
+      mutate(st_geo_mean = exp(mean(log(biomass), na.rm = TRUE))) |>
+      mutate(biomass_scaled = biomass * (iphc_geostat_index_geo_mean / st_geo_mean),
+        lowerci_scaled = lowerci * (iphc_geostat_index_geo_mean / st_geo_mean),
+        upperci_scaled = upperci * (iphc_geostat_index_geo_mean / st_geo_mean)
       )
 
     g_survey_index <- g_survey_index +
