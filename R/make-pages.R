@@ -595,7 +595,7 @@ make_pages <- function(
       select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets)
   } else {
     stitched_syn <- data.frame(
-      survey_abbrev = "SYN", year = NA, biomass = NA,
+      survey_abbrev = "SYN HS/QCS/WCHG/WCVI", year = NA, biomass = NA,
       lowerci = NA, upperci = NA, mean_cv = NA, num_sets = NA, num_pos_sets = NA
     )
   }
