@@ -540,17 +540,17 @@ temp <- lapply(spp$species_common_name, function(x) {
       i <- i + 1
     }
   }
-  if (species_code == "610" && french) {
-    out[[i - 1]] <- "Document de recherche présentant une étude de cas de 3CD Rex Sole : @anderson2021mp"
-  }
-  if (species_code == "394") {
-    if (!french) {
-      out[[i]] <- paste0(en2fr("COSEWIC Status", french), ": ", en2fr("Special Concern", french), ", ", en2fr("SARA Status",french), ": ",  en2fr("Special Concern", french), "\n")
-    } else {
-      out[[i]] <- paste0(en2fr("COSEWIC Status", french), ":", en2fr("Special Concern", french), ", ", en2fr("SARA Status", french), ":", en2fr("Special Concern"), "\n")
-    }
-    i <- i + 1
-  }
+  # if (species_code == "610" && french) {
+  #   out[[i - 1]] <- "Document de recherche présentant une étude de cas de 3CD Rex Sole : @anderson2021mp"
+  # }
+  # if (species_code == "394") {
+  #   if (!french) {
+  #     out[[i]] <- paste0(en2fr("COSEWIC Status", french), ": ", en2fr("Special Concern", french), ", ", en2fr("SARA Status",french), ": ",  en2fr("Special Concern", french), "\n")
+  #   } else {
+  #     out[[i]] <- paste0(en2fr("COSEWIC Status", french), ":", en2fr("Special Concern", french), ", ", en2fr("SARA Status", french), ":", en2fr("Special Concern"), "\n")
+  #   }
+  #   i <- i + 1
+  # }
   if (species_code == "225") {
     if (!french) {
       out[[i]] <- "Note that Pacific Hake undergoes a directed joint
