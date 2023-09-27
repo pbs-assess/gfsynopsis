@@ -305,16 +305,16 @@ missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
 # missing <- rep(TRUE, length(missing))
 for (i in which(!missing)) {
   cat(crayon::green(clisymbols::symbol$tick),
-    "Figure pages for", spp$species_common_name[i], "already exist\n")
+    "Figure pages for", sort(spp$species_common_name)[i], "already exist\n")
 }
-missing_spp <- spp$species_common_name[missing]
+missing_spp <- sort(spp$species_common_name)[missing]
 to_build <- which(missing)
 
 # to_build <- to_build[seq(1, floor(length(to_build) / 2))]
 # to_build <- to_build[seq(ceiling(length(to_build) / 2), length(to_build))]
 
 rlang::inform("Building")
-rlang::inform(paste(spp$species_common_name[to_build]))
+rlang::inform(paste(sort(spp$species_common_name)[to_build]))
 
 # Trash compiled objects for safety:
 # unlink("vb_gfplot.*")
@@ -340,8 +340,10 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
   # } else {
     # future::plan(multisession) # much frustration
 
+spp <- dplyr::arrange(spp, species_common_name) # to match build i
+
 # furrr::future_walk(to_build, function(i) {
-purrr::walk(to_build[1:40], function(i) {
+purrr::walk(to_build, function(i) {
 # purrr::walk(to_build[41:80], function(i) {
 # purrr::walk(to_build[81:length(to_build)], function(i) {
 # purrr::walk(to_build, function(i) {
