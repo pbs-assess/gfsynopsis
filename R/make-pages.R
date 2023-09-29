@@ -263,11 +263,11 @@ make_pages <- function(
     g_ages <- plot_ages(
       expand.grid(
         survey_abbrev = factor(x = samp_panels, levels = samp_panels),
-        year = seq(age_comp_first_year, final_year_surv, 2),
+        year = seq(final_year_surv - 15, final_year_surv, 2),
         max_size = 8,
         sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE
       ),
-      year_range = c(age_comp_first_year, final_year_surv)
+      year_range = c(final_year_surv - 15, final_year_surv)
     ) +
       guides(fill = "none", colour = "none") +
       theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
