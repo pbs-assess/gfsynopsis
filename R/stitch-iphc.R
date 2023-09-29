@@ -28,10 +28,10 @@ prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
       fyear = factor(year),
       fstation = factor(station)
     ) |> # mgcv needs factor inputs
-    dplyr::filter(usable == "Y", standard == "Y", !is.na(catch)) |> # some species weren't measured at different points in time series
+    dplyr::filter(usable == "Y", standard == "Y", !is.na(catch)) #|> # some species weren't measured at different points in time series
     # ADD filtering out of species before they were explicitly identified
-    dplyr::filter(!(species_common_name %in% c("big skate", "longnose skate") & year < 1998)) |>
-    dplyr::filter(!(species_common_name == "shortspine thornyhead" & year < 1998)) # first shows up in 1998
+    #dplyr::filter(!(species_common_name %in% c("big skate", "longnose skate") & year < 1998)) |>
+    #dplyr::filter(!(species_common_name == "shortspine thornyhead" & year < 1998)) # first shows up in 1998
 }
 
 #' Get table of positive sets for IPHC FISS data

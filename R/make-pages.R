@@ -34,8 +34,6 @@
 #'   outlying cells from distorting the color scale.
 #' @param synoptic_max_survey_years A vector of length 2 giving the maximum
 #'   synoptic survey years to include.
-#' @param age_comp_first_year Minimum year to be shown in the age frequency plots,
-#'   such that all survey panels can be shown.
 #' @param parallel Parallel CPUE index fitting?
 #' @param length_ticks A data frame indicating optional length composition
 #'   x-axis breaks and labels.
@@ -79,11 +77,11 @@ make_pages <- function(
       "HBLL OUT S" = "#FDBF6F",
       "HBLL INS N/S" = "#A65628",
       "IPHC FISS" = "#F781BF",
-      "MSSM WCVI" = "#a8a8a8",
-      "MSA HS" = "#a8a8a8",
-      "SYN HS/QCS/WCHG/WCVI" = "#a8a8a8",
-      "SYN HS/QCS/WCVI" = "#a8a8a8",
-      "HBLL OUT N/S" = "#a8a8a8",
+      "MSSM WCVI" = "#6c6c6c",
+      "MSA HS" = "#6c6c6c",
+      "SYN HS/QCS/WCHG/WCVI" = "#6c6c6c",
+      "SYN HS/QCS/WCVI" = "#6c6c6c",
+      "HBLL OUT N/S" = "#6c6c6c",
       "Commercial" = "#303030"
     ),
     mat_min_n = 20,
@@ -92,7 +90,6 @@ make_pages <- function(
       list("SYN WCHG" = 2020, "SYN HS" = 2019, "SYN WCVI" = 2018, "SYN QCS" = 2019),
     hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
     iphc_max_survey_year = 2022,
-    age_comp_first_year = NULL,
     parallel = FALSE,
     french = FALSE,
     final_year_comm = 2021,
@@ -215,7 +212,7 @@ make_pages <- function(
 
   samp_panels <- c(
     "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-    "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS",
+    "HBLL OUT S", "HBLL INS N/S", "IPHC FISS",
     en2fr("Commercial", french)
   )
 
@@ -224,13 +221,11 @@ make_pages <- function(
   ss <- tidy_ages_raw(dat$survey_samples,
     sample_type = "survey", survey = c(
       "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-      "HBLL OUT N", "HBLL OUT S", "HBLL INS N/S", "MSSM WCVI", "IPHC FISS"
+      "HBLL OUT N", "HBLL OUT S", "HBLL INS N/S", "IPHC FISS"
     )
   )
-  if (all(!is.na(ss))) ss <- ss |> dplyr::filter(year >= age_comp_first_year)
 
   sc <- tidy_ages_raw(dat$commercial_samples_no_keepers, sample_type = "commercial")
-  if (all(!is.na(sc))) sc <- sc |> dplyr::filter(year >= age_comp_first_year)
 
   if (is.data.frame(sc)) {
     if (nrow(sc) == 0) {
@@ -250,11 +245,17 @@ make_pages <- function(
   if (all(is.na(ss[[1]])) && all(is.na(sc[[1]]))) {
     sb <- NA
   }
+
   if (all(!is.na(sb))) {
-    sb$survey_abbrev <- factor(sb$survey_abbrev,
-      levels = samp_panels
-    )
-    g_ages <- plot_ages(sb, survey_cols = survey_cols, year_range = c(age_comp_first_year, final_year_surv), french = french) +
+    # Plot the most recent 15 years with age data
+    age_comp_first_year <- ifelse(max(sb$year) - min(sb$year) > 15, max(sb$year) - 15, min(sb$year))
+    age_comp_final_year <- age_comp_first_year + 15
+
+    sb$survey_abbrev <- factor(sb$survey_abbrev, levels = samp_panels)
+
+    sb <- sb |> filter(year >= age_comp_first_year)
+    g_ages <- plot_ages(sb, survey_cols = survey_cols,
+      year_range = c(age_comp_first_year, age_comp_final_year), french = french) +
       guides(fill = "none", colour = "none") +
       ggtitle(en2fr("Age frequencies", french)) +
       labs(y = en2fr("Age (years)", french))
@@ -275,7 +276,7 @@ make_pages <- function(
   }
 
   # Length compositions: -------------------------------------------------------
-
+  message("\tLength compositions")
   length_samples_survey <- dplyr::filter(
     dat$survey_samples,
     !length %in% find_length_outliers(dat$survey_samples$length)
@@ -383,7 +384,7 @@ make_pages <- function(
   }
 
   # Aging precision: -----------------------------------------------------------
-
+  message("\tAging precision")
   if (nrow(dat$age_precision) > 0) {
     g_age_precision <- tidy_age_precision(dat$age_precision) %>%
       plot_age_precision()
@@ -393,7 +394,7 @@ make_pages <- function(
   }
 
   # Commercial CPUE indices: ---------------------------------------------------
-
+  message("\tCommercial CPUE indices")
   all_not_NA <- function(x) {
     all(!is.na(x[[1L]]))
   }
@@ -449,6 +450,7 @@ make_pages <- function(
   }
 
   # Commercial catch: ----------------------------------------------------------
+  message('\tCommercial catch')
   if (nrow(dat$catch) > 0) {
     g_catch <- gfsynopsis::plot_catches(dat$catch, french = french, xlim = c(1955, final_year_comm))
   } else {
@@ -486,10 +488,10 @@ make_pages <- function(
         "HBLL OUT S",
         "HBLL INS N/S",
         "IPHC FISS",
-        "MSSM WCVI",
         "MSA HS",
         "SYN HS/QCS/WCHG/WCVI",
         "SYN HS/QCS/WCVI",
+        "MSSM WCVI",
         "HBLL OUT N/S")
 
   # Make NAs in middle of time series into 0s:
@@ -554,6 +556,7 @@ make_pages <- function(
 
   # Add stitched index: ----------------------------------------------------------
   # Generate stitched index if not already cached
+  message("\tStitching indices")
   if (any(!file.exists(c(
     sc_spp_synoptic, sc_spp_hbll_out,
     sc_spp_hbll_ins
@@ -695,31 +698,32 @@ make_pages <- function(
   }
 
 # Overlay design based IPHC
-  if (nrow(stitched_iphc) > 1) {
-    iphc_geostat_index_geo_mean <- g_survey_index$data |>
-        filter(survey_abbrev == "IPHC FISS") |>
-        mutate(design_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) |>
-        purrr::pluck('design_geo_mean', 1)
-
-    scaled_iphc_design_index <- dat_tidy_survey_index |>
+  iphc_design_df <- dat_tidy_survey_index |>
       filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'design iphc') |>
-      # mutate(st_geo_mean = exp(mean(log(biomass), na.rm = TRUE))) |>
-      # mutate(biomass_scaled = biomass * (iphc_geostat_index_geo_mean / st_geo_mean),
-      #   lowerci_scaled = lowerci * (iphc_geostat_index_geo_mean / st_geo_mean),
-      #   upperci_scaled = upperci * (iphc_geostat_index_geo_mean / st_geo_mean)
-      # )
       mutate(biomass_scaled = biomass / max(upperci),
         lowerci_scaled = lowerci / max(upperci),
         upperci_scaled = upperci / max(upperci)
       )
+  # if (nrow(stitched_iphc) > 1) {
+  #   iphc_geostat_index_geo_mean <- dat_tidy_survey_index |>
+  #     filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'stitched iphc') |>
+  #       mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) |>
+  #       purrr::pluck('st_geo_mean', 1)
 
+  #   # iphc_design_df <- dat_tidy_survey_index |>
+  #   #   filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'design iphc') |>
+  #     # mutate(st_geo_mean = exp(mean(log(biomass), na.rm = TRUE))) |>
+  #     # mutate(biomass_scaled = biomass * (iphc_geostat_index_geo_mean / st_geo_mean),
+  #     #   lowerci_scaled = lowerci * (iphc_geostat_index_geo_mean / st_geo_mean),
+  #     #   upperci_scaled = upperci * (iphc_geostat_index_geo_mean / st_geo_mean)
+  #     # )
+  # }
     g_survey_index <- g_survey_index +
-      ggplot2::geom_line(data = scaled_iphc_design_index, colour = "#a8a8a8") +
-      ggplot2::geom_pointrange(data = scaled_iphc_design_index,
+      ggplot2::geom_line(data = iphc_design_df, colour = "#a8a8a8") +
+      ggplot2::geom_pointrange(data = iphc_design_df,
         ggplot2::aes(ymin = lowerci_scaled, ymax = upperci_scaled),
         stroke = 0.8, size = 0.35,
         pch = 21, fill = "grey70", colour = "grey45")
-  }
 
   if (!is.null(d_geostat_index)) {
     # Get geostatistical index calculations
@@ -787,7 +791,7 @@ make_pages <- function(
     ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", french))
 
   # Specimen numbers: ----------------------------------------------------------
-
+  message("\tSpecimen numbers")
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, final_year_surv))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
@@ -813,6 +817,7 @@ make_pages <- function(
   })
 
   # Maturity by month: ---------------------------------------------------------
+  message("\tMaturity by month")
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples, french = french)
   if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
     g_maturity_month <- ggplot() +
@@ -826,7 +831,7 @@ make_pages <- function(
   }
 
   # Growth fits: ---------------------------------------------------------------
-
+  message("\tGrowth fits")
   if (nrow(dat$survey_samples) >= 10) {
     check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
 
@@ -888,7 +893,7 @@ make_pages <- function(
     g_length_weight <-
       plot_length_weight(object_female = lw_f, object_male = lw_m, french = french) +
       ggplot2::theme(
-        legend.position = c(0.9, 0.2),
+        legend.position = c(0.87, 0.2),
         legend.key.width = grid::unit(1.8, units = "char")
       ) +
       ggplot2::guides(
@@ -911,7 +916,7 @@ make_pages <- function(
   }
 
   # Maturity ogives: -----------------------------------------------------------
-
+  message("\tMaturity ogives")
   if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
     mat_age <- dat$survey_samples %>%
       fit_mat_ogive(
@@ -1044,7 +1049,7 @@ make_pages <- function(
       ggplot2::guides(lty = "none", colour = "none")
   }
   # Commercial CPUE maps -------------------------------------------------------
-
+  message("\tCommercial CPUE maps")
   coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
 
   # for checking if aspect ratio of map is 1:1
@@ -1113,6 +1118,7 @@ make_pages <- function(
   # g_cpue_spatial_ll <- ggplot() + theme_pbs()
 
   # Survey maps: ---------------------------------------------------------------
+  message("\tSurvey maps")
   if (!file.exists(map_cache_spp_synoptic)) {
     # Multiply by 1000 for computational reasons.
     # Otherwise the numbers are too small sometimes:
@@ -1343,7 +1349,7 @@ make_pages <- function(
   })
 
   # Page 1 layout: -------------------------------------------------------------
-
+  message("\tPage 1 layout")
   gg_catch <- ggplot2::ggplotGrob(g_catch)
   gg_survey_index <- ggplot2::ggplotGrob(g_survey_index)
   gg_cpue_spatial <- ggplot2::ggplotGrob(g_cpue_spatial)
@@ -1420,6 +1426,7 @@ make_pages <- function(
   dev.off()
 
   # Page 2 layout: -------------------------------------------------------------
+  message("\tPage 2 layout")
   gg_mat_age <- ggplot2::ggplotGrob(g_mat_age)
   gg_mat_length <- ggplot2::ggplotGrob(g_mat_length)
   gg_mat_month <- ggplot2::ggplotGrob(g_maturity_month)

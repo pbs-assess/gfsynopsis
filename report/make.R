@@ -298,23 +298,23 @@ future::plan(sequential)
 # This is the guts of where the figure pages get made:
 
 fig_check <- file.path(build_dir, "figure-pages",
-  gfsynopsis:::clean_name(sort(spp$species_common_name)))
+  gfsynopsis:::clean_name(spp$species_common_name))
 fig_check1 <- paste0(fig_check, "-1.", ext)
 fig_check2 <- paste0(fig_check, "-2.", ext)
 missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
 # missing <- rep(TRUE, length(missing))
 for (i in which(!missing)) {
   cat(crayon::green(clisymbols::symbol$tick),
-    "Figure pages for", sort(spp$species_common_name)[i], "already exist\n")
+    "Figure pages for", spp$species_common_name[i], "already exist\n")
 }
-missing_spp <- sort(spp$species_common_name)[missing]
+missing_spp <- spp$species_common_name[missing]
 to_build <- which(missing)
 
 # to_build <- to_build[seq(1, floor(length(to_build) / 2))]
 # to_build <- to_build[seq(ceiling(length(to_build) / 2), length(to_build))]
 
 rlang::inform("Building")
-rlang::inform(paste(sort(spp$species_common_name)[to_build]))
+rlang::inform(paste(spp$species_common_name)[to_build])
 
 # Trash compiled objects for safety:
 # unlink("vb_gfplot.*")
@@ -330,7 +330,6 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
 # for (i in to_build[seq(floor(length(to_build) / 2), length(to_build))]) {
 # plan(multisession, workers = 10L)
 
-
 # options(future.globals.maxSize = 2000 * 1024 ^ 2) # 2000 mb
 # options(future.globals.onReference = "error")
 # if (parallel_processing) {
@@ -339,8 +338,6 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
     # future::plan(multisession, workers = 2L)
   # } else {
     # future::plan(multisession) # much frustration
-
-spp <- dplyr::arrange(spp, species_common_name) # to match build i
 
 # furrr::future_walk(to_build, function(i) {
 purrr::walk(to_build, function(i) {
@@ -364,7 +361,6 @@ purrr::walk(to_build, function(i) {
     length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
       show_col_types = FALSE) |> as.data.frame()
 
-    message("\nMaking pages for species: ", spp$species_common_name[i])
     gfsynopsis::make_pages(
       dat = dat,
       dat_iphc = dat_iphc,
@@ -381,7 +377,6 @@ purrr::walk(to_build, function(i) {
       synoptic_max_survey_years = list("SYN WCHG" = 2022, "SYN HS" = 2021, "SYN WCVI" = 2022, "SYN QCS" = 2021),
       hbll_out_max_survey_years = list("HBLL OUT N" = 2021, "HBLL OUT S" = 2022),
       iphc_max_survey_year = 2022,
-      age_comp_first_year = 2009,
       final_year_comm = 2022,
       final_year_surv = 2022,
       length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
@@ -399,8 +394,8 @@ purrr::walk(to_build, function(i) {
 
   })
 # future::plan(sequential)
-
-
+beepr::beep()
+stop()
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
 if (!french) {
@@ -419,6 +414,7 @@ if (french) {
 
 # Generate `plot-pages.Rmd`:
 temp <- lapply(spp$species_common_name, function(x) {
+  message(x)
   spp_file <- gfsynopsis:::clean_name(x)
   if (french) {
     spp_title <- spp$species_french_name[spp$species_common_name == x]

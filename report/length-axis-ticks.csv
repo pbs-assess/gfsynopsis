@@ -28,7 +28,7 @@ shortfin eelpout,242,NA,NA
 black eelpout,243,NA,NA
 wattled eelpout,244,NA,NA
 blackbelly eelpout,245,"seq(10, 30, 5)","c('', seq(15, 30, 5))"
-pacific grenadier,251,NA,NA
+pacific grenadier,251,"seq(20, 60, 20)","seq(20, 60, 20)"
 threadfin grenadier,254,NA,NA
 giant grenadier,256,NA,NA
 california grenadier,257,NA,NA
@@ -55,7 +55,7 @@ splitnose rockfish,412,NA,NA
 greenstriped rockfish,414,NA,NA
 puget sound rockfish,415,"seq(9, 21, 3)","c('', seq(12, 21, 3))"
 widow rockfish,417,NA,NA
-yellowtail rockfish,418,"seq(10, 60, 10)","c('', seq(20, 60, 10))"
+yellowtail rockfish,418,"seq(10, 60, 20)","seq(10, 60, 20)"
 chilipepper,420,NA,NA
 rosethorn rockfish,421,NA,NA
 quillback rockfish,424,"seq(10, 50, 10)","c('', seq(20, 50, 10))"
@@ -114,4 +114,4 @@ curlfin sole,635,NA,NA
 sand sole,636,NA,NA
 shortbelly rockfish,423,NA,NA
 popeye,250,NA,NA
-eulachon,148,"seq(8, 18, 2)","c('', seq(10, 18, 2))"
+eulachon,148,"seq(6, 20, 4)","seq(6, 20, 4)"
