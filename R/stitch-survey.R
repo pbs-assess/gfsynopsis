@@ -40,7 +40,7 @@ prep_stitch_dat <- function(survey_dat, bait_counts) {
     dplyr::mutate(hook_adjust_factor = ifelse(grepl("SYN", survey_abbrev), NA, hook_adjust_factor)) |>
     dplyr::mutate(offset = dplyr::case_when(
       grepl("SYN", survey_abbrev) ~ log(area_swept / 1e5),
-      grepl("HBLL", survey_abbrev) ~ log(area_swept / hook_adjust_factor)
+      grepl("HBLL", survey_abbrev) ~ log(hook_count / hook_adjust_factor)
     )) |>
     dplyr::mutate(catch = ifelse(grepl("SYN", survey_abbrev), catch_weight, catch_count)) |>
     dplyr::mutate(present = ifelse(catch > 0, 1, 0)) |>
