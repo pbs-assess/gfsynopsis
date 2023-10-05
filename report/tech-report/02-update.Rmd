@@ -1,32 +1,34 @@
 # Update {#sec:update}
 
+In this Science Response, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis and @anderson2020fisheries. 
 
-## Analysis and Response
+Survey and commercial data from 2022 were added and we now display length and age composition data for the Inside HBLL survey.
 
-In this Science Response, all figure pages were rebuilt with updated data using the methods described in Anderson et al. (2019). Survey and commercial data from 2022 were added and we now display length and age composition data for the Inside HBLL survey.
+Three species have been added to the report: Eulachon (*Thaleichthys pacificus*), Popeye (*Coryphaenoides cinereus*), and Shortbelly Rockfish (*Sebastes jordani*).
+Additionally, data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM) are now included (Rutherford et al. in prep TODO) in the biomass indices and length composition data.
 
-Three species have been added to the report: Eulachon (Thaleichthys pacificus), Popeye (Coryphaenoides cinereus), and Shortbelly Rockfish (Sebastes jordani). Additionally, data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM) are now included (Rutherford et al. in prep) in the biomass indices and length composition data.
+A notable update to this report compared to the 2022 Science Response is the addition of model-based biomass indices. This approach was originally described in @anderson2019synopsis (Appendix E and F).
 
-A notable update to this report compared to the 2022 Science Response is the addition of model-based biomass indices. This approach was originally described in Anderson et al. (2019, Appendix E,F).
-
-A geostatistical model (Appendix?) was used to estimate a single biomass index for each of the survey types.
+A geostatistical model (Appendix? ) was used to estimate a single biomass index for each of the survey types.
 
 Synoptic Bottom Trawl (SYN), Outside Hard Bottom Long Line (HBLL), Inside HBLL, and IPHC Fishery-Independent Setline Survey (IPHC FISS).
 
 Model-based survey indices have been included as separate panels in the Survey biomass index plots (Figure X).
 
-
 ### Multispecies Small Mesh Groundfish Bottom Trawl (MSSM)
 
-Since 1973, DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island. This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest cotinuous bottom trawl time-series for groundfish off the coast of WCVI. The survey typically occurs in late April to May with exceptions in 1985 (May 24 - June 7) and in 1987 (August 4 - 14). Since 1973, changes to the fishing gear used and changes to catch sorting may affect interpretation of the data. Trawl nets were changed in 1976, 2005, and 2006. And notably, catch sorting has changed as follows:
+Since 1973, DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island.
+This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
+The survey typically occurs in late April to May with exceptions in 1985 (May 24--June 7) and in 1987 (August 4--14).
+Since 1973, changes to the fishing gear used and changes to catch sorting may affect interpretation of the data.
+Trawl nets were changed in 1976, 2005, and 2006. And notably, catch sorting has changed as follows:
   - From 1973 - 1976, large species weights were estimated using random sampling
   - Since 1978 large fish were sorted and weighed
   - Since 2001 all species, including small species were sorted and weighed
 
-The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) Flemming R (2013). Additional survey details can be found in Rutherford et al. (in prep).
+The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) Flemming R (2013) TODO REF. Additional survey details can be found in Rutherford et al. (in prep) TODO REF.
 
 Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fisheries and Oceans Canada. Dataset/Samplingevent. http://iobis.org/mapper/?resource_id=261
-
 
 
 <!-- TODO: update table 1 -->
@@ -46,31 +48,30 @@ Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fi
 - Offset for HBLL is now (remember to empty HBLL stitched caches) log(hook_count / hook_adjust_factor) with ICR method
 - Offset for SYN was log(area_swept / 1e5)
 
-
 <!-- From 999-survey-index.Rmd -->
-We can then calculate expected biomass $B_t$ in year $t$ as:
+We can then calculate area-weighted expected biomass $B_t$ in year $t$ as:
 \begin{equation}
 B_t = \sum_{j = 1}^{n_j}
   w_j \cdot \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right),
 \end{equation}
 
 where $j$ references a 2 km $\times$ 2 km grid cell within the survey domain
-and $w_j$ represents the weight or area of that grid cell (4 km^2^) (Figure
-\@ref(fig:sdmTMB-plot-index)). In other words, we sum the predicted biomass
+and $w_j$ represents the weight or area of that grid cell (4 km^2^). 
+In other words, we sum the predicted biomass
 across all grid cells within the survey domain for each year. We generated
 standard errors on the annual estimates of log biomass via the generalized
 Delta method as implemented in TMB [@kristensen2016].
-<!-- -->
-
 
 ### IPHC update
-The methods for calculating the IPHC design-based index remain unchanged from those described in Anderson et al. (2019) and (DFO 2022 - Synopsis), except for the following:
 
-1. Species identification has improved over time for some species. For example, the average catch rate of ‘Unidentified Skates’ was almost 1 fish per effective skate from 1995–1999, but then declined to near zero because Big Skate and Longnose Skate were both explicitly identified from 1998 onwards. The more rarely caught Aleutian Skate and Sandpaper Skate only shows up in the data from 2006 onwards. Such changes in protocol can be the cause of zero counts early in the time series for some species and so these data points have been omitted. See [HG predator analysis vignette](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/analysis_for_HG_herring_predators.html). Similarly the Shortspine Thornyhead only shows up in the data in 1998 and was likely classified under ‘Unidentified Thornyhead (idiot).
+The methods for calculating the IPHC design-based index remain unchanged from those described in @anderson2019synopsis and (DFO 2022 - Synopsis TODO REF), except for the following:
 
-2. Similar to 2021, in 2022 waters off the WCVI were surveyed but only for a subsample of stations. This may affect the determination of whether or not Series AB can be considered representative of the full coast and is one reason why a modelled-based index may be preferable.
+1. Species identification has improved over time for some species. For example, the average catch rate of 'Unidentified Skates' was almost 1 fish per effective skate from 1995–1999, but then declined to near zero because Big Skate and Longnose Skate were both explicitly identified from 1998 onwards. The more rarely caught Aleutian Skate and Sandpaper Skate only shows up in the data from 2006 onwards. Such changes in protocol can be the cause of zero counts early in the time series for some species and so these data points have been omitted. See [HG predator analysis vignette](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/analysis_for_HG_herring_predators.html). Similarly the Shortspine Thornyhead only shows up in the data in 1998 and was likely classified under 'Unidentified Thornyhead (idiot)'.
 
+2. Similar to 2021, in 2022 waters off the WCVI were surveyed but only for a subsample of stations. This may affect the determination of whether or not Series AB can be considered representative of the full coast and is one reason why a model-based index may be preferable.
 
 ---
 
-Erratum: 2022 report Survey Biomass Maps for the Synoptic Bottom Trawl Surveys displayed data and model estimates for 2018 and 2019 rather than 2020 and 2021.
+## Erratum
+
+The 2022 report Survey Biomass Maps for the Synoptic Bottom Trawl Surveys displayed data and model estimates for 2018 and 2019 rather than 2020 and 2021.
