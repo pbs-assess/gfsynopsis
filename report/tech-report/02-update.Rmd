@@ -1,19 +1,83 @@
-# Update {#sec:update}
+```{r n_species}
+.spp <- gfsynopsis::get_spp_names()
+no_species <- nrow(.spp)
+```
 
-In this Science Response, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis and @anderson2020fisheries. 
+# Context {#sec:context}
 
-Survey and commercial data from 2022 were added and we now display length and age composition data for the Inside HBLL survey.
+The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, form the backbone of most fisheries stock assessments.
+Fisheries and Oceans Canada (DFO) manages vast quantities of such data on groundfish species in British Columbia (BC).
+However, formal stock assessments are not conducted on an annual basis for most stocks, and so much of these data are not summarized to represent the nature of the data holdings.
 
-Three species have been added to the report: Eulachon (*Thaleichthys pacificus*), Popeye (*Coryphaenoides cinereus*), and Shortbelly Rockfish (*Sebastes jordani*).
-Additionally, data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM) are now included (Rutherford et al. in prep TODO) in the biomass indices and length composition data.
+The groundfish data synopsis report was developed to provide a snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
+The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
+In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2022].
+In this version, we update the report to include 2022 data as well as adding several additional species, surveys, and spatiotemporal modeling of survey data. We also update referenced stock assessment Research Documents, Science Advisory Reports, and Science Responses.
 
-A notable update to this report compared to the 2022 Science Response is the addition of model-based biomass indices. This approach was originally described in @anderson2019synopsis (Appendix E and F).
+# Background {#sec:background}
 
-A geostatistical model (Appendix? ) was used to estimate a single biomass index for each of the survey types.
+The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
+The goals of the report are to
+(1) facilitate regular review by groundfish
+scientists and managers of trends in survey indices and stock composition
+across all species to provide information for discussion on assessment
+priorities;
+(2) generate standardized datasets, biological model fits, and visualizations that will help assessment scientists develop operating models and select candidate management procedures for groundfish stocks; and
+(3) increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
 
-Synoptic Bottom Trawl (SYN), Outside Hard Bottom Long Line (HBLL), Inside HBLL, and IPHC Fishery-Independent Setline Survey (IPHC FISS).
+The main figures of the synopsis report are presented in two-page species-by-species subsections that visually synthesize most available data for each species.
+The report covers `r no_species` groundfish species that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in our research surveys.
+The report focuses on the surveys and data types applicable to the widest array of these species.
 
-Model-based survey indices have been included as separate panels in the Survey biomass index plots (Figure X).
+Each set of pages for a single species is laid out in the same format.
+The page layout begins with the species common name, the species scientific name, and the DFO species code, which usually corresponds to the page number referencing the species in @hart1988.
+The figures are laid out such that the first page has survey (Figure \@ref(fig:intro-maps)) time series trends and spatial patterns on the left and commercial time series by Pacific Marine Fisheries Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the right.
+The second page focuses on biological samples from both fishery dependent and independent sources.
+This page presents length and age data, maturity data, and an overview of available numbers of sampled fish across all survey and commercial samples.
+
+For surveys, the report has focused on the Synoptic Bottom Trawl surveys (Figure \@ref(fig:intro-maps)), the Outside Hard Bottom Long Line (HBLL OUT) surveys, the Inside Hard Bottom Long Line surveys (HBLL INS) (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys.
+In this version, we have added data from the Multispecies Small-mesh Bottom Trawl Survey on West Coast Vancouver Island (MSSM WCVI) (formerly known as the "Shrimp Survey") as well as including length and age composition data for the Inside HBLL survey.
+We show survey biomass index trends for the Hecate Strait Multispecies Assemblage (MSA HS) survey.
+The report includes counts of available fish specimens from biological samples on all surveys.
+A brief description of the included surveys is included in Appendix F of @anderson2019synopsis along with associated references for details on design and implementation.
+
+(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Long Line (HBLL) survey boundaries (right). 
+Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
+The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
+Colours match the colour coding throughout the report.
+
+<!-- TODO HBLL INS MAP?? -->
+
+```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
+source(here::here("report/report-rmd/intro-maps.R"))
+```
+
+```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas. Areas 3AB and 4A are outside of Canadian waters.", out.width="5.2in", fig.pos="tb"}
+knitr::include_graphics(here::here("report/report-rmd/figure/3CD5ABCDE.png"), dpi = NA)
+```
+
+# Updates {#sec:update}
+
+In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, and @synopsis2022.
+
+Have we first summarize all major changes. We include methodological details on coastwide spatiotemporal survey modelling in Appendix TODO.
+
+Updates:
+
+* We added 2022 survey and commercial data.
+
+* We added three species: Eulachon (*Thaleichthys pacificus*), Popeye (*Coryphaenoides cinereus*), and Shortbelly Rockfish (*Sebastes jordani*).
+
+* We added length and age composition data for the Inside HBLL survey.
+
+* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear.
+
+* We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (Appendix E and F). We expand on details of the approach in this report's Appendix TODO.
+
+* We fixed an important erratum: the 2022 report Synoptic survey and HBLL OUT survey maps erroneously displayed data for 2018 and 2019 rather than 2020 and 2021. In this report, we confirm that the maps are displaying the intended 2021 and 2022 survey data.
+
+
+## Stuff to go in appendices?
 
 ### Multispecies Small Mesh Groundfish Bottom Trawl (MSSM)
 
