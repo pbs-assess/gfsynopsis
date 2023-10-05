@@ -46,14 +46,14 @@ Inside HBLL north and south are not differentiated because the delineation is no
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
 
-<!-- TODO HBLL INS MAP?? -->
+<!-- TODO UPDATE COLOURS!! -->
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
-source(here::here("report/report-rmd/intro-maps.R"))
+source(here::here("intro-maps.R"))
 ```
 
 ```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas. Areas 3AB and 4A are outside of Canadian waters.", out.width="5.2in", fig.pos="tb"}
-knitr::include_graphics(here::here("report/report-rmd/figure/3CD5ABCDE.png"), dpi = NA)
+knitr::include_graphics(here::here("figure/3CD5ABCDE.png"), dpi = NA)
 ```
 
 # Updates {#sec:update}
@@ -114,10 +114,13 @@ Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fi
 
 <!-- From 999-survey-index.Rmd -->
 We can then calculate area-weighted expected biomass $B_t$ in year $t$ as:
-\begin{equation}
-B_t = \sum_{j = 1}^{n_j}
-  w_j \cdot \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right),
-\end{equation}
+
+TODO
+
+<!-- \begin{equation} -->
+<!-- B_t = \sum_{j = 1}^{n_j} -->
+<!--   w_j \cdot \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right), -->
+<!-- \end{equation} -->
 
 where $j$ references a 2 km $\times$ 2 km grid cell within the survey domain
 and $w_j$ represents the weight or area of that grid cell (4 km^2^). 
