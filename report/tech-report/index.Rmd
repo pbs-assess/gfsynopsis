@@ -6,9 +6,10 @@ year: 2023
 report_number: nnn
 author: |
   Sean C. Anderson,
+  Jillian C. Dunic,
   Elise A. Keppel, and
   Andrew M. Edwards
-author_list: "Last, F.M. and Smith, A.B."
+author_list: "Anderson, S.C., Dunic, J.C., Keppel, E.A., and Edwards, A.M."
 region: Pacific Region
 french_region: Région du Pacifique
 isbn: ""
@@ -74,8 +75,8 @@ opts_chunk$set(
   fig.width = fig_width,
   out.width = fig_out_width,
   echo = FALSE,
-  #  autodep = TRUE,
-  #  cache = TRUE,
+  autodep = TRUE,
+  cache = FALSE, # !!
   cache.comments = FALSE,
   dev = fig_out_type,
   dpi = fig_dpi,
@@ -85,16 +86,15 @@ opts_chunk$set(
 ```
 
 ```{r load-libraries, cache=FALSE}
-# add other packages here:
 library(dplyr)
 library(ggplot2)
 library(readr)
 library(tibble)
 library(rosettafish)
 library(csasdown)
+library(gfsynopsis)
 ```
 
 ```{r globals, cache=FALSE}
 french <- TRUE
 ```
-
