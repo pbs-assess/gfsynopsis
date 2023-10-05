@@ -133,10 +133,10 @@ spp$resdoc <- gsub(", ", ", @", spp$resdoc)
 spp$resdoc <- ifelse(is.na(spp$resdoc), "", paste0("@", spp$resdoc, ""))
 spp$sar <- gsub(", ", ", @", spp$sar)
 spp$sar <- ifelse(is.na(spp$sar), "", paste0("@", spp$sar, ""))
+spp$other_ref <- gsub(", ", ", @", spp$other_ref)
 spp$other_ref_cite <- ifelse(is.na(spp$other_ref), "",
   paste0(spp$type_other_ref, ": @", spp$other_ref, "")
 )
-spp$other_ref_cite <- gsub(", ", ", @", spp$other_ref_cite)
 spp <- arrange(spp, species_code)
 spp <- spp %>%
   mutate(species_common_name = gsub(
