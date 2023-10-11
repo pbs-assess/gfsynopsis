@@ -70,14 +70,15 @@ make_pages <- function(
     map_ylim = c(5275, 6155),
     save_gg_objects = FALSE,
     survey_cols = c("SYN WCHG" = "#E41A1C",
+      "SYN WCVI" = "#984EA3",
       "SYN HS" = "#377EB8",
       "SYN QCS" = "#4DAF4A",
-      "SYN WCVI" = "#984EA3",
       "HBLL OUT N" = "#FF7F00",
       "HBLL OUT S" = "#FDBF6F",
       "HBLL INS N/S" = "#A65628",
       "IPHC FISS" = "#F781BF",
       "MSSM WCVI" = "#6c6c6c",
+      "MSSM Geostat" = "#6c6c6c",
       "MSA HS" = "#6c6c6c",
       "SYN HS/QCS/WCHG/WCVI" = "#6c6c6c",
       "SYN HS/QCS/WCVI" = "#6c6c6c",
@@ -209,6 +210,7 @@ make_pages <- function(
   sc_spp_hbll_out <- paste0(file.path(stitch_cache, "hbll_outside", spp_file), "_", stitch_model_type, ".rds")
   sc_spp_hbll_ins <- paste0(file.path(stitch_cache, "hbll_inside", spp_file), "_", stitch_model_type, ".rds")
   sc_spp_iphc <- paste0(file.path(stitch_cache, "iphc", spp_file), "_", stitch_model_type, ".rds")
+  sc_spp_mssm <- paste0(file.path(stitch_cache, "mssm", spp_file), "_", stitch_model_type, ".rds")
 
   samp_panels <- c(
     "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
@@ -481,9 +483,9 @@ make_pages <- function(
   }
 
   lvls <- c("SYN WCHG",
+        "SYN WCVI",
         "SYN HS",
         "SYN QCS",
-        "SYN WCVI",
         "HBLL OUT N",
         "HBLL OUT S",
         "HBLL INS N/S",
@@ -491,6 +493,7 @@ make_pages <- function(
         "MSA HS",
         "SYN HS/QCS/WCHG/WCVI",
         "SYN HS/QCS/WCVI",
+        "MSSM Geostat",
         "MSSM WCVI",
         "HBLL OUT N/S")
 
@@ -561,7 +564,9 @@ make_pages <- function(
     sc_spp_synoptic, sc_spp_hbll_out,
     sc_spp_hbll_ins
   )))) {
-    stitch_dat <- prep_stitch_dat(survey_dat = dat$survey_sets, bait_counts = hbll_bait_counts)
+    stitch_dat <- dat$survey_sets |>
+      dplyr::filter(grepl("^HBLL|^SYN", survey_abbrev, ignore.case = TRUE)) |>
+      prep_stitch_dat(survey_dat = _, bait_counts = hbll_bait_counts)
   }
 
   stitched_syn <- get_stitched_index(
@@ -667,13 +672,50 @@ make_pages <- function(
     )
   }
 
-  stitched_df <- bind_rows(stitched_syn, stitched_out, stitched_ins, stitched_iphc)
+# Add MSSM
+  if (!file.exists(sc_spp_mssm)) {
+    mssm_stitch_dat <- dat$survey_sets |>
+      dplyr::filter(survey_abbrev == "MSSM WCVI")
+    # Some species not included in survey_set data frame at all, so we need to skip these
+    if (nrow(mssm_stitch_dat) == 0) {
+      out <- "No MSSM survey data"
+      saveRDS(out, sc_spp_mssm)
+    } else {
+      mssm_stitch_dat <- prep_mssm_dat(mssm_stitch_dat)
+    }
+  }
+
+  stitched_mssm <- get_stitched_index(
+        form = 'catch ~ 1 + year_bin', # All species ID'd to lowest taxonomic level in 2003 onward
+        survey_dat = mssm_stitch_dat, species = spp,
+        family = sdmTMB::tweedie(),
+        survey_type = "mssm", model_type = 'st-rw', cache = file.path(stitch_cache, "mssm"),
+        cutoff = 5, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
+
+  if (length(stitched_mssm) > 1) {
+    stitched_mssm <- stitched_mssm |>
+      mutate(survey_abbrev = "MSSM Geostat") |>
+      select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets)
+  } else {
+    stitched_mssm <- data.frame(
+      survey_abbrev = "MSSM Geostat", year = NA, biomass = NA,
+      lowerci = NA, upperci = NA, mean_cv = NA, num_sets = NA, num_pos_sets = NA
+    )
+  }
+
+  stitched_df <- bind_rows(stitched_syn, stitched_out, stitched_ins,
+    stitched_iphc, stitched_mssm)
 
   dat_tidy_survey_index <- bind_rows(dat_tidy_survey_index, stitched_df) |>
-    mutate(iphc_type = case_when(survey_abbrev == "IPHC FISS" ~ 'design iphc',
-                                 survey_abbrev == "IPHC Geostat" ~ 'stitched iphc',
-                                 TRUE ~ NA)) |>
+    mutate(index_type = case_when(survey_abbrev == "IPHC FISS" ~ 'design iphc',
+                                  survey_abbrev == "IPHC Geostat" ~ 'stitched iphc',
+                                  survey_abbrev == 'MSSM WCVI' ~ 'design mssm',
+                                  survey_abbrev == 'MSSM Geostat' ~ 'stitched mssm',
+                                  TRUE ~ 'stitched')) |>
     mutate(survey_abbrev = ifelse(survey_abbrev == "IPHC Geostat", "IPHC FISS", survey_abbrev)) |>
+    mutate(survey_abbrev = ifelse(survey_abbrev == "MSSM Geostat", "MSSM WCVI", survey_abbrev)) |>
     mutate(survey_abbrev = factor(survey_abbrev, levels = (lvls)))
 
   if (all(is.na(dat_tidy_survey_index$biomass))) {
@@ -682,36 +724,40 @@ make_pages <- function(
   } else {
     suppressMessages({
       # Omit design based IPHC index from base plot
-      g_survey_index <- plot_survey_index(
-        dat = dat_tidy_survey_index |> filter(is.na(iphc_type) | iphc_type != 'design iphc'),
-        col = c("grey60", "grey20"), survey_cols = survey_cols,
-        xlim = c(1984 - 0.2, final_year_surv + 0.2), french = french,
-        scale_type = "max-CI",
-        geo_scale_years = seq(2000, as.integer(format(Sys.Date(), "%Y"))),
-      ) +
+      g_survey_index <-
+        plot_survey_index(
+          dat = dat_tidy_survey_index |> filter(!grepl('design', index_type)),
+          col = c("grey60", "grey20"), survey_cols = survey_cols,
+          xlim = c(1984 - 0.2, final_year_surv + 0.2), french = french,
+          scale_type = "max-CI",
+          geo_scale_years = seq(2000, as.integer(format(Sys.Date(), "%Y"))),
+        ) +
         scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE)) +
-        coord_cartesian(
-          ylim = c(-0.005, 1.03),
-          xlim = c(1984, final_year_surv) + c(-0.5, 0.5), expand = FALSE
-        )
+        coord_cartesian(ylim = c(-0.005, 1.03),
+          xlim = c(1984, final_year_surv) + c(-0.5, 0.5), expand = FALSE) +
+        geom_rect(data = filter(dat_tidy_survey_index, survey_abbrev == "MSSM WCVI")[1, ] |>
+            rename(biomass_scaled = biomass),
+          mapping = aes(xmin = 1975, xmax = 2003, ymin = -Inf, ymax = Inf),
+        alpha = 0.1)
     })
   }
-
 # Overlay design based IPHC
-  iphc_design_df <- dat_tidy_survey_index |>
-      filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'design iphc') |>
+  design_df <- dat_tidy_survey_index |>
+      #filter(survey_abbrev == 'IPHC FISS' & index_type == 'design iphc') |>
+      filter(grepl('design', index_type)) |>
+      group_by(survey_abbrev) |>
       mutate(biomass_scaled = biomass / max(upperci),
         lowerci_scaled = lowerci / max(upperci),
         upperci_scaled = upperci / max(upperci)
       )
   # if (nrow(stitched_iphc) > 1) {
   #   iphc_geostat_index_geo_mean <- dat_tidy_survey_index |>
-  #     filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'stitched iphc') |>
+  #     filter(survey_abbrev == 'IPHC FISS' & index_type == 'stitched iphc') |>
   #       mutate(st_geo_mean = exp(mean(log(biomass_scaled), na.rm = TRUE))) |>
   #       purrr::pluck('st_geo_mean', 1)
 
   #   # iphc_design_df <- dat_tidy_survey_index |>
-  #   #   filter(survey_abbrev == 'IPHC FISS' & iphc_type == 'design iphc') |>
+  #   #   filter(survey_abbrev == 'IPHC FISS' & index_type == 'design iphc') |>
   #     # mutate(st_geo_mean = exp(mean(log(biomass), na.rm = TRUE))) |>
   #     # mutate(biomass_scaled = biomass * (iphc_geostat_index_geo_mean / st_geo_mean),
   #     #   lowerci_scaled = lowerci * (iphc_geostat_index_geo_mean / st_geo_mean),
@@ -719,8 +765,7 @@ make_pages <- function(
   #     # )
   # }
     g_survey_index <- g_survey_index +
-      ggplot2::geom_line(data = iphc_design_df, colour = "#a8a8a8") +
-      ggplot2::geom_pointrange(data = iphc_design_df,
+      ggplot2::geom_pointrange(data = design_df,
         ggplot2::aes(ymin = lowerci_scaled, ymax = upperci_scaled),
         stroke = 0.8, size = 0.35,
         pch = 21, fill = "grey70", colour = "grey45")

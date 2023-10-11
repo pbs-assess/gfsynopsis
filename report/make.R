@@ -53,7 +53,8 @@ if (parallel_processing) {
 }
 
 # Read in fresh data or load cached data if available: ------------------------
-dc <- here("report", "data-cache-aug-2023")
+message('Loading data')
+dc <- here("report", "data-cache-oct-2023")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -159,6 +160,7 @@ if (isFALSE(french)) {
 
 # ------------------------------------------------------------------------------
 # Cache stitched index
+message("Cache stitched indexes")
 dc_iphc <- file.path(dc, "iphc") # @QUESTION: should this be higher up?
 dc_stitch <- file.path(dc, "stitch-data") # Data used
 stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
@@ -168,10 +170,12 @@ sc_synoptic <- file.path(stitch_cache, "synoptic")
 sc_hbll_out <- file.path(stitch_cache, "hbll_outside")
 sc_hbll_ins <- file.path(stitch_cache, "hbll_inside")
 sc_iphc     <- file.path(stitch_cache, "iphc")
+sc_mssm     <- file.path(stitch_cache, 'mssm')
 dir.create(sc_synoptic, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_hbll_out, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_hbll_ins, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_iphc, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_mssm, showWarnings = FALSE, recursive = TRUE)
 
 # Stitch inputs
 model_type <- "st-rw"
@@ -255,6 +259,30 @@ purrr::walk(spp_vector, function(.sp) {
   }
 })
 
+# Stitch MSSM Survey if not cached
+purrr::walk(spp_vector, function(.sp) {
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
+
+  if (!file.exists(file.path(sc_mssm, spp_filename))) {
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+      filter(survey_abbrev == "MSSM WCVI")
+    # Some species not included in survey_set data frame at all, so we need to skip these
+    if (nrow(survey_dat) == 0) {
+      out <- "No MSSM survey data"
+      saveRDS(out, file.path(sc_mssm, paste0(gfsynopsis:::clean_name(.sp), "_", 'st-rw', ".rds")))
+    } else {
+      survey_dat <- prep_mssm_dat(survey_dat)
+        get_stitched_index(
+          form = 'catch ~ 1 + year_bin', # All species ID'd to lowest taxonomic level in 2003 onward
+          survey_dat = survey_dat[[.sp]], species = .sp,
+          family = sdmTMB::tweedie(),
+          survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
+          cutoff = 5, silent = FALSE,
+          grid_dir = NULL, check_cache = FALSE
+        )
+    }
+  }
+})
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
@@ -272,7 +300,7 @@ purrr::walk(spp_vector, function(.sp) {
 ###   future::plan(sequential)
 ### }
 ### parallel_processing <- FALSE
-
+message("Fit CPUE models")
 cpue_cache <- file.path("report", "cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
 xx <- spp$species_common_name
@@ -296,7 +324,7 @@ future::plan(sequential)
 
 # ------------------------------------------------------------------------------
 # This is the guts of where the figure pages get made:
-
+message("Make figure pages")
 fig_check <- file.path(build_dir, "figure-pages",
   gfsynopsis:::clean_name(spp$species_common_name))
 fig_check1 <- paste0(fig_check, "-1.", ext)

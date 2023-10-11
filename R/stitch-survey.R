@@ -37,7 +37,8 @@ prep_stitch_dat <- function(survey_dat, bait_counts) {
         grepl("HBLL", survey_abbrev) ~ hook_count * 0.0024384 * 0.009144 * 1000
       )
     ) |>
-    dplyr::mutate(hook_adjust_factor = ifelse(grepl("SYN", survey_abbrev), NA, hook_adjust_factor)) |>
+    dplyr::mutate(hook_adjust_factor = ifelse(
+      grepl("SYN", survey_abbrev), NA, hook_adjust_factor)) |>
     dplyr::mutate(offset = dplyr::case_when(
       grepl("SYN", survey_abbrev) ~ log(area_swept / 1e5),
       grepl("HBLL", survey_abbrev) ~ log(hook_count / hook_adjust_factor)
@@ -52,8 +53,46 @@ prep_stitch_dat <- function(survey_dat, bait_counts) {
     dplyr::mutate(log_hook_count = log(hook_count)) |>
     dplyr::mutate(fyear = as.factor(year)) |>
     dplyr::mutate(prop_removed = ifelse(grepl("HBLL", survey_abbrev), 1 - prop_bait_hooks, NA)) |>
-    dplyr::filter(!is.na(offset))
+    dplyr::filter(!is.na(offset), is.finite(offset))
   out
+}
+
+#' Prepare Multispecies Small Mesh (MSSM) survey set data for index stitching
+#'
+#' @param survey_dat A dataframe from `[gfplot::get_survey_sets()]`
+#'
+#' @returns A dataframe the same length as `survey_dat`
+#'
+#' @export
+prep_mssm_dat <- function(survey_dat) {
+  # Some doorspreads were missing in 2022, use the average of other 2022 doorspreads
+  mean_2022_door <- filter(survey_dat, year == 2022, doorspread_m != 0) |>
+    filter(species_code == unique(survey_dat$species_code)) |>
+    summarise(mean_door = mean(doorspread_m))
+
+  survey_dat |>
+    # This might be needed as gfdata gets updated, but currently grouping_desc
+    # is not retrieved in data call used for 2023 report.
+    #filter(grepl('WCVI Shrimp Survey Area 124|125', grouping_desc)) |>
+    sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
+    mutate(doorspread_m = ifelse((year == 2022 & doorspread_m == 0), mean_2022_door[[1]], doorspread_m)) |>
+    # @FIXME: area swept has been or will be added to gfdata function
+    dplyr::mutate(
+      area_swept1 = doorspread_m * (speed_mpm * duration_min),
+      area_swept2 = tow_length_m * doorspread_m,
+      area_swept = dplyr::case_when(
+        !is.na(area_swept2) ~ area_swept2,
+         is.na(area_swept2) ~ area_swept1)
+    ) |>
+    dplyr::mutate(offset = log(area_swept / 1e5),
+                  catch = catch_weight,
+                  present = ifelse(catch > 0, 1, 0),
+                  survey_type = 'mssm',
+                  year_bin = ifelse(year >= 2003, ">=2003", "<2003"), # All species ID'd to lowest taxonomic level in 2003 onward
+                  fyear = as.factor(year)) |>
+    dplyr::mutate(year_bin = factor(year_bin, levels = c("<2003", ">=2003"))) |>
+    dplyr::filter(!is.na(offset), is.finite(offset)) |>
+    dplyr::filter(!is.na(catch)) # small single fish like eulachon might have a count but no weight
 }
 
 
@@ -66,7 +105,7 @@ prep_stitch_dat <- function(survey_dat, bait_counts) {
 #' @returns A dataframe
 #' @export
 get_stitch_lu <- function(survey_dat, species, survey_type) {
-  stopifnot(survey_type %in% c("synoptic", "hbll_outside", "hbll_inside"))
+  stopifnot(survey_type %in% c("synoptic", "mssm", "hbll_outside", "hbll_inside"))
   survey_dat |>
     dplyr::filter(species_common_name %in% {{ species }}, survey_type %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
@@ -81,7 +120,7 @@ get_stitch_lu <- function(survey_dat, species, survey_type) {
     ) |>
     dplyr::mutate_at(c("mean_n_pos", "mean_n_sets"), round, 0) |>
     dplyr::mutate_at("prop_pos", round, 2) |>
-    dplyr::mutate(include_in_stitch = ifelse(prop_pos <= 0.05, 0, 1)) |>
+    dplyr::mutate(include_in_stitch = ifelse(prop_pos < 0.05, 0, 1)) |>
     dplyr::arrange(survey_type, species_common_name)
 }
 
@@ -153,6 +192,7 @@ choose_survey_grid <- function(survey_type, grid_dir) {
     synoptic = readRDS(file.path(grid_dir, "synoptic_grid.rds")),
     hbll_outside = readRDS(file.path(grid_dir, "hbll_out_grid.rds")),
     hbll_inside = readRDS(file.path(grid_dir, "hbll_ins_grid.rds")),
+    mssm = gfdata::mssm_grid |> filter(last_samp_year > 2008),
     stop("Invalid `survey_type` value")
   )
 }
@@ -232,7 +272,6 @@ get_stitched_index <- function(
     spatiotemporal = "rw",
     time_varying = NULL,
     time_varying_type = NULL,
-    data = survey_dat,
     mesh = NULL, cutoff = 20,
     offset = "offset",
     extra_time = NULL,
@@ -258,9 +297,11 @@ get_stitched_index <- function(
     return(out)
   }
 
-  # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
-  stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
+  if (survey_type == "mssm" & nrow(survey_dat) > 0) {
+    stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
+  }
 
+  # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   if (survey_type != "synoptic") {
     stitch_regions_df <- stitch_lu |>
       dplyr::filter(species_common_name %in% {{ species }} & survey_type %in% {{ survey_type }} &
@@ -287,7 +328,8 @@ get_stitched_index <- function(
 
   stitch_regions <- stitch_regions_df[["survey_abbrev"]]
 
-  if (length(stitch_regions) < 2) {
+  if ((survey_type != 'mssm' & length(stitch_regions) < 2) |
+      (survey_type == 'mssm' & !stitch_lu[['include_in_stitch']])) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
     out <- "insufficient data to stitch regions"
     saveRDS(out, out_filename)
@@ -382,7 +424,7 @@ get_stitched_index <- function(
     saveRDS(out, out_filename)
     return(out)
   }
-
+  fit <- readRDS(fit_filename)
   if (inherits(fit, "sdmTMB")) {
     cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
@@ -394,6 +436,10 @@ get_stitched_index <- function(
         year %in% fit$data$year
       ) |>
       droplevels()
+
+    if (survey_type == 'mssm' & length(unique(fit$data$year_bin)) == 2) {
+      newdata <- sdmTMB::replicate_df(newdata, time_name = 'year_bin', time_values = unique(fit$data$year_bin))
+    }
 
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
     # re_form_iid = NA, so obs_id ignored in prediction
