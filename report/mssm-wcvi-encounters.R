@@ -73,8 +73,9 @@ dat$val <- dat$encounter
 g1 <- make_mssm_tigure(dat)
 
 dat$val <- dat$density * 1000000
-g2 <- make_mssm_tigure(dat, fill_lab = "Mean\ndensity\n(1,000,000 kg)", digits = 1L) +
-  scale_fill_viridis_c(limits = c(NA, NA), begin = 0.15, end = 1, alpha = .9, option = "D", direction = 1, trans = "log10")
+g2 <- make_mssm_tigure(dat, fill_lab = "Mean\\\ndensity\\\n(kg/km^2^)", digits = 1L) +
+  scale_fill_viridis_c(limits = c(NA, NA), begin = 0.15, end = 1, alpha = .9, option = "D", direction = 1, trans = "log10") +
+    theme(legend.title = ggtext::element_markdown())
 
-g <- cowplot::plot_grid(g1, g2, ncol = 2L, rel_widths = c(1, 1.05))
-ggsave("figs/mssm-wcvi-tigure.png", width = 9.3, height = 7.5)
+g <- cowplot::plot_grid(g1, g2, ncol = 2L, rel_widths = c(1, 1))
+ggsave("figs/mssm-wcvi-tigure.png", width = 9.05, height = 7.5)
