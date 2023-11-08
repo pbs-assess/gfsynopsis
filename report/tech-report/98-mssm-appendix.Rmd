@@ -1,0 +1,173 @@
+# Multispecies Small-Mesh Bottom Trawl Survey (MSSM) {#app:mssm-appendix}
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE)
+```
+
+### Survey area
+
+To get estimate a biomass index for the MSSM, we created a 2x2 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125. Any grid cell that intersected with more than one survey location was retained. In this report, we used a subset of the grid cells that were last sampled between 2009 to 2019 \@ref(fig:prediction-grid). This time period covered the most consistently sampled locations in recent years. In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
+
+```{r prediction-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 2x2 km and cover all sampling locations between 2009-2019. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2019.", fig.show='hold'}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-prediction-2009.png"), dpi = NA)
+
+```
+
+Between 1975 and 1977 there was a noticeable shift of sampling locations relative to subsequent years. It is possible that this reflects surveys where they were establishing of the extents of the shrimping grounds. Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased \@ref(fig:historical-grid). However, in 2021 and 2022 sampling extended more eastward and northward to cover the original extent better than any year since 1975 \@ref(fig:spatial-shift).
+
+
+```{r historical-grid, fig.cap="Grid coverage based on year since a grid cell was last sampled. Years also correspond to changes in navigation systems or site selection protocols.", out.width="50%"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical-nav-changes_no-points.png"), dpi = NA)
+
+```
+
+```{r spatial-shift, fig.cap="Shift in sampling locations (points) for select years from the start of the survey in 1975 to 2022. Grid cells are 2x2 km and cover all sampling locations between 2009-2019."}
+knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-spatial-sampling-changes.png"), dpi = NA)
+```
+
+### Catch sorting and sampling
+
+```{r}
+post_2003_spp <- readRDS(here::here("report/mssm-appendix/post-2003-spp.rds"))
+```
+
+The most notable change to catch sorting and sampling occurred in 2003. From 2003 to present, all species have been sorted and identified to the species or lowest taxonomic level. Prior to 2003, "r length(post_2003_spp)" species had zero catch weights and catch counts. Of these, six species are caught regularly: big skate, sandpaper skate, longnose skate, blackbelly eelpout, stripetail rockfish, and slim sculpin /@ref(fig:mean-catch-pre-post-2003).
+
+
+```{r mean-catch-pre-post-2003, fig.cap="Mean annual catch (kg) of fish species listed in this synoptic report that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep)."}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-2003.png"), dpi = NA)
+
+```
+
+To check if some species were identified at higher taxonomic levels prior to 2003 we extracted data from GFBio for higher order taxonomies of species that have been identified in the MSSM survey since 2003 \@ref(spp-aggregate-plot). Sculpins and skates are the main groups that were counted at the family level prior to 2003. While flatfishes and rockfishes were most often identified to species if they were counted/weighed.
+
+
+```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="50%"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/aggregated-spp-plot.png"), dpi = NA)
+
+```
+
+Another pattern to note is that Pacific Tomcod recorded abundances decrease after 2003 and it is possible that this is the result of mis-idenfication of young pacific cod and walleye pollock prior to 2003.
+
+```{r cod-comparison, fig.cap="Mean annual catch (kg) of Pacific Cod, Pacific Tomcod, and Walleye Pollock. Grey shading highlights the period prior to full sorting and identification in 2003.", out.width="50%"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-cod.png"), dpi = NA)
+
+```
+
+
+### Modelling
+
+A geostatistical model was fit to the MSSM data for all species that had a proportion of positive sets >=5%. For the six species that do not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present. Of these species only blackbelly eelpout met the 5% coverage threshold to be modelled. As was done for the synoptic trawl surveys, we fit these models using a tweedie distribution and used $log(area swept~/~10^5)$ for the offset. In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values. Survey data were fit using a random walk on the spatial and spatiotemporal random fields. In cases where models did not converge, the spatial random field was turned off and only the spatiotmporal random field was modelled using a random walk.
+
+Results are shown in the biomass index panels on the species pages and in this appendix if:
+
+* Models converged
+* The maximum estimated CI was less than 10x the maximum estimated biomass
+* The mean coefficient of variation was less than 4
+
+Include this tid bit where?? "Additional surveys were conducted on commercial vessels in September 1977 and 1978, these have been excluded from this report."
+
+MSSM:
+- cutoff = 5
+- offset = log(area swept~/~10^5)
+- spatial = "on" unless convergence failed, then tried with spatial = 'off'
+- st = 'rw'
+
+SYN WCVI:
+- cutoff = 20
+- offset = log(area swept~/~10^5)
+- spatial = "on"
+- st = 'rw'
+
+<br>
+
+#### Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
+
+Comparisons of indices made:
+
+Modelled MSSM 2km grid ~ 3km grid
+Modelled MSSM ~ Design-based MSSM
+Modelled MSSM ~ Modelled SYN WCVI (over full SYN WCVI grid)
+Modelled MSSM ~ Modelled SYN WCVI (over MSSM only grid)
+Modelled MSSM ~ CPUE 3CD
+
+
+
+```{r, out.width="\\textwidth"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/index-model-design.png"), dpi = NA)
+```
+
+<br>
+
+```{r, out.width="\\textwidth"}
+knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-design.png"), dpi = NA)
+```
+
+<br>
+
+```{r}
+knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-syn-wcvi-model.png"), dpi = NA)
+```
+
+<br>
+
+```{r}
+knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-cpue3CD.png"), dpi = NA)
+
+```
+
+<br>
+
+```{r}
+knitr::include_graphics(here::here("report/mssm-appendix/figures/index-correlation.png"), dpi = NA)
+
+```
+
+<br>
+
+```{r}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/size-comp.png"), dpi = NA)
+
+```
+
+<br>
+
+```{r, out.width="\\textwidth"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/age-comp.png"), dpi = NA)
+
+```
+
+Include table?
+
+```{r, echo=FALSE}
+
+mssm_survey_changes <- readr::read_csv(here::here('scratch-out', 'mssm-survey-changes.csv')) |>
+  dplyr::select(Year, Change, Details)
+
+mssm_survey_changes |>
+  flextable::flextable() |>
+  flextable::fix_border_issues() |>
+  # flextable::set_table_properties(width = 0.8) |>
+  # flextable::autofit() |>
+  flextable::width(j = "Year", width = 3, unit = "cm") |>
+  flextable::width(j = "Change", width = 5, unit = "cm") |>
+  flextable::width(j = "Details", width = 13, unit = "cm") |>
+  flextable::colformat_double(big.mark = "", digits = 0) |>
+  flextable::bg(x = _, i = ~ Change == "No survey", bg = "grey95") |>
+  flextable::bg(x = _, i = ~ Change == "Sorting protocol", bg = "#fdcdac") |>
+  flextable::bg(x = _, i = ~ Change == "Tow duration reduced", bg = "#f1e2cc") |>
+  flextable::bg(x = _, i = ~ Change == "Gear", bg = "#fff2ae") |>
+  flextable::bg(x = _, i = ~ Change == "Data capture", bg = "#b3e2cd") |>
+  flextable::bg(x = _, i = ~ stringr::str_detect(Change, "Navigation"), bg = "#f4cae4") |>
+  flextable::valign(valign = "top", part = "all") |>
+  flextable::align(j = "Year", align = "center", part = "all")
+
+```

@@ -101,13 +101,17 @@ prep_mssm_dat <- function(survey_dat) {
 #' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()]
 #' @param species A string specifying the `species_common_name`
 #' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#' @param survey_col The name of the column to match `survey_type` in, one of:
+#'   "survey_abbrev", 'survey_type' (default = 'survey_abbrev')
 #'
 #' @returns A dataframe
 #' @export
-get_stitch_lu <- function(survey_dat, species, survey_type) {
-  stopifnot(survey_type %in% c("synoptic", "mssm", "hbll_outside", "hbll_inside"))
+get_stitch_lu <- function(survey_dat, species, survey_type, survey_col = 'survey_type') {
+  # stopifnot(survey_type %in% c("synoptic", "mssm", "hbll_outside", "hbll_inside",
+  #   "SYN WCVI"))
+  if (survey_type %in% c('SYN WCVI')) survey_col = 'survey_abbrev'
   survey_dat |>
-    dplyr::filter(species_common_name %in% {{ species }}, survey_type %in% {{ survey_type }}) |>
+    dplyr::filter(species_common_name %in% {{ species }}, .data[[survey_col]] %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
     dplyr::add_count(name = "n_sets") |>
     dplyr::add_tally(present, name = "n_pos") |>
@@ -178,21 +182,25 @@ prep_stitch_grids <- function(grid_dir, hbll_ins_grid_input) {
 }
 
 # Utility functions ------------------------------------------------------------
-#' Choose the survey grid matching the survey type.
+#' Choose the survey grid matching the survey type. For the MSSM survey, the grid
+#' is filtered to include only cells that were last sampled from 2009 to 2022
+#' (year grid was last updated)
+#'
 #' TODO: update with calls to gfdata once updated grid functions are added there.
 #'
-#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside"
+#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside", "mssm"
 #' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
 #'
 #' @return A dataframe containing a survey grid from [gfsynopsis::prep_stitch_grids()]
 #' @export
 #'
 choose_survey_grid <- function(survey_type, grid_dir) {
+  if (grepl("SYN", survey_type)) survey_type <- 'synoptic'
   switch(survey_type,
     synoptic = readRDS(file.path(grid_dir, "synoptic_grid.rds")),
     hbll_outside = readRDS(file.path(grid_dir, "hbll_out_grid.rds")),
     hbll_inside = readRDS(file.path(grid_dir, "hbll_ins_grid.rds")),
-    mssm = gfdata::mssm_grid |> filter(last_samp_year > 2008),
+    mssm = readRDS(file.path(grid_dir, "mssm-grid_2009-2019.rds")),
     stop("Invalid `survey_type` value")
   )
 }
@@ -253,6 +261,8 @@ add_upr <- function(
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
 #' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
+#' @param survey_grid A data frame containing the spatial grid over which predictions are to be made.
+#'    If `survey_grid` = NULL (the default). Grid should contain cell area.
 #' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
 #'
 #' @returns Either a string or dataframe:
@@ -282,6 +292,7 @@ get_stitched_index <- function(
     upr = NULL,
     cache = NULL,
     check_cache = FALSE,
+    survey_grid = NULL,
     grid_dir) {
   pred_cache <- file.path(cache, "predictions")
   fit_cache <- file.path(cache, "fits")
@@ -297,14 +308,18 @@ get_stitched_index <- function(
     return(out)
   }
 
-  if (survey_type == "mssm" & nrow(survey_dat) > 0) {
-    stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
+  if (survey_type == 'mssm' & is.null(survey_dat)) {
+    out <- "No MSSM survey data"
+    saveRDS(out, out_filename)
+    return(out)
   }
+
+  stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
 
   # Skip model fitting if fewer than 2 regions have >= 0.05 positive sets
   if (survey_type != "synoptic") {
     stitch_regions_df <- stitch_lu |>
-      dplyr::filter(species_common_name %in% {{ species }} & survey_type %in% {{ survey_type }} &
+      dplyr::filter(species_common_name %in% {{ species }} &
         include_in_stitch == 1)
   } else {
     wchg_pos_0.05 <- stitch_lu[[which(stitch_lu$survey_abbrev == "SYN WCHG"), "prop_pos"]] > 0.05
@@ -328,8 +343,9 @@ get_stitched_index <- function(
 
   stitch_regions <- stitch_regions_df[["survey_abbrev"]]
 
-  if ((survey_type != 'mssm' & length(stitch_regions) < 2) |
-      (survey_type == 'mssm' & !stitch_lu[['include_in_stitch']])) {
+  if ((survey_type %in% c('synoptic', 'hbll_outside', 'hbll_inside') &
+       length(stitch_regions) < 2) |
+      (survey_type %in% c('mssm', 'SYN WCVI') & length(stitch_regions) == 0)) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
     out <- "insufficient data to stitch regions"
     saveRDS(out, out_filename)
@@ -414,30 +430,50 @@ get_stitched_index <- function(
     stop("Invalid `model_type` value")
   )
 
+  sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
+
+  # Turn off spatial fields for MSSM if model doesn't fit
+  if (survey_type == 'mssm' && !sanity_check) {
+    message("Sanity check failed, refitting with spatial = 'off'")
+    fit <- try(
+      sdmTMB::sdmTMB(
+        formula = form, family = family,
+        time = "year", spatiotemporal = "rw", spatial = "off",
+        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        silent = silent, control = ctrl
+      )
+    )
+    sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
+  }
+
   fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
   cat("\n\tSaving:", fit_filename, "\n")
   saveRDS(fit, fit_filename)
 
-  if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))) {
+  if (!sanity_check) {
     cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
     out <- "Failed sanity check"
     saveRDS(out, out_filename)
     return(out)
   }
-  fit <- readRDS(fit_filename)
+
+  #fit <- readRDS(fit_filename)
   if (inherits(fit, "sdmTMB")) {
     cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
-    grid <- choose_survey_grid(survey_type, grid_dir)
-    newdata <- sdmTMB::replicate_df(dat = grid, time_name = "year", time_values = year_range_seq) |>
+
+    # Allow vbariable input of grids
+    if (is.null(survey_grid)) survey_grid <- choose_survey_grid(survey_type, grid_dir)
+
+    newdata <- sdmTMB::replicate_df(dat = survey_grid, time_name = "year", time_values = year_range_seq) |>
       dplyr::filter(
         survey %in% fit$data$survey_abbrev,
         year %in% fit$data$year
       ) |>
       droplevels()
 
-    if (survey_type == 'mssm' & length(unique(fit$data$year_bin)) == 2) {
+    if (survey_type == 'mssm' & isTRUE(grep('year_bin', form))) {
       newdata <- sdmTMB::replicate_df(newdata, time_name = 'year_bin', time_values = unique(fit$data$year_bin))
     }
 

@@ -258,31 +258,38 @@ purrr::walk(spp_vector, function(.sp) {
       check_cache = TRUE)
   }
 })
+#future::plan(sequential)
 
 # Stitch MSSM Survey if not cached
+#future::plan(future::multicore, workers = 8)
+#furrr::future_walk(spp_vector, function(.sp) {
 purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
-  if (!file.exists(file.path(sc_mssm, spp_filename))) {
+    if(!file.exists(file.path(sc_iphc, spp_filename))) {
+
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "MSSM WCVI")
     # Some species not included in survey_set data frame at all, so we need to skip these
     if (nrow(survey_dat) == 0) {
       out <- "No MSSM survey data"
-      saveRDS(out, file.path(sc_mssm, paste0(gfsynopsis:::clean_name(.sp), "_", 'st-rw', ".rds")))
+      message(out)
+      saveRDS(out, file.path(sc_mssm, spp_filename))
     } else {
       survey_dat <- prep_mssm_dat(survey_dat)
-        get_stitched_index(
-          form = 'catch ~ 1 + year_bin', # All species ID'd to lowest taxonomic level in 2003 onward
-          survey_dat = survey_dat[[.sp]], species = .sp,
-          family = sdmTMB::tweedie(),
-          survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
-          cutoff = 5, silent = FALSE,
-          grid_dir = NULL, check_cache = FALSE
-        )
+
+      get_stitched_index(
+        form = 'catch ~ 1',
+        survey_dat = survey_dat, species = .sp,
+        family = sdmTMB::tweedie(),
+        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
+        cutoff = 5, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
     }
   }
 })
+#future::plan(sequential)
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
@@ -423,7 +430,7 @@ purrr::walk(to_build, function(i) {
   })
 # future::plan(sequential)
 beepr::beep()
-stop()
+
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
 if (!french) {

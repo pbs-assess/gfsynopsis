@@ -84,11 +84,13 @@ Updates:
 Since 1973, DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island.
 This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
 The survey typically occurs in late April to May with exceptions in 1985 (May 24--June 7) and in 1987 (August 4--14).
+
 Since 1973, changes to the fishing gear used and changes to catch sorting may affect interpretation of the data.
-Trawl nets were changed in 1976, 2005, and 2006. And notably, catch sorting has changed as follows:
+Trawl nets were changed in 1976 and 2006. And notably, catch sorting has changed as follows:
   - From 1973 - 1976, large species weights were estimated using random sampling
   - Since 1978 large fish were sorted and weighed
-  - Since 2001 all species, including small species were sorted and weighed
+  - In 2001 all catch was sorted along a conveyor belt
+  - Since 2003 all species have been sorted to the species or lowest taxonomic level and weighed
 
 The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) Flemming R (2013) TODO REF. Additional survey details can be found in Rutherford et al. (in prep) TODO REF.
 
@@ -106,28 +108,12 @@ Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fi
 - For the IPHC FISS, the spatial grid of sampling stations from 2017 was used for predictions. The grid from 2017 represents a standard sampling grid, which matches the survey domain of the majority of the IPHC FISS data (e.g., unlike the 2018 expansion year). Similar to the IPHC design-based index only stations declared as usable and standard (REF?)
 - Difference from 2019: we used nbinom2 for HBLL and IPHC surveys.
 - I said that we stitched for >= 5% but we don't include if model didn't fit
-- Mesh cutoff: 20 for all surveys
+- Mesh cutoff: 20 for all surveys except for MSSM which has mesh cutoff = 5
 -`formula = catch ~ 1, family = tweedie or nbinom2, time = "year", spatiotemporal = "rw", spatial = "on"`
 - Offset for IPHC was log(effSkate * hook_adjust_factor) with ICR method
 - Offset for HBLL is now (remember to empty HBLL stitched caches) log(hook_count / hook_adjust_factor) with ICR method
-- Offset for SYN was log(area_swept / 1e5)
+- Offset for SYN and MSSM was log(area_swept / 1e5)
 
-<!-- From 999-survey-index.Rmd -->
-We can then calculate area-weighted expected biomass $B_t$ in year $t$ as:
-
-TODO
-
-<!-- \begin{equation} -->
-<!-- B_t = \sum_{j = 1}^{n_j} -->
-<!--   w_j \cdot \exp \left( \bm{X}_{j,t} \bm{\beta} + \omega_j + \epsilon_{j,t} \right), -->
-<!-- \end{equation} -->
-
-where $j$ references a 2 km $\times$ 2 km grid cell within the survey domain
-and $w_j$ represents the weight or area of that grid cell (4 km^2^). 
-In other words, we sum the predicted biomass
-across all grid cells within the survey domain for each year. We generated
-standard errors on the annual estimates of log biomass via the generalized
-Delta method as implemented in TMB [@kristensen2016].
 
 ### IPHC update
 
