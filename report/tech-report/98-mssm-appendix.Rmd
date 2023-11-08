@@ -14,10 +14,10 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-prediction
 
 ```
 
-Between 1975 and 1977 there was a noticeable shift of sampling locations relative to subsequent years. It is possible that this reflects surveys where they were establishing of the extents of the shrimping grounds. Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased \@ref(fig:historical-grid). However, in 2021 and 2022 sampling extended more eastward and northward to cover the original extent better than any year since 1975 \@ref(fig:spatial-shift).
+Between 1975 and 1977 there was a noticeable shift of sampling locations relative to subsequent years. It is possible that this reflects surveys where they were establishing of the extents of the shrimping grounds. Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased \@ref(fig:historical-grid). However, in 2022 sampling extended eastward and northward to cover the original extent better than any year since 1975 \@ref(fig:spatial-shift).
 
 
-```{r historical-grid, fig.cap="Grid coverage based on year since a grid cell was last sampled. Years also correspond to changes in navigation systems or site selection protocols.", out.width="50%"}
+```{r historical-grid, fig.cap="Grid coverage based on the last year, prior to 2019, that a grid cell was last sampled. Darker shades indicate more recent years and correspond to changes in navigation systems (1979 and 1998).", out.width="50%"}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical-nav-changes_no-points.png"), dpi = NA)
 
@@ -84,6 +84,7 @@ SYN WCVI:
 - spatial = "on"
 - st = 'rw'
 
+
 <br>
 
 #### Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
@@ -97,41 +98,68 @@ Modelled MSSM ~ Modelled SYN WCVI (over MSSM only grid)
 Modelled MSSM ~ CPUE 3CD
 
 
+- All fits have been scaled to geometric mean of estimated biomass in the years that the series overlap.
 
-```{r, out.width="\\textwidth"}
+Modelled MSSM 2km grid ~ 3km grid - look similar now that the grids have been fixed. 3km grid is less patchy, but 2km would match SYN grid. To be consistent we used the 2x2 km prediction grid.
+
+```{r, fig.cap="Spatial grids of 2x2 km (left) and 3x3 km (right) grid size, overlaid on all sampled locations."}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/2km-3km-grid-comp.png"), dpi = NA)
+
+```
+
+<br>
+
+```{r, fig.cap="Comparison of relative biomass indices predicted on spatial grids of 2x2 km (green) and 3x3 km (orange) grid size, overlaid on all sampled locations.", out.width="\\textwidth"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/2km-3km-grid-model-comp.png"), dpi = NA)
+
+```
+
+
+
+
+```{r, fig.cap="Modelled index predicted on 2km grid compared with design-based index."}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-model-design.png"), dpi = NA)
 ```
 
 <br>
 
-```{r, out.width="\\textwidth"}
+Not all models fit the MSSM, this plot is the index only, but these are also shown in the individual species panels so I don't know if you want this here as well. But not sure if this should be a bit stand alone so people don't have to flip back and forth
+
+```{r, fig.cap='design based index only'}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-design.png"), dpi = NA)
 ```
 
 <br>
 
-```{r}
+
+```{r, fig.cap="Modelled MSSM index predicted on 2km MSSM grid compared to modelled SYN WCVI predicted on SYN WCVI grid."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-syn-wcvi-model.png"), dpi = NA)
+```
+
+```{r, fig.cap="Modelled MSSM index predicted on 2km MSSM grid compared to modelled SYN WCVI predicted on MSSM grid."}
+knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-syn-wcvi-model-mssm-grid.png"), dpi = NA)
 ```
 
 <br>
 
-```{r}
+```{r, fig.cap="Modelled MSSM index predicted on 2km MSSM grid compared to CPUE 3CD..."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-cpue3CD.png"), dpi = NA)
 
 ```
 
 <br>
 
-```{r}
+```{r, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. X-axis is the first year of the rolling window (e.g., 1996 - 2006). Only species that had a mean correlation >= 0.5 are shown. "}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-correlation.png"), dpi = NA)
 
 ```
 
 <br>
 
-```{r}
+```{r, fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/size-comp.png"), dpi = NA)
 
@@ -139,7 +167,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/size-comp.png")
 
 <br>
 
-```{r, out.width="\\textwidth"}
+```{r, out.width="50%", fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/age-comp.png"), dpi = NA)
 
