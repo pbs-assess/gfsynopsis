@@ -471,7 +471,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
 })
 
-future::plan(sequential)
+future::plan(future::sequential)
 beepr::beep()
 
 # Use 2km grid
@@ -502,7 +502,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
 })
 
-future::plan(sequential)
+future::plan(future::sequential)
 beepr::beep()
 
 
