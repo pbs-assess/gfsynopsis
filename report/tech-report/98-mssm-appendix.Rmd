@@ -1,6 +1,6 @@
 # Multispecies Small-Mesh Bottom Trawl Survey (MSSM) {#app:mssm-appendix}
 
-### Survey area
+## Survey area
 
 To estimate biomass index for the MSSM, we created a 2 $\times$ 2 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
 Any grid cell that intersected with more than one survey location was retained.
@@ -8,14 +8,14 @@ In this report, we used a subset of the grid cells that were last sampled betwee
 This time period covered the most consistently sampled locations in recent years.
 In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
 
-```{r prediction-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 2x2 km and cover all sampling locations between 2009-2019. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2019.", fig.show='hold'}
+```{r prediction-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 2x2 km and cover all sampling locations between 2009-2019. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2019.", fig.show='hold', out.width="4in"}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-prediction-2009.png"), dpi = NA)
 
 ```
 
 Between 1975 and 1977, there was a noticeable shift of sampling locations relative to subsequent years.
-It is possible that this reflects surveys where they were establishing of the extents of the shrimping grounds.
+It is possible that this reflects surveys where they were establishing the extent of the shrimping grounds.
 Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased \@ref(fig:historical-grid). 
 However, in 2022 sampling extended eastward and northward to cover the original extent better than any year since 1975 \@ref(fig:spatial-shift).
 
@@ -29,7 +29,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical
 knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-spatial-sampling-changes.png"), dpi = NA)
 ```
 
-### Catch sorting and sampling
+## Catch sorting and sampling
 
 ```{r}
 post_2003_spp <- readRDS(here::here("report/mssm-appendix/post-2003-spp.rds"))
@@ -37,9 +37,10 @@ post_2003_spp <- readRDS(here::here("report/mssm-appendix/post-2003-spp.rds"))
 
 The most notable change to catch sorting and sampling occurred in 2003.
 From 2003 to present, all species have been sorted and identified to the species or lowest taxonomic level.
-Prior to 2003, `r length(post_2003_spp)` species had zero catch weights and catch counts. Of these, six species are caught regularly: big skate, sandpaper skate, longnose skate, blackbelly eelpout, stripetail rockfish, and slim sculpin \@ref(fig:mean-catch-pre-post-2003).
+Prior to 2003, `r length(post_2003_spp)` species had zero catch weights and catch counts.
+Of these, six species are caught regularly: big skate, sandpaper skate, longnose skate, blackbelly eelpout, stripetail rockfish, and slim sculpin Figure \@ref(fig:mean-catch-pre-post-2003).
 
-```{r mean-catch-pre-post-2003, fig.cap="Mean annual catch (kg) of fish species listed in this synoptic report that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep)."}
+```{r mean-catch-pre-post-2003, fig.cap="Mean annual catch (kg) of fish species listed in this synoptic report that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width = "\\textwidth"}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-2003.png"), dpi = NA)
 
@@ -63,7 +64,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-cod.pn
 
 ```
 
-### Modelling
+## Modelling
 
 We fit a geostatistical model to the MSSM data for all species that had a proportion of positive sets $\ge$ 5%. 
 For the six species that do not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present. 
@@ -93,7 +94,7 @@ SYN WCVI:
 - spatial = "on"
 - st = 'rw'
 
-#### Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
+### Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
 
 Comparisons of indices made:
 
@@ -143,6 +144,8 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-mode
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-cpue3CD.png"), dpi = NA)
 
 ```
+
+TODO: this has all species!?
 
 ```{r, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. X-axis is the first year of the rolling window (e.g., 1996 - 2006). Only species that had a mean correlation >= 0.5 are shown. "}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-correlation.png"), dpi = NA)
