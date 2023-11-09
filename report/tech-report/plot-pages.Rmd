@@ -1194,7 +1194,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-maliger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274815)\
 Last Research Document: @yamanaka2011quillback\
-Last Science Advisory Reports: @dfo2011quillback, @dfo2023quillback\
+Last Science Advisory Reports: @dfo2023quillback_inside, @dfo2023quillback_outside\
 COSEWIC Status Report: @cosewic2009quillback\
 COSEWIC Status: Threatened, SARA Status: No Status
 
