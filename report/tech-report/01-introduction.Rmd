@@ -60,7 +60,7 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, and @synopsis2022.
 
-We first summarize all major changes. We include methodological details on coastwide spatiotemporal survey modelling in Appendix TODO.
+We first summarize all major changes. We include methodological details on coastwide spatiotemporal survey modelling in Appendix \@ref(app:stitching).
 
 Updates:
 
@@ -70,9 +70,9 @@ Updates:
 
 * We added length and age composition data for the Inside HBLL survey.
 
-* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix TODO provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
+* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix \@ref(app:mssm) provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
 
-* We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (their Appendix E and F). We expand on details of the approach in this report's Appendix TODO.
+* We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (their Appendix E and F). We expand on details of the approach in this report's Appendix \@ref(app:stitching).
 
 * We fixed an important erratum: the 2022 report Synoptic survey and HBLL OUT survey maps erroneously displayed data for 2018 and 2019 rather than 2020 and 2021. In this report, we confirm that the maps are displaying the intended 2021 and 2022 survey data.
 
@@ -97,21 +97,6 @@ Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fi
 
 
 <!-- TODO: update table 1 -->
-
-### Spatial modelling
-
-- A single model was fit to the combined data from each type of survey.
-- Model-based indices were fit and are presented when the total proportion of positive sets across a survey type was >= 5%.
-- Due to the higher variability in sampling done off the West Coast Haida Gwaii (WCHG) and deeper depth strata?, when the proportion of postive sets in WCHG was < 5% it was omitted.
-- The expected biomass density was predicted over the combined survey grid.
-- For the IPHC FISS, the spatial grid of sampling stations from 2017 was used for predictions. The grid from 2017 represents a standard sampling grid, which matches the survey domain of the majority of the IPHC FISS data (e.g., unlike the 2018 expansion year). Similar to the IPHC design-based index only stations declared as usable and standard (REF?)
-- Difference from 2019: we used nbinom2 for HBLL and IPHC surveys.
-- I said that we stitched for >= 5% but we don't include if model didn't fit
-- Mesh cutoff: 20 for all surveys except for MSSM which has mesh cutoff = 5
--`formula = catch ~ 1, family = tweedie or nbinom2, time = "year", spatiotemporal = "rw", spatial = "on"`
-- Offset for IPHC was log(effSkate * hook_adjust_factor) with ICR method
-- Offset for HBLL is now (remember to empty HBLL stitched caches) log(hook_count / hook_adjust_factor) with ICR method
-- Offset for SYN and MSSM was log(area_swept / 1e5)
 
 
 ### IPHC update
