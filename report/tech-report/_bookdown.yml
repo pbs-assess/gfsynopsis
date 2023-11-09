@@ -5,6 +5,7 @@ rmd_files: ["index.Rmd",
   "plot-pages.Rmd",
   "90-appendix-start.Rmd",
   "98-mssm-appendix.Rmd",
+  "999-appendix-end.Rmd",
   "99-bibliography.Rmd"
 ]
 delete_merged_file: true

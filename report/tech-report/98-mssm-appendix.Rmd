@@ -1,9 +1,5 @@
 # Multispecies Small-Mesh Bottom Trawl Survey (MSSM) {#app:mssm-appendix}
 
-```{r, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE, message=FALSE)
-```
-
 ### Survey area
 
 To get estimate a biomass index for the MSSM, we created a 2x2 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125. Any grid cell that intersected with more than one survey location was retained. In this report, we used a subset of the grid cells that were last sampled between 2009 to 2019 \@ref(fig:prediction-grid). This time period covered the most consistently sampled locations in recent years. In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
@@ -33,7 +29,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-spatial-sa
 post_2003_spp <- readRDS(here::here("report/mssm-appendix/post-2003-spp.rds"))
 ```
 
-The most notable change to catch sorting and sampling occurred in 2003. From 2003 to present, all species have been sorted and identified to the species or lowest taxonomic level. Prior to 2003, "r length(post_2003_spp)" species had zero catch weights and catch counts. Of these, six species are caught regularly: big skate, sandpaper skate, longnose skate, blackbelly eelpout, stripetail rockfish, and slim sculpin /@ref(fig:mean-catch-pre-post-2003).
+The most notable change to catch sorting and sampling occurred in 2003. From 2003 to present, all species have been sorted and identified to the species or lowest taxonomic level. Prior to 2003, "r length(post_2003_spp)" species had zero catch weights and catch counts. Of these, six species are caught regularly: big skate, sandpaper skate, longnose skate, blackbelly eelpout, stripetail rockfish, and slim sculpin \@ref(fig:mean-catch-pre-post-2003).
 
 
 ```{r mean-catch-pre-post-2003, fig.cap="Mean annual catch (kg) of fish species listed in this synoptic report that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep)."}
@@ -124,16 +120,11 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/2km-3km-grid-mo
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-model-design.png"), dpi = NA)
 ```
 
-<br>
-
 Not all models fit the MSSM, this plot is the index only, but these are also shown in the individual species panels so I don't know if you want this here as well. But not sure if this should be a bit stand alone so people don't have to flip back and forth
 
 ```{r, fig.cap='design based index only'}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-design.png"), dpi = NA)
 ```
-
-<br>
-
 
 ```{r, fig.cap="Modelled MSSM index predicted on 2km MSSM grid compared to modelled SYN WCVI predicted on SYN WCVI grid."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-syn-wcvi-model.png"), dpi = NA)
@@ -143,21 +134,17 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-mode
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-syn-wcvi-model-mssm-grid.png"), dpi = NA)
 ```
 
-<br>
-
 ```{r, fig.cap="Modelled MSSM index predicted on 2km MSSM grid compared to CPUE 3CD..."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-model-cpue3CD.png"), dpi = NA)
 
 ```
 
-<br>
 
 ```{r, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. X-axis is the first year of the rolling window (e.g., 1996 - 2006). Only species that had a mean correlation >= 0.5 are shown. "}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-correlation.png"), dpi = NA)
 
 ```
 
-<br>
 
 ```{r, fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
 
@@ -165,7 +152,6 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/size-comp.png")
 
 ```
 
-<br>
 
 ```{r, out.width="50%", fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
 
@@ -175,9 +161,9 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/age-comp.png"),
 
 Include table?
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 
-mssm_survey_changes <- readr::read_csv(here::here('scratch-out', 'mssm-survey-changes.csv')) |>
+mssm_survey_changes <- readr::read_csv(here::here('report', 'mssm-appendix', 'mssm-survey-changes.csv')) |>
   dplyr::select(Year, Change, Details)
 
 mssm_survey_changes |>
