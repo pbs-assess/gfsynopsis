@@ -68,17 +68,17 @@ mssm_dat <- spp_dat |>
   filter(!(year %in% 1977:1978 & month == 9)) |> # Filter out the extra sampling
   mutate(gear = case_when( # add gear type change
     year < 1977 ~ 'shrimp balloon',
-    year < 2006 & year > 1977 ~ 'nmfs',
-    year > 2006 ~ 'american',
-    year == 2006 & fishing_event_id %in% c(1158541, 1158542) ~ 'american',
-    year == 2006 & fishing_event_id %in% c(1158559, 1158560) ~ 'nmfs',
-    year == 2006 & !(fishing_event_id %in% c(1158541, 1158542, 1158559, 1158560)) ~ 'american'
+    year < 2006 & year > 1977 ~ 'NMFS',
+    year > 2006 ~ 'American',
+    year == 2006 & fishing_event_id %in% c(1158541, 1158542) ~ 'American',
+    year == 2006 & fishing_event_id %in% c(1158559, 1158560) ~ 'NMFS',
+    year == 2006 & !(fishing_event_id %in% c(1158541, 1158542, 1158559, 1158560)) ~ 'American'
     )
 )
 
 # Check the two 'calibration tows' done in 2006
-comp_trawls <- c('american-1' = 1158541, 'nmfs-1' = 1158559,
-  'american-2' = 1158542, 'nmfs-2' = 1158560) |>
+comp_trawls <- c('American-1' = 1158541, 'NMFS-1' = 1158559,
+  'American-2' = 1158542, 'NMFS-2' = 1158560) |>
   enframe(name = 'net_tow', value = 'fishing_event_id') |>
   separate(net_tow, into = c("net", "tow"), sep = "-")
 
@@ -86,6 +86,38 @@ comp_trawls <- c('american-1' = 1158541, 'nmfs-1' = 1158559,
 #   filter(year == 2006, fishing_event_id %in% comp_trawls$fishing_event_id) |>
 #   select(year, species_common_name, fishing_event_id, catch_weight, gear) |>
 #   arrange(fishing_event_id, -catch_weight)
+
+# --- Gear change ----
+net_comp_df <- mssm_dat |>
+  filter(fishing_event_id %in% comp_trawls$fishing_event_id) |>
+  left_join(comp_trawls) |>
+  group_by(net, species_common_name) |>
+  summarise(mean_catch = mean(catch)) |>
+  ungroup() |>
+  mutate(net = factor(net, levels = c('American', 'NMFS'))) |>
+  group_by(species_common_name) |>
+  filter(sum(mean_catch) > 0) |>
+  ungroup()
+
+tow_plot <-
+  ggplot(data = net_comp_df, aes(x = net, y = mean_catch, colour = species_common_name, group = species_common_name)) +
+    geom_point() +
+    geom_line() +
+    scale_y_continuous(trans = 'log10', labels = scales::label_number(accuracy = 0.1)) +
+    scale_x_discrete() +
+    guides(colour = 'none') +
+    coord_cartesian(clip = "off", xlim = c(1.4, 2.7)) +
+    ggrepel::geom_text_repel(
+      data = net_comp_df %>% filter(net == 'NMFS'),
+      aes(label = species_common_name, x = net, y = mean_catch, colour = species_common_name),
+      size = 3.5, hjust = 1, segment.color = 'grey85',
+      nudge_x = 1.5, box.padding = 0.1, point.padding = 0.8,
+      direction = "y"
+    ) +
+    labs(y = 'Catch (kg)', x = 'Net')
+tow_plot
+
+ggsave(filename = file.path(mssm_figs, 'net-comp.png'), width = 4.2, height = 7.5)
 
 # Make 3x3 km grid
 pcod_dat <-
