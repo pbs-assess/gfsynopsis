@@ -1,0 +1,74 @@
+# Estimating coastwide population indices with spatiotemporal models {#app:stitching}
+
+We can represent the spatiotemporal model we used to "stitch" related surveys as
+
+\begin{align}
+\mathbb{E}[y_{\boldsymbol{s},t}] &= \mu_{\boldsymbol{s},t},\\
+\mu_{\boldsymbol{s},t} &=
+\exp \left( \eta_{\boldsymbol{s}, t} \right),\\
+\eta_{\boldsymbol{s}, t} &= 
+\omega_{\boldsymbol{s}} +
+\delta_{\boldsymbol{s},t} +
+O_{\boldsymbol{s},t}.
+\end{align}
+
+Here, the expected value of y $\mathbb{E}[y_{\boldsymbol{s},t}]$ at spatial coordinates $\boldsymbol{s}$ and time (year) $t$ is the mean at that point in space and time $\mu_{\boldsymbol{s},t}$.
+That mean is equal to an inverse link function (exp here) applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
+The linear predictor is comprised of a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$,
+a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
+and an "offset" $O_{\boldsymbol{s},t}$.
+The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for survey effort (area swept or hooks fished).
+
+The spatial Gaussian random field is assumed drawn from a multivariate normal (MVN) distribution with covariance matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function
+
+\begin{equation}
+\boldsymbol{\omega} \sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\omega}).
+\end{equation}
+
+The spatiotemporal portion is structured as a random walk with Gaussian random field annual innovations
+
+\begin{align}
+\boldsymbol{\delta}_{t=1} &\sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon}),\\
+\boldsymbol{\delta}_{t>1} &= \boldsymbol{\delta}_{t-1} +  \boldsymbol{\epsilon_{t-1}},  \:
+\boldsymbol{\epsilon_{t-1}} \sim \operatorname{MVNormal} \left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon} \right).
+\end{align}
+
+We apply a Tweedie observation likelihood in the case of the trawl survey data, which samples catch weight
+
+\begin{equation}
+y_{\boldsymbol{s},t} \sim \operatorname{Tweedie} \left(\mu_{\boldsymbol{s},t}, p, \phi_{\mathrm{Tweedie}} \right), \: 1 < p < 2.
+\end{equation}
+
+In the case of the hook and line surveys, which sample catch count, we apply a negative binomial ('NB2') observation likelihood where the variance scales quadratically with the mean
+
+\begin{equation}
+y_{\boldsymbol{s},t} \sim \operatorname{NB2} \left( \mu_{\boldsymbol{s},t}, \phi_{\mathrm{NB2}} \right).
+\end{equation}
+
+For the hook and line surveys (IPHC, HBLL OUT, HBLL INS), we applied an "instantaneous catch rate" ICR correction factor to the observed counts based on the number of baited hooks returned (REF).
+We explored a censored Poisson likelihood (REF), but found a poorer fit to the data and model convergence issues.
+We plan to revisit this in a future version of the report.
+
+We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields using Gaussian Markov random fields for computational efficiency using the R (REF) package sdmTMB (REF).
+This SPDE approach requires creating triangulation "meshes" (REF).
+We constructed our meshes with a minimum triangle edge length of 20 km for the SYN, HBLL, and IPHC models and with an edge length of 5 km for the MSSM WCVI survey, which was smaller in size.
+
+We fit our models to all species where the proportion of positive sets across all observed survey sets was $\ge$ 5%.
+Due to the smaller survey area, deeper depth strata, and geographical distance to the other synoptic surveys, when the proportion of positive sets in SYN WCHG was $<$ 5%, this survey was omitted from the modelling.
+We omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (i.e., that their standard editions were $>$ 0.01).
+
+From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells.
+
+
+<!-- - A single model was fit to the combined data from each type of survey. -->
+<!-- - The expected biomass density was predicted over the combined survey grid. -->
+<!-- - For the IPHC FISS, the spatial grid of sampling stations from 2017 was used for predictions. The grid from 2017 represents a standard sampling grid, which matches the survey domain of the majority of the IPHC FISS data (e.g., unlike the 2018 expansion year). Similar to the IPHC design-based index only stations declared as usable and standard (REF?) -->
+<!-- - Difference from 2019: we used nbinom2 for HBLL and IPHC surveys. -->
+<!-- - I said that we stitched for >= 5% but we don't include if model didn't fit -->
+<!-- - Mesh cutoff: 20 for all surveys except for MSSM which has mesh cutoff = 5 -->
+<!-- -`formula = catch ~ 1, family = tweedie or nbinom2, time = "year", spatiotemporal = "rw", spatial = "on"` -->
+<!-- - Offset for IPHC was log(effSkate * hook_adjust_factor) with ICR method -->
+<!-- - Offset for HBLL is now (remember to empty HBLL stitched caches) log(hook_count / hook_adjust_factor) with ICR method -->
+<!-- - Offset for SYN and MSSM was log(area_swept / 1e5) -->
+
+\clearpage
