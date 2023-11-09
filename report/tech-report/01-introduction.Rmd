@@ -9,7 +9,7 @@ The combination of fishery-dependent data, such as catch and effort, and fishery
 Fisheries and Oceans Canada (DFO) manages vast quantities of such data on groundfish species in British Columbia (BC).
 However, formal stock assessments are not conducted on an annual basis for most stocks, and so much of these data are not summarized to represent the nature of the data holdings.
 
-The groundfish data synopsis report was developed to provide a snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
+The original groundfish data synopsis report was developed to provide a snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
 The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
 In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2022].
 In this version, we update the report to include 2022 data as well as adding several additional species, surveys, and spatiotemporal modeling of survey data. We also update referenced stock assessment Research Documents, Science Advisory Reports, and Science Responses.
@@ -60,7 +60,7 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, and @synopsis2022.
 
-Have we first summarize all major changes. We include methodological details on coastwide spatiotemporal survey modelling in Appendix TODO.
+We first summarize all major changes. We include methodological details on coastwide spatiotemporal survey modelling in Appendix TODO.
 
 Updates:
 
@@ -70,12 +70,11 @@ Updates:
 
 * We added length and age composition data for the Inside HBLL survey.
 
-* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear.
+* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix TODO provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
 
-* We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (Appendix E and F). We expand on details of the approach in this report's Appendix TODO.
+* We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (their Appendix E and F). We expand on details of the approach in this report's Appendix TODO.
 
 * We fixed an important erratum: the 2022 report Synoptic survey and HBLL OUT survey maps erroneously displayed data for 2018 and 2019 rather than 2020 and 2021. In this report, we confirm that the maps are displaying the intended 2021 and 2022 survey data.
-
 
 ## Stuff to go in appendices?
 
@@ -119,12 +118,6 @@ Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fi
 
 The methods for calculating the IPHC design-based index remain unchanged from those described in @anderson2019synopsis and (DFO 2022 - Synopsis TODO REF), except for the following:
 
-1. Species identification has improved over time for some species. For example, the average catch rate of 'Unidentified Skates' was almost 1 fish per effective skate from 1995–1999, but then declined to near zero because Big Skate and Longnose Skate were both explicitly identified from 1998 onwards. The more rarely caught Aleutian Skate and Sandpaper Skate only shows up in the data from 2006 onwards. Such changes in protocol can be the cause of zero counts early in the time series for some species and so these data points have been omitted. See [HG predator analysis vignette](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/analysis_for_HG_herring_predators.html). Similarly the Shortspine Thornyhead only shows up in the data in 1998 and was likely classified under 'Unidentified Thornyhead (idiot)'.
+1. Species identification has improved over time for some species. For example, the average catch rate of 'Unidentified Skates' was almost 1 fish per effective skate from 1995–1999, but then declined to near zero because Big Skate and Longnose Skate were both explicitly identified from 1998 onwards. The more rarely caught Aleutian Skate and Sandpaper Skate only appear in the data from 2006 onwards. Such changes in protocol can be the cause of zero counts early in the time series for some species and so these data points have been omitted. See [HG predator analysis vignette](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/analysis_for_HG_herring_predators.html). Similarly the Shortspine Thornyhead only appears in the data in 1998 and was likely classified under 'Unidentified Thornyhead (idiot)' previously.
 
 2. Similar to 2021, in 2022 waters off the WCVI were surveyed but only for a subsample of stations. This may affect the determination of whether or not Series AB can be considered representative of the full coast and is one reason why a model-based index may be preferable.
-
----
-
-## Erratum
-
-The 2022 report Survey Biomass Maps for the Synoptic Bottom Trawl Surveys displayed data and model estimates for 2018 and 2019 rather than 2020 and 2021.
