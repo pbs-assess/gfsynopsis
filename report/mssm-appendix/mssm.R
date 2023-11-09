@@ -1314,3 +1314,19 @@ design <- "
 "
 p_sculpin + p_skate + plot_layout(design = design)
 ggsave(filename = file.path(mssm_figs, 'agg-sculpin-skate.png'), width = 7, height = 7)
+
+optimize_png <- TRUE
+if (optimize_png) {
+  cores <- parallel::detectCores()
+  files_per_core <- 4L
+  wd <- getwd()
+  setwd(here::here("report", "mssm-appendix", "figures"))
+  if (!gfplot:::is_windows()) {
+    system(paste0(
+      "find -X . -name '*.png' -print0 | xargs -0 -n ",
+      files_per_core, " -P ", cores, " optipng -strip all"
+    ))
+  }
+  setwd(wd)
+}
+
