@@ -201,8 +201,9 @@ prep_stitch_grids(
 # -----
 
 # Stitch surveys if not cached
-#furrr::future_walk(spp_vector, function(.sp) {
-  purrr::walk(spp_vector, function(.sp) {
+future::plan(multisession, workers = 3L)
+furrr::future_walk(spp_vector, function(.sp) {
+  # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
   stitch_cached_sp <- file.path(c(sc_synoptic, sc_hbll_out, sc_hbll_ins), spp_filename)
 
@@ -231,11 +232,11 @@ prep_stitch_grids(
     check_cache = TRUE
   )
 })
-#future::plan(sequential)
+future::plan(sequential)
 
 # Stitch IPHC surveys if not cached
-#furrr::future_walk(spp_vector, function(.sp) {
-purrr::walk(spp_vector, function(.sp) {
+furrr::future_walk(spp_vector, function(.sp) {
+# purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
   if(!file.exists(file.path(sc_iphc, spp_filename))) {
@@ -258,12 +259,12 @@ purrr::walk(spp_vector, function(.sp) {
       check_cache = TRUE)
   }
 })
-#future::plan(sequential)
+# future::plan(sequential)
 
 # Stitch MSSM Survey if not cached
-#future::plan(future::multicore, workers = 8)
-#furrr::future_walk(spp_vector, function(.sp) {
-purrr::walk(spp_vector, function(.sp) {
+future::plan(future::multicore, workers = 5)
+furrr::future_walk(spp_vector, function(.sp) {
+# purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
     if(!file.exists(file.path(sc_iphc, spp_filename))) {
@@ -289,24 +290,12 @@ purrr::walk(spp_vector, function(.sp) {
     }
   }
 })
-#future::plan(sequential)
+future::plan(sequential)
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
 
-### parallel_processing <- TRUE
-### # Set up parallel processing or sequential
-### options(future.globals.maxSize = 2000 * 1024 ^ 2) # 2000 mb
-### if (parallel_processing) {
-###   if (!is_rstudio && is_unix) {
-###     future::plan(multicore, workers = cores)
-###   } else {
-###     future::plan(multisession) # much frustration
-###   }
-### } else {
-###   future::plan(sequential)
-### }
-### parallel_processing <- FALSE
+future::plan(future::multicore, workers = 4)
 message("Fit CPUE models")
 cpue_cache <- file.path("report", "cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
