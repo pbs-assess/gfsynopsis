@@ -70,9 +70,11 @@ Updates:
 
 * We added length and age composition data for the Inside HBLL survey.
 
-* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix \@ref(app:mssm) provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
-
 * We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (their Appendix E and F). We expand on details of the approach in this report's Appendix \@ref(app:stitching).
+
+* We made minor changes to the presentation of the IPHC indexes to avoid showing index values for species in earlier years when some species were only recorded at aggregated taxonomic levels (see Appendix \@ref(app:iphc)).
+
+* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix \@ref(app:mssm) provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
 
 * We fixed an important erratum: the 2022 report Synoptic survey and HBLL OUT survey maps erroneously displayed data for 2018 and 2019 rather than 2020 and 2021. In this report, we confirm that the maps are displaying the intended 2021 and 2022 survey data.
 
