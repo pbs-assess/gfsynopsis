@@ -1,4 +1,4 @@
-# Multispecies Small-Mesh Bottom Trawl Survey (MSSM) {#app:mssm-appendix}
+# Multispecies Small-Mesh Bottom Trawl Survey (MSSM) {#app:mssm}
 
 ## Survey area
 
@@ -188,3 +188,5 @@ mssm_survey_changes |>
   flextable::align(j = "Year", align = "center", part = "all")
 
 ```
+
+
