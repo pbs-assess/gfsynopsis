@@ -98,11 +98,3 @@ Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fi
 
 <!-- TODO: update table 1 -->
 
-
-### IPHC update
-
-The methods for calculating the IPHC design-based index remain unchanged from those described in @anderson2019synopsis and (DFO 2022 - Synopsis TODO REF), except for the following:
-
-1. Species identification has improved over time for some species. For example, the average catch rate of 'Unidentified Skates' was almost 1 fish per effective skate from 1995–1999, but then declined to near zero because Big Skate and Longnose Skate were both explicitly identified from 1998 onwards. The more rarely caught Aleutian Skate and Sandpaper Skate only appear in the data from 2006 onwards. Such changes in protocol can be the cause of zero counts early in the time series for some species and so these data points have been omitted. See [HG predator analysis vignette](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/analysis_for_HG_herring_predators.html). Similarly the Shortspine Thornyhead only appears in the data in 1998 and was likely classified under 'Unidentified Thornyhead (idiot)' previously.
-
-2. Similar to 2021, in 2022 waters off the WCVI were surveyed but only for a subsample of stations. This may affect the determination of whether or not Series AB can be considered representative of the full coast and is one reason why a model-based index may be preferable.
