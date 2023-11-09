@@ -5,16 +5,16 @@ devtools::load_all()
 theme_set(theme_pbs())
 
 # Load data
-data_cache <- file.path('report', 'data-cache-oct-2023')
-grid_dir <- file.path(data_cache, 'grids')
-syn_sc <- file.path('report', 'stitch-cache', 'SYN-WCVI')
-mssm_sc <- file.path('report', 'stitch-cache', 'mssm')
-mssm_3km_grid_sc <- file.path('report', 'stitch-cache', 'mssm', '3km-grid')
-mssm_year_sc <- file.path('report', 'stitch-cache', 'mssm', 'year-bin')
-mssm_gear_diff_sc <- file.path('report', 'stitch-cache', 'mssm', 'gear-diff')
-cpue_cache <- file.path('report', 'cpue-cache')
-mssm_appendix <- file.path('report', 'mssm-appendix')
-mssm_figs <- file.path('report', 'mssm-appendix', 'figures')
+data_cache <- here::here('report', 'data-cache-oct-2023')
+grid_dir <- here::here(data_cache, 'grids')
+syn_sc <- here::here('report', 'stitch-cache', 'SYN-WCVI')
+mssm_sc <- here::here('report', 'stitch-cache', 'mssm')
+mssm_3km_grid_sc <- here::here('report', 'stitch-cache', 'mssm', '3km-grid')
+mssm_year_sc <- here::here('report', 'stitch-cache', 'mssm', 'year-bin')
+mssm_gear_diff_sc <- here::here('report', 'stitch-cache', 'mssm', 'gear-diff')
+cpue_cache <- here::here('report', 'cpue-cache')
+mssm_appendix <- here::here('report', 'mssm-appendix')
+mssm_figs <- here::here('report', 'mssm-appendix', 'figures')
 
 mssm_fig_list <- list()
 
@@ -229,7 +229,8 @@ grid_colours <- c(
 # Will need to fix the coordinate system this grid uses in gfdata
 
 # Grid from GFBioField
-sgrid <- sf::st_read(file.path(mssm_appendix, 'SMMS-grid/SMMS_Survey_Blocks.shp'))
+sgrid <- sf::st_read(here::here("report/mssm-appendix", "SMMS-grid/SMMS_Survey_Blocks.shp"))
+
 gfbio_grid <- sgrid |>
   # Select only sites off WCVI (since there is no ssid corresponding to 7 or 'MSSM WCVI')
   filter(GROUPING_C %in% c(112, 113)) |>
