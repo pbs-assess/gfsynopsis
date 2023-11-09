@@ -45,19 +45,20 @@ In the case of the hook and line surveys, which sample catch count, we apply a n
 y_{\boldsymbol{s},t} \sim \operatorname{NB2} \left( \mu_{\boldsymbol{s},t}, \phi_{\mathrm{NB2}} \right).
 \end{equation}
 
-For the hook and line surveys (IPHC, HBLL OUT, HBLL INS), we applied an "instantaneous catch rate" ICR correction factor to the observed counts based on the number of baited hooks returned (REF).
-We explored a censored Poisson likelihood (REF), but found a poorer fit to the data and model convergence issues.
+For the hook and line surveys (IPHC, HBLL OUT, HBLL INS), we applied an "instantaneous catch rate" ICR correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
+We explored a censored Poisson likelihood [@watson2022], but found a poorer fit to the data for many species and model convergence issues in several cases.
 We plan to revisit this in a future version of the report.
 
-We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields using Gaussian Markov random fields for computational efficiency using the R (REF) package sdmTMB (REF).
-This SPDE approach requires creating triangulation "meshes" (REF).
+We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
+sdmTMB estimates the marginal log likelihood using TMB to integrate over random effects with the Laplace approximation [@kristensen2016]. 
+This SPDE approach requires creating triangulation "meshes" [@lindgren2011].
 We constructed our meshes with a minimum triangle edge length of 20 km for the SYN, HBLL, and IPHC models and with an edge length of 5 km for the MSSM WCVI survey, which was smaller in size.
 
 We fit our models to all species where the proportion of positive sets across all observed survey sets was $\ge$ 5%.
 Due to the smaller survey area, deeper depth strata, and geographical distance to the other synoptic surveys, when the proportion of positive sets in SYN WCHG was $<$ 5%, this survey was omitted from the modelling.
 We omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (i.e., that their standard editions were $>$ 0.01).
 
-From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells.
+From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells. This is further described in @anderson2019synopsis.
 
 
 <!-- - A single model was fit to the combined data from each type of survey. -->
