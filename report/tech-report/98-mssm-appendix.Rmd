@@ -19,6 +19,8 @@ It is possible that this reflects surveys where they were establishing the exten
 Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased \@ref(fig:historical-grid). 
 However, in 2022 sampling extended eastward and northward to cover the original extent better than any year since 1975 \@ref(fig:spatial-shift).
 
+- trend in shorter distance travelled for 30 minute tows historically, due to the use of GPS (Sincalir et al 2001)
+
 ```{r historical-grid, fig.cap="Grid coverage based on the last year, prior to 2019, that a grid cell was last sampled. Darker shades indicate more recent years and correspond to changes in navigation systems (1979 and 1998).", out.width="50%"}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical-nav-changes_no-points.png"), dpi = NA)
@@ -66,11 +68,11 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-cod.pn
 
 ## Modelling
 
-We fit a geostatistical model to the MSSM data for all species that had a proportion of positive sets $\ge$ 5%. 
-For the six species that do not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present. 
-Of these species, only blackbelly eelpout met the 5% coverage threshold to be modelled. 
+We fit a geostatistical model to the MSSM data for all species that had a proportion of positive sets $\ge$ 5%.
+For the six species that do not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present.
+Of these species, only blackbelly eelpout met the 5% coverage threshold to be modelled.
 As was done for the synoptic trawl surveys, we fit these models using a tweedie distribution and used area swept as an offset.
-In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values. 
+In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values.
 We fit survey data using a spatial random field and a random walk spatiotemporal random fields.
 In cases where models did not converge, the spatial random field was turned off and only the spatiotmporal random field was modelled using a random walk.
 
@@ -145,9 +147,8 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-mode
 
 ```
 
-TODO: this has all species!?
 
-```{r, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. X-axis is the first year of the rolling window (e.g., 1996 - 2006). Only species that had a mean correlation >= 0.5 are shown. "}
+```{r, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. The x-axis is the first year of the rolling window (e.g., 1996 - 2006). Only shown are species that had a correlation >= 0.5 when surveys were compared over the full overlapping time period(e.g., 1996 - 2022; 2004 - 2022."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-correlation.png"), dpi = NA)
 ```
 
