@@ -1137,22 +1137,13 @@ depth_comp <- bind_rows(sw_dat, mssm_dat) |>
  distinct(survey_series_id, fishing_event_id, .keep_all =TRUE)
 
 depth_comp |> filter(year > 2003) |>
-  ggplot(aes(x = depth_m, fill = survey_abbrev)) +
-  geom_histogram(alpha = 0.8) +
-  scale_fill_manual(values = survey_cols) +
-  facet_wrap(~ year)
-
-p1 <- depth_comp |> filter(year > 2003) |>
-  filter(survey_abbrev == 'SYN WCVI') |>
-  ggplot(aes(x = depth_m, fill = year, group = year)) +
-  geom_density(alpha = 0.5)
-
-p2 <- depth_comp |> filter(year > 2003) |>
-  filter(survey_abbrev == 'MSSM WCVI') |>
-  ggplot(aes(x = depth_m, fill = year, group = year)) +
-  geom_density(alpha = 0.5)
-
-p1 + p2
+  ggplot(aes(x = depth_m, fill = year)) +
+  #geom_histogram(alpha = 0.8) +
+  geom_density(aes(group = year), alpha = 0.5) +
+  #scale_fill_manual(values = survey_cols) +
+  facet_wrap(~ survey_abbrev, scales = 'free') +
+  geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = min(mssm_dat$depth_m, na.rm = TRUE)), aes(xmin = -Inf, xmax = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.3) +
+  geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = max(mssm_dat$depth_m, na.rm = TRUE)), aes(xmax = Inf, xmin = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.3)
 
 
 
