@@ -70,9 +70,11 @@ Updates:
 
 * We added length and age composition data for the Inside HBLL survey.
 
-* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix \@ref(app:mssm) provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
-
 * We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (their Appendix E and F). We expand on details of the approach in this report's Appendix \@ref(app:stitching).
+
+* We made minor changes to the presentation of the IPHC indexes to avoid showing index values for species in earlier years when some species were only recorded at aggregated taxonomic levels (see Appendix \@ref(app:iphc)).
+
+* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix \@ref(app:mssm) provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
 
 * We fixed an important erratum: the 2022 report Synoptic survey and HBLL OUT survey maps erroneously displayed data for 2018 and 2019 rather than 2020 and 2021. In this report, we confirm that the maps are displaying the intended 2021 and 2022 survey data.
 
@@ -98,11 +100,3 @@ Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fi
 
 <!-- TODO: update table 1 -->
 
-
-### IPHC update
-
-The methods for calculating the IPHC design-based index remain unchanged from those described in @anderson2019synopsis and (DFO 2022 - Synopsis TODO REF), except for the following:
-
-1. Species identification has improved over time for some species. For example, the average catch rate of 'Unidentified Skates' was almost 1 fish per effective skate from 1995–1999, but then declined to near zero because Big Skate and Longnose Skate were both explicitly identified from 1998 onwards. The more rarely caught Aleutian Skate and Sandpaper Skate only appear in the data from 2006 onwards. Such changes in protocol can be the cause of zero counts early in the time series for some species and so these data points have been omitted. See [HG predator analysis vignette](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/analysis_for_HG_herring_predators.html). Similarly the Shortspine Thornyhead only appears in the data in 1998 and was likely classified under 'Unidentified Thornyhead (idiot)' previously.
-
-2. Similar to 2021, in 2022 waters off the WCVI were surveyed but only for a subsample of stations. This may affect the determination of whether or not Series AB can be considered representative of the full coast and is one reason why a model-based index may be preferable.
