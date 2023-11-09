@@ -588,7 +588,7 @@ syn_inds <-
 
 syn_mssm_grid_inds <-
   spp_vector |>
-    map(\(sp) readRDS(file.path(syn_sc, 'mssm-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
+    map(\(sp) readRDS(file.path(syn_sc, 'mssm-grid-2km', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
     setNames(spp_vector) |>
     keep(\(x) inherits(x, 'data.frame')) |>
     bind_rows(.id = 'species') |>
