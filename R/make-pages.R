@@ -700,7 +700,9 @@ make_pages <- function(
       mutate(survey_abbrev = "MSSM Geostat") |>
       select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets)
 
-    if (stitched_mssm$mean_cv[[1]] > 2 & spp == "whitebarred prickleback") {
+    # do not plot mssm index if index cv is or upperci are extreme
+    if (stitched_mssm$mean_cv[[1]] > 2 |
+        max(stitched_mssm$upperci) > 10 * max(stitched_mssm$biomass)) {
         stitched_mssm <- data.frame(
           survey_abbrev = "MSSM Geostat", year = NA, biomass = NA,
           lowerci = NA, upperci = NA,
