@@ -27,6 +27,21 @@ if (getRversion() >= "2.15.1") {
     'survey', 'species', 'biomass_scaled', 'lowerci_scaled', 'st_geo_mean',
     'maturity', 'age_or_length', 'glmm_fe', 'mean_mat', 'N_min', 'locality',
     'est_link', 'se_link', 'survey', 'max_raw_depth', 'density', 'surv',
-    'upperci_scaled', 'design_geo_mean'
+    'upperci_scaled', 'design_geo_mean',
+
+    "C_it20", "E_it", "E_it20", "N_it", "N_it20", "X", "Y", "area_swept",
+    "baited_hooks", "biomass", "catch", "catch_count", "catch_weight",
+    "count_bait_only", "d_geomean", "d_scale_factor", "doorspread_m",
+    "duration_min", "effSkate", "effSkateIPHC", "effort",
+    "fishing_event_id",
+    "get_iphc_sets_info", "hook_adjust_factor", "hook_count", "hook_removed",
+    "hooksObserved", "include_in_stitch", "index_type", "iphcUsabilityCode",
+    "iphcUsabilityDesc", "lower", "lowerci", "mean_cv", "mean_n_pos", "mean_n_sets",
+    "mean_prop_pos", "n_pos", "n_sets", "num_pos_sets", "num_sets",
+    "obsHooksPerSet", "present", "prop_bait_hooks", "prop_pos",
+    "prop_removed", "setID",
+    "spNameIPHC",
+    "survey_abbrev2", "survey_domain_year", "survey_series_name", "tow_length_m",
+    "upper", "upperci", "utm_zone", "year_bin"
   ))
 }

@@ -159,7 +159,7 @@ get_iphc_stitched_index <- function(
       form <- paste0("catch ~ ", intercept)
     }
   }
-  form <- as.formula(form)
+  form <- stats::as.formula(form)
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
 

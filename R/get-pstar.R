@@ -160,8 +160,8 @@ central_diff <- function(gam_object, newdata, x, h) {
   ndb <- newdata
   ndb[[x]] <- ndb[[x]] - h / 2
 
-  Xf <- predict(gam_object, ndf, type = "lpmatrix") # , exclude = exclude_re)
-  Xb <- predict(gam_object, ndb, type = "lpmatrix") # , exclude = exclude_re)
+  Xf <- mgcv::predict.gam(gam_object, ndf, type = "lpmatrix") # , exclude = exclude_re)
+  Xb <- mgcv::predict.gam(gam_object, ndb, type = "lpmatrix") # , exclude = exclude_re)
   Xdiff <- (Xf - Xb) / h
 }
 
@@ -202,8 +202,8 @@ get_fderiv <- function(
   message("\tFitting f' for species: ", unique(newdata$species))
   Xdiff <- central_diff(gam_object, newdata, x, h)
 
-  Vb <- vcov(gam_object, freq = FALSE, unconditional = TRUE) # Bayesian posterior CV
-  betas <- coef(gam_object)
+  Vb <- stats::vcov(gam_object, freq = FALSE, unconditional = TRUE) # Bayesian posterior CV
+  betas <- stats::coef(gam_object)
 
   lpmat_col_ids <- grep(terms, colnames(Xdiff), fixed = TRUE)
 
