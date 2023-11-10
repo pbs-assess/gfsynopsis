@@ -149,9 +149,9 @@ fit_sdmTMB_coastwide <- function(dat,
   spde <- sdmTMB::make_mesh(dat, xy_cols = c("X", "Y"), cutoff = cutoff)
 
   formula <- if (include_depth_spline) {
-    as.formula(density ~ 1 + s(log(depth), k = 3))
+    stats::as.formula(density ~ 1 + s(log(depth), k = 3))
   } else {
-    as.formula(density ~ 1)
+    stats::as.formula(density ~ 1)
   }
   m <- sdmTMB::sdmTMB(
     formula = formula,
