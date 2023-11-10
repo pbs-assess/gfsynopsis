@@ -16,7 +16,6 @@ get_stitched_index(
   spatiotemporal = "rw",
   time_varying = NULL,
   time_varying_type = NULL,
-  data = survey_dat,
   mesh = NULL,
   cutoff = 20,
   offset = "offset",
@@ -28,6 +27,7 @@ get_stitched_index(
   upr = NULL,
   cache = NULL,
   check_cache = FALSE,
+  survey_grid = NULL,
   grid_dir
 )
 }
@@ -55,6 +55,9 @@ get_stitched_index(
 \item{gradient_thresh}{Threshold used in \code{\link[sdmTMB:sanity]{sdmTMB::sanity()}} (default = 0.001).}
 
 \item{cache}{A string specifying file path to cache directory.}
+
+\item{survey_grid}{A data frame containing the spatial grid over which predictions are to be made.
+If \code{survey_grid} = NULL (the default). Grid should contain cell area.}
 
 \item{grid_dir}{Path where cleaned grids were stored from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}}
 }

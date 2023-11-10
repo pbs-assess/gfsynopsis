@@ -4,7 +4,7 @@
 \alias{get_stitch_lu}
 \title{Get table of positive sets for each region and survey type}
 \usage{
-get_stitch_lu(survey_dat, species, survey_type)
+get_stitch_lu(survey_dat, species, survey_type, survey_col = "survey_type")
 }
 \arguments{
 \item{survey_dat}{A dataframe from \code{\link[=prep_stitch_dat]{prep_stitch_dat()}}}
@@ -12,6 +12,9 @@ get_stitch_lu(survey_dat, species, survey_type)
 \item{species}{A string specifying the \code{species_common_name}}
 
 \item{survey_type}{A string matching one of: "synoptic", "hbll_outside", "hbll_inside"}
+
+\item{survey_col}{The name of the column to match \code{survey_type} in, one of:
+"survey_abbrev", 'survey_type' (default = 'survey_abbrev')}
 }
 \value{
 A dataframe
