@@ -22,21 +22,21 @@ make_pages(
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
   save_gg_objects = FALSE,
-  survey_cols = c(RColorBrewer::brewer.pal(7L, "Set2"), "#303030", "#a8a8a8", "#a8a8a8",
-    "#a8a8a8"),
-  survey_col_names = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
-    "HBLL OUT S", "IPHC FISS", "Commercial", "HBLL INS N", "HBLL INS S", "MSA HS"),
+  survey_cols = c(`SYN WCHG` = "#E41A1C", `SYN WCVI` = "#984EA3", `SYN HS` = "#377EB8",
+    `SYN QCS` = "#4DAF4A", `HBLL OUT N` = "#FF7F00", `HBLL OUT S` = "#FDBF6F",
+    `HBLL INS N/S` = "#A65628", `IPHC FISS` = "#F781BF", `MSSM WCVI` = "#6c6c6c",
+    `MSSM Geostat` = "#6c6c6c", `MSA HS` = "#6c6c6c", `SYN HS/QCS/WCHG/WCVI` = "#6c6c6c",
+    `SYN HS/QCS/WCVI` = "#6c6c6c", `HBLL OUT N/S` = "#6c6c6c", Commercial = "#303030"),
   mat_min_n = 20,
   survey_map_outlier = 1,
   synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` = 2018,
     `SYN QCS` = 2019),
   hbll_out_max_survey_years = list(`HBLL OUT N` = 2019, `HBLL OUT S` = 2020),
   iphc_max_survey_year = 2022,
-  age_comp_first_year = NULL,
   parallel = FALSE,
   french = FALSE,
-  final_year_comm = 2020,
-  final_year_surv = 2021,
+  final_year_comm = 2021,
+  final_year_surv = 2022,
   length_ticks = NULL,
   all_survey_years = NULL,
   stitch_model_type = "st-rw",
@@ -86,9 +86,6 @@ cause the CPUE model to be cached.}
 
 \item{survey_cols}{A vector of colors for the surveys.}
 
-\item{survey_col_names}{A vector of names to associate with the colours.
-Should match the survey abbreviations.}
-
 \item{mat_min_n}{The minimum number of samples before the maturity ogives are
 plotted.}
 
@@ -98,9 +95,6 @@ outlying cells from distorting the color scale.}
 
 \item{synoptic_max_survey_years}{A vector of length 2 giving the maximum
 synoptic survey years to include.}
-
-\item{age_comp_first_year}{Minimum year to be shown in the age frequency plots,
-such that all survey panels can be shown.}
 
 \item{parallel}{Parallel CPUE index fitting?}
 
@@ -112,6 +106,9 @@ x-axis breaks and labels.}
 \item{stitch_model_type}{A string indicating what type of stitch model to fit.
 Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
 \code{\link[=get_stitched_index]{get_stitched_index()}}.}
+
+\item{survey_col_names}{A vector of names to associate with the colours.
+Should match the survey abbreviations.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

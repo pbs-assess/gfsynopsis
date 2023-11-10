@@ -3,7 +3,7 @@
 #' This function helps it fit the CPUE standardization models across multiple
 #' areas for a single species.
 #'
-#' @param dat A data frame from [gfplot::get_cpue_index()].
+#' @param dat A data frame from [gfdata::get_cpue_index()].
 #' @param species The species common name to fit.
 #' @param areas A vector of regular expressions representing the statistical
 #'   areas to fit.

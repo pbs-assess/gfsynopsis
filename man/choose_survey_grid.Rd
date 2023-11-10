@@ -2,13 +2,14 @@
 % Please edit documentation in R/stitch-survey.R
 \name{choose_survey_grid}
 \alias{choose_survey_grid}
-\title{Choose the survey grid matching the survey type.
-TODO: update with calls to gfdata once updated grid functions are added there.}
+\title{Choose the survey grid matching the survey type. For the MSSM survey, the grid
+is filtered to include only cells that were last sampled from 2009 to 2022
+(year grid was last updated)}
 \usage{
 choose_survey_grid(survey_type, grid_dir)
 }
 \arguments{
-\item{survey_type}{A string matching one of: "synoptic", "hbll_outside", "hbll_inside"}
+\item{survey_type}{A string matching one of: "synoptic", "hbll_outside", "hbll_inside", "mssm"}
 
 \item{grid_dir}{Path where cleaned grids were stored from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}}
 }
@@ -16,6 +17,5 @@ choose_survey_grid(survey_type, grid_dir)
 A dataframe containing a survey grid from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}
 }
 \description{
-Choose the survey grid matching the survey type.
 TODO: update with calls to gfdata once updated grid functions are added there.
 }

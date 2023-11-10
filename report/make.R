@@ -201,7 +201,7 @@ prep_stitch_grids(
 # -----
 
 # Stitch surveys if not cached
-future::plan(multisession, workers = 3L)
+future::plan(multisession, workers = 4L)
 furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
@@ -232,7 +232,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     check_cache = TRUE
   )
 })
-future::plan(sequential)
+# future::plan(sequential)
 
 # Stitch IPHC surveys if not cached
 furrr::future_walk(spp_vector, function(.sp) {

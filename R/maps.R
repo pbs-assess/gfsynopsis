@@ -3,7 +3,7 @@
 #' `fit_survey_maps()` is a helper function that calls
 #' [gfplot::fit_survey_sets()] appropriately for the various surveys.
 #'
-#' @param dat Data from [gfplot::get_survey_sets()].
+#' @param dat Data from [gfdata::get_survey_sets()].
 #' @param species The species name.
 #' @param include_depth Logical for whether or not to include depth and depth
 #'   squared as predictors.
