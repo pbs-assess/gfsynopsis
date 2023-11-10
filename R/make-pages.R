@@ -25,8 +25,6 @@
 #'   list object in `file.path(report_folder, 'ggplot-objects')`. This will also
 #'   cause the CPUE model to be cached.
 #' @param survey_cols A vector of colors for the surveys.
-#' @param survey_col_names A vector of names to associate with the colours.
-#'   Should match the survey abbreviations.
 #' @param mat_min_n The minimum number of samples before the maturity ogives are
 #'   plotted.
 #' @param survey_map_outlier A quantile above which of the colors in the map
@@ -943,12 +941,12 @@ make_pages <- function(
     vb_m <- fit_vb(dat$survey_samples,
       sex = "male", method = "tmb",
       too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
-      tmb_init = tmb_init
+      tmb_inits = tmb_init
     )
     vb_f <- fit_vb(dat$survey_samples,
       sex = "female", method = "tmb",
       too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
-      tmb_init = tmb_init
+      tmb_inits = tmb_init
     )
     sink()
     vb <- list()

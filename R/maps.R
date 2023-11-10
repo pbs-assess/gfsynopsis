@@ -106,8 +106,9 @@ fit_survey_maps <- function(dat,
 #'   predictions.
 #' @param annotations A character object describing which annotations to
 #'   include. These annotations include the relevent years on the map.
+#' @param syn_wcvi_year Year for WCVI synoptic survey label.
+#' @param syn_wchg_year Year for WCHG synoptic survey label.
 #' @param syn_qcs_hs_year Year for a synoptic survey label.
-#' @param syn_wcvi_wchg_year Year for a synoptic survey label.
 #' @param hbll_n_year Year for a HBLL N survey label.
 #' @param hbll_s_year Year for a HBLL S survey label.
 #' @param iphc_year Year for IPHC survey label.
