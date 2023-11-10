@@ -39,7 +39,7 @@ output:
 type:
   techreport
 knit: (function(input, ...) {
-       bookdown::render_book('index.Rmd')
+       csasdown::render()
       })
 site: bookdown::bookdown_site
 link-citations: true
