@@ -106,7 +106,7 @@ get_iphc_stitched_index <- function(
   dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
-  species_hyphens <- gfsynopsis:::clean_name(species)
+  species_hyphens <- clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
 
   if (check_cache & file.exists(out_filename)) {

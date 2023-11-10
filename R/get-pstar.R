@@ -61,7 +61,7 @@ get_pstar <- function(
       ),
     )
 
-    pred_mod <- predict.gam(
+    pred_mod <- mgcv::predict.gam(
       object = gam_fit, newdata = pred_df, se.fit = TRUE,
       type = "terms", terms = "s(prop_removed)"
     )
@@ -71,7 +71,7 @@ get_pstar <- function(
     f1 <- get_fderiv(
       gam_object = gam_fit, newdata = pred_df,
       terms = "prop_removed", term_columns = "prop_removed", x = "prop_removed",
-      h = h, nsim = 100, exclude_re = "fyear"
+      h = h, nsim = 100
     )
 
     pred_df$fit <- pred_mod[[1]][, 1]
@@ -103,7 +103,7 @@ get_pstar <- function(
   if (save_out) {
     saveRDS(out, file.path(
       pstar_cache, survey_type,
-      paste0(gfsynopsis:::clean_name(species), ".rds")
+      paste0(clean_name(species), ".rds")
     ))
   } else {
     out

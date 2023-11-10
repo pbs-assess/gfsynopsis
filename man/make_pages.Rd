@@ -15,7 +15,7 @@ make_pages(
   debug = FALSE,
   resolution = 170,
   png_format = TRUE,
-  spp_file = gfsynopsis:::clean_name(spp),
+  spp_file = clean_name(spp),
   report_folder = "report",
   report_lang_folder = "report",
   include_map_square = FALSE,
@@ -106,9 +106,6 @@ x-axis breaks and labels.}
 \item{stitch_model_type}{A string indicating what type of stitch model to fit.
 Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
 \code{\link[=get_stitched_index]{get_stitched_index()}}.}
-
-\item{survey_col_names}{A vector of names to associate with the colours.
-Should match the survey abbreviations.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

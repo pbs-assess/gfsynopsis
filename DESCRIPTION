@@ -1,50 +1,63 @@
 Package: gfsynopsis
-Version: 0.0.2
 Title: Data Synopsis Reports for PBS Groundfish
-Description: Facilitates the creation of reproducible data synopsis report for
-    DFO PBS groundfish stocks in British Columbia, Canada.
-Authors@R: c(person("Sean", "Anderson",
-    email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
-    person("Elise", "Keppel", role = "aut"))
-Encoding: UTF-8
-ByteCompile: true
-Depends: R (>= 3.2.0)
+Version: 0.0.2
+Authors@R: c(
+    person("Sean", "Anderson", , "sean.anderson@dfo-mpo.gc.ca", role = c("aut", "cre")),
+    person("Elise", "Keppel", role = "aut")
+  )
+Description: Facilitates the creation of reproducible data synopsis report
+    for DFO PBS groundfish stocks in British Columbia, Canada.
 License: GPL (>=2)
-LazyData: true
-Imports:
-    gfplot (>= 0.1.4),
-    readr,
-    ggplot2,
-    dplyr,
-    magrittr,
-    viridis,
-    RColorBrewer,
-    rlang,
-    grid,
-    sdmTMB,
-    egg,
-    gridExtra,
-    purrr,
-    cowplot,
-    foreach,
-    doParallel,
-    parallel,
-    scales,
-    rosettafish,
-    gfiphc
-Remotes: github::pbs-assess/gfplot, 
-    github::pbs-assess/sdmTMB, 
-    github::pbs-assess/rosettafish,
-    github::pbs-assess/gfiphc
-RoxygenNote: 7.2.3
-Roxygen: list(markdown = TRUE)
-Suggests:
-    testthat,
-    csasdown (>= 0.0.3),
-    here,
-    clisymbols,
-    tibble,
-    taxize,
-    plyr
 URL: https://github.com/seananderson/gfsynopsis
 BugReports: https://github.com/seananderson/gfsynopsis/issues
+Depends: 
+    R (>= 3.2.0)
+Imports:
+    assertthat,
+    data.table,
+    dplyr,
+    egg,
+    flextable,
+    forcats,
+    foreach,
+    gfiphc,
+    gfplot (>= 0.1.4),
+    ggplot2,
+    grid,
+    gridExtra,
+    lubridate,
+    magrittr,
+    mgcv,
+    mvnfast,
+    officer,
+    purrr,
+    RColorBrewer,
+    reshape,
+    rlang,
+    rosettafish,
+    scales,
+    sdmTMB,
+    viridis
+Suggests:
+    clisymbols,
+    cowplot,
+    csasdown (>= 0.0.3),
+    doParallel,
+    here,
+    parallel,
+    plyr,
+    readr,
+    taxize,
+    testthat,
+    tibble
+Remotes: 
+    github::pbs-assess/gfdata,
+    github::pbs-assess/gfiphc,
+    github::pbs-assess/gfplot,
+    github::pbs-assess/rosettafish,
+    github::pbs-assess/sdmTMB
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
