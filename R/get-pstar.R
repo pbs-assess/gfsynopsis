@@ -103,7 +103,7 @@ get_pstar <- function(
   if (save_out) {
     saveRDS(out, file.path(
       pstar_cache, survey_type,
-      paste0(gfsynopsis:::clean_name(species), ".rds")
+      paste0(clean_name(species), ".rds")
     ))
   } else {
     out

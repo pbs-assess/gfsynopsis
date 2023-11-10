@@ -15,7 +15,7 @@ make_pages(
   debug = FALSE,
   resolution = 170,
   png_format = TRUE,
-  spp_file = gfsynopsis:::clean_name(spp),
+  spp_file = clean_name(spp),
   report_folder = "report",
   report_lang_folder = "report",
   include_map_square = FALSE,

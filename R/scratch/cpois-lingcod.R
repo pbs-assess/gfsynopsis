@@ -36,10 +36,10 @@ iphc_grid <- iphc_set_info |>
 spp_list <- "pacific halibut"
 #spp_list <- "arrowtooth flounder"
 #spp_list <- "lingcod"
-spp_files <- paste0(gfsynopsis:::clean_name(spp_list), '.rds')
+spp_files <- paste0(clean_name(spp_list), '.rds')
 
 dat <- lapply(spp_list, FUN = function(sp) {
-  sp_file <- paste0(gfsynopsis:::clean_name(sp), '.rds')
+  sp_file <- paste0(clean_name(sp), '.rds')
   readRDS(file.path(dc, 'iphc', sp_file))$set_counts |>
   mutate(species = sp)
 }) |>

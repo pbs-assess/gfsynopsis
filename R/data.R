@@ -140,7 +140,7 @@ get_ll_bait_counts <- function(path = ".", species = 442, ssid = c(22, 36, 39, 4
 #' @export
 #'
 get_iphc_hook_data <- function(path = ".", species = "pacific halibut") {
-  sp_file <- paste0(gfsynopsis:::clean_name(species), ".rds")
+  sp_file <- paste0(clean_name(species), ".rds")
   sp_dat <- readRDS(file.path(path, sp_file))$set_counts |>
     dplyr::mutate(species = species)
   # Get hook_bait counts matching GFBio species counts: 1995:2022
