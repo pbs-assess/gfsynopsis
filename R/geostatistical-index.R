@@ -1,6 +1,6 @@
 #' Fit a geostatistical index standardization model to survey data
 #'
-#' @param species_rds File path to an .rds file from [gfplot::cache_pbs_data()].
+#' @param species_rds File path to an .rds file from [gfdata::cache_pbs_data()].
 #' @param survey Survey abbreviation for the survey to fit.
 #' @param species_name Species name. Only used in the output to help with processing.
 #' @param cutoff Mesh cutoff for [sdmTMB::make_mesh()].
