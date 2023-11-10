@@ -92,7 +92,17 @@ prep_mssm_dat <- function(survey_dat) {
                   fyear = as.factor(year)) |>
     dplyr::mutate(year_bin = factor(year_bin, levels = c("<2003", ">=2003"))) |>
     dplyr::filter(!is.na(offset), is.finite(offset)) |>
-    dplyr::filter(!is.na(catch)) # small single fish like eulachon might have a count but no weight
+    dplyr::filter(!is.na(catch)) |> # small catches of small fish might have a count but no weight
+    dplyr::filter(!(year %in% 1977:1978 & month == 9)) |> # Filter out the extra sampling in September
+    dplyr::mutate(gear = dplyr::case_when( # add gear type change
+      year < 1977 ~ 'Shrimp Balloon',
+      year < 2006 & year > 1977 ~ 'NMFS',
+      year > 2006 ~ 'American',
+      year == 2006 & fishing_event_id %in% c(1158541, 1158542) ~ 'American',
+      year == 2006 & fishing_event_id %in% c(1158559, 1158560) ~ 'NMFS',
+      year == 2006 & !(fishing_event_id %in% c(1158541, 1158542, 1158559, 1158560)) ~ 'American'
+    )
+  )
 }
 
 
