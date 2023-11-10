@@ -206,7 +206,7 @@ get_iphc_hook_data <- function(path = ".", species = "pacific halibut") {
       dplyr::filter(sp_dat, (year == 2019 & station %in% c("2099", "2107"))),
       dplyr::filter(set_info, (year == 2019 & station %in% c("2099", "2107")))
     ) |>
-    dplyr::select(all_of(colnames(sp_with_hooks)))
+    dplyr::select(tidyr::all_of(colnames(sp_with_hooks)))
 
   iphc_hook_out <-
     sp_with_hooks |>

@@ -229,7 +229,7 @@ get_fderiv <- function(
   ## simultaneous interval critical value
   crit <- quantile(masd, prob = level, type = 8) # type 8 is recommended by Hyndman and Fan (1996)
   adj <- (crit * d1_tbl[["se"]])
-  derivative <- add_column(d1_tbl,
+  derivative <- tibble::add_column(d1_tbl,
     crit  = rep(crit, nrow(d1_tbl)),
     lower = d1_tbl[["derivative"]] - adj,
     upper = d1_tbl[["derivative"]] + adj
