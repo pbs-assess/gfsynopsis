@@ -63,7 +63,7 @@ fit_sdmTMB_model <- function(dat, survey,
   d <- dat
   d <- dplyr::filter(d, !(year == 2014 & survey_abbrev == "SYN WCHG")) # not used
   col <- if (grepl("SYN", survey)) "density_kgpm2" else "density_ppkm2"
-  dat <- gfplot:::tidy_survey_sets(d, survey, years = seq(1, 1e6),
+  dat <- gfplot::tidy_survey_sets(d, survey, years = seq(1, 1e6),
     density_column = col)
   if (mean(dat$present) < 0.05) stop("Not enough data.")
   .scale <- if (grepl("SYN", survey)) 1000 else 1 # for computational stability
