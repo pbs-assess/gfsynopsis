@@ -30,7 +30,7 @@ get_pstar <- function(
     prop_removed_min = NULL, h = 0.005, pstar_cache = NULL, save_out = TRUE) {
   species <- unique(survey_dat[["species_common_name"]])
 
-  if (!inherits(gam_formula, "gam")) gam_formula <- formula(gam_formula)
+  if (!inherits(gam_formula, "gam")) gam_formula <- stats::as.formula(gam_formula)
 
   message("\tFitting GAM for ", species)
   gam_fit <- try(
@@ -47,13 +47,13 @@ get_pstar <- function(
   survey <- ifelse(survey_type == "iphc", "iphc", "hbll")
   if (inherits(gam_fit, "gam")) {
     pred_df <- switch(survey,
-      hbll = expand_grid(
+      hbll = tidyr::expand_grid(
         prop_removed = seq(prop_removed_min, 1, h),
         fyear = survey_dat$fyear[[1]],
         hook_count = 1L,
         species = species
       ),
-      iphc = expand_grid(
+      iphc = tidyr::expand_grid(
         prop_removed = seq(prop_removed_min, 1, h),
         log_eff_skate = 0L,
         fyear = survey_dat$fyear[[1]],
@@ -77,19 +77,19 @@ get_pstar <- function(
     pred_df$fit <- pred_mod[[1]][, 1]
     pred_df$se <- pred_mod[[2]][, 1]
     pred_df <- pred_df |>
-      mutate(lwr = fit - 1.96 * se, upr = fit + 1.96 * se, species = species)
+      dplyr::mutate(lwr = fit - 1.96 * se, upr = fit + 1.96 * se, species = species)
 
     # Use f' to get pstar
     pstar_df <- f1 |>
-      arrange(desc(prop_removed)) |>
-      mutate(
-        sign_change = ifelse(lag(derivative) * derivative > 0, "no", "yes"),
-        slope_xh = ifelse(lag(derivative) > 0, "positive", "negative")
+      dplyr::arrange(dplyr::desc(prop_removed)) |>
+      dplyr::mutate(
+        sign_change = ifelse(dplyr::lag(derivative) * derivative > 0, "no", "yes"),
+        slope_xh = ifelse(dplyr::lag(derivative) > 0, "positive", "negative")
       ) |>
-      filter(sign_change == "yes" & slope_xh == "negative") |>
-      select(prop_removed, derivative, lower, upper, sign_change, slope_xh) |>
-      rename(pstar = "prop_removed") |>
-      slice(1)
+      dplyr::filter(sign_change == "yes" & slope_xh == "negative") |>
+      dplyr::select(prop_removed, derivative, lower, upper, sign_change, slope_xh) |>
+      dplyr::rename(pstar = "prop_removed") |>
+      dplyr::slice(1)
 
     # This combination of objects is useful for examining pstar outputs
     out <- list(
@@ -220,7 +220,7 @@ get_fderiv <- function(
     derivative = d,
     se = se
   ) %>%
-    unnest(c("newdata"))
+    tidyr::unnest(c("newdata"))
 
   buDiff <- mvnfast::rmvn(n = nsim, mu = rep(0, nrow(Vb)), sigma = Vb)
   simDev <- tcrossprod(Xi, buDiff) # Xi %*% t(bu) # simulate deviations from expected

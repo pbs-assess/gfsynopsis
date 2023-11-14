@@ -102,8 +102,8 @@ fit_sdmTMB_model <- function(dat, survey,
     anisotropy = anisotropy,
     silent = silent
   )
-  predictions <- predict(m, newdata = grid_locs, sims = 500L)
-  index <- get_index_sims(predictions, est_function = stats::median)
+  predictions <- stats::predict(m, newdata = grid_locs, sims = 500L)
+  index <- sdmTMB::get_index_sims(predictions, est_function = stats::median)
   index <- dplyr::mutate(index, cv = sqrt(exp(se^2) - 1))
   list(
     data = dat,
@@ -169,23 +169,23 @@ fit_sdmTMB_coastwide <- function(dat,
   # predict on grid and calculate index:
   index_ar1_survs <- list()
 
-  p_ar1 <- predict(m, newdata = grid_locs, sims = 500L)
-  index_ar1 <- get_index_sims(p_ar1)
+  p_ar1 <- stats::predict(m, newdata = grid_locs, sims = 500L)
+  index_ar1 <- sdmTMB::get_index_sims(p_ar1)
   p <- p_ar1[grid_locs$survey == "SYN QCS",]
   attr(p, "time") <- "year"
-  index_ar1_survs$QCS <- get_index_sims(p, return_sims = FALSE)
+  index_ar1_survs$QCS <- sdmTMB::get_index_sims(p, return_sims = FALSE)
 
   p <- p_ar1[grid_locs$survey == "SYN HS",]
   attr(p, "time") <- "year"
-  index_ar1_survs$HS <- get_index_sims(p, return_sims = FALSE)
+  index_ar1_survs$HS <- sdmTMB::get_index_sims(p, return_sims = FALSE)
 
   p <- p_ar1[grid_locs$survey == "SYN WCVI",]
   attr(p, "time") <- "year"
-  index_ar1_survs$WCVI <- get_index_sims(p, return_sims = FALSE)
+  index_ar1_survs$WCVI <- sdmTMB::get_index_sims(p, return_sims = FALSE)
 
   p <- p_ar1[grid_locs$survey == "SYN WCHG",]
   attr(p, "time") <- "year"
-  index_ar1_survs$WCHG <- get_index_sims(p, return_sims = FALSE)
+  index_ar1_survs$WCHG <- sdmTMB::get_index_sims(p, return_sims = FALSE)
 
   list(
     data = dat,

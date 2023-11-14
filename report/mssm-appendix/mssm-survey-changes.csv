@@ -3,11 +3,9 @@ Year,Change,Details,Gear,Survey timing,Target tow length,Depth range,GPS system,
 1974,No survey,,,,,,,,
 1975,None,,,,,,,,
 1976,Sorting protocol (minor),3-4 baskets were randomly weighted to get an average basket weight,,,,,,,3-4 baskets were randomly weighted to get an average basket weight of small fish and shrimp
-1977,Gear,"Net type, foot rope, and doors changed. (Calibration tows done, see Rutherford et al Table 2) ","Net: 61' NMFS, Foot rope: tickler chain, Doors: Astoria V",,,,,,
-1977,"Additional surveys
-","Additional September data are in GFBio survey sets, (have been filtered out in synoptic analysis)",,,,,,,
-1978,"Additional surveys
-","Additional September data are in GFBio survey sets, (have been filtered out in synoptic analysis)",,,,,,,"Large fish total catch weighted
+1977,Gear,"Net type, foot rope, and doors changed. (No calibration tows done, see Rutherford et al.) ","Net: 61' NMFS, Foot rope: tickler chain, Doors: Astoria V",,,,,,
+1977,"Additional surveys","Additional surveys done in September (data are found in GFBio and have been filtered out in synoptic analysis)",,,,,,,
+1978,"Additional surveys","Additional surveys done in September (data are found in GFBio and have been filtered out in synoptic analysis)",,,,,,,"Large fish total catch weighted
 Each basket of mixed shrimp/small fish/inverts weighed"
 1978,Sorting protocol,Large fish total catch weighted; Each basket of mixed shrimp/small fish/inverts weighed,,,,,,,
 1979,Navigation systems,From Loran A to Loran C,,,,,Loran C,,
@@ -27,20 +25,20 @@ Each basket of mixed shrimp/small fish/inverts weighed"
 1998,Navigation systems,From Loran C to GPS,,,,,Global Positioning System technology,,
 1999,None,,,,,,,,
 2000,Sampling protocol,Eulachon biological samples begin,,,,,,,
-2001,Sorting protocol,"Large species sorted, weighed, and sampled; ~10 kg mixed small species baskets sorted to species and weighed",,,,,,,"Large species sorted, weighed, and sampled. ~10 kg mixed small species baskets sorted to species and weighed"
+2001,Sorting protocol,"Full catch sorted on conveyor belt. Large species sorted, weighed, and sampled; ~10 kg mixed small species baskets sorted to species/family and weighed",,,,,,,"Large species sorted, weighed, and sampled. ~10 kg mixed small species baskets sorted to species and weighed"
 2002,None,,,,,,,,
 2003,Sorting protocol,All catch sorted and identified to species/lowest taxonomic level,,,,,,,
 2004,None,,,,,,,,
 2005,Commercial vessel used,F/V Frosti,,,,,,F/V Frosti,
-2006,Gear,Two replicate tows made to compare net catches.,"Net: 61' American, Foot rope: tickler chain, Doors: Astoria V",,,,,CCGS W.E. Ricker,
-2007,Gear,Foot rope change (tickler chain changed to roller gear),"Net: 61' American, Foot rope: roller gear, Doors: Astoria V",,,,,,
+2006,Gear,Net changed (NMFS to 61' American net); Two replicate tows made to compare net catches.,"Net: 61' American, Foot rope: tickler chain, Doors: Astoria V",,,,,CCGS W.E. Ricker,
+2007,Gear,Foot rope changed (tickler chain to roller gear),"Net: 61' American, Foot rope: roller gear, Doors: Astoria V",,,,,,
 2008,None,,,,,,,,
-2009,Data capture,GFBioField used (instead of paper),,,,,,,
+2009,Data capture,Electronic data capture using GFBioField,,,,,,,
 2010,None,,,,,,,,
-2011,Gear,Doors,"Net: 61' American, Foot rope: roller gear, Doors: 76"" Thyboron Type 2 Heavy",,,,,,
+2011,Gear,Doors changed (Astoria V to 76' Thyboron Type 2 Heavy),"Net: 61' American, Foot rope: roller gear, Doors: 76' Thyboron Type 2 Heavy",,,,,,
 2012,None,,,,,,,,
 2013,Tow duration reduced,Reduced from 30 min to 20 min,,,20 minutes,,,,
-2013,Net monitoring system,Notus Trawlmaster net monitoring system,,,,,,,
+2013,Net monitoring system,Notus Trawlmaster net monitoring system implemented,,,,,,,
 2014 - 2016,None,,,,,,,,
 2017 - 2019,Commercial vessel used,F/V Nordic Pearl,,,,,,F/V Nordic Pearl,
 2020,No survey,Covid-19,,,,,,,

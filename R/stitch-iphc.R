@@ -195,7 +195,7 @@ get_iphc_stitched_index <- function(
       dplyr::filter(year %in% fit$data$year) |>
       droplevels()
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
-    pred <- predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
+    pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$species <- unique(fit$data$species_common_name)
 
     pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))

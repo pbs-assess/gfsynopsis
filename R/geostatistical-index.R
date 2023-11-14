@@ -77,8 +77,8 @@ fit_sdmTMB_westcoast <- function(dat, survey,
 
   # predictions <- stats::predict(m, newdata = grid_locs, return_tmb_object = TRUE)
   # index <- sdmTMB::get_index(predictions, bias_correct = bias_correct)
-  predictions <- predict(m, newdata = grid_locs, sims = 500L)
-  index <- get_index_sims(predictions, est_function = stats::median)
+  predictions <- stats::predict(m, newdata = grid_locs, sims = 500L)
+  index <- sdmTMB::get_index_sims(predictions, est_function = stats::median)
   index <- dplyr::mutate(index, cv = sqrt(exp(se^2) - 1))
   list(
     data = dat,

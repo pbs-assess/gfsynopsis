@@ -489,7 +489,7 @@ get_stitched_index <- function(
 
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
     # re_form_iid = NA, so obs_id ignored in prediction
-    pred <- predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
+    pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
     pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))

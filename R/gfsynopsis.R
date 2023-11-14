@@ -11,6 +11,7 @@
 #' @importFrom rlang .data
 #' @importFrom stats quantile
 #' @importFrom utils capture.output
+#' @importFrom ggplot2 aes
 NULL
 
 # from: https://github.com/jennybc/googlesheets/blob/master/R/googlesheets.R
@@ -31,16 +32,19 @@ if (getRversion() >= "2.15.1") {
 
     "C_it20", "E_it", "E_it20", "N_it", "N_it20", "X", "Y", "area_swept",
     "baited_hooks", "biomass", "catch", "catch_count", "catch_weight",
-    "count_bait_only", "d_geomean", "d_scale_factor", "doorspread_m",
+    "count_bait_only", "d_geomean", "d_scale_factor",
+    "derivative", "doorspread_m",
     "duration_min", "effSkate", "effSkateIPHC", "effort",
-    "fishing_event_id",
-    "get_iphc_sets_info", "hook_adjust_factor", "hook_count", "hook_removed",
+    "fishing_event_id", "fit", "french",
+    "geo_scale_factor", "get_iphc_sets_info",
+    "hook_adjust_factor", "hook_count", "hook_removed",
     "hooksObserved", "include_in_stitch", "index_type", "iphcUsabilityCode",
     "iphcUsabilityDesc", "lower", "lowerci", "mean_cv", "mean_n_pos", "mean_n_sets",
-    "mean_prop_pos", "n_pos", "n_sets", "num_pos_sets", "num_sets",
-    "obsHooksPerSet", "present", "prop_bait_hooks", "prop_pos",
-    "prop_removed", "setID",
-    "spNameIPHC",
+    "mean_prop_pos", "measured", "month", "n_pos", "n_sets", "num_pos_sets",
+    "num_sets", "obsHooksPerSet", "offset", "present", "prop_bait_hooks",
+    "prop_pos", "prop_removed", "pstar", "scaled_geomean", "sign_change", "setID",
+    "slope_xh", "specCount", "speed_mpm", "spNameIPHC", "standard", "station",
+    "stitch_tally",
     "survey_abbrev2", "survey_domain_year", "survey_series_name", "tow_length_m",
     "upper", "upperci", "utm_zone", "year_bin"
   ))

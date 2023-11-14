@@ -71,12 +71,12 @@ nd[["year"]] <- rep(original_time, each = nrow(synoptic_grid))
 nd <- filter(nd, survey_abbrev == "SYN WCHG")
 
 p <- predict(m, newdata = nd, sims = 1000L)
-# ind <- get_index_sims(p, return_sims = TRUE)
+# ind <- sdmTMB::get_index_sims(p, return_sims = TRUE)
 #
 # ind %>% ggplot(aes(as.factor(year), .value)) + geom_violin() +
 #   scale_y_log10()
 
-ind <- get_index_sims(p)
+ind <- sdmTMB::get_index_sims(p)
 
 design_ind <- readRDS("report/data-cache/yellowmouth-rockfish.rds")$survey_index
 design_ind <- design_ind %>%

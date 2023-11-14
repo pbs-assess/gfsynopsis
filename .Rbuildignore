@@ -40,3 +40,7 @@
 makefile
 inst/rockfish-map-dat/
 ^paper$
+^scratch-out$
+^R/scratch$
+^gfsynopsis\.sublime-project$
+^gfsynopsis\.sublime-workspace$
