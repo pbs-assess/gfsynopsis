@@ -23,6 +23,8 @@ This section provides captions for each of the visualizations that form the spec
 ## Relative biomass index trends from surveys
 
 <!-- TODO: update: -->
+- indices scaled to maximum CI
+- if two indices are shown on one panel (e.g., modelled and design based), the modelled biomass index is scaled to the maximum CI, and then the design based index is scaled to geometric mean of the max-CI scaled modelled index.
 
 ```{r make-surv-abbrev-text, eval=TRUE}
 # happens to have data for all the surveys:
