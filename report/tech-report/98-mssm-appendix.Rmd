@@ -2,34 +2,47 @@
 
 ## Survey area
 
-To estimate biomass index for the MSSM, we created a 2 $\times$ 2 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
+To estimate biomass index for the MSSM, we created a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
 Any grid cell that intersected with more than one survey location was retained.
-In this report, we used a subset of the grid cells that were last sampled between 2009 to 2019 \@ref(fig:prediction-grid).
+In this report, we used a subset of the grid cells that were last sampled between 2009 to 2019 (Figure \@ref(fig:prediction-grid)).
 This time period covered the most consistently sampled locations in recent years.
 In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
 
-```{r prediction-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 2x2 km and cover all sampling locations between 2009-2019. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2019.", fig.show='hold', out.width="4in"}
+
+```{r prediction-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 3x3 km and cover all sampling locations between 2009-2019. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2019.", fig.show='hold', out.width="3.5in"}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-prediction-2009.png"), dpi = NA)
-
-```
-
-Between 1975 and 1977, there was a noticeable shift of sampling locations relative to subsequent years.
-It is possible that this reflects surveys where they were establishing the extent of the shrimping grounds.
-Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased \@ref(fig:historical-grid). 
-However, in 2022 sampling extended eastward and northward to cover the original extent better than any year since 1975 \@ref(fig:spatial-shift).
-
-- trend in shorter distance travelled for 30 minute tows historically, due to the use of GPS (Sincalir et al 2001)
-
-```{r historical-grid, fig.cap="Grid coverage based on the last year, prior to 2019, that a grid cell was last sampled. Darker shades indicate more recent years and correspond to changes in navigation systems (1979 and 1998).", out.width="50%"}
-
-knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical-nav-changes_no-points.png"), dpi = NA)
 
 ```
 
 ```{r spatial-shift, fig.cap="Shift in sampling locations (points) for select years from the start of the survey in 1975 to 2022. Grid cells are 2x2 km and cover all sampling locations between 2009-2019."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-spatial-sampling-changes.png"), dpi = NA)
 ```
+
+Between 1975 and 1977, there was a noticeable shift of sampling locations relative to subsequent years (Figure \@ref(fig:spatial-shift)).
+It is possible that this reflects surveys used to establish the extent of the shrimping grounds.
+
+Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)). However, in 2022 sampling extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
+
+The navigation systems used in this survey have changed twice, once in 1979 from Loran A to Loran C, and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)). This likely means that early survey locations were more variable. However, it was also found that there there was a trend in distance travelled over time. With shorter distances travelled for the 30 minute tows once GPS was implemented (Sinclair et al 2001).
+
+```{r historical-grid, fig.cap="Grid coverage based on the last year, prior to 2019, that a grid cell was last sampled. Darker shades indicate more recent years and correspond to changes in navigation systems (1979 and 1998).", out.width="3.5in"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical-nav-changes_no-points.png"), dpi = NA)
+
+```
+
+
+## Gear changes
+
+The gear used in the survey has changed twice in
+
+```{r net-comp, fig.cap="2006 gear change comparison", out.width="50%"}
+
+knitr::include_graphics(here::here("report/mssm-appendix/figures/net-comp.png"), dpi = NA)
+
+```
+
 
 ## Catch sorting and sampling
 
@@ -40,7 +53,7 @@ post_2003_spp <- readRDS(here::here("report/mssm-appendix/post-2003-spp.rds"))
 The most notable change to catch sorting and sampling occurred in 2003.
 From 2003 to present, all species have been sorted and identified to the species or lowest taxonomic level.
 Prior to 2003, `r length(post_2003_spp)` species had zero catch weights and catch counts.
-Of these, six species are caught regularly: big skate, sandpaper skate, longnose skate, blackbelly eelpout, stripetail rockfish, and slim sculpin Figure \@ref(fig:mean-catch-pre-post-2003).
+Of these, six species are caught regularly: Big Skate, Sandpaper Skate, Longnose Skate, Blackbelly Eelpout, Stripetail Rockfish, and Slim Sculpin (Figure \@ref(fig:mean-catch-pre-post-2003)).
 
 ```{r mean-catch-pre-post-2003, fig.cap="Mean annual catch (kg) of fish species listed in this synoptic report that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width = "\\textwidth"}
 
@@ -48,7 +61,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-2003.p
 
 ```
 
-To check if some species were identified at higher taxonomic levels prior to 2003, we extracted data from GFBio for higher order taxonomies of species that have been identified in the MSSM survey since 2003 \@ref(spp-aggregate-plot).
+To check if some species were identified at higher taxonomic levels prior to 2003, we extracted data from GFBio for higher order taxonomies of species that have been identified in the MSSM survey since 2003 (\@ref(fig:spp-aggregate-plot)).
 Sculpins and skates are the main groups that were counted at the family level prior to 2003.
 While flatfishes and rockfishes were most often identified to species if they were counted/weighed.
 
@@ -65,6 +78,8 @@ Another pattern to note is that Pacific Tomcod recorded abundances decrease afte
 knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-cod.png"), dpi = NA)
 
 ```
+
+
 
 ## Modelling
 
@@ -166,27 +181,17 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/age-comp.png"),
 
 Include table?
 
-```{r, echo=FALSE, eval=FALSE}
+```{r, echo=FALSE, eval=TRUE, tab.cap="Change table", out.width='\\textwidth'}
 
 mssm_survey_changes <- readr::read_csv(here::here('report', 'mssm-appendix', 'mssm-survey-changes.csv')) |>
   dplyr::select(Year, Change, Details)
-mssm_survey_changes |>
-  flextable::flextable() |>
-  flextable::fix_border_issues() |>
-  # flextable::set_table_properties(width = 0.8) |>
-  # flextable::autofit() |>
-  flextable::width(j = "Year", width = 3, unit = "cm") |>
-  flextable::width(j = "Change", width = 5, unit = "cm") |>
-  flextable::width(j = "Details", width = 13, unit = "cm") |>
-  flextable::colformat_double(big.mark = "", digits = 0) |>
-  flextable::bg(x = _, i = ~ Change == "No survey", bg = "grey95") |>
-  flextable::bg(x = _, i = ~ Change == "Sorting protocol", bg = "#fdcdac") |>
-  flextable::bg(x = _, i = ~ Change == "Tow duration reduced", bg = "#f1e2cc") |>
-  flextable::bg(x = _, i = ~ Change == "Gear", bg = "#fff2ae") |>
-  flextable::bg(x = _, i = ~ Change == "Data capture", bg = "#b3e2cd") |>
-  flextable::bg(x = _, i = ~ stringr::str_detect(Change, "Navigation"), bg = "#f4cae4") |>
-  flextable::valign(valign = "top", part = "all") |>
-  flextable::align(j = "Year", align = "center", part = "all")
+
+kt <- # Convert to kable
+knitr::kable(mssm_survey_changes, format = "latex", booktabs = TRUE) #|>
+  kableExtra::kable_styling(latex_options = c("hold_position"))
+kt
+
+#kt |>  kableExtra::kable_styling(full_width = FALSE)  # Adjust this as needed
 
 ```
 

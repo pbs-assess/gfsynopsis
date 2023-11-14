@@ -227,19 +227,25 @@ mssm_grid_2009_2019_sf <- mssm_grid_2009_2019_sf |>
 km2 <-
   ggplot(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 2009 & last_samp_year <= 2019)) +
   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
-  geom_sf(alpha = 0.5)
-
+  geom_sf(alpha = 0.5) +
+  scale_fill_manual(values = grid_colours) +
+  scale_x_continuous(breaks = seq(-127.4, -126.0, by = 0.4))
 
 km3 <-
   ggplot(data = mssm_grid_3km_sf |> filter(last_samp_year >= 2009 & last_samp_year <= 2019)) +
   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
-  geom_sf(alpha = 0.5)
-  theme(axis.text.y = element_blank())
+  geom_sf(alpha = 0.5) +
+  theme(axis.text.y = element_blank()) +
+  scale_fill_manual(values = grid_colours) +
+  scale_x_continuous(breaks = seq(-127.4, -126.0, by = 0.4))
 
 km2 + km3
 ggsave(filename = file.path(mssm_figs, '2km-3km-grid-comp.png'), width = 6.7, height = 4.6)
 # ------------------------------------------------------------------------------
 # --- Look at spatial distribution of sampling ------------
+# Set default grid for plotting
+mssm_grid_sf <- mssm_grid_3km_sf
+
 pcod_dat <- mssm_dat |>
   filter(species_common_name == 'pacific cod')
 
@@ -272,14 +278,15 @@ gfbio_grid <- sgrid |>
 
 # --- Grid used in synopsis
 
-grid_plot <- mssm_grid_2009_2019_sf |>
+grid_plot <- mssm_grid_sf |>
   filter(last_samp_year >= 2009) |>
   ggplot() +
     geom_sf(data = pcod_sf, colour = 'grey50', shape = 1, alpha = 0, size = 0.1) +
     geom_sf(aes(fill = '2009'), alpha = 0.5) +
     scale_fill_manual(values = grid_colours) +
     labs(fill = "Grid") +
-    theme(legend.position = c(0.8, 0.9))
+    theme(legend.position = c(0.8, 0.9)) +
+    scale_x_continuous(breaks = seq(-127.4, -126.0, by = 0.4))
 grid_plot + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
     theme(axis.text = element_text(size = 6),
         legend.text = element_text(size = 6),
@@ -287,10 +294,8 @@ grid_plot + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
 
 ggsave(file.path(mssm_figs, 'grid-prediction-2009_no-points.png'), width = 3.5, height = 3.7)
 
-mssm_fig_list$grid_plot <- grid_plot
 
-grid_plot_2009_points <- #mssm_grid_2009_2019_sf |>
-  mssm_grid_2009_2019_sf |>
+grid_plot_2009_points <- mssm_grid_sf |>
   filter(last_samp_year >= 2009 & last_samp_year <= 2019) |>
   ggplot() +
     geom_sf(data = pcod_sf |> filter(year < 2009), shape = 1, colour = 'grey50', alpha = 0.5, size = 0.1) +
@@ -302,15 +307,14 @@ grid_plot_2009_points <- #mssm_grid_2009_2019_sf |>
 grid_plot_2009_points + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
     theme(axis.text = element_text(size = 6),
         legend.text = element_text(size = 6),
-        legend.title = element_blank())
-
-mssm_fig_list$grid_plot_2009_points <- grid_plot_2009_points
+        legend.title = element_blank()) +
+    scale_x_continuous(breaks = seq(-127.4, -126.0, by = 0.4)) +
+    guides(fill = "none")
 
 ggsave(file.path(mssm_figs, 'grid-prediction-2009.png'), width = 3.5, height = 3.7)
 
 # --- Overlay blocks shown/used in GFBioField
-gfbio_field_grid_plot1 <-
-  mssm_grid_2009_2019_sf |>
+gfbio_field_grid_plot1 <- mssm_grid_sf |>
   filter(last_samp_year >= 2009) |>
   ggplot() +
   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.5, size = 0.1) +
@@ -318,7 +322,8 @@ gfbio_field_grid_plot1 <-
   geom_sf(data = gfbio_grid, aes(fill = 'GFBioField'), alpha = 0.7) +
   scale_fill_manual(values = grid_colours) +
     labs(fill = "Grid") +
-    theme(legend.position = c(0.8, 0.9))
+    theme(legend.position = c(0.8, 0.9)) +
+    scale_x_continuous(breaks = seq(-127.4, -126.0, by = 0.4))
 gfbio_field_grid_plot1 +
   theme(axis.text = element_text(size = 6),
         legend.text = element_text(size = 6),
@@ -326,46 +331,27 @@ gfbio_field_grid_plot1 +
 
 ggsave(file.path(mssm_figs, 'grid-prediction-gfbiofield-1.png'), width = 3.5, height = 3.7)
 
-
-mssm_fig_list$gfbio_field_grid_plot1 <- gfbio_field_grid_plot1
-
-# gfbio_field_grid_plot2 <-
-#   ggplot() +
-#     geom_sf(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 1998),
-#       aes(fill = "1998 (GPS)"), alpha = 0.5) +
-#     geom_sf(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 2009),
-#       aes(fill = "2009 (GFBioField)"), alpha = 0.5) +
-#     geom_sf(data = gfbio_grid, aes(fill = 'GFBioField'), alpha = 0.7) +
-#     geom_point(data = pcod_dat |> filter(year >= 2009), aes(x = longitude, y = latitude), shape = 1, alpha = 0.2) +
-#     scale_fill_manual(values = grid_colours) +
-#     labs(fill = "Last year sampled") +
-#     theme(legend.position = c(0.8, 0.9)) +
-#     theme(axis.title = element_blank())
-# gfbio_field_grid_plot2
-
-
-
-
 # --- Historical survey domain
 # The grid was created as any 2x2 km grid cell, that overlapped with at least one
 # sampling location.
 # The overlay grid covered the bounding box of all sampling locations
 grid_historical_plot <-
-  ggplot(data = mssm_grid_2009_2019_sf) +
+  ggplot(data = mssm_grid_sf) +
     geom_sf(aes(fill = "1975 (Loran A)"), alpha = 1) +
-    geom_sf(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 1979),
+    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 1979),
       aes(fill = "1979 (Loran C)"), alpha = 1) +
-    geom_sf(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 1998),
+    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 1998),
       aes(fill = "1998 (GPS)"), alpha = 1) +
-    geom_sf(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 2009),
+    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 2009),
       aes(fill = "2009"), alpha = 1) +
-    geom_sf(data = mssm_grid_2009_2019_sf |> filter(last_samp_year > 2019),
-      aes(fill = ">2019"), alpha = 1) +
+    #geom_sf(data = mssm_grid_sf |> filter(last_samp_year > 2019),
+    #  aes(fill = ">2019"), alpha = 1) +
     geom_point(data = pcod_dat, aes(x = longitude, y = latitude), shape = 1, size = 0.5, alpha = 0.2) +
     scale_fill_manual(values = grid_colours) +
     labs(fill = "Last year sampled") +
     theme(legend.position = c(0.77, 0.85)) +
-    theme(axis.title = element_blank())
+    theme(axis.title = element_blank()) +
+    scale_x_continuous(breaks = seq(-127.4, -126.0, by = 0.4))
 grid_historical_plot + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
   theme(axis.text = element_text(size = 6),
         legend.text = element_text(size = 6),
@@ -374,20 +360,15 @@ grid_historical_plot + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
 ggsave(file.path(mssm_figs, 'grid-historical-nav-changes.png'), width = 3.5, height = 3.7)
 #ggsave(filename = file.path(mssm_figs, 'grid-historical-nav-changes_no-points.png'), width = 3.5, height = 3.7)
 
-mssm_fig_list$grid_historical_plot <- grid_historical_plot + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
-  theme(axis.text = element_text(size = 6),
-        legend.text = element_text(size = 6),
-        legend.title = element_text(size = 6))
-
 spatial_shift_plot <-
   ggplot() +
-    geom_sf(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 2009),
+    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 2009),
       aes(fill = "2009"), alpha = 0.8, colour = 'grey50') +
     geom_point(data = pcod_dat |>
       filter(year %in% c(1975, 1976, 1977, 1978, 1979, 1985, 1995, 1998, 2003, 2013, 2021, 2022)),
-      aes(x = longitude, y = latitude), alpha = 1, size = 0.5, stroke = 0.5, shape = 21, fill = 'white') +
+      aes(x = longitude, y = latitude), alpha = 1, size = 1, stroke = 0.5, shape = 21, fill = 'white') +
     scale_fill_manual(values = grid_colours) +
-    facet_wrap(~ year, nrow = 3) +
+    facet_wrap(~ year, nrow = 2) +
     guides(fill = "none") +
     theme(legend.position = c(0.95, 0.95),
           axis.text = element_blank(),
@@ -395,8 +376,6 @@ spatial_shift_plot <-
           legend.title = element_blank(),
           legend.text = element_text(size = 6))
 spatial_shift_plot
-
-mssm_fig_list$spatial_shift_plot <- spatial_shift_plot
 
 ggsave(file.path(mssm_figs, 'grid-spatial-sampling-changes.png'), plot = spatial_shift_plot,
   width = 7.8, height = 8.5)
@@ -416,7 +395,6 @@ yearbin_catch <- mssm_dat |>
 
 post_2003_spp <- filter(yearbin_catch, yearbin_catch == 0)$species_common_name
 saveRDS(post_2003_spp, file.path(mssm_appendix, 'post-2003-spp.rds'))
-mssm_fig_list$post_2003_spp <- post_2003_spp
 
 sampling_2003_plot <-
   mssm_dat |>
@@ -427,9 +405,6 @@ sampling_2003_plot <-
     mutate(species_common_name = stringr::str_to_title(species_common_name)) |>
     mutate(species_common_name = forcats::fct_reorder(species_common_name, species_code)) |>
   ggplot(data = _, aes(x = year, y = mean_catch)) +
-    # geom_rect(data = . %>% filter(yearbin_catch == FALSE),
-    #             aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
-    #             fill = "gray85", alpha = 0.2) +
     geom_rect(aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
               fill = "gray85", alpha = 0.2) +
     geom_point() +
@@ -439,8 +414,6 @@ sampling_2003_plot <-
     facet_wrap(~ species_common_name, scales = 'free_y') +
     ggtitle("Mean catch, highlighting species that show up only after 2003")
 sampling_2003_plot
-
-mssm_fig_list$sampling_2003_plot <- sampling_2003_plot
 
 ggsave(file.path(mssm_figs, 'sampling-2003.png'), plot = sampling_2003_plot,
   width = 17, height = 9)
@@ -462,8 +435,7 @@ cod_comparison <-
     guides(colour = "none") +
     facet_wrap(~ species_common_name, scales = 'free_y', nrow = 3) +
     labs(x =  "Year", y = "Mean annual catch (kg)")
-
-mssm_fig_list$cod_comparison <- cod_comparison
+cod_comparison
 
 ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
   width = 5.5, height = 5.5)
@@ -549,9 +521,9 @@ purrr::walk(spp_vector, function(.sp) {
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
         family = sdmTMB::tweedie(),
-        survey_type = "SYN WCVI", model_type = 'st-rw', cache = file.path('report','stitch-cache', 'SYN-WCVI', 'mssm-grid-2km'),
+        survey_type = "SYN WCVI", model_type = 'st-rw', cache = file.path('report','stitch-cache', 'SYN-WCVI', 'mssm-grid-3km'),
         cutoff = 20, silent = FALSE,
-        survey_grid = mssm_grid_2009_2019 |> select(-last_samp_year) |> mutate(survey = 'SYN WCVI'),
+        survey_grid = mssm_grid_3km |> select(-last_samp_year) |> mutate(survey = 'SYN WCVI'),
         grid_dir = NULL,
         check_cache = TRUE
         #grid_dir = grid_dir, check_cache = TRUE
@@ -563,7 +535,7 @@ beepr::beep()
 # MSSM geostat without year bin
 
 
-mssm_inds <- spp_vector |>
+mssm_2km_inds <- spp_vector |>
   map(\(sp) readRDS(file.path(mssm_sc, paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
   setNames(spp_vector) |>
   keep(\(x) inherits(x, 'data.frame')) |>
@@ -599,7 +571,6 @@ mssm_3km_inds <- spp_vector |>
   mutate(extreme_uci = max(upperci) > 10 * max(biomass)) |>
   ungroup()
 
-
 # MSSM design index
 mssm_d_inds <- spp_vector |>
   map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), '.rds')))$survey_index) |>
@@ -620,7 +591,7 @@ syn_inds <-
 
 syn_mssm_grid_inds <-
   spp_vector |>
-    map(\(sp) readRDS(file.path(syn_sc, 'mssm-grid-2km', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
+    map(\(sp) readRDS(file.path(syn_sc, 'mssm-grid-3km', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
     setNames(spp_vector) |>
     keep(\(x) inherits(x, 'data.frame')) |>
     bind_rows(.id = 'species') |>
@@ -637,16 +608,17 @@ cpue_ind <- spp_vector |>
   rename(biomass = est, lowerci = lwr, upperci = upr) |>
   mutate(survey_abbrev = 'CPUE 3CD')
 
+# ------------------------------------------------------------------------------
+
 # One fewer models converges when we include year bin (blackbelly eelpout -
 # a species that only shows up after 2003)
 
-setdiff(mssm_inds$species, mssm_year_inds$species)
-setdiff(mssm_year_inds$species, mssm_inds$species)
+setdiff(mssm_3km_inds$species, mssm_year_inds$species)
+setdiff(mssm_year_inds$species, mssm_3km_inds$species)
 
-# ------------------------------------------------------------------------------
 
 # Compare models that inclued and exclude the year 2003 break point
-year_bin_ind_plot <- bind_rows(mssm_inds, mssm_year_inds) |>
+year_bin_ind_plot <- bind_rows(mssm_2km_inds, mssm_year_inds) |>
   order_spp() |>
   ggplot(data = _, aes(x = year, y = biomass)) +
     geom_line(aes(colour = year_bins)) +
@@ -666,12 +638,10 @@ year_bin_ind_plot <- bind_rows(mssm_inds, mssm_year_inds) |>
     labs(colour = "Model", fill = "Model")
 year_bin_ind_plot
 
-mssm_fig_list$year_bin_ind_plot <- year_bin_ind_plot
-
 ggsave(file.path(mssm_figs, 'sampling-year-effect.png'), plot = year_bin_ind_plot,
   width = 10.5, height = 8)
 
-grid_bin_ind_plot <- bind_rows(mssm_inds, mssm_3km_inds) |>
+grid_bin_ind_plot <- bind_rows(mssm_2km_inds, mssm_3km_inds) |>
   order_spp() |>
   ggplot(data = _, aes(x = year, y = biomass)) +
     geom_line(aes(colour = grid)) +
@@ -696,7 +666,7 @@ ggsave(file.path(mssm_figs, '2km-3km-grid-model-comp.png'), plot = grid_bin_ind_
   width = 10.5, height = 8)
 
 
-# cod_year_bin <- bind_rows(mssm_inds, mssm_year_inds) |>
+# cod_year_bin <- bind_rows(mssm_3km_inds, mssm_year_inds) |>
 #   filter(species == "pacific cod") |>
 #   ggplot(data = _, aes(x = year, y = biomass)) +
 #     geom_line(aes(colour = year_bins)) +
@@ -728,8 +698,8 @@ mssm_years <- unique(mssm_dat$year)
 cpue_years <- unique(cpue_ind$year)
 
 
-#spp_in_mssm <- unique(mssm_inds$species)
-spp_in_mssm <- mssm_inds |>
+#spp_in_mssm <- unique(mssm_3km_inds$species)
+spp_in_mssm <- mssm_3km_inds |>
   filter(!extreme_uci | is.na(extreme_uci)) |>
   filter(mean_cv < 4 | is.na(mean_cv)) |>
   distinct(species) |>
@@ -746,8 +716,8 @@ spp_in_mssm_design_only <- setdiff(spp_in_mssm_design, spp_in_mssm)
 syn_mssm_overlap <- intersect(syn_years, mssm_years)
 cpue_mssm_overlap <- intersect(cpue_years, mssm_years)
 
-# MSSM with SYN WCVI
-inds <- bind_rows(mssm_inds, syn_inds, syn_mssm_grid_inds, cpue_ind, mssm_d_inds) |>
+# MSSM with SYN WCVI - Use 3km grid
+inds <- bind_rows(mssm_3km_inds, syn_inds, syn_mssm_grid_inds, cpue_ind, mssm_d_inds) |>
   mutate(syn_overlap = ifelse(year %in% syn_mssm_overlap, TRUE, FALSE),
          cpue_overlap = ifelse(year %in% cpue_mssm_overlap, TRUE, FALSE))
 
@@ -782,17 +752,18 @@ scaled_inds <- left_join(inds, syn_overlap_geomeans) |>
   mutate(survey_abbrev = gsub("MSSM WCVI", "MSSM Model", survey_abbrev)) |>
   order_spp()
 
-ind_layers <- function() {
+ind_layers <- function(colours = survey_cols, ncol = 5) {
   layers <- list(
       geom_line(),
       geom_point(),
-      scale_colour_manual(values = survey_cols),
-      scale_fill_manual(values = survey_cols),
-      facet_wrap(~ species, scale = 'free_y', ncol = 5),
-      theme(legend.position = c(0.5, 1.055),
+      scale_colour_manual(values = colours),
+      scale_fill_manual(values = colours),
+      facet_wrap(~ species, scale = 'free_y', ncol = ncol),
+      theme(legend.position = 'top',
             legend.title = element_blank(),
             axis.text.y = element_blank()),
-      guides(color = guide_legend(direction = "horizontal"), fill = guide_legend(direction = "horizontal"))
+      guides(color = guide_legend(direction = "horizontal"), fill = guide_legend(direction = "horizontal")),
+      labs(x = 'Year', y = 'Relative biomass index')
     )
 }
 
@@ -809,10 +780,11 @@ ggplot(data = _, aes(x = year, y = mssm_scaled_biomass, colour = survey_abbrev, 
   theme(legend.position = c(0.5, 1.055),
         legend.title = element_blank(),
         axis.text.y = element_blank()) +
-  #guides(color = guide_legend(direction = "horizontal"), fill = guide_legend(direction = "horizontal")) +
-  guides(colour = 'none', fill = 'none') +
+  # geom_rect(data = . %>% distinct(species, .keep_all = TRUE),
+  #     mapping = aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
+  #     fill = "gray85", alpha = 0.3) +
+  guides(colour = 'none', fill = 'none')
   #ggtitle("Design based index only") +
-  labs(x = 'Year', y = 'Relative biomass index')
 mssm_design_only_inds
 
 ggsave(file.path(mssm_figs, 'index-mssm-design.png'), plot = mssm_design_only_inds,
@@ -825,12 +797,9 @@ ggplot(data = _, aes(x = year, y = mssm_scaled_biomass, colour = survey_abbrev, 
   geom_ribbon(aes(ymin = mssm_scaled_lowerci, ymax = mssm_scaled_upperci), colour = NA, alpha = 0.3) +
   ind_layers() +
   geom_pointrange(data = scaled_inds |> filter(species %in% spp_in_mssm, survey_abbrev == "MSSM Design"),
-    aes(ymin = mssm_scaled_lowerci, ymax = mssm_scaled_upperci), size = 0.2, alpha = 0.7) +
-  labs(x = 'Year', y = 'Relative biomass index')
+    aes(ymin = mssm_scaled_lowerci, ymax = mssm_scaled_upperci), size = 0.2, alpha = 0.7)
   #ggtitle("Comparison of Modelled and Design based index")
 mssm_model_design_inds
-
-mssm_fig_list$mssm_model_design_inds <- mssm_model_design_inds
 
 ggsave(file.path(mssm_figs, 'index-model-design.png'), plot = mssm_model_design_inds,
   width = 10.5, height = 7)
@@ -840,7 +809,12 @@ mssm_syn_inds <- scaled_inds |>
          survey_abbrev %in% c("MSSM Model", "SYN WCVI")) |>
 ggplot(data = _, aes(x = year, y = syn_scaled_biomass, colour = survey_abbrev, fill = survey_abbrev)) +
   geom_ribbon(aes(ymin = syn_scaled_lowerci, ymax = syn_scaled_upperci), colour = NA, alpha = 0.3) +
-  ind_layers()
+  ind_layers() +
+geom_rect(data = . %>% filter(!(species %in% unique(syn_inds$species))) %>%
+    distinct(species, .keep_all = TRUE),
+    mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+    fill = "white", colour = NA)
+mssm_syn_inds
 
 ggsave(file.path(mssm_figs, 'index-mssm-model-syn-wcvi-model.png'), plot = mssm_syn_inds,
   width = 10.5, height = 8)
@@ -850,11 +824,31 @@ mssm_syn_inds_mssm_grid <- scaled_inds |>
          survey_abbrev %in% c("MSSM Model", "SYN WCVI on MSSM Grid")) |>
 ggplot(data = _, aes(x = year, y = syn_scaled_biomass, colour = survey_abbrev, fill = survey_abbrev)) +
   geom_ribbon(aes(ymin = syn_scaled_lowerci, ymax = syn_scaled_upperci), colour = NA, alpha = 0.3) +
-  ind_layers()
+  ind_layers() +
+  geom_rect(data = . %>% filter(!(species %in% unique(syn_inds$species))) %>%
+    distinct(species, .keep_all = TRUE),
+    mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+    fill = "white", colour = NA) +
+  labs(x = 'Year', y = 'Relative biomass index')
 mssm_syn_inds_mssm_grid
 
 ggsave(file.path(mssm_figs, 'index-mssm-model-syn-wcvi-model-mssm-grid.png'), plot = mssm_syn_inds_mssm_grid,
   width = 10.5, height = 8)
+
+
+mssm_syn_grid_zoom_in <- scaled_inds |>
+  filter(species %in% spp_in_mssm,
+         survey_abbrev %in% c("MSSM Model", "SYN WCVI", "SYN WCVI on MSSM Grid")) |>
+  filter(year > 2003) |>
+  filter(species != 'shiner perch') |>
+ggplot(data = _, aes(x = year, y = syn_scaled_biomass, colour = survey_abbrev, fill = survey_abbrev)) +
+  geom_ribbon(aes(ymin = syn_scaled_lowerci, ymax = syn_scaled_upperci), colour = NA, alpha = 0.15) +
+  ind_layers(colours = c("SYN WCVI" = "#7570b3", "SYN WCVI on MSSM Grid" = "#a6761d",
+    "MSSM Model" = "#1b9e77"),
+    ncol = 4)
+mssm_syn_grid_zoom_in
+ggsave(file.path(mssm_figs, 'index-mssm-syn-wcvi-mssm-grid-zoom-in.png'), plot = mssm_syn_inds_mssm_grid,
+  width = 9.5, height = 11)
 
 mssm_cpue_inds <- scaled_inds |>
   filter(species %in% spp_in_mssm,
@@ -863,12 +857,16 @@ ggplot(data = _, aes(x = year, y = cpue_scaled_biomass, colour = survey_abbrev, 
   geom_line() +
   geom_point() +
   geom_ribbon(aes(ymin = cpue_scaled_lowerci, ymax = cpue_scaled_upperci), colour = NA, alpha = 0.3) +
+  geom_vline(xintercept = c(2003), colour = 'grey80') +
   scale_colour_manual(values = survey_cols) +
   scale_fill_manual(values = survey_cols) +
   facet_wrap(~ species, scale = 'free_y') +
-  ggtitle("Comparison of Modelled MSSM and CPUE 3CD") +
-  geom_vline(xintercept = c(2003), colour = 'grey80') +
-  ind_layers()
+  #ggtitle("Comparison of Modelled MSSM and CPUE 3CD") +
+  ind_layers() +
+  geom_rect(data = . %>% filter(!(species %in% unique(cpue_ind$species))) %>%
+    distinct(species, .keep_all = TRUE),
+    mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+    fill = "white", colour = NA)
 mssm_cpue_inds
 
 ggsave(file.path(mssm_figs, 'index-mssm-model-cpue3CD.png'), plot = mssm_cpue_inds,
@@ -883,12 +881,13 @@ comp_index_type <- "SYN WCVI"
 comp_index_type <- "SYN WCVI on MSSM Grid"
 
 get_mssm_cor <- function(mssm_index_type, comp_index_type, cor_thresh = 0.5, window = 10) {
-  year_cutoff <- ifelse(comp_index_type == "SYN WCVI", 2003, 1996)
+  year_cutoff <- ifelse(grepl("SYN WCVI", comp_index_type), 2004, 1996)
 
-  if (comp_index_type == "CPUE 3CD") {
-    spp_intersect <- intersect(unique(mssm_inds$species), unique(cpue_ind$species))
+  if ((comp_index_type == "CPUE 3CD")) {
+    spp_intersect <- intersect(unique(mssm_3km_inds$species), unique(cpue_ind$species))
   } else {
-    spp_intersect <- intersect(unique(mssm_inds$species), unique(syn_inds$species))
+    spp_intersect <- intersect(unique(mssm_3km_inds$species), unique(syn_inds$species))
+
   }
 
   mssm_cor_df <- scaled_inds |>
@@ -901,48 +900,60 @@ get_mssm_cor <- function(mssm_index_type, comp_index_type, cor_thresh = 0.5, win
     map(\(x) select(x, -species) |> arrange(year)) %>%
     keep(~ nrow(.x) > 0)
 
-  cor_biomass <- mssm_cor_list |>
-    imap_dfr(\(dat, i) {
-      cor_vals <- rollapply(dat, width = window, FUN = function(x) cor(x[, mssm_index_type], x[, comp_index_type]),
-        by.column = FALSE)
-      cor_df <- tibble(species = i, cor_vals = cor_vals, input = 'biomass', start_year = dat$year[1:length(cor_vals)])
+  # Correlation for full time series
+  if (window == 0) {
+    cor_log_biomass <- mssm_cor_list |>
+      imap_dfr(\(dat, i) {
+        cor_vals <- cor(log(dat[, mssm_index_type]), log(dat[, comp_index_type]))
+        cor_df <- tibble(species = i, cor_val = cor_vals[[1]], input = 'log(biomass)')
+      })
+    cor_df <- cor_log_biomass |>
+     mutate(comp = paste0(mssm_index_type, ' ~ ', comp_index_type))
+  } else {
+  # Rolling window correlation
+    cor_biomass <- mssm_cor_list |>
+      imap_dfr(\(dat, i) {
+        cor_vals <- rollapply(dat, width = window, FUN = function(x) cor(x[, mssm_index_type], x[, comp_index_type]),
+          by.column = FALSE)
+        cor_df <- tibble(species = i, cor_vals = cor_vals, input = 'biomass', start_year = dat$year[1:length(cor_vals)])
+      }
+    )
+
+    cor_log_biomass <- mssm_cor_list |>
+      imap_dfr(\(dat, i) {
+        cor_vals <- rollapply(dat, width = window, FUN = function(x) cor(log(x[, mssm_index_type]), log(x[, comp_index_type])),
+          by.column = FALSE)
+        cor_df <- tibble(species = i, cor_vals = cor_vals, input = 'log(biomass)', start_year = dat$year[1:length(cor_vals)])
+      }
+    )
+
+    cor_df <- bind_rows(cor_biomass, cor_log_biomass) |>
+      group_by(species, input) |>
+      order_spp() |>
+      drop_na()
+
+    good_spp <- unique(cor_df$species)
+
+    if (!is.null(cor_thresh)) {
+      good_spp <- cor_df |>
+        mutate(max_year = max(start_year)) |>
+        filter(start_year > max_year - 5) |>
+        group_by(species) |>
+        summarise(mean_cor = mean(cor_vals), .groups = 'drop') |>
+        filter(mean_cor >= cor_thresh) |>
+        pluck('species')
     }
-  )
 
-  cor_log_biomass <- mssm_cor_list |>
-    imap_dfr(\(dat, i) {
-      cor_vals <- rollapply(dat, width = window, FUN = function(x) cor(log(x[, mssm_index_type]), log(x[, comp_index_type])),
-        by.column = FALSE)
-      cor_df <- tibble(species = i, cor_vals = cor_vals, input = 'log(biomass)', start_year = dat$year[1:length(cor_vals)])
-    }
-  )
-
-  cor_df <- bind_rows(cor_biomass, cor_log_biomass) |>
-    group_by(species, input) |>
-    order_spp() |>
-    drop_na()
-
-  good_spp <- unique(cor_df$species)
-
-  if (!is.null(cor_thresh)) {
-    good_spp <- cor_df |>
-      mutate(max_year = max(start_year)) |>
-      filter(start_year > max_year - 5) |>
-      group_by(species) |>
-      summarise(mean_cor = mean(cor_vals), .groups = 'drop') |>
-      filter(mean_cor >= cor_thresh) |>
-      pluck('species')
-  }
-
-  cor_df |>
-   filter(input == 'log(biomass)') |>
-   filter(species %in% good_spp) |>
-   mutate(comp = paste0(mssm_index_type, ' ~ ', comp_index_type)) |>
-   ungroup()
+    cor_df |>
+     filter(input == 'log(biomass)') |>
+     filter(species %in% good_spp) |>
+     mutate(comp = paste0(mssm_index_type, ' ~ ', comp_index_type)) |>
+     ungroup()
+   }
 }
 
 # cor_thresh = 0.25
-# cor_thresh = 0.50
+#cor_thresh = 0.50
 cor_thresh = NULL
 cor1 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "CPUE 3CD", cor_thresh = cor_thresh)
 cor2 <- get_mssm_cor(mssm_index_type = "MSSM Design", comp_index_type = "CPUE 3CD", cor_thresh = cor_thresh)
@@ -950,32 +961,25 @@ cor3 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI
 cor4 <- get_mssm_cor(mssm_index_type = "MSSM Design", comp_index_type = "SYN WCVI", cor_thresh = cor_thresh)
 cor5 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI on MSSM Grid", cor_thresh = cor_thresh)
 
-# plot_mssm_cor <- function(cor_df, mssm_index_type, comp_index_type) {
-#   ggplot(cor_df, aes(x = start_year, y = cor_vals)) +
-#       geom_hline(yintercept = 0, colour = 'grey50') +
-#       geom_line(aes(colour = species)) +
-#       geom_smooth(se = FALSE) +
-#       scale_x_continuous(breaks = scales::pretty_breaks(n = ifelse(comp_index_type == "SYN WCVI", 9, 10))) +
-#       guides(colour = "none") +
-#       ggtitle(paste0(mssm_index_type, ' ~ ', comp_index_type, ' Correlation; Window = ', window, " years")) +
-#       coord_cartesian(clip = "off") +
-#         ggrepel::geom_text_repel(
-#         data = test %>% group_by(comp, species) %>% slice(which.max(start_year)),
-#         aes(label = species, x = start_year, colour = species),
-#         size = 3.5, hjust = 'left', segment.color = 'grey85',
-#         nudge_x = 0.3, box.padding = 0.1, point.padding = 0.5,
-#         direction = "y"
-#       )
-# }
-# p1 <- plot_mssm_cor(cor1, mssm_index_type = "MSSM Model", comp_index_type = "CPUE 3CD")
+full_cor1 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "CPUE 3CD", cor_thresh = NULL, window = 0)
+full_cor2 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI", cor_thresh = NULL, window = 0)
+full_cor3 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI on MSSM Grid", cor_thresh = NULL, window = 0)
 
-cor_df <- bind_rows(cor1, cor2, cor3, cor4) |>
+full_cor <- bind_rows(full_cor1, full_cor2, full_cor3)
+
+cor_df <- bind_rows(cor1, cor2, cor3, cor4, cor5) |>
   mutate(comp = factor(comp, levels = c(
     "MSSM Model ~ CPUE 3CD",
     'MSSM Model ~ SYN WCVI',
     "MSSM Design ~ CPUE 3CD",
-    'MSSM Design ~ SYN WCVI'))) |>
-  filter(comp %in% c("MSSM Model ~ CPUE 3CD", "MSSM Model ~ SYN WCVI"))
+    'MSSM Design ~ SYN WCVI',
+    "MSSM Model ~ SYN WCVI on MSSM Grid"))) |>
+  filter(comp %in% c("MSSM Model ~ CPUE 3CD", "MSSM Model ~ SYN WCVI", "MSSM Model ~ SYN WCVI on MSSM Grid")) |>
+  left_join(full_cor |>
+      rename(mean_cor = 'cor_val') |>
+      group_by(comp) |>
+      ungroup()) |>
+  filter(mean_cor >= 0.5)
 
 cor_plot <-
   ggplot(cor_df, aes(x = start_year, y = cor_vals)) +
@@ -984,24 +988,23 @@ cor_plot <-
       geom_hline(yintercept = 0, colour = 'grey50') +
       geom_line(aes(colour = species)) +
       geom_smooth(se = FALSE) +
-      #scale_x_continuous(breaks = scales::pretty_breaks(n = ifelse(comp_index_type == "SYN WCVI", 5, 10))) +
       guides(colour = "none") +
       facet_wrap(~ comp, scale = 'free_x') +
+      scale_x_continuous(breaks = scales::pretty_breaks()) +
       coord_cartesian(clip = "off") +
         ggrepel::geom_text_repel(
         data = cor_df %>% group_by(comp, species) %>% slice(which.max(start_year)),
         aes(label = species, x = start_year, colour = species),
-        size = 3.5, hjust = 'left', segment.color = 'grey85',
+        size = 3.2, hjust = 'left', segment.color = 'grey85',
         nudge_x = 0.3, box.padding = 0.1, point.padding = 0.5,
         direction = "y"
       ) +
       labs(x = "Start year of 10-year rolling window",
-           y = "Correlation") #+
-      #xlim(c(1996, 2020))
+           y = "Correlation")
 cor_plot
 
 ggsave(file.path(mssm_figs, 'index-correlation.png'), plot = cor_plot,
-  width = 9, height = 6)
+  width = 10.5, height = 4.3)
 
 # ------------------------------------------------------------------------------
 
@@ -1012,7 +1015,7 @@ size_dat <- spp_vector |>
   filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
   select(species_common_name, year, survey_abbrev, specimen_id, sample_id, sex, age,
         length, weight, length_type)
-beepr::beep()
+
 
 size_summary <- size_dat |>
   filter(species_common_name %in% spp_in_mssm) |>
@@ -1105,31 +1108,15 @@ ggsave(file.path(mssm_figs, 'age-comp.png'), plot = age_comp,
   width = 4, height = 4)
 
 
-year_cutoff <- ifelse(comp_index_type == "SYN WCVI", 2003, 1996)
-  mssm_cor_df <- scaled_inds |>
-    filter(species %in% intersect(unique(mssm_inds$species), unique(cpue_ind$species)),
-           survey_abbrev %in% c(mssm_index_type, comp_index_type),
-           year >= year_cutoff) |>
-    select(species, year, biomass, survey_abbrev) |>
-    tidyr::pivot_wider(names_from = survey_abbrev, values_from = biomass)
-  mssm_cor_list <- split(x = mssm_cor_df, mssm_cor_df$species) |>
-    map(\(x) select(x, -species) |> arrange(year)) %>%
-    keep(~ nrow(.x) > 0)
-
-
-
-
-test <- cor_df |>
-  mutate(species_common_name = as.character(species)) |>
-  left_join(size_diff_lu)
-
-test |>
-  filter(comp == 'MSSM Model ~ SYN WCVI') |>
-ggplot(data = _, aes(x = abs_diff, y = cor_vals)) +
-  geom_point(aes(colour = species_common_name)) +
+# Mean correlation ~ size ---
+full_cor |>
+  left_join(size_diff_lu, by = c('species' = 'species_common_name')) |>
+ggplot(data = _, aes(x = abs_diff, y = cor_val)) +
+  geom_point() +
   geom_hline(yintercept = 0, colour = 'grey70') +
-  stat_summary(geom = "point", fun.y = "mean", col = "black", size = 3, aes(fill = species_common_name), shape = 21, stroke = 1)
-
+  facet_wrap(~ comp) +
+  labs(x = "Absolute size difference (cm)", y = "Correlation")
+ggsave(file.path(mssm_figs, 'size-survey-correlation.png'), width = 7.6, height = 2.7)
 
 # Depth overlap
 # No real difference in depth ranges surveyed over time
@@ -1142,9 +1129,12 @@ depth_comp |> filter(year > 2003) |>
   geom_density(aes(group = year), alpha = 0.5) +
   #scale_fill_manual(values = survey_cols) +
   facet_wrap(~ survey_abbrev, scales = 'free') +
-  geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = min(mssm_dat$depth_m, na.rm = TRUE)), aes(xmin = -Inf, xmax = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.3) +
-  geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = max(mssm_dat$depth_m, na.rm = TRUE)), aes(xmax = Inf, xmin = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.3)
-
+  # geom_vline(xintercept = c(min(mssm_dat$depth_m, na.rm = TRUE), max(mssm_dat$depth_m, na.rm = TRUE)))
+  geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = min(mssm_dat$depth_m, na.rm = TRUE)), aes(xmin = -Inf, xmax = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.1) +
+  geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = max(mssm_dat$depth_m, na.rm = TRUE)), aes(xmax = Inf, xmin = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.1) +
+  theme(axis.text.y = element_blank()) +
+  labs(x = "Depth (m)", y = "Sampling frequency")
+ggsave(file.path(mssm_figs, 'size-survey-correlation.png'), width = 7.6, height = 2.7)
 
 
 
@@ -1213,8 +1203,7 @@ spp_group_df <- bind_rows(mssm_dat, more_spp) |>
 
 spp_group_df |>
   distinct(species_common_name, parent_taxonomic_unit) |>
-  arrange(parent_taxonomic_unit) |>
-  view()
+  arrange(parent_taxonomic_unit)
 
 # Baseplot
 agg_plot <- function(df, ncol = 1, scales = 'free_y') {
