@@ -262,15 +262,35 @@ add_upr <- function(
 #' @param survey_dat A data frame from [gfsynopsis::prep_stitch_dat()].
 #' @param species A string specifying the `species_common_name`.
 #' @param survey_type A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".
-#' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw".
+#' @param model_type A string matching one of: "st-rw" (the default), "st-rw_tv-rw", or "custom".
+#' @param form Optional string specifying model formula.
+#'   'catch ~ 1' (the default, unless `family = poisson()` or `family = sdmTMB::censored_possion()`
+#'   then "catch ~ 1 + (1|obs_id)").
+#' @param form Optional string specifying model formula.
+#'    'catch ~ 1' (the default, unless `family = poisson()` or `family = sdmTMB::censored_possion()`
+#'    then "catch ~ 1 + (1|obs_id)").
+#' @param time An optional time column name (as character), used in [sdmTMB::sdmTMB()].
+#'    (default = 'year')
+#' @param spatial Estimate spatial random fields? See [sdmTMB::sdmTMB()].
+#'    (Default is 'rw').
+#' @param spatiotemporal Estimate the spatiotemporal random fields, see [sdmTMB::sdmTMB()].
+#'    (Default is 'rw').
+#' @param time_varying An optional one-sided formula describing covariates that
+#'    should be modelled as a time-varying process. See [sdmTMB::sdmTMB()].
+#'    Default is `NULL` if `model_type = st-rw`, and `~1` if `model_type = 'st-rw_tv-rw'`.
+#' @param time_varying_type Type of time-varying process to apply to
+#'    ‘time_varying’ formula. See [sdmTMB::sdmTMB()]. #'    Default is `NULL`
+#'     if `model_type = st-rw`, and `~1` if `model_type = 'st-rw_tv-rw'`.
 #' @param mesh Optional mesh object created using [sdmTMB::make_mesh()].
 #' @param cutoff If `mesh = NULL`, mesh cutoff for [sdmTMB::make_mesh()].
 #' @param family The family and link for [sdmTMB::sdmTMB()].
 #' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
+#' @param priors Optional penalties/priors used in [sdmTMB::sdmTMBpriors()].
 #' @param silent A boolean. Silent or include optimization details.
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
 #' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
+#' @param check_cache Check whether index file already exists? Default = `FALSE`.
 #' @param survey_grid A data frame containing the spatial grid over which predictions are to be made.
 #'    If `survey_grid` = NULL (the default). Grid should contain cell area.
 #' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
@@ -294,12 +314,10 @@ get_stitched_index <- function(
     time_varying_type = NULL,
     mesh = NULL, cutoff = 20,
     offset = "offset",
-    extra_time = NULL,
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
     gradient_thresh = 0.001,
-    upr = NULL,
     cache = NULL,
     check_cache = FALSE,
     survey_grid = NULL,

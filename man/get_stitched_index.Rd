@@ -19,12 +19,10 @@ get_stitched_index(
   mesh = NULL,
   cutoff = 20,
   offset = "offset",
-  extra_time = NULL,
   priors = sdmTMB::sdmTMBpriors(),
   silent = TRUE,
   ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
   gradient_thresh = 0.001,
-  upr = NULL,
   cache = NULL,
   check_cache = FALSE,
   survey_grid = NULL,
@@ -38,15 +36,38 @@ get_stitched_index(
 
 \item{survey_type}{A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".}
 
-\item{model_type}{A string matching one of: "st-rw" (the default), "st-rw_tv-rw".}
+\item{model_type}{A string matching one of: "st-rw" (the default), "st-rw_tv-rw", or "custom".}
+
+\item{form}{Optional string specifying model formula.
+'catch ~ 1' (the default, unless \code{family = poisson()} or \code{family = sdmTMB::censored_possion()}
+then "catch ~ 1 + (1|obs_id)").}
 
 \item{family}{The family and link for \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.}
+
+\item{time}{An optional time column name (as character), used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+(default = 'year')}
+
+\item{spatial}{Estimate spatial random fields? See \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+(Default is 'rw').}
+
+\item{spatiotemporal}{Estimate the spatiotemporal random fields, see \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+(Default is 'rw').}
+
+\item{time_varying}{An optional one-sided formula describing covariates that
+should be modelled as a time-varying process. See \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+Default is \code{NULL} if \code{model_type = st-rw}, and \code{~1} if \code{model_type = 'st-rw_tv-rw'}.}
+
+\item{time_varying_type}{Type of time-varying process to apply to
+‘time_varying’ formula. See \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}. #'    Default is \code{NULL}
+if \code{model_type = st-rw}, and \code{~1} if \code{model_type = 'st-rw_tv-rw'}.}
 
 \item{mesh}{Optional mesh object created using \code{\link[sdmTMB:make_mesh]{sdmTMB::make_mesh()}}.}
 
 \item{cutoff}{If \code{mesh = NULL}, mesh cutoff for \code{\link[sdmTMB:make_mesh]{sdmTMB::make_mesh()}}.}
 
 \item{offset}{A string naming the offset column in \code{dat} used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}}
+
+\item{priors}{Optional penalties/priors used in \code{\link[sdmTMB:priors]{sdmTMB::sdmTMBpriors()}}.}
 
 \item{silent}{A boolean. Silent or include optimization details.}
 
@@ -55,6 +76,8 @@ get_stitched_index(
 \item{gradient_thresh}{Threshold used in \code{\link[sdmTMB:sanity]{sdmTMB::sanity()}} (default = 0.001).}
 
 \item{cache}{A string specifying file path to cache directory.}
+
+\item{check_cache}{Check whether index file already exists? Default = \code{FALSE}.}
 
 \item{survey_grid}{A data frame containing the spatial grid over which predictions are to be made.
 If \code{survey_grid} = NULL (the default). Grid should contain cell area.}

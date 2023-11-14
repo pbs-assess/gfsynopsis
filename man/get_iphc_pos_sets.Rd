@@ -4,7 +4,7 @@
 \alias{get_iphc_pos_sets}
 \title{Get table of positive sets for IPHC FISS data}
 \usage{
-get_iphc_pos_sets(clean_iphc_dat)
+get_iphc_pos_sets(survey_dat)
 }
 \arguments{
 \item{survey_dat}{A dataframe from \code{\link[=prep_iphc_stitch_dat]{prep_iphc_stitch_dat()}}}

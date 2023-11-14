@@ -15,11 +15,9 @@ get_iphc_stitched_index(
   spatiotemporal = "rw",
   time_varying = NULL,
   time_varying_type = NULL,
-  data = survey_dat,
   mesh = NULL,
   cutoff = 20,
   offset = "log_eff_skate",
-  extra_time = missing_years,
   priors = sdmTMB::sdmTMBpriors(),
   silent = TRUE,
   ctrl = sdmTMB::sdmTMBcontrol(),
@@ -36,13 +34,36 @@ get_iphc_stitched_index(
 
 \item{model_type}{An suffix to the filename indicating model type (default = "st-rw").}
 
+\item{form}{Optional string specifying model formula.
+'catch ~ 1' (the default, unless \code{family = poisson()} or \code{family = sdmTMB::censored_possion()}
+then "catch ~ 1 + (1|obs_id)").}
+
 \item{family}{The family and link for \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.}
+
+\item{time}{An optional time column name (as character), used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+(default = 'year')}
+
+\item{spatial}{Estimate spatial random fields? See \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+Default is 'rw' if `model_type = "st-rw" or "st-rw_tv-rw".}
+
+\item{spatiotemporal}{Estimate the spatiotemporal random fields, see \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+Default is 'rw'   if `model_type = "st-rw" or "st-rw_tv-rw".}
+
+\item{time_varying}{An optional one-sided formula describing covariates that
+should be modelled as a time-varying process. See \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
+Default is \code{NULL}.}
+
+\item{time_varying_type}{Type of time-varying process to apply to
+‘time_varying’ formula. See \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}. Default is \code{NULL}.}
 
 \item{mesh}{Optional mesh object created using \code{\link[sdmTMB:make_mesh]{sdmTMB::make_mesh()}}.}
 
 \item{cutoff}{If \code{mesh = NULL}, mesh cutoff for \code{\link[sdmTMB:make_mesh]{sdmTMB::make_mesh()}}.}
 
-\item{offset}{A string naming the offset column in \code{dat} used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}} (default = 'log_eff_skate').}
+\item{offset}{A string naming the offset column in \code{dat} used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}
+(default = 'log_eff_skate').}
+
+\item{priors}{Optional penalties/priors used in \code{\link[sdmTMB:priors]{sdmTMB::sdmTMBpriors()}}.}
 
 \item{silent}{A boolean. Silent or include optimization details.}
 
@@ -51,6 +72,8 @@ get_iphc_stitched_index(
 \item{gradient_thresh}{Threshold used in \code{\link[sdmTMB:sanity]{sdmTMB::sanity()}} (default = 0.001).}
 
 \item{cache}{A string specifying file path to cache directory.}
+
+\item{check_cache}{Check whether index file already exists? Default = \code{FALSE}.}
 
 \item{grid}{A data frame containing the locations of IPHC stations used to make predictions and generate the index.}
 }

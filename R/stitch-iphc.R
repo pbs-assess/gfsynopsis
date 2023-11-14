@@ -40,8 +40,8 @@ prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
 #'
 #' @returns A dataframe
 #' @export
-get_iphc_pos_sets <- function(clean_iphc_dat) {
-  clean_iphc_dat |>
+get_iphc_pos_sets <- function(survey_dat) {
+  survey_dat |>
     mutate(measured = ifelse(!is.na(present), 1, 0)) |>
     group_by(species_common_name, year) |>
     summarise(
@@ -61,14 +61,31 @@ get_iphc_pos_sets <- function(clean_iphc_dat) {
 #' @param survey_dat A data frame from [gfsynopsis::prep_iphc_stitch_dat()].
 #' @param species A string specifying the `species_common_name`.
 #' @param model_type An suffix to the filename indicating model type (default = "st-rw").
+#' @param form Optional string specifying model formula.
+#'    'catch ~ 1' (the default, unless `family = poisson()` or `family = sdmTMB::censored_possion()`
+#'    then "catch ~ 1 + (1|obs_id)").
+#' @param time An optional time column name (as character), used in [sdmTMB::sdmTMB()].
+#'    (default = 'year')
+#' @param spatial Estimate spatial random fields? See [sdmTMB::sdmTMB()].
+#'    Default is 'rw' if `model_type = "st-rw" or "st-rw_tv-rw".
+#' @param spatiotemporal Estimate the spatiotemporal random fields, see [sdmTMB::sdmTMB()].
+#'    Default is 'rw'   if `model_type = "st-rw" or "st-rw_tv-rw".
+#' @param time_varying An optional one-sided formula describing covariates that
+#'    should be modelled as a time-varying process. See [sdmTMB::sdmTMB()].
+#'    Default is `NULL`.
+#' @param time_varying_type Type of time-varying process to apply to
+#'    ‘time_varying’ formula. See [sdmTMB::sdmTMB()]. Default is `NULL`.
 #' @param mesh Optional mesh object created using [sdmTMB::make_mesh()].
 #' @param cutoff If `mesh = NULL`, mesh cutoff for [sdmTMB::make_mesh()].
 #' @param family The family and link for [sdmTMB::sdmTMB()].
-#' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()] (default = 'log_eff_skate').
+#' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
+#'    (default = 'log_eff_skate').
+#' @param priors Optional penalties/priors used in [sdmTMB::sdmTMBpriors()].
 #' @param silent A boolean. Silent or include optimization details.
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
 #' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
+#' @param check_cache Check whether index file already exists? Default = `FALSE`.
 #' @param grid A data frame containing the locations of IPHC stations used to make predictions and generate the index.
 #'
 #' @returns Either a string or dataframe:
@@ -88,10 +105,8 @@ get_iphc_stitched_index <- function(
     spatiotemporal = "rw",
     time_varying = NULL,
     time_varying_type = NULL,
-    data = survey_dat,
     mesh = NULL, cutoff = 20,
     offset = "log_eff_skate",
-    extra_time = missing_years,
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(), # sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
