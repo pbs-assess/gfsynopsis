@@ -22,6 +22,16 @@ survey_cols <- c("SYN WCVI" = "#7570b3", "SYN WCVI on MSSM Grid" = "#7570b3",
   "MSSM WCVI" = "#1b9e77", "MSSM Model" = "#1b9e77",
   "MSSM Design" = "#e7298a", "CPUE 3CD" = "#d95f02")
 
+grid_colours <- c(
+  "GFBioField" = "#ff7f00",
+  "1975 (Loran A)" = "#deebf7",
+  "1979 (Loran C)" = "#9ecae1",
+  "1998 (GPS)" = "#4292c6",
+  "2009 (GFBioField)" = "#084594",
+  "2009" = "#084594",
+  ">2019" = "#08306b"
+)
+
 spp_vector  <- gfsynopsis::get_spp_names()$species_common_name
 spp_name_lu <- gfsynopsis::get_spp_names() |> select(species_common_name, spp_w_hyphens)
 
@@ -94,7 +104,7 @@ net_comp_df <- mssm_dat |>
   group_by(net, species_common_name) |>
   summarise(mean_catch = mean(catch)) |>
   ungroup() |>
-  mutate(net = factor(net, levels = c('American', 'NMFS'))) |>
+  mutate(net = factor(net, levels = c('NMFS', 'American'))) |>
   group_by(species_common_name) |>
   filter(sum(mean_catch) > 0) |>
   ungroup()
@@ -106,18 +116,18 @@ tow_plot <-
     scale_y_continuous(trans = 'log10', labels = scales::label_number(accuracy = 0.1)) +
     scale_x_discrete() +
     guides(colour = 'none') +
-    coord_cartesian(clip = "off", xlim = c(1.4, 2.7)) +
+    coord_cartesian(clip = "off", xlim = c(1, 1.7)) +
     ggrepel::geom_text_repel(
       data = net_comp_df %>% filter(net == 'NMFS'),
       aes(label = species_common_name, x = net, y = mean_catch, colour = species_common_name),
-      size = 3.5, hjust = 1, segment.color = 'grey85',
-      nudge_x = 1.5, box.padding = 0.1, point.padding = 0.8,
+      size = 3.5, hjust = 0, segment.color = 'grey85',
+      nudge_x = -0.55, box.padding = 0.1, point.padding = 0.8,
       direction = "y"
     ) +
     labs(y = 'Catch (kg)', x = 'Net')
 tow_plot
 
-ggsave(filename = file.path(mssm_figs, 'net-comp.png'), width = 4.2, height = 7.5)
+ggsave(filename = file.path(mssm_figs, 'net-comp.png'), width = 6.5, height = 6)
 
 # Make 3x3 km grid
 pcod_dat <-
@@ -250,17 +260,6 @@ pcod_dat <- mssm_dat |>
   filter(species_common_name == 'pacific cod')
 
 pcod_sf <- sf::st_as_sf(pcod_dat, coords = c('longitude', 'latitude'), crs = "WGS84")
-
-grid_colours <- c(
-  "GFBioField" = "#ff7f00",
-  "1975 (Loran A)" = "#deebf7",
-  "1979 (Loran C)" = "#9ecae1",
-  "1998 (GPS)" = "#4292c6",
-  "2009 (GFBioField)" = "#084594",
-  "2009" = "#084594",
-  ">2019" = "#08306b"
-)
-
 
 # Prep grid data for plotting -----
 # Grid used in analysis
@@ -433,7 +432,8 @@ cod_comparison <-
     geom_line() +
     scale_colour_brewer(palette = "Dark2", type = 'qual') +
     guides(colour = "none") +
-    facet_wrap(~ species_common_name, scales = 'free_y', nrow = 3) +
+    #facet_wrap(~ species_common_name, scales = 'free_y', nrow = 3) +
+    facet_wrap(~ species_common_name, nrow = 3) +
     labs(x =  "Year", y = "Mean annual catch (kg)")
 cod_comparison
 
@@ -1188,6 +1188,13 @@ more_spp %>% filter(catch_weight > 0 | catch_count > 0) |>
   arrange(species_common_name, year) |>
   distinct(species_common_name)
 
+more_spp %>% filter(catch_weight == 0 & catch_count == 0) |>
+  #filter(species_common_name == 'cartilaginous fish (sharks, skates, rays, ratfish)') |>
+  count(species_common_name, year) |>
+  arrange(species_common_name, year) |>
+  distinct(species_common_name)
+
+
 more_spp_summ <- more_spp |>
   group_by(species_common_name) |>
   summarise(mean_catch = mean(catch_weight, na.rm = TRUE)) |>
@@ -1220,10 +1227,11 @@ agg_plot <- function(df, ncol = 1, scales = 'free_y') {
 spp_group_plot <-
   spp_group_df |>
   filter(species_common_name %in% c('eelpouts', 'flatfishes', 'rockfishes', 'sculpins', 'skates')) |>
-agg_plot()
+  mutate(species_common_name = str_to_title(species_common_name)) |>
+agg_plot(ncol = 3)
 spp_group_plot
 
-ggsave(spp_group_plot, filename = file.path(mssm_figs, 'aggregated-spp-plot.png'), width = 5, height = 8)
+ggsave(spp_group_plot, filename = file.path(mssm_figs, 'aggregated-spp-plot.png'), width = 8, height = 4)
 
 
 # Sculpins ---
