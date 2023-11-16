@@ -97,7 +97,9 @@ Results are shown in the biomass index panels on the species pages and in this a
 
 ## Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
 
-To compare the trends between different biomass indices, when multiple indices are plotted on the same graph, they have been scaled to the geometric mean of estimated biomass in the years that the series overlap. When plotted plotted individually an index is shown scaled to the geometric mean of itself.
+- The MSSM is the longest running groundfish survey on the BC coast, therefore it is important to understand how well the historical data captures trends in species abundances.
+
+We compared the modelled MSSM survey indices to the MSSM design-based indices, modelled SYN WCVI (predicted on the SYN WCVI 2 x 2 km grid and the MSSM 3 x 3 km grid) indices, and the modelled CPUE 3CD indices. To compare the trends between different biomass indices, when multiple indices are plotted on the same graph, they have been scaled to the geometric mean of estimated biomass in the years that the series overlap. When plotted plotted individually an index is shown scaled to the geometric mean of itself.
 
 
 #### Modelled MSSM ~ Design-based MSSM
@@ -115,16 +117,36 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-desi
 ```
 
 
-#### Modelled MSSM ~ Modelled SYN WCVI (over full SYN WCVI grid)
+#### Comparison of MSSM to other survey indices in the same region
+
+- The MSSM index is generally more variable than the CPUE 3CD and SYN WCVI indices.
+- The modelled MSSM index is most congruent with the SYN WCVI index that is predicted on the 3 x 3 km MSSM grid. (Figure - zoom-in; \@ref(fig:rolling-window-correlation))
+- This is likely because the distribution of sampled depths in the the MSSM survey (81 - 219 m) are shallower than SYN WCVI samples areas deeper (43 - 803 m). (Figure \@ref(fig:depth-dist))
+
+
+- The depths sampled in these surveys have been consistent over time. (needed?)
+
 
 - We compared the modelled MSSM index with the modelled SYN WCVI index when predicted over the full grid of the SYN WCVI and when constrained to the same grid used for the MSSM index.
 
-- The SYN WCVI samples deeper areas (43 - 803 m) than the MSSM survey (81 - 219 m) and the depths sampled in these surveys have been consistent over time (Figure \@ref(fig:depth-dist)).
+
+- We checked whether the correlation between the different survey indices declined as we went further back in time. We compared a 10-year rolling window correlation between the MSSM ~ CPUE 3CD, the MSSM ~ SYN WCVI, and the MSSM ~ SYN WCVI predicted on the MSSM grid.
+
+
+There was no systematic decrease in correlation between the different indices earlier in the time-series (Figure \@ref(fig:rolling-window-correlation)).
+
+
+### Sampling differences between MSSM and SYN WCVI
+
+Twenty-four species have length samples in both the MSSM and SYN WCVI. Longer specimens tend to be sampled in the SYN WCVI compared to the MSSM (Figure \@ref(fig:))
+
+There was also no relationship between the
+
 
 
 ```{r depth-dist, fig.cap="Distribution of depths sampled in the MSSM and SYN WCVI surveys."}
 
-knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-syn-wcvi-mssm-grid-zoom-in.png"), dpi = NA)
+knitr::include_graphics(here::here("report/mssm-appendix/figures/depth-ranges-mssm-syn-wcvi.png"), dpi = NA)
 ```
 
 ```{r, fig.cap="MSSM - SYN WCVI - SYN WCVI on MSSM grid."}
@@ -172,7 +194,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-mode
 ```
 
 
-```{r, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. The x-axis is the first year of the rolling window (e.g., 1996 - 2006). Only shown are species that had a correlation >= 0.5 when surveys were compared over the full overlapping time period(e.g., 1996 - 2022; 2004 - 2022."}
+```{r rolling-window-correlation, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. The x-axis is the first year of the rolling window (e.g., 1996 - 2006). Only shown are species that had a correlation >= 0.5 when surveys were compared over the full time series."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-correlation.png"), dpi = NA)
 ```
 
