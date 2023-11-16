@@ -776,7 +776,7 @@ mssm_design_only_inds <-
          survey_abbrev %in% c("MSSM Design")) |>
 ggplot(data = _, aes(x = year, y = mssm_scaled_biomass, colour = survey_abbrev, fill = survey_abbrev)) +
   geom_pointrange(aes(ymin = mssm_scaled_lowerci, ymax = mssm_scaled_upperci), size = 0.2) +
-  geom_ribbon(aes(ymin = mssm_scaled_lowerci, ymax = mssm_scaled_upperci), size = 0.2, alpha = 0.1, colour = NA) +
+  geom_ribbon(aes(ymin = mssm_scaled_lowerci, ymax = mssm_scaled_upperci), linewidth = 0.2, alpha = 0.1, colour = NA) +
   scale_colour_manual(values = survey_cols) +
   scale_fill_manual(values = survey_cols) +
   facet_wrap(~ species, scale = 'free_y', ncol = 4) +
