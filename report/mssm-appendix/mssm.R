@@ -4,6 +4,12 @@ library(patchwork)
 devtools::load_all()
 theme_set(theme_pbs())
 
+cores <- floor(unname(future::availableCores()/2))
+is_rstudio <- function() Sys.getenv("RSTUDIO") == "1"
+.future <- if (is_rstudio()) future::multisession else future::multicore
+future::plan(.future, workers = cores)
+options(future.rng.onMisuse = "ignore")
+
 # Load data
 data_cache <- here::here('report', 'data-cache-oct-2023')
 grid_dir <- here::here(data_cache, 'grids')
@@ -293,7 +299,6 @@ grid_plot + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
 
 ggsave(file.path(mssm_figs, 'grid-prediction-2009_no-points.png'), width = 3.5, height = 3.7)
 
-
 grid_plot_2009_points <- mssm_grid_sf |>
   filter(last_samp_year >= 2009 & last_samp_year <= 2019) |>
   ggplot() +
@@ -446,7 +451,7 @@ ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
 ## Get model where pre and post 2003 is added as factor
 # Use 3km grid
 # All species ID'd to lowest taxonomic level in 2003 onward
-future::plan(future::multicore, workers = 8)
+
 furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
@@ -475,11 +480,10 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
 })
 
-future::plan(future::sequential)
 beepr::beep()
 
 # Use 2km grid
-future::plan(future::multicore, workers = 8)
+
 furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
@@ -506,12 +510,11 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
 })
 
-future::plan(future::sequential)
 beepr::beep()
 
 
 # # Fit SYN WCVI ------------------
-purrr::walk(spp_vector, function(.sp) {
+furrr::future_walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
     survey_dat <- readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "SYN WCVI")
@@ -1311,6 +1314,8 @@ design <- "
 "
 p_sculpin + p_skate + plot_layout(design = design)
 ggsave(filename = file.path(mssm_figs, 'agg-sculpin-skate.png'), width = 7, height = 7)
+
+future::plan(future::sequential)
 
 optimize_png <- TRUE
 if (optimize_png) {
