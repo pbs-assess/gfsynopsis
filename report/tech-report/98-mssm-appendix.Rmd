@@ -5,14 +5,14 @@ The MSSM is typically conducted in the last week of April to the first weeks of 
 
 ## Survey area
 
-To estimate biomass index for the MSSM, we created a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
+To derive an area-weighted biomass index for the MSSM, we created a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
 Any grid cell that intersected with more than one survey location was retained.
-In this report, we used a subset of the grid cells that were last sampled between 2009 to 2019 (Figure \@ref(fig:prediction-grid)). This time period covered the most consistently sampled locations in recent years.
+In this report, we used a subset of the grid cells that were last sampled between 2009 to 2019 (Figure \@ref(fig:prediction-grid)).
+This time period covered the most consistently sampled locations in recent years.
 In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
 
-Between 1975 and 1977, there was a noticeable shift of sampling locations relative to subsequent years (Figure \@ref(fig:spatial-shift)).
-It is possible that this reflects surveys used to establish the extent of the shrimping grounds.
-
+Between 1975 and 1977, there was a noticeable shift in sampling locations relative to subsequent years (Figure \@ref(fig:spatial-shift)).
+It is possible that this reflects surveys used to establish the extent of the shrimping grounds (personal communication, TODO).
 
 ```{r prediction-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 3x3 km and cover all sampling locations between 2009-2019. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2019.", fig.show='hold', out.width="3.5in"}
 
@@ -24,9 +24,8 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-prediction
 knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-spatial-sampling-changes.png"), dpi = NA)
 ```
 
-
-Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)). However, in 2022 sampling extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
-
+Although the MSSM is a fixed station survey (Rutherford et al. in prep), over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)). 
+However, in 2022 sampling extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
 
 ```{r historical-grid, fig.cap="Grid coverage based on the last year, prior to 2019, that a grid cell was last sampled. Darker shades indicate more recent years and correspond to changes in navigation systems (1979 and 1998).", out.width="3.5in"}
 
@@ -34,12 +33,16 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical
 
 ```
 
-The navigation systems used in in the MSSM have changed twice, once in 1979 from Loran A to Loran C, and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)). Early survey locations may therefore be more variable. It was also found that there there was a trend in distance travelled over time. With shorter distances travelled for the 30 minute tows once GPS was implemented (Sinclair et al 2001).
-
+The navigation systems used in in the MSSM have changed twice, once in 1979 from Loran A to Loran C, and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)).
+Early survey locations may therefore be more variable.
+It was also found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows once GPS was implemented (Sinclair et al 2001).
 
 ## Gear changes
 
-Gear changes occurred in 1977, 2006, 2007, and 2011 (Table \@ref(tab:change-table)). In 1977, the net, foot rope, and doors were changed. The 70 foot semi-balloon shrimp net was replaced with the National Marine Fisheries Science (NMFS) 61 foot shrimp trawl net (Rutherford et al. in prep). No calibration tows were performed but other research has found that the NMFS net was 1.4 more efficient than the 70 foot semi-balloon net (Boutillier et al. 1977, 1998), meaning that catch weights between 1973-1976 are likely to be biased down relative to 1977 onward.
+Gear changes occurred in 1977, 2006, 2007, and 2011 (Table \@ref(tab:change-table)). 
+In 1977, the net, foot rope, and doors were changed.
+The 70 foot semi-balloon shrimp net was replaced with the National Marine Fisheries Science (NMFS) 61 foot shrimp trawl net (Rutherford et al. in prep).
+No calibration tows were performed but other research has found that the NMFS net was 1.4 more efficient than the 70 foot semi-balloon net (Boutillier et al. 1977, 1998 TODO), meaning that catch weights between 1973-1976 are likely to be biased down relative to 1977 onward.
 
 ```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977-2005 and the 61 foot American shrimp trawl net has been used from 2006-present. Only two sets of comparison trawls were done with each net at two locations in 2006. ", out.width="50%"}
 
@@ -47,8 +50,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/net-comp.png"),
 
 ```
 
-In 2006 the NMFS net was replaced with a 61 foot American shrimp trawl net (Table \@ref(tab:change-table)). However, only two comparable sets of tows were collected (Rutherford et al. in prep Table 2 and 3). With insufficient data to include the gear change in the model, we instead present a visual comparison of the mean catch of the two comparative tows done in 2006 (Figure \@ref(fig:net-comp)).
-
+In 2006, the NMFS net was replaced with a 61 foot American shrimp trawl net (Table \@ref(tab:change-table)). However, only two comparable sets of tows were collected (Rutherford et al. in prep Table 2 and 3). With insufficient data to include the gear change in the model, we instead present a visual comparison of the mean catch of the two comparative tows done in 2006 (Figure \@ref(fig:net-comp)).
 
 ## Catch sorting and sampling
 
@@ -68,8 +70,8 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-2003.p
 ```
 
 To check if some species were identified at higher taxonomic levels prior to 2003, we extracted data from GFBio for higher order taxonomies of species that have been identified in the MSSM survey since 2003 (Figure \@ref(fig:spp-aggregate-plot)).
-Sculpins and skates are the main groups that were counted at the family level prior to 2003. Whereas prior to 2003, flatfishes and rockfishes appear to be identified to species if they were counted/weighed. The abnormally high catches of eelpouts in 2002, likely reflects the transition between improved sorting just prior to full species-level identification in 2003.
-
+Sculpins and skates are the main groups that were counted at the family level prior to 2003. Whereas prior to 2003, flatfishes and rockfishes appear to be identified to species if they were counted/weighed.
+The abnormally high catches of eelpouts in 2002, likely reflects the transition between improved sorting just prior to full species-level identification in 2003.
 
 ```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="50%"}
 
@@ -77,7 +79,8 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/aggregated-spp-
 
 ```
 
-Another pattern to note is that Pacific Tomcod recorded abundances decrease after 2003 and it is possible that this is the result of mis-idenfication of young pacific cod and walleye pollock prior to 2003. However the catch sizes of Pacific Tomcod were typically less than 5 kg / year.
+Pacific Tomcod recorded abundances decrease after 2003 and it is possible that this is the result of mis-idenfication of young pacific cod and walleye pollock prior to 2003.
+However, the catch sizes of Pacific Tomcod were typically less than 5 kg/year.
 
 ```{r cod-comparison, fig.cap="Mean annual catch (kg) of Pacific Cod, Pacific Tomcod, and Walleye Pollock. Grey shading highlights the period prior to full sorting and identification in 2003.", out.width="50%"}
 
@@ -85,25 +88,32 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-cod.pn
 
 ```
 
-
-
 ## Modelling
 
-We fit a geostatistical model to the MSSM data for all species that had a proportion of positive sets $\ge$ 5%. For the six species that do not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present. Of these species, only blackbelly eelpout met the 5% coverage threshold to be modelled.
+We fit a spatiotemporal model to the MSSM data for all species that had a proportion of positive sets $\ge$ 5%.
+For the six species that did not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present.
+Of these species, only blackbelly eelpout met the 5% coverage threshold to be modelled.
 
-As was done for the synoptic trawl surveys, we fit these models using a tweedie distribution and used area swept as an offset. In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values. We fit survey data using a spatial random field and a random walk spatiotemporal random fields. Unlike the modelling of the synoptic trawl data, in cases where models did not converge, the spatial random field was turned off and only the spatiotmporal random field was modelled using a random walk.
+As was done for the synoptic trawl surveys, we fit these models using a Tweedie distribution and used area swept as an offset.
+In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values.
+Our spatiotemporal models had constant spatial random fields and a random walk spatiotemporal random fields.
+Unlike the modelling of the synoptic trawl data, in cases where models did not converge, the spatial random field was turned off and only the spatiotmporal random field was modelled using a random walk.
 
-Results are shown in the biomass index panels on the species pages and in this appendix if: models converged, the maximum estimated CI was less than 10x the maximum estimated biomass, and the mean coefficient of variation was less than 4
+We show results in the biomass index panels on the species pages and in this appendix if the models converged, the maximum estimated CIs were less than 10x the maximum estimated biomass, and the mean coefficient of variation was less than 4.
 
 ## Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
 
-To compare the trends between different biomass indices, when multiple indices are plotted on the same graph, they have been scaled to the geometric mean of estimated biomass in the years that the series overlap. When plotted plotted individually an index is shown scaled to the geometric mean of itself.
+To compare the trends between different biomass indices, when multiple indices are plotted on the same graph, they have been scaled to the geometric mean of estimated biomass in the years that the series overlap.
+When plotted individually, an index is shown scaled to the geometric mean of itself.
 
+<!-- TODO: SA: isn't it just scaled to the maximum CI hits the top? -->
 
 #### Modelled MSSM ~ Design-based MSSM
 
-Trends in each species index were similar between in both the modelled and the design based MSSM indices, where the design-based index tends to be more variable (Figure \@ref(fig:mssm-model-design)). For some species only a design-based index is shown because models for these species did converge (Figure \@ref(fig:design-only)) -- QUESTION: Include in appendix or refer people to flip to species pages?
-
+Trends in each species index were similar between in both the modelled and the design based MSSM indices, where the design-based index tends to be more variable (Figure \@ref(fig:mssm-model-design)).
+For some species, only a design-based index is shown because models for these species did not converge (Figure \@ref(fig:design-only)).
+<!-- -- QUESTION: Include in appendix or refer people to flip to species pages? -->
+<!-- SA: fine to just have people flip to pages -->
 
 ```{r mssm-model-design, fig.cap="Comparison of modelled (green) and design-based (pink) index from the MSSM survey. MODEL DESC NEEDED HERE? The modelled index was predicted on 3 x 3 km grid. REF GRID FIG?"}
 
@@ -113,7 +123,6 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-model-des
 ```{r, fig.cap='design based index only'}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-design.png"), dpi = NA)
 ```
-
 
 #### Modelled MSSM ~ Modelled SYN WCVI (over full SYN WCVI grid)
 
@@ -131,7 +140,6 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-syn-
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-syn-wcvi-mssm-grid-zoom-in.png"), dpi = NA)
 ```
-
 
 Modelled MSSM ~ Modelled SYN WCVI (over MSSM only grid)
 
@@ -153,8 +161,6 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/2km-3km-grid-co
 knitr::include_graphics(here::here("report/mssm-appendix/figures/2km-3km-grid-model-comp.png"), dpi = NA)
 
 ```
-
-
 
 
 
