@@ -113,7 +113,7 @@ tow_plot <-
   ggplot(data = net_comp_df, aes(x = net, y = mean_catch, colour = species_common_name, group = species_common_name)) +
     geom_point() +
     geom_line() +
-    scale_y_continuous(trans = 'log10', labels = scales::label_number(accuracy = 0.1)) +
+    scale_y_continuous(trans = 'log10', labels = scales::label_number(accuracy = 0.01), limits = c(0.001, NA)) +
     scale_x_discrete() +
     guides(colour = 'none') +
     coord_cartesian(clip = "off", xlim = c(1, 1.7)) +
