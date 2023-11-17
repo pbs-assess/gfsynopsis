@@ -27,20 +27,22 @@ ss <- dplyr::bind_rows(
     data.frame(wcvi_utm, survey = "West Coast Vancouver Island (WCVI)", stringsAsFactors = FALSE),
     data.frame(wchg_utm, survey = "West Coast Haida Gwaii (WCHG)", stringsAsFactors = FALSE)))
 
+alpha <- 95
+cols <- c(
+      "West Coast Haida Gwaii (WCHG)" = paste0("#E41A1C", alpha),
+      "West Coast Vancouver Island (WCVI)" = paste0("#984EA3", alpha),
+      "Hecate Strait (HS)" = paste0("#377EB8", alpha),
+      "Queen Charlotte Sound (QCS)" = paste0("#4DAF4A", alpha),
+      "Outside Hard Bottom Long Line (N)" = paste0("#FF7F00", alpha),
+      "Outside Hard Bottom Long Line (S)" = paste0("#FDBF6F", alpha),
+      "Inside Hard Bottom Long Line (N & S)" = paste0("#A65628", alpha),
+      "Multi-Species Small Mesh (MSSM)" = paste0("#6c6c6c", alpha)
+    )
+
 g <- ggplot()
 
-cols <- paste0(c(RColorBrewer::brewer.pal(5L, "Set1"),
-  RColorBrewer::brewer.pal(8L, "Set1")[7:8],
-  # "#303030", "#a8a8a8", "#a8a8a8", "#a8a8a8"), "80")
-  "#303030", "#0a0a0a", "#0a0a0a", "#0a0a0a"), "95")
-  # "#60b6bb", "#60b6bb", "#1d989e", "#a8a8a8"), "80")
-
 g <- g + geom_polygon(data = ss, aes_string(x = "X", y = "Y", fill = "survey")) +
-  scale_fill_manual(values = c(
-    "Hecate Strait (HS)" = cols[2],
-    "Queen Charlotte Sound (QCS)" = cols[3],
-    "West Coast Vancouver Island (WCVI)" = cols[4],
-    "West Coast Haida Gwaii (WCHG)" = cols[1]))
+  scale_fill_manual(values = c(cols))
 
 g <- g + geom_path(
   data = isobath_utm, aes_string(
@@ -78,12 +80,7 @@ hbll <- dplyr::bind_rows(
 g2 <- ggplot()
 g2 <- g2 + geom_rect(data = hbll,
   aes_string(xmax = "X + 1", ymax = "Y + 1", xmin = "X - 1", ymin = "Y - 1", fill = "survey")) +
-  scale_fill_manual(values = c(
-    "Outside Hard Bottom Long Line (N)" = cols[5],
-    "Outside Hard Bottom Long Line (S)" = cols[6],
-    # "Inside Hard Bottom Long Line (N)" = cols[9],
-    "Inside Hard Bottom Long Line (N & S)" = cols[10]
-    )) +
+  scale_fill_manual(values = cols) +
   geom_path(
     data = isobath_utm, aes_string(
       x = "X", y = "Y",
