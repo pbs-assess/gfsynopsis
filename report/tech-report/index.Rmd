@@ -31,11 +31,11 @@ french_abstract: |
 output:
  csasdown::techreport_pdf:
    french: false
-   copy_sty: true
+   copy_sty: false
    line_nums: false
    line_nums_mod: 1
    lot_lof: false
-   draft_watermark: true
+   draft_watermark: false
 type:
   techreport
 knit: (function(input, ...) {
