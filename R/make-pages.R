@@ -705,8 +705,8 @@ make_pages <- function(
           survey_abbrev = "MSSM Geostat", year = NA, biomass = NA,
           lowerci = NA, upperci = NA,
           mean_cv = mean(subset(dat_tidy_survey_index, survey_abbrev == "MSSM WCVI")$mean_cv, na.rm = TRUE),
-          num_sets = mean(subset(dat_tidy_survey_index, survey_abbrev == "MSSM WCVI")$num_sets),
-          num_pos_sets = mean(subset(dat_tidy_survey_index, survey_abbrev == "MSSM WCVI")$num_pos_sets)
+          num_sets = mean(subset(dat_tidy_survey_index, survey_abbrev == "MSSM WCVI")$num_sets, na.rm = TRUE),
+          num_pos_sets = mean(subset(dat_tidy_survey_index, survey_abbrev == "MSSM WCVI")$num_pos_sets, na.rm = TRUE)
         )
     }
   } else {
