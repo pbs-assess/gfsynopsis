@@ -1,5 +1,22 @@
 # Multispecies Small-Mesh Bottom Trawl Survey (MSSM) {#app:mssm}
 
+
+Since 1973, DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island.
+This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
+The survey typically occurs in late April to May with exceptions in 1985 (May 24--June 7) and in 1987 (August 4--14).
+
+Since 1973, changes to the fishing gear used and changes to catch sorting may affect interpretation of the data.
+Trawl nets were changed in 1976 and 2006. And notably, catch sorting has changed as follows:
+  - From 1973 - 1976, large species weights were estimated using random sampling
+  - Since 1978 large fish were sorted and weighed
+  - In 2001 all catch was sorted along a conveyor belt
+  - Since 2003 all species have been sorted to the species or lowest taxonomic level and weighed
+
+The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) Flemming R (2013) TODO REF. Additional survey details can be found in Rutherford et al. (in prep) TODO REF.
+
+Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fisheries and Oceans Canada. Dataset/Samplingevent. http://iobis.org/mapper/?resource_id=261
+
+
 The MSSM is typically conducted in the last week of April to the first weeks of May. With the exception of late surveys in 1985 and 1987 (Table \@ref(tab:change-table)). In 1977 and 1978, additional surveys were conducted in September on commercial vessels, but these have been excluded from this report.
 
 
@@ -70,12 +87,15 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/sampling-2003.p
 ```
 
 To check if some species were identified at higher taxonomic levels prior to 2003, we extracted data from GFBio for higher order taxonomies of species that have been identified in the MSSM survey since 2003 (Figure \@ref(fig:spp-aggregate-plot)).
-Sculpins and skates are the main groups that were counted at the family level prior to 2003. Whereas prior to 2003, flatfishes and rockfishes appear to be identified to species if they were counted/weighed.
-The abnormally high catches of eelpouts in 2002, likely reflects the transition between improved sorting just prior to full species-level identification in 2003.
+Sculpins and skates are the species that were counted at the family level prior to 2003. Whereas prior to 2003, flatfishes and rockfishes appear to be identified to species if they were counted/weighed.
+The mean annual catch of all flatfishes identified to species was lower prior to 2003 compared to 2003 onward (Figure \@ref(fig:spp-aggregate-plot)).
+It was also higher in 2002 which may reflect the full catch being sorted below deck on the conveyor belt.
+It is unclear whether this change in observed abundance was due to changes in sorting or reflects actual changes in abundances.
+The abnormally high catches of eelpouts in 2002, likely reflects the transition between improved sorting just prior to full species-level identification in 2003. OR DOES IT??? IT'S SUPER HIGH IN 2002. AND ALSO: skates are SUPER high in 2001, but why??
 
 ```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="\\textwidth"}
 
-knitr::include_graphics(here::here("report/mssm-appendix/figures/aggregated-spp-plot.png"), dpi = NA)
+knitr::include_graphics(here::here("report/mssm-appendix/figures/aggregated-id-level-plot.png"), dpi = NA)
 
 ```
 
@@ -99,7 +119,7 @@ In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so
 Our spatiotemporal models had constant spatial random fields and a random walk spatiotemporal random fields.
 Unlike the modelling of the synoptic trawl data, in cases where models did not converge, the spatial random field was turned off and only the spatiotmporal random field was modelled using a random walk.
 
-We show results in the biomass index panels on the species pages and in this appendix if the models converged, the maximum estimated CIs were less than 10x the maximum estimated biomass, and the mean coefficient of variation was less than 2.
+We show results in the biomass index panels on the species pages and in this appendix if the models converged, the maximum estimated CIs were less than 10 $\times$ the maximum estimated biomass, and the mean coefficient of variation was less than 2.
 
 ## Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
 
@@ -109,7 +129,7 @@ In this appendix, where we compare the trends between different biomass indices 
 <!-- Not needed if cutting design only plot: "When plotted individually, an index is shown scaled to the geometric mean of itself."" -->
 
 <!-- TODO: SA: isn't it just scaled to the maximum CI hits the top? -->
-<!-- Not for the appendix -->
+<!-- JD: Not for the appendix -->
 
 #### Modelled MSSM ~ Design-based MSSM
 
@@ -125,7 +145,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-model-des
 
 - The MSSM index is generally more variable than the CPUE 3CD and SYN WCVI indices.
 - The modelled MSSM index is most congruent with the SYN WCVI index that is predicted on the 3 x 3 km MSSM grid. (Figure - zoom-in; \@ref(fig:rolling-window-correlation))
-- This is likely because the distribution of sampled depths in the the MSSM survey (81 - 219 m) are shallower than SYN WCVI samples areas deeper (43 - 803 m). (Figure \@ref(fig:depth-dist))
+- This is likely because the distribution of sampled depths in the the MSSM survey (81--219 m) are shallower than SYN WCVI samples areas deeper (43--803 m). (Figure \@ref(fig:depth-dist))
 
 
 - The depths sampled in these surveys have been consistent over time. (needed?)
@@ -195,7 +215,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-mssm-mode
 ```
 
 
-```{r rolling-window-correlation, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. The x-axis is the first year of the rolling window (e.g., 1996 - 2006). Only shown are species that had a correlation >= 0.5 when surveys were compared over the full time series."}
+```{r rolling-window-correlation, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. The x-axis is the first year of the rolling window (e.g., 1996--2006). Only shown are species that had a correlation >= 0.5 when surveys were compared over the full time series."}
 knitr::include_graphics(here::here("report/mssm-appendix/figures/index-correlation.png"), dpi = NA)
 ```
 
