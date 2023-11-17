@@ -75,7 +75,12 @@ hbll <- dplyr::bind_rows(
     data.frame(hbll_n, survey = "Outside Hard Bottom Long Line (N)", stringsAsFactors = FALSE),
     data.frame(hbll_s, survey = "Outside Hard Bottom Long Line (S)", stringsAsFactors = FALSE),
     data.frame(hbll_n_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE),
-    data.frame(hbll_s_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE)))
+    data.frame(hbll_s_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE))) |>
+  mutate(survey = factor(survey, levels = c(
+    "Outside Hard Bottom Long Line (N)",
+    "Outside Hard Bottom Long Line (S)",
+    "Inside Hard Bottom Long Line (N & S)"))
+  )
 
 g2 <- ggplot()
 g2 <- g2 + geom_rect(data = hbll,
