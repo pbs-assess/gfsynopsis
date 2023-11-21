@@ -24,7 +24,7 @@ The MSSM is typically conducted in the last week of April to the first weeks of 
 
 To derive an area-weighted biomass index for the MSSM, we created a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
 Any grid cell that intersected with more than one survey location was retained.
-In this report, we used a subset of the grid cells that were last sampled between 2009 to 2019 (Figure \@ref(fig:prediction-grid)).
+In this report, we used a subset of the grid cells that were last sampled between 2009 to 2021 (Figure \@ref(fig:prediction-grid)).
 This time period covered the most consistently sampled locations in recent years.
 In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
 
