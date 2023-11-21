@@ -46,7 +46,6 @@ Inside HBLL north and south are not differentiated because the delineation is no
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
 
-<!-- TODO UPDATE COLOURS!! -->
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
 source(here::here("report/tech-report/intro-maps.R"))
@@ -54,6 +53,12 @@ source(here::here("report/tech-report/intro-maps.R"))
 
 ```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas. Areas 3AB and 4A are outside of Canadian waters.", out.width="5.2in", fig.pos="tb"}
 knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), dpi = NA)
+```
+
+```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 3x3 km and cover all sampling locations between 2009-2021. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2021."}
+
+knitr::include_graphics(here::here('report', 'tech-report', 'figure'), 'grid-prediction-2009.png')
+
 ```
 
 # Updates {#sec:update}
