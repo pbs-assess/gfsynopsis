@@ -366,7 +366,7 @@ ggsave(file.path(mssm_figs, 'grid-historical-nav-changes.png'), width = 3.5, hei
 
 spatial_shift_plot <-
   ggplot() +
-    geom_sf(data = mssm_grid_sf |> dplyr::filter(year >= 2009),
+    geom_sf(data = mssm_grid_sf |> dplyr::filter(year >= 2009 & year <= 2021),
       aes(fill = "2009"), alpha = 0.8, colour = 'grey50') +
     geom_point(data = pcod_dat |>
       filter(year %in% c(1975, 1976, 1977, 1978, 1979, 1985, 1995, 1998, 2003, 2013, 2021, 2022)),
@@ -411,7 +411,7 @@ pre_2003_spp_plot <- sampling_2003 |>
   filter(!(species_common_name %in% post_2003_spp)) |>
   mutate(species_common_name = stringr::str_to_title(species_common_name)) |>
   mutate(species_common_name = forcats::fct_reorder(species_common_name, species_code)) |>
-ggplot(data = _, aes(x = year, y = mean_catch)) +
+  ggplot(data = _, aes(x = year, y = mean_catch)) +
     geom_rect(aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
               fill = "gray85", alpha = 0.2) +
     geom_point() +
@@ -422,7 +422,7 @@ ggplot(data = _, aes(x = year, y = mean_catch)) +
     labs(x =  "Year", y = "Mean annual catch (kg)")
 pre_2003_spp_plot
 
-ggsave(file.path(mssm_figs, 'sampling-2003.png'), plot = sampling_2003_plot,
+ggsave(file.path(mssm_figs, 'sampling-2003.png'), plot = pre_2003_spp_plot,
   width = 17, height = 9)
 
 # Comparison of pcod, pollock, tomcod and possible misidentification
