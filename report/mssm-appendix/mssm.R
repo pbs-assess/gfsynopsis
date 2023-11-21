@@ -36,6 +36,7 @@ grid_colours <- c(
   "1998 (GPS)" = "#4292c6",
   "2009 (GFBioField)" = "#084594",
   "2009" = "#084594",
+  "2009-2021" = "#084594",
   ">2019" = "#08306b"
 )
 
@@ -253,7 +254,8 @@ ggsave(filename = file.path(mssm_figs, '2km-3km-grid-comp.png'), width = 6.7, he
 # ------------------------------------------------------------------------------
 # --- Look at spatial distribution of sampling ------------
 # Set default grid for plotting
-mssm_grid_sf <- readRDS(file.path(grid_dir, 'mssm-grid_2009-2019_sf.rds'))
+#mssm_grid_sf <- readRDS(file.path(grid_dir, 'mssm-grid-3km_2009-2021.rds'))
+mssm_grid_sf <- gfdata::mssm_grid_sf
 #mssm_grid_sf <- mssm_grid_3km_sf
 
 pcod_dat <- mssm_dat |>
@@ -278,7 +280,8 @@ gfbio_grid <- sgrid |>
 # --- Grid used in synopsis
 
 grid_plot <- mssm_grid_sf |>
-  filter(last_samp_year >= 2009) |>
+  filter(year >= 2009 & year <= 2019) |>
+  distinct(geometry) |>
   ggplot() +
     geom_sf(data = pcod_sf, colour = 'grey50', shape = 1, alpha = 0, size = 0.1) +
     geom_sf(aes(fill = '2009'), alpha = 0.5) +
@@ -295,7 +298,8 @@ ggsave(file.path(mssm_figs, 'grid-prediction-2009_no-points.png'), width = 3.5, 
 
 
 grid_plot_2009_points <- mssm_grid_sf |>
-  filter(last_samp_year >= 2009 & last_samp_year <= 2019) |>
+  filter(year >= 2009 & year <= 2019) |>
+  distinct(geometry) |>
   ggplot() +
     geom_sf(data = pcod_sf |> filter(year < 2009), shape = 1, colour = 'grey50', alpha = 0.5, size = 0.1) +
     geom_sf(aes(fill = '2009'), alpha = 0.5) +
@@ -314,7 +318,8 @@ ggsave(file.path(mssm_figs, 'grid-prediction-2009.png'), width = 3.5, height = 3
 
 # --- Overlay blocks shown/used in GFBioField
 gfbio_field_grid_plot1 <- mssm_grid_sf |>
-  filter(last_samp_year >= 2009) |>
+  filter(year >= 2009 & year <= 2019) |>
+  distinct(geometry) |>
   ggplot() +
   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.5, size = 0.1) +
   geom_sf(aes(fill = '2009'), alpha = 0.7) +
@@ -331,19 +336,19 @@ gfbio_field_grid_plot1 +
 ggsave(file.path(mssm_figs, 'grid-prediction-gfbiofield-1.png'), width = 3.5, height = 3.7)
 
 # --- Historical survey domain
-# The grid was created as any 2x2 km grid cell, that overlapped with at least one
+# The grid was created as any 3x3 km grid cell, that overlapped with at least one
 # sampling location.
 # The overlay grid covered the bounding box of all sampling locations
 grid_historical_plot <-
-  ggplot(data = mssm_grid_sf) +
+  ggplot(data = mssm_grid_sf |> distinct(geometry)) +
     geom_sf(aes(fill = "1975 (Loran A)"), alpha = 1) +
-    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 1979),
+    geom_sf(data = mssm_grid_sf |> filter(year >= 1979) |> distinct(geometry),
       aes(fill = "1979 (Loran C)"), alpha = 1) +
-    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 1998),
+    geom_sf(data = mssm_grid_sf |> filter(year >= 1998) |> distinct(geometry),
       aes(fill = "1998 (GPS)"), alpha = 1) +
-    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 2009),
+    geom_sf(data = mssm_grid_sf |> filter(year >= 2009 & year < 2022) |> distinct(geometry),
       aes(fill = "2009"), alpha = 1) +
-    #geom_sf(data = mssm_grid_sf |> filter(last_samp_year > 2019),
+    #geom_sf(data = mssm_grid_sf |> filter(year > 2019),
     #  aes(fill = ">2019"), alpha = 1) +
     geom_point(data = pcod_dat, aes(x = longitude, y = latitude), shape = 1, size = 0.5, alpha = 0.2) +
     scale_fill_manual(values = grid_colours) +
