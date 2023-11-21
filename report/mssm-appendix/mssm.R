@@ -366,7 +366,7 @@ ggsave(file.path(mssm_figs, 'grid-historical-nav-changes.png'), width = 3.5, hei
 
 spatial_shift_plot <-
   ggplot() +
-    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 2009),
+    geom_sf(data = mssm_grid_sf |> dplyr::filter(year >= 2009),
       aes(fill = "2009"), alpha = 0.8, colour = 'grey50') +
     geom_point(data = pcod_dat |>
       filter(year %in% c(1975, 1976, 1977, 1978, 1979, 1985, 1995, 1998, 2003, 2013, 2021, 2022)),
