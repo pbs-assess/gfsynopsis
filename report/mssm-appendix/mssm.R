@@ -3,6 +3,7 @@ library(zoo)
 library(patchwork)
 devtools::load_all()
 theme_set(theme_pbs())
+library(sf)
 
 cores <- floor(unname(future::availableCores()/2))
 is_rstudio <- function() Sys.getenv("RSTUDIO") == "1"
@@ -135,120 +136,112 @@ tow_plot
 
 ggsave(filename = file.path(mssm_figs, 'net-comp.png'), width = 6.5, height = 6)
 
-# Make 3x3 km grid
+# --- Prepare and compare grid cell size ----
+# Get data up to 2021 to build the grid
 pcod_dat <-
   mssm_dat |>
-  dplyr::filter(year <= 2019) |>
+  #dplyr::filter(year <= 2021) |>
   dplyr::filter(species_common_name == 'pacific cod') |>
   dplyr::filter(!is.na(longitude)) |>
   dplyr::mutate(row_id = dplyr::row_number())
 
-# Use equal distance projection
 pcod_sf <-
-  pcod_dat |>
-  dplyr::select(year, longitude, latitude) |>
-  sf::st_as_sf(coords = c('longitude', 'latitude'), crs = 'WGS84') |>
-  sf::st_transform(crs = 32609)
+    pcod_dat |>
+    dplyr::select(year, longitude, latitude) |>
+    sf::st_as_sf(coords = c('longitude', 'latitude'), crs = 'WGS84')
 
 pcod_years <- dplyr::select(pcod_dat, row_id, year)
-grid_spacing <- 3000
 
-# Create grid over the bounding box of the polygon
-full_grid <- pcod_sf |>
-  sf::st_make_grid(cellsize = c(grid_spacing, grid_spacing)) |>
-  sf::st_as_sf() |>
-  dplyr::rename(geometry = x)
+# --- Make the grids ---
+mk_mssm_grid <- function(dat_wgs84, grid_spacing) {
+  # Use equal distance projection
+  pcod_sf <-
+    dat_wgs84 |>
+    dplyr::select(year, longitude, latitude) |>
+    sf::st_as_sf(coords = c('longitude', 'latitude'), crs = 'WGS84') |>
+    sf::st_transform(crs = 32609)
 
-# Get grid cells that overlap with at least one sampling point
-intersected <- sf::st_intersects(full_grid, pcod_sf)
+  # Create grid over the bounding box of the polygon
+  full_grid <- pcod_sf |>
+    sf::st_make_grid(cellsize = c(grid_spacing, grid_spacing)) |>
+    sf::st_as_sf() |>
+    dplyr::rename(geometry = x)
 
-id_intersect <- intersected |> purrr::map_dbl(length) > 0
-last_year <- intersected |>
-  purrr::map_dbl(\(row) if (length(row) > 0) {max(pcod_years[row, ]$year)} else {NA})
+  # Get grid cells that overlap with at least one sampling point
+  intersected <- sf::st_intersects(full_grid, pcod_sf)
 
-full_grid$last_samp_year <- last_year
+  id_intersect <- intersected |> purrr::map_dbl(length) > 0
+  # last_year <- intersected |>
+  #   purrr::map_dbl(\(row) if (length(row) > 0) {max(pcod_years[row, ]$year)} else {NA})
 
-mssm_grid_3km_sf <- full_grid[id_intersect, ] |>
-  dplyr::mutate(survey = "MSSM WCVI")
+  sampling_years <- intersected |>
+      purrr::map(\(row) if (length(row) > 0) {pcod_years[row, ]$year} else {NA})
 
-mssm_grid_3km <- mssm_grid_3km_sf |>
-  sf::st_centroid() %>%
-  dplyr::mutate(survey = "MSSM WCVI",
-                #ssid = 7,
-                X = sf::st_coordinates(.)[,1] / 1000, # match sdmTMB coordinate system
-                Y = sf::st_coordinates(.)[,2] / 1000, # match sdmTMB coordinate system
-                area = grid_spacing / 1000 * grid_spacing / 1000) |>
-  sf::st_drop_geometry() |>
-  dplyr::as_tibble() |>
-  dplyr::select(survey, X, Y, area, last_samp_year) |>
-  filter(last_samp_year >= 2009 & last_samp_year <= 2019)
+  #full_grid$last_samp_year <- last_year
 
-mssm_grid_3km_sf <- mssm_grid_3km_sf |>
-  sf::st_transform(crs = "WGS84")
+  mssm_grid_sf <- full_grid |>
+    mutate(year = sampling_years) |>
+    unnest(cols = year) |>
+    filter(!is.na(year)) |>
+    dplyr::mutate(survey = "MSSM WCVI")
+  #full_grid$year <- sampling_years
 
-# Make 2x2 km grid on the data up to 2019
-pcod_dat <-
-  mssm_dat |>
-  filter(year <= 2019) |>
-  dplyr::filter(species_common_name == 'pacific cod') |>
-  dplyr::filter(!is.na(longitude)) |>
-  dplyr::mutate(row_id = dplyr::row_number())
+  # mssm_grid_sf <- full_grid[id_intersect, ] |>
+  #   dplyr::mutate(survey = "MSSM WCVI")
 
-# Use equal distance projection
-pcod_sf <-
-  pcod_dat |>
-  dplyr::select(year, longitude, latitude) |>
-  sf::st_as_sf(coords = c('longitude', 'latitude'), crs = 'WGS84') |>
-  sf::st_transform(crs = 32609)
+  mssm_grid <- mssm_grid_sf |>
+    sf::st_centroid() %>%
+    dplyr::mutate(survey = "MSSM WCVI",
+                  #ssid = 7,
+                  X = sf::st_coordinates(.)[,1] / 1000, # match sdmTMB coordinate system
+                  Y = sf::st_coordinates(.)[,2] / 1000, # match sdmTMB coordinate system
+                  area = grid_spacing / 1000 * grid_spacing / 1000) |>
+    sf::st_drop_geometry() |>
+    dplyr::as_tibble() |>
+    dplyr::select(survey, X, Y, area, year)
+    #dplyr::select(survey, X, Y, area, last_samp_year)
 
-pcod_years <- dplyr::select(pcod_dat, row_id, year)
-grid_spacing <- 2000
+  mssm_grid_sf <- mssm_grid_sf |>
+    sf::st_transform(crs = "WGS84")
 
-# Create grid over the bounding box of the polygon
-full_grid <- pcod_sf |>
-  sf::st_make_grid(cellsize = c(grid_spacing, grid_spacing)) |>
-  sf::st_as_sf() |>
-  dplyr::rename(geometry = x)
+  list(mssm_grid = mssm_grid, mssm_grid_sf = mssm_grid_sf)
+}
 
-# Get grid cells that overlap with at least one sampling point
-intersected <- sf::st_intersects(full_grid, pcod_sf)
+# Make 3x3 km grid ---
+mssm_grid_3km <- pcod_dat |>
+  mk_mssm_grid(grid_spacing = 3000)
 
-id_intersect <- intersected |> purrr::map_dbl(length) > 0
-last_year <- intersected |>
-  purrr::map_dbl(\(row) if (length(row) > 0) {max(pcod_years[row, ]$year)} else {NA})
+mssm_grid_3km[[1]] |>
+  dplyr::filter(year >= 2009 & year <= 2021) |>
+  dplyr::distinct(X, Y, .keep_all = TRUE)
 
-full_grid$last_samp_year <- last_year
+mssm_grid_3km[[2]] |>
+  filter(year >= 2009 & year <= 2021) |>
+  distinct(geometry, .keep_all = TRUE) |>
+  ggplot() +
+  geom_sf(aes(fill = year)) +
+  geom_sf(data = mssm_grid_3km[[2]] |> filter(year == 2021), fill = 'pink') +
+  geom_sf(data = pcod_sf |> filter(year == 2021), shape = 21, size = 3, fill = 'white') +
+  geom_sf(data = mssm_grid_3km[[2]] |> filter(year == 2019), colour = 'purple', fill = NA) +
+  geom_sf(data = pcod_sf |> filter(year == 2019), shape = 21, size = 3, fill = 'white')
 
-mssm_grid_2009_2019_sf <- full_grid[id_intersect, ] |>
-  dplyr::mutate(survey = "MSSM WCVI")
+mssm_grid_3km[[1]] |>
+  filter(year >= 2009 & year <= 2021) |>
+saveRDS(file.path(grid_dir, 'mssm-grid-3km_2009-2021.rds'))
 
-mssm_grid_2009_2019 <- mssm_grid_2009_2019_sf |>
-  sf::st_centroid() %>%
-  dplyr::mutate(survey = "MSSM WCVI",
-                #ssid = 7,
-                X = sf::st_coordinates(.)[,1] / 1000, # match sdmTMB coordinate system
-                Y = sf::st_coordinates(.)[,2] / 1000, # match sdmTMB coordinate system
-                area = grid_spacing / 1000 * grid_spacing / 1000) |>
-  sf::st_drop_geometry() |>
-  dplyr::as_tibble() |>
-  dplyr::select(survey, X, Y, area, last_samp_year) |>
-  filter(last_samp_year >= 2009 & last_samp_year <= 2019)
-
-saveRDS(mssm_grid_2009_2019, file.path(grid_dir, 'mssm-grid_2009-2019.rds'))
-
-mssm_grid_2009_2019_sf <- mssm_grid_2009_2019_sf |>
-  sf::st_transform(crs = "WGS84")
-
+# Make 2x2 km grid
+mssm_grid_2km <- pcod_dat |>
+  mk_mssm_grid(grid_spacing = 2000)
 
 km2 <-
-  ggplot(data = mssm_grid_2009_2019_sf |> filter(last_samp_year >= 2009 & last_samp_year <= 2019)) +
+  ggplot(data = mssm_grid_2km[[2]] |> filter(year >= 2009 & year <= 2021)) +
   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
   geom_sf(alpha = 0.5) +
   scale_fill_manual(values = grid_colours) +
   scale_x_continuous(breaks = seq(-127.4, -126.0, by = 0.4))
 
 km3 <-
-  ggplot(data = mssm_grid_3km_sf |> filter(last_samp_year >= 2009 & last_samp_year <= 2019)) +
+  ggplot(data = mssm_grid_3km[[2]] |> filter(year >= 2009 & year <= 2021)) +
   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
   geom_sf(alpha = 0.5) +
   theme(axis.text.y = element_blank()) +
@@ -260,7 +253,8 @@ ggsave(filename = file.path(mssm_figs, '2km-3km-grid-comp.png'), width = 6.7, he
 # ------------------------------------------------------------------------------
 # --- Look at spatial distribution of sampling ------------
 # Set default grid for plotting
-mssm_grid_sf <- mssm_grid_3km_sf
+mssm_grid_sf <- readRDS(file.path(grid_dir, 'mssm-grid_2009-2019_sf.rds'))
+#mssm_grid_sf <- mssm_grid_3km_sf
 
 pcod_dat <- mssm_dat |>
   filter(species_common_name == 'pacific cod')
@@ -482,7 +476,6 @@ future::plan(future::multicore, workers = 8)
         survey_grid = mssm_grid_3km
       )
     }
-})
 
 future::plan(future::sequential)
 beepr::beep()
@@ -510,7 +503,7 @@ furrr::future_walk(spp_vector, function(.sp) {
         survey_type = "mssm", model_type = 'st-rw', cache = file.path(mssm_sc),
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE,
-        survey_grid = mssm_grid_2009_2019
+        survey_grid = mssm_grid_2009_2021
       )
     }
 })
@@ -1316,7 +1309,7 @@ spp_group_plot2 <-
     theme(legend.position = c(0.7, 0.15))
 spp_group_plot2
 
-ggsave(spp_group_plot, filename = file.path(mssm_figs, 'aggregated-id-level-plot.png'), width = 7.7, height = 5.2)
+ggsave(filename = file.path(mssm_figs, 'aggregated-id-level-plot.png'), width = 7.7, height = 5.2)
 
 
 
