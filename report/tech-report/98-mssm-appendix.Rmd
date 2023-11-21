@@ -52,7 +52,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/grid-historical
 
 The navigation systems used in in the MSSM have changed twice, once in 1979 from Loran A to Loran C, and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)).
 Early survey locations may therefore be more variable.
-It was also found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows once GPS was implemented (Sinclair et al 2001).
+Sinclair et al. (2001) (TODO) found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows once GPS was implemented.
 
 ## Gear changes
 
@@ -61,7 +61,7 @@ In 1977, the net, foot rope, and doors were changed.
 The 70 foot semi-balloon shrimp net was replaced with the National Marine Fisheries Science (NMFS) 61 foot shrimp trawl net (Rutherford et al. in prep).
 No calibration tows were performed but other research has found that the NMFS net was 1.4 more efficient than the 70 foot semi-balloon net (Boutillier et al. 1977, 1998 TODO), meaning that catch weights between 1973-1976 are likely to be biased down relative to 1977 onward.
 
-```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977-2005 and the 61 foot American shrimp trawl net has been used from 2006-present. Only two sets of comparison trawls were done with each net at two locations in 2006. ", out.width="50%"}
+```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977-2005 and the 61 foot American shrimp trawl net has been used from 2006-present. Only two sets of comparison trawls were done with each net at two locations in 2006. ", out.width="60%"}
 
 knitr::include_graphics(here::here("report/mssm-appendix/figures/net-comp.png"), dpi = NA)
 
@@ -94,9 +94,7 @@ It is unclear whether this change in observed abundance was due to changes in so
 The abnormally high catches of eelpouts in 2002, likely reflects the transition between improved sorting just prior to full species-level identification in 2003. OR DOES IT??? IT'S SUPER HIGH IN 2002. AND ALSO: skates are SUPER high in 2001, but why??
 
 ```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="\\textwidth"}
-
 knitr::include_graphics(here::here("report/mssm-appendix/figures/aggregated-id-level-plot.png"), dpi = NA)
-
 ```
 
 Pacific Tomcod recorded abundances decrease after 2003 and it is possible that this is the result of mis-idenfication of young pacific cod and walleye pollock prior to 2003.
@@ -156,6 +154,7 @@ knitr::include_graphics(here::here("report/mssm-appendix/figures/index-model-des
 
 - We checked whether the correlation between the different survey indices declined as we went further back in time. We compared a 10-year rolling window correlation between the MSSM ~ CPUE 3CD, the MSSM ~ SYN WCVI, and the MSSM ~ SYN WCVI predicted on the MSSM grid.
 
+<!-- TODO: wrong .png (fig doesn't exist?) -->
 
 There was no systematic decrease in correlation between the different indices earlier in the time-series (Figure \@ref(fig:rolling-window-correlation)).
 
