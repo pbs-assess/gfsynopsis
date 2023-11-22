@@ -14,16 +14,18 @@ options(future.rng.onMisuse = "ignore")
 # Load data
 data_cache <- here::here('report', 'data-cache-oct-2023')
 grid_dir <- here::here(data_cache, 'grids')
-syn_sc <- here::here('report', 'stitch-cache', 'SYN-WCVI')
-mssm_sc <- here::here('report', 'stitch-cache', 'mssm')
-mssm_3km_grid_sc <- here::here('report', 'stitch-cache', 'mssm', '3km-grid')
-mssm_year_sc <- here::here('report', 'stitch-cache', 'mssm', 'year-bin')
-mssm_gear_diff_sc <- here::here('report', 'stitch-cache', 'mssm', 'gear-diff')
+mssm_dir <- here::here('report', 'mssm-tech-report')
+mssm_data <- here::here(mssm_dir, 'data')
 cpue_cache <- here::here('report', 'cpue-cache')
-mssm_appendix <- here::here('report', 'mssm-appendix')
-mssm_figs <- here::here('report', 'mssm-appendix', 'figures')
 
-mssm_fig_list <- list()
+syn_sc <- here::here(mssm_dir, 'stitch-cache', 'SYN-WCVI')
+mssm_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm')
+
+
+mssm_3km_grid_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm', '3km-grid')
+mssm_year_sc <- here::here(mssm_dir 'stitch-cache', 'mssm', 'year-bin')
+
+mssm_figs <- here::here(mssm_dir, 'figure')
 
 survey_cols <- c("SYN WCVI" = "#7570b3", "SYN WCVI on MSSM Grid" = "#7570b3",
   "MSSM WCVI" = "#1b9e77", "MSSM Model" = "#1b9e77",
@@ -46,7 +48,7 @@ spp_name_lu <- gfsynopsis::get_spp_names() |> select(species_common_name, spp_w_
 spp_levels <- gfsynopsis::get_spp_names() |> arrange(species_code) |>
   pluck('species_common_name')
 
-mssm_survey_changes <- readr::read_csv(file.path(mssm_appendix, 'mssm-survey-changes.csv'))
+mssm_survey_changes <- readr::read_csv(file.path(mssm_data, 'mssm-survey-changes.csv'))
 
 mssm_survey_changes |>
   filter(stringr::str_detect(Change, "Navigation|Data")) |>
@@ -228,6 +230,7 @@ mssm_grid_3km[[2]] |>
 
 mssm_grid_3km[[1]] |>
   filter(year >= 2009 & year <= 2021) |>
+  dplyr::distinct(X, Y, .keep_all = TRUE)
 saveRDS(file.path(grid_dir, 'mssm-grid-3km_2009-2021.rds'))
 
 # Make 2x2 km grid
@@ -256,7 +259,6 @@ ggsave(filename = file.path(mssm_figs, '2km-3km-grid-comp.png'), width = 6.7, he
 # Set default grid for plotting
 #mssm_grid_sf <- readRDS(file.path(grid_dir, 'mssm-grid-3km_2009-2021.rds'))
 mssm_grid_sf <- gfdata::mssm_grid_sf
-#mssm_grid_sf <- mssm_grid_3km_sf
 
 pcod_dat <- mssm_dat |>
   filter(species_common_name == 'pacific cod')
@@ -268,7 +270,7 @@ pcod_sf <- sf::st_as_sf(pcod_dat, coords = c('longitude', 'latitude'), crs = "WG
 # Will need to fix the coordinate system this grid uses in gfdata
 
 # Grid from GFBioField
-sgrid <- sf::st_read(here::here("report/mssm-appendix", "SMMS-grid/SMMS_Survey_Blocks.shp"))
+sgrid <- sf::st_read(file.path(mssm_data, "SMMS-grid/SMMS_Survey_Blocks.shp"))
 
 gfbio_grid <- sgrid |>
   # Select only sites off WCVI (since there is no ssid corresponding to 7 or 'MSSM WCVI')
@@ -403,7 +405,7 @@ yearbin_catch <- mssm_dat |>
   distinct(species_common_name, yearbin_catch)
 
 post_2003_spp <- filter(yearbin_catch, yearbin_catch == 0)$species_common_name
-saveRDS(post_2003_spp, file.path(mssm_appendix, 'post-2003-spp.rds'))
+saveRDS(post_2003_spp, file.path(mssm_dir, 'post-2003-spp.rds'))
 
 sampling_2003 <-
   mssm_dat |>
@@ -459,7 +461,7 @@ ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
 ## Get model where pre and post 2003 is added as factor
 # Use 3km grid
 # All species ID'd to lowest taxonomic level in 2003 onward
-# future::plan(future::multicore, workers = 8)
+future::plan(future::multicore, workers = 8)
 furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
@@ -483,16 +485,15 @@ furrr::future_walk(spp_vector, function(.sp) {
         survey_type = "mssm", model_type = 'st-rw', cache = file.path(mssm_sc, '3km-grid'),
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE,
-        survey_grid = mssm_grid_3km
+        survey_grid = NULL
       )
     }
 })
 
-# future::plan(future::sequential)
+future::plan(future::sequential)
 beepr::beep()
 
 # Use 2km grid
-
 furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
@@ -511,16 +512,18 @@ furrr::future_walk(spp_vector, function(.sp) {
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
         family = sdmTMB::tweedie(),
-        survey_type = "mssm", model_type = 'st-rw', cache = file.path(mssm_sc),
+        survey_type = "mssm", model_type = 'st-rw', cache = file.path(mssm_sc, '2km-grid'),
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE,
-        survey_grid = mssm_grid_2009_2021
+        survey_grid = mssm_grid_2km |>
+          filter(year >= 2009 & year < 2022) |>
+          distinct(X, Y, survey, area)
       )
     }
 })
-
-
+future::plan(future::sequential)
 beepr::beep()
+
 
 
 # # Fit SYN WCVI ------------------
@@ -1215,6 +1218,80 @@ more_spp %>% filter(catch_weight == 0 & catch_count == 0) |>
   arrange(species_common_name, year) |>
   distinct(species_common_name)
 
+# What is going on in 2002???
+# - Does not look like there are any duplicate fishing events
+more_spp |>
+  #filter(species_common_name == 'skates') |>
+  filter(year == 2002) |>
+  arrange(-catch_weight) |>
+  ggplot(aes(x = species_common_name, y = catch_weight)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+      aes(x = species_common_name, y = catch_weight, label = fishing_event_id),
+      size = 3.5, segment.color = 'grey85',
+      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
+      direction = "y"
+    ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+more_spp |>
+  #filter(year == 2002) |>
+  arrange(-catch_weight) |>
+  slice(1:30) |>
+  distinct(fishing_event_id, .keep_all = TRUE) |>
+    ggplot(aes(x = species_common_name, y = catch_weight)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+      aes(x = species_common_name, y = catch_weight, label = paste(fishing_event_id, year, sep = "-")),
+      size = 3.5, segment.color = 'grey85',
+      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
+      direction = "y", hjust = 0
+    ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Likely a decimal point error for fishing_event_id %in% c()
+hist(((more_spp |> filter(species_common_name == 'skates', catch_weight > 5))$catch_weight))
+
+test <- bind_rows(more_spp |> filter(year == 2002), mssm_dat |> filter(year == 2002))
+
+filter(test, fishing_event_id %in% c(902190, 902182, 902187)) %>% view()
+
+big_catches <-
+  test |>
+    group_by(fishing_event_id) |>
+    mutate(total_catch = sum(catch_weight)) |>
+    arrange(-total_catch, fishing_event_id) |>
+    ungroup() |>
+    distinct(fishing_event_id, total_catch) |>
+    slice(1:5)
+
+test |> filter(fishing_event_id %in% pluck(big_catches, 'fishing_event_id')) |>
+filter(catch_weight > 10) |>
+ggplot(aes(x = species_common_name, y = catch_weight)) +
+  geom_point() +
+  facet_wrap(~fishing_event_id, scales = 'free_x', ncol = 5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#mssm_dat |>
+test |>
+  #filter(species_common_name == 'skates') |>
+  filter(year == 2002) |>
+  filter(catch_weight != 0) |>
+  group_by(species_common_name) |>
+  mutate(max_catch = max(catch_weight), mean_catch = mean(catch_weight)) |>
+  #filter(max_catch > 3 * mean_catch) |>
+  ungroup() |>
+  arrange(-catch_weight) |>
+  ggplot(aes(x = species_common_name, y = catch_weight)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+      aes(x = species_common_name, y = catch_weight, label = fishing_event_id),
+      size = 3.5, segment.color = 'grey85',
+      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
+      direction = "y"
+    ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 more_spp_summ <- more_spp |>
   group_by(species_common_name, species_science_name, year) |>
@@ -1241,7 +1318,7 @@ agg_plot <- function(df, ncol = 1, scales = 'free_y') {
     facet_wrap(~ species_common_name, scales = scales, ncol = ncol)
   }
 
-# All higher order species aggregations of families caught in MSSM
+# All higher order species aggregations f families caught in MSSM
 spp_group_plot <-
   more_spp_summ |>
   filter(species_common_name %in% c('eelpouts', 'flatfishes', 'rockfishes', 'sculpins', 'skates')) |>
