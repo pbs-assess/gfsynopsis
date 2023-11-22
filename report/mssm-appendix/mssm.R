@@ -519,7 +519,8 @@ beepr::beep()
 
 
 # # Fit SYN WCVI ------------------
-purrr::walk(spp_vector, function(.sp) {
+furrr::future_walk(spp_vector, function(.sp) {
+# purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
     survey_dat <- readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "SYN WCVI")
@@ -531,7 +532,7 @@ purrr::walk(spp_vector, function(.sp) {
         family = sdmTMB::tweedie(),
         survey_type = "SYN WCVI", model_type = 'st-rw', cache = file.path('report','stitch-cache', 'SYN-WCVI', 'mssm-grid-3km'),
         cutoff = 20, silent = FALSE,
-        survey_grid = mssm_grid_3km |> select(-last_samp_year) |> mutate(survey = 'SYN WCVI'),
+        survey_grid = gfdata::mssm_grid |> mutate(survey = 'SYN WCVI'),
         grid_dir = NULL,
         check_cache = TRUE
         #grid_dir = grid_dir, check_cache = TRUE
