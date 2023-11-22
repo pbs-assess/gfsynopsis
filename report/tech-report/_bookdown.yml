@@ -2,6 +2,8 @@ book_filename: "techreport"
 rmd_files: ["index.Rmd",
   "01-introduction.Rmd",
   # "02-plot-descriptions.Rmd",
+  "04-indices.Rmd",
+  "05-synopsis-plots-intro.Rmd",
   "plot-pages.Rmd",
   "90-appendix-start.Rmd",
   "98-stitching-appendix.Rmd",
