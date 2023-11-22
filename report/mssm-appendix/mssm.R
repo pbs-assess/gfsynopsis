@@ -370,7 +370,7 @@ ggsave(file.path(mssm_figs, 'grid-historical-nav-changes.png'), width = 3.5, hei
 
 spatial_shift_plot <-
   ggplot() +
-    geom_sf(data = mssm_grid_sf |> filter(year >= 2009),
+    geom_sf(data = mssm_grid_sf |> dplyr::filter(year >= 2009 & year <= 2021),
       aes(fill = "2009"), alpha = 0.8, colour = 'grey50') +
     geom_point(data = pcod_dat |>
       filter(year %in% c(1975, 1976, 1977, 1978, 1979, 1985, 1995, 1998, 2003, 2013, 2021, 2022)),
@@ -415,7 +415,7 @@ pre_2003_spp_plot <- sampling_2003 |>
   filter(!(species_common_name %in% post_2003_spp)) |>
   mutate(species_common_name = stringr::str_to_title(species_common_name)) |>
   mutate(species_common_name = forcats::fct_reorder(species_common_name, species_code)) |>
-ggplot(data = _, aes(x = year, y = mean_catch)) +
+  ggplot(data = _, aes(x = year, y = mean_catch)) +
     geom_rect(aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
               fill = "gray85", alpha = 0.2) +
     geom_point() +
@@ -458,8 +458,8 @@ ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
 ## Get model where pre and post 2003 is added as factor
 # Use 3km grid
 # All species ID'd to lowest taxonomic level in 2003 onward
-future::plan(future::multicore, workers = 8)
-#furrr::future_walk(spp_vector, function(.sp) {
+# future::plan(future::multicore, workers = 8)
+furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
     survey_dat <- readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
@@ -485,8 +485,9 @@ future::plan(future::multicore, workers = 8)
         survey_grid = mssm_grid_3km
       )
     }
+})
 
-future::plan(future::sequential)
+# future::plan(future::sequential)
 beepr::beep()
 
 # Use 2km grid
@@ -517,12 +518,13 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
 })
 
-future::plan(future::sequential)
+
 beepr::beep()
 
 
 # # Fit SYN WCVI ------------------
-purrr::walk(spp_vector, function(.sp) {
+furrr::future_walk(spp_vector, function(.sp) {
+# purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
     survey_dat <- readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "SYN WCVI")
@@ -534,7 +536,7 @@ purrr::walk(spp_vector, function(.sp) {
         family = sdmTMB::tweedie(),
         survey_type = "SYN WCVI", model_type = 'st-rw', cache = file.path('report','stitch-cache', 'SYN-WCVI', 'mssm-grid-3km'),
         cutoff = 20, silent = FALSE,
-        survey_grid = mssm_grid_3km |> select(-last_samp_year) |> mutate(survey = 'SYN WCVI'),
+        survey_grid = gfdata::mssm_grid |> mutate(survey = 'SYN WCVI'),
         grid_dir = NULL,
         check_cache = TRUE
         #grid_dir = grid_dir, check_cache = TRUE
@@ -545,6 +547,7 @@ beepr::beep()
 # Load index dataframes ----
 # MSSM geostat without year bin
 
+future::plan(future::sequential) # avoid RStudio crash if restarting R
 
 mssm_2km_inds <- spp_vector |>
   map(\(sp) readRDS(file.path(mssm_sc, paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
