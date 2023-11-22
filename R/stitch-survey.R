@@ -210,7 +210,9 @@ choose_survey_grid <- function(survey_type, grid_dir) {
     synoptic = readRDS(file.path(grid_dir, "synoptic_grid.rds")),
     hbll_outside = readRDS(file.path(grid_dir, "hbll_out_grid.rds")),
     hbll_inside = readRDS(file.path(grid_dir, "hbll_ins_grid.rds")),
-    mssm = gfdata::mssm_grid |> filter(year >= 2009 & year < 2022) |> distinct(X, Y, survey, area),
+    mssm = gfdata::mssm_grid |>
+      dplyr::filter(year >= 2009 & year < 2022) |>
+      dplyr::distinct(X, Y, survey, area),
     stop("Invalid `survey_type` value")
   )
 }
