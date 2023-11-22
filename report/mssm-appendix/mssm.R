@@ -455,7 +455,7 @@ ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
 # Use 3km grid
 # All species ID'd to lowest taxonomic level in 2003 onward
 future::plan(future::multicore, workers = 8)
-#furrr::future_walk(spp_vector, function(.sp) {
+furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
     survey_dat <- readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
@@ -481,6 +481,7 @@ future::plan(future::multicore, workers = 8)
         survey_grid = mssm_grid_3km
       )
     }
+})
 
 future::plan(future::sequential)
 beepr::beep()
