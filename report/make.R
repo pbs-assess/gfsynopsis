@@ -18,8 +18,8 @@ if (french) {
 # It must be run before the report can be rendered.
 library(here)
 library(dplyr)
-# library(gfplot)
-devtools::load_all("../gfplot")
+library(gfplot)
+#devtools::load_all("../gfplot")
 library(gfiphc)
 # library(gfsynopsis)
 devtools::load_all(".")
@@ -161,7 +161,7 @@ if (isFALSE(french)) {
 # ------------------------------------------------------------------------------
 # Cache stitched index
 message("Cache stitched indexes")
-dc_iphc <- file.path(dc, "iphc") # @QUESTION: should this be higher up?
+dc_iphc <- file.path(dc, "iphc")
 dc_stitch <- file.path(dc, "stitch-data") # Data used
 stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
 dir.create(stitch_cache, showWarnings = FALSE, recursive = TRUE)
@@ -201,7 +201,7 @@ prep_stitch_grids(
 # -----
 
 # Stitch surveys if not cached
-future::plan(multisession, workers = 4L)
+# future::plan(multisession, workers = 4L)
 furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(clean_name(.sp), "_", model_type, ".rds")
@@ -262,7 +262,7 @@ furrr::future_walk(spp_vector, function(.sp) {
 # future::plan(sequential)
 
 # Stitch MSSM Survey if not cached
-future::plan(future::multicore, workers = 5)
+# future::plan(future::multicore, workers = 5)
 furrr::future_walk(spp_vector, function(.sp) {
 # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(clean_name(.sp), "_", model_type, ".rds")
@@ -290,7 +290,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
   }
 })
-future::plan(sequential)
+#future::plan(sequential)
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
