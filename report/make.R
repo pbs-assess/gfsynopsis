@@ -204,11 +204,11 @@ prep_stitch_grids(
 future::plan(multisession, workers = 4L)
 furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(clean_name(.sp), "_", model_type, ".rds")
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
   stitch_cached_sp <- file.path(c(sc_synoptic, sc_hbll_out, sc_hbll_ins), spp_filename)
 
   if(any(!file.exists(stitch_cached_sp))) {
-    survey_dat <- readRDS(file.path(dc, paste0(clean_name(.sp), ".rds")))$survey_sets |>
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
   }
 
