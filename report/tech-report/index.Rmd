@@ -1,7 +1,7 @@
 ---
 title: |
   "A data synopsis for British Columbia groundfish: 2022 data update"
-french_title: Titre ici (*Nom latin de l'espèce*)
+french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2022"
 year: 2023
 report_number: nnn
 author: |
