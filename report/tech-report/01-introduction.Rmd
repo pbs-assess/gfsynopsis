@@ -75,17 +75,16 @@ Updates:
 
 * We added spatiotemporal model-based biomass indices for (1) coastwide synoptic surveys, (2) coastwide Outside HBLL surveys, (3) the combined Inside HBLL surveys, (4) the IPHC FISS, and (5) the MSSM WCVI survey. This approach was originally described in @anderson2019synopsis (their Appendix E and F). We expand on details of the approach in this report's Appendix \@ref(app:stitching).
 
-* We made minor changes to the presentation of the IPHC indexes to avoid showing index values for species in earlier years when some species were only recorded at aggregated taxonomic levels (see Appendix \@ref(app:iphc)).
+* We made minor changes to the presentation of the IPHC indexes to avoid showing index values for species in earlier years when some species were only recorded at aggregated taxonomic levels. Big Skate and Longnose Skate were both explicitly identified starting in 1998, while the more rarely caught Aleutian Skate and Sandpaper Skate only appear in the data from 2006 onwards. For example, the average catch rate of 'Unidentified Skates' was almost 1 fish per effective skate from 1995--1999.  See [HG predator analysis vignette](http://htmlpreview.github.io/?https://github.com/pbs-assess/gfiphc/blob/master/vignettes/analysis_for_HG_herring_predators.html). Similarly Shortspine Thornyhead only appears in the data in 1998 and was likely classified under 'Unidentified Thornyhead (idiot)' previously.
 
-* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Appendix \@ref(app:mssm) provides a background on the MSSM survey with respect to groundfish, documents groundfish-specific protocol changes over time, and compared the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
+* We added data from the Multispecies Small-mesh Bottom Trawl Survey (MSSM, formerly referred to as the "shrimp" survey) off West Coast Vancouver Island. We visualize biomass indices and length composition data but omit age composition data because of the rarity with which these data appear. Below, we provide a brief background on the MSSM survey with respect to groundfish. However, more details on survey protocol changes over time can be found in @rutherfordinprep and a forthcoming report will review these protocol changes and compare the biomass indices to related indices from the synoptic trawl survey and commercial catch per unit effort.
 
 * We fixed an important erratum: the 2022 report Synoptic survey and HBLL OUT survey maps erroneously displayed data for 2018 and 2019 rather than 2020 and 2021. In this report, we confirm that the maps are displaying the intended 2021 and 2022 survey data.
 
-## Stuff to go in appendices?
 
 ### Multispecies Small Mesh Groundfish Bottom Trawl (MSSM)
 
-Since 1973, DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island.
+Since 1973, DFO has conducted annual surveys at fixed stations in shrimping grounds off West Coast Vancouver Island.
 This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
 The survey typically occurs in late April to May with exceptions in 1985 (May 24--June 7) and in 1987 (August 4--14).
 
@@ -96,10 +95,9 @@ Trawl nets were changed in 1976 and 2006. And notably, catch sorting has changed
   - In 2001 all catch was sorted along a conveyor belt
   - Since 2003 all species have been sorted to the species or lowest taxonomic level and weighed
 
-The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) Flemming R (2013) TODO REF. Additional survey details can be found in Rutherford et al. (in prep) TODO REF.
-
-Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fisheries and Oceans Canada. Dataset/Samplingevent. http://iobis.org/mapper/?resource_id=261
+The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) @mssm2022obis. Additional survey details can be found in Rutherford et al. (in prep) TODO REF.
 
 
-<!-- TODO: update table 1 -->
+IPHC Note from appendix - need to include?
+As occurred in 2021, in 2022 only a subsample of stations off the WCVI were surveyed. This may affect the determination of whether or not Series AB [@anderson2019synopsis Appendix G] can be considered representative of the full coast and is one reason why a model-based index (Appendix \@ref(app:stitching)) may be preferable.
 
