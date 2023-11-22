@@ -19,13 +19,13 @@ a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
 and an "offset" $O_{\boldsymbol{s},t}$.
 The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for survey effort (area swept or hooks fished).
 
-The spatial Gaussian random field is assumed drawn from a multivariate normal (MVN) distribution with covariance matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function
+The spatial Gaussian random field is assumed to be drawn from a multivariate normal (MVN) distribution with covariance matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function
 
 \begin{equation}
 \boldsymbol{\omega} \sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\omega}).
 \end{equation}
 
-The spatiotemporal portion is structured as a random walk with Gaussian random field annual innovations
+The spatiotemporal portion is structured as a random walk with Gaussian random field annual deviations
 
 \begin{align}
 \boldsymbol{\delta}_{t=1} &\sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon}),\\
@@ -57,6 +57,7 @@ We constructed our meshes with a minimum triangle edge length of 20 km for the S
 We fit our models to all species where the proportion of positive sets across all observed survey sets was $\ge$ 5%.
 Due to the smaller survey area, deeper depth strata, and geographical distance to the other synoptic surveys, when the proportion of positive sets in SYN WCHG was $<$ 5%, this survey was omitted from the modelling.
 We omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (i.e., that their standard editions were $>$ 0.01).
+For the MSSM survey we also omitted models when the maximum estimated confidence intervals were $\ge$ 10 times the maximum estimated biomass and the mean coefficient of variation was less than 2.
 
 From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells. This is further described in @anderson2019synopsis.
 

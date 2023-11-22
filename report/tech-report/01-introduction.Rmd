@@ -95,9 +95,9 @@ Trawl nets were changed in 1976 and 2006. And notably, catch sorting has changed
   - In 2001 all catch was sorted along a conveyor belt
   - Since 2003 all species have been sorted to the species or lowest taxonomic level and weighed
 
-The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) @mssm2022obis. Additional survey details can be found in Rutherford et al. (in prep) TODO REF.
+The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) @mssm2022obis and additional survey details can be found @rutherfordinprep.
 
 
-IPHC Note from appendix - need to include?
+<!-- IPHC Note from appendix - need to include?
 As occurred in 2021, in 2022 only a subsample of stations off the WCVI were surveyed. This may affect the determination of whether or not Series AB [@anderson2019synopsis Appendix G] can be considered representative of the full coast and is one reason why a model-based index (Appendix \@ref(app:stitching)) may be preferable.
-
+ -->
