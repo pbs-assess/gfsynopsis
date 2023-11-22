@@ -29,7 +29,7 @@ abstract: |
   fishery-independent survey data, such as biomass indices and age
   compositions, forms the backbone of most fisheries stock assessments. For
   British Columbia groundfish, vast quantities of such data are
-  collected. However, the DFO Pacific groundfish section lacks the capacity to conduct formal
+  collected. However, the Fisheries and Oceans Canada Pacific groundfish section lacks the capacity to conduct formal
   stock assessments for most stocks annually, and therefore, much of these data
   are not summarized to represent the nature of the data holdings.
   Here, we update a reproducible report that gives a snapshot of population and
