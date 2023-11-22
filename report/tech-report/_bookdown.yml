@@ -7,8 +7,8 @@ rmd_files: ["index.Rmd",
   "plot-pages.Rmd",
   "90-appendix-start.Rmd",
   "98-stitching-appendix.Rmd",
-  "98-iphc-appendix.Rmd",
-  "98-mssm-appendix.Rmd",
+  # "98-iphc-appendix.Rmd",
+  # "98-mssm-appendix.Rmd",
   "999-appendix-end.Rmd",
   "99-bibliography.Rmd"
 ]
