@@ -454,7 +454,7 @@ ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
 ## Get model where pre and post 2003 is added as factor
 # Use 3km grid
 # All species ID'd to lowest taxonomic level in 2003 onward
-future::plan(future::multicore, workers = 8)
+# future::plan(future::multicore, workers = 8)
 furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
@@ -483,7 +483,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
 })
 
-future::plan(future::sequential)
+# future::plan(future::sequential)
 beepr::beep()
 
 # Use 2km grid
@@ -514,7 +514,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     }
 })
 
-future::plan(future::sequential)
+
 beepr::beep()
 
 
@@ -542,6 +542,7 @@ beepr::beep()
 # Load index dataframes ----
 # MSSM geostat without year bin
 
+future::plan(future::sequential) # avoid RStudio crash if restarting R
 
 mssm_2km_inds <- spp_vector |>
   map(\(sp) readRDS(file.path(mssm_sc, paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
