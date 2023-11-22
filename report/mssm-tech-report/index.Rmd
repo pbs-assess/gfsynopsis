@@ -1,0 +1,100 @@
+---
+title: |
+  "A data synopsis for British Columbia groundfish: 2022 data update"
+french_title: Titre ici (*Nom latin de l'espèce*)
+year: 2023
+report_number: nnn
+author: |
+  Sean C. Anderson,
+  Jillian C. Dunic,
+  Elise A. Keppel, and
+  Andrew M. Edwards
+author_list: "Anderson, S.C., Dunic, J.C., Keppel, E.A., and Edwards, A.M."
+region: Pacific Region
+french_region: Région du Pacifique
+isbn: ""
+address: |
+  Pacific Biological Station\
+  Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+  Nanaimo, British Columbia, V9T 6N7, Canada\
+french_address: |
+  Station biologique du Pacifique\
+  Pêches et Océans Canada, 3190 Hammond Bay Road\
+  Nanaimo, Colombie-Britannique, V9T 6N7, Canada\
+  \smallskip
+phone: "(555) 555-5555"
+author_footnote: "Email: First.Author@dfo-mpo.gc.ca | telephone: (250) 756-5555"
+abstract: |
+  Here is the abstract text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+french_abstract: |
+  Voici le résumé. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+output:
+ csasdown::techreport_pdf:
+   french: false
+   copy_sty: true
+   line_nums: false
+   line_nums_mod: 1
+   lot_lof: false
+   draft_watermark: true
+type:
+  techreport
+knit: (function(input, ...) {
+       csasdown::render()
+      })
+site: bookdown::bookdown_site
+link-citations: true
+bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
+header-includes:
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+library(knitr)
+if (is_latex_output()) {
+  knitr_figs_dir <- "knitr-figs-pdf/"
+  knitr_cache_dir <- "knitr-cache-pdf/"
+  fig_out_type <- "png"
+} else {
+  knitr_figs_dir <- "knitr-figs-docx/"
+  knitr_cache_dir <- "knitr-cache-docx/"
+  fig_out_type <- "png"
+}
+fig_asp <- 0.618
+fig_width <- 9
+fig_out_width <- "6in"
+fig_dpi <- 180
+fig_align <- "center"
+fig_pos <- "htb"
+opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = knitr_figs_dir,
+  cache.path = knitr_cache_dir,
+  fig.asp = fig_asp,
+  fig.width = fig_width,
+  out.width = fig_out_width,
+  echo = FALSE,
+  autodep = TRUE,
+  cache = FALSE, # !!
+  cache.comments = FALSE,
+  dev = fig_out_type,
+  dpi = fig_dpi,
+  fig.align = fig_align,
+  fig.pos = fig_pos
+)
+```
+
+```{r load-libraries, cache=FALSE}
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tibble)
+library(rosettafish)
+library(csasdown)
+library(gfsynopsis)
+```
+
+```{r globals, cache=FALSE}
+french <- TRUE
+```
