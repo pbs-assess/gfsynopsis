@@ -1351,8 +1351,8 @@ COSEWIC Status: Endangered, SARA Status: No Status
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-pinniger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274836)\
-Last Research Documents: @stanley2009canary, @starr2023canary\
-Last Science Advisory Reports: @dfo2009canary, @dfo2023canary\
+Last Research Document: @starr2023canary\
+Last Science Advisory Report: @dfo2023canary\
 COSEWIC Status Report: @cosewic2007canary\
 COSEWIC Status: Threatened, SARA Status: No Status
 

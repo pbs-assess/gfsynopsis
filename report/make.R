@@ -204,11 +204,11 @@ prep_stitch_grids(
 # future::plan(multisession, workers = 4L)
 furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(clean_name(.sp), "_", model_type, ".rds")
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
   stitch_cached_sp <- file.path(c(sc_synoptic, sc_hbll_out, sc_hbll_ins), spp_filename)
 
   if(any(!file.exists(stitch_cached_sp))) {
-    survey_dat <- readRDS(file.path(dc, paste0(clean_name(.sp), ".rds")))$survey_sets |>
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
   }
 
@@ -237,10 +237,10 @@ furrr::future_walk(spp_vector, function(.sp) {
 # Stitch IPHC surveys if not cached
 furrr::future_walk(spp_vector, function(.sp) {
 # purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(clean_name(.sp), "_", model_type, ".rds")
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
   if(!file.exists(file.path(sc_iphc, spp_filename))) {
-    survey_dat <- readRDS(file.path(dc_iphc, paste0(clean_name(.sp), ".rds")))$set_counts |>
+    survey_dat <- readRDS(file.path(dc_iphc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$set_counts |>
       mutate(species_common_name = .sp) |>
       prep_iphc_stitch_dat(survey_dat = _, hook_dat = iphc_hook_counts)
 
@@ -265,11 +265,11 @@ furrr::future_walk(spp_vector, function(.sp) {
 # future::plan(future::multicore, workers = 5)
 furrr::future_walk(spp_vector, function(.sp) {
 # purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(clean_name(.sp), "_", model_type, ".rds")
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
     if(!file.exists(file.path(sc_iphc, spp_filename))) {
 
-    survey_dat <- readRDS(file.path(dc, paste0(clean_name(.sp), ".rds")))$survey_sets |>
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "MSSM WCVI")
     # Some species not included in survey_set data frame at all, so we need to skip these
     if (nrow(survey_dat) == 0) {
@@ -303,7 +303,7 @@ xx <- spp$species_common_name
 xx <- sample(xx, length(xx), replace = FALSE)
 furrr::future_walk(xx, function(.sp) {
   # purrr::walk(xx, function(.sp) {
-  spp_file <- clean_name(.sp)
+  spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   if (!file.exists(cpue_cache_spp)) {
     cat(.sp, "\n")
@@ -322,7 +322,7 @@ future::plan(sequential)
 # This is the guts of where the figure pages get made:
 message("Make figure pages")
 fig_check <- file.path(build_dir, "figure-pages",
-  clean_name(spp$species_common_name))
+  gfsynopsis:::clean_name(spp$species_common_name))
 fig_check1 <- paste0(fig_check, "-1.", ext)
 fig_check2 <- paste0(fig_check, "-2.", ext)
 missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
@@ -439,7 +439,7 @@ if (french) {
 # Generate `plot-pages.Rmd`:
 temp <- lapply(spp$species_common_name, function(x) {
   message(x)
-  spp_file <- clean_name(x)
+  spp_file <- gfsynopsis:::clean_name(x)
   if (french) {
     spp_title <- spp$species_french_name[spp$species_common_name == x]
   } else {
