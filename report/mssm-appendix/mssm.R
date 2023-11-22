@@ -37,7 +37,7 @@ grid_colours <- c(
   "2009 (GFBioField)" = "#084594",
   "2009" = "#084594",
   "2009-2021" = "#084594",
-  ">2019" = "#08306b"
+  "2022" = "#ff7f00"#"#08306b"
 )
 
 spp_vector  <- gfsynopsis::get_spp_names()$species_common_name
@@ -296,7 +296,6 @@ grid_plot + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
 
 ggsave(file.path(mssm_figs, 'grid-prediction-2009_no-points.png'), width = 3.5, height = 3.7)
 
-
 grid_plot_2009_points <- mssm_grid_sf |>
   filter(year >= 2009 & year <= 2019) |>
   distinct(geometry) |>
@@ -315,6 +314,7 @@ grid_plot_2009_points + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
     guides(fill = "none")
 
 ggsave(file.path(mssm_figs, 'grid-prediction-2009.png'), width = 3.5, height = 3.7)
+ggsave(file.path(here::here('report', 'tech-report', 'figure'), 'grid-prediction-2009.png'), width = 3.5, height = 3.7)
 
 # --- Overlay blocks shown/used in GFBioField
 gfbio_field_grid_plot1 <- mssm_grid_sf |>
@@ -339,6 +339,9 @@ ggsave(file.path(mssm_figs, 'grid-prediction-gfbiofield-1.png'), width = 3.5, he
 # The grid was created as any 3x3 km grid cell, that overlapped with at least one
 # sampling location.
 # The overlay grid covered the bounding box of all sampling locations
+df_2022 <- mssm_grid_sf |> filter(year == 2022)
+df_2009_2021 <- mssm_grid_sf |> filter(year >= 2009 & year < 2022)
+
 grid_historical_plot <-
   ggplot(data = mssm_grid_sf |> distinct(geometry)) +
     geom_sf(aes(fill = "1975 (Loran A)"), alpha = 1) +
@@ -347,9 +350,10 @@ grid_historical_plot <-
     geom_sf(data = mssm_grid_sf |> filter(year >= 1998) |> distinct(geometry),
       aes(fill = "1998 (GPS)"), alpha = 1) +
     geom_sf(data = mssm_grid_sf |> filter(year >= 2009 & year < 2022) |> distinct(geometry),
-      aes(fill = "2009"), alpha = 1) +
-    #geom_sf(data = mssm_grid_sf |> filter(year > 2019),
-    #  aes(fill = ">2019"), alpha = 1) +
+      aes(fill = "2009-2021"), alpha = 1) +
+    geom_sf(data = df_2022[(!df_2022$geometry %in% df_2009_2021$geometry), ],
+      aes(colour = "2022"), linewidth = 1, fill = NA) +
+      #aes(fill = "2022"), alpha = 1) +
     geom_point(data = pcod_dat, aes(x = longitude, y = latitude), shape = 1, size = 0.5, alpha = 0.2) +
     scale_fill_manual(values = grid_colours) +
     labs(fill = "Last year sampled") +
@@ -366,7 +370,7 @@ ggsave(file.path(mssm_figs, 'grid-historical-nav-changes.png'), width = 3.5, hei
 
 spatial_shift_plot <-
   ggplot() +
-    geom_sf(data = mssm_grid_sf |> filter(last_samp_year >= 2009),
+    geom_sf(data = mssm_grid_sf |> filter(year >= 2009),
       aes(fill = "2009"), alpha = 0.8, colour = 'grey50') +
     geom_point(data = pcod_dat |>
       filter(year %in% c(1975, 1976, 1977, 1978, 1979, 1985, 1995, 1998, 2003, 2013, 2021, 2022)),
@@ -422,7 +426,7 @@ ggplot(data = _, aes(x = year, y = mean_catch)) +
     labs(x =  "Year", y = "Mean annual catch (kg)")
 pre_2003_spp_plot
 
-ggsave(file.path(mssm_figs, 'sampling-2003.png'), plot = sampling_2003_plot,
+ggsave(file.path(mssm_figs, 'sampling-2003.png'), plot = pre_2003_spp_plot,
   width = 17, height = 9)
 
 # Comparison of pcod, pollock, tomcod and possible misidentification
