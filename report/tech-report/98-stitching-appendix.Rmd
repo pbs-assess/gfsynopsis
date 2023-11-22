@@ -33,6 +33,10 @@ The spatiotemporal portion is structured as a random walk with Gaussian random f
 \boldsymbol{\epsilon_{t-1}} \sim \operatorname{MVNormal} \left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon} \right).
 \end{align}
 
+We chose this random walk structure based on ongoing research into spatiotemporal model structures that are robust to the bienniel survey structure present in the BC surveys modelled here.
+Such a structure has been used previously, for example, in REF, REF, and [@english2023].
+It is also similar to the first-order autoregressive (AR1) structure used by the International Pacific Halibut Commission when modelling their survey data (REF).
+
 We apply a Tweedie observation likelihood in the case of the trawl survey data, which samples catch weight
 
 \begin{equation}
@@ -46,7 +50,7 @@ y_{\boldsymbol{s},t} \sim \operatorname{NB2} \left( \mu_{\boldsymbol{s},t}, \phi
 \end{equation}
 
 For the hook and line surveys (IPHC, HBLL OUT, HBLL INS), we applied an "instantaneous catch rate" ICR correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
-We explored a censored Poisson likelihood [@watson2022], but found a poorer fit to the data for many species and model convergence issues in several cases.
+We explored a censored Poisson likelihood [@watson2022], but found a poorer fit to the data (as indicated by log likelihood and residuals) for many species and model convergence issues in several cases.
 We plan to revisit this in a future version of the report.
 
 We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
@@ -61,6 +65,16 @@ For the MSSM survey we also omitted models when the maximum estimated confidence
 
 From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells. This is further described in @anderson2019synopsis.
 
+The 2 $\times$ 2 km survey grid for the Synoptic trawl surveys and the Hard Bottom Longline surveys is shown throughout the species pages (e.g., Figure \@ref(fig:survey-maps)).
+We derived a survey grid for the MSSM survey by overlaying a 3 $\times$ 3 km grid covering all sampling locations between 2009 and 2021 (Figure \@ref(fig:mssm-grid)).
+The 3 km grid size approximately matched the resolution of the now-fixed-station sampling design.
+We chose the 2009 to 2021 timespan because it reflected a relatively stable sampling design relevant to recent years.
+Some areas that were sampled in earlier years are no longer sampled and would add considerable uncertainty to the index calculations if we predicted on these no-longer-sampled grid cells.
+Similarly, the 2022 survey year introduced some new survey locations that were not previously surveyed.
+
+```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", out.width="4in"}
+knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
+```
 
 <!-- - A single model was fit to the combined data from each type of survey. -->
 <!-- - The expected biomass density was predicted over the combined survey grid. -->

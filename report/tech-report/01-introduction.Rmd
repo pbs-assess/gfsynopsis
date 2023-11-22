@@ -52,10 +52,6 @@ source(here::here("report/tech-report/intro-maps.R"))
 knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), dpi = NA)
 ```
 
-```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 3x3 km and cover all sampling locations between 2009-2021. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2021."}
-knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
-```
-
 # Updates {#sec:update}
 
 In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, and @synopsis2022.
