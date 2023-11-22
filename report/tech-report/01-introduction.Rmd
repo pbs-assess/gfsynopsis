@@ -3,7 +3,7 @@
 no_species <- nrow(.spp)
 ```
 
-# Context {#sec:context}
+# Introduction {#sec:introduction}
 
 The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, form the backbone of most fisheries stock assessments.
 Fisheries and Oceans Canada (DFO) manages vast quantities of such data on groundfish species in British Columbia (BC).
@@ -13,8 +13,6 @@ The original groundfish data synopsis report was developed to provide a snapshot
 The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
 In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2022].
 In this version, we update the report to include 2022 data as well as adding several additional species, surveys, and spatiotemporal modeling of survey data. We also update referenced stock assessment Research Documents, Science Advisory Reports, and Science Responses.
-
-# Background {#sec:background}
 
 The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
 The goals of the report are to
@@ -45,7 +43,6 @@ A brief description of the included surveys is included in Appendix F of @anders
 Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
-
 
 ```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="tb", fig.asp=0.5,cache=FALSE}
 source(here::here("report/tech-report/intro-maps.R"))
