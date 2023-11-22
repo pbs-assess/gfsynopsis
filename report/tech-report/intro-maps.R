@@ -13,7 +13,7 @@ isobath_utm <- gfplot:::load_isobath(
   ylim_ll = ll_range[, "Y"] + c(-12, 12),
   bath = bath, utm_zone = utm_zone
 )
-french <- TRUE
+french <- FALSE
 
 # synoptic surveys -------------------------------------------------------------
 
