@@ -82,7 +82,7 @@ Updates:
 * We fixed an important erratum: the 2022 report Synoptic survey and HBLL OUT survey maps erroneously displayed data for 2018 and 2019 rather than 2020 and 2021. In this report, we confirm that the maps are displaying the intended 2021 and 2022 survey data.
 
 
-### Multispecies Small Mesh Groundfish Bottom Trawl (MSSM)
+## Multispecies Small Mesh Groundfish Bottom Trawl (MSSM)
 
 Since 1973, DFO has conducted annual surveys at fixed stations in shrimping grounds off West Coast Vancouver Island.
 This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
@@ -90,12 +90,27 @@ The survey typically occurs in late April to May with exceptions in 1985 (May 24
 
 Since 1973, changes to the fishing gear used and changes to catch sorting may affect interpretation of the data.
 Trawl nets were changed in 1976 and 2006. And notably, catch sorting has changed as follows:
-  - From 1973 - 1976, large species weights were estimated using random sampling
-  - Since 1978 large fish were sorted and weighed
-  - In 2001 all catch was sorted along a conveyor belt
-  - Since 2003 all species have been sorted to the species or lowest taxonomic level and weighed
 
-The most up to date data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) @mssm2022obis and additional survey details can be found @rutherfordinprep.
+* From 1973 - 1976, large species weights were estimated using random sampling
+
+* Since 1978 large fish were sorted and weighed
+
+* In 2001 all catch was sorted along a conveyor belt
+
+* Since 2003 all species have been sorted, identified to species or lowest taxonomic level possible, and weighed
+
+The MSSM data used in this report are found in GFBio, but a publicly dataset is available on the Ocean Biodiversity Information System (OBIS) for data up to and including 2021 (@mssm2022obis).
+Additional survey details can be found in @rutherfordinprep.
+
+<!-- Where do we include note about scaling done on biomass index panels?
+- All modelled indices are scaled to the max CI
+- If a design-based index is overlayed, it is then scaled to to the geometric mean
+
+- design biomass = biomass * (geo_scale_factor / d_scale_factor)
+d_scale_factor = ifelse((is.na(scaled_geomean)), max(upperci), d_geomean))
+d_geomean = exp(mean(log(biomass)))) |>
+        mutate(d_geomean = ifelse(d_geomean == 0, geometric_mean(biomass, percent_add = 1), d_geomean)) |>
+ -->
 
 
 <!-- IPHC Note from appendix - need to include?
