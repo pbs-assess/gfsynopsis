@@ -1,7 +1,7 @@
 ---
 title: |
   "A data synopsis for British Columbia groundfish: 2022 data update"
-french_title: Titre ici (*Nom latin de l'espèce*)
+french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2022"
 year: 2023
 report_number: nnn
 author: |
@@ -29,7 +29,7 @@ abstract: |
   fishery-independent survey data, such as biomass indices and age
   compositions, forms the backbone of most fisheries stock assessments. For
   British Columbia groundfish, vast quantities of such data are
-  collected. However, the DFO Pacific groundfish section lacks the capacity to conduct formal
+  collected. However, the Fisheries and Oceans Canada Pacific groundfish section lacks the capacity to conduct formal
   stock assessments for most stocks annually, and therefore, much of these data
   are not summarized to represent the nature of the data holdings.
   Here, we update a reproducible report that gives a snapshot of population and
