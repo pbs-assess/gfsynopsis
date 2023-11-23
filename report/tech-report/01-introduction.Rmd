@@ -93,7 +93,7 @@ Notably, catch sorting has changed as follows:
 
 * Since 2003 all species have been sorted, identified to species or lowest taxonomic level possible, and weighed.
 
-The MSSM data used in this report are found in GFBio, but a publicly available dataset is available on the Ocean Biodiversity Information System (OBIS) for data up to and including 2021 (@mssm2022obis).
+The MSSM data used in this report are found in GFBio, but a publicly available dataset is available on the Ocean Biodiversity Information System (OBIS) for data up to and including 2021 [@mssm2022obis].
 Additional survey details can be found in @rutherfordinprep.
 
 Importantly, prior to 2003 groundfish sorting and species-level identification was not systematic and should be treated with a level of skepticism.
