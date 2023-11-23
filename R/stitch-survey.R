@@ -526,6 +526,7 @@ get_stitched_index <- function(
   if (length(pred) > 1) {
     cat("\n\tCalculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
+    index$aic <- stats::AIC(fit)
     index$mean_cv <- mean(sqrt(exp(index$se^2) - 1))
     index$num_sets <- mean_num_sets
     index$num_pos_sets <- mean_num_pos_sets
