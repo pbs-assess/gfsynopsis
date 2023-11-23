@@ -54,6 +54,8 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 # Updates {#sec:update}
 
+## Summary of updates
+
 In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, and @synopsis2022.
 
 We first summarize all major changes. We include methodological details on coastwide spatiotemporal survey modelling in Appendix \@ref(app:stitching).
