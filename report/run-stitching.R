@@ -73,7 +73,7 @@ furrr::future_walk(spp_vector, function(.sp) {
 syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
 families <- c("tweedie", "delta-gamma")
 spatials <- c("on", "off")
-furrr::walk(spp_vector, function(.sp) {
+furrr::future_walk(spp_vector, function(.sp) {
   purrr::walk(families, function(.family) {
     purrr::walk(spatials, function(.spatial) {
       purrr::walk(syns, function(.syn) {
