@@ -769,14 +769,6 @@ make_pages <- function(
       dplyr::distinct(survey_abbrev, scaled_geomean) |>
       ungroup()
 
-  # Overlay design based IPHC
-    geometric_mean <- function(x, percent_add = 0.1) {
-        # Replace values with percent of the minimum finite value
-        min_non_zero_x <- min(x[x > 0])
-        x[x == 0] <- percent_add * min_non_zero_x
-        exp(mean(log(x)))
-      }
-
     design_df <- dat_tidy_survey_index |>
         #filter(survey_abbrev == 'IPHC FISS' & index_type == 'design iphc') |>
         filter((survey_abbrev %in% c('IPHC FISS', 'MSSM WCVI') & index_type == 'design')) |>
@@ -790,6 +782,10 @@ make_pages <- function(
                lowerci_scaled = lowerci * (geo_scale_factor / d_scale_factor),
                upperci_scaled = upperci * (geo_scale_factor / d_scale_factor)) |>
         ungroup()
+
+    if (nrow(g_survey_index$data |> filter(survey_abbrev == "MSSM WCVI")) > 1) {
+      design_df <- filter(design_df, survey_abbrev != "MSSM WCVI")
+    }
 
     g_survey_index <- g_survey_index +
         ggplot2::geom_pointrange(data = design_df,
