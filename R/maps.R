@@ -26,6 +26,8 @@ fit_survey_maps <- function(dat,
     dplyr::filter(year == max(year)) %>%
     dplyr::ungroup()
 
+  dat <- drop_duplicated_fe(dat) #150
+
   out <- lapply(surveys, function(surv) {
     if (!surv %in% c("HBLL OUT N", "HBLL OUT S", "IPHC FISS", "SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"))
       stop("survey value was '", surv, "' but must be one of ",
