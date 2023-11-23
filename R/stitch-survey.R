@@ -493,7 +493,7 @@ get_stitched_index <- function(
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
 
-    # Allow vbariable input of grids
+    # Allow variable input of grids
     if (is.null(survey_grid)) survey_grid <- choose_survey_grid(survey_type, grid_dir)
 
     newdata <- sdmTMB::replicate_df(dat = survey_grid, time_name = "year", time_values = year_range_seq) |>
