@@ -866,7 +866,7 @@ Order: Perciformes, Family: Icosteidae,
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase 1](http://www.fishbase.org/summary/Sebastes-aleutianus),
 [FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus)\
-Last Research Documents: @haigh2005rougheye, @starr2020rougheye\
+Last Research Document: @starr2020rougheye\
 Last Science Advisory Report: @dfo2020rougheye\
 Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
 COSEWIC Status Report: @cosewic2007rougheye\
@@ -1394,7 +1394,7 @@ Last Science Advisory Report: @dfo2018redstripe\
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-reedi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274840)\
-Last Research Documents: @edwards2012yellowmouth, @starr2022yellowmouth\
+Last Research Document: @starr2022yellowmouth\
 Last Science Advisory Report: @dfo2022yellowmouth\
 COSEWIC Status Report: @cosewic2010yellowmouth\
 COSEWIC Status: Threatened, SARA Status: No Status
@@ -1417,7 +1417,7 @@ COSEWIC Status: Threatened, SARA Status: No Status
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-ruberrimus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
-Last Research Documents: @yamanaka2011yelloweyeinside, @cox2020YEout\
+Last Research Documents: @cox2020YEout, @haggarty2021yelloweyeinside\
 Last Science Advisory Reports: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside\
 Species at Risk Act Management Plan Series, Last Science Response: @dfo2020yelloweye, @dfo2023yelloweye\
 COSEWIC Status Report: @cosewic2020yelloweye\
@@ -1558,7 +1558,7 @@ Order: Scorpaeniformes, Family: Anoplopomatidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
 Last Research Documents: @cox2019sablefish, @cox2023sablefish\
 Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefish\
-Last Science Response: @dfo2020sablefish\
+Last Science Response: @dfo2023sablefish\
 Note that Sablefish undergoes directed annual trap surveys,
       which are used for
  stock assessment and are not included in
@@ -1946,7 +1946,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Atheresthes-stomias), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279792)\
 Last Research Document: @grandin2017arrowtooth\
-Last Science Advisory Report: @dfo2015arrowtooth\
+Last Science Advisory Report: @dfo2023arrowtooth\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/arrowtooth-flounder-1.png}
 \end{figure}

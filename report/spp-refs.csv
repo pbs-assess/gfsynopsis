@@ -2,7 +2,7 @@ species_common_name,resdoc,sar,type_other_ref,other_ref,cosewic_status_reports
 abyssal skate,,,,,
 alaska skate,,,,,
 aleutian skate,,,,,
-arrowtooth flounder,grandin2017arrowtooth,dfo2015arrowtooth,,,
+arrowtooth flounder,grandin2017arrowtooth,dfo2023arrowtooth,,,
 basking shark,mcfarlane2008basking,,Species at Risk Act Recovery Strategy and Action Plan,"dfo2011baskingshark, cosewic2020baskingshark",cosewic2018baskingshark
 big skate,king2015biglongnoseskate,dfo2014biglongnoseskate,,,
 bigfin eelpout,,,,,
@@ -39,9 +39,9 @@ quillback rockfish,yamanaka2011quillback,"dfo2023quillback_inside, dfo2023quillb
 redbanded rockfish,edwards2017redbanded,,,,
 redstripe rockfish,starr2021redstripe,dfo2018redstripe,,,
 rex sole,,,Research Document featuring a case study of 3CD Rex Sole,anderson2021mp,
-rougheye/blackspotted rockfish complex,"haigh2005rougheye, starr2020rougheye",dfo2020rougheye,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007rougheye
+rougheye/blackspotted rockfish complex,"starr2020rougheye",dfo2020rougheye,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007rougheye
 roughtail skate,,,,,
-sablefish,"cox2019sablefish, cox2023sablefish","dfo2017sablefish, dfo2023sablefish",Last Science Response,dfo2020sablefish,
+sablefish,"cox2019sablefish, cox2023sablefish","dfo2017sablefish, dfo2023sablefish",Last Science Response,dfo2023sablefish,
 salmon shark,,,,,
 sandpaper skate,,,,,
 shiner perch,,,,,
@@ -61,8 +61,8 @@ whitebait smelt,,,,,
 whitebarred prickleback,,,,,
 widow rockfish,starr2021widow,dfo2019widow,,,
 wolf eel,,,,,
-yelloweye rockfish,"yamanaka2011yelloweyeinside, cox2020YEout","dfo2020yelloweyeinside, dfo2020yelloweyeoutside","Species at Risk Act Management Plan Series, Last Science Response","dfo2020yelloweye, dfo2023yelloweye",cosewic2020yelloweye
-yellowmouth rockfish,"edwards2012yellowmouth, starr2022yellowmouth",dfo2022yellowmouth,,,cosewic2010yellowmouth
+yelloweye rockfish,"cox2020YEout, haggarty2021yelloweyeinside","dfo2020yelloweyeinside, dfo2020yelloweyeoutside","Species at Risk Act Management Plan Series, Last Science Response","dfo2020yelloweye, dfo2023yelloweye",cosewic2020yelloweye
+yellowmouth rockfish,"starr2022yellowmouth",dfo2022yellowmouth,,,cosewic2010yellowmouth
 yellowtail rockfish,,dfo2015yellowtail,,,
 tope shark,,,,,cosewic2021tope
 pacific halibut,,,IPHC Report of Assessment and Research Activities,iphc2017,
