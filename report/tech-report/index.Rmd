@@ -49,6 +49,7 @@ header-includes:
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
 library(knitr)
+knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 if (is_latex_output()) {
   knitr_figs_dir <- "knitr-figs-pdf/"
   knitr_cache_dir <- "knitr-cache-pdf/"
@@ -81,7 +82,8 @@ opts_chunk$set(
   dev = fig_out_type,
   dpi = fig_dpi,
   fig.align = fig_align,
-  fig.pos = fig_pos
+  fig.pos = fig_pos,
+  optipng = "-strip all"
 )
 ```
 
