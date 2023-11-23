@@ -435,7 +435,7 @@ get_stitched_index <- function(
     `st-rw` = try(
       sdmTMB::sdmTMB(
         formula = form, family = family,
-        time = "year", spatiotemporal = "rw", spatial = "on",
+        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
@@ -444,7 +444,7 @@ get_stitched_index <- function(
       sdmTMB::sdmTMB(
         formula = form, family = family,
         time_varying = ~1, time_varying_type = "rw",
-        time = "year", spatiotemporal = "rw", spatial = "on",
+        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
