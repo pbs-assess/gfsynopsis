@@ -293,6 +293,7 @@ add_upr <- function(
 #' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
 #' @param check_cache Check whether index file already exists? Default = `FALSE`.
+#' @param cache_predictions Cache model predictions? Can be large.
 #' @param survey_grid A data frame containing the spatial grid over which predictions are to be made.
 #'    If `survey_grid` = NULL (the default). Grid should contain cell area.
 #' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
@@ -322,12 +323,13 @@ get_stitched_index <- function(
     gradient_thresh = 0.001,
     cache = NULL,
     check_cache = FALSE,
+    cache_predictions = FALSE,
     survey_grid = NULL,
     grid_dir) {
   pred_cache <- file.path(cache, "predictions")
   fit_cache <- file.path(cache, "fits")
   dir.create(cache, showWarnings = FALSE, recursive = TRUE)
-  dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
+  if (cache_predictions) dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
   species_hyphens <- clean_name(species)
@@ -514,9 +516,11 @@ get_stitched_index <- function(
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
-    pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
-    cat("\n\tSaving:", pred_filename, "\n")
-    saveRDS(pred, pred_filename)
+    if (cache_predictions) {
+      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+      cat("\n\tSaving:", pred_filename, "\n")
+      saveRDS(pred, pred_filename)
+    }
   }
 
   if (length(pred) > 1) {
