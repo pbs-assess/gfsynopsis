@@ -775,7 +775,7 @@ make_pages <- function(
         left_join(geostat_index_geo_mean) |>
         group_by(survey_abbrev) |>
         mutate(d_geomean = exp(mean(log(biomass)))) |>
-        mutate(d_geomean = ifelse(d_geomean == 0, geometric_mean(biomass, percent_add = 1), d_geomean)) |>
+        mutate(d_geomean = ifelse(d_geomean == 0, biomass, d_geomean)) |>
         mutate(geo_scale_factor = ifelse(is.na(scaled_geomean), 1, scaled_geomean),
                d_scale_factor = ifelse((is.na(scaled_geomean)), max(upperci), d_geomean)) |>
         mutate(biomass_scaled = biomass * (geo_scale_factor / d_scale_factor),
