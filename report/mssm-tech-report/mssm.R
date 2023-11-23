@@ -304,7 +304,7 @@ grid_plot_2009_points <- mssm_grid_sf |>
   ggplot() +
     geom_sf(data = pcod_sf |> filter(year < 2009), shape = 1, colour = 'grey50', alpha = 0.5, size = 0.1) +
     geom_sf(aes(fill = '2009'), alpha = 0.5) +
-    geom_sf(data = pcod_sf |> filter(year >= 2009), shape = 1, colour = 'black', alpha = 0.5, size = 0.1) +
+    geom_sf(data = pcod_sf |> filter(year >= 2009 & year <= 2019), shape = 1, colour = 'black', alpha = 0.5, size = 0.1) +
     scale_fill_manual(values = grid_colours) +
     labs(fill = "Grid") +
     theme(legend.position = c(0.8, 0.9))
