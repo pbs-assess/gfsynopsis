@@ -413,7 +413,7 @@ get_stitched_index <- function(
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
 
-  is_cpois <- family$family == "censored_poisson"
+  is_cpois <- family$family[[1]] == "censored_poisson"
   intercept <- as.integer(model_type == "st-rw")
   if (is.null(form)) {
     if (is_cpois) {
