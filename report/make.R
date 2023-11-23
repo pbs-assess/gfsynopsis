@@ -36,9 +36,11 @@ ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
-cores <- floor(future::availableCores() / 2.5)
-cores <- future::availableCores() - 3L
-cores <- 6L
+cores <- floor(future::availableCores() / 2)
+
+if (future::availableCores() > 20L) { # hake server
+  cores <- 60L
+}
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
