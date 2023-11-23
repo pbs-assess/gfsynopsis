@@ -1,6 +1,9 @@
 # Estimating coastwide population indices with spatiotemporal models {#app:stitching}
 
-We can represent the spatiotemporal model we used to "stitch" related surveys as
+We used spatiotemporal models to combine or "stitch" related surveys into coastwide or survey-wide indices of abundance or biomass.
+These indexes appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for IPHC FISS, HBLL INS N/S, SYN WCHG/HS/QCS/WCVI, MSSM WCVI, and HBLL OUT N/S.
+
+We can represent the spatiotemporal model as
 
 \begin{align}
 \mathbb{E}[y_{\boldsymbol{s},t}] &= \mu_{\boldsymbol{s},t},\\
@@ -17,7 +20,7 @@ That mean is equal to an inverse link function (exp here) applied to the linear 
 The linear predictor is comprised of a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$,
 a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
 and an "offset" $O_{\boldsymbol{s},t}$.
-The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for survey effort (area swept or hooks fished).
+The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for survey effort (here, log area swept or log effective hooks fished).
 
 The spatial Gaussian random field is assumed to be drawn from a multivariate normal (MVN) distribution with covariance matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function
 
@@ -34,8 +37,8 @@ The spatiotemporal portion is structured as a random walk with Gaussian random f
 \end{align}
 
 We chose this random walk structure based on ongoing research into spatiotemporal model structures that are robust to the bienniel survey structure present in the BC surveys modelled here.
-Such a structure has been used previously, for example, in REF, REF, and [@english2023].
-It is also similar to the first-order autoregressive (AR1) structure used by the International Pacific Halibut Commission when modelling their survey data (REF).
+Such a structure has been used previously in @anderson2023sopo and [@english2023].
+The structure is similar to the first-order autoregressive (AR1) spatiotemporal model used by the International Pacific Halibut Commission when modelling their survey data [@webster2020].
 
 We apply a Tweedie observation likelihood in the case of the trawl survey data, which samples catch weight
 
@@ -49,22 +52,23 @@ In the case of the hook and line surveys, which sample catch count, we apply a n
 y_{\boldsymbol{s},t} \sim \operatorname{NB2} \left( \mu_{\boldsymbol{s},t}, \phi_{\mathrm{NB2}} \right).
 \end{equation}
 
-For the hook and line surveys (IPHC, HBLL OUT, HBLL INS), we applied an "instantaneous catch rate" ICR correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
-We explored a censored Poisson likelihood [@watson2022], but found a poorer fit to the data (as indicated by log likelihood and residuals) for many species and model convergence issues in several cases.
-We plan to revisit this in a future version of the report.
+For the hook and line surveys (IPHC, HBLL OUT, HBLL INS), we applied an instantaneous catch rate (ICR) correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
+We explored a censored Poisson likelihood with additional observation-level dispersion [@watson2022], but found a poorer fit to the data (as indicated by conditional AIC (Akaike information criterion) and plots of residuals) for many species and model convergence issues in several cases.
+We plan to revisit this censored likelihood approach in a future version of the report.
 
 We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
 sdmTMB estimates the marginal log likelihood using TMB to integrate over random effects with the Laplace approximation [@kristensen2016]. 
-This SPDE approach requires creating triangulation "meshes" [@lindgren2011].
-We constructed our meshes with a minimum triangle edge length of 20 km for the SYN, HBLL, and IPHC models and with an edge length of 5 km for the MSSM WCVI survey, which was smaller in size.
+This SPDE approach requires creating triangulation "meshes" [@lindgren2011] for SPDE calculations and to interpolate from the random effects to the data locations or prediction locations with bilinear interpolation.
+We constructed our meshes with a minimum triangle edge length of 20 km for the SYN, HBLL, and IPHC models and with a minimum edge length of 5 km for the MSSM WCVI survey, which was smaller in size.
 
 We fit our models to all species where the proportion of positive sets across all observed survey sets was $\ge$ 5%.
-Due to the smaller survey area, deeper depth strata, and geographical distance to the other synoptic surveys, when the proportion of positive sets in SYN WCHG was $<$ 5%, this survey was omitted from the modelling.
-We omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (i.e., that their standard editions were $>$ 0.01).
-For the MSSM survey we also omitted models when the maximum estimated confidence intervals were $\ge$ 10 times the maximum estimated biomass and the mean coefficient of variation was less than 2.
+Due to the smaller survey area, deeper depth strata, and geographical distance to the other synoptic surveys, when the proportion of positive sets in SYN WCHG was $<$ 5%, we ommitted this survey from the modelling.
+We also omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (interpreted as ensured their standard editions were $>$ 0.01).
+For the MSSM survey we also omitted models when the maximum estimated confidence intervals were $\ge$ 10 times the maximum estimated biomass or when the mean coefficient of variation was greater than 2.
+These are both indicative of poorly fitted models.
 
-From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells. This is further described in @anderson2019synopsis.
-
+From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015]. 
+This is further described in @anderson2019synopsis.
 The 2 $\times$ 2 km survey grid for the Synoptic trawl surveys and the Hard Bottom Longline surveys is shown throughout the species pages (e.g., Figure \@ref(fig:survey-maps)).
 We derived a survey grid for the MSSM survey by overlaying a 3 $\times$ 3 km grid covering all sampling locations between 2009 and 2021 (Figure \@ref(fig:mssm-grid)).
 The 3 km grid size approximately matched the resolution of the now-fixed-station sampling design.
