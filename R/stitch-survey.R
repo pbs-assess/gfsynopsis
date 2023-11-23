@@ -538,7 +538,7 @@ get_stitched_index <- function(
     index$stitch_regions <- paste(stitch_regions, collapse = ", ")
     out <- index |>
       dplyr::rename(
-        survey_abbrev = "stitch_regions", biomass = "est",
+        survey_abbrev = survey_type, biomass = "est",
         lowerci = "lwr", upperci = "upr"
       )
   }
