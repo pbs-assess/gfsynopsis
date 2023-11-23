@@ -1,7 +1,6 @@
 # to be run as part of `report/make.R`
 
 furrr::future_walk(spp_vector, function(.sp) {
-  # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
   stitch_cached_sp <- file.path(c(sc_synoptic, sc_hbll_out, sc_hbll_ins), spp_filename)
 
@@ -29,20 +28,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
     check_cache = TRUE
   )
-})
 
-# try delta-gamma
-sc_synoptic_dg <- "report/stitch-cache/synoptic-delta-gamma"
-dir.create(sc_synoptic_dg)
-# purrr::walk(spp_vector, function(.sp) {
-furrr::future_walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-  stitch_cached_sp <- file.path(sc_synoptic_dg, spp_filename)
-
-  if(any(!file.exists(stitch_cached_sp))) {
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
-  }
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gamma(),
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dg,
@@ -50,50 +36,28 @@ furrr::future_walk(spp_vector, function(.sp) {
   )
 })
 
-# try delta-gamma with no spatial field
-sc_synoptic_dg_sp_off <- "report/stitch-cache/synoptic-delta-gamma-sp-off"
-dir.create(sc_synoptic_dg_sp_off, showWarnings = FALSE)
-# purrr::walk(spp_vector, function(.sp) {
-furrr::future_walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-  stitch_cached_sp <- file.path(sc_synoptic_dg_sp, spp_filename)
-
-  if(any(!file.exists(stitch_cached_sp))) {
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
-  }
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gamma(), spatial = "off",
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dg_sp_off,
-    grid_dir = grid_dir, check_cache = TRUE
-  )
-})
-
 # work through all individual synoptics:
 syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
 families <- c("tweedie", "delta-gamma")
-spatials <- c("on", "off")
 furrr::future_walk(spp_vector, function(.sp) {
   purrr::walk(families, function(.family) {
-    purrr::walk(spatials, function(.spatial) {
-      purrr::walk(syns, function(.syn) {
-        if (.family == "tweedie") .fam <- sdmTMB::tweedie()
-        if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
-        tag <- paste0(.syn, "-", .family, "-spatial-", .spatial)
-        .cache <- paste0("report/stitch-cache/synoptic-", tag)
-        spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-        stitch_cached_sp <- file.path(.cache, spp_filename)
-        if(!file.exists(stitch_cached_sp)) {
-          survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-            prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
-            filter(survey_abbrev == .syn)
-        }
-        get_stitched_index(
-          survey_dat = survey_dat, species = .sp, family = .fam, spatial = .spatial,
-          survey_type = .syn, model_type = model_type, cache = .cache,
-          grid_dir = grid_dir, check_cache = TRUE, cutoff = 10
-        )
-      })
+    purrr::walk(syns, function(.syn) {
+      if (.family == "tweedie") .fam <- sdmTMB::tweedie()
+      if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
+      tag <- paste0(.syn, "-", .family)
+      .cache <- paste0("report/stitch-cache/synoptic-", tag)
+      spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
+      stitch_cached_sp <- file.path(.cache, spp_filename)
+      if(!file.exists(stitch_cached_sp)) {
+        survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+          prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
+          filter(survey_abbrev == .syn)
+      }
+      get_stitched_index(
+        survey_dat = survey_dat, species = .sp, family = .fam, spatial = .spatial,
+        survey_type = .syn, model_type = model_type, cache = .cache,
+        grid_dir = grid_dir, check_cache = TRUE, cutoff = 10
+      )
     })
   })
 })
@@ -147,6 +111,15 @@ furrr::future_walk(spp_vector, function(.sp) {
         survey_dat = survey_dat, species = .sp,
         family = sdmTMB::tweedie(),
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
+        cutoff = 5, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
+
+      get_stitched_index(
+        form = 'catch ~ 1',
+        survey_dat = survey_dat, species = .sp,
+        family = sdmTMB::delta_gamma(),
+        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dg,
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
       )

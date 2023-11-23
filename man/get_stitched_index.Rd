@@ -25,6 +25,8 @@ get_stitched_index(
   gradient_thresh = 0.001,
   cache = NULL,
   check_cache = FALSE,
+  cache_predictions = FALSE,
+  cache_fits = FALSE,
   survey_grid = NULL,
   grid_dir
 )
@@ -78,6 +80,10 @@ if \code{model_type = st-rw}, and \code{~1} if \code{model_type = 'st-rw_tv-rw'}
 \item{cache}{A string specifying file path to cache directory.}
 
 \item{check_cache}{Check whether index file already exists? Default = \code{FALSE}.}
+
+\item{cache_predictions}{Cache model predictions? Can be large.}
+
+\item{cache_fits}{Cache model fits? Can be large.}
 
 \item{survey_grid}{A data frame containing the spatial grid over which predictions are to be made.
 If \code{survey_grid} = NULL (the default). Grid should contain cell area.}

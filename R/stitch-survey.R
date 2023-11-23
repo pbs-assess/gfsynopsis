@@ -293,6 +293,8 @@ add_upr <- function(
 #' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
 #' @param check_cache Check whether index file already exists? Default = `FALSE`.
+#' @param cache_predictions Cache model predictions? Can be large.
+#' @param cache_fits Cache model fits? Can be large.
 #' @param survey_grid A data frame containing the spatial grid over which predictions are to be made.
 #'    If `survey_grid` = NULL (the default). Grid should contain cell area.
 #' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
@@ -322,13 +324,15 @@ get_stitched_index <- function(
     gradient_thresh = 0.001,
     cache = NULL,
     check_cache = FALSE,
+    cache_predictions = FALSE,
+    cache_fits = FALSE,
     survey_grid = NULL,
     grid_dir) {
   pred_cache <- file.path(cache, "predictions")
   fit_cache <- file.path(cache, "fits")
   dir.create(cache, showWarnings = FALSE, recursive = TRUE)
-  dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
-  dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
+  if (cache_predictions) dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
+  if (cache_fits) dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
   species_hyphens <- clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
@@ -431,7 +435,7 @@ get_stitched_index <- function(
     `st-rw` = try(
       sdmTMB::sdmTMB(
         formula = form, family = family,
-        time = "year", spatiotemporal = "rw", spatial = "on",
+        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
@@ -440,7 +444,7 @@ get_stitched_index <- function(
       sdmTMB::sdmTMB(
         formula = form, family = family,
         time_varying = ~1, time_varying_type = "rw",
-        time = "year", spatiotemporal = "rw", spatial = "on",
+        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
@@ -464,9 +468,10 @@ get_stitched_index <- function(
 
   sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
 
-  # Turn off spatial fields for MSSM if model doesn't fit
-  if (survey_type == 'mssm' && !sanity_check) {
+  # Turn off spatial fields if model doesn't fit
+  if (!sanity_check && spatiotemporal == "rw" && spatial == "on") {
     message("Sanity check failed, refitting with spatial = 'off'")
+    spatial <- "off"
     fit <- try(
       sdmTMB::sdmTMB(
         formula = form, family = family,
@@ -478,9 +483,11 @@ get_stitched_index <- function(
     sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
   }
 
-  fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
-  cat("\n\tSaving:", fit_filename, "\n")
-  saveRDS(fit, fit_filename)
+  if (cache_fits) {
+    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+    cat("\n\tSaving:", fit_filename, "\n")
+    saveRDS(fit, fit_filename)
+  }
 
   if (!sanity_check) {
     cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
@@ -514,14 +521,19 @@ get_stitched_index <- function(
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$newdata_input <- newdata # Remove if this is unnecessary
 
-    pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
-    cat("\n\tSaving:", pred_filename, "\n")
-    saveRDS(pred, pred_filename)
+    if (cache_predictions) {
+      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+      cat("\n\tSaving:", pred_filename, "\n")
+      saveRDS(pred, pred_filename)
+    }
   }
 
   if (length(pred) > 1) {
     cat("\n\tCalculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
+    index$aic <- stats::AIC(fit)
+    index$spatial <- spatial
+    index$spatiotemporal <- spatiotemporal
     index$mean_cv <- mean(sqrt(exp(index$se^2) - 1))
     index$num_sets <- mean_num_sets
     index$num_pos_sets <- mean_num_pos_sets
@@ -529,7 +541,7 @@ get_stitched_index <- function(
     index$stitch_regions <- paste(stitch_regions, collapse = ", ")
     out <- index |>
       dplyr::rename(
-        survey_abbrev = "stitch_regions", biomass = "est",
+        survey_abbrev = survey_type, biomass = "est",
         lowerci = "lwr", upperci = "upr"
       )
   }
