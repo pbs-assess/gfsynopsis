@@ -232,7 +232,6 @@ furrr::future_walk(spp_vector, function(.sp) {
     check_cache = TRUE
   )
 })
-# future::plan(sequential)
 
 # Stitch IPHC surveys if not cached
 furrr::future_walk(spp_vector, function(.sp) {
@@ -242,9 +241,9 @@ furrr::future_walk(spp_vector, function(.sp) {
   if(!file.exists(file.path(sc_iphc, spp_filename))) {
     survey_dat <- readRDS(file.path(dc_iphc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$set_counts |>
       mutate(species_common_name = .sp) |>
-      prep_iphc_stitch_dat(survey_dat = _, hook_dat = iphc_hook_counts)
+      gfsynopsis::prep_iphc_stitch_dat(survey_dat = _, hook_dat = iphc_hook_counts)
 
-    get_iphc_stitched_index(survey_dat = survey_dat, species = .sp,
+    gfsynopsis::get_iphc_stitched_index(survey_dat = survey_dat, species = .sp,
       form = 'catch ~ 1',
       family = sdmTMB::nbinom2(link = "log"),
       time = 'year',

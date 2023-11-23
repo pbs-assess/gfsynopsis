@@ -15,6 +15,16 @@ gg_color_hue <- function(n, hue_min = 8, hue_max = 290, l = 52, c = 100) {
   grDevices::hcl(h = hues, l = l, c = c)[seq_len(n)]
 }
 
+#' Clean species names for file names
+#'
+#' @param x species name(s) with slashes and spaces
+#' @export
+#' @returns Species name(s) that work well for file names
+#' @details
+#' Exported because it turns out this is useful in scripts all over the place.
+#'
+#' @examples
+#' clean_name("pacific cod")
 clean_name <- function(x) gsub("/", "-", gsub(" ", "-", x))
 
 all_cap <- function(x) toupper(x)
