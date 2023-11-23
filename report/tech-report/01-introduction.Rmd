@@ -82,18 +82,23 @@ This survey was originally designed to collect data to assess stock status of Pi
 The survey typically occurs in late April to May with exceptions in 1985 (May 24--June 7) and in 1987 (August 4--14).
 
 Since 1973, changes to the fishing gear used and changes to catch sorting may affect interpretation of the data.
-Trawl nets were changed in 1976 and 2006. And notably, catch sorting has changed as follows:
+Trawl nets were changed in 1976 and 2006. 
+Notably, catch sorting has changed as follows:
 
-* From 1973 - 1976, large species weights were estimated using random sampling
+* From 1973--1976, weights for large fish were estimated using random sampling.
 
-* Since 1978 large fish were sorted and weighed
+* Since 1978, large fish were sorted and weighed.
 
-* In 2001 all catch was sorted along a conveyor belt
+* In 2001, all catch was sorted along a conveyor belt.
 
-* Since 2003 all species have been sorted, identified to species or lowest taxonomic level possible, and weighed
+* Since 2003 all species have been sorted, identified to species or lowest taxonomic level possible, and weighed.
 
-The MSSM data used in this report are found in GFBio, but a publicly dataset is available on the Ocean Biodiversity Information System (OBIS) for data up to and including 2021 (@mssm2022obis).
+The MSSM data used in this report are found in GFBio, but a publicly available dataset is available on the Ocean Biodiversity Information System (OBIS) for data up to and including 2021 (@mssm2022obis).
 Additional survey details can be found in @rutherfordinprep.
+
+Importantly, prior to TODO groundfish sampling was not systematic and should be treated with a level of skepticism.
+We therefore shade this portion of the MSSM biomass indices grey in the figure pages.
+Additional details on caveats to interpreting the MSSM survey for groundfish as well as comparisons between the MSSM biomass indices and other indices in the same region will be published in a forthcoming Technical Report.
 
 <!-- Where do we include note about scaling done on biomass index panels?
 - All modelled indices are scaled to the max CI
