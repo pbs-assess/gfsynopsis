@@ -1,4 +1,4 @@
-# Estimating coastwide population indices with spatiotemporal models {#app:stitching}
+# Estimating Coastwide Population Indices with Spatiotemporal Models {#app:stitching}
 
 We used spatiotemporal models to combine or "stitch" related surveys into coastwide or survey-wide indices of abundance or biomass.
 These indexes appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for IPHC FISS, HBLL INS N/S, SYN WCHG/HS/QCS/WCVI, MSSM WCVI, and HBLL OUT N/S.
