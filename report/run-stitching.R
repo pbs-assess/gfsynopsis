@@ -56,7 +56,7 @@ dir.create(sc_synoptic_dg_sp_off, showWarnings = FALSE)
 # purrr::walk(spp_vector, function(.sp) {
 furrr::future_walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-  stitch_cached_sp <- file.path(sc_synoptic_dg_sp, spp_filename)
+  stitch_cached_sp <- file.path(sc_synoptic_dg_sp_off, spp_filename)
 
   if(any(!file.exists(stitch_cached_sp))) {
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
