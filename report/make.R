@@ -35,18 +35,24 @@ if (!grepl("gfsynopsis", wd)) stop("Working directory wrong? Should be this repo
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
-parallel_processing <- FALSE
-cores <- floor(future::availableCores() / 2.5)
-cores <- future::availableCores() - 3L
+parallel_processing <- TRUE
+cores <- floor(future::availableCores() / 2)
+
+is_hake_server <- function() {
+  future::availableCores() > 50L
+}
+if (is_hake_server()) {
+  cores <- 60L
+}
 
 # ------------------------------------------------------------------------------
 # Set up parallel processing or sequential
 options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
 if (parallel_processing) {
   if (!is_rstudio && is_unix) {
-    future::plan(multisession, workers = cores)
+    future::plan(multicore, workers = cores)
   } else {
-    future::plan(sequential) # much frustration
+    future::plan(multisession, workers = cores)
   }
 } else {
   future::plan(sequential)
@@ -204,14 +210,16 @@ prep_stitch_grids(
 # -----
 
 # Stitch surveys if not cached
-future::plan(multisession, workers = 6L)
+# future::plan(multisession, workers = 10L)
 source(here::here("report", "run-stitching.R"))
 future::plan(sequential)
+
+if (!is_hake_server()) {
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
 
-future::plan(future::multicore, workers = 3L)
+if (parallel_processing) future::plan(future::multisession, workers = 4L)
 message("Fit CPUE models")
 cpue_cache <- file.path("report", "cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
@@ -578,3 +586,4 @@ if (optimize_png) {
 }
 
 
+}

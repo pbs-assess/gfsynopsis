@@ -69,6 +69,35 @@ furrr::future_walk(spp_vector, function(.sp) {
   )
 })
 
+# work through all individual synoptics:
+syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
+families <- c("tweedie", "delta-gamma")
+spatials <- c("on", "off")
+furrr::future_walk(spp_vector, function(.sp) {
+  purrr::walk(families, function(.family) {
+    purrr::walk(spatials, function(.spatial) {
+      purrr::walk(syns, function(.syn) {
+        if (.family == "tweedie") .fam <- sdmTMB::tweedie()
+        if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
+        tag <- paste0(.syn, "-", .family, "-spatial-", .spatial)
+        .cache <- paste0("report/stitch-cache/synoptic-", tag)
+        spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
+        stitch_cached_sp <- file.path(.cache, spp_filename)
+        if(!file.exists(stitch_cached_sp)) {
+          survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+            prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
+            filter(survey_abbrev == .syn)
+        }
+        get_stitched_index(
+          survey_dat = survey_dat, species = .sp, family = .fam, spatial = .spatial,
+          survey_type = .syn, model_type = model_type, cache = .cache,
+          grid_dir = grid_dir, check_cache = TRUE, cutoff = 10
+        )
+      })
+    })
+  })
+})
+
 # Stitch IPHC surveys if not cached
 furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
