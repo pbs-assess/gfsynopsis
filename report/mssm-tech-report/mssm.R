@@ -21,10 +21,6 @@ cpue_cache <- here::here('report', 'cpue-cache')
 syn_sc <- here::here(mssm_dir, 'stitch-cache', 'SYN-WCVI')
 mssm_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm')
 
-
-mssm_3km_grid_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm', '3km-grid')
-mssm_year_sc <- here::here(mssm_dir 'stitch-cache', 'mssm', 'year-bin')
-
 mssm_figs <- here::here(mssm_dir, 'figure')
 
 survey_cols <- c("SYN WCVI" = "#7570b3", "SYN WCVI on MSSM Grid" = "#7570b3",
@@ -230,7 +226,7 @@ mssm_grid_3km[[2]] |>
 
 mssm_grid_3km[[1]] |>
   filter(year >= 2009 & year <= 2021) |>
-  dplyr::distinct(X, Y, .keep_all = TRUE)
+  dplyr::distinct(X, Y, .keep_all = TRUE) |>
 saveRDS(file.path(grid_dir, 'mssm-grid-3km_2009-2021.rds'))
 
 # Make 2x2 km grid
@@ -461,7 +457,6 @@ ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
 ## Get model where pre and post 2003 is added as factor
 # Use 3km grid
 # All species ID'd to lowest taxonomic level in 2003 onward
-future::plan(future::multicore, workers = 8)
 furrr::future_walk(spp_vector, function(.sp) {
 #purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
@@ -471,17 +466,14 @@ furrr::future_walk(spp_vector, function(.sp) {
     if (nrow(survey_dat) == 0) {
       out <- "No MSSM survey data"
       message(out)
-      #saveRDS(out, file.path(file.path(mssm_year_sc, 'year-bin'), spp_filename))
       saveRDS(out, file.path(file.path(mssm_sc, '3km-grid'), spp_filename))
     } else {
       survey_dat <- prep_mssm_dat(survey_dat)
 
       get_stitched_index(
-        #form = 'catch ~ 1 + year_bin',
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
         family = sdmTMB::tweedie(),
-        #survey_type = "mssm", model_type = 'st-rw', cache = file.path(mssm_year_sc, 'year-bin'),
         survey_type = "mssm", model_type = 'st-rw', cache = file.path(mssm_sc, '3km-grid'),
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE,
@@ -489,8 +481,6 @@ furrr::future_walk(spp_vector, function(.sp) {
       )
     }
 })
-
-future::plan(future::sequential)
 beepr::beep()
 
 # Use 2km grid
@@ -504,7 +494,7 @@ furrr::future_walk(spp_vector, function(.sp) {
       out <- "No MSSM survey data"
       message(out)
       #saveRDS(out, file.path(file.path(mssm_year_sc, 'year-bin'), spp_filename))
-      saveRDS(out, file.path(file.path(mssm_sc), spp_filename))
+      saveRDS(out, file.path(file.path(mssm_sc, '2km-grid'), spp_filename))
     } else {
       survey_dat <- prep_mssm_dat(survey_dat)
 
@@ -515,20 +505,19 @@ furrr::future_walk(spp_vector, function(.sp) {
         survey_type = "mssm", model_type = 'st-rw', cache = file.path(mssm_sc, '2km-grid'),
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE,
-        survey_grid = mssm_grid_2km |>
+        survey_grid = mssm_grid_2km$mssm_grid |>
           filter(year >= 2009 & year < 2022) |>
           distinct(X, Y, survey, area)
       )
     }
 })
-future::plan(future::sequential)
 beepr::beep()
 
 
-
 # # Fit SYN WCVI ------------------
+future::plan(future::multicore, workers = 8)
 furrr::future_walk(spp_vector, function(.sp) {
-# purrr::walk(spp_vector, function(.sp) {
+#purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_st-rw.rds")
     survey_dat <- readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "SYN WCVI")
@@ -538,23 +527,26 @@ furrr::future_walk(spp_vector, function(.sp) {
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
         family = sdmTMB::tweedie(),
-        survey_type = "SYN WCVI", model_type = 'st-rw', cache = file.path('report','stitch-cache', 'SYN-WCVI', 'mssm-grid-3km'),
+        survey_type = "SYN WCVI", model_type = 'st-rw',
+        cache = file.path(syn_sc, 'syn-wcvi-grid'),
+        #cache = file.path(syn_sc, 'mssm-grid-3km'),
         cutoff = 20, silent = FALSE,
-        survey_grid = gfdata::mssm_grid |> mutate(survey = 'SYN WCVI'),
-        grid_dir = NULL,
-        check_cache = TRUE
-        #grid_dir = grid_dir, check_cache = TRUE
+        survey_grid = NULL,
+        # survey_grid = gfdata::mssm_grid |>
+        #   mutate(survey = 'SYN WCVI') |>
+        #   filter(year >= 2009 & year < 2022) |>
+        #   distinct(X, Y, survey, area),
+        #grid_dir = NULL,
+        grid_dir = grid_dir
+        #check_cache = TRUE
       )
 })
+future::plan(future::sequential)
 beepr::beep()
 
 # Load index dataframes ----
-# MSSM geostat without year bin
-
-future::plan(future::sequential) # avoid RStudio crash if restarting R
-
 mssm_2km_inds <- spp_vector |>
-  map(\(sp) readRDS(file.path(mssm_sc, paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
+  map(\(sp) readRDS(file.path(mssm_sc, '2km-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
   setNames(spp_vector) |>
   keep(\(x) inherits(x, 'data.frame')) |>
   bind_rows(.id = 'species') |>
@@ -565,21 +557,8 @@ mssm_2km_inds <- spp_vector |>
   mutate(extreme_uci = max(upperci) > 10 * max(biomass)) |>
   ungroup()
 
-# MSSM geostat 2003 year bin
-mssm_year_inds <- spp_vector |>
-  map(\(sp) readRDS(file.path(mssm_year_sc, paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
-  setNames(spp_vector) |>
-  keep(\(x) inherits(x, 'data.frame')) |>
-  bind_rows(.id = 'species') |>
-  as_tibble() |>
-  mutate(year_bins = "~ 1 + f(year_bin)") |>
-  group_by(species) |>
-  mutate(extreme_uci = max(upperci) > 10 * max(biomass)) |>
-  ungroup()
-
-# MSSM geostat 2003 year bin
 mssm_3km_inds <- spp_vector |>
-  map(\(sp) readRDS(file.path(mssm_3km_grid_sc, paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
+  map(\(sp) readRDS(file.path(mssm_sc, '3km-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
   setNames(spp_vector) |>
   keep(\(x) inherits(x, 'data.frame')) |>
   bind_rows(.id = 'species') |>
@@ -601,10 +580,11 @@ mssm_d_inds <- spp_vector |>
 # SYN WCVI index
 syn_inds <-
   spp_vector |>
-    map(\(sp) readRDS(file.path(syn_sc, paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
+    map(\(sp) readRDS(file.path(syn_sc, 'syn-wcvi-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
     setNames(spp_vector) |>
     keep(\(x) inherits(x, 'data.frame')) |>
     bind_rows(.id = 'species') |>
+    mutate(grid = 'SYN WCVI') |>
     as_tibble()
 
 syn_mssm_grid_inds <-
@@ -614,7 +594,8 @@ syn_mssm_grid_inds <-
     keep(\(x) inherits(x, 'data.frame')) |>
     bind_rows(.id = 'species') |>
     as_tibble() |>
-    mutate(survey_abbrev = 'SYN WCVI on MSSM Grid')
+    mutate(survey_abbrev = 'SYN WCVI on MSSM Grid') |>
+    mutate(grid = "3km MSSM")
 
 # --- CPUE index ---
 cpue_ind <- spp_vector |>
@@ -627,38 +608,7 @@ cpue_ind <- spp_vector |>
   mutate(survey_abbrev = 'CPUE 3CD')
 
 # ------------------------------------------------------------------------------
-
-# One fewer models converges when we include year bin (blackbelly eelpout -
-# a species that only shows up after 2003)
-
-setdiff(mssm_3km_inds$species, mssm_year_inds$species)
-setdiff(mssm_year_inds$species, mssm_3km_inds$species)
-
-
-# Compare models that inclued and exclude the year 2003 break point
-year_bin_ind_plot <- bind_rows(mssm_2km_inds, mssm_year_inds) |>
-  order_spp() |>
-  ggplot(data = _, aes(x = year, y = biomass)) +
-    geom_line(aes(colour = year_bins)) +
-    geom_point(aes(colour = year_bins)) +
-    geom_ribbon(aes(ymin = lowerci, ymax = upperci, fill = year_bins), alpha = 0.3) +
-    geom_rect(data = . %>% filter(extreme_uci == TRUE | mean_cv > 2) %>%
-      distinct(species, year_bins, .keep_all = TRUE),
-      mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
-      fill = "gray85", alpha = 0.3) +
-    scale_color_brewer(palette = "Dark2") +
-    scale_fill_brewer(palette = "Dark2" ) +
-    facet_wrap(~ species, scales = "free_y", nrow = 6) +
-    ggtitle("Comparing catch ~ 1 and catch ~ 1 + pre/post 2003 year bin") +
-    theme(legend.position = c(0.6, 1.03),
-          axis.text.y = element_blank()) +
-    guides(color = guide_legend(direction = "horizontal"), fill = guide_legend(direction = "horizontal")) +
-    labs(colour = "Model", fill = "Model")
-year_bin_ind_plot
-
-ggsave(file.path(mssm_figs, 'sampling-year-effect.png'), plot = year_bin_ind_plot,
-  width = 10.5, height = 8)
-
+# Compare 2km and 3km grid indices
 grid_bin_ind_plot <- bind_rows(mssm_2km_inds, mssm_3km_inds) |>
   order_spp() |>
   ggplot(data = _, aes(x = year, y = biomass)) +
@@ -683,38 +633,11 @@ grid_bin_ind_plot
 ggsave(file.path(mssm_figs, '2km-3km-grid-model-comp.png'), plot = grid_bin_ind_plot,
   width = 10.5, height = 8)
 
-
-# cod_year_bin <- bind_rows(mssm_3km_inds, mssm_year_inds) |>
-#   filter(species == "pacific cod") |>
-#   ggplot(data = _, aes(x = year, y = biomass)) +
-#     geom_line(aes(colour = year_bins)) +
-#     geom_point(aes(colour = year_bins)) +
-#     geom_ribbon(aes(ymin = lowerci, ymax = upperci, fill = year_bins), alpha = 0.3) +
-#     geom_rect(data = . %>% filter(extreme_uci == TRUE | mean_cv > 2) %>%
-#       distinct(species, year_bins, .keep_all = TRUE),
-#       mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
-#       fill = "gray85", alpha = 0.3) +
-#     scale_color_brewer(palette = "Dark2") +
-#     scale_fill_brewer(palette = "Dark2" ) +
-#     ggtitle("Pacific Cod") +
-#     theme(legend.position = c(0.7, 0.9),
-#           axis.text.y = element_blank()) +
-#     guides(color = guide_legend(direction = "horizontal"), fill = guide_legend(direction = "horizontal")) +
-#     labs(colour = "Model", fill = "Model")
-
-# pcod_year_effect <- cod_comparison / cod_year_bin + plot_layout(heights = c(2, 1))
-
-# mssm_fig_list$pcod_year_effect <- pcod_year_effect
-
-# ggsave(file.path(mssm_figs, 'sampling-pcod-year-effect.png'), plot = pcod_year_effect,
-#   width = 5.5, height = 7)
-
 # Compare MSSM and SYN WCVI and 3CD CPUE --------------------------------------
 # Get overlapping years to scale based on geometric means of indexes
 syn_years <- unique(sw_dat$year)
 mssm_years <- unique(mssm_dat$year)
 cpue_years <- unique(cpue_ind$year)
-
 
 #spp_in_mssm <- unique(mssm_3km_inds$species)
 spp_in_mssm <- mssm_3km_inds |>
