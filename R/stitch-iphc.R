@@ -4,6 +4,7 @@
 #' @param hook_dat A dataframe from [gfsynopsis::get_ll_bait_counts()]
 #'
 #' @returns A dataframe the same length as `survey_dat`
+#' @export
 
 prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
   clean_dat <-

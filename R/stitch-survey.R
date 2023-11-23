@@ -390,6 +390,8 @@ get_stitched_index <- function(
     dplyr::filter(species_common_name == species & survey_type == survey_type &
       survey_abbrev %in% stitch_regions)
 
+  survey_dat <- drop_duplicated_fe(survey_dat) #150
+
   survey_dat <- droplevels(survey_dat) # drop extra factor levels before running models
 
   cat("\n\tStitching index for:", species)
@@ -413,7 +415,7 @@ get_stitched_index <- function(
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
 
-  is_cpois <- family$family == "censored_poisson"
+  is_cpois <- family$family[[1]] == "censored_poisson"
   intercept <- as.integer(model_type == "st-rw")
   if (is.null(form)) {
     if (is_cpois) {
@@ -582,3 +584,7 @@ get_inclusion_table <- function(survey_dat = NULL, survey_type) {
   inclusion_table
 }
 # ------------------------------------------------------------------------------
+
+drop_duplicated_fe <- function(x) {
+  stopifnot("fishing_event_id" %in% names(x))
+  x[!duplicated(x[["fishing_event_id"]]), , drop = FALSE]

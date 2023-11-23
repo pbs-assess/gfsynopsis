@@ -314,6 +314,7 @@ grid_plot_2009_points + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
 ggsave(file.path(mssm_figs, 'grid-prediction-2009.png'), width = 3.5, height = 3.7)
 ggsave(file.path(here::here('report', 'tech-report', 'figure'), 'grid-prediction-2009.png'),
   width = 3.5, height = 3.7)
+system("optipng -strip all report/tech-report/figure/grid-prediction-2009.png")
 
 # --- Overlay blocks shown/used in GFBioField
 gfbio_field_grid_plot1 <- mssm_grid_sf |>
