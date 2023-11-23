@@ -469,7 +469,7 @@ get_stitched_index <- function(
   sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
 
   # Turn off spatial fields if model doesn't fit
-  if (!sanity_check && spatiotemporal = "rw" && spatial == "on") {
+  if (!sanity_check && spatiotemporal == "rw" && spatial == "on") {
     message("Sanity check failed, refitting with spatial = 'off'")
     spatial <- "off"
     fit <- try(
