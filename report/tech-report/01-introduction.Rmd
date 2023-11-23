@@ -96,7 +96,7 @@ Notably, catch sorting has changed as follows:
 The MSSM data used in this report are found in GFBio, but a publicly available dataset is available on the Ocean Biodiversity Information System (OBIS) for data up to and including 2021 (@mssm2022obis).
 Additional survey details can be found in @rutherfordinprep.
 
-Importantly, prior to TODO groundfish sampling was not systematic and should be treated with a level of skepticism.
+Importantly, prior to 2003 groundfish sorting and species-level identification was not systematic and should be treated with a level of skepticism.
 We therefore shade this portion of the MSSM biomass indices grey in the figure pages.
 Additional details on caveats to interpreting the MSSM survey for groundfish as well as comparisons between the MSSM biomass indices and other indices in the same region will be published in a forthcoming Technical Report.
 
