@@ -180,6 +180,9 @@ dir.create(sc_mssm, showWarnings = FALSE, recursive = TRUE)
 # Stitch inputs
 model_type <- "st-rw"
 spp_vector <- spp$species_common_name[order(spp$species_common_name)]
+# randomize to avoid clumps of non-fitting in parallel:
+set.seed(92729)
+spp_vector <- sample(spp_vector, length(spp_vector))
 # Synoptic/HBLL
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 grid_dir <- file.path(dc, 'grids')
@@ -205,48 +208,16 @@ future::plan(multisession, workers = 6L)
 source(here::here("report", "run-stitching.R"))
 future::plan(sequential)
 
-# Stitch MSSM Survey if not cached
-# future::plan(future::multicore, workers = 5)
-furrr::future_walk(spp_vector, function(.sp) {
-# purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-
-    if(!file.exists(file.path(sc_iphc, spp_filename))) {
-
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      filter(survey_abbrev == "MSSM WCVI")
-    # Some species not included in survey_set data frame at all, so we need to skip these
-    if (nrow(survey_dat) == 0) {
-      out <- "No MSSM survey data"
-      message(out)
-      saveRDS(out, file.path(sc_mssm, spp_filename))
-    } else {
-      survey_dat <- prep_mssm_dat(survey_dat)
-
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = sdmTMB::tweedie(),
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
-        cutoff = 5, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
-    }
-  }
-})
-#future::plan(sequential)
-
 # ------------------------------------------------------------------------------
 # CPUE model fits
 
-future::plan(future::multicore, workers = 4)
+future::plan(future::multicore, workers = 3L)
 message("Fit CPUE models")
 cpue_cache <- file.path("report", "cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
 xx <- spp$species_common_name
 xx <- sample(xx, length(xx), replace = FALSE)
 furrr::future_walk(xx, function(.sp) {
-  # purrr::walk(xx, function(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   if (!file.exists(cpue_cache_spp)) {
