@@ -38,7 +38,10 @@ optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
 
-if (future::availableCores() > 20L) { # hake server
+is_hake_server <- function() {
+  future::availableCores() > 50L
+}
+if (is_hake_server()) {
   cores <- 60L
 }
 
@@ -210,6 +213,8 @@ prep_stitch_grids(
 # future::plan(multisession, workers = 10L)
 source(here::here("report", "run-stitching.R"))
 future::plan(sequential)
+
+if (!is_hake_server()) {
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
@@ -581,3 +586,4 @@ if (optimize_png) {
 }
 
 
+}
