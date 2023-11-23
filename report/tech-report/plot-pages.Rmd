@@ -363,7 +363,7 @@ Order: Osmeriformes, Family: Osmeridae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282959)\
 Last Research Document: @schweigert2012eulachon\
 Last Science Advisory Report: @dfo2015eulachon\
-COSEWIC Status Report: @cosewic2011eulachon, cosewic2013eulachon\
+COSEWIC Status Report: @cosewic2013eulachon\
 COSEWIC Status: Endangered (Central Pacific Coast population, Fraser River population), Special Concern (Nass / Skeena Rivers population), SARA Status: No Status
 
 \begin{figure}[b!]
