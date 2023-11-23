@@ -98,27 +98,6 @@ furrr::future_walk(spp_vector, function(.sp) {
   })
 })
 
-.cache <- "report/stitch-cache/synoptic-qcs"
-dir.create(sc_synoptic_qcs, showWarnings = FALSE)
-purrr::walk(spp_vector, function(.sp) {
-  # furrr::future_walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-  stitch_cached_sp <- file.path(sc_synoptic_qcs, spp_filename)
-  if(any(!file.exists(stitch_cached_sp))) {
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
-      filter(survey_abbrev == "SYN QCS")
-  }
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::tweedie(), spatial = "off",
-    survey_type = 'SYN QCS', model_type = model_type, cache = sc_synoptic_qcs,
-    grid_dir = grid_dir, check_cache = TRUE
-  )
-})
-
-
-
-
 # Stitch IPHC surveys if not cached
 furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
