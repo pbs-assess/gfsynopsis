@@ -119,7 +119,7 @@ prep_mssm_dat <- function(survey_dat) {
 get_stitch_lu <- function(survey_dat, species, survey_type, survey_col = 'survey_type') {
   # stopifnot(survey_type %in% c("synoptic", "mssm", "hbll_outside", "hbll_inside",
   #   "SYN WCVI"))
-  if (survey_type %in% c('SYN WCVI')) survey_col = 'survey_abbrev'
+  if (survey_type %in% c('SYN WCVI', 'SYN WCHG', 'SYN HS', 'SYN QCS')) survey_col = 'survey_abbrev'
   survey_dat |>
     dplyr::filter(species_common_name %in% {{ species }}, .data[[survey_col]] %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
@@ -375,7 +375,7 @@ get_stitched_index <- function(
 
   if ((survey_type %in% c('synoptic', 'hbll_outside', 'hbll_inside') &
        length(stitch_regions) < 2) |
-      (survey_type %in% c('mssm', 'SYN WCVI') & length(stitch_regions) == 0)) {
+      (survey_type %in% c('mssm', 'SYN WCVI', 'SYN WCHG', 'SYN QCS', 'SYN HS') && length(stitch_regions) == 0)) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
     out <- "insufficient data to stitch regions"
     saveRDS(out, out_filename)
@@ -588,3 +588,4 @@ get_inclusion_table <- function(survey_dat = NULL, survey_type) {
 drop_duplicated_fe <- function(x) {
   stopifnot("fishing_event_id" %in% names(x))
   x[!duplicated(x[["fishing_event_id"]]), , drop = FALSE]
+}
