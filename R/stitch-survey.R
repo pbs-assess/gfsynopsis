@@ -468,9 +468,10 @@ get_stitched_index <- function(
 
   sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
 
-  # Turn off spatial fields for MSSM if model doesn't fit
-  if (survey_type == 'mssm' && !sanity_check) {
+  # Turn off spatial fields if model doesn't fit
+  if (!sanity_check && spatiotemporal = "rw" && spatial = "on") {
     message("Sanity check failed, refitting with spatial = 'off'")
+    spatial <- "off"
     fit <- try(
       sdmTMB::sdmTMB(
         formula = form, family = family,
@@ -531,6 +532,8 @@ get_stitched_index <- function(
     cat("\n\tCalculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
     index$aic <- stats::AIC(fit)
+    index$spatial <- spatial
+    index$spatiotemporal <- spatiotemporal
     index$mean_cv <- mean(sqrt(exp(index$se^2) - 1))
     index$num_sets <- mean_num_sets
     index$num_pos_sets <- mean_num_pos_sets
