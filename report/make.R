@@ -201,7 +201,7 @@ prep_stitch_grids(
 # -----
 
 # Stitch surveys if not cached
-# future::plan(multisession, workers = 4L)
+future::plan(multisession, workers = 6L)
 furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
