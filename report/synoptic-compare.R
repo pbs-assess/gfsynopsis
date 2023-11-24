@@ -32,13 +32,14 @@ df_dpl <- get_indexes("report/stitch-cache/synoptic-delta-poisson-link-lognormal
 df_dl <- get_indexes("report/stitch-cache/synoptic-delta-lognormal/", "delta-lognormal")
 df <- bind_rows(df_dg, df_tw, df_dpl, df_dpg, df_dl)
 
-df |>
-  # filter(family %in% c("delta-gamma", "tweedie")) |>
-  group_by(species, family) |>
-  summarise(aic = aic[1]) |>
-  group_by(species) |>
-  View()
-
+if (FALSE) {
+  df |>
+    # filter(family %in% c("delta-gamma", "tweedie")) |>
+    group_by(species, family) |>
+    summarise(aic = aic[1]) |>
+    group_by(species) |>
+    View()
+}
 
 df |>
   # filter(family %in% c("delta-gamma", "tweedie")) |>
