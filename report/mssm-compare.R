@@ -25,12 +25,32 @@ get_indexes <- function(folder, .family = "delta-gamma", model_tag = "st-rw") {
   })
 }
 
-df_dg <- get_indexes("report/stitch-cache/synoptic-delta-gamma/", "delta-gamma")
-df_tw <- get_indexes("report/stitch-cache/synoptic-tweedie/", "tweedie")
-df_dpg <- get_indexes("report/stitch-cache/synoptic-delta-poisson-link-gamma/", "delta-poisson-link-gamma")
-df_dpl <- get_indexes("report/stitch-cache/synoptic-delta-poisson-link-lognormal/", "delta-poisson-link-lognormal")
-df_dl <- get_indexes("report/stitch-cache/synoptic-delta-lognormal/", "delta-lognormal")
+df_dg <- get_indexes("report/stitch-cache/mssm-delta-gamma/", "delta-gamma")
+df_tw <- get_indexes("report/stitch-cache/mssm-tweedie/", "tweedie")
+df_dpg <- get_indexes("report/stitch-cache/mssm-delta-poisson-link-gamma/", "delta-poisson-link-gamma")
+df_dpl <- get_indexes("report/stitch-cache/mssm-delta-poisson-link-lognormal/", "delta-poisson-link-lognormal")
+df_dl <- get_indexes("report/stitch-cache/mssm-lognormal/", "delta-lognormal")
 df <- bind_rows(df_dg, df_tw, df_dpl, df_dpg, df_dl)
+
+df_dg8 <- get_indexes("report/stitch-cache/mssm-delta-gamma/", "delta-gamma-8")
+df_dg5 <- get_indexes("report/stitch-cache/mssm-delta-gamma-5/", "delta-gamma-5")
+dfc <- bind_rows(df_dg8, df_dg5) |>
+  rename(cutoff = family)
+
+ggplot(dfc, aes(year, biomass, ymin = lowerci, ymax = upperci, fill = cutoff)) +
+  geom_line(aes(colour = cutoff)) + geom_ribbon(alpha = 0.5) +
+  facet_wrap(~species, scales = "free_y")
+
+df_tw8 <- get_indexes("report/stitch-cache/mssm-tweedie/", "delta-tweedie-8")
+df_tw5 <- get_indexes("report/stitch-cache/mssm-tweedie-5/", "delta-tweedie-5")
+dfc <- bind_rows(df_tw8, df_tw5) |>
+  rename(cutoff = family)
+
+ggplot(dfc, aes(year, biomass, ymin = lowerci, ymax = upperci, fill = cutoff)) +
+  geom_line(aes(colour = cutoff)) + geom_ribbon(alpha = 0.5) +
+  facet_wrap(~species, scales = "free_y")
+
+
 
 if (FALSE) {
   df |>

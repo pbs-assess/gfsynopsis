@@ -2,7 +2,16 @@
 
 furrr::future_walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-  stitch_cached_sp <- file.path(c(sc_synoptic, sc_hbll_out, sc_hbll_ins), spp_filename)
+  stitch_cached_sp <- file.path(c(
+    sc_synoptic,
+    sc_hbll_out,
+    sc_hbll_ins,
+    sc_synoptic_dg,
+    sc_synoptic_dl,
+    sc_synoptic_dpg,
+    sc_synoptic_dpl
+  ),
+    spp_filename)
 
   if(any(!file.exists(stitch_cached_sp))) {
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
@@ -32,6 +41,24 @@ furrr::future_walk(spp_vector, function(.sp) {
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gamma(),
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dg,
+    grid_dir = grid_dir, check_cache = TRUE
+  )
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_lognormal(),
+    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dl,
+    grid_dir = grid_dir, check_cache = TRUE
+  )
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_poisson_link_gamma(),
+    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpg,
+    grid_dir = grid_dir, check_cache = TRUE
+  )
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_poisson_link_lognormal(),
+    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpl,
     grid_dir = grid_dir, check_cache = TRUE
   )
 })
@@ -94,7 +121,13 @@ furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
-  if (!file.exists(file.path(sc_mssm, spp_filename)) || !file.exists(file.path(sc_mssm_dg, spp_filename))) {
+  if (
+    !file.exists(file.path(sc_mssm, spp_filename)) ||
+      !file.exists(file.path(sc_mssm_dg, spp_filename)) ||
+      !file.exists(file.path(sc_mssm_dl, spp_filename)) ||
+      !file.exists(file.path(sc_mssm_dpl, spp_filename)) ||
+      !file.exists(file.path(sc_mssm_dpg, spp_filename))
+  ) {
 
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "MSSM WCVI")
@@ -106,27 +139,53 @@ furrr::future_walk(spp_vector, function(.sp) {
     } else {
       survey_dat <- prep_mssm_dat(survey_dat)
 
-if (!file.exists(file.path(sc_mssm, spp_filename))) {
+      CUTOFF <- 8
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
         family = sdmTMB::tweedie(),
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
-        cutoff = 5, silent = FALSE,
+        cutoff = CUTOFF, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
       )
-    }
 
-if (!file.exists(file.path(sc_mssm_dg, spp_filename))) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
         family = sdmTMB::delta_gamma(),
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dg,
-        cutoff = 5, silent = FALSE,
+        cutoff = CUTOFF, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
       )
-    }
+
+      get_stitched_index(
+        form = 'catch ~ 1',
+        survey_dat = survey_dat, species = .sp,
+        family = sdmTMB::delta_lognormal(),
+        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
+        cutoff = CUTOFF, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
+
+      get_stitched_index(
+        form = 'catch ~ 1',
+        survey_dat = survey_dat, species = .sp,
+        family = sdmTMB::delta_poisson_link_gamma(),
+        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpg,
+        cutoff = CUTOFF, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
+
+      get_stitched_index(
+        form = 'catch ~ 1',
+        survey_dat = survey_dat, species = .sp,
+        family = sdmTMB::delta_poisson_link_lognormal(),
+        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpl,
+        cutoff = CUTOFF, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
+
+
     }
   }
 })
