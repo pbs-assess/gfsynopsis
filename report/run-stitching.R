@@ -94,7 +94,7 @@ furrr::future_walk(spp_vector, function(.sp) {
   # purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
-  if(!file.exists(file.path(sc_iphc, spp_filename))) {
+  if (!file.exists(file.path(sc_mssm, spp_filename)) || !file.exists(file.path(sc_mssm_dg, spp_filename))) {
 
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "MSSM WCVI")
@@ -106,6 +106,7 @@ furrr::future_walk(spp_vector, function(.sp) {
     } else {
       survey_dat <- prep_mssm_dat(survey_dat)
 
+if (!file.exists(file.path(sc_mssm, spp_filename))) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
@@ -114,7 +115,9 @@ furrr::future_walk(spp_vector, function(.sp) {
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
       )
+    }
 
+if (!file.exists(file.path(sc_mssm_dg, spp_filename))) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
@@ -123,6 +126,7 @@ furrr::future_walk(spp_vector, function(.sp) {
         cutoff = 5, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
       )
+    }
     }
   }
 })
