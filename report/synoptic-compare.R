@@ -58,6 +58,14 @@ df |>
   ggplot(aes(delta_aic, species)) + geom_point() +
   geom_vline(xintercept = 0, lty = 2)
 
+df |>
+  group_by(species, family) |>
+  summarise(aic = aic[1]) |>
+  group_by(species) |>
+  reframe(delta_aic = aic[family == "delta-lognormal"] - aic[family == "delta-poisson-link-lognormal"]) |>
+  ggplot(aes(delta_aic, species)) + geom_point() +
+  geom_vline(xintercept = 0, lty = 2)
+
 f <- df |>
   group_by(species) |>
   filter(year == min(year)) |>
@@ -107,3 +115,4 @@ lu <- expand.grid(family = unique(df$family), species = unique(df$species))
 
 didnt_converge <- anti_join(lu, df) |> left_join(f)
 didnt_converge
+
