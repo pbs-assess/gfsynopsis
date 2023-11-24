@@ -1385,6 +1385,35 @@ spp_group_plot2
 
 ggsave(filename = file.path(mssm_figs, 'aggregated-id-level-plot.png'), width = 7.7, height = 5.2)
 
+# --- Mystery of the eelpout spike in 2002 ---
+# Eelpout spike is likely due to baby sablefish misidentification
+sablefish <- filter(mssm_dat, species_common_name == "sablefish") |>
+  group_by(species_common_name, year) |>
+  summarise(mean_catch = mean(catch_weight)) |>
+  mutate(species_common_name = 'Sablefish', group_common_name = 'Eelpouts')
+sablepouts <- dat |> filter(group_common_name == 'Eelpouts') |>
+  mutate(species_common_name = paste0("Eelpouts - ", species_common_name)) |>
+  bind_rows(sablefish)
+
+sablepouts_plot <-
+  ggplot(data = sablepouts,
+    aes(x = year, y = mean_catch, colour = species_common_name,
+        shape = species_common_name, group = species_common_name)) +
+    geom_rect(aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
+            fill = "gray90", colour = NA, alpha = 0.1) +
+    geom_vline(xintercept = 2001, colour = 'grey50') +
+    geom_point() +
+    geom_line(linewidth = 0.3) +
+    scale_colour_brewer(palette = "Dark2", type = 'qual') +
+    labs(x =  "Year", y = "Mean annual catch (kg)", shape = "Identification level", colour = 'Identification level') +
+    theme(legend.position = c(0.2, 0.83))
+sablepouts_plot
+
+ggsave(filename = file.path(mssm_figs, 'aggregated-sablepouts-plot.png'),
+  width = 7, height = 3.3)
+
+# --------
+
 
 
 # Sculpins ---
