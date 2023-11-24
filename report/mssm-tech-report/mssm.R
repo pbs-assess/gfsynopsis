@@ -1132,8 +1132,8 @@ ggsave(file.path(mssm_figs, 'depth-ranges-mssm-syn-wcvi.png'), width = 6.5, heig
 
 # GFBIO query to get additional species
 # more_spp <- get_survey_sets2(species = more_spp_codes$species_code, ssid = 7)
-# saveRDS(more_spp, file.path(mssm_appendix, 'higher-taxonomic-mssm-spp.rds')
-more_spp <- readRDS(file.path(mssm_appendix, 'higher-taxonomic-mssm-spp.rds')) |>
+# saveRDS(more_spp, file.path(mssm_data, 'higher-taxonomic-mssm-spp.rds')
+more_spp <- readRDS(file.path(mssm_data, 'higher-taxonomic-mssm-spp.rds')) |>
   filter(grouping_desc %in% c('WCVI Shrimp Survey Area 124', 'WCVI Shrimp Survey Area 125'))
 
 # Check non-zero catches
@@ -1167,10 +1167,11 @@ more_spp |>
 
 more_spp |>
   #filter(year == 2002) |>
+  filter(species_common_name != 'scorpionfishes') |>
   arrange(-catch_weight) |>
-  slice(1:30) |>
+  slice(1:50) |>
   distinct(fishing_event_id, .keep_all = TRUE) |>
-    ggplot(aes(x = species_common_name, y = catch_weight)) +
+ggplot(aes(x = species_common_name, y = catch_weight)) +
   geom_point() +
   ggrepel::geom_text_repel(
       aes(x = species_common_name, y = catch_weight, label = paste(fishing_event_id, year, sep = "-")),
@@ -1180,12 +1181,64 @@ more_spp |>
     ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# Likely a decimal point error for fishing_event_id %in% c()
-hist(((more_spp |> filter(species_common_name == 'skates', catch_weight > 5))$catch_weight))
+more_spp |>
+  #filter(year == 2002) |>
+  filter(!(species_common_name %in% c('scorpionfishes', 'righteye flounders'))) |>
+  arrange(-catch_weight) |>
+  slice(1:50) |>
+  distinct(fishing_event_id, .keep_all = TRUE) |>
+  select(fishing_event_id, species_common_name, year, catch_weight, catch_count) |> view()
+ggplot(aes(x = species_common_name, y = catch_weight)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+      aes(x = species_common_name, y = catch_weight, label = paste(fishing_event_id, year, sep = "-")),
+      size = 3.5, segment.color = 'grey85',
+      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
+      direction = "y", hjust = 0
+    ) +
+  geom_hline(data = more_spp |>
+    filter(!(species_common_name %in% c('scorpionfishes', 'righteye flounders'))) |>
+    filter(catch_weight > 0) |>
+    group_by(species_common_name) |>
+    summarise(mean_catch = quantile(catch_weight, probs = 0.75, na.rm =TRUE)[[1]]),
+    aes(yintercept = mean_catch, colour = species_common_name)
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-test <- bind_rows(more_spp |> filter(year == 2002), mssm_dat |> filter(year == 2002))
+select_simple <- function(df) {
+  select(df, fishing_event_id, year, month, day, time_deployed, latitude, longitude,
+         depth_m, catch_weight, catch_count, species_common_name)
+}
 
-filter(test, fishing_event_id %in% c(902190, 902182, 902187)) %>% view()
+skates2002 <- bind_rows(more_spp |> filter(year == 2002), mssm_dat |> filter(year == 2002)) |>
+  filter(species_common_name == 'skates')
+
+skates2002 |>
+  filter(catch_weight != 0) |>
+  group_by(species_common_name) |>
+  mutate(max_catch = max(catch_weight), mean_catch = mean(catch_weight)) |>
+  #filter(max_catch > 3 * mean_catch) |>
+  ungroup() |>
+  arrange(-catch_weight) |>
+  ggplot(aes(x = fishing_event_id, y = catch_weight)) +
+  geom_point() +
+  ggrepel::geom_text_repel(
+      aes(x = fishing_event_id, y = catch_weight, label = fishing_event_id),
+      size = 3.5, segment.color = 'grey85',
+      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
+      direction = "y"
+    ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+feid <- c(902190, 902182, 902187) # extreme skate catches
+
+test <-
+filter(dat2002, fishing_event_id %in% c(902190, 902182, 902187)) |>
+  select(fishing_event_id, year, month, day, time_deployed, latitude, longitude,
+         depth_m, catch_weight, catch_count, species_common_name)
+
+test |> arrange(species_common_name) |> view()
+
 
 big_catches <-
   test |>
