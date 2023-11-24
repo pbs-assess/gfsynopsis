@@ -54,7 +54,7 @@ furrr::future_walk(spp_vector, function(.sp) {
           filter(survey_abbrev == .syn)
       }
       get_stitched_index(
-        survey_dat = survey_dat, species = .sp, family = .fam, spatial = .spatial,
+        survey_dat = survey_dat, species = .sp, family = .fam,
         survey_type = .syn, model_type = model_type, cache = .cache,
         grid_dir = grid_dir, check_cache = TRUE, cutoff = 10
       )
