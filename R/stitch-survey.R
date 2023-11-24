@@ -519,7 +519,6 @@ get_stitched_index <- function(
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
     # re_form_iid = NA, so obs_id ignored in prediction
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
-    pred$newdata_input <- newdata # Remove if this is unnecessary
 
     if (cache_predictions) {
       pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
@@ -530,7 +529,7 @@ get_stitched_index <- function(
 
   if (length(pred) > 1) {
     cat("\n\tCalculating index\n")
-    index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = pred$newdata$area)
+    index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = newdata$area)
     index$aic <- stats::AIC(fit)
     index$spatial <- spatial
     index$spatiotemporal <- spatiotemporal
