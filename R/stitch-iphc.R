@@ -192,9 +192,26 @@ get_iphc_stitched_index <- function(
     silent = silent, control = ctrl
   ))
 
+  sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
+
+  # Turn off spatial fields if model doesn't fit
+  if (!sanity_check && spatiotemporal == "rw" && spatial == "on") {
+    message("Sanity check failed, refitting with spatial = 'off'")
+    spatial <- "off"
+    fit <- try(
+      sdmTMB::sdmTMB(
+        formula = form, family = family, time_varying = time_varying,
+        time = "year", spatiotemporal = "rw", spatial = "off", priors = priors,
+        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        silent = silent, control = ctrl
+      )
+    )
+    sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
+  }
+
   fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
-  cat("\n\tSaving:", fit_filename, "\n")
-  saveRDS(fit, fit_filename)
+  # cat("\n\tSaving:", fit_filename, "\n")
+  # saveRDS(fit, fit_filename)
 
   if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))) {
     cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
@@ -215,12 +232,14 @@ get_iphc_stitched_index <- function(
     pred$species <- unique(fit$data$species_common_name)
 
     pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
-    cat("\n\tSaving:", pred_filename, "\n")
-    saveRDS(pred, pred_filename)
+    # cat("\n\tSaving:", pred_filename, "\n")
+    # saveRDS(pred, pred_filename)
   }
 
   message("Getting index for: ", species)
   index <- try(sdmTMB::get_index(pred, bias_correct = TRUE, area = 1))
+  index$spatial <- spatial
+  index$aic <- stats::AIC(fit)
   index$mean_cv <- mean(sqrt(exp(index$se^2) - 1))
   index$num_sets <- mean_num_sets
   index$num_pos_sets <- mean_num_pos_sets
