@@ -55,10 +55,17 @@ order_spp <- function(df) {
 }
 
 # Load raw data for each survey so we can calculate overlapping years
-spp_dat <- spp_vector |>
-  map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_sets) |>
-  bind_rows()
-beepr::beep()
+if (!file.exists(file.path(mssm_data, 'spp_dat.rds'))) {
+  spp_dat <- spp_vector |>
+    map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_sets) |>
+    bind_rows() |>
+    filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI'))
+  beepr::beep()
+  # Slow to load all the data
+  saveRDS(spp_dat, file = file.path(mssm_data, 'spp_dat.rds'))
+} else {
+  spp_dat <- readRDS(file = file.path(mssm_data, 'spp_dat.rds'))
+}
 
 mssm_no_doorspread <- spp_dat |>
   filter(survey_abbrev == 'MSSM WCVI', year == 2022) |>
