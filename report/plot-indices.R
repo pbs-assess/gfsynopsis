@@ -15,7 +15,7 @@ devtools::load_all(".")
 
 # setup -------------------------------------------------
 
-spp_w_hyphens <- "lingcod"
+spp_w_hyphens <- "pacific-cod"
 dat <- readRDS("report/data-cache-oct-2023/lingcod.rds")
 dc <- here("report", "data-cache-oct-2023")
 report_folder <- "report"
@@ -116,11 +116,13 @@ geo$syn_wchg <- map_dfr(families, \(f) {
 geo$syn_wcvi <- map_dfr(families, \(f) {
   get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), spp_w_hyphens, .family = f)
 }) |> filter(aic == min(aic))
+geo$hbll_out_n <- geo$hbll_ins <- get_index("report/stitch-cache/hbll_outside_n/", spp_w_hyphens)
+geo$hbll_out_s <- geo$hbll_ins <- get_index("report/stitch-cache/hbll_outside_s/", spp_w_hyphens)
 geo$mssm <- map_dfr(families, \(f) {
   get_index(paste0("report/stitch-cache/mssm-", f, "/"), spp_w_hyphens, .family = f)
 }) |> filter(aic == min(aic))
-geo$hbll_ins <- get_index(paste0("report/stitch-cache/hbll_inside"), spp_w_hyphens)
-geo$hbll_out <- get_index(paste0("report/stitch-cache/hbll_outside"), spp_w_hyphens)
+geo$hbll_ins <- get_index("report/stitch-cache/hbll_inside/", spp_w_hyphens)
+geo$hbll_out <- get_index("report/stitch-cache/hbll_outside/", spp_w_hyphens)
 geo$iphc <- get_index(paste0("report/stitch-cache/iphc"), spp_w_hyphens)
 geo$iphc$stitch_regions <- "IPHC FISS"
 dat_geo <- bind_rows(geo)
@@ -209,6 +211,9 @@ stats_df <- select(both_scaled, survey_abbrev, mean_cv, num_sets, num_pos_sets, 
     mean_num_sets = as.numeric(mean_num_sets)
   )
 
+labs <- distinct(select(both_scaled, survey_abbrev))
+yrs <- c(1975, final_year_surv)
+
 # plot! --------------------------------------------------
 
 g <- plot_survey_index(
@@ -236,7 +241,16 @@ g <- plot_survey_index(
     axis.title.y = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank()
-  ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", french))
+  ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", french)) +
+  theme(
+    strip.background = element_blank(),
+    strip.text.x = element_blank()
+  ) +
+  geom_text(
+    data = labs, x = yrs[1] + 0.5, y = 0.89,
+    aes(label = survey_abbrev),
+    inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
+  )
 
 if ("MSSM WCVI" %in% both_scaled$survey_abbrev) {
   g <- g +
@@ -247,7 +261,6 @@ if ("MSSM WCVI" %in% both_scaled$survey_abbrev) {
     )
 }
 
-yrs <- c(1975, final_year_surv)
 g <- g + geom_text(
   data = stats_df, aes(label = cv),
   x = yrs[1] + 0.5, y = 0.67,
