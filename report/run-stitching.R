@@ -181,7 +181,7 @@ furrr::future_walk(spp_vector, function(.sp) {
       !file.exists(file.path(sc_mssm_dpg, spp_filename))
   ) {
 
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis::clean_name(.sp), ".rds")))$survey_sets |>
       filter(survey_abbrev == "MSSM WCVI")
     # Some species not included in survey_set data frame at all, so we need to skip these
     if (nrow(survey_dat) == 0) {
