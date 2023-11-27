@@ -134,11 +134,17 @@ furrr::future_walk(spp_vector, function(.sp) {
         survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
           prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
           filter(survey_abbrev == .syn)
+        if (.syn == "SYN WCHG") {
+          survey_dat <- filter(survey_dat, year != 2014) # partial year
+          .cutoff <- 8
+        } else {
+          .cutoff <- 10
+        }
       }
       get_stitched_index(
         survey_dat = survey_dat, species = .sp, family = .fam,
         survey_type = .syn, model_type = model_type, cache = .cache,
-        grid_dir = grid_dir, check_cache = TRUE, cutoff = 10
+        grid_dir = grid_dir, check_cache = TRUE, cutoff = .cutoff
       )
     })
   })
