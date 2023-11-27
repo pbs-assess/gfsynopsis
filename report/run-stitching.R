@@ -123,6 +123,9 @@ furrr::future_walk(spp_vector, function(.sp) {
     purrr::walk(syns, function(.syn) {
       if (.family == "tweedie") .fam <- sdmTMB::tweedie()
       if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
+      if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
+      if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
+      if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
       tag <- paste0(.syn, "-", .family)
       .cache <- paste0("report/stitch-cache/synoptic-", tag)
       spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
