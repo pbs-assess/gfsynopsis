@@ -1,11 +1,47 @@
 # to be run as part of `report/make.R`
 
+sc_synoptic <- file.path(stitch_cache, "synoptic-tweedie")
+sc_synoptic_dg <- file.path(stitch_cache, "synoptic-delta-gamma")
+sc_synoptic_dl <- file.path(stitch_cache, "synoptic-delta-lognormal")
+sc_synoptic_dpg <- file.path(stitch_cache, "synoptic-delta-poisson-link-gamma")
+sc_synoptic_dpl <- file.path(stitch_cache, "synoptic-delta-poisson-link-lognormal")
+
+sc_hbll_out <- file.path(stitch_cache, "hbll_outside")
+sc_hbll_out_n <- file.path(stitch_cache, "hbll_outside_n")
+sc_hbll_out_s <- file.path(stitch_cache, "hbll_outside_s")
+sc_hbll_ins <- file.path(stitch_cache, "hbll_inside")
+sc_iphc <- file.path(stitch_cache, "iphc")
+sc_mssm <- file.path(stitch_cache, 'mssm-tweedie')
+sc_mssm_dg <- file.path(stitch_cache, 'mssm-delta-gamma')
+sc_mssm_dl <- file.path(stitch_cache, 'mssm-lognormal')
+sc_mssm_dpg <- file.path(stitch_cache, 'mssm-delta-poisson-link-gamma')
+sc_mssm_dpl <- file.path(stitch_cache, 'mssm-delta-poisson-link-lognormal')
+
+dir.create(sc_synoptic, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_synoptic_dg, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_synoptic_dl, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_synoptic_dpg, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_synoptic_dpl, showWarnings = FALSE, recursive = TRUE)
+
+dir.create(sc_hbll_out, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_hbll_out_n, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_hbll_out_s, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_hbll_ins, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_iphc, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_mssm, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_mssm_dg, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_mssm_dl, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_mssm_dpg, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_mssm_dpl, showWarnings = FALSE, recursive = TRUE)
+
 furrr::future_walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
   stitch_cached_sp <- file.path(c(
     sc_synoptic,
     sc_hbll_out,
     sc_hbll_ins,
+    sc_hbll_out_n,
+    sc_hbll_out_s,
     sc_synoptic_dg,
     sc_synoptic_dl,
     sc_synoptic_dpg,
@@ -22,6 +58,22 @@ furrr::future_walk(spp_vector, function(.sp) {
     survey_dat = survey_dat, species = .sp,
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic,
     grid_dir = grid_dir, check_cache = TRUE
+  )
+
+  get_stitched_index(
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT S"), species = .sp,
+    cutoff = 10,
+    survey_type = "HBLL OUT S", model_type = model_type, cache = sc_hbll_out_s,
+    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    check_cache = TRUE
+  )
+
+  get_stitched_index(
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT N"), species = .sp,
+    cutoff = 10,
+    survey_type = "HBLL OUT N", model_type = model_type, cache = sc_hbll_out_n,
+    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    check_cache = TRUE
   )
 
   get_stitched_index(
