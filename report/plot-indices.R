@@ -180,22 +180,57 @@ both_scaled <- group_by(both, survey_abbrev) |>
 geo_scaled <- filter(both_scaled, method == "geostat")
 des_scaled <- filter(both_scaled, method == "design")
 
+# get stats ----------------------------------------------
+
+stats_df <- select(both_scaled, survey_abbrev, mean_cv, num_sets, num_pos_sets, method) %>%
+  distinct() |>
+  group_by(survey_abbrev) %>%
+  group_split() |>
+  map_dfr(\(x) {
+    if (length(unique(x$method)) > 1) {
+      filter(x, method == "geostat")
+    } else {
+      x
+    }
+  }) |>
+  group_by(survey_abbrev) |>
+  summarise(
+    mean_cv = sprintf("%.2f", round(mean(mean_cv, na.rm = TRUE), 2)),
+    mean_num_pos_sets = sprintf("%.0f", round(mean(num_pos_sets, na.rm = TRUE), 0)),
+    mean_num_sets = sprintf("%.0f", round(mean(num_sets, na.rm = TRUE), 0))
+  ) %>%
+  mutate(sets = paste0(en2fr("Mean +ve sets", french), ": ", mean_num_pos_sets, "/", mean_num_sets)) %>%
+  mutate(cv = paste0(en2fr("Mean", french), " CV: ", mean_cv)) %>%
+  mutate(cv = ifelse(mean_cv == "NaN", "", cv)) %>%
+  mutate(sets = ifelse(mean_num_pos_sets == "NaN", "", sets)) %>%
+  mutate(mean_cv = as.numeric(mean_cv)) %>%
+  mutate(
+    mean_num_pos_sets = as.numeric(mean_num_pos_sets),
+    mean_num_sets = as.numeric(mean_num_sets)
+  )
+
 # plot! --------------------------------------------------
 
 g <- plot_survey_index(
   dat = des_scaled,
   scale = FALSE,
   col = c("grey60", "grey20"),
+  max_cv = 1,
   survey_cols = survey_cols,
   xlim = c(1975 - 0.2, final_year_surv + 0.2),
   french = french,
-  scale_type = "max-CI", pjs_mode = TRUE) +
-  coord_cartesian(ylim = c(-0.005, 1.03),
-    xlim = c(1975, final_year_surv) + c(-0.5, 0.5), expand = FALSE) +
+  scale_type = "max-CI",
+  pjs_mode = TRUE
+) +
+  coord_cartesian(
+    ylim = c(-0.005, 1.03),
+    xlim = c(1975, final_year_surv) + c(-0.5, 0.5), expand = FALSE
+  ) +
   geom_line(data = geo_scaled, mapping = aes(colour = survey_abbrev)) +
   geom_ribbon(
     data = geo_scaled,
-    mapping = aes(ymin = lowerci_scaled, ymax = upperci_scaled, fill = survey_abbrev), alpha = 0.2) +
+    mapping = aes(ymin = lowerci_scaled, ymax = upperci_scaled, fill = survey_abbrev), alpha = 0.2
+  ) +
   scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE)) +
   theme(
     axis.title.y = element_blank(),
@@ -206,9 +241,23 @@ g <- plot_survey_index(
 if ("MSSM WCVI" %in% both_scaled$survey_abbrev) {
   g <- g +
     geom_rect(
-      data = filter(both_scaled, survey_abbrev == "MSSM WCVI")[1,,drop=FALSE],
+      data = filter(both_scaled, survey_abbrev == "MSSM WCVI")[1, , drop = FALSE],
       mapping = ggplot2::aes(xmin = 1973, xmax = 2003, ymin = -Inf, ymax = Inf),
       alpha = 0.15
     )
 }
+
+yrs <- c(1975, final_year_surv)
+g <- g + geom_text(
+  data = stats_df, aes(label = cv),
+  x = yrs[1] + 0.5, y = 0.67,
+  colour = "grey35", size = 2.65, hjust = 0
+) +
+  geom_text(
+    data = stats_df,
+    aes(label = sets),
+    x = yrs[1] + 0.5, y = 0.49,
+    colour = "grey35", size = 2.65, hjust = 0
+  )
+
 print(g)
