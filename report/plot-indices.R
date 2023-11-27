@@ -46,21 +46,22 @@ survey_cols <- c(
 
 lvls <- c(
   "SYN WCHG",
-  "SYN WCVI",
   "SYN HS",
   "SYN QCS",
+  "SYN WCVI",
   "HBLL OUT N",
   "HBLL OUT S",
+  "SYN WCHG/HS/QCS/WCVI",
+  "SYN HS/QCS/WCVI",
+  "HBLL OUT N/S",
   "HBLL INS N/S",
   "IPHC FISS",
   "MSA HS",
-  "SYN WCHG/HS/QCS/WCVI",
-  "SYN HS/QCS/WCVI",
-  "MSSM WCVI",
-  "HBLL OUT N/S"
+  "MSSM WCVI"
 )
 
 # get design indices ---------------------------------------
+
 dat_design <- tidy_survey_index(
   dat$survey_index,
   survey = c(
@@ -101,6 +102,19 @@ families <- c(
 geo <- list()
 geo$syn_coast <- map_dfr(families, \(f) {
   get_index(paste0("report/stitch-cache/synoptic-", f, "/"), spp_w_hyphens, .family = f)
+}) |> filter(aic == min(aic))
+
+geo$syn_hs <- map_dfr(families, \(f) {
+  get_index(paste0("report/stitch-cache/synoptic-SYN HS-", f, "/"), spp_w_hyphens, .family = f)
+}) |> filter(aic == min(aic))
+geo$syn_qcs <- map_dfr(families, \(f) {
+  get_index(paste0("report/stitch-cache/synoptic-SYN QCS-", f, "/"), spp_w_hyphens, .family = f)
+}) |> filter(aic == min(aic))
+geo$syn_wchg <- map_dfr(families, \(f) {
+  get_index(paste0("report/stitch-cache/synoptic-SYN WCHG-", f, "/"), spp_w_hyphens, .family = f)
+}) |> filter(aic == min(aic))
+geo$syn_wcvi <- map_dfr(families, \(f) {
+  get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), spp_w_hyphens, .family = f)
 }) |> filter(aic == min(aic))
 geo$mssm <- map_dfr(families, \(f) {
   get_index(paste0("report/stitch-cache/mssm-", f, "/"), spp_w_hyphens, .family = f)
@@ -182,7 +196,12 @@ g <- plot_survey_index(
   geom_ribbon(
     data = geo_scaled,
     mapping = aes(ymin = lowerci_scaled, ymax = upperci_scaled, fill = survey_abbrev), alpha = 0.2) +
-  scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE))
+  scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE)) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", french))
 
 if ("MSSM WCVI" %in% both_scaled$survey_abbrev) {
   g <- g +
