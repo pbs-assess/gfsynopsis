@@ -158,10 +158,11 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
 
   # scale as needed ----------------------------------------
 
+  # prior_levels <- levels(both$survey_abbrev)
   both_scaled <- group_by(both, survey_abbrev) |>
     group_split() |>
     purrr::map_dfr(\(x) {
-      both_present <- length(unique(x$method)) > 1L
+      both_present <- length(unique(x$method[!is.na(x$biomass)])) > 1L
       if (both_present) {
         x_geo <- filter(x, method == "geostat")
         x_des <- filter(x, method == "design")
@@ -173,8 +174,6 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
         temp <- x_des$biomass[x_des$year %in% overlapping_years]
         temp[temp == 0] <- min(temp[temp != 0], na.rm = TRUE)
         x_des_mean <- exp(mean(log(temp)))
-
-        # if (x$survey_abbrev[1] %in% "IPHC FISS") browser()
 
         x_geo <- mutate(x_geo,
           biomass_scaled = biomass / x_geo_mean,
