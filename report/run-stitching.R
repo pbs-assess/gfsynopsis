@@ -117,7 +117,7 @@ furrr::future_walk(spp_vector, function(.sp) {
 
 # work through all individual synoptics:
 syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
-families <- c("tweedie", "delta-gamma")
+families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-poisson-link-lognormal", "delta-poisson-link-gamma")
 furrr::future_walk(spp_vector, function(.sp) {
   purrr::walk(families, function(.family) {
     purrr::walk(syns, function(.syn) {
