@@ -105,6 +105,7 @@ make_pages <- function(
 
   dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
   dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp) |>
+    distinct(specimen_id, .keep_all = TRUE) |>
     mutate(survey_abbrev = ifelse(survey_abbrev %in% c("HBLL INS N", "HBLL INS S"), "HBLL INS N/S", survey_abbrev))
   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == spp)
   dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
