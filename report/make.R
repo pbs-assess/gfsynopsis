@@ -203,6 +203,11 @@ prep_stitch_grids(
 source(here::here("report", "run-stitching.R"))
 future::plan(sequential)
 
+# these are complex, do outside first:
+source(here::here("report", "plot-indices.R"))
+# make_index_panel("big-skate")
+index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel)
+
 if (!is_hake_server()) {
 
 # ------------------------------------------------------------------------------
@@ -319,7 +324,8 @@ purrr::walk(to_build, function(i) {
       stitch_model_type = 'st-rw',
       grid_dir = file.path(data_cache, 'grids'),
       hbll_bait_counts = hbll_bait_counts,
-      iphc_hook_counts = iphc_hook_counts
+      iphc_hook_counts = iphc_hook_counts,
+      index_ggplot = index_ggplots[[i]]
     )
     # }, error = function(e) warning("Error"))
   }, error = function(e) stop("Error"))

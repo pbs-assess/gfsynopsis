@@ -41,10 +41,16 @@ sub_iphc_design <- function(dc, iphc_index_cache_spp, spp_w_hyphens, orig_design
 
     # Remove existing (GFbio) based IPHC series with longer ones from new calcs
     if (!identical(iphc_set_counts_sp_format, NA)) {
-      out <- orig_design |>
-        filter(survey_abbrev != "IPHC FISS") |>
-        rbind(iphc_set_counts_sp_format)
+      if (nrow(orig_design)) {
+        out <- orig_design |>
+          filter(survey_abbrev != "IPHC FISS") |>
+          rbind(iphc_set_counts_sp_format)
+      } else {
+        out <- iphc_set_counts_sp_format
+      }
+      return(out)
+    } else {
+      return(orig_design)
     }
-    return(out)
   }
 }
