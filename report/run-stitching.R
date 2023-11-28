@@ -34,6 +34,8 @@ dir.create(sc_mssm_dl, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_mssm_dpg, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_mssm_dpl, showWarnings = FALSE, recursive = TRUE)
 
+model_type_iid <- "st-iid"
+
 furrr::future_walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
   stitch_cached_sp <- file.path(c(
@@ -73,6 +75,36 @@ furrr::future_walk(spp_vector, function(.sp) {
     cutoff = 10,
     survey_type = "HBLL OUT N", model_type = model_type, cache = sc_hbll_out_n,
     family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    check_cache = TRUE
+  )
+
+  # IID
+  get_stitched_index(
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT S"), species = .sp,
+    cutoff = 10,
+    # priors = sdmTMB::sdmTMBpriors(
+    #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
+    #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
+    # ),
+    survey_type = "HBLL OUT S", model_type = model_type_iid, cache = sc_hbll_out_s,
+    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    spatiotemporal = "iid", spatial = "on",
+    form = catch ~ 0 + as.factor(year),
+    check_cache = TRUE
+  )
+
+  # IID
+  get_stitched_index(
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT N"), species = .sp,
+    cutoff = 10,
+    # priors = sdmTMB::sdmTMBpriors(
+    #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
+    #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
+    # ),
+    survey_type = "HBLL OUT N", model_type = model_type_iid, cache = sc_hbll_out_n,
+    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    spatiotemporal = "iid", spatial = "on",
+    form = catch ~ 0 + as.factor(year),
     check_cache = TRUE
   )
 
@@ -153,6 +185,42 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
 })
 # })
 # })
+
+
+furrr::future_pmap(tofit, function(.sp, .syn, .family) {
+# purrr::pmap(tofit[786,,drop=FALSE], function(.sp, .syn, .family) {
+  if (.family == "tweedie") .fam <- sdmTMB::tweedie()
+  if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
+  if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
+  if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
+  if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
+  tag <- paste0(.syn, "-", .family)
+  .cache <- paste0("report/stitch-cache/synoptic-", tag)
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type_iid, ".rds")
+  stitch_cached_sp <- file.path(.cache, spp_filename)
+  if(!file.exists(stitch_cached_sp)) {
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
+      filter(survey_abbrev == .syn)
+    if (.syn == "SYN WCHG") {
+      survey_dat <- filter(survey_dat, year != 2014) # partial year
+      .cutoff <- 8
+    } else {
+      .cutoff <- 10
+    }
+  }
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = .fam,
+    survey_type = .syn, model_type = model_type_iid, cache = .cache,
+    spatiotemporal = "iid", spatial = "on",
+    form = catch ~ 0 + as.factor(year),
+    # priors = sdmTMB::sdmTMBpriors(
+    #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
+    #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
+    # ),
+    grid_dir = grid_dir, check_cache = TRUE, cutoff = .cutoff, silent = FALSE
+  )
+})
 
 # Stitch IPHC surveys if not cached
 furrr::future_walk(spp_vector, function(.sp) {

@@ -433,12 +433,20 @@ get_stitched_index <- function(
   form <- stats::as.formula(form)
 
   fit <- switch(model_type,
+    `st-iid` = try(
+      sdmTMB::sdmTMB(
+        formula = form, family = family,
+        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
+        data = survey_dat, mesh = mesh, offset = offset, priors = priors,
+        silent = silent, control = ctrl
+      )
+    ),
     `st-rw` = try(
       sdmTMB::sdmTMB(
         formula = form, family = family,
         time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
-        silent = silent, control = ctrl
+        silent = silent, control = ctrl, priors = priors
       )
     ),
     `st-rw_tv-rw` = try(
@@ -447,7 +455,7 @@ get_stitched_index <- function(
         time_varying = ~1, time_varying_type = "rw",
         time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
-        silent = silent, control = ctrl
+        silent = silent, control = ctrl, priors = priors
       )
     ),
     custom = try(
@@ -484,6 +492,21 @@ get_stitched_index <- function(
     sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
   }
 
+  # Turn off st fields if IID:
+  if (!sanity_check && spatiotemporal == "iid") {
+    message("Sanity check failed, refitting with spatiotemporal = 'off'")
+    spatial <- "off"
+    fit <- try(
+      sdmTMB::sdmTMB(
+        formula = form, family = family,
+        time = "year", spatiotemporal = "off", spatial = "on",
+        data = survey_dat, mesh = mesh, offset = offset,
+        silent = silent, control = ctrl, priors = priors
+      )
+    )
+    sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
+  }
+
   if (cache_fits) {
     fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
     cat("\n\tSaving:", fit_filename, "\n")
@@ -506,7 +529,8 @@ get_stitched_index <- function(
     # Allow variable input of grids
     if (is.null(survey_grid)) survey_grid <- choose_survey_grid(survey_type, grid_dir)
 
-    newdata <- sdmTMB::replicate_df(dat = survey_grid, time_name = "year", time_values = year_range_seq) |>
+    newdata <- sdmTMB::replicate_df(dat = survey_grid, time_name = "year",
+      time_values = sort(union(fit$data$year, fit$extra_time))) |>
       dplyr::filter(
         survey %in% fit$data$survey_abbrev,
         year %in% fit$data$year
