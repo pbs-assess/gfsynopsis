@@ -203,11 +203,17 @@ prep_stitch_grids(
 source(here::here("report", "run-stitching.R"))
 future::plan(sequential)
 
+# get all survey years to convert NAs to 0s:
+dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
+all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
+  dplyr::distinct()
+
 # these are complex, do outside first:
 source(here::here("report", "plot-indices.R"))
-make_index_panel("north-pacific-spiny-dogfish")
-make_index_panel("pacific-cod")
-index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel)
+# make_index_panel("north-pacific-spiny-dogfish")
+# make_index_panel("pacific-cod")
+# make_index_panel("big-skate")
+index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
 
 if (!is_hake_server()) {
 
@@ -262,10 +268,6 @@ rlang::inform(paste(spp$species_common_name)[to_build])
 # unlink("vb_gfplot.*")
 # unlink("lw_gfplot.*")
 
-# get all survey years to convert NAs to 0s:
-dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
-all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
-  dplyr::distinct()
 
 # missing <- rep(TRUE, length(missing))
 # for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
