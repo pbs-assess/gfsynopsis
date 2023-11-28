@@ -216,7 +216,19 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
 
   # some cleanup --------------------------------------------------
 
-  if (all(is.na(filter(both_scaled, survey_abbrev == "SYN HS/QCS/WCVI")$biomass))) {
+  # nothing SYN COASTWIDE present:
+  if (all(is.na(filter(both_scaled, survey_abbrev == "SYN HS/QCS/WCVI")$biomass)) &&
+      all(is.na(filter(both_scaled, survey_abbrev == "SYN WCHG/HS/QCS/WCVI")$biomass))) {
+    both_scaled <- filter(both_scaled, survey_abbrev != "SYN HS/QCS/WCVI")
+    both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
+  }
+  # "SYN HS/QCS/WCVI present:
+  if (any(!is.na(filter(both_scaled, survey_abbrev == "SYN HS/QCS/WCVI")$biomass))) {
+    both_scaled <- filter(both_scaled, survey_abbrev != "SYN WCHG/HS/QCS/WCVI")
+    both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
+  }
+  # "SYN WCHG/HS/QCS/WCVI present:
+  if (any(!is.na(filter(both_scaled, survey_abbrev == "SYN WCHG/HS/QCS/WCVI")$biomass))) {
     both_scaled <- filter(both_scaled, survey_abbrev != "SYN HS/QCS/WCVI")
     both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
   }
@@ -225,7 +237,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
   des_scaled <- filter(both_scaled, method == "design")
 
   labs <- distinct(select(both_scaled, survey_abbrev))
-  yrs <- c(1975, final_year_surv)
+  yrs <- c(1984, final_year_surv)
 
   # get stats ----------------------------------------------
 
@@ -265,14 +277,14 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
       col = c("grey60", "grey20"),
       max_cv = 1,
       survey_cols = survey_cols,
-      xlim = c(1975 - 0.2, final_year_surv + 0.2),
+      xlim = c(1984 - 0.2, final_year_surv + 0.2),
       french = french,
       scale_type = "max-CI",
       pjs_mode = TRUE
     ) +
       coord_cartesian(
-        ylim = c(-0.005, 1.03),
-        xlim = c(yrs[1], final_year_surv) + c(-0.5, 0.75), expand = FALSE
+        ylim = c(-0.004, 1.03),
+        xlim = c(yrs[1], final_year_surv) + c(-0.75, 0.75), expand = FALSE
       )
 
     if (has_geo) {
@@ -302,7 +314,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
       g <- g +
         geom_rect(
           data = filter(both_scaled, survey_abbrev == "MSSM WCVI")[1, , drop = FALSE],
-          mapping = ggplot2::aes(xmin = yrs[-1] - 2, xmax = 2003, ymin = -Inf, ymax = Inf),
+          mapping = ggplot2::aes(xmin = yrs[1] - 2, xmax = 2003, ymin = -Inf, ymax = Inf),
           alpha = 0.15
         )
     }
