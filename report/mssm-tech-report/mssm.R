@@ -12,7 +12,7 @@ future::plan(.future, workers = cores)
 options(future.rng.onMisuse = "ignore")
 
 # Load data
-data_cache <- here::here('report', 'data-cache-oct-2023')
+data_cache <- here::here('report', 'data-cache-nov-2023')
 grid_dir <- here::here(data_cache, 'grids')
 mssm_dir <- here::here('report', 'mssm-tech-report')
 mssm_data <- here::here(mssm_dir, 'data')
@@ -958,16 +958,19 @@ ggsave(file.path(mssm_figs, 'index-correlation.png'), plot = cor_plot,
 # ------------------------------------------------------------------------------
 
 # Get length and age distributions
-size_dat <- spp_vector |>
-  map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_samples) |>
-  bind_rows() |>
-  filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
-  select(species_common_name, year, survey_abbrev, specimen_id, sample_id, sex, age,
-        length, weight, length_type)
-
+if (!file.exists(file.path(mssm_dir, 'size-dat.rds'))) {
+  size_dat <- spp_vector |>
+    map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_samples) |>
+    bind_rows() |>
+    filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
+    select(species_common_name, year, survey_abbrev, specimen_id, sample_id, sex, age,
+          length, weight, length_type) |>
+    distinct(specimen_id, .keep_all = TRUE)
+  saveRDS(size_dat, file = file.path(mssm_dir, 'size-dat.rds'))
+}
+size_dat <- readRDS(file.path(mssm_dir, 'size-dat.rds'))
 
 size_summary <- size_dat |>
-  #filter(species_common_name %in% spp_in_mssm) |>
   filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
   group_by(species_common_name, survey_abbrev) |>
   summarise(q50 = quantile(length, 0.5, na.rm = TRUE),
@@ -989,13 +992,15 @@ size_diff_lu <-
   arrange(bigger, abs_diff) |>
   mutate(bg = ifelse(row_number() %% 2 == 1, 'grey95', NA))
 
-size_comp <-
+size_comp_df <-
   left_join(size_summary, size_diff_lu) |>
   group_by(species_common_name) |>
-  filter(n() == 2) |>
+  filter(n() == 2) |> # get only species that are found in both surveys
   ungroup() |>
   mutate(species_common_name = factor(species_common_name, levels = pluck(size_diff_lu, 'species_common_name'))) |>
-    arrange(species_common_name) |>
+    arrange(species_common_name)
+
+size_comp <- size_comp_df |>
   ggplot(aes(x = species_common_name, y = q50, colour = survey_abbrev)) +
     geom_tile(aes(height = Inf, width = 1, fill = bg), colour = NA, alpha = 0.3) +
     geom_pointrange(mapping = aes(ymin = q25, ymax = q75),
@@ -1024,7 +1029,6 @@ age_summary <- size_dat |>
   #mutate(mean_age = mean(q50)) |>
   ungroup() |>
   filter(n != 0)
-
 
 age_diff_lu <-
   age_summary |>
@@ -1059,8 +1063,87 @@ age_comp
 ggsave(file.path(mssm_figs, 'age-comp.png'), plot = age_comp,
   width = 4, height = 4)
 
+# ---- Look at size distributions at pulses --------
+#- scaled to geomean (2003 - 2022)
+plot_size_time <- function(sp) {
+  # p1 <- mssm_3km_inds |>
+  #   filter(year >= 2003) |>
+  #   filter(species == sp) |>
+  #   mutate(geomean = exp(mean(log(biomass))),
+  #          scaled_biomass = biomass / geomean,
+  #          scaled_lowerci = lowerci / geomean,
+  #          scaled_upperci = upperci / geomean) |>
 
-# Mean correlation ~ size ---
+  p1 <- scaled_inds |>
+    filter(survey_abbrev %in% c("MSSM Model", "SYN WCVI on MSSM Grid")) |>
+    mutate(survey_abbrev = ifelse(survey_abbrev == "MSSM Model", "SYN WCVI", "MSSM WCVI")) |>
+    filter(year > 2003) |>
+    filter(species == sp) |>
+    ggplot(aes(x = year, y = syn_scaled_biomass, colour = survey_abbrev, fill = survey_abbrev)) +
+      geom_line() +
+      geom_ribbon(aes(ymin = syn_scaled_lowerci, ymax = syn_scaled_upperci), alpha = 0.2, colour = NA) +
+      scale_colour_manual(values = survey_cols, guide = "legend") +
+      scale_fill_manual(values = survey_cols, guide = "legend") +
+      labs(x = 'Year', y = 'Relative biomass index', colour = "Survey", fill = "Survey") +
+      ggtitle(paste0('MSSM Index - ', sp)) +
+      xlim(c(2003, 2022)) +
+      guides(colour = 'none', fill = 'none')
+
+  p2 <- size_dat |>
+    filter(species_common_name == sp) |>
+    filter(year >= 2003) |>
+    group_by(species_common_name, year, survey_abbrev) |>
+    summarise(q50 = quantile(length, 0.5, na.rm = TRUE),
+              q25 = quantile(length, 0.25, na.rm = TRUE),
+              q75 = quantile(length, 0.75, na.rm = TRUE),
+              n = sum(!is.na(length))) |>
+    ungroup() |>
+  ggplot(aes(x = year, y = q50, colour = survey_abbrev)) +
+    geom_pointrange(aes(ymin = q25, ymax = q75), position = position_dodge(width = 0.4)) +
+    geom_point(data = size_dat |> filter(species_common_name == sp) |>
+    filter(year >= 2003), aes(x = year, y = length), alpha = 0.3, position = position_dodge(width = 0.5)) +
+    scale_colour_manual(values = survey_cols, guide = "legend") +
+    labs(x = "Year", y = 'Length (cm)', colour = "Survey") +
+    xlim(c(2003, 2022))
+
+  (p1 / p2) + plot_layout(guides = "collect") & theme(legend.position = 'bottom')
+
+
+}
+
+plot_size_time(sp)
+
+size_summary_spp <- distinct(size_comp_df, species_common_name) |>
+  pluck('species_common_name') |>
+  as.character()
+
+size_p_list <-
+size_summary_spp |>
+  purrr::map(plot_size_time)
+
+save_plots_to_pdf <- function(ggplot_list, filename, width = 7, height = 3.7) {
+  pdf(filename, width = width, height = height)
+  purrr::map(ggplot_list, print)
+  dev.off()
+}
+
+save_plots_to_pdf(size_p_list, filename = file.path(mssm_figs, 'size_time_plots.pdf'),
+  width = 7.8, height = 6)
+
+sp <- 'bocaccio'
+sp <- 'rougheye/blackspotted rockfish complex'
+sp <- 'pacific hake'
+sp <- 'pacific cod'
+sp <- 'arrowtooth flounder'
+sp <- 'spotted ratfish'
+sp <- 'dover sole'
+sp <- 'pacific ocean perch'
+sp <- 'rex sole'
+
+plot_size_time(sp)
+
+
+# ------ Mean correlation ~ size -------
 full_cor |>
   left_join(size_diff_lu, by = c('species' = 'species_common_name')) |>
 ggplot(data = _, aes(x = abs_diff, y = cor_val)) +
@@ -1148,134 +1231,6 @@ more_spp %>% filter(catch_weight == 0 & catch_count == 0) |>
   count(species_common_name, year) |>
   arrange(species_common_name, year) |>
   distinct(species_common_name)
-
-# What is going on in 2002???
-# - Does not look like there are any duplicate fishing events
-more_spp |>
-  #filter(species_common_name == 'skates') |>
-  filter(year == 2002) |>
-  arrange(-catch_weight) |>
-  ggplot(aes(x = species_common_name, y = catch_weight)) +
-  geom_point() +
-  ggrepel::geom_text_repel(
-      aes(x = species_common_name, y = catch_weight, label = fishing_event_id),
-      size = 3.5, segment.color = 'grey85',
-      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
-      direction = "y"
-    ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-more_spp |>
-  #filter(year == 2002) |>
-  filter(species_common_name != 'scorpionfishes') |>
-  arrange(-catch_weight) |>
-  slice(1:50) |>
-  distinct(fishing_event_id, .keep_all = TRUE) |>
-ggplot(aes(x = species_common_name, y = catch_weight)) +
-  geom_point() +
-  ggrepel::geom_text_repel(
-      aes(x = species_common_name, y = catch_weight, label = paste(fishing_event_id, year, sep = "-")),
-      size = 3.5, segment.color = 'grey85',
-      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
-      direction = "y", hjust = 0
-    ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-more_spp |>
-  #filter(year == 2002) |>
-  filter(!(species_common_name %in% c('scorpionfishes', 'righteye flounders'))) |>
-  arrange(-catch_weight) |>
-  slice(1:50) |>
-  distinct(fishing_event_id, .keep_all = TRUE) |>
-  select(fishing_event_id, species_common_name, year, catch_weight, catch_count) |> view()
-ggplot(aes(x = species_common_name, y = catch_weight)) +
-  geom_point() +
-  ggrepel::geom_text_repel(
-      aes(x = species_common_name, y = catch_weight, label = paste(fishing_event_id, year, sep = "-")),
-      size = 3.5, segment.color = 'grey85',
-      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
-      direction = "y", hjust = 0
-    ) +
-  geom_hline(data = more_spp |>
-    filter(!(species_common_name %in% c('scorpionfishes', 'righteye flounders'))) |>
-    filter(catch_weight > 0) |>
-    group_by(species_common_name) |>
-    summarise(mean_catch = quantile(catch_weight, probs = 0.75, na.rm =TRUE)[[1]]),
-    aes(yintercept = mean_catch, colour = species_common_name)
-  ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-select_simple <- function(df) {
-  select(df, fishing_event_id, year, month, day, time_deployed, latitude, longitude,
-         depth_m, catch_weight, catch_count, species_common_name)
-}
-
-skates2002 <- bind_rows(more_spp |> filter(year == 2002), mssm_dat |> filter(year == 2002)) |>
-  filter(species_common_name == 'skates')
-
-skates2002 |>
-  filter(catch_weight != 0) |>
-  group_by(species_common_name) |>
-  mutate(max_catch = max(catch_weight), mean_catch = mean(catch_weight)) |>
-  #filter(max_catch > 3 * mean_catch) |>
-  ungroup() |>
-  arrange(-catch_weight) |>
-  ggplot(aes(x = fishing_event_id, y = catch_weight)) +
-  geom_point() +
-  ggrepel::geom_text_repel(
-      aes(x = fishing_event_id, y = catch_weight, label = fishing_event_id),
-      size = 3.5, segment.color = 'grey85',
-      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
-      direction = "y"
-    ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-feid <- c(902190, 902182, 902187) # extreme skate catches
-
-test <-
-filter(dat2002, fishing_event_id %in% c(902190, 902182, 902187)) |>
-  select(fishing_event_id, year, month, day, time_deployed, latitude, longitude,
-         depth_m, catch_weight, catch_count, species_common_name)
-
-test |> arrange(species_common_name) |> view()
-
-
-big_catches <-
-  test |>
-    group_by(fishing_event_id) |>
-    mutate(total_catch = sum(catch_weight)) |>
-    arrange(-total_catch, fishing_event_id) |>
-    ungroup() |>
-    distinct(fishing_event_id, total_catch) |>
-    slice(1:5)
-
-test |> filter(fishing_event_id %in% pluck(big_catches, 'fishing_event_id')) |>
-filter(catch_weight > 10) |>
-ggplot(aes(x = species_common_name, y = catch_weight)) +
-  geom_point() +
-  facet_wrap(~fishing_event_id, scales = 'free_x', ncol = 5) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-#mssm_dat |>
-test |>
-  #filter(species_common_name == 'skates') |>
-  filter(year == 2002) |>
-  filter(catch_weight != 0) |>
-  group_by(species_common_name) |>
-  mutate(max_catch = max(catch_weight), mean_catch = mean(catch_weight)) |>
-  #filter(max_catch > 3 * mean_catch) |>
-  ungroup() |>
-  arrange(-catch_weight) |>
-  ggplot(aes(x = species_common_name, y = catch_weight)) +
-  geom_point() +
-  ggrepel::geom_text_repel(
-      aes(x = species_common_name, y = catch_weight, label = fishing_event_id),
-      size = 3.5, segment.color = 'grey85',
-      nudge_x = 0.1, box.padding = 0.1, point.padding = 0.8,
-      direction = "y"
-    ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 
 more_spp_summ <- more_spp |>
   group_by(species_common_name, species_science_name, year) |>
@@ -1414,92 +1369,129 @@ ggsave(filename = file.path(mssm_figs, 'aggregated-sablepouts-plot.png'),
 
 # --------
 
+# Skates 2002
+# - Does not look like there are any duplicate fishing events
+select_simple <- function(df) {
+  select(df, fishing_event_id, year, month, day, time_deployed, latitude, longitude,
+         depth_m, catch_weight, catch_count, species_common_name)
+}
 
+skates_group <- more_spp |> filter(species_common_name == 'skates') |>
+  select_simple() |>
+  filter(year < 2023) |>
+  mutate(id_level = 'Family')
+skates_spp <- mssm_dat |>
+  left_join(gfsynopsis::get_spp_names()) |>
+  filter(str_detect(parent_taxonomic_unit, 'rajidae')) |>
+  group_by(year, month, day, time_deployed, latitude, longitude, depth_m) |>
+  summarise(catch_weight = sum(catch_weight)) |>
+  mutate(id_level = 'Species')
 
-# Sculpins ---
-sculpins <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'cottidae'))
-sculpin_levels <- c('sculpins', unique(sculpins$species_common_name)[unique(sculpins$species_common_name) != 'sculpins'], 'scuplins combined')
-sculpins_all <- sculpins |>
-  group_by(year) |>
-  summarise(mean_catch = sum(mean_catch)) |>
-  mutate(species_common_name = factor('scuplins combined', levels = sculpin_levels))
-#sculpins <- bind_rows(sculpins, sculpins_all)
+extreme_catches <- skates_group |>
+  arrange(-catch_weight) |>
+  slice(1:3)
 
-p_sculpin <- sculpins |>
-  mutate(species_common_name = factor(species_common_name, levels = sculpin_levels)) |>
-  agg_plot(ncol = 1, scales = 'fixed')
-p_sculpin
+bind_rows(skates_group, skates_spp) |>
+ggplot(aes(x = year, y = catch_weight)) +
+  geom_point(aes(colour = id_level)) +
+  scale_colour_brewer(palette = "Dark2", type = 'qual') +
+    labs(x =  "Year", y = "Catch (kg)", colour = 'Identification level') +
+  ggrepel::geom_text_repel(
+    data = extreme_catches,
+    aes(x = year, y = catch_weight, label = fishing_event_id),
+      size = 3.5, segment.color = 'grey85',
+      nudge_x = -1.5, box.padding = 0.2,
+      direction = "y", hjust = 1
+    ) +
+  theme(legend.position = c(0.15, 0.83))
 
-# Flatfish ---
-flatfish <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'pleuronect|paralich'))
-flatfish_levels <- c('flatfishes', unique(flatfish$species_common_name)[unique(flatfish$species_common_name) != 'flatfishes'], 'flatfishes combined')
-flatfish_all <- flatfish |>
-  group_by(year) |>
-  summarise(mean_catch = sum(mean_catch)) |>
-  mutate(species_common_name = factor('flatfishes combined', levels = flatfish_levels))
-#flatfish <- bind_rows(flatfish, flatfish_all)
+ggsave(filename = file.path(mssm_figs, 'aggregated-skates-plot.png'),
+  width = 7.3, height = 3.8)
 
-p_flatfish <- flatfish |>
-  mutate(species_common_name = factor(species_common_name, levels = flatfish_levels)) |>
-  agg_plot(ncol = 2)
-p_flatfish
+# # Sculpins ---
+# sculpins <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'cottidae'))
+# sculpin_levels <- c('sculpins', unique(sculpins$species_common_name)[unique(sculpins$species_common_name) != 'sculpins'], 'scuplins combined')
+# sculpins_all <- sculpins |>
+#   group_by(year) |>
+#   summarise(mean_catch = sum(mean_catch)) |>
+#   mutate(species_common_name = factor('scuplins combined', levels = sculpin_levels))
+# #sculpins <- bind_rows(sculpins, sculpins_all)
 
-# Skates ---
-skates <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'rajidae'))
-skates_levels <- c('skates', unique(skates$species_common_name)[unique(skates$species_common_name) != 'skates'], 'skates combined')
-skates_all <- skates |>
-  group_by(year) |>
-  summarise(mean_catch = sum(mean_catch)) |>
-  mutate(species_common_name = factor('skates combined', levels = skates_levels))
-#skates <- bind_rows(skates, skates_all)
+# p_sculpin <- sculpins |>
+#   mutate(species_common_name = factor(species_common_name, levels = sculpin_levels)) |>
+#   agg_plot(ncol = 1, scales = 'fixed')
+# p_sculpin
 
-p_skate <- skates |>
-  mutate(species_common_name = factor(species_common_name, levels = skates_levels)) |>
-  agg_plot(ncol = 1, scales = 'fixed') +
-  theme(axis.title.y = element_blank())
+# # Flatfish ---
+# flatfish <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'pleuronect|paralich'))
+# flatfish_levels <- c('flatfishes', unique(flatfish$species_common_name)[unique(flatfish$species_common_name) != 'flatfishes'], 'flatfishes combined')
+# flatfish_all <- flatfish |>
+#   group_by(year) |>
+#   summarise(mean_catch = sum(mean_catch)) |>
+#   mutate(species_common_name = factor('flatfishes combined', levels = flatfish_levels))
+# #flatfish <- bind_rows(flatfish, flatfish_all)
 
-# Rockfish ---
-rockfish <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'sebastes'))
-rockfish_levels <- c('rockfishes', unique(rockfish$species_common_name)[unique(rockfish$species_common_name) != 'rockfishes'], 'rockfishes combined')
-rockfish_all <- rockfish |>
-  group_by(year) |>
-  summarise(mean_catch = sum(mean_catch)) |>
-  mutate(species_common_name = factor('rockfishes combined', levels = rockfish_levels))
-#rockfish <- bind_rows(rockfish, rockfish_all)
+# p_flatfish <- flatfish |>
+#   mutate(species_common_name = factor(species_common_name, levels = flatfish_levels)) |>
+#   agg_plot(ncol = 2)
+# p_flatfish
 
-p_rockfish <- rockfish |>
-  mutate(species_common_name = factor(species_common_name, levels = rockfish_levels)) |>
-  agg_plot(ncol = 2)
+# # Skates ---
+# skates <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'rajidae'))
+# skates_levels <- c('skates', unique(skates$species_common_name)[unique(skates$species_common_name) != 'skates'], 'skates combined')
+# skates_all <- skates |>
+#   group_by(year) |>
+#   summarise(mean_catch = sum(mean_catch)) |>
+#   mutate(species_common_name = factor('skates combined', levels = skates_levels))
+# #skates <- bind_rows(skates, skates_all)
 
-# Eelpouts ---
-eelpouts <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'zoarcidae'))
-eelpouts_levels <- c('all eelpouts', 'eelpouts', unique(eelpouts$species_common_name)[unique(eelpouts$species_common_name) != 'eelpouts'])
-eelpouts_all <- eelpouts |>
-  group_by(year) |>
-  summarise(mean_catch = sum(mean_catch)) |>
-  mutate(species_common_name = factor('all eelpouts', levels = eelpouts_levels))
-eelpouts <- bind_rows(eelpouts, eelpouts_all)
+# p_skate <- skates |>
+#   mutate(species_common_name = factor(species_common_name, levels = skates_levels)) |>
+#   agg_plot(ncol = 1, scales = 'fixed') +
+#   theme(axis.title.y = element_blank())
 
-p_eelpout <- eelpouts |>
-  mutate(species_common_name = factor(species_common_name, levels = eelpouts_levels)) |>
-  agg_plot(ncol = 1)
+# # Rockfish ---
+# rockfish <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'sebastes'))
+# rockfish_levels <- c('rockfishes', unique(rockfish$species_common_name)[unique(rockfish$species_common_name) != 'rockfishes'], 'rockfishes combined')
+# rockfish_all <- rockfish |>
+#   group_by(year) |>
+#   summarise(mean_catch = sum(mean_catch)) |>
+#   mutate(species_common_name = factor('rockfishes combined', levels = rockfish_levels))
+# #rockfish <- bind_rows(rockfish, rockfish_all)
 
-design <- "
-  12
-  12
-  12
-  1#
-  1#
-"
-p_sculpin + p_skate + plot_layout(design = design)
-ggsave(filename = file.path(mssm_figs, 'agg-sculpin-skate.png'), width = 7, height = 7)
+# p_rockfish <- rockfish |>
+#   mutate(species_common_name = factor(species_common_name, levels = rockfish_levels)) |>
+#   agg_plot(ncol = 2)
+
+# # Eelpouts ---
+# eelpouts <- filter(spp_group_df, str_detect(parent_taxonomic_unit, 'zoarcidae'))
+# eelpouts_levels <- c('all eelpouts', 'eelpouts', unique(eelpouts$species_common_name)[unique(eelpouts$species_common_name) != 'eelpouts'])
+# eelpouts_all <- eelpouts |>
+#   group_by(year) |>
+#   summarise(mean_catch = sum(mean_catch)) |>
+#   mutate(species_common_name = factor('all eelpouts', levels = eelpouts_levels))
+# eelpouts <- bind_rows(eelpouts, eelpouts_all)
+
+# p_eelpout <- eelpouts |>
+#   mutate(species_common_name = factor(species_common_name, levels = eelpouts_levels)) |>
+#   agg_plot(ncol = 1)
+
+# design <- "
+#   12
+#   12
+#   12
+#   1#
+#   1#
+# "
+# p_sculpin + p_skate + plot_layout(design = design)
+# ggsave(filename = file.path(mssm_figs, 'agg-sculpin-skate.png'), width = 7, height = 7)
 
 optimize_png <- TRUE
 if (optimize_png) {
   cores <- parallel::detectCores()
   files_per_core <- 4L
   wd <- getwd()
-  setwd(here::here("report", "mssm-appendix", "figures"))
+  setwd(mssm_figs)
   if (!gfplot:::is_windows()) {
     system(paste0(
       "find -X . -name '*.png' -print0 | xargs -0 -n ",
