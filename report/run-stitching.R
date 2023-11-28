@@ -119,11 +119,12 @@ furrr::future_walk(spp_vector, function(.sp) {
 syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
 families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-poisson-link-lognormal", "delta-poisson-link-gamma")
 
-tofit <- tidyr::expand_grid(spp_vector, syns, families)
+tofit <- tidyr::expand_grid(.sp = spp_vector, .syn = syns, .family = families)
 # furrr::future_walk(spp_vector, function(.sp) {
 #   purrr::walk(families, function(.family) {
 #     purrr::walk(syns, function(.syn) {
 furrr::future_pmap(tofit, function(.sp, .syn, .family) {
+# purrr::pmap(tofit, function(.sp, .syn, .family) {
   if (.family == "tweedie") .fam <- sdmTMB::tweedie()
   if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
   if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
