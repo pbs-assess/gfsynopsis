@@ -74,9 +74,10 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
       by = c("survey_abbrev", "year")
     )
     if (!all(is.na(dat_design$biomass))) {
-      dat_design$lowerci[is.na(dat_design$biomass)] <- 0
-      dat_design$upperci[is.na(dat_design$biomass)] <- 0
-      dat_design$biomass[is.na(dat_design$biomass)] <- 0
+      tofill <- is.na(dat_design$biomass) & !is.na(dat_design$year)
+      dat_design$lowerci[tofill] <- 0
+      dat_design$upperci[tofill] <- 0
+      dat_design$biomass[tofill] <- 0
     }
   }
 
@@ -85,8 +86,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     "OTHER HS MSA", "MSA HS",
     dat_design$survey_abbrev
   )
-
-
+  dat_design$survey_abbrev <- factor(dat_design$survey_abbrev, levels = lvls)
 
   # sub iphc -------------------------------------------------
 
@@ -181,6 +181,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     purrr::map_dfr(\(x) {
       both_present <- length(unique(x$method[!is.na(x$biomass)])) > 1L
       if (both_present) {
+        # if (x$survey_abbrev[1] == "SYN WCHG/HS/QCS/WCVI") browser()
         x_geo <- filter(x, method == "geostat")
         x_des <- filter(x, method == "design")
         overlapping_years <- intersect(x_geo$year, x_des$year)
@@ -247,6 +248,8 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     both_scaled <- filter(both_scaled, survey_abbrev != "SYN HS/QCS/WCVI")
     both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
   }
+  # COVID, weird in some cases:
+  both_scaled <- filter(both_scaled, !(survey_abbrev == "MSSM WCVI" & year == 2020))
 
   geo_scaled <- filter(both_scaled, method == "geostat")
   des_scaled <- filter(both_scaled, method == "design")
