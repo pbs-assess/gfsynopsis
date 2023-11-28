@@ -1,13 +1,10 @@
 book_filename: "techreport"
 rmd_files: ["index.Rmd",
-  "01-introduction.Rmd",
+  "01-mssm-appendix.Rmd",
   # "02-plot-descriptions.Rmd",
-  "plot-pages.Rmd",
-  "90-appendix-start.Rmd",
-  "98-stitching-appendix.Rmd",
-  "98-iphc-appendix.Rmd",
-  "98-mssm-appendix.Rmd",
-  "999-appendix-end.Rmd",
+  #
+  #"98-stitching-appendix.Rmd",
+  #
   "99-bibliography.Rmd"
 ]
 delete_merged_file: true

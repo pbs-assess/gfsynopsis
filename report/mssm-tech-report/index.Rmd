@@ -1,15 +1,13 @@
 ---
 title: |
-  "A data synopsis for British Columbia groundfish: 2022 data update"
+  "A data synopsis for the MultiSpecies Small-Mesh Survey"
 french_title: Titre ici (*Nom latin de l'espèce*)
 year: 2023
 report_number: nnn
 author: |
-  Sean C. Anderson,
   Jillian C. Dunic,
-  Elise A. Keppel, and
-  Andrew M. Edwards
-author_list: "Anderson, S.C., Dunic, J.C., Keppel, E.A., and Edwards, A.M."
+  Sean C. Anderson
+author_list: "Dunic, J.C., and Anderson, S.C."
 region: Pacific Region
 french_region: Région du Pacifique
 isbn: ""
@@ -43,7 +41,7 @@ knit: (function(input, ...) {
       })
 site: bookdown::bookdown_site
 link-citations: true
-bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
+bibliography: [../tech-report/bib/spp-refs.bib,../tech-report/bib/survey-refs.bib,../tech-report/bib/synopsis.bib]
 header-includes:
 ---
 
