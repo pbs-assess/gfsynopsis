@@ -186,7 +186,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
 # })
 # })
 
-
+# IID versions
 furrr::future_pmap(tofit, function(.sp, .syn, .family) {
 # purrr::pmap(tofit[786,,drop=FALSE], function(.sp, .syn, .family) {
   if (.family == "tweedie") .fam <- sdmTMB::tweedie()
