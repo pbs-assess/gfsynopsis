@@ -13,7 +13,7 @@
 # library(here)
 # devtools::load_all(".")
 
-make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FALSE) {
+make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FALSE, all_survey_years = NULL) {
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"
@@ -67,11 +67,26 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     )
   )
 
+  # pad zeros:
+  if (!is.null(all_survey_years)) {
+    all_survey_years <- filter(all_survey_years, survey_abbrev %in% unique(dat_design$survey_abbrev))
+    dat_design <- full_join(all_survey_years, dat_design,
+      by = c("survey_abbrev", "year")
+    )
+    if (!all(is.na(dat_design$biomass))) {
+      dat_design$lowerci[is.na(dat_design$biomass)] <- 0
+      dat_design$upperci[is.na(dat_design$biomass)] <- 0
+      dat_design$biomass[is.na(dat_design$biomass)] <- 0
+    }
+  }
+
   lvls[lvls == "OTHER HS MSA"] <- "MSA HS"
   dat_design$survey_abbrev <- gsub(
     "OTHER HS MSA", "MSA HS",
     dat_design$survey_abbrev
   )
+
+
 
   # sub iphc -------------------------------------------------
 
