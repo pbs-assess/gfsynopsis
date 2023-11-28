@@ -118,37 +118,41 @@ furrr::future_walk(spp_vector, function(.sp) {
 # work through all individual synoptics:
 syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
 families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-poisson-link-lognormal", "delta-poisson-link-gamma")
-furrr::future_walk(spp_vector, function(.sp) {
-  purrr::walk(families, function(.family) {
-    purrr::walk(syns, function(.syn) {
-      if (.family == "tweedie") .fam <- sdmTMB::tweedie()
-      if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
-      if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
-      if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
-      if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
-      tag <- paste0(.syn, "-", .family)
-      .cache <- paste0("report/stitch-cache/synoptic-", tag)
-      spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-      stitch_cached_sp <- file.path(.cache, spp_filename)
-      if(!file.exists(stitch_cached_sp)) {
-        survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-          prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
-          filter(survey_abbrev == .syn)
-        if (.syn == "SYN WCHG") {
-          survey_dat <- filter(survey_dat, year != 2014) # partial year
-          .cutoff <- 8
-        } else {
-          .cutoff <- 10
-        }
-      }
-      get_stitched_index(
-        survey_dat = survey_dat, species = .sp, family = .fam,
-        survey_type = .syn, model_type = model_type, cache = .cache,
-        grid_dir = grid_dir, check_cache = TRUE, cutoff = .cutoff
-      )
-    })
-  })
+
+tofit <- tidyr::expand_grid(.sp = spp_vector, .syn = syns, .family = families)
+# furrr::future_walk(spp_vector, function(.sp) {
+#   purrr::walk(families, function(.family) {
+#     purrr::walk(syns, function(.syn) {
+furrr::future_pmap(tofit, function(.sp, .syn, .family) {
+# purrr::pmap(tofit, function(.sp, .syn, .family) {
+  if (.family == "tweedie") .fam <- sdmTMB::tweedie()
+  if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
+  if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
+  if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
+  if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
+  tag <- paste0(.syn, "-", .family)
+  .cache <- paste0("report/stitch-cache/synoptic-", tag)
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
+  stitch_cached_sp <- file.path(.cache, spp_filename)
+  if(!file.exists(stitch_cached_sp)) {
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
+      filter(survey_abbrev == .syn)
+    if (.syn == "SYN WCHG") {
+      survey_dat <- filter(survey_dat, year != 2014) # partial year
+      .cutoff <- 8
+    } else {
+      .cutoff <- 10
+    }
+  }
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = .fam,
+    survey_type = .syn, model_type = model_type, cache = .cache,
+    grid_dir = grid_dir, check_cache = TRUE, cutoff = .cutoff
+  )
 })
+# })
+# })
 
 # Stitch IPHC surveys if not cached
 furrr::future_walk(spp_vector, function(.sp) {

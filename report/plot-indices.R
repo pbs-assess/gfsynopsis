@@ -13,7 +13,7 @@
 # library(here)
 # devtools::load_all(".")
 
-make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FALSE) {
+make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FALSE, all_survey_years = NULL) {
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"
@@ -54,7 +54,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     "HBLL OUT N/S",
     "HBLL INS N/S",
     "IPHC FISS",
-    "MSA HS",
+    "OTHER HS MSA", # changes!
     "MSSM WCVI"
   )
 
@@ -66,10 +66,27 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
       lvls
     )
   )
+
+  # pad zeros:
+  if (!is.null(all_survey_years)) {
+    all_survey_years <- filter(all_survey_years, survey_abbrev %in% unique(dat_design$survey_abbrev))
+    dat_design <- full_join(all_survey_years, dat_design,
+      by = c("survey_abbrev", "year")
+    )
+    if (!all(is.na(dat_design$biomass))) {
+      tofill <- is.na(dat_design$biomass) & !is.na(dat_design$year)
+      dat_design$lowerci[tofill] <- 0
+      dat_design$upperci[tofill] <- 0
+      dat_design$biomass[tofill] <- 0
+    }
+  }
+
+  lvls[lvls == "OTHER HS MSA"] <- "MSA HS"
   dat_design$survey_abbrev <- gsub(
     "OTHER HS MSA", "MSA HS",
     dat_design$survey_abbrev
   )
+  dat_design$survey_abbrev <- factor(dat_design$survey_abbrev, levels = lvls)
 
   # sub iphc -------------------------------------------------
 
@@ -164,15 +181,19 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     purrr::map_dfr(\(x) {
       both_present <- length(unique(x$method[!is.na(x$biomass)])) > 1L
       if (both_present) {
+        # if (x$survey_abbrev[1] == "SYN WCHG/HS/QCS/WCVI") browser()
+        # if (x$survey_abbrev[1] == "IPHC FISS") browser()
         x_geo <- filter(x, method == "geostat")
         x_des <- filter(x, method == "design")
         overlapping_years <- intersect(x_geo$year, x_des$year)
+        overlapping_years <- overlapping_years[x_des$biomass != 0] # can't take geometric mean of these!
 
         x_geo_mean <- exp(mean(log(x_geo$biomass[x_geo$year %in% overlapping_years])))
 
         # some may be zero!
         temp <- x_des$biomass[x_des$year %in% overlapping_years]
-        temp[temp == 0] <- min(temp[temp != 0], na.rm = TRUE)
+        # temp[temp == 0] <- min(temp[temp != 0], na.rm = TRUE)
+        # temp <- min(temp, na.rm = TRUE)
         x_des_mean <- exp(mean(log(temp)))
 
         x_geo <- mutate(x_geo,
@@ -185,7 +206,8 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
           lowerci_scaled = lowerci / x_des_mean,
           upperci_scaled = upperci / x_des_mean
         )
-        max_geo <- max(x_geo$upperci_scaled)
+
+        max_geo <- max(x_geo$upperci_scaled, na.rm = TRUE)
         xx <- bind_rows(x_geo, x_des)
         mutate(xx,
           biomass_scaled = biomass_scaled / max_geo,
@@ -193,11 +215,19 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
           upperci_scaled = upperci_scaled / max_geo
         )
       } else {
-        mutate(x,
-          biomass_scaled = biomass / max(upperci),
-          lowerci_scaled = lowerci / max(upperci),
-          upperci_scaled = upperci / max(upperci)
-        )
+        if (sum(!is.na(x$biomass))) {
+          mutate(x,
+            biomass_scaled = biomass / max(upperci, na.rm = TRUE),
+            lowerci_scaled = lowerci / max(upperci, na.rm = TRUE),
+            upperci_scaled = upperci / max(upperci, na.rm = TRUE)
+          )
+        } else {
+          mutate(x,
+            biomass_scaled = NA_real_,
+            lowerci_scaled = NA_real_,
+            upperci_scaled = NA_real_
+          )
+        }
       }
     }) |>
     mutate(biomass = biomass_scaled, lowerci = lowerci_scaled, upperci = upperci_scaled) |>
@@ -205,16 +235,30 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
 
   # some cleanup --------------------------------------------------
 
-  if (all(is.na(filter(both_scaled, survey_abbrev == "SYN HS/QCS/WCVI")$biomass))) {
+  # nothing SYN COASTWIDE present:
+  if (all(is.na(filter(both_scaled, survey_abbrev == "SYN HS/QCS/WCVI")$biomass)) &&
+      all(is.na(filter(both_scaled, survey_abbrev == "SYN WCHG/HS/QCS/WCVI")$biomass))) {
     both_scaled <- filter(both_scaled, survey_abbrev != "SYN HS/QCS/WCVI")
     both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
   }
+  # "SYN HS/QCS/WCVI present:
+  if (any(!is.na(filter(both_scaled, survey_abbrev == "SYN HS/QCS/WCVI")$biomass))) {
+    both_scaled <- filter(both_scaled, survey_abbrev != "SYN WCHG/HS/QCS/WCVI")
+    both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
+  }
+  # "SYN WCHG/HS/QCS/WCVI present:
+  if (any(!is.na(filter(both_scaled, survey_abbrev == "SYN WCHG/HS/QCS/WCVI")$biomass))) {
+    both_scaled <- filter(both_scaled, survey_abbrev != "SYN HS/QCS/WCVI")
+    both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
+  }
+  # COVID, weird in some cases:
+  both_scaled <- filter(both_scaled, !(survey_abbrev == "MSSM WCVI" & year == 2020))
 
   geo_scaled <- filter(both_scaled, method == "geostat")
   des_scaled <- filter(both_scaled, method == "design")
 
   labs <- distinct(select(both_scaled, survey_abbrev))
-  yrs <- c(1975, final_year_surv)
+  yrs <- c(1984, final_year_surv)
 
   # get stats ----------------------------------------------
 
@@ -254,14 +298,14 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
       col = c("grey60", "grey20"),
       max_cv = 1,
       survey_cols = survey_cols,
-      xlim = c(1975 - 0.2, final_year_surv + 0.2),
+      xlim = c(1984 - 0.2, final_year_surv + 0.2),
       french = french,
       scale_type = "max-CI",
       pjs_mode = TRUE
     ) +
       coord_cartesian(
-        ylim = c(-0.005, 1.03),
-        xlim = c(yrs[1], final_year_surv) + c(-0.5, 0.5), expand = FALSE
+        ylim = c(-0.004, 1.03),
+        xlim = c(yrs[1], final_year_surv) + c(-0.75, 0.75), expand = FALSE
       )
 
     if (has_geo) {
@@ -291,7 +335,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
       g <- g +
         geom_rect(
           data = filter(both_scaled, survey_abbrev == "MSSM WCVI")[1, , drop = FALSE],
-          mapping = ggplot2::aes(xmin = yrs[-1] - 2, xmax = 2003, ymin = -Inf, ymax = Inf),
+          mapping = ggplot2::aes(xmin = yrs[1] - 2, xmax = 2003, ymin = -Inf, ymax = Inf),
           alpha = 0.15
         )
     }

@@ -8,6 +8,7 @@ fit_survey_maps(
   dat,
   species = "pacific cod",
   include_depth = TRUE,
+  family = sdmTMB::tweedie(),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
   years = c(2017, 2018),
   ...
@@ -20,6 +21,8 @@ fit_survey_maps(
 
 \item{include_depth}{Logical for whether or not to include depth and depth
 squared as predictors.}
+
+\item{family}{Family}
 
 \item{surveys}{Character vector describing the surveys to fit. Can include
 multiple surveys if desired.}
