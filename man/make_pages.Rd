@@ -42,7 +42,8 @@ make_pages(
   stitch_model_type = "st-rw",
   grid_dir,
   hbll_bait_counts,
-  iphc_hook_counts
+  iphc_hook_counts,
+  index_ggplot
 )
 }
 \arguments{
@@ -106,6 +107,8 @@ x-axis breaks and labels.}
 \item{stitch_model_type}{A string indicating what type of stitch model to fit.
 Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
 \code{\link[=get_stitched_index]{get_stitched_index()}}.}
+
+\item{index_ggplot}{Pre-made ggplots for survey indices.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.
