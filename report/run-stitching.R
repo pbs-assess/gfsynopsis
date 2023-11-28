@@ -51,10 +51,10 @@ furrr::future_walk(spp_vector, function(.sp) {
   ),
     spp_filename)
 
-  if(any(!file.exists(stitch_cached_sp))) {
+  # if(any(!file.exists(stitch_cached_sp))) {
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
-  }
+  # }
 
   get_stitched_index(
     survey_dat = survey_dat, species = .sp,
@@ -198,7 +198,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
   .cache <- paste0("report/stitch-cache/synoptic-", tag)
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type_iid, ".rds")
   stitch_cached_sp <- file.path(.cache, spp_filename)
-  if(!file.exists(stitch_cached_sp)) {
+  # if(!file.exists(stitch_cached_sp)) {
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
       filter(survey_abbrev == .syn)
@@ -208,7 +208,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
     } else {
       .cutoff <- 10
     }
-  }
+  # }
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = .fam,
     survey_type = .syn, model_type = model_type_iid, cache = .cache,
