@@ -97,13 +97,17 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
 
   # read geostat ---------------------------------------------
 
-  get_index <- function(folder, spp, .family = "", model_tag = "st-rw") {
+  get_index <- function(folder, spp, .family = "", model_tag = "st-iid") {
     paths <- list.files(folder, pattern = ".rds", full.names = TRUE)
     path <- paths[grepl(spp, paths)]
+    if (length(path) > 1) {
+      path <- path[grepl(model_tag, path)]
+    }
     if (length(path)) {
       file_names <- list.files(folder, pattern = ".rds")
       sp <- gsub("-", " ", spp)
       if (file.exists(path)) {
+        # if (grepl("QCS", path)) browser()
         d <- readRDS(path)
         if (length(d) > 1L) {
           return(dplyr::mutate(d, species = sp, family = .family))
@@ -122,6 +126,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
   geo <- list()
   take_min_aic <- function(x) {
     if (nrow(x)) {
+      # x <- filter(x, !grepl("lognormal", family))
       filter(x, aic == min(aic))
     }
   }
@@ -159,6 +164,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     dat_geo$survey_abbrev <- gsub("SYN HS, SYN QCS, SYN WCHG, SYN WCVI", "SYN WCHG/HS/QCS/WCVI", dat_geo$survey_abbrev)
     dat_geo$survey_abbrev <- gsub("SYN HS, SYN QCS, SYN WCVI", "SYN HS/QCS/WCVI", dat_geo$survey_abbrev)
     dat_geo <- select(dat_geo, survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets) |> as_tibble()
+    dat_geo <- filter(dat_geo, mean_cv < 1)
 
     # combine both types -------------------------------------
     dat_design$method <- "design"
