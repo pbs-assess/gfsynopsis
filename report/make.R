@@ -205,7 +205,8 @@ future::plan(sequential)
 
 # these are complex, do outside first:
 source(here::here("report", "plot-indices.R"))
-# make_index_panel("big-skate")
+make_index_panel("north-pacific-spiny-dogfish")
+make_index_panel("pacific-cod")
 index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel)
 
 if (!is_hake_server()) {

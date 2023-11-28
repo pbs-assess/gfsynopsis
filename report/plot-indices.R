@@ -54,7 +54,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     "HBLL OUT N/S",
     "HBLL INS N/S",
     "IPHC FISS",
-    "MSA HS",
+    "OTHER HS MSA", # changes!
     "MSSM WCVI"
   )
 
@@ -66,6 +66,8 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
       lvls
     )
   )
+
+  lvls[lvls == "OTHER HS MSA"] <- "MSA HS"
   dat_design$survey_abbrev <- gsub(
     "OTHER HS MSA", "MSA HS",
     dat_design$survey_abbrev
@@ -185,7 +187,8 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
           lowerci_scaled = lowerci / x_des_mean,
           upperci_scaled = upperci / x_des_mean
         )
-        max_geo <- max(x_geo$upperci_scaled)
+
+        max_geo <- max(x_geo$upperci_scaled, na.rm = TRUE)
         xx <- bind_rows(x_geo, x_des)
         mutate(xx,
           biomass_scaled = biomass_scaled / max_geo,
@@ -193,11 +196,19 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
           upperci_scaled = upperci_scaled / max_geo
         )
       } else {
-        mutate(x,
-          biomass_scaled = biomass / max(upperci),
-          lowerci_scaled = lowerci / max(upperci),
-          upperci_scaled = upperci / max(upperci)
-        )
+        if (sum(!is.na(x$biomass))) {
+          mutate(x,
+            biomass_scaled = biomass / max(upperci, na.rm = TRUE),
+            lowerci_scaled = lowerci / max(upperci, na.rm = TRUE),
+            upperci_scaled = upperci / max(upperci, na.rm = TRUE)
+          )
+        } else {
+          mutate(x,
+            biomass_scaled = NA_real_,
+            lowerci_scaled = NA_real_,
+            upperci_scaled = NA_real_
+          )
+        }
       }
     }) |>
     mutate(biomass = biomass_scaled, lowerci = lowerci_scaled, upperci = upperci_scaled) |>
@@ -261,7 +272,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     ) +
       coord_cartesian(
         ylim = c(-0.005, 1.03),
-        xlim = c(yrs[1], final_year_surv) + c(-0.5, 0.5), expand = FALSE
+        xlim = c(yrs[1], final_year_surv) + c(-0.5, 0.75), expand = FALSE
       )
 
     if (has_geo) {
