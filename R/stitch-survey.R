@@ -532,8 +532,8 @@ get_stitched_index <- function(
     newdata <- sdmTMB::replicate_df(dat = survey_grid, time_name = "year",
       time_values = sort(union(fit$data$year, fit$extra_time))) |>
       dplyr::filter(
-        survey %in% fit$data$survey_abbrev,
-        year %in% fit$data$year
+        survey %in% fit$data$survey_abbrev
+        # year %in% fit$data$year
       ) |>
       droplevels()
 
