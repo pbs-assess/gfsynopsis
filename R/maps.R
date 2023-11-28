@@ -11,11 +11,12 @@
 #' @param surveys Character vector describing the surveys to fit. Can include
 #'   multiple surveys if desired.
 #' @param years The years of survey data to use.
+#' @param family Family
 #' @param ... Any other arguments to pass to [gfplot::fit_survey_sets()].
 #'
 #' @export
 fit_survey_maps <- function(dat,
-  species = "pacific cod", include_depth = TRUE,
+  species = "pacific cod", include_depth = TRUE, family = sdmTMB::tweedie(),
   surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
   years = c(2017, 2018),
   ...) {
@@ -73,7 +74,7 @@ fit_survey_maps <- function(dat,
       )
     }
     m <- fit_survey_sets(.dat, survey = surv, years = max(.dat$year),
-      density_column = density_column, tmb_knots = 200,
+      density_column = density_column, tmb_knots = 200, family = family,
       premade_grid = premade_grid, required_obs_percent = 0.02, ...)
     # we may have predicted all years, but just save last year for plotting:
     raw_dat <- dplyr::filter(m$data, year == max(m$data$year))
