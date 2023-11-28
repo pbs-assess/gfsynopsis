@@ -17,7 +17,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"
-  # dc <- here("report", "data-cache-oct-2023")
+  # dc <- here("report", "data-cache-nov-2023")
   dat <- readRDS(paste0(file.path(dc, spp_w_hyphens), ".rds"))
   report_folder <- "report"
   iphc_index_cache <- file.path(report_folder, "iphc-cache")

@@ -2,7 +2,7 @@ library(sdmTMB)
 library(dplyr)
 library(ggplot2)
 
-d <- readRDS("report/data-cache-oct-2023/pacific-cod.rds")$survey_sets |>
+d <- readRDS("report/data-cache-nov-2023/pacific-cod.rds")$survey_sets |>
   filter(survey_abbrev %in% "SYN QCS")
 
 d <- gfsynopsis:::drop_duplicated_fe(d)
