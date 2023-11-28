@@ -1,7 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
-f <- list.files("report/data-cache-oct-2023/", pattern = ".rds", full.names = TRUE)
+f <- list.files("report/data-cache-nov-2023/", pattern = ".rds", full.names = TRUE)
 f <- f[!grepl("cpue", f)]
 f <- f[!grepl("bait-counts", f)]
 f <- f[!grepl("hbll-inside-grid_water-area", f)]

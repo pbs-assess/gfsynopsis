@@ -118,7 +118,7 @@ didnt_converge
 
 # ----- Compare with design-based index ----
 spp_vector  <- gfsynopsis::get_spp_names()$species_common_name
-data_cache <- here::here('report', 'data-cache-oct-2023')
+data_cache <- here::here('report', 'data-cache-nov-2023')
 stitch_cache <- here::here('report', 'stitch-cache')
 
 syn_regions <- c('SYN WCHG', 'SYN HS', 'SYN QCS', 'SYN WCVI')
