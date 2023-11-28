@@ -191,8 +191,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
         # if (x$survey_abbrev[1] == "IPHC FISS") browser()
         x_geo <- filter(x, method == "geostat")
         x_des <- filter(x, method == "design")
-        overlapping_years <- intersect(x_geo$year, x_des$year)
-        overlapping_years <- overlapping_years[x_des$biomass != 0] # can't take geometric mean of these!
+        overlapping_years <- intersect(x_geo$year, x_des[x_des$biomass != 0, ]$year) # can't take geometric mean of 0 biomass!
 
         x_geo_mean <- exp(mean(log(x_geo$biomass[x_geo$year %in% overlapping_years])))
 
