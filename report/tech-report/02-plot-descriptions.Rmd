@@ -28,9 +28,9 @@ dat_survey_index <- readRDS(here::here("report/data-cache-aug-2023/canary-rockfi
 dat_survey_index <- dat_survey_index$survey_index
 survs <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
-  "HBLL OUT N",
-  "HBLL OUT S", "HBLL INS N", "HBLL INS S",
-  "MSA HS", "IPHC FISS")
+  "HBLL OUT N", "HBLL OUT S",
+  "HBLL INS N", "HBLL INS S",
+  "IPHC FISS", "MSA HS", "MSSM WCVI")
 survs <- tibble(surv_order = seq_along(survs), survey_abbrev = survs)
 survey_descriptions <-
   semi_join(dat_survey_index, survs, by = "survey_abbrev") %>%
@@ -46,9 +46,16 @@ x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
-(ref:survey-index-example) `r paste0("Example relative biomass index trends from trawl and longline surveys for ", sp, ". Dots represent mean estimates of relative biomass and shaded ribbons around the dots and lines represent 95\\% bootstrap confidence intervals. 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. Grey shaded panels indicate survey trends with 'Mean CV' greater than 0.4 or 'Mean $+$ve sets' less than 5\\%. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. ", surv_abbrev_text, ". For the IPHC FISS, the values are relative counts per effective skate rather than biomass. Here, a design-based index is shown with dots and lines and a geostatistical index is shown with a pink ribbon. The two are scaled to have the same geometric mean.")`
-
-<!-- Time series with light grey dots and dotted upper and lower lines for 95% confidence intervals represent a further index that has been standardized with a geostatistical model. -->
+(ref:survey-index-example) Example relative biomass index trends from trawl and longline surveys for `r sp`.
+Dots represent mean estimates of relative biomass and vertical lines around the dots represent 95% bootstrap confidence intervals.
+Time series with a solid trend line and shaded ribbon for 95% confdence intervals represent an index that has been standardized with a geostatistical model (see Appendix A) \@ref(app:stitching).
+'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets.
+All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey.
+When both indices are shown, they are scaled to have the same geometric mean.
+`r surv_abbrev_text`.
+Also included are coastwide or survey-wide indices for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.
+For the HBLL OUT, HBLL INS, and IPHC FISS the values are relative counts (per effective skate for IPHC FISS) rather than biomass.
+For the MSSM WCVI, prior to 2003 groundfish sorting and species-level identification was not systematic and so this time period has been shaded grey.
 
 ```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap="(ref:survey-index-example)"}
 g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
