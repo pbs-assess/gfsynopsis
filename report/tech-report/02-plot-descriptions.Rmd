@@ -55,7 +55,7 @@ When both indices are shown, they are scaled to have the same geometric mean.
 `r surv_abbrev_text`.
 Also included are coastwide or survey-wide indices for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.
 For the HBLL OUT, HBLL INS, and IPHC FISS the values are relative counts (per effective skate for IPHC FISS) rather than biomass.
-For the MSSM WCVI, prior to 2003 groundfish sorting and species-level identification was not systematic and so this time period has been shaded grey.
+For the MSSM WCVI, years before 2003 are shaded grey to indicate that catches are considered less reliable than modern data.
 
 ```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=6, out.width="4.7in", fig.cap="(ref:survey-index-example)"}
 g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
