@@ -1,9 +1,10 @@
 # Estimating Coastwide Population Indices with Spatiotemporal Models {#app:stitching}
 
-We used spatiotemporal models to combine or "stitch" related surveys into coastwide or survey-wide indices of abundance or biomass.
+We used spatiotemporal models to combine or "stitch" related surveys into BC coastwide or survey-wide indices of abundance or biomass.
 These indexes appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for IPHC FISS, HBLL INS N/S, SYN WCHG/HS/QCS/WCVI, MSSM WCVI, and HBLL OUT N/S.
 
-We can represent the spatiotemporal model as
+We considered both models with one and two linear predictors (described below).
+For any one linear predictor, we can represent the spatiotemporal model as
 
 \begin{align}
 \mathbb{E}[y_{\boldsymbol{s},t}] &= \mu_{\boldsymbol{s},t},\\
@@ -16,7 +17,7 @@ O_{\boldsymbol{s},t}.
 \end{align}
 
 Here, the expected value of y $\mathbb{E}[y_{\boldsymbol{s},t}]$ at spatial coordinates $\boldsymbol{s}$ and time (year) $t$ is the mean at that point in space and time $\mu_{\boldsymbol{s},t}$.
-That mean is equal to an inverse link function (exp here) applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
+That mean is equal to an inverse link function applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
 The linear predictor is comprised of a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$,
 a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
 and an "offset" $O_{\boldsymbol{s},t}$.
@@ -40,20 +41,32 @@ We chose this random walk structure based on ongoing research into spatiotempora
 Such a structure has been used previously in @anderson2023sopo and [@english2023].
 The structure is similar to the first-order autoregressive (AR1) spatiotemporal model used by the International Pacific Halibut Commission when modelling their survey data [@webster2020].
 
-We apply a Tweedie observation likelihood in the case of the trawl survey data, which samples catch weight
+For the trawl surveys, which sample catch weight per area swept, we considered five possible families (combinations of linear predictor links and observation likelihoods): Tweedie, delta-gamma, delta-lognormal, delta-Poisson-link-gamma, and delta-Poisson-link-lognormal.
+We then choose the family with the lowest conditional AIC (Akaike information criterion) for each survey-species combination (among the models that converged):
+The @tweedie1984 likelihood with a log link, which is the approach described in @anderson2019synopsis.
+The delta-gamma and delta-lognormal families, which are widely used [e.g., @thorson2015] delta or hurdle [@aitchison1955] models with (1) a linear predictor for encounter probability with a logit link and a Bernoulli likelihood and (2) a linear predictor for catch rate conditional on an encounter with a log link and a gamma or lognormal likelihood.
+The delta-Poisson-link-gamma and delta-Poisson-link-lognormal families as described in @thorson2018poisson.
+In these models, the linear predictors ($\eta_1$ and $\eta_2$) represent a group number $n$ and a catch per group $w$
 
-\begin{equation}
-y_{\boldsymbol{s},t} \sim \operatorname{Tweedie} \left(\mu_{\boldsymbol{s},t}, p, \phi_{\mathrm{Tweedie}} \right), \: 1 < p < 2.
-\end{equation}
+\begin{align}
+\log (n) &= \eta_1,\\
+\log (w) &= \eta_2.
+\end{align}
 
-In the case of the hook and line surveys, which sample catch count, we apply a negative binomial ('NB2') observation likelihood where the variance scales quadratically with the mean
+These get transformed [@thorson2018poisson] as
 
-\begin{equation}
-y_{\boldsymbol{s},t} \sim \operatorname{NB2} \left( \mu_{\boldsymbol{s},t}, \phi_{\mathrm{NB2}} \right).
-\end{equation}
+\begin{align}
+p &= 1 - \exp(- \exp( \log n)),\\
+r &= \frac{n w}{p},
+\end{align}
 
-For the hook and line surveys (IPHC, HBLL OUT, HBLL INS), we applied an instantaneous catch rate (ICR) correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
-We explored a censored Poisson likelihood with additional observation-level dispersion [@watson2022], but found a poorer fit to the data (as indicated by conditional AIC (Akaike information criterion) and plots of residuals) for many species and model convergence issues in several cases.
+where Eq. A.9 has its roots in a Poisson process (and the 'cloglog' link) and the probabilities $p$ and positive rates $r$ are modelled as Bernoulli and gamma or lognormal, respectively.
+
+In the case of the hook and line surveys (IPHC, HBLL OUT, HBLL INS), which sample catch counts, we applied a negative binomial ('NB2') observation likelihood [@hilbe2011] where the variance scales quadratically with the mean
+$y_{\boldsymbol{s},t} \sim \operatorname{NB2} \left( \mu_{\boldsymbol{s},t}, \phi_{\mathrm{NB2}} \right)$.
+
+For these hook and line surveys, we applied an instantaneous catch rate (ICR) correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
+We explored a censored Poisson likelihood with additional observation-level dispersion [@watson2022], but found a poorer fit to the data (as indicated by conditional AIC and plots of residuals) for many species and model convergence issues in several cases.
 We plan to revisit this censored likelihood approach in a future version of the report.
 
 We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
