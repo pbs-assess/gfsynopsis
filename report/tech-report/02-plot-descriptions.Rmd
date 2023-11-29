@@ -296,8 +296,9 @@ g$lengths +
 coloured (or black) circles and male fish are shown behind as light grey
 circles. The total number of fish aged for a given survey and year are
 indicated along the top of the panels. Diagonal lines are shown at five-year
-intervals to facilitate tracing cohorts through time. See Figure
-\@ref(fig:survey-index) for survey abbreviations. Ageing precision plots
+intervals to facilitate tracing cohorts through time.
+We plot the most recent 15 year window for which ageing data exist.
+See Figure \@ref(fig:survey-index) for survey abbreviations. Ageing precision plots
 comparing precision of readings by two individuals ageing the fish are provided
 for all species for which age data exist in Appendix A in
 @anderson2019synopsis.

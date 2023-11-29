@@ -64,7 +64,7 @@ We constructed our meshes with a minimum triangle edge length of 20 km for the S
 We fit our models to all species where the proportion of positive sets across all observed survey sets was $\ge$ 5%.
 Due to the smaller survey area, deeper depth strata, and geographical distance to the other synoptic surveys, when the proportion of positive sets in SYN WCHG was $<$ 5%, we ommitted this survey from the modelling.
 We also omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (interpreted as ensured their standard editions were $>$ 0.01).
-For the MSSM survey we also omitted models when the maximum estimated confidence intervals were $>$ 10 times the maximum estimated biomass or when the mean coefficient of variation was $>$ 2.
+For the MSSM survey we also omitted models when the maximum estimated confidence intervals were $>$ 10 times the maximum estimated biomass or when the mean coefficient of variation was $>$ 1.
 These are both indicative of poorly fitted models.
 
 From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015]. 
@@ -76,7 +76,7 @@ We chose the 2009 to 2021 timespan because it reflected a relatively stable samp
 Some areas that were sampled in earlier years are no longer sampled and would add considerable uncertainty to the index calculations if we predicted on these no-longer-sampled grid cells.
 Similarly, the 2022 survey year introduced some new survey locations that were not previously surveyed.
 
-```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", out.width="4in"}
+```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM WCVI). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", out.width="4in"}
 knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
 ```
 
