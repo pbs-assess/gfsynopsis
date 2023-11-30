@@ -82,7 +82,7 @@ Updates:
 ## Multispecies Small Mesh Groundfish Bottom Trawl (MSSM)
 
 Since 1973, DFO has conducted annual surveys at fixed stations in shrimping grounds off West Coast Vancouver Island.
-This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
+This survey was originally designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but is now a multi-species survey, and is one of the longest continuous bottom trawl time-series that catches groundfish off the coast of WCVI.
 The survey typically occurs in late April to May with exceptions in 1985 (May 24--June 7) and in 1987 (August 4--14).
 
 Since 1973, changes to the fishing gear used and changes to catch sorting may affect interpretation of the data.
