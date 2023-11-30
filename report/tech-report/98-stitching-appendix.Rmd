@@ -2,7 +2,7 @@
 
 We used spatiotemporal models both to standardize individual surveys and to combine or "stitch" related surveys into BC coastwide or survey-wide indices of abundance or biomass.
 We first describe the models used to combine surveys and then describe updates to the models for individual surveys.
-These combined indexes appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for IPHC FISS, HBLL INS N/S, SYN WCHG/HS/QCS/WCVI, MSSM WCVI, and HBLL OUT N/S.
+These combined indices appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for IPHC FISS, HBLL INS N/S, SYN WCHG/HS/QCS/WCVI, MSSM WCVI, and HBLL OUT N/S.
 
 We considered both models with one and two linear predictors (described below).
 For any one linear predictor, we can represent the spatiotemporal model as
@@ -94,10 +94,10 @@ knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-pred
 
 
 
-We derived spatiotemporal model-based indexes of abundance for the individual surveys largely as described in @anderson2019synopsis with the following changes:
+We derived spatiotemporal model-based indices of abundance for the individual surveys largely as described in @anderson2019synopsis with the following changes:
 
 - We considered the same five families described above and selected the family with the lowest conditional AIC. @anderson2019synopsis only considered the Tweedie.
-- We added model-based indexes of abundance for HBLL OUT N, HBLL OUT S, and IPHC FISS. @anderson2019synopsis only included the synoptic trawl surveys.
+- We added model-based indices of abundance for HBLL OUT N, HBLL OUT S, and IPHC FISS. @anderson2019synopsis only included the synoptic trawl surveys.
 - We constructed the SPDE meshes with a minimum triangle edge cutoff distance of 10 km for SYN HS, SYN QCS, and SYN WCVI and a cutoff distance of 8 km for SYN WCHG (which tends to have more fine-scale spatial variation than the other regions given the rapid transition to deep depths). @anderson2019synopsis used a k-means clustering algorithm to derive the vertices of the mesh, but we are now following subsequent recommendations on mesh construction best practices [e.g., @righetto2020].
 
 
