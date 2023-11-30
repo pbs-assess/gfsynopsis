@@ -1,6 +1,6 @@
 # Estimating Population Indices with Spatiotemporal Models {#app:stitching}
 
-We used spatiotemporal models both to standardize individual surveys and/or to combine or "stitch" related surveys into BC coastwide or survey-wide indices of abundance or biomass.
+We used spatiotemporal models both to standardize individual surveys and to combine or "stitch" related surveys into BC coastwide or survey-wide indices of abundance or biomass.
 We first describe the models used to combine surveys and then describe updates to the models for individual surveys.
 These combined indices appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.
 We apply the same approach for the MSSM WCVI survey and the IPHC FISS given changes to the sampling domain in both cases necessitate a similar (autoregressive) model.
