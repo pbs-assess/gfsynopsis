@@ -45,6 +45,7 @@ site: bookdown::bookdown_site
 link-citations: true
 bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
 header-includes:
+  \usepackage{float}
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}

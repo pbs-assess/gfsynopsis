@@ -1,4 +1,4 @@
-# Estimating Coastwide Population Indices with Spatiotemporal Models {#app:stitching}
+# Estimating Population Indices with Spatiotemporal Models {#app:stitching}
 
 We used spatiotemporal models to combine or "stitch" related surveys into BC coastwide or survey-wide indices of abundance or biomass.
 These indexes appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for IPHC FISS, HBLL INS N/S, SYN WCHG/HS/QCS/WCVI, MSSM WCVI, and HBLL OUT N/S.
@@ -87,17 +87,17 @@ We chose the 2009 to 2021 timespan because it reflected a relatively stable samp
 Some areas that were sampled in earlier years are no longer sampled and would add considerable uncertainty to the index calculations if we predicted on these no-longer-sampled grid cells.
 Similarly, the 2022 survey year introduced some new survey locations that were not previously surveyed.
 
-\clearpage
-
-```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM WCVI). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", out.width="4in"}
+```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM WCVI). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", fig.pos= "H", out.width="3.3in"}
 knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
 ```
+
+
 
 We derived spatiotemporal model-based indexes of abundance for the individual surveys largely as described in @anderson2019synopsis with the following changes:
 
 - We considered the same five families described above and selected the family with the lowest conditional AIC. @anderson2019synopsis only considered the Tweedie.
 - We added model-based indexes of abundance for HBLL OUT N, HBLL OUT S, and IPHC FISS. @anderson2019synopsis only included the synoptic trawl surveys.
-- We constructed the SPDE meshes with a minimum triangle edge cutoff distance of 10 km for SYN HS, SYN QCS, and SYN WCVI and a cutoff distance of 8 km for SYN WCHG (which tends to have more fine-scale spatial variation than the other regions given the rapid transition to deep depths). @anderson2019synopsis used a k-means clustering algorithm to derive the vertices of the mesh but we are now following subsequent research recommendations on mesh construction best practices [e.g., @righetto2020].
+- We constructed the SPDE meshes with a minimum triangle edge cutoff distance of 10 km for SYN HS, SYN QCS, and SYN WCVI and a cutoff distance of 8 km for SYN WCHG (which tends to have more fine-scale spatial variation than the other regions given the rapid transition to deep depths). @anderson2019synopsis used a k-means clustering algorithm to derive the vertices of the mesh, but we are now following subsequent recommendations on mesh construction best practices [e.g., @righetto2020].
 
 
 <!-- - A single model was fit to the combined data from each type of survey. -->
