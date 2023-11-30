@@ -3,9 +3,9 @@
 We used spatiotemporal models both to standardize individual surveys and to combine or "stitch" related surveys into BC coastwide or survey-wide indices of abundance or biomass.
 We first describe the models used to combine surveys and then describe updates to the models for individual surveys.
 These combined indices appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.
-We apply the same approach for the MSSM WCVI survey and the IPHC FISS given changes to the sampling domain in both cases necessitate a similar (autoregressive) model.
+We apply the same approach for the MSSM WCVI survey and the IPHC FISS because changes to the sampling domain in both cases necessitate a similar (autoregressive) model.
 
-We considered both models with one and two linear predictors (described below).
+We considered models that included both one and two linear predictors (described below).
 For any one linear predictor, we can represent the spatiotemporal model as
 
 \begin{align}
@@ -23,7 +23,7 @@ That mean is equal to an inverse link function applied to the linear predictor $
 The linear predictor is comprised of a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$,
 a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
 and an "offset" $O_{\boldsymbol{s},t}$.
-The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for survey effort (here, log area swept for trawl surveys, log effective hooks fished for HBLL surveys, and log effect skates fished for IPHC FISS).
+The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for survey effort (here, log area swept for trawl surveys, log effective hooks fished for HBLL surveys, and log effective skates fished for IPHC FISS).
 
 The spatial Gaussian random field is assumed to be drawn from a multivariate normal (MVN) distribution with covariance matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function
 
@@ -87,7 +87,7 @@ We derived a survey grid for the MSSM survey by overlaying a 3 $\times$ 3 km gri
 The 3 km grid size approximately matched the resolution of the now-fixed-station sampling design.
 We chose the 2009 to 2021 timespan because it reflected a relatively stable sampling design relevant to recent years.
 Some areas that were sampled in earlier years are no longer sampled and would add considerable uncertainty to the index calculations if we predicted on these no-longer-sampled grid cells.
-Similarly, the 2022 survey year introduced some new survey locations that were not previously surveyed.
+Similarly, the 2022 survey year introduced some new survey locations that had not been surveyed since the 1970s.
 
 ```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM WCVI). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", fig.pos= "H", out.width="3.3in"}
 knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
