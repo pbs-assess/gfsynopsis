@@ -42,7 +42,7 @@ The spatiotemporal portion is structured as a random walk with Gaussian random f
 \end{align}
 
 We chose this random walk structure based on ongoing research into spatiotemporal model structures that are robust to the bienniel survey structure present in the BC surveys modelled here.
-Such a structure has been used previously in @anderson2023sopo and [@english2023].
+Such a structure has been used previously in @anderson2023sopo and @english2023.
 The structure is similar to the first-order autoregressive (AR1) spatiotemporal model used by the International Pacific Halibut Commission when modelling their survey data [@webster2020].
 
 For the trawl surveys, which sample catch weight per area swept, we considered five possible families (combinations of linear predictor links and observation likelihoods): Tweedie, delta-gamma, delta-lognormal, delta-Poisson-link-gamma, and delta-Poisson-link-lognormal.
