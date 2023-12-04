@@ -90,7 +90,9 @@ empty circles. Years on the left side of each plot indicate the year of the
 respective survey. Surveys (except IPHC) in which less than 2\% of the sets
 contained the species are not modeled and are shown with raw data only. Mean
 values shown at the bottom are the mean fish density values from the raw data
-for the entire coast for the indicated years. `r map_text`
+for the entire coast for the indicated years; for the IPHC data the units are
+fish per effective skate, where an effective skate represents 100 circle hooks
+with 18-foot spacing [Appendix G in @anderson2019synopsis]. `r map_text`
 
 ```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="3.8in", fig.cap="(ref:survey-maps-cap)", fit.pos="H"}
 trans <- "fourth_root_power"
