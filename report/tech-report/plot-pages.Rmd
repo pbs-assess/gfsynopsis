@@ -1419,7 +1419,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Last Research Documents: @cox2020YEout, @haggarty2021yelloweyeinside\
 Last Science Advisory Reports: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside\
-Species at Risk Act Management Plan Series, Last Science Response: @dfo2020yelloweye, @dfo2023yelloweye\
+Species at Risk Act Management Plan Series and Last Science Responses: @dfo2020yelloweye, @dfo2023yelloweye, @dfo2023yelloweyeMPs\
 COSEWIC Status Report: @cosewic2020yelloweye\
 COSEWIC Status: Threatened, SARA Status: Special Concern
 
