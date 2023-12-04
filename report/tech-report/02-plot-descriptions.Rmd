@@ -51,7 +51,7 @@ Dots represent design-based mean estimates of relative biomass and vertical line
 Time series with a solid trend line and shaded ribbon for 95% confidence intervals represent an index that has been standardized with a spatiotemporal model (see Appendix A) \@ref(app:stitching).
 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets.
 All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey.
-When both types of indices are shown, they are scaled to have the same geometric mean and the axes are set to show the model-based confidence intervals.
+When both types of indices are shown, they are scaled to have the same geometric mean and the axes are set to encompass the model-based confidence intervals.
 For the MSSM WCVI, years before 2003 are shaded grey to indicate that catches are considered less reliable than modern data.
 For the HBLL OUT, HBLL INS, and IPHC FISS the values are abundance rather than biomass.
 `r surv_abbrev_text`.
