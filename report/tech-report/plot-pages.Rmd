@@ -423,7 +423,7 @@ Last Science Response: @dfo2021pcod\
 Order: Gadiformes, Family: Merlucciidae,
 [FishBase](http://www.fishbase.org/summary/Merluccius-productus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272458)\
-Last joint Canada-US stock assessment: @edwards2022hake\
+Last joint Canada-US stock assessment: @berger2023hake\
 Note that Pacific Hake undergoes a directed joint
       Canada-US coastwide
  survey and annual assessment, which are not
