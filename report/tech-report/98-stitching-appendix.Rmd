@@ -12,13 +12,15 @@ For any one linear predictor, we can represent the spatiotemporal model as
 \mathbb{E}[y_{\boldsymbol{s},t}] &= \mu_{\boldsymbol{s},t},\\
 \mu_{\boldsymbol{s},t} &=
 \exp \left( \eta_{\boldsymbol{s}, t} \right),\\
-\eta_{\boldsymbol{s}, t} &= 
+\eta_{\boldsymbol{s}, t} &=
 \omega_{\boldsymbol{s}} +
 \delta_{\boldsymbol{s},t} +
 O_{\boldsymbol{s},t}.
 \end{align}
 
-Here, the expected value of y $\mathbb{E}[y_{\boldsymbol{s},t}]$ at spatial coordinates $\boldsymbol{s}$ and time (year) $t$ is the mean at that point in space and time $\mu_{\boldsymbol{s},t}$.
+Here, the expected value, $\mathbb{E}[y_{\boldsymbol{s},t}]$, of response
+variable $y_{\boldsymbol{s},t}$ at spatial coordinates $\boldsymbol{s}$ and time
+(year) $t$ is the mean at that point in space and time, given by $\mu_{\boldsymbol{s},t}$.
 That mean is equal to an inverse link function applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
 The linear predictor is comprised of a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$,
 a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
@@ -70,7 +72,7 @@ We explored a censored Poisson likelihood with additional observation-level disp
 We plan to revisit this censored likelihood approach in a future version of the report.
 
 We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
-sdmTMB estimates the marginal log likelihood using TMB to integrate over random effects with the Laplace approximation [@kristensen2016]. 
+sdmTMB estimates the marginal log likelihood using TMB to integrate over random effects with the Laplace approximation [@kristensen2016].
 This SPDE approach requires creating triangulation "meshes" [@lindgren2011] for SPDE calculations and to interpolate from the random effects to the data locations or prediction locations with bilinear interpolation.
 We constructed our meshes with a minimum triangle edge length of 20 km for the SYN, HBLL, and IPHC models and with a minimum edge length of 8 km for the MSSM WCVI survey, which was smaller in size.
 
@@ -80,7 +82,7 @@ We also omitted models that did not pass convergence criteria. To assess converg
 For the MSSM survey we also omitted models when the maximum estimated confidence intervals were $>$ 10 times the maximum estimated biomass or when the mean coefficient of variation was $>$ 1.
 These are both indicative of poorly fitted models.
 
-From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015]. 
+From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015].
 This is further described in @anderson2019synopsis.
 The 2 $\times$ 2 km survey grid for the Synoptic trawl surveys and the Hard Bottom Longline surveys is shown throughout the species pages (e.g., Figure \@ref(fig:survey-maps)).
 We derived a survey grid for the MSSM survey by overlaying a 3 $\times$ 3 km grid covering all sampling locations between 2009 and 2021 (Figure \@ref(fig:mssm-grid)).
