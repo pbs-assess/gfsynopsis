@@ -323,3 +323,69 @@ furrr::future_walk(spp_vector, function(.sp) {
   }
 })
 
+# fit SYN WCVI but predict on MSSM grid
+# first we need to grab the families from when they were fit before to save time
+get_index <- function(folder, spp, .family = "", model_tag = "st-rw") {
+  paths <- list.files(folder, pattern = ".rds", full.names = TRUE)
+  path <- paths[grepl(spp, paths)]
+  if (length(path) > 1) {
+    path <- path[grepl(model_tag, path)]
+  }
+  if (length(path)) {
+    file_names <- list.files(folder, pattern = ".rds")
+    sp <- gsub("-", " ", spp)
+    if (file.exists(path)) {
+      d <- readRDS(path)
+      if (length(d) > 1L) {
+        return(dplyr::mutate(d, species = sp, family = .family))
+      }
+    }
+  }
+}
+families <- c(
+  "delta-gamma",
+  "delta-poisson-link-gamma",
+  "tweedie",
+  "delta-poisson-link-lognormal",
+  "delta-lognormal"
+)
+take_min_aic <- function(x) {
+  if (nrow(x)) {
+    filter(x, aic == min(aic))
+  }
+}
+syn_wcvi <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = families) |>
+  purrr::pmap_dfr(function(.s, f) {
+  get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), .s, .family = f)
+}) |> group_by(species) |>
+  take_min_aic()
+
+# now fit just the best family but predict on MSSM grid:
+syn_wcvi |>
+  select(.sp = species, .family = family) |>
+  distinct() |>
+  # purrr::pmap(\(.sp, .family) {
+  furrr::future_pmap(\(.sp, .family) {
+    if (.family == "tweedie") .fam <- sdmTMB::tweedie()
+    if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
+    if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
+    if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
+    if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
+    .syn <- "SYN WCVI"
+    tag <- paste0(.syn, "-", .family)
+    .cache <- paste0("report/stitch-cache/synoptic-mssm-", tag)
+    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
+      filter(survey_abbrev == .syn)
+    .cutoff <- 10
+    mssm_grid <- gfdata::mssm_grid |>
+      mutate(survey = "SYN WCVI") |>
+      filter(year >= 2009 & year < 2022) |>
+      distinct(X, Y, survey, area)
+
+    get_stitched_index(
+      survey_dat = survey_dat, species = .sp, family = .fam,
+      survey_type = .syn, model_type = model_type, cache = .cache,
+      check_cache = TRUE, cutoff = .cutoff, survey_grid = mssm_grid
+    )
+  })
