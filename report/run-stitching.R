@@ -360,12 +360,14 @@ syn_wcvi <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = fami
 }) |> group_by(species) |>
   take_min_aic()
 
+syn_wcvi$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_wcvi$species)
+
 # now fit just the best family but predict on MSSM grid:
 syn_wcvi |>
   select(.sp = species, .family = family) |>
   distinct() |>
-  # purrr::pmap(\(.sp, .family) {
-  furrr::future_pmap(\(.sp, .family) {
+  purrr::pmap(\(.sp, .family) {
+  # furrr::future_pmap(\(.sp, .family) {
     if (.family == "tweedie") .fam <- sdmTMB::tweedie()
     if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
     if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
