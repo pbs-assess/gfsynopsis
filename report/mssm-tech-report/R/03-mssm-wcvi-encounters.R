@@ -1,22 +1,11 @@
-library(dplyr)
-library(ggplot2)
+if (!initial_load) {
+  source(here::here('report', 'mssm-tech-report', 'R', '00-load.R'))
+}
 
-f <- list.files("report/data-cache-nov-2023/", pattern = ".rds", full.names = TRUE)
-f <- f[!grepl("cpue", f)]
-f <- f[!grepl("bait-counts", f)]
-f <- f[!grepl("hbll-inside-grid_water-area", f)]
+syn_yrs <- spp_dat |>
+  filter(survey_abbrev %in% "SYN WCVI") |> pull(year) |> unique() |> sort()
 
-d <- purrr::map_dfr(f, function(x) {
-  cat(x, "\n")
-  a <- readRDS(x)
-  dplyr::filter(a$survey_sets, survey_abbrev %in% c("MSSM WCVI", "SYN WCVI"))
-})
-saveRDS(d, "report/mssm-sets-temp.rds")
-d <- readRDS("report/mssm-sets-temp.rds")
-
-syn_yrs <- filter(d, survey_abbrev %in% "SYN WCVI") |> pull(year) |> unique() |> sort()
-
-s <- d |>
+s <- spp_dat |>
   filter(year %in% syn_yrs) |>
   filter(is.finite(density_kgpm2), !is.na(density_kgpm2)) |>
   group_by(species_common_name, survey_abbrev) |>
@@ -35,7 +24,8 @@ s <- d |>
 #   pull(species_common_name)
 # length(spp_keep)
 
-make_mssm_tigure <- function(df, fill_limits = c(0, 1), padding = 0, fill_lab = "Encounter\nprobability", digits = 2L) {
+make_mssm_tigure <- function(df, fill_limits = c(0, 1), padding = 0,
+  fill_lab = "Encounter\nprobability", digits = 2L) {
   df$species_common_name <- stringr::str_to_title(df$species_common_name)
   df$species_common_name <- gsub(" Complex$", "", df$species_common_name)
   sp <- df |> filter(survey_abbrev == "MSSM WCVI") |>
@@ -78,4 +68,4 @@ g2 <- make_mssm_tigure(dat, fill_lab = "Mean\\\ndensity\\\n(kg/km^2^)", digits =
     theme(legend.title = ggtext::element_markdown())
 
 g <- cowplot::plot_grid(g1, g2, ncol = 2L, rel_widths = c(1, 1))
-ggsave("figs/mssm-wcvi-tigure.png", width = 9.05, height = 7.5)
+ggsave(filename = file.path(mssm_figs, "mssm-wcvi-tigure.png"), width = 9.05, height = 7.5)
