@@ -366,8 +366,8 @@ syn_wcvi$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_w
 syn_wcvi |>
   select(.sp = species, .family = family) |>
   distinct() |>
-  purrr::pmap(\(.sp, .family) {
-  # furrr::future_pmap(\(.sp, .family) {
+  # purrr::pmap(\(.sp, .family) {
+  furrr::future_pmap(\(.sp, .family) {
     if (.family == "tweedie") .fam <- sdmTMB::tweedie()
     if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
     if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
