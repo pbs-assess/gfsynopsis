@@ -259,41 +259,48 @@ spp_group_plot2
 ggsave(filename = file.path(mssm_figs, 'aggregated-id-level-plot.png'), width = 7.7, height = 5.2)
 
 # --- Mystery of the eelpout spike in 2002 ---
-# Eelpout spike is likely due to baby sablefish misidentification
-sablefish <- filter(mssm_dat, species_common_name == "sablefish") |>
-  group_by(species_common_name, year) |>
-  summarise(mean_catch = mean(catch_weight)) |>
-  mutate(species_common_name = 'Sablefish', group_common_name = 'Eelpouts')
-sablepouts <- dat |> filter(group_common_name == 'Eelpouts') |>
-  mutate(species_common_name = paste0("Eelpouts - ", species_common_name)) |>
-  bind_rows(sablefish)
+select_simple <- function(df) {
+  select(df, species_code, fishing_event_id, year, month, day, time_deployed, latitude, longitude,
+         depth_m, catch_weight, catch_count, species_common_name)
+}
 
-sablepouts_plot <-
-  ggplot(data = sablepouts,
-    aes(x = year, y = mean_catch, colour = species_common_name,
-        shape = species_common_name, group = species_common_name)) +
-    geom_rect(aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
-            fill = "gray90", colour = NA, alpha = 0.1) +
-    geom_vline(xintercept = 2001, colour = 'grey50') +
-    geom_point() +
-    geom_line(linewidth = 0.3) +
-    scale_colour_brewer(palette = "Dark2", type = 'qual') +
-    labs(x =  "Year", y = "Mean annual catch (kg)", shape = "Identification level", colour = 'Identification level') +
-    theme(legend.position = c(0.2, 0.83))
-sablepouts_plot
+# No answer to why
+eelpouts_group <- more_spp |> filter(species_common_name == 'eelpouts') |>
+  select_simple() |>
+  filter(year < 2023) |>
+  mutate(id_level = 'Family')
+eelpouts_spp <- mssm_dat |>
+  left_join(gfsynopsis::get_spp_names()) |>
+  filter(str_detect(parent_taxonomic_unit, 'zoarcidae')) |>
+  group_by(year, month, day, time_deployed, latitude, longitude, depth_m) |>
+  summarise(catch_weight = sum(catch_weight)) |>
+  mutate(id_level = 'Species')
 
-ggsave(filename = file.path(mssm_figs, 'aggregated-sablepouts-plot.png'),
-  width = 7, height = 3.3)
+extreme_catches <- eelpouts_group |>
+  arrange(-catch_weight) |>
+  slice(1:5)
+
+View(extreme_catches)
+
+bind_rows(eelpouts_group, eelpouts_spp) |>
+ggplot(aes(x = year, y = catch_weight)) +
+  geom_point(aes(colour = id_level)) +
+  scale_colour_brewer(palette = "Dark2", type = 'qual') +
+    labs(x =  "Year", y = "Catch (kg)", colour = 'Identification level') +
+  ggrepel::geom_text_repel(
+    data = extreme_catches,
+    aes(x = year, y = catch_weight, label = fishing_event_id),
+      size = 3.5, segment.color = 'grey85',
+      nudge_x = -1.5, box.padding = 0.2,
+      direction = "y", hjust = 1
+    ) +
+  theme(legend.position = c(0.15, 0.83))
+
 
 # --------
 
 # Skates 2002
 # - Does not look like there are any duplicate fishing events
-select_simple <- function(df) {
-  select(df, fishing_event_id, year, month, day, time_deployed, latitude, longitude,
-         depth_m, catch_weight, catch_count, species_common_name)
-}
-
 skates_group <- more_spp |> filter(species_common_name == 'skates') |>
   select_simple() |>
   filter(year < 2023) |>
@@ -307,7 +314,9 @@ skates_spp <- mssm_dat |>
 
 extreme_catches <- skates_group |>
   arrange(-catch_weight) |>
-  slice(1:3)
+  slice(1:5)
+
+View(extreme_catches)
 
 bind_rows(skates_group, skates_spp) |>
 ggplot(aes(x = year, y = catch_weight)) +

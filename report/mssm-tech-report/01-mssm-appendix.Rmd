@@ -93,6 +93,8 @@ The mean annual catch of all flatfishes identified to species was lower prior to
 It was also higher in 2002 which may reflect the full catch being sorted below deck on the conveyor belt.
 It is unclear whether this change in observed abundance was due to changes in sorting or reflects actual changes in abundances.
 The abnormally high catches of eelpouts in 2002, likely reflects the transition between improved sorting just prior to full species-level identification in 2003. OR DOES IT??? IT'S SUPER HIGH IN 2002. AND ALSO: skates are SUPER high in 2001, but why??
+In 2002, abnormally high catches of 'Eelpouts' and 'Skates' were recorded relative to years before 2002 and when we aggregated species catches for post-2003 years (Figure \@ref(fig:spp-aggregate-plot)).
+These two outliers do not seem to be because of a decimal error (there were three high 'Skate' sets in 2002), duplicated data, nor is it clear how this could be a mis-identification.
 
 ```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="\\textwidth"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/aggregated-id-level-plot.png"), dpi = NA)
