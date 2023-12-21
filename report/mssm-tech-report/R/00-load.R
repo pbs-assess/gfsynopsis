@@ -24,9 +24,12 @@ mssm_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm')
 
 mssm_figs <- here::here(mssm_dir, 'figure')
 
-survey_cols <- c("SYN WCVI" = "#7570b3", "SYN WCVI on MSSM Grid" = "#7570b3",
-  "MSSM WCVI" = "#1b9e77", "MSSM Model" = "#1b9e77",
-  "MSSM Design" = "#e7298a", "CPUE 3CD" = "#d95f02")
+survey_cols <- c("MSSM WCVI" = "#1b9e77",
+  "MSSM Model" = "#1b9e77",
+  "MSSM Design" = "#e7298a",
+  "SYN WCVI" = "#7570b3",
+  "SYN WCVI on MSSM Grid" = "#7570b3",
+  "CPUE 3CD" = "#d95f02")
 
 grid_colours <- c(
   "GFBioField" = "#ff7f00",
@@ -52,7 +55,8 @@ mssm_survey_changes |>
   select(Year, Change, Details)
 
 order_spp <- function(df) {
-  mutate(df, species = factor(species, levels = spp_levels))
+  df |>
+  mutate(df, species = factor(stringr::str_to_title(species), levels = stringr::str_to_title(spp_levels)))
 }
 
 # Load raw data for each survey so we can calculate overlapping years
