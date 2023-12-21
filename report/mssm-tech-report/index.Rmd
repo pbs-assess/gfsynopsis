@@ -41,7 +41,7 @@ knit: (function(input, ...) {
       })
 site: bookdown::bookdown_site
 link-citations: true
-bibliography: [../tech-report/bib/spp-refs.bib,../tech-report/bib/survey-refs.bib,../tech-report/bib/synopsis.bib]
+bibliography: [bib/mssm.bib]
 header-includes:
 ---
 

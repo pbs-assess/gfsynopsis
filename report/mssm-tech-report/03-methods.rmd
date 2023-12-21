@@ -1,0 +1,13 @@
+# Estimating population indices with spatiotemporal models
+
+We fit a spatiotemporal model to the MSSM data for all species that had a proportion of positive sets $\ge$ 5%.
+For the six species that did not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present.
+Of these species, only blackbelly eelpout met the 5% coverage threshold to be modelled.
+
+<!-- TODO look at synoptic report methods -->
+As was done in the 2023 Synoptic Report (ref TODO), we fit these models using a Tweedie distribution and used area swept as an offset.
+In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values.
+Our spatiotemporal models had constant spatial random fields and a random walk spatiotemporal random fields.
+Unlike the modelling of the synoptic trawl data, in cases where models did not converge, the spatial random field was turned off and only the spatiotmporal random field was modelled using a random walk.
+
+We show results in the biomass index panels on the species pages and in this appendix if the models converged, the maximum estimated CIs were less than 10 $\times$ the maximum estimated biomass, and the mean coefficient of variation was less than 2.
