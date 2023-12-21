@@ -14,11 +14,14 @@ net_comp_df <- mssm_dat |>
   filter(sum(mean_catch) > 0) |>
   ungroup()
 
+net_comp_df |> filter(net == 'NMFS', mean_catch == 0)
+net_comp_df |> filter(net == 'American', mean_catch == 0)
+
 tow_plot <-
   ggplot(data = net_comp_df, aes(x = net, y = mean_catch, colour = species_common_name, group = species_common_name)) +
     geom_point() +
     geom_line() +
-    scale_y_continuous(trans = 'log10', labels = scales::label_number(accuracy = 0.01), limits = c(0.001, NA)) +
+    scale_y_continuous(trans = 'log10', breaks = c(0.01, 0.1, 1, 10, 100), labels = scales::label_number(accuracy = 0.01), limits = c(0.001, NA)) +
     scale_x_discrete() +
     guides(colour = 'none') +
     coord_cartesian(clip = "off", xlim = c(1, 1.7)) +
@@ -49,28 +52,55 @@ saveRDS(post_2003_spp, file.path(mssm_dir, 'data-outputs', 'post-2003-spp.rds'))
 
 sampling_2003 <-
   mssm_dat |>
-    group_by(species_common_name, species_code, year) |>
+    group_by(species_common_name, species_science_name, species_code, year) |>
     summarise(mean_catch = mean(catch, na.rm = TRUE), .groups = 'drop') |>
     left_join(yearbin_catch) |>
     mutate(mean_catch = ifelse((species_common_name %in% post_2003_spp & year < 2003), NA, mean_catch))
 
-pre_2003_spp_plot <- sampling_2003 |>
+over3_spp <- sampling_2003 |>
   filter(!(species_common_name %in% post_2003_spp)) |>
-  mutate(species_common_name = stringr::str_to_title(species_common_name)) |>
-  mutate(species_common_name = forcats::fct_reorder(species_common_name, species_code)) |>
-  ggplot(data = _, aes(x = year, y = mean_catch)) +
-    geom_rect(aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
-              fill = "gray85", alpha = 0.2) +
-    geom_point() +
-    geom_line(alpha = 0.5) +
-    geom_vline(xintercept = 2001, colour = 'grey50') +
-    theme(axis.text = element_blank()) +
-    facet_wrap(~ species_common_name, scales = 'free_y', ncol = 4) +
-    labs(x =  "Year", y = "Mean annual catch (kg)")
-pre_2003_spp_plot
+  mutate(presence = ifelse(mean_catch == 0, 0, 1)) |>
+  group_by(species_common_name) |>
+  filter(sum(presence) > 3) |>
+  ungroup() |>
+  distinct(species_common_name) |> pluck('species_common_name')
+
+plot_samp_spp <- function(dat) {
+  dat |>
+    mutate(species_common_name = stringr::str_to_title(species_common_name)) |>
+    mutate(species_common_name = forcats::fct_reorder(species_common_name, species_code)) |>
+    ggplot(data = _, aes(x = year, y = mean_catch)) +
+      geom_rect(aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
+                fill = "gray85", alpha = 0.2) +
+      geom_point() +
+      geom_line(alpha = 0.5) +
+      geom_vline(xintercept = 2001, colour = 'grey50') +
+      theme(axis.text = element_blank()) +
+      facet_wrap(~ species_common_name, scales = 'free_y', ncol = 3) +
+      labs(x =  "Year", y = "Mean annual catch (kg)")
+}
+
+
+pre_2003_spp_plot_less451 <- sampling_2003 |>
+  filter(!(species_common_name %in% post_2003_spp)) |>
+  filter(!(as.numeric(species_code) >= 451)) |>
+  filter(species_common_name %in% over3_spp) |>
+plot_samp_spp()
+
+pre_2003_spp_plot_over451 <- sampling_2003 |>
+  filter(!(species_common_name %in% post_2003_spp)) |>
+  filter((as.numeric(species_code) >= 451)) |>
+  filter(species_common_name %in% over3_spp) |>
+plot_samp_spp()
+
+
+
+
+
+pre_2003_spp_plot <- plot_samp_spp()
 
 ggsave(file.path(mssm_figs, 'sampling-2003.png'), plot = pre_2003_spp_plot,
-  width = 17, height = 9)
+  width = 9, height = 12)
 
 # Comparison of pcod, pollock, tomcod and possible misidentification
 cod_comparison <-
