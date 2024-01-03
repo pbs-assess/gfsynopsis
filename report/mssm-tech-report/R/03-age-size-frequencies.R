@@ -3,17 +3,19 @@ if (!('mssm_loaded' %in% ls())) {
 }
 
 # Get length and age distributions
-if (!file.exists(file.path(mssm_dir, 'size-dat.rds'))) {
+if (!file.exists(file.path(mssm_data_out, 'size-dat.rds'))) {
   size_dat <- spp_vector |>
     map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_samples) |>
     bind_rows() |>
     filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
     select(species_common_name, year, survey_abbrev, specimen_id, sample_id, sex, age,
           length, weight, length_type) |>
-    distinct(specimen_id, .keep_all = TRUE)
-  saveRDS(size_dat, file = file.path(mssm_dir, 'size-dat.rds'))
+    distinct(specimen_id, .keep_all = TRUE) |>
+    filter(!(species_common_name == 'eulachon' & length > 40))
+  saveRDS(size_dat, file = file.path(mssm_data_out, 'size-dat.rds'))
+  beepr::beep()
 }
-size_dat <- readRDS(file.path(mssm_dir, 'size-dat.rds'))
+size_dat <- readRDS(file.path(mssm_data_out, 'size-dat.rds'))
 
 size_summary <- size_dat |>
   filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
@@ -114,23 +116,15 @@ ggsave(file.path(mssm_figs, 'age-comp.png'), plot = age_comp,
 # ------------------------------------------------------------------------------
 # ---- Look at size distributions at pulses --------
 #- scaled to geomean (2003 - 2022)
-plot_size_time <- function(sp) {
-  # p1 <- mssm_3km_inds |>
-  #   filter(year >= 2003) |>
-  #   filter(species == sp) |>
-  #   mutate(geomean = exp(mean(log(biomass))),
-  #          scaled_biomass = biomass / geomean,
-  #          scaled_lowerci = lowerci / geomean,
-  #          scaled_upperci = upperci / geomean) |>
-
-  p1 <- scaled_inds |>
+plot_size_time <- function(sp, raw_data = FALSE) {
+  p1 <- max_ci_scaled |>
     filter(survey_abbrev %in% c("MSSM Model", "SYN WCVI on MSSM Grid")) |>
     mutate(survey_abbrev = ifelse(survey_abbrev == "MSSM Model", "SYN WCVI", "MSSM WCVI")) |>
     filter(year > 2003) |>
-    filter(species == sp) |>
-    ggplot(aes(x = year, y = syn_scaled_biomass, colour = survey_abbrev, fill = survey_abbrev)) +
+    filter(tolower(species) == sp) |>
+    ggplot(aes(x = year, y = biomass_scaled, colour = survey_abbrev, fill = survey_abbrev)) +
       geom_line() +
-      geom_ribbon(aes(ymin = syn_scaled_lowerci, ymax = syn_scaled_upperci), alpha = 0.2, colour = NA) +
+      geom_ribbon(aes(ymin = lowerci_scaled, ymax = upperci_scaled), alpha = 0.2, colour = NA) +
       scale_colour_manual(values = survey_cols, guide = "legend") +
       scale_fill_manual(values = survey_cols, guide = "legend") +
       labs(x = 'Year', y = 'Relative biomass index', colour = "Survey", fill = "Survey") +
@@ -138,29 +132,43 @@ plot_size_time <- function(sp) {
       xlim(c(2003, 2022)) +
       guides(colour = 'none', fill = 'none')
 
-  p2 <- size_dat |>
+  size_df <- size_dat |>
     filter(species_common_name == sp) |>
-    filter(year >= 2003) |>
+    filter(year >= 2003)
+
+  size_summ_df <- size_df |>
     group_by(species_common_name, year, survey_abbrev) |>
     summarise(q50 = quantile(length, 0.5, na.rm = TRUE),
               q25 = quantile(length, 0.25, na.rm = TRUE),
               q75 = quantile(length, 0.75, na.rm = TRUE),
               n = sum(!is.na(length))) |>
-    ungroup() |>
-  ggplot(aes(x = year, y = q50, colour = survey_abbrev)) +
+    ungroup()
+
+  p2 <- ggplot(data = size_summ_df, aes(x = year, y = q50, colour = survey_abbrev))
+
+  if (raw_data) {
+    p2 <- p2 + geom_point(data = size_df, aes(x = year, y = length, fill = survey_abbrev),
+      colour = 'grey80', alpha = 0.2, shape = 21,
+      position = position_jitterdodge(dodge.width = 0.4,
+        jitter.height = 0.4, jitter.width = 0.2)
+    )
+      #position = position_dodge(width = 0.4))
+  }
+
+  p2 <- p2 +
     geom_pointrange(aes(ymin = q25, ymax = q75), position = position_dodge(width = 0.4)) +
-    geom_point(data = size_dat |> filter(species_common_name == sp) |>
-    filter(year >= 2003), aes(x = year, y = length), alpha = 0.3, position = position_dodge(width = 0.5)) +
     scale_colour_manual(values = survey_cols, guide = "legend") +
+    scale_fill_manual(values = c('#c3f5e6', '#d8d6e9'), guide = "legend") +
     labs(x = "Year", y = 'Length (cm)', colour = "Survey") +
     xlim(c(2003, 2022))
 
   (p1 / p2) + plot_layout(guides = "collect") & theme(legend.position = 'bottom')
 
-
 }
 
-plot_size_time(sp)
+sp <- 'eulachon'
+plot_size_time(sp, raw_data = TRUE)
+plot_size_time(sp, raw_data = FALSE)
 
 size_summary_spp <- distinct(size_comp_df, species_common_name) |>
   pluck('species_common_name') |>
@@ -168,7 +176,7 @@ size_summary_spp <- distinct(size_comp_df, species_common_name) |>
 
 size_p_list <-
 size_summary_spp |>
-  purrr::map(plot_size_time)
+  purrr::map(plot_size_time, raw_data = TRUE)
 
 save_plots_to_pdf <- function(ggplot_list, filename, width = 7, height = 3.7) {
   pdf(filename, width = width, height = height)

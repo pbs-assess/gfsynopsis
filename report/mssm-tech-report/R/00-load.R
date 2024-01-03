@@ -16,6 +16,7 @@ data_cache <- here::here('report', 'data-cache-nov-2023')
 grid_dir <- here::here(data_cache, 'grids')
 mssm_dir <- here::here('report', 'mssm-tech-report')
 mssm_data <- here::here(mssm_dir, 'data')
+mssm_data_out <- here::here(mssm_dir, 'data-outputs')
 cpue_cache <- here::here('report', 'cpue-cache')
 
 stitch_cache <- here::here(mssm_dir, 'stitch-cache')
@@ -55,7 +56,6 @@ mssm_survey_changes |>
   select(Year, Change, Details)
 
 order_spp <- function(df) {
-  df |>
   mutate(df, species = factor(stringr::str_to_title(species), levels = stringr::str_to_title(spp_levels)))
 }
 
