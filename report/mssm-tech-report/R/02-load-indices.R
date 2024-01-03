@@ -159,7 +159,8 @@ cpue_mssm_overlap <- intersect(cpue_years, mssm_years)
 # MSSM with SYN WCVI - Use 3km grid
 inds <- bind_rows(mssm_inds, syn_wcvi_inds, syn_mssm_grid_inds, cpue_ind, mssm_d_inds) |>
   mutate(syn_overlap = ifelse(year %in% syn_mssm_overlap, TRUE, FALSE),
-         cpue_overlap = ifelse(year %in% cpue_mssm_overlap, TRUE, FALSE))
+         cpue_overlap = ifelse(year %in% cpue_mssm_overlap, TRUE, FALSE)) |>
+  filter(mean_cv < 1)
 
 mssm_geomeans <- inds |>
   filter(survey_abbrev %in% c("MSSM Model", "MSSM Design")) |>
@@ -201,7 +202,7 @@ raw_inds <- bind_rows(mssm_inds, syn_wcvi_inds, syn_mssm_grid_inds, cpue_ind, ms
 
 spp_in_mssm <- mssm_inds |>
   filter(!extreme_uci | is.na(extreme_uci)) |>
-  filter(mean_cv < 4 | is.na(mean_cv)) |>
+  filter(mean_cv < 1 | is.na(mean_cv)) |>
   distinct(species) |>
   mutate(species = gsub("rougheye blackspotted", "rougheye/blackspotted", species)) |>
   pluck('species') |>
@@ -278,14 +279,73 @@ scale_geo_design <- function(df, survey1, survey2) {
     mutate(comp = paste(survey1, survey2, sep = '-'))
 }
 
-max_ci_scaled <- tibble(
-  'survey1' = rep('MSSM Model', 4),
-  'survey2' = c('MSSM Design', 'SYN WCVI', 'SYN WCVI on MSSM Grid', 'CPUE 3CD')) |>
-purrr::pmap(\(survey1, survey2) scale_geo_design(raw_inds |> filter(species %in% spp_in_mssm),
-  survey1  = 'MSSM Model', survey2 = 'SYN WCVI')
-) |>
-bind_rows()
 
+tidy_stats_df <- function(dat, survey1, survey2, survey2_code) {
+  dat |>
+    #filter(species %in% spp, survey_abbrev %in% c(survey1, survey2)) |>
+    filter(survey_abbrev %in% c(survey1, survey2)) |>
+    distinct() |>
+    select(species, survey_abbrev, mean_cv, num_sets, num_pos_sets) |>
+    group_by(species, survey_abbrev) |>
+    summarise(
+      mean_cv = sprintf("%.2f", round(mean(mean_cv, na.rm = TRUE), 2)),
+      n_pos_sets = sprintf("%.0f", round(mean(num_pos_sets, na.rm = TRUE), 0)),
+      n_sets = sprintf("%.0f", round(mean(num_sets, na.rm = TRUE), 0))) |>
+    mutate(sets = paste0("Mean +ve sets", ": ", n_pos_sets, "/", n_sets)) |>
+    mutate(cv = paste0("Mean", " CV: ", mean_cv)) |>
+    mutate(cv = ifelse(mean_cv == "NaN", "", cv)) |>
+    mutate(sets = ifelse(n_pos_sets == "NaN", "", sets)) |>
+    mutate(prop_pos = round(as.numeric(n_pos_sets) / as.numeric(n_sets), digits = 2)) |>
+    pivot_wider(
+      id_cols = species,
+      names_from = 'survey_abbrev',
+      values_from = c('mean_cv', 'n_pos_sets', 'n_sets', 'prop_pos')
+    ) |>
+    mutate(
+      sets = paste0(
+        "Mean +ve sets",
+        ": ",
+        !!sym(paste0("prop_pos_", survey1)),
+        ' (M), ',
+        !!sym(paste0("prop_pos_", survey2)),
+        ' (', survey2_code, ')'
+      ),
+      cv = paste0(
+        "Mean",
+        " CV: ",
+        !!sym(paste0("mean_cv_", survey1)),
+        ' (M), ',
+        !!sym(paste0("mean_cv_", survey2)),
+        ' (', survey2_code, ')'
+      )
+    ) |>
+    ungroup() |>
+    mutate(comp = paste(survey1, survey2, sep = '-'))
+}
+
+comp_df <- tibble(
+  'survey1' = c('MSSM Design', rep('MSSM Model', 4)),
+  'survey2' = c('MSSM Design', 'MSSM Design', 'SYN WCVI', 'SYN WCVI on MSSM Grid', 'CPUE 3CD'),
+  'survey2_code' = c('', 'D', 'S', 'S', 'C'))
+
+max_ci_scaled <- comp_df |>
+  select(-survey2_code) |>
+purrr::pmap(\(survey1, survey2) scale_geo_design(raw_inds, # |> filter(species %in% spp_in_mssm),
+  survey1, survey2)
+) |>
+  bind_rows() |>
+  group_by(comp) |>
+  filter(ifelse(comp == "MSSM Design-MSSM Design", species %in% spp_in_mssm_design_only, species %in% spp_in_mssm)) |>
+  ungroup()
+
+stats_df <- comp_df |>
+  purrr::pmap(\(survey1, survey2, survey2_code)
+    tidy_stats_df(max_ci_scaled, survey1, survey2, survey2_code)
+  ) |>
+  bind_rows() |>
+  group_by(comp) |>
+  filter(ifelse(comp == "MSSM Design-MSSM Design", species %in% spp_in_mssm_design_only, species %in% spp_in_mssm)) |>
+  ungroup()
 
 indices_loaded <- TRUE
 
