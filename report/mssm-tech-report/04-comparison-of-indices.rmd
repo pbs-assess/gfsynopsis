@@ -1,19 +1,21 @@
 # Examining historical reliability? Comparison of modelled MSSM survey indices to the MSSM design, SYN WCVI, and CPUE 3CD
 
 The MSSM is the longest running groundfish survey on the BC coast, therefore it is important to understand how well the historical data capture trends in species abundances.
-We compared the modelled MSSM survey indices to the MSSM design-based indices, modelled SYN WCVI (predicted on the SYN WCVI 2 x 2 km grid and the MSSM 3 x 3 km grid) indices, and the modelled CPUE 3CD indices.
+The change in survey locations over time (e.g., Figure \@ref(fig:spatial-shift)) means that a modelled approach, which accounts for spatially correlated effects, may be a better approach than a design-based index.
+We compared the modelled MSSM survey indices to the MSSM design-based indices, modelled SYN WCVI indices, and the modelled CPUE 3CD indices.
 
 ## Comparison of modelled and design-based indices of abundance
 
 <!-- TODO how was the design-based index calculated -->
-The design-based index is calculated as the weighted mean of _____ OG synoptic report?.
+<!-- Different than the other design based trawl indices? -->
+<!-- The design-based index is calculated as the weighted mean of ______ ?. -->
 
-However, the change in survey locations over time (e.g., Figure \@ref(fig:spatial-shift)) means that a modelled approach, which accounts for spatially correlated effects, may be a better approach than a design-based index.
 
-Trends in each species index were similar between in both the modelled and the design based MSSM indices, however for most species the design-based has more variable mean annual estimates compared with the modelled index (Figure \@ref(fig:mssm-model-design)).
-Trends in Yellowtail Rockfish, Bocaccio, Canary Rockfish, and Redstripe Rockfish have the greatest deviations from their repsective modelled indices.
+Trends in each species index were similar between in both the modelled and the design based MSSM indices.
+However for most species the design-based index has more variable mean annual estimates compared with the modelled index (Figure \@ref(fig:mssm-model-design)) and greater confidence intervals around these estimates.
+Trends in Yellowtail Rockfish, Bocaccio, Canary Rockfish, and Redstripe Rockfish have the greatest deviations from their respective modelled indices.
 
-For species where models did not converge we present the design-based index (Figure \@ref(fig:design-indices)).
+For species where there were insufficient data (<5% positive sets) or where models did not meet convergence checks, we have show the design-based index for reference (Figure \@ref(fig:design-indices)).
 
 <!-- QUESTION: Too similar to the synoptic caption? -->
 (ref:model-design-indices) Comparison of modelled (green line) and design-based (pink open circles) indices from the MSSM survey.
@@ -36,13 +38,18 @@ The modelled index was predicted on 3 x 3 km grid (Figure \@ref(fig:prediction-g
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-model-design_pjs-mode.png"), dpi = NA)
 ```
 
-```{r design-indices, fig.cap="Species for which we have only a design-based index from the MSSM survey. Pink open circles represent mean estimates of relative biomass and vertical lines around the dots represent 95% bootstrap confidence intervals. Vertical axes are scaled between zero and the maximum upper confidence interval value of the index."}
+```{r design-indices, fig.cap="Species with only a design-based index from the MSSM survey. Pink open circles represent mean estimates of relative biomass and vertical lines around the dots represent 95\\% bootstrap confidence intervals. Vertical axes are scaled between zero and the maximum upper confidence interval value of the index."}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-design.png"), dpi = NA)
 
 ```
 
+
+
 ### Comparison of MSSM to other survey indices in the same region
+
+To compare the
+
 
 - The MSSM index is generally more variable than the CPUE 3CD and SYN WCVI indices.
 - The modelled MSSM index is most congruent with the SYN WCVI index that is predicted on the 3 x 3 km MSSM grid. (Figure - zoom-in; \@ref(fig:rolling-window-correlation))

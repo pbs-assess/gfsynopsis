@@ -85,8 +85,9 @@ It was also higher in 2002 which may reflect the full catch being sorted below d
 It is unknown whether this change in observed abundance was due to changes in sorting (which was systematic and counted all catch) or whether it reflects actual changes in abundances.
 
 In 2002, abnormally high catches of 'Eelpouts' and 'Skates' were recorded relative to years before 2002 and when we aggregated species catches for post-2003 years (Figure \@ref(fig:spp-aggregate-plot)).
-These outliers do not reflect a decimal error, duplicated data (there were three high 'Skate' sets in 2002) and it is unlikely that it is due to a mis-identification.
+These outliers do not reflect a decimal error, duplicated data (there were three high 'Skate' sets in 2002), nor is it likely that it is due to a mis-identification.
 It is possible that these species aggregates were data entry errors (e.g., species coding error).
+
 
 ```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="\\textwidth"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/aggregated-id-level-plot.png"), dpi = NA)
@@ -101,7 +102,7 @@ Some species that were possibly misidentified prior to 2003 include:
 - Petrale Sole as Flathead Sole (at all sizes that Flatheads are observed)
 
 For example, recorded abundances of Pacific Tomcod decrease after 2003 and it is possible that this is because of mis-identified Pacific Cod prior to 2003.
-However, the magnitude of this effect is relatively small, with annual catch sizes of Pacific Tomcod typically less than 5 kg/year.
+However, these abundances were relatively small, with annual catch sizes of Pacific Tomcod typically less than 5 kg/year.
 
 
 ```{r cod-comparison, fig.cap="Mean annual catch (kg) of Pacific Cod, Pacific Tomcod, and Walleye Pollock. Grey shading highlights the period prior to full sorting and identification in 2003.", out.width="50%"}
@@ -114,3 +115,5 @@ Miscellaneous notes:
 
 - "Tows lasted 30 minutes, unless shortened due to snags or indications
 on the sounder of large fish schools"
+
+\clearpage
