@@ -145,7 +145,10 @@ cpue_ind <- spp_vector |>
   bind_rows(.id = 'species') |>
   filter(area == '3CD') |>
   rename(biomass = est, lowerci = lwr, upperci = upr) |>
-  mutate(survey_abbrev = 'CPUE 3CD')
+  mutate(survey_abbrev = 'CPUE 3CD') |>
+  group_by(species) |>
+  mutate(mean_cv = mean(sqrt(exp(se_link^2) - 1))) |>
+  ungroup()
 
 # --- Scale indices ---
 # Get overlapping years to scale based on geometric means of indexes

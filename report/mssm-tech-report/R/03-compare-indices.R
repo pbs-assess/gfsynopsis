@@ -10,8 +10,7 @@ ind_layers <- function(colours = survey_cols, ncol = 3,
       scale_colour_manual(values = colours),
       scale_fill_manual(values = colours),
       facet_wrap(~ species, scale = 'free_y', ncol = ncol),
-  theme(#legend.position = 'top',
-        legend.position = c(0.82, 0.05),
+  theme(legend.position = c(0.82, 0.05),
         legend.title = element_blank(),
         axis.text.y = if (hide_y) element_blank() else element_text(),
         axis.ticks.y = element_blank(),
@@ -222,6 +221,11 @@ ggsave(file.path(mssm_figs, 'index-mssm-syn-wcvi-mssm-grid-zoom-in.png'),
   width = 7.5, height = 9.5)
 
 # MSSM ~ CPUE 3CD
+cpue_stats_df <- stats_df |>
+  filter(comp == c("MSSM Model-CPUE 3CD")) |>
+  select(species, sets, cv) |>
+  mutate(sets = gsub('(, .*)', '', sets))
+
 mssm_cpue_inds <- max_ci_scaled |>
   filter(comp == c("MSSM Model-CPUE 3CD")) |>
 ggplot(data = _) +
@@ -229,13 +233,13 @@ ggplot(data = _) +
       mapping = aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
       fill = "gray85", alpha = 0.3) +
   ind_layers() +
-  show_text(stats_df |> filter(comp == c("MSSM Model-CPUE 3CD"))) +
+  show_text(cpue_stats_df) +
   geom_rect(data = . %>% filter(!(tolower(species) %in% unique(cpue_ind$species))) %>%
     distinct(species, .keep_all = TRUE),
     mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
     fill = "white", colour = NA) +
   ylim(c(-0.004, 1.03))
-  mssm_cpue_inds
+mssm_cpue_inds
 
 ggsave(file.path(mssm_figs, 'index-mssm-model-cpue3CD.png'), plot = mssm_cpue_inds,
   width = 7.5, height = 9.5)
