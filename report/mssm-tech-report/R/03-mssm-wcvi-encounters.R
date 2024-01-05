@@ -1,4 +1,4 @@
-if (!initial_load) {
+if (!('mssm_loaded' %in% ls())) {
   source(here::here('report', 'mssm-tech-report', 'R', '00-load.R'))
 }
 
@@ -35,6 +35,7 @@ make_mssm_tigure <- function(df, fill_limits = c(0, 1), padding = 0,
   df$species_common_name <- factor(df$species_common_name, levels = sp)
   df$txt <- sdmTMB:::mround(df$val, digits)
   g <- df |>
+    mutate(survey_abbrev = ifelse(survey_abbrev == 'MSSM WCVI', 'MSSM', survey_abbrev)) |>
     ggplot(aes(x = survey_abbrev, y = species_common_name)) +
     geom_tile(aes(fill = val), color = "white") +
     scale_fill_viridis_c(limits = fill_limits, begin = 0.15, end = 1, alpha = .9, option = "D", direction = 1) +
@@ -64,8 +65,11 @@ g1 <- make_mssm_tigure(dat)
 
 dat$val <- dat$density * 1000000
 g2 <- make_mssm_tigure(dat, fill_lab = "Mean\\\ndensity\\\n(kg/km^2^)", digits = 1L) +
-  scale_fill_viridis_c(limits = c(NA, NA), begin = 0.15, end = 1, alpha = .9, option = "D", direction = 1, trans = "log10") +
-    theme(legend.title = ggtext::element_markdown())
+  scale_fill_viridis_c(limits = c(NA, NA), begin = 0.15, end = 1,
+    alpha = 0.9, option = "D", direction = 1, trans = "log10",
+    breaks = c(0.01, 0.1, 1, 10, 100),
+    labels = c("0.01", "0.1", "1", "10", "100")) +
+  theme(legend.title = ggtext::element_markdown())
 
 g <- cowplot::plot_grid(g1, g2, ncol = 2L, rel_widths = c(1, 1))
 ggsave(filename = file.path(mssm_figs, "mssm-wcvi-tigure.png"), width = 9.05, height = 7.5)

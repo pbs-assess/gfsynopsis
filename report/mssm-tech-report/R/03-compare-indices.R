@@ -4,7 +4,7 @@ if (!('indices_loaded' %in% ls())) {
 
 ind_layers <- function(colours = survey_cols, ncol = 3,
   xlim = c(1975 - 0.75, 2022 + 0.75), breaks = 10, hide_y = TRUE,
-  add_lines = TRUE) {
+  add_lines = TRUE, ribbon_alpha = 0.3) {
   layers <- list(
       show_grid_lines(xlim, breaks),
       scale_colour_manual(values = colours),
@@ -28,7 +28,7 @@ ind_layers <- function(colours = survey_cols, ncol = 3,
     layers <- c(layers,
       geom_line(aes(x = year, y = biomass_scaled, colour = survey_abbrev)),
       geom_ribbon(aes(x = year, ymin = lowerci_scaled, ymax = upperci_scaled,
-        fill = survey_abbrev), colour = NA, alpha = 0.3)
+        fill = survey_abbrev), colour = NA, alpha = ribbon_alpha)
     )
   }
 
@@ -135,7 +135,7 @@ mssm_model_design_inds <-  max_ci_scaled |>
   ggplot() +
   geom_rect(data = . %>% distinct(species, .keep_all = TRUE),
       mapping = aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
-      fill = "gray85", alpha = 0.3) +
+      fill = "gray85", alpha = 0.4) +
   show_grid_lines() +
   ind_layers(add_lines = FALSE) +
   geom_line(data = max_ci_scaled |>
@@ -208,6 +208,7 @@ ggplot(data = _) +
   ind_layers(colours = c("SYN WCVI" = "#7570b3", "SYN WCVI on MSSM Grid" = "#a6761d",
     "MSSM Model" = "#1b9e77"),
     xlim = c(2003 - 0.2, 2022 + 0.2),
+    ribbon_alpha = 0.15,
     ncol = 3) +
   guides(colour = guide_legend(direction = "vertical"),
     fill = 'none') +

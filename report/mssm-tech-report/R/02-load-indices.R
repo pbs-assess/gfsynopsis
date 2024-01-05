@@ -351,5 +351,3 @@ stats_df <- comp_df |>
   ungroup()
 
 indices_loaded <- TRUE
-
-
