@@ -15,7 +15,7 @@ Trends in each species index were similar between in both the modelled and the d
 However for most species the design-based index has more variable mean annual estimates compared with the modelled index (Figure \@ref(fig:mssm-model-design)) and greater confidence intervals around these estimates.
 Trends in Yellowtail Rockfish, Bocaccio, Canary Rockfish, and Redstripe Rockfish have the greatest deviations from their respective modelled indices.
 
-For species where there were insufficient data (<5% positive sets) or where models did not meet convergence checks, we have show the design-based index for reference (Figure \@ref(fig:design-indices)).
+For species with insufficient data (<5% positive sets) or where models did not meet convergence checks, we have shown the design-based index for reference (Figure \@ref(fig:design-indices)).
 
 <!-- QUESTION: Too similar to the synoptic caption? -->
 (ref:model-design-indices) Comparison of modelled (green line) and design-based (pink open circles) indices from the MSSM survey.
@@ -24,7 +24,8 @@ Pink open circles represent design-based mean estimates of relative biomass and 
 Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index.
 Then they two indices have been scaled to have the same geometric mean.
 The axes are set to encompass the model-based confidence intervals.
-<!-- KEEP the mean CV & number of sets??? -->
+Years before 2003 are shaded grey to indicate that catch observations in the MSSM survey are considered less reliable than modern data.
+<!-- KEEP the mean CV & number of sets? -->
 <!--
 'Mean CV' is the mean of the annual coefficients of variation (CVs) for the modelled (M) and design-based (D) indices.
 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets.
@@ -38,7 +39,7 @@ The modelled index was predicted on 3 x 3 km grid (Figure \@ref(fig:prediction-g
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-model-design_pjs-mode.png"), dpi = NA)
 ```
 
-```{r design-indices, fig.cap="Species with only a design-based index from the MSSM survey. Pink open circles represent mean estimates of relative biomass and vertical lines around the dots represent 95\\% bootstrap confidence intervals. Vertical axes are scaled between zero and the maximum upper confidence interval value of the index."}
+```{r design-indices, fig.cap="Species with only a design-based index from the MSSM survey. Pink open circles represent mean estimates of relative biomass and vertical lines around the dots represent 95\\% bootstrap confidence intervals. Vertical axes are scaled between zero and the maximum upper confidence interval value of the index. Years before 2003 are shaded grey to indicate that catch observations in the MSSM survey are considered less reliable than modern data."}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-design.png"), dpi = NA)
 
@@ -46,95 +47,82 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-de
 
 
 
-### Comparison of MSSM to other survey indices in the same region
+## Comparison of MSSM to other survey indices in the same region
 
-To compare the
-
-
-- The MSSM index is generally more variable than the CPUE 3CD and SYN WCVI indices.
-- The modelled MSSM index is most congruent with the SYN WCVI index that is predicted on the 3 x 3 km MSSM grid. (Figure - zoom-in; \@ref(fig:rolling-window-correlation))
-- This is likely because the distribution of sampled depths in the the MSSM survey (81--219 m) are shallower than SYN WCVI samples areas deeper (43--803 m). (Figure \@ref(fig:depth-dist))
+We visually compared the modelled MSSM indices with the modelled CPUE 3CD and SYN WCVI indices.
+This included a comparison of SYN WCVI indices predicted on the same grid used for the MSSM index.
+We compared a 10-year rolling window correlation between the modelled MSSM ~ CPUE 3CD, the MSSM ~ SYN WCVI, and the MSSM ~ SYN WCVI predicted on the MSSM grid to examine if lower correlations in earlier years reflect improvements in sampling procedures.
 
 
-- The depths sampled in these surveys have been consistent over time. (needed?)
+Overall, the modelled MSSM indices were more variable, with larger fluctuations over time, relative to the other indices (Figures \@ref(fig:mssm-cpue), \@ref(fig:mssm-syn-wcvi), \@ref(fig:mssm-syn-wcvi-mssm)).
+The trends in the MSSM index was similar across more species indices estimated using the SYN WCVI predicted over the MSSM grid (Figures \@ref(fig:mssm-syn-wcvi-mssm), \@ref(fig:rolling-window-correlation)) than compared to SYN WCVI indices predicted over the full SYN WCVI survey grid (Figure \@ref(fig:mssm-syn-wcvi)) and the CPUE 3CD indices (Figure \@ref(fig:mssm-cpue)).
+This is likely because the distribution of sampled depths in the the MSSM survey (81--219 m) are shallower than SYN WCVI samples areas deeper (43--803 m). (Figure \@ref(fig:depth-dist))
 
 
-- We compared the modelled MSSM index with the modelled SYN WCVI index when predicted over the full grid of the SYN WCVI and when constrained to the same grid used for the MSSM index.
+The average correlation between the MSSM and the SYN WCVI predicted on the MSSM grid increased early in the time-series (Figure \@ref(fig:rolling-window-correlation)).
+However, the comparison of the MSSM with the SYN WCVI indices coincides with the most important change in 2003 of full species identification and quantification (Table \@ref(tab:change-table)).
+The low correlations in early years appears to be driven by: Dover Sole, Slender Sole, English Sole, Pacific Sanddab, and Darkblotched Rockfish, but it is unclear/unlikely(?) how this is could be driven by sorting changes.
 
+The CPUE 3CD data precedes the 2003 change in sorting procedure.
+But the rolling window correlations were more variable and generally lower between the MSSM and the CPUE 3CD indices (Figure \@ref(fig:rolling-window-correlation)).
+The average correlation between the MSSM and the CPUE 3CD was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years.
 
-- We checked whether the correlation between the different survey indices declined as we went further back in time. We compared a 10-year rolling window correlation between the MSSM ~ CPUE 3CD, the MSSM ~ SYN WCVI, and the MSSM ~ SYN WCVI predicted on the MSSM grid.
-
-<!-- TODO: wrong .png (fig doesn't exist?) -->
-
-There was no systematic decrease in correlation between the different indices earlier in the time-series (Figure \@ref(fig:rolling-window-correlation)).
-
-
-### Sampling differences between MSSM and SYN WCVI
-
-Twenty-four species have length samples in both the MSSM and SYN WCVI. Longer specimens tend to be sampled in the SYN WCVI compared to the MSSM (Figure \@ref(fig:))
-
-There was also no relationship between the
-
-
-
-```{r depth-dist, fig.cap="Distribution of depths sampled in the MSSM and SYN WCVI surveys since 2004."}
-
-knitr::include_graphics(here::here("report/mssm-tech-report/figure/depth-ranges-mssm-syn-wcvi.png"), dpi = NA)
-```
-
-```{r, fig.cap="MSSM - SYN WCVI - SYN WCVI on MSSM grid."}
-
-knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-syn-wcvi-mssm-grid-zoom-in.png"), dpi = NA)
-```
-
-Modelled MSSM ~ Modelled SYN WCVI (over MSSM only grid)
-
-Modelled MSSM ~ CPUE 3CD
-
-Modelled MSSM 2km grid ~ 3km grid
-
-- 3km grid is less patchy
-- results from the 2km grid were similar to the 3km grid --> even worth including this note?
-
-```{r, fig.cap="Comparison of spatial grids of 2x2 km (left) and 3x3 km (right) grid size, overlaid on all sampled locations. Depth contours are shown at 100 m, 200 m, 500 m, and 1000 m."}
-
-knitr::include_graphics(here::here("report/mssm-tech-report/figure/2km-3km-grid-comp.png"), dpi = NA)
-
-```
-
-```{r, fig.cap="Comparison of relative biomass indices predicted on spatial grids of 2x2 km (green) and 3x3 km (orange) grid size, overlaid on all sampled locations.", out.width="\\textwidth"}
-
-knitr::include_graphics(here::here("report/mssm-tech-report/figure/2km-3km-grid-model-comp.png"), dpi = NA)
-
-```
-
-
-
-```{r, fig.cap="Modelled MSSM index predicted on 3km MSSM grid compared to modelled SYN WCVI predicted on SYN WCVI grid."}
-knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-syn-wcvi-model.png"), dpi = NA)
-```
-
-```{r, fig.cap="Modelled MSSM index predicted on 3km MSSM grid compared to modelled SYN WCVI predicted on MSSM grid."}
-knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-syn-wcvi-model-mssm-grid.png"), dpi = NA)
-```
-
-```{r, fig.cap="Modelled MSSM index predicted on 2km MSSM grid compared to CPUE 3CD..."}
+```{r mssm-cpue, fig.cap="Comparison of MSSM (green) and CPUE 3CD (orange)indices. Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean. The axes are set to encompass the confidence intervals of the MSSM index. The CPUE 3CD data begin in 1996. Empty panels indicate species that we do not have a model for in the CPUE 3CD data."}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-cpue3CD.png"), dpi = NA)
 
 ```
 
+```{r mssm-syn-wcvi, fig.cap="Comparison of MSSM (green) and SYN WCVI (purple) indices. Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean in overlapping years. The axes are set to encompass the confidence intervals of the MSSM index. The SYN WCVI data begin in 2004. Empty panels indicate species that we do not have a model for in the SYN WCVI data."}
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-syn-wcvi-model.png"), dpi = NA)
+```
 
-```{r rolling-window-correlation, fig.cap="Correlations of the modelled MSSM index with over 10-year rolling windows. The x-axis is the first year of the rolling window (e.g., 1996--2006). Only shown are species that had a correlation >= 0.5 when surveys were compared over the full time series."}
+```{r mssm-syn-wcvi-mssm, fig.cap="Comparison of MSSM (green) and SYN WCVI (purple) indices where the SYN WCVI indices have been estimated from model predictions done on the MSSM grid. Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean in overlapping years. The axes are set to encompass the confidence intervals of the MSSM index. The SYN WCVI data begin in 2004. Empty panels indicate species that we do not have a model for in the SYN WCVI data."}
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-syn-wcvi-model-mssm-grid.png"), dpi = NA)
+```
+
+```{r mssm-syn-zoom, fig.cap="Comparison of indices from the MSSM (green), SYN WCVI predicted on the full SYN WCVI grid (purple), and SYN WCVI predicted on the 3 x 3 MSSM grid (orange). Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Both of the SYN WCVI indices are scaled to the same geometric mean as the MSSM index. The axes are set to encompass the confidence intervals of the MSSM index. The SYN WCVI data begin in 2004. Empty panels indicate species that we do not have a model for in the SYN WCVI data."}
+
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-syn-wcvi-mssm-grid-zoom-in.png"), dpi = NA)
+```
+
+
+```{r depth-dist, fig.cap="Distribution of depths sampled in the MSSM and SYN WCVI surveys since 2004. Darker colours indicate earlier years."}
+
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/depth-ranges-mssm-syn-wcvi.png"), dpi = NA)
+```
+
+```{r rolling-window-correlation, fig.cap="Ten-year rolling window correlations of the modelled MSSM index with the SYN WCVI predicted on the MSSM grid, the SYN WCVI predicted on the SYN WVCVI grid, and with the CPUE 3CD. The x-axis is the first year of the rolling window (e.g., 1996--2006) and the y-axis is the correlation over the 10-year window. The thick blue line is the average correlation of all species over time. Only shown are species that had a correlation $\\leq$ 0.5 when surveys were compared over the full time series. Years before 2003 are shaded grey to indicate the time before complete sorting and species level identification."}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-correlation.png"), dpi = NA)
 ```
 
-```{r, fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
+\clearpage
+
+
+## Sampling differences between MSSM and SYN WCVI
+
+
+All of the species captured in the MSSM survey are also caught in the SYN WCVI (Figure \@ref(fig:encounter-tigure))
+
+```{r encounter-tigure, fig.cap="Encounter probability and mean density of species caught on "}
+
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/mssm-wcvi-tigure.png"), dpi = NA)
+
+```
+
+
+
+Twenty-four species have length samples in both the MSSM and SYN WCVI. Longer specimens tend to be sampled in the SYN WCVI compared to the MSSM (Figure \@ref(fig:length-dist))
+
+There was also no relationship between the
+
+
+```{r length-dist, fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/size-comp.png"), dpi = NA)
 
 ```
 
-```{r, out.width="50%", fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
+```{r age-dist, out.width="50%", fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/age-comp.png"), dpi = NA)
 

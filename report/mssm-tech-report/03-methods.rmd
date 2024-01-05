@@ -4,13 +4,15 @@ We fit a spatiotemporal model to the Multi-Species Small Mesh survey data for al
 For the six species that did not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present.
 However, of these species, only blackbelly eelpout met the 5% coverage threshold to be modelled.
 
-<!-- TODO look at synoptic report methods -->
+<!-- TODO - we really just used the outputs from the 2023 report... -->
 We used the model outputs from (ref: Anderson et al. 2023) followed the methods described in Appendix A of the 2023 Synoptic Report (ref TODO).
 
- we fit these models using a Tweedie distribution and used area swept as an offset.
+We present the best model for each species - survey combination, chosen using AIC.
+
 In 2022, 64% of trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values.
 Our spatiotemporal models had constant spatial random fields and a random walk spatiotemporal random fields.
 In cases where models did not converge, the spatial random field was turned off and only the spatiotmporal random field was modelled using a random walk.
 
-We omitted poorly fitted models: those which did not converge, where the maximum estimated CIs were less than 10 $\times$ the maximum estimated biomass, or where the mean coefficient of variation was less than 2.
+We omitted poorly fitted models: those which did not meet convergence criterea, where the maximum estimated CIs were less than 10x the maximum estimated biomass, or where the mean coefficient of variation was <1.
 
+\clearpage
