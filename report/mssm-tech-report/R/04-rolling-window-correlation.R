@@ -6,7 +6,7 @@ if (!('indices_loaded' %in% ls())) {
   source(here::here('report', 'mssm-tech-report', 'R', '02-load-indices.R'))
 }
 
-if (!'size_dat') {
+if (!('size_dat' %in% ls())) {
   source(here::here('report', 'mssm-tech-report', 'R', '03-age-size-frequencies.R'))
 }
 
@@ -23,11 +23,12 @@ get_mssm_cor <- function(mssm_index_type, comp_index_type, cor_thresh = 0.5, win
   if ((comp_index_type == "CPUE 3CD")) {
     spp_intersect <- intersect(unique(mssm_3km_inds$species), unique(cpue_ind$species))
   } else {
-    spp_intersect <- intersect(unique(mssm_3km_inds$species), unique(syn_inds$species))
-
+    spp_intersect <- intersect(unique(mssm_3km_inds$species), unique(syn_wcvi_inds$species))
   }
+  spp_intersect <- stringr::str_to_title(spp_intersect)
 
-  mssm_cor_df <- scaled_inds |>
+
+  mssm_cor_df <- raw_inds |>
     filter(species %in% spp_intersect,
            survey_abbrev %in% c(mssm_index_type, comp_index_type),
            year >= year_cutoff) |>
@@ -105,39 +106,40 @@ full_cor3 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN
 full_cor <- bind_rows(full_cor1, full_cor2, full_cor3)
 
 cor_df <- bind_rows(cor1, cor2, cor3, cor4, cor5) |>
-  mutate(comp = factor(comp, levels = c(
-    "MSSM Model ~ CPUE 3CD",
-    'MSSM Model ~ SYN WCVI',
-    "MSSM Design ~ CPUE 3CD",
-    'MSSM Design ~ SYN WCVI',
-    "MSSM Model ~ SYN WCVI on MSSM Grid"))) |>
   filter(comp %in% c("MSSM Model ~ CPUE 3CD", "MSSM Model ~ SYN WCVI", "MSSM Model ~ SYN WCVI on MSSM Grid")) |>
   left_join(full_cor |>
       rename(mean_cor = 'cor_val') |>
       group_by(comp) |>
       ungroup()) |>
-  filter(mean_cor >= 0.5)
+  filter(mean_cor >= 0.5) |>
+  mutate(comp = factor(comp, levels = c(
+  "MSSM Model ~ SYN WCVI on MSSM Grid",
+  'MSSM Model ~ SYN WCVI',
+  "MSSM Model ~ CPUE 3CD")))
 
-cor_plot <-
-  ggplot(cor_df, aes(x = start_year, y = cor_vals)) +
-      geom_point(data = cor_df |> group_by(comp) |> slice(which.max(start_year)) |>
-        mutate(start_year = start_year + 6), alpha = 0) +  # variable x limit increaser
-      geom_hline(yintercept = 0, colour = 'grey50') +
-      geom_line(aes(colour = species)) +
-      geom_smooth(se = FALSE) +
-      guides(colour = "none") +
-      facet_wrap(~ comp, scale = 'free_x') +
-      scale_x_continuous(breaks = scales::pretty_breaks()) +
-      coord_cartesian(clip = "off") +
-        ggrepel::geom_text_repel(
-        data = cor_df %>% group_by(comp, species) %>% slice(which.max(start_year)),
-        aes(label = species, x = start_year, colour = species),
-        size = 3.2, hjust = 'left', segment.color = 'grey85',
-        nudge_x = 0.3, box.padding = 0.1, point.padding = 0.5,
-        direction = "y"
-      ) +
-      labs(x = "Start year of 10-year rolling window",
-           y = "Correlation")
+cor_plot <- cor_df |>
+ggplot(aes(x = start_year, y = cor_vals)) +
+  geom_rect(data = filter(cor_df, comp == "MSSM Model ~ CPUE 3CD") |> slice(1),
+    aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
+    fill = "gray85", alpha = 0.4) +
+  geom_point(data = cor_df |> group_by(comp) |> slice(which.max(start_year)) |>
+    mutate(start_year = start_year + 6), alpha = 0) +  # variable x limit increaser
+  geom_hline(yintercept = 0, colour = 'grey50') +
+  geom_line(aes(colour = species)) +
+  geom_smooth(se = FALSE) +
+  guides(colour = "none") +
+  facet_wrap(~ comp, scale = 'free_x') +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  coord_cartesian(clip = "off") +
+    ggrepel::geom_text_repel(
+    data = cor_df %>% group_by(comp, species) %>% slice(which.max(start_year)),
+    aes(label = species, x = start_year, colour = species),
+    size = 3.2, hjust = 'left', segment.color = 'grey85',
+    nudge_x = 0.3, box.padding = 0.1, point.padding = 0.5,
+    direction = "y"
+  ) +
+  labs(x = "Start year of 10-year rolling window",
+       y = "Correlation")
 cor_plot
 
 ggsave(file.path(mssm_figs, 'index-correlation.png'), plot = cor_plot,
@@ -160,10 +162,9 @@ depth_comp <- bind_rows(sw_dat, mssm_dat) |>
 
 depth_comp |> filter(year > 2003) |>
   ggplot(aes(x = depth_m, fill = year)) +
-  #geom_histogram(alpha = 0.8) +
   geom_density(aes(group = year), alpha = 0.5) +
-  #scale_fill_manual(values = survey_cols) +
   facet_wrap(~ survey_abbrev, scales = 'free_y', ncol = 1) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
   # geom_vline(xintercept = c(min(mssm_dat$depth_m, na.rm = TRUE), max(mssm_dat$depth_m, na.rm = TRUE)))
   # geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = min(mssm_dat$depth_m, na.rm = TRUE)), aes(xmin = -Inf, xmax = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.1) +
   # geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = max(mssm_dat$depth_m, na.rm = TRUE)), aes(xmax = Inf, xmin = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.1) +
@@ -172,5 +173,5 @@ depth_comp |> filter(year > 2003) |>
         legend.key.width=unit(0.05,"npc")) +
   labs(x = "Depth (m)", y = "Sampling frequency", fill = "Year")
 
-ggsave(file.path(mssm_figs, 'depth-ranges-mssm-syn-wcvi.png'), width = 6.5, height = 4)
+ggsave(file.path(mssm_figs, 'depth-ranges-mssm-syn-wcvi.png'), width = 5.8, height = 3.3)
 
