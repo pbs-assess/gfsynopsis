@@ -2,28 +2,6 @@ if (!('mssm_loaded' %in% ls())) {
   source(here::here('report', 'mssm-tech-report', 'R', '00-load.R'))
 }
 
-syn_yrs <- spp_dat |>
-  filter(survey_abbrev %in% "SYN WCVI") |> pull(year) |> unique() |> sort()
-
-s <- spp_dat |>
-  filter(year %in% syn_yrs) |>
-  filter(is.finite(density_kgpm2), !is.na(density_kgpm2)) |>
-  group_by(species_common_name, survey_abbrev) |>
-  summarise(density = mean(density_kgpm2), encounter = mean(density_kgpm2 > 0)) |>
-  group_by(species_common_name) |>
-  filter(max(encounter) > 0.1) |>
-  ungroup()
-
-# den <- tidyr::pivot_wider(s, id_cols = species_common_name, values_from = density, names_from = survey_abbrev)
-# enc <- tidyr::pivot_wider(s, id_cols = species_common_name, values_from = encounter, names_from = survey_abbrev)
-
-# spp_keep <- s |>
-#   group_by(species_common_name) |>
-#   mutate(n_above = sum(encounter) >= 0.1) |>
-#   filter(n_above >= 1) |>
-#   pull(species_common_name)
-# length(spp_keep)
-
 make_mssm_tigure <- function(df, fill_limits = c(0, 1), padding = 0,
   fill_lab = "Encounter\nprobability", digits = 2L) {
   df$species_common_name <- stringr::str_to_title(df$species_common_name)
@@ -49,6 +27,8 @@ make_mssm_tigure <- function(df, fill_limits = c(0, 1), padding = 0,
     ) +
     gfplot::theme_pbs() +
     theme(
+      plot.background = element_rect(fill = NA),
+      plot.margin = margin(0, 0, 0, 0),
       panel.border = element_blank(),
       axis.ticks.x = element_blank(),
       axis.ticks.y = element_blank(),
@@ -58,6 +38,40 @@ make_mssm_tigure <- function(df, fill_limits = c(0, 1), padding = 0,
     scale_x_discrete(position = "top")
   g
 }
+
+syn_yrs <- spp_dat |>
+  filter(survey_abbrev %in% "SYN WCVI") |> pull(year) |> unique() |> sort()
+
+mssm_depths <- spp_dat |>
+  filter(survey_abbrev == 'MSSM WCVI') |>
+  pull(depth_m) |>
+  range(na.rm = TRUE)
+
+syn_wcvi_mssm_depth_dat <- spp_dat |>
+  filter(survey_abbrev == 'SYN WCVI') |>
+  filter(year %in% syn_yrs) |>
+  filter(depth_m >= mssm_depths[[1]] & depth_m <= mssm_depths[[2]]) |>
+  mutate(survey_abbrev = 'SYN WCVI\n(75 - 219 m)')
+
+s <- spp_dat |>
+  filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
+  filter(year %in% syn_yrs) |>
+  bind_rows(syn_wcvi_mssm_depth_dat) |>
+  filter(is.finite(density_kgpm2), !is.na(density_kgpm2)) |>
+  group_by(species_common_name, survey_abbrev) |>
+  summarise(density = mean(density_kgpm2), encounter = mean(density_kgpm2 > 0)) |>
+  filter(max(encounter) > 0.1) |>
+  ungroup()
+
+# den <- tidyr::pivot_wider(s, id_cols = species_common_name, values_from = density, names_from = survey_abbrev)
+# enc <- tidyr::pivot_wider(s, id_cols = species_common_name, values_from = encounter, names_from = survey_abbrev)
+
+# spp_keep <- s |>
+#   group_by(species_common_name) |>
+#   mutate(n_above = sum(encounter) >= 0.1) |>
+#   filter(n_above >= 1) |>
+#   pull(species_common_name)
+# length(spp_keep)
 
 dat <- s
 dat$val <- dat$encounter
@@ -71,5 +85,8 @@ g2 <- make_mssm_tigure(dat, fill_lab = "Mean\\\ndensity\\\n(kg/km^2^)", digits =
     labels = c("0.01", "0.1", "1", "10", "100")) +
   theme(legend.title = ggtext::element_markdown())
 
-g <- cowplot::plot_grid(g1, g2, ncol = 2L, rel_widths = c(1, 1))
-ggsave(filename = file.path(mssm_figs, "mssm-wcvi-tigure.png"), width = 9.05, height = 7.5)
+g <- g1 + plot_spacer() + g2 + plot_layout(widths = c(1, -0.3, 1))
+
+#g <- cowplot::plot_grid(g1, g2, ncol = 2L, rel_widths = c(1, 1))
+#ggsave(filename = file.path(mssm_figs, "mssm-wcvi-tigure.png"), width = 9.05, height = 7.5)
+ggsave(filename = file.path(mssm_figs, "mssm-wcvi-tigure_same-depth.png"), width = 9.7, height = 7.5)

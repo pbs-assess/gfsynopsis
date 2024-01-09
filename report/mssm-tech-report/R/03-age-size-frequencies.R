@@ -2,6 +2,16 @@ if (!('mssm_loaded' %in% ls())) {
   source(here::here('report', 'mssm-tech-report', 'R', '00-load.R'))
 }
 
+if (!('indices_loaded' %in% ls())) {
+  source(here::here('report', 'mssm-tech-report', 'R', '02-load-indices.R'))
+}
+
+save_plots_to_pdf <- function(ggplot_list, filename, width = 7, height = 3.7) {
+  pdf(filename, width = width, height = height)
+  purrr::map(ggplot_list, print)
+  dev.off()
+}
+
 # Get length and age distributions
 if (!file.exists(file.path(mssm_data_out, 'size-dat.rds'))) {
   size_dat <- spp_vector |>
@@ -148,22 +158,28 @@ ggsave(file.path(mssm_figs, 'age-comp.png'), plot = age_comp,
 # ------------------------------------------------------------------------------
 # ---- Look at size distributions at pulses --------
 #- scaled to geomean (2003 - 2022)
-plot_size_time <- function(sp, raw_data = FALSE) {
+plot_size_time <- function(sp, raw_data = FALSE, no_guides = TRUE,
+  y_title = TRUE, x_title = TRUE, ylab = 'Relative biomass\nindex') {
   buffer <- 0.4
-  p1 <- max_ci_scaled |>
-    filter(comp %in% c("MSSM Model-SYN WCVI on MSSM Grid")) |>
+
+  p1 <- scale_geo_design(raw_inds |> filter(species %in% spp_in_mssm, year > 2003),
+    'MSSM Model', 'SYN WCVI on MSSM Grid') |>
     mutate(survey_abbrev = ifelse(survey_abbrev == "MSSM Model", "MSSM WCVI", "SYN WCVI")) |>
-    filter(year > 2003) |>
     filter(tolower(species) == sp) |>
     ggplot(aes(x = year, y = biomass_scaled, colour = survey_abbrev, fill = survey_abbrev)) +
       geom_line() +
       geom_ribbon(aes(ymin = lowerci_scaled, ymax = upperci_scaled), alpha = 0.2, colour = NA) +
       scale_colour_manual(values = survey_cols, guide = "legend") +
       scale_fill_manual(values = survey_cols, guide = "legend") +
-      labs(x = 'Year', y = 'Relative biomass index', colour = "Survey", fill = "Survey") +
-      ggtitle(paste0('MSSM Index - ', sp)) +
-      #guides(colour = 'none', fill = 'none')
-      coord_cartesian(xlim = c(2004 - buffer, 2022 + buffer), expand = FALSE)
+      labs(x = 'Year', y = ylab, colour = "Survey", fill = "Survey") +
+      ggtitle(stringr::str_to_title(sp)) +
+      guides(colour = 'none', fill = 'none') +
+      scale_y_continuous(breaks = c(0, 0.5, 1)) +
+      coord_cartesian(xlim = c(2004 - buffer, 2022 + buffer),
+        ylim = (c(-0.004, 1.03)),
+        expand = FALSE) +
+      theme(axis.title.x = element_blank(),
+            axis.text.x = element_blank())
 
   size_df <- size_dat |>
     filter(species_common_name == sp) |>
@@ -181,11 +197,25 @@ plot_size_time <- function(sp, raw_data = FALSE) {
 
   if (raw_data) {
     p2 <- p2 + geom_point(data = size_df, aes(x = year, y = length, fill = survey_abbrev),
-      colour = 'grey80', alpha = 0.2, shape = 21,
+      colour = 'grey80', alpha = 0.6, shape = 21,
       position = position_jitterdodge(dodge.width = 0.5,
         jitter.height = 0.4, jitter.width = 0.2)
     )
       #position = position_dodge(width = 0.4))
+  }
+
+  if (no_guides) {
+    p2 <- p2 + guides(colour = 'none', fill = 'none')
+  }
+
+  if (!y_title) {
+    p1 <- p1 + theme(axis.title.y = element_blank())
+    p2 <- p2 + theme(axis.title.y = element_blank())
+  }
+
+  if (!x_title) {
+    p2 <- p2 + theme(axis.title.x = element_blank(),
+                     axis.text.x = element_blank())
   }
 
   p2 <- p2 +
@@ -202,36 +232,67 @@ plot_size_time <- function(sp, raw_data = FALSE) {
 
 sp <- 'eulachon'
 sp <- 'petrale sole'
+sp <- 'flathead sole'
+sp <- 'bocaccio'
 plot_size_time(sp, raw_data = TRUE)
 plot_size_time(sp, raw_data = FALSE)
 
-size_summary_spp <- distinct(size_comp_df, species_common_name) |>
-  pull(species_common_name)
+# size_summary_spp <- distinct(size_comp_df, species_common_name) |>
+#   pull(species_common_name)
 
-size_p_list <-
-size_summary_spp |>
-  purrr::map(plot_size_time, raw_data = TRUE)
+size_summary_spp <- max_ci_scaled |>
+  filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
+  group_by(species) |>
+  filter(n() > 1) |>
+  mutate(species = factor(species, levels = pull(size_diff_lu, species))) |>
+  distinct(species) |>
+  arrange(desc(species)) |>
+  pull(species) |>
+  tolower()
 
-save_plots_to_pdf <- function(ggplot_list, filename, width = 7, height = 3.7) {
-  pdf(filename, width = width, height = height)
-  purrr::map(ggplot_list, print)
-  dev.off()
+mk_p_list <- function(spp, y = c(TRUE, FALSE), x = c(F, F, F, F, T, T), extra_x = T, ...) {
+  tibble(species = spp,
+    y_title = rep(y, length.out = length(spp)),
+    x_title = c(rep(x, length.out = length(spp) - length(extra_x)), extra_x)) |>
+  purrr::pmap(\(species, y_title, x_title)
+    plot_size_time(species, y_title = y_title, x_title = x_title, ...)) |>
+  set_names(spp)
 }
 
-save_plots_to_pdf(size_p_list, filename = file.path(mssm_figs, 'size_time_plots.pdf'),
-  width = 7.8, height = 6)
+highlight_spp <- c('rougheye/blackspotted rockfish complex', 'darkblotched rockfish', 'bocaccio')
 
-sp <- 'bocaccio'
-sp <- 'rougheye/blackspotted rockfish complex'
-sp <- 'pacific hake'
-sp <- 'pacific cod'
-sp <- 'arrowtooth flounder'
-sp <- 'spotted ratfish'
-sp <- 'dover sole'
-sp <- 'pacific ocean perch'
-sp <- 'rex sole'
+size_p_list <- mk_p_list(spp = size_summary_spp[!(size_summary_spp %in% highlight_spp)],
+  extra_x = c(T, T), raw_data = TRUE)
 
-plot_size_time(sp)
+plots_per_page <- 6
+guide_grob <- plot_size_time(sp, raw_data = TRUE, no_guides = FALSE) |>
+  cowplot::get_legend()
+
+arranged_plots <- size_p_list %>%
+  split((seq_along(.) - 1) %/% plots_per_page) %>%
+  #map(~c(.x, rep_len(list(plot_spacer()), plots_per_page - length(.x)))) %>%
+  map(~wrap_plots(.x, ncol = 2) / guide_grob + plot_layout(height = c(1, 0.03)))
+
+purrr::imap(arranged_plots, ~ggsave(file.path(mssm_figs, paste0('size-time-', .y, '.png')), .x,
+  width = 7.8, height = 9))
+
+# save_plots_to_pdf(arranged_plots, filename = file.path(mssm_figs, 'size_time_plots.pdf'),
+#   width = 7.8, height = 9)
 
 
+# Species that might be capturing some extra recruitment in the MSSM compared to SYN WCVI
+highlight_list <- mk_p_list(
+  spp = highlight_spp,
+  y = c(T, F, F), x = c(T, T, T),
+  ylab = 'Relative biomass index',
+  raw_data = TRUE)
 
+wrap_plots(highlight_list, ncol = 3) /
+guide_grob  & plot_layout(height = c(1, 1, 1))
+
+(highlight_list[[1]] | highlight_list[[2]] | highlight_list[[3]]) /
+  guide_grob + plot_layout(height = c(1, 0.1))
+
+ggsave(filename = file.path(mssm_figs, 'size-time-highlights.png'),
+  width = 10, height = 5.6)
+beepr::beep()
