@@ -17,7 +17,7 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-predicti
 
 ```
 
-The MSSM is a fixed station survey (Rutherford et al. in prep), with transects run in an east-west direction. Over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)). In part this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught. In 2022 sampling was extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
+The MSSM is a fixed station survey (@rutherfordinprep), with transects run in an east-west direction. Over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)). In part this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught. In 2022 sampling was extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
 
 ```{r historical-grid, fig.cap="Grid coverage based on the last year prior to 2019 that a grid cell was last sampled. Darker shades indicate more recent years and correspond to changes in navigation systems (1979 and 1998). Depth contours are shown at 100 m, 200 m, 500 m, and 1000 m.", out.width="3.5in"}
 
@@ -27,7 +27,7 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-historic
 
 The navigation system used in the MSSM survey has changed twice, once in 1979 from Loran A to Loran C, and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)).
 Improved accuracy of GPS means that early survey locations may therefore be more variable.
-As a consequence of more accurate positioning, Sinclair et al. (\@sinclair2001pcod) found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows in the MSSM survey.
+As a consequence of more accurate positioning, Sinclair et al. (@sinclair2001pcod) found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows in the MSSM survey.
 
 Between 1975 and 1977, there was a noticeable shift in sampling locations relative to subsequent years (Figure \@ref(fig:spatial-shift)).
 It is possible that this reflects surveys used to establish the extent of the shrimping grounds (personal communication, TODO). (JD: I don't think this is the case after reading the 1975 and 1976 cruise reports, or at least there is no mention of change in protocol.)

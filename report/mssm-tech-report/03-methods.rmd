@@ -1,10 +1,11 @@
 # Estimating population indices with spatiotemporal models
 
+<!-- TODO - we really just used the outputs from the 2023 report... so I'm not sure what we should do here -->
+
 We fit a spatiotemporal model to the Multi-Species Small Mesh survey data for all species that had a proportion of positive sets $\ge$ 5%.
 For the six species that did not have catch weights before 2003, we calculated the proportion of positive sets for 2003 to present.
 However, of these species, only blackbelly eelpout met the 5% coverage threshold to be modelled.
 
-<!-- TODO - we really just used the outputs from the 2023 report... -->
 We used the model outputs from (ref: Anderson et al. 2023) followed the methods described in Appendix A of the 2023 Synoptic Report (ref TODO).
 
 We present the best model for each species - survey combination, chosen using AIC.
