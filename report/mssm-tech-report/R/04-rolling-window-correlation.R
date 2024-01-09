@@ -156,7 +156,7 @@ ggplot(data = _, aes(x = abs_diff, y = cor_val)) +
 ggsave(file.path(mssm_figs, 'size-survey-correlation.png'), width = 7.6, height = 2.7)
 
 # Depth overlap
-# No real difference in depth ranges surveyed over time
+# No real difference in depth ranges surveyed over time (only data used to model indices shown)
 depth_comp <- bind_rows(sw_dat, mssm_dat) |>
  distinct(survey_series_id, fishing_event_id, .keep_all =TRUE)
 
