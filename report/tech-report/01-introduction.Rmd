@@ -31,15 +31,15 @@ Each set of pages for a single species is laid out in the same format.
 The page layout begins with the species common name, the species scientific name, and the DFO species code, which usually corresponds to the page number referencing the species in @hart1988.
 The figures are laid out such that the first page has survey (Figure \@ref(fig:intro-maps)) time series trends and spatial patterns on the left and commercial time series by Pacific Marine Fisheries Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the right.
 The second page focuses on biological samples from both fishery dependent and independent sources.
-This page presents length and age data, maturity data, and an overview of available numbers of sampled fish across all survey and commercial samples.
+This page presents length and age data, maturity data, and an overview of available numbers of sampled fish per year across all survey and commercial samples.
 
-For surveys, the report has focused on the Synoptic Bottom Trawl surveys (Figure \@ref(fig:intro-maps)), the Outside Hard Bottom Long Line (HBLL OUT) surveys, the Inside Hard Bottom Long Line surveys (HBLL INS) (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys.
+For surveys, the report has focused on the Synoptic Bottom Trawl surveys (Figure \@ref(fig:intro-maps)), the Outside Hard Bottom Longline (HBLL OUT) surveys, the Inside Hard Bottom Longline surveys (HBLL INS) (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys.
 In this version, we have added data from the Multispecies Small-mesh Bottom Trawl Survey on West Coast Vancouver Island (MSSM WCVI) (formerly known as the "Shrimp Survey") as well as including length and age composition data for the Inside HBLL survey.
 We show survey biomass index trends for the Hecate Strait Multispecies Assemblage (MSA HS) survey.
 The report includes counts of available fish specimens from biological samples on all surveys.
-A brief description of the included surveys is included in Appendix F of @anderson2019synopsis along with associated references for details on design and implementation.
+A brief description of the included surveys is provided in Appendix F of @anderson2019synopsis along with associated references for details on design and implementation.
 
-(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Long Line (HBLL) survey boundaries (right). 
+(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Longline (HBLL) survey boundaries (right). 
 Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
@@ -102,5 +102,5 @@ Additional survey details can be found in @rutherfordinprep.
 
 Importantly, prior to 2003 groundfish sorting and species-level identification was not systematic and should be treated with a level of skepticism.
 We therefore shade this portion of the MSSM biomass indices grey in the figure pages.
-Additional details on caveats to interpreting the MSSM survey for groundfish as well as comparisons between the MSSM biomass indices and other indices in the same region will be published in a forthcoming Technical Report.
+Additional details on caveats to interpreting the MSSM survey for groundfish as well as comparisons between the MSSM biomass indices and other indices in the same region will be published in a forthcoming Technical Report (Personal communication: J.C. Dunic and S.C Anderson).
 

@@ -33,9 +33,9 @@ cols <- c(
       "West Coast Vancouver Island (WCVI)" = paste0("#984EA3", alpha),
       "Hecate Strait (HS)" = paste0("#377EB8", alpha),
       "Queen Charlotte Sound (QCS)" = paste0("#4DAF4A", alpha),
-      "Outside Hard Bottom Long Line (N)" = paste0("#FF7F00", alpha),
-      "Outside Hard Bottom Long Line (S)" = paste0("#FDBF6F", alpha),
-      "Inside Hard Bottom Long Line (N & S)" = paste0("#A65628", alpha),
+      "Outside Hard Bottom Longline (N)" = paste0("#FF7F00", alpha),
+      "Outside Hard Bottom Longline (S)" = paste0("#FDBF6F", alpha),
+      "Inside Hard Bottom Longline (N & S)" = paste0("#A65628", alpha),
       "Multi-Species Small Mesh (MSSM)" = paste0("#6c6c6c", alpha)
     )
 
@@ -72,14 +72,14 @@ hbll_s_in <- gfplot:::ll2utm(gfplot::hbll_inside_s_grid$grid, utm_zone = 9)
 
 hbll <- dplyr::bind_rows(
   list(
-    data.frame(hbll_n, survey = "Outside Hard Bottom Long Line (N)", stringsAsFactors = FALSE),
-    data.frame(hbll_s, survey = "Outside Hard Bottom Long Line (S)", stringsAsFactors = FALSE),
-    data.frame(hbll_n_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE),
-    data.frame(hbll_s_in, survey = "Inside Hard Bottom Long Line (N & S)", stringsAsFactors = FALSE))) |>
+    data.frame(hbll_n, survey = "Outside Hard Bottom Longline (N)", stringsAsFactors = FALSE),
+    data.frame(hbll_s, survey = "Outside Hard Bottom Longline (S)", stringsAsFactors = FALSE),
+    data.frame(hbll_n_in, survey = "Inside Hard Bottom Longline (N & S)", stringsAsFactors = FALSE),
+    data.frame(hbll_s_in, survey = "Inside Hard Bottom Longline (N & S)", stringsAsFactors = FALSE))) |>
   mutate(survey = factor(survey, levels = c(
-    "Outside Hard Bottom Long Line (N)",
-    "Outside Hard Bottom Long Line (S)",
-    "Inside Hard Bottom Long Line (N & S)"))
+    "Outside Hard Bottom Longline (N)",
+    "Outside Hard Bottom Longline (S)",
+    "Inside Hard Bottom Longline (N & S)"))
   )
 
 g2 <- ggplot()
