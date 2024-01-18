@@ -1,21 +1,19 @@
-Title? Assessing the quality of groundfish population indices derived from the Multispecies Small Mesh Survey (the 'shrimp survey')
-
 # Introduction
 
-DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island since 1973.
+DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island (WCVI) since 1973.
 This survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but it is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
 
 However, the survey has undergone several changes that likely affect interpretation of the data.
+
+TODO: we need a bit here about what we were asked to do...
+
 In this report we:
 
-(1) Highlight changes that may affect interpretation of the groundfish data (e.g., gear used, sampling protocols, species identification)
-(2) Fit geostatistical models to account for changes in spatial sampling through time
-(3) Understand how well historical MSSM groundfish data may represent trends in abundance by comparing modelled MSSM indices with indices from two other indices in the same region (CPUE 3CD and SYN WCVI)
+1. Highlight changes that may affect interpretation of the groundfish data (e.g., gear used, sampling protocols, species identification).
+2. Fit geostatistical models to account for changes in spatial sampling through time.
+3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modelled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the synoptic trawl survey off WCVI [SYN WCVI]).
 
-Data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) for years up to 2022 (@mssm2022obis).
-
-In this report we used data extracted from GFBio for years 1975 - 2022.
-
-@mssm2022obis Flemming R (2013): Pacific Multispecies Small Mesh Bottom Trawl Survey. v2.4. Fisheries and Oceans Canada. Dataset/Samplingevent. http://iobis.org/mapper/?resource_id=261
+Data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) for years up to 2022 [@mssm2022obis].
+In this report, we used data extracted from an internal SQL server (GFBio) for 1975--2022.
 
 \clearpage
