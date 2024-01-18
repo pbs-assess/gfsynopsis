@@ -33,9 +33,9 @@ iphc_grid <- iphc_set_info |>
 #             "big skate",
 #             "longnose skate",
 #             "shortspine thornyhead")
-spp_list <- "pacific halibut"
+#spp_list <- "pacific halibut"
 #spp_list <- "arrowtooth flounder"
-#spp_list <- "lingcod"
+spp_list <- "lingcod"
 spp_files <- paste0(clean_name(spp_list), '.rds')
 
 dat <- lapply(spp_list, FUN = function(sp) {
@@ -72,6 +72,18 @@ test_dat <- dat %>% filter(year >= 2003) |>
   filter(iphcUsabilityCode %in% c(1, 3), standard == "Y") |> # Match Joe's data use filtering
   sdmTMB::add_utm_columns(ll_names = c("lon", "lat"))
 
+pstar <- 0.823 # lingcod
+#pstar <- 0.920 # arrowtooth
+#pstar <- 0.99 # halibut
+
+test_dat <- test_dat |>
+  mutate(upr = sdmTMB:::get_censored_upper(prop_removed, n_catch = catch,
+    n_hooks = obsHooksPerSet, pstar = pstar)) |>
+  mutate(pstar = pstar, cens = prop_removed > pstar)
+  #mutate(upr = ifelse(upr > catch, floor(upr / 4), upr))
+  #mutate(upr = ifelse(prop_removed > pstar, catch + 20, catch))
+
+
 mesh <- make_mesh(test_dat, xy_cols = c("X", "Y"), cutoff = 15)
 missing_years <- sdmTMB:::find_missing_time(test_dat$year)
 
@@ -81,8 +93,8 @@ stop()
 message(spp_list)
 #f <- formula(catch ~ 0 + as.factor(year))
 f <- formula(catch ~ 1)
-st <- 'rw'
-sp <- 'on'
+st <- 'iid'#'rw'
+sp <- 'off'
 
 fit1 <- sdmTMB(
   formula = f,
@@ -95,16 +107,6 @@ fit1 <- sdmTMB(
 
 # saveRDS(fit1, here::here('scratch-out', 'fit1.rds'))
 #fit1 <- readRDS(here::here('scratch-out', 'fit1.rds'))
-
-#pstar <- 0.823 # lingcod
-#pstar <- 0.920 # arrowtooth
-pstar <- 0.99 # halibut
-
-test_dat <- test_dat |>
-  mutate(upr = sdmTMB:::get_censored_upper(prop_removed, n_catch = catch,
-    n_hooks = obsHooksPerSet, pstar = pstar))
-  #mutate(upr = ifelse(upr > catch, floor(upr / 4), upr))
-  #mutate(upr = ifelse(prop_removed > pstar, catch + 20, catch))
 
 fit2 <- sdmTMB(
   formula = f,
@@ -121,8 +123,25 @@ fit2 <- sdmTMB(
   #control = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
   silent = FALSE)
 
+fit3 <- sdmTMB(
+  formula = f,
+  family = censored_nbinom2(),
+  time = "year",
+  spatiotemporal = st,
+  spatial = sp,
+  mesh = mesh,
+  data = test_dat,
+  offset = 'log_eff_skate',
+  #experimental = list(lwr = test_dat$lwr, upr = test_dat$upr),fit3
+  control = sdmTMBcontrol(censored_upper = test_dat$upr),
+  extra_time = missing_years,
+  #control = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
+  silent = FALSE)
+beepr::beep()
+
 sanity(fit1)
 sanity(fit2)
+sanity(fit3)
 
 min_year <- min(test_dat$year)
 max_year <- max(test_dat$year)
