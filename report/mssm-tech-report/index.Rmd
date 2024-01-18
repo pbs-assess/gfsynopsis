@@ -1,6 +1,6 @@
 ---
 title: |
-  "A data synopsis for the MultiSpecies Small-Mesh Survey"
+  "Assessing the quality of groundfish population indices derived from the Multispecies Small Mesh Survey"
 french_title: Titre ici (*Nom latin de l'espèce*)
 year: 2023
 report_number: nnn
@@ -23,9 +23,9 @@ french_address: |
 phone: "(555) 555-5555"
 author_footnote: "Email: First.Author@dfo-mpo.gc.ca | telephone: (250) 756-5555"
 abstract: |
-  Here is the abstract text. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  Since 1973, DFO has conducted the Multi-Species Small-Mesh Survey, which is one of the longest continuous bottom trawl time-series for groundfish off the coast of West Coast Vancouver Island. The survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordanii*) populations.
 french_abstract: |
-  Voici le résumé. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  Voici le résumé.
 output:
  csasdown::techreport_pdf:
    french: false

@@ -73,7 +73,7 @@ map_text <- "Note that the coast has been rotated 40$^{\\circ}$ to fit all the m
 (ref:survey-maps-cap) Example maps of relative biomass (or catch rate) from
 trawl and longline surveys from the latest available years of each survey for
 `r sp`. Shown are the synoptic trawl surveys (left), the outside hard bottom
-long line (HBLL OUT) surveys (middle), and the IPHC FISS (right). Individual
+longline (HBLL OUT) surveys (middle), and the IPHC FISS (right). Individual
 sets are shown in the two left panels as faint crosses (if the species was not
 caught in that set), or circles with the area of the circle proportional to the
 species density from the set. Colour shading (except for the IPHC survey)
@@ -162,6 +162,7 @@ implemented for bottom and midwater trawl fleets in outside waters in 1996 and
 an at-sea observer program was implemented for non-trawl sectors in 2006.
 Management areas, as indicated in the top left corner of each panel, are shown
 in Figure \@ref(fig:management-map).
+The at-sea observer program stopped in early 2020 due to COVID-19 and an electronic monitoring system was later developed in its place.
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
 g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Catch", french), " (t)"))
