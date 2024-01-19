@@ -205,7 +205,7 @@ shown in cases where there are at least 3 unique vessels in a given cell to
 meet privacy requirements. For bottom trawl, catch per unit effort is
 calculated as the weight of catch (landings plus discards) divided by hours
 fished for all positive tows from the groundfish trawl sector. Trawl data are
-shown from 2013 onwards after the trawl footprint was frozen. Trawl data from
+shown from 2013 onwards after the trawl footprint was frozen (@wallace2015). Trawl data from
 2007--2012 are indicated as outlined light grey hexagons to illustrate fishing
 prior to the frozen footprint. For hook and line, catch per unit effort is
 shown as the number of fish recorded as landed or discarded per set.
