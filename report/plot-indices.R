@@ -59,9 +59,9 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
   )
 
   # get design indices ---------------------------------------
-
   dat_design <- tidy_survey_index(
     dat$survey_index,
+    min_years = 1,
     survey = c(
       lvls
     )
