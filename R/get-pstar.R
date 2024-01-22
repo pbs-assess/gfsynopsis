@@ -6,7 +6,9 @@
 #' @param survey_dat A dataframe from [gfsynopsis::prep_stitch_dat()] or
 #' [gfsynopsis::prep_iphc_stitch_dat()].
 #' @param gam_formula A string or formula specifying the generalised additive
-#' used to estimate pstar.
+#' used to estimate pstar. (See Watson et al. 2023).
+#' - Suggestion for IPHC `catch ~ -1 + s(prop_removed) + fyear + s(fstation, bs = "re") + offset(log_eff_skate)`
+#' - Suggestion for HBLL `catch ~ -1 + s(prop_removed) + fyear + offset(log(hook_count))`.
 #' @param survey_type A string specifying the survey type: "iphc",
 #' "hbll_outside", or "hbll_inside".
 #' @param prop_removed_min Optional. Minimum value of proportion of baits removed
@@ -17,6 +19,11 @@
 #' @param save_out Whether to save the pstar object to `pstar_cache`
 #' (default = TRUE).
 #'
+#' #' @references
+#' Watson, J., Edwards, A.M., and Auger-Méthe M. 2023. A statistical censoring 
+#' approach accounts for hook competition in abundance indices from longline 
+#' surveys. Can. J. Fish. Aquat. Sci. 80(3): 468-486. \doi{10.1139/cjfas-2022-0159}
+#' 
 #' @returns A list of objects containing
 #'  - `gam_fit`: The fitted GAM object.
 #'  - `pred_df`: A data frame with predicted values from `gam_fit`

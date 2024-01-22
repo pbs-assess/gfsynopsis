@@ -19,7 +19,11 @@ get_pstar(
 \code{\link[=prep_iphc_stitch_dat]{prep_iphc_stitch_dat()}}.}
 
 \item{gam_formula}{A string or formula specifying the generalised additive
-used to estimate pstar.}
+used to estimate pstar. (See Watson et al. 2023).
+\itemize{
+\item Suggestion for IPHC \code{catch ~ -1 + s(prop_removed) + fyear + s(fstation, bs = "re") + offset(log_eff_skate)}
+\item Suggestion for HBLL \code{catch ~ -1 + s(prop_removed) + fyear + offset(log(hook_count))}.
+}}
 
 \item{survey_type}{A string specifying the survey type: "iphc",
 "hbll_outside", or "hbll_inside".}
@@ -33,7 +37,12 @@ for generating predictions. If not provided, uses the minimum value found in
 \item{pstar_cache}{Path to a folder for caching pstar objects.}
 
 \item{save_out}{Whether to save the pstar object to \code{pstar_cache}
-(default = TRUE).}
+(default = TRUE).
+
+#' @references
+Watson, J., Edwards, A.M., and Auger-Méthe M. 2023. A statistical censoring
+approach accounts for hook competition in abundance indices from longline
+surveys. Can. J. Fish. Aquat. Sci. 80(3): 468-486. \doi{10.1139/cjfas-2022-0159}}
 }
 \value{
 A list of objects containing
