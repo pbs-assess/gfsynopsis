@@ -13,6 +13,7 @@ The original groundfish data synopsis report was developed to provide a snapshot
 The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
 In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2022].
 In this version, we update the report to include 2022 data as well as adding several additional species, surveys, and spatiotemporal modeling of survey data. We also update referenced stock assessment Research Documents, Science Advisory Reports, and Science Responses.
+We intend to publish updates of this report on an annual or biennial schedule.
 
 The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
 The goals of the report are to
