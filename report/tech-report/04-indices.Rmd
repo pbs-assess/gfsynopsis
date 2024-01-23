@@ -24,7 +24,7 @@ spp_table %>% arrange(species_common_name) %>%
 
 # Species Index by Scientific Name {#sec:sci-name-index}
 
-```{r index-alpha-common, results='asis', cache=FALSE}
+```{r index-alpha-sci, results='asis', cache=FALSE}
 spp_table %>% arrange(species_science_name) %>%
   select(species_common_name, species_science_name, section) %>%
   csasdown::csas_table(align = c("l", "l", "l"),
