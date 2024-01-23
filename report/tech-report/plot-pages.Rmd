@@ -1563,7 +1563,7 @@ Order: Scorpaeniformes, Family: Anoplopomatidae,
 Last Research Documents: @cox2019sablefish, @cox2023sablefish\
 Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefish\
 Last Science Response: @dfo2023sablefishmp\
-The annual sablefish trap survey is not included in this report. Commercial biological samples from 2018--2022, after a head-only sampling program was implemented [@lacko2023], are not shown.
+The annual sablefish trap survey is not included in this report. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sablefish-1.png}
 \end{figure}

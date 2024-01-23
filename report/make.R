@@ -520,7 +520,7 @@ temp <- lapply(spp$species_common_name, function(x) {
   }
   if (species_code == "455") {
     if (!french) {
-      out[[i]] <- "The annual sablefish trap survey is not included in this report. Commercial biological samples from 2018--2022, after a head-only sampling program was implemented [@lacko2023], are not shown."
+      out[[i]] <- "The annual sablefish trap survey is not included in this report. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown."
     } else {
       out[[i]] <- "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
