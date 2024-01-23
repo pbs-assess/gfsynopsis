@@ -523,7 +523,7 @@ temp <- lapply(spp$species_common_name, function(x) {
       out[[i]] <- "Note that Sablefish undergoes directed annual trap surveys,
       which are used for\n stock assessment and are not included in
       this report. The most recent\n stock assessment should be
-      consulted for details on stock status."
+      consulted for details on stock status. Commercial biological samples from 2018--2022 after a head-only sampling program was implemented [@lacko2023] are not shown."
     } else {
       out[[i]] <- "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
