@@ -298,8 +298,9 @@ purrr::walk(to_build, function(i) {
 # future::plan(multisession, workers = 9L)
 # out <- future.apply::future_lapply(which(missing), function(i) {
   tryCatch({
-    cat(crayon::red(clisymbols::symbol$cross),
-      "Building figure pages for", spp$species_common_name[i], "\n")
+    cli::cli_inform("------------------------------------")
+    cli::cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
+
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
     dat_iphc <- readRDS(file.path(dc, "iphc", paste0(spp$spp_w_hyphens[i], ".rds")))
     hbll_bait_counts <- readRDS(file.path(dc, 'bait-counts.rds'))

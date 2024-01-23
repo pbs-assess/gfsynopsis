@@ -102,7 +102,9 @@ make_pages <- function(
     iphc_hook_counts,
     index_ggplot
   ) {
-  message("\nMaking pages for species: ", spp)
+  progress_fn <- function(...) cli::cli_progress_step(..., spinner = TRUE)
+  # cli::cli_inform("------------------------------------")
+  # progress_fn(paste0("Building figure pages for ", spp))
   # Internal setup calculations: -----------------------------------------------
   height <- width * aspect
 
@@ -220,7 +222,7 @@ make_pages <- function(
   )
 
   # Age compositions: ----------------------------------------------------------
-  message("\tAge compositions")
+  progress_fn("Age compositions")
   ss <- tidy_ages_raw(dat$survey_samples,
     sample_type = "survey", survey = c(
       "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
@@ -279,7 +281,7 @@ make_pages <- function(
   }
 
   # Length compositions: -------------------------------------------------------
-  message("\tLength compositions")
+  progress_fn("Length compositions")
   length_samples_survey <- dplyr::filter(
     dat$survey_samples,
     !length %in% find_length_outliers(dat$survey_samples$length)
@@ -387,7 +389,7 @@ make_pages <- function(
   }
 
   # Aging precision: -----------------------------------------------------------
-  message("\tAging precision")
+  progress_fn("Aging precision")
   if (nrow(dat$age_precision) > 0) {
     g_age_precision <- tidy_age_precision(dat$age_precision) %>%
       plot_age_precision()
@@ -397,7 +399,7 @@ make_pages <- function(
   }
 
   # Commercial CPUE indices: ---------------------------------------------------
-  message("\tCommercial CPUE indices")
+  progress_fn("Commercial CPUE indices")
   all_not_NA <- function(x) {
     all(!is.na(x[[1L]]))
   }
@@ -453,7 +455,7 @@ make_pages <- function(
   }
 
   # Commercial catch: ----------------------------------------------------------
-  message('\tCommercial catch')
+  progress_fn('\tCommercial catch')
   if (nrow(dat$catch) > 0) {
     g_catch <- gfsynopsis::plot_catches(dat$catch, french = french, xlim = c(1955, final_year_comm))
   } else {
@@ -472,12 +474,12 @@ make_pages <- function(
     ggtitle(en2fr("Commercial catch", french))
 
   # Survey biomass indices: ----------------------------------------------------
-  message("\tBiomass indices")
+  progress_fn("Biomass indices")
 
   g_survey_index <- index_ggplot
 
   # Specimen numbers: ----------------------------------------------------------
-  message("\tSpecimen numbers")
+  progress_fn("Specimen numbers")
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, final_year_surv))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
@@ -503,7 +505,7 @@ make_pages <- function(
   })
 
   # Maturity by month: ---------------------------------------------------------
-  message("\tMaturity by month")
+  progress_fn("Maturity by month")
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples, french = french)
   if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
     g_maturity_month <- ggplot() +
@@ -517,7 +519,7 @@ make_pages <- function(
   }
 
   # Growth fits: ---------------------------------------------------------------
-  message("\tGrowth fits")
+  progress_fn("Growth fits")
   if (nrow(dat$survey_samples) >= 10) {
     check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
 
@@ -602,7 +604,7 @@ make_pages <- function(
   }
 
   # Maturity ogives: -----------------------------------------------------------
-  message("\tMaturity ogives")
+  progress_fn("Maturity ogives")
   if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
     mat_age <- dat$survey_samples %>%
       fit_mat_ogive(
@@ -735,7 +737,7 @@ make_pages <- function(
       ggplot2::guides(lty = "none", colour = "none")
   }
   # Commercial CPUE maps -------------------------------------------------------
-  message("\tCommercial CPUE maps")
+  progress_fn("Commercial CPUE maps")
   coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
 
   # for checking if aspect ratio of map is 1:1
@@ -804,7 +806,7 @@ make_pages <- function(
   # g_cpue_spatial_ll <- ggplot() + theme_pbs()
 
   # Survey maps: ---------------------------------------------------------------
-  message("\tSurvey maps")
+  progress_fn("Survey maps")
   if (!file.exists(map_cache_spp_synoptic)) {
     # Multiply by 1000 for computational reasons.
     # Otherwise the numbers are too small sometimes:
@@ -1035,7 +1037,7 @@ make_pages <- function(
   })
 
   # Page 1 layout: -------------------------------------------------------------
-  message("\tPage 1 layout")
+  progress_fn("Page 1 layout")
   gg_catch <- ggplot2::ggplotGrob(g_catch)
   gg_survey_index <- ggplot2::ggplotGrob(g_survey_index)
   gg_cpue_spatial <- ggplot2::ggplotGrob(g_cpue_spatial)
@@ -1112,7 +1114,7 @@ make_pages <- function(
   dev.off()
 
   # Page 2 layout: -------------------------------------------------------------
-  message("\tPage 2 layout")
+  progress_fn("Page 2 layout")
   gg_mat_age <- ggplot2::ggplotGrob(g_mat_age)
   gg_mat_length <- ggplot2::ggplotGrob(g_mat_length)
   gg_mat_month <- ggplot2::ggplotGrob(g_maturity_month)
