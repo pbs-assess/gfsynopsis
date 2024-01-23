@@ -46,7 +46,7 @@ Such a structure has been used previously in @anderson2023sopo and @english2023.
 The structure is similar to the first-order autoregressive (AR1) spatiotemporal model used by the International Pacific Halibut Commission when modelling their survey data [@webster2020].
 
 For the trawl surveys, which sample catch weight per area swept, we considered five possible families (combinations of linear predictor links and observation likelihoods): Tweedie, delta-gamma, delta-lognormal, delta-Poisson-link-gamma, and delta-Poisson-link-lognormal.
-We then choose the family with the lowest conditional AIC (Akaike information criterion) for each survey-species combination (among the models that converged).
+We then choose the family with the lowest marginal AIC (Akaike information criterion) for each survey-species combination (among the models that converged).
 The @tweedie1984 likelihood with a log link is the approach described in @anderson2019synopsis.
 The delta-gamma and delta-lognormal families are widely used [e.g., @thorson2015] delta or hurdle [@aitchison1955] models with (1) a linear predictor for encounter probability with a logit link and a Bernoulli likelihood and (2) a linear predictor for catch rate conditional on an encounter with a log link and a gamma or lognormal likelihood.
 The delta-Poisson-link-gamma and delta-Poisson-link-lognormal families are described in @thorson2018poisson.
@@ -68,7 +68,7 @@ where Eq. A.9 has its roots in a Poisson process (and the 'cloglog' link) and th
 
 In the case of the hook and line surveys (IPHC, HBLL OUT, HBLL INS), which sample catch counts, we applied a negative binomial ('NB2') observation likelihood [@hilbe2011] where the variance scales quadratically with the mean.
 For these hook and line surveys, we applied an instantaneous catch rate (ICR) correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
-We explored a censored Poisson likelihood with additional observation-level dispersion [@watson2022], but found a poorer fit to the data (as indicated by conditional AIC and plots of residuals) for many species and model convergence issues in several cases.
+We explored a censored Poisson likelihood with additional observation-level dispersion [@watson2022], but found a poorer fit to the data (as indicated by marginal AIC and plots of residuals) for many species and model convergence issues in several cases.
 We plan to revisit this censored likelihood approach in a future version of the report.
 
 We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
@@ -95,14 +95,11 @@ Similarly, the 2022 survey year introduced some new survey locations that had no
 knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
 ```
 
-
-
 We derived spatiotemporal model-based indices of abundance for the individual surveys largely as described in @anderson2019synopsis with the following changes:
 
-- We considered the same five families described above and selected the family with the lowest conditional AIC. @anderson2019synopsis only considered the Tweedie.
+- We considered the same five families described above and selected the family with the lowest marginal AIC. @anderson2019synopsis only considered the Tweedie.
 - We added model-based indices of abundance for HBLL OUT N, HBLL OUT S, and IPHC FISS. @anderson2019synopsis only included the synoptic trawl surveys.
 - We constructed the SPDE meshes with a minimum triangle edge cutoff distance of 10 km for SYN HS, SYN QCS, and SYN WCVI and a cutoff distance of 8 km for SYN WCHG (which tends to have more fine-scale spatial variation than the other regions given the rapid transition to deep depths). @anderson2019synopsis used a k-means clustering algorithm to derive the vertices of the mesh, but we are now following subsequent recommendations on mesh construction best practices [e.g., @righetto2020].
-
 
 <!-- - A single model was fit to the combined data from each type of survey. -->
 <!-- - The expected biomass density was predicted over the combined survey grid. -->
