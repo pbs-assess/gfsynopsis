@@ -333,7 +333,7 @@ make_pages <- function(
     sb <- NA
   }
 
-  min_total <- 20
+  min_total <- 10
   if (all(!is.na(sb)) && max(sb$total) >= min_total) {
     sb <- sb |>
       mutate(survey_abbrev2 = case_when(
