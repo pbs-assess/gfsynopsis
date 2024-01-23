@@ -70,6 +70,7 @@ Order: Lamniformes, Family: Lamnidae,
 Order: Carcharhiniformes, Family: Scyliorhinidae,
 [FishBase](http://www.fishbase.org/summary/Apristurus-brunneus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158512)\
+COSEWIC Annual Report: @cosewic2007annualrep\
 COSEWIC Status: Data Deficient, SARA Status: No Status
 
 \begin{figure}[b!]
@@ -265,6 +266,7 @@ Order: Rajiformes, Family: Arhynchobatidae,
 Order: Rajiformes, Family: Arhynchobatidae,
 [FishBase](http://www.fishbase.org/summary/Bathyraja-interrupta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271515)\
+COSEWIC Annual Report: @cosewic2007annualrep\
 COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \begin{figure}[b!]
@@ -287,6 +289,7 @@ Order: Rajiformes, Family: Rajidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271581)\
 Last Research Document: @king2015biglongnoseskate\
 Last Science Advisory Report: @dfo2014biglongnoseskate\
+COSEWIC Annual Report: @cosewic2007annualrep\
 COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \begin{figure}[b!]
@@ -756,6 +759,7 @@ Order: Perciformes, Family: Stichaeidae,
 Order: Perciformes, Family: Anarhichadidae,
 [FishBase](http://www.fishbase.org/summary/Anarrhichthys-ocellatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279605)\
+COSEWIC Annual report: @cosewic2003annualrep\
 COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \begin{figure}[b!]
@@ -1419,7 +1423,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Last Research Documents: @cox2020YEout, @haggarty2021yelloweyeinside\
 Last Science Advisory Reports: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside\
-Species at Risk Act Management Plan Series and Last Science Responses: @dfo2020yelloweye, @dfo2023yelloweye, @dfo2023yelloweyeMPs\
+Species at Risk Act Management Plan Series and Last Science Responses: @dfo2021yelloweye, @dfo2023yelloweye, @dfo2023yelloweyeMPs\
 COSEWIC Status Report: @cosewic2020yelloweye\
 COSEWIC Status: Threatened, SARA Status: Special Concern
 
@@ -1558,13 +1562,13 @@ Order: Scorpaeniformes, Family: Anoplopomatidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
 Last Research Documents: @cox2019sablefish, @cox2023sablefish\
 Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefish\
-Last Science Response: @dfo2023sablefish\
+Last Science Response: @dfo2023sablefishmp\
 Note that Sablefish undergoes directed annual trap surveys,
       which are used for
  stock assessment and are not included in
       this report. The most recent
  stock assessment should be
-      consulted for details on stock status.
+      consulted for details on stock status. Commercial biological samples from 2018--2022 after a head-only sampling program was implemented [@lacko2023] are not shown.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sablefish-1.png}
 \end{figure}
