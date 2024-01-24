@@ -177,7 +177,7 @@ g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Cat
 trends, with effort as hours trawled, for `r sp`. Solid lines represent CPUE trends
 standardized with a Tweedie GLMM (generalized linear mixed effects model) for
 depth, latitude, DFO locality region, vessel, and month of year [Appendix
-D in @anderson2019synopsis]. The line itself represents the estimaπte and the shaded
+D in @anderson2019synopsis]. The line itself represents the estimate and the shaded
 ribbon represents a 95\% confidence interval. The dashed line represents an
 unstandardized commercial CPUE index calculated as the sum of catch divided by
 the sum of effort each year. Standardized time series are scaled to have the
