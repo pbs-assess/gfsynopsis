@@ -211,7 +211,7 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
 # these are complex, do outside first:
 source(here::here("report", "plot-indices.R"))
 # make_index_panel("north-pacific-spiny-dogfish")
-# make_index_panel("north-pacific-spiny-dogfish")
+make_index_panel("basking-shark")
 make_index_panel("pacific-cod", all_survey_years = all_survey_years)
 # make_index_panel("big-skate")
 make_index_panel("longnose-skate", all_survey_years = all_survey_years)

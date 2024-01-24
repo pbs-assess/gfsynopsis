@@ -296,68 +296,74 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FAL
     )
 
   # plot ----------------------------------------
-
   suppressMessages(suppressWarnings({
-    g <- plot_survey_index(
-      dat = des_scaled,
-      scale = FALSE,
-      col = c("grey60", "grey20"),
-      max_cv = 1,
-      survey_cols = survey_cols,
-      xlim = c(1984 - 0.2, final_year_surv + 0.2),
-      french = french,
-      scale_type = "max-CI",
-      pjs_mode = TRUE
-    ) +
-      coord_cartesian(
-        ylim = c(-0.004, 1.03),
-        xlim = c(yrs[1], final_year_surv) + c(-0.75, 0.75), expand = FALSE
-      )
-
-    if (has_geo) {
-      g <- g + geom_line(data = geo_scaled, mapping = aes(colour = survey_abbrev)) +
-        geom_ribbon(
-          data = geo_scaled,
-          mapping = aes(ymin = lowerci_scaled, ymax = upperci_scaled, fill = survey_abbrev), alpha = 0.2
-        )
-    }
-    g <- g + scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE)) +
-      theme(
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank()
-      ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", french)) +
-      theme(
-        strip.background = element_blank(),
-        strip.text.x = element_blank()
+    if (nrow(geo_scaled) == 0L & all(is.na(des_scaled$biomass))) {
+      # Blank plot area when no data
+      g <- ggplot() +
+        theme_pbs() +
+        ggplot2::ggtitle(en2fr("Survey relative biomass indices", french))
+    } else {
+      g <- plot_survey_index(
+        dat = des_scaled,
+        scale = FALSE,
+        col = c("grey60", "grey20"),
+        max_cv = 1,
+        survey_cols = survey_cols,
+        xlim = c(1984 - 0.2, final_year_surv + 0.2),
+        french = french,
+        scale_type = "max-CI",
+        pjs_mode = TRUE
       ) +
-      geom_text(
-        data = labs, x = yrs[1] + 0.5, y = 0.89,
-        aes(label = survey_abbrev),
-        inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
-      )
-
-    if ("MSSM WCVI" %in% both_scaled$survey_abbrev && !all(is.na(filter(both_scaled, survey_abbrev == "MSSM WCVI")$biomass_scaled))) {
-      g <- g +
-        geom_rect(
-          data = filter(both_scaled, survey_abbrev == "MSSM WCVI")[1, , drop = FALSE],
-          mapping = ggplot2::aes(xmin = yrs[1] - 2, xmax = 2003, ymin = -Inf, ymax = Inf),
-          alpha = 0.15
+        coord_cartesian(
+          ylim = c(-0.004, 1.03),
+          xlim = c(yrs[1], final_year_surv) + c(-0.75, 0.75), expand = FALSE
         )
-    }
 
-    g <- g + geom_text(
-      data = stats_df, aes(label = cv),
-      x = yrs[1] + 0.5, y = 0.67,
-      colour = "grey35", size = 2.65, hjust = 0
-    ) +
-      geom_text(
-        data = stats_df,
-        aes(label = sets),
-        x = yrs[1] + 0.5, y = 0.49,
+      if (has_geo) {
+        g <- g + geom_line(data = geo_scaled, mapping = aes(colour = survey_abbrev)) +
+          geom_ribbon(
+            data = geo_scaled,
+            mapping = aes(ymin = lowerci_scaled, ymax = upperci_scaled, fill = survey_abbrev), alpha = 0.2
+          )
+      }
+      g <- g + scale_x_continuous(guide = ggplot2::guide_axis(check.overlap = TRUE)) +
+        theme(
+          axis.title.y = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank()
+        ) + ggplot2::ggtitle(en2fr("Survey relative biomass indices", french)) +
+        theme(
+          strip.background = element_blank(),
+          strip.text.x = element_blank()
+        ) +
+        geom_text(
+          data = labs, x = yrs[1] + 0.5, y = 0.89,
+          aes(label = survey_abbrev),
+          inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
+        )
+
+      if ("MSSM WCVI" %in% both_scaled$survey_abbrev && !all(is.na(filter(both_scaled, survey_abbrev == "MSSM WCVI")$biomass_scaled))) {
+        g <- g +
+          geom_rect(
+            data = filter(both_scaled, survey_abbrev == "MSSM WCVI")[1, , drop = FALSE],
+            mapping = ggplot2::aes(xmin = yrs[1] - 2, xmax = 2003, ymin = -Inf, ymax = Inf),
+            alpha = 0.15
+          )
+      }
+
+      g <- g + geom_text(
+        data = stats_df, aes(label = cv),
+        x = yrs[1] + 0.5, y = 0.67,
         colour = "grey35", size = 2.65, hjust = 0
-      )
+      ) +
+        geom_text(
+          data = stats_df,
+          aes(label = sets),
+          x = yrs[1] + 0.5, y = 0.49,
+          colour = "grey35", size = 2.65, hjust = 0
+        )
 
+    }
   }))
   g
 }
