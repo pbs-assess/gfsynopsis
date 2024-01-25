@@ -1,6 +1,12 @@
-if (!('mssm_loaded' %in% ls())) {
-  source(here::here('report', 'mssm-tech-report', 'R', '00-load.R'))
-}
+source(here::here('report', 'mssm-tech-report', 'R', '00-load.R'))
+source(here::here('report', 'mssm-tech-report', 'R', '02-load-indices.R'))
+source(here::here('report', 'mssm-tech-report', 'R', '03-age-size-frequencies.R'))
+source(here::here('report', 'mssm-tech-report', 'R', '03-compare-indices.R'))
+source(here::here('report', 'mssm-tech-report', 'R', '03-grids.R'))
+source(here::here('report', 'mssm-tech-report', 'R', '03-mssm-wcvi-encounters.R'))
+source(here::here('report', 'mssm-tech-report', 'R', '03-sampling-changes.R'))
+source(here::here('report', 'mssm-tech-report', 'R', '04-rolling-window-correlation.R'))
+
 
 optimize_png <- TRUE
 if (optimize_png) {

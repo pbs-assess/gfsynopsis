@@ -8,6 +8,7 @@ sf_use_s2(FALSE)
 utm_zone = 9
 #bath = c(100, 200, 400, 600, 800, 1000, 1200)
 bath = c(100, 200, 500, 1000)
+buffer = 0
 xlim_ll <- st_bbox(mssm_grid_sf)[c(1, 3)] + buffer
 ylim_ll <- st_bbox(mssm_grid_sf)[c(2, 4)] + buffer
 

@@ -93,11 +93,9 @@ pre_2003_spp_plot_over451 <- sampling_2003 |>
   filter(species_common_name %in% over3_spp) |>
 plot_samp_spp()
 
-
-
-
-
-pre_2003_spp_plot <- plot_samp_spp()
+pre_2003_spp_plot <- sampling_2003 |>
+  filter(!(species_common_name %in% post_2003_spp)) |>
+  plot_samp_spp()
 
 ggsave(file.path(mssm_figs, 'sampling-2003.png'), plot = pre_2003_spp_plot,
   width = 9, height = 12)
@@ -310,7 +308,7 @@ extreme_catches <- eelpouts_group |>
   arrange(-catch_weight) |>
   slice(1:5)
 
-View(extreme_catches)
+#View(extreme_catches)
 
 bind_rows(eelpouts_group, eelpouts_spp) |>
 ggplot(aes(x = year, y = catch_weight)) +
@@ -346,7 +344,7 @@ extreme_catches <- skates_group |>
   arrange(-catch_weight) |>
   slice(1:5)
 
-View(extreme_catches)
+#View(extreme_catches)
 
 bind_rows(skates_group, skates_spp) |>
 ggplot(aes(x = year, y = catch_weight)) +
