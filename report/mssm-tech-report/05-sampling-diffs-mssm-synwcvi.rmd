@@ -1,0 +1,45 @@
+# Sampling differences between MSSM and SYN WCVI
+
+All of the species captured in the MSSM survey are also caught in the SYN WCVI survey (Figure \@ref(fig:encounter-tigure)).
+Most species have similar encounter probabilities across the surveys, with a higher frequency of capturing flatfish species like Slender Sole, Rex Sole, Dover Sole, and Arrowtooth Flounder.
+However, species such as Eulachon, Flathead Sole, and Blackbelly Eelpout were encountered at least twice as frequently in the MSSM survey than in the SYN WCVI survey (Figure \@ref(fig:encounter-tigure)).
+These species also have much higher densities of fish caught in the MSSM survey than the SYN WCVI survey.
+Differences in encounters and catch densities are slightly smaller when considering only SYN WCVI trawls done in the same depth range as the MSSM survey (75--219 m), which suggests that there are factors other than depth also affecting these differences.
+
+```{r encounter-tigure, fig.cap="Encounter probabilities and mean densities of species that are caught in the MSSM survey and which were encountered in at least 10\\% of trawls in either the MSSM and SYN WCVI survey. Encounters and density are ordered in descending order of values for the MSSM survey. Also included are encounter probabilities and mean densities for a subset of data from the SYN WCVI taken at the same depths as surveyed in the MSSM (75--219 m)."}
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/mssm-wcvi-tigure_same-depth.png"), dpi = NA)
+```
+
+Thirty-nine species have length samples in both the MSSM and SYN WCVI.
+Shiner perch is the only species that has length samples in the MSSM but not in the SYN WCVI.
+Across most species, median measured lengths and distributions were similar.
+Several fish species are generally found to be smaller in the MSSM survey, with the greatest differences in median lengths and sampled ranges being in Darkblotched Rockfish, Sablefish, Harlequin Rockfish, Splitnose Rockfish, Pacific Ocean Perch, Redbanded Rockfish, Longose Skate, Pacific Hake, and Rougheye/Blackspotted Rockfish Complex.
+However, the shortest lengths sampled in the MSSM were also almost always sampled at some time in the SYN WCVI (Figure \@ref(fig:length-dist), Appendix \@ref(app:size-time)).
+
+Only seven species have ageing data in the MSSM (Figure \@ref(fig:age-dist)). 
+We were able to compare six of them with SYN WCVI (Figure \@ref(fig:age-dist))--- Pygmy Rockfish has no ageing data from the SYN WCVI.
+Similar to the length sampling, the lower end of the age range sampled in the MSSM were almost always also sampled in the SYN WCVI.
+
+## Investigating whether the MSSM survey can detect early signs of recruitment
+
+We saw some evidence of recruitment events in the MSSM data that was either not observed in the SYN WCVI (i.e., Rougheye/Blackspotted Rockfish Complex, Darkblotched Rockfish), or was observed one year earlier than the SYN WCVI (i.e., Bocaccio) (Figure \@ref(fig:size-dist-time)).
+Rougheye/Blackspotted Rockfish Complex and Darkblotched Rockfish are two species that were consistently caught at smaller sizes in the MSSM than in the SYN WCVI (Figure \@ref(fig:length-dist)).
+Furthermore, they were caught at smaller sizes that in the same years, are not measured in the SYN WCVI (Figure \@ref(fig:size-dist-time)).
+Both of these species showed an increase in the relative biomass index from the MSSM a few years after small fish were observed, but this increase was not seen in the SYN WCVI data.
+The Bocaccio recruitment event in 2016 [@dfo2022bocaccio] was first observed in the MSSM data (Figure \@ref(fig:size-dist-time)).
+The subsequent year, larger but still small/young fish were caught in both the MSSM and SYN WCVI.
+It is possible that this would also have been seen if the SYN WCVI survey was conducted in 2016 because these small fish (20--25 cm) were caught and measured in the SYN WCVI survey in 2021 (Figure \@ref(fig:size-dist-time)).
+
+```{r length-dist, fig.cap="Distribution of sampled lengths (cm) for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Large points represent the median length measured with lines ending at the 25th and 75th quantiles. Shown behind these summary points are the raw data of all unique length values. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length (i.e., 'Equal' means median values are equal, 'MSSM' means the median length is larger for the MSSM survey). Only species that have length data in both the MSSM and SYN WCVI surveys are shown."}
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/size-comp.png"), dpi = NA)
+```
+
+```{r age-dist, out.width="50%", fig.cap="Distribution of sampled length distributions for species observed in the MSSM (green) and SYN WCVI (purple) surveys. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length."}
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/age-comp.png"), dpi = NA)
+```
+
+```{r size-dist-time, fig.cap="Relative biomass indices (top panel of each species) and the corresponding distribution of sampled lengths (cm) through time (bottom panel of each species) for species observed in the MSSM (green) and SYN WCVI (purple). (Top) Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean in overlapping years. The axes are set to encompass the confidence intervals of the MSSM index. (Bottom) Large points represent the median length measured with lines ending at the 25th and 75th quantiles. Shown behind these summary points are the raw data of all unique length values. Panels separate species based on the relative difference in mean observed size between the surveys and species are ordered from left to right in increasing differences in mean length (i.e., 'Equal' means median values are equal, 'MSSM' means the median length is larger for the MSSM survey). Only species that have length data in both the MSSM and SYN WCVI surveys are shown."}
+knitr::include_graphics(here::here("report/mssm-tech-report/figure/size-time-highlights.png"), dpi = NA)
+```
+
+\clearpage

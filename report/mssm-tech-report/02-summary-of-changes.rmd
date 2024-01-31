@@ -1,31 +1,22 @@
 <!-- SA: it seems to me that this section is about more than just changes to the MSSM survey, but also a bunch of methods of what we/you did and results. Adjust section title? -->
 
-# Summary of changes to the MSSM survey relevant to groundfish
+<!-- JD: Closer?-->
+
+# Summary of changes to the MSSM survey and implications for groundfish indices
 
 ## Survey timing and area
 
-The MSSM is typically conducted in the last week of April to the first weeks of May with the exception of late surveys in 1985 and 1987 (Table \@ref(tab:change-table)).
+The Multi-Species Small Mesh survey (MSSM) is typically conducted in the last week of April to the first weeks of May with the exception of late surveys in 1985 and 1987 (Table \@ref(tab:change-table)).
 In 1977 and 1978, additional surveys were conducted in September on commercial vessels, but these have been excluded from this report.
+The consistency in survey timing means that timing is unlikely to affect abundance indices. 
 
-<!-- SA: the transition right here to the grid seems a bit abrupt. Maybe start by stating all the changes to spatial coverage, then motivate the need for a grid (to integrate biomass across the survey domain as approximated by an extrapolation grid?), then describe that grid and how it deals with the spatial change issues? -->
-To derive an area-weighted biomass index for the MSSM, we created a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
-Any grid cell that intersected with more than one survey location was retained.
-In this report, we used a subset of the grid cells that were last sampled between 2009 to 2021 (Figure \@ref(fig:prediction-grid)).
-This time period covered the most consistently sampled locations in recent years.
-In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
-
-```{r prediction-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). Grid cells are 3x3 km and cover all sampling locations between 2009-2019. Points (grey) indicate sampling locations, with points in black representing locations sampled between 2009-2019. Depth contours are shown at 100 m, 200 m, 500 m, and 1000 m.", fig.show='hold', out.width="3.5in"}
-
-knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-prediction-2009.png"), dpi = NA)
-
-```
-
-The MSSM is a fixed station survey [@rutherfordinprep], with transects run in an east-west direction.
+The MSSM is a fixed station survey with transects run in an east-west direction [@rutherfordinprep].
 Over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)).
 In part this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught.
 In 2022, sampling was extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
+Changes in spatial coverage over time may mean that an index estimated using a spatiotemporal model is better suited for calculating an index over the full time-series than a design-based index. <!-- TRUE??? -->
 
-```{r historical-grid, fig.cap="Grid coverage based on the last year prior to 2019 that a grid cell was last sampled. Darker shades indicate more recent years and correspond to changes in navigation systems (1979 and 1998). Depth contours are shown at 100 m, 200 m, 500 m, and 1000 m.", out.width="3.5in"}
+```{r historical-grid, fig.cap="Grid coverage based on the year a grid cell was last sampled. Darker shades indicate more recent years (e.g., the modern sampling grid 2009 - 2021) and lighter shades correspond to changes in navigation systems (1979 and 1998). Grid cells are 3 x 3 km area, and depth contours are shown at 100 m, 200 m, 500 m, and 1000 m.", out.width="3.5in"}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-historical-nav-changes_no-points.png"), dpi = NA)
 
@@ -36,8 +27,7 @@ Improved accuracy of GPS means that early survey locations may therefore be more
 As a consequence of more accurate positioning, @sinclair2001pcod found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows in the MSSM survey.
 
 Between 1975 and 1977, there was a noticeable shift in sampling locations relative to subsequent years (Figure \@ref(fig:spatial-shift)).
-It is possible that this reflects surveys used to establish the extent of the shrimping grounds (personal communication, TODO). 
-<!-- TODO (JD: I don't think this is the case after reading the 1975 and 1976 cruise reports, or at least there is no mention of change in protocol.) -->
+It is possible that this reflects surveys used to establish the extent of the shrimping grounds (Personal communication: D.T. Rutherford). 
 This could also be the result of using the less accurate Loran A navigation system.
 
 ```{r spatial-shift, fig.cap="Shift in sampling locations (points) for select years from the start of the survey in 1975 to 2022. Grid cells are 3x3 km and cover all sampling locations between 2009-2019."}
@@ -50,15 +40,15 @@ Gear changes occurred in 1977, 2006, 2007, and 2011 (Table \@ref(tab:change-tabl
 In 1977, the net, foot rope, and doors were changed.
 A series of calibration tows was done in 1976.
 The 70 foot semi-balloon shrimp net was replaced with the National Marine Fisheries Science (NMFS) 61 foot shrimp trawl net [@rutherfordinprep].
-No calibration tows were performed, but it has found that the NMFS net was 1.4 more efficient than the 70 foot semi-balloon net (Boutillier et al. 1976), meaning that catch weights in the first years of the survey are likely to be biased down relative to 1977 onward.
-<!-- SA: TODO add Boutillier to mssm.bib and cite here -->
-In our analysis we did not account for this change in gear in 1977.
+No calibration tows were performed, but @boutillier1976cruiserep found that the NMFS net was 1.4 more efficient than the 70 foot semi-balloon net, meaning that catch weights in the first years of the survey are likely to be biased down relative to 1977 onward.
 
 In 2006, the NMFS net was replaced with a 61 foot American shrimp trawl net (Table \@ref(tab:change-table)).
 However, only two comparable sets of tows were collected [see Table 2 and 3 in @rutherfordinprep].
-With insufficient data to include the gear change in the model, we instead present a visual comparison of the mean catch of the two comparative tows done in 2006 (Figure \@ref(fig:net-comp)).
-In these two tows, there were three species not caught in the NMFS net and seven species not caught in the American net.
+In these two tows, there were three species not caught in the NMFS net and seven species not caught in the American net (Figure \@ref(fig:net-comp)).
 The mean catch of these species was less than 10 kg in the net that did catch them.
+
+Unfortunately, the lack of calibration tows means that it is not possible to include gear changes in a modelled index. 
+Furthermore, the visual comparison of only two comparative tows does not provide a clear indication of how the gear change affected capture rates.
 
 ```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977-2005 and the 61 foot American shrimp trawl net has been used from 2006-present. Only two sets of comparison trawls were done with each net at two locations in 2006. ", out.width="60%"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/net-comp.png"), dpi = NA)
@@ -81,12 +71,8 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/sampling-2003
 To check if some species were identified at higher taxonomic levels prior to 2003, we extracted data from GFBio for higher order taxonomies of species that have been identified in the MSSM survey since 2003 (Figure \@ref(fig:spp-aggregate-plot)).
 Sculpins and skates are the species that were counted at the family level prior to 2003.
 Whereas prior to 2003, flatfishes and rockfishes appear to be identified to species if they were counted/weighed.
-The mean annual catch of all flatfishes identified to species was higher after from 2003 onward compared to years prior to 2003 (Figure \@ref(fig:spp-aggregate-plot)).
-It was also higher in 2002, which may reflect the full catch being sorted below deck on the conveyor belt.
-It is unknown whether this change in observed abundance was due to changes in sorting,
-which was systematic and counted all catch,
-<!-- SA: remove the above clause? I'm not sure how 'which was systematic and counted all catch' is a change in sorting... or reword? -->
-or whether it reflects actual changes in abundances.
+The mean annual catch of all flatfishes identified to species was higher after 2001, which is the year that the catch was sorted below deck on a conveyor belt (Figure \@ref(fig:spp-aggregate-plot)).
+This suggests that flatfish counts before 2003 are likely underestimated because the catch was not fully sorted.
 
 In 2002, abnormally high catches of 'Eelpouts' and 'Skates' were recorded relative to years before 2002 and when we aggregated species catches for post-2003 years (Figure \@ref(fig:spp-aggregate-plot)).
 These outliers do not appear to reflect a decimal recording error, duplicated data (there were three high 'Skate' sets in 2002), nor is it likely that it is due to a misidentification.
@@ -110,10 +96,5 @@ However, these abundances were relatively small, with annual catch sizes of Paci
 ```{r cod-comparison, fig.cap="Mean annual catch (kg) of Pacific Cod, Pacific Tomcod, and Walleye Pollock. Grey shading highlights the period prior to full sorting and identification in 2003.", out.width="50%"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/sampling-cod.png"), dpi = NA)
 ```
-
-Miscellaneous notes:
-
-- "Tows lasted 30 minutes, unless shortened due to snags or indications
-on the sounder of large fish schools"
 
 \clearpage

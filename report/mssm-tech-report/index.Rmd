@@ -23,7 +23,10 @@ french_address: |
 phone: "(555) 555-5555"
 author_footnote: "Email: First.Author@dfo-mpo.gc.ca | telephone: (250) 756-5555"
 abstract: |
-  Since 1973, DFO has conducted the Multi-Species Small-Mesh Survey, which is one of the longest continuous bottom trawl time-series for groundfish off the coast of West Coast Vancouver Island. The survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordanii*) populations.
+  Since 1973, DFO has conducted the Multi-Species Small-Mesh Survey (MSSM), which is one of the longest continuous bottom trawl time-series for groundfish off the coast of West Coast Vancouver Island. 
+  The survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordanii*) populations however groundfish species have also been quantified and sampled in this survey. 
+  See Intro for current draft 
+  
 french_abstract: |
   Voici le résumé.
 output:

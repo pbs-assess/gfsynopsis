@@ -1,19 +1,39 @@
+# Abstract text draft:
+- Since 1973, DFO has conducted the Multispecies Small-Mesh Survey (MSSM), which is one of the longest continuous bottom trawl time-series for groundfish off the coast of West Coast Vancouver Island (WCVI). 
+- The survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordanii*) populations however groundfish species have also been quantified and sampled in this survey. 
+- The MSSM has the potential to serve as an important historical baseline for groundfish species off WCVI, given that the current synoptic trawls used to produce fishery-independent stock along the coast of British Columbia began only in 2003. 
+- However, over the years changes to the survey, which include shifts in the spatial area sampled, changes to gear used, and changes to sampling procedures, may affect the quality of indices of species abundance for groundfish. 
+
+
+- We examine the changes to the MSSM and asses how they may affect interpretation of groundfish abundance indices. 
+- We also fit spatiotemporal models to derive indices of abundance to account for changes to the spatial sampling. 
+- Finally we compare the data collected in the MSSM and the Synoptic Trawl off WCVI [SYN WCVI] to determine whether the groundfish data collected in the MSSM provides new information not captured in the SYN WCVI. 
+
+- Are we supposed to have conclusions?
+
 # Introduction
 
 DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island (WCVI) since 1973.
-This survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations, but it is now a multi-species survey, and is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
+Formerly known as the 'Shrimp Survey', this survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations.
+However, groundfish species have also been quantified and sampled in this survey and this survey is now known as the Multispecies Small Mesh survey (MSSM).
 
-However, the survey has undergone several changes that likely affect interpretation of the data.
+<!-- TODO: we need a bit here about what we were asked to do... -->
 
-TODO: we need a bit here about what we were asked to do...
+The MSSM is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
+This means that it has the potential to serve as an important historical baseline, given that the current synoptic trawls used to produce fishery-independent stock along the coast of British Columbia began only in 2003. 
+Currently the MSSM data are not used to produce fishery-independent indices of abundance and are not included in formal stock assessments.
+This survey has undergone several changes that likely affect interpretation of standardised indices, and to date this has not been examined.
+It is also unknown whether the groundfish data from the MSSM provides new information not captured in the coastwide synoptic trawls. 
 
 In this report we:
 
 1. Highlight changes that may affect interpretation of the groundfish data (e.g., gear used, sampling protocols, species identification).
-2. Fit geostatistical models to account for changes in spatial sampling through time.
+2. Compare spatiotemporal indices with traditional design-based indices. 
 3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modelled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the synoptic trawl survey off WCVI [SYN WCVI]).
+4. Compare the differences in sampling and information captured in the MSSM and SYN WCVI surveys.
 
-Data for the MSSM is found in GFBio and is publicly available on the Ocean Biodiversity Information System (OBIS) for years up to 2022 [@mssm2022obis].
-In this report, we used data extracted from an internal SQL server (GFBio) for 1975--2022.
+Data extracted from the GFBio database for 1975--2022 [databases2023].
+However, publicly available data for the Multispecies Small Mesh survey is available on the Ocean Biodiversity Information System (OBIS) [@mssm2022obis].
+
 
 \clearpage
