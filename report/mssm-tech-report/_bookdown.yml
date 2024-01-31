@@ -2,7 +2,7 @@ book_filename: "techreport"
 rmd_files: ["index.Rmd",
   "01-mssm-intro.Rmd",
   "02-summary-of-changes.Rmd",
-  "03-methods.Rmd",
+  #"03-methods.Rmd",
   "04-comparison-of-indices.Rmd",
   "05-sampling-diffs-mssm-synwcvi.rmd",
   "90-appendix-start.Rmd",
