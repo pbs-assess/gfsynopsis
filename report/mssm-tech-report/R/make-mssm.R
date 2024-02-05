@@ -1,5 +1,4 @@
 source(here::here('report', 'mssm-tech-report', 'R', '00-load.R'))
-source(here::here('report', 'mssm-tech-report', 'R', '02-load-indices.R'))
 source(here::here('report', 'mssm-tech-report', 'R', '03-age-size-frequencies.R'))
 source(here::here('report', 'mssm-tech-report', 'R', '03-compare-indices.R'))
 source(here::here('report', 'mssm-tech-report', 'R', '03-grids.R'))
