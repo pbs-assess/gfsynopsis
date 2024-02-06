@@ -13,6 +13,7 @@ save_plots_to_pdf <- function(ggplot_list, filename, width = 7, height = 3.7) {
 }
 
 # Get length and age distributions
+dir.create(mssm_data_out, showWarnings = FALSE)
 if (!file.exists(file.path(mssm_data_out, 'size-dat.rds'))) {
   size_dat <- spp_vector |>
     map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_samples) |>
