@@ -18,5 +18,6 @@ In this report we:
 2. Compare spatiotemporal model-based indices of relative population biomass with traditional design-based indices.
 3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modeled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the SYN WCVI survey).
 4. Compare differences in sampling and information captured in the MSSM and SYN WCVI surveys.
+5. Evaluate whether the MSSM may have provided an earlier signal of recruitment for several rockfish species given its smaller mesh than the SYN WCVI.
 
 \clearpage
