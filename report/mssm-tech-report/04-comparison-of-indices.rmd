@@ -10,7 +10,7 @@ These averages are then multiplied by each stratum's area.
 Confidence intervals are estimated using a bootstrap procedure with 1000 replicates, drawing stratified samples with replacement, from all tows [see Appendix F in @anderson2019synopsis].
 
 For the modelled MSSM indices, SYN WCVI indices, and commercial CPUE 3CD indices, we used the model outputs from @anderson2024synopsis.  
-Briefly, spatiotemporal models were fit to the data from the MSSM and the SYN WCVI using the R [r2023] package 'sdmTMB' [@anderson2022sdmTMB]. 
+Briefly, spatiotemporal models were fit to the data from the MSSM and the SYN WCVI using the R [@r2023] package 'sdmTMB' [@anderson2022sdmTMB]. 
 Models were only fit to species that had a proportion of positive sets $\ge$ 5%.
 In the MSSM data, for six species that did not have catch weights before 2003, because of the family-level identification, the proportion of positive sets was calculated for 2003 to present.
 However, of these species, only Blackbelly Eelpout met the 5% coverage threshold to be modelled.
@@ -28,7 +28,7 @@ To derive area-weighted biomass indices, the models were then used to estimate a
 For the MSSM, the sampling domain was defined by creating a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
 Any grid cell that intersected with more than one survey location was retained.
 This time period covered the most consistently sampled locations in recent years.
-We used a subset of the grid cells that were last sampled between 2009 to 2021 (Figure \@ref(fig:prediction-grid)).
+We used a subset of the grid cells that were last sampled between 2009 to 2021 (Figure \@ref(fig:historical-grid)).
 In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
 For the SYN WCVI, we compared indices predicted on the 2 $\times$ 2 km grid covering the extent of the SYN WCVI sampling domain, but also on the 3 $\times$ 3 km MSSM grid. 
 
@@ -55,9 +55,9 @@ The axes are set to encompass the model-based confidence intervals.
 Years before 2003 are shaded grey to indicate that catch observations in the MSSM survey are considered less reliable than modern data.
 'Mean CV' is the mean of the annual coefficients of variation (CVs) for the modelled (M) and design-based (D) indices.
 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets.
-The modelled index was predicted on 3 x 3 km grid (Figure \@ref(fig:prediction-grid)).
+The modelled index was predicted on 3 x 3 km grid (Figure \@ref(fig:historical-grid)).
 
-```{r mssm-model-design, fig.cap="(ref:model-design-indices)"}
+```{r mssm-model-design, fig.cap="(ref:model-design-indices)", out.width="5.25in"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-model-design_pjs-mode.png"), dpi = NA)
 ```
 
@@ -81,7 +81,7 @@ The low correlations in early years appears to be driven by Dover Sole, Slender 
 
 The commercial CPUE 3CD data precedes the 2003 change in sorting procedure.
 However, the rolling window correlations were more variable and generally lower between the MSSM and the CPUE 3CD indices (Figure \@ref(fig:rolling-window-correlation)).
-The average correlation between the MSSM and the CPUE 3CD was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years.
+The average correlation between the MSSM and the CPUE 3CD indices was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years.
 
 ```{r mssm-cpue, fig.cap="Comparison of MSSM (green) and CPUE 3CD (orange)indices. Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean. The axes are set to encompass the confidence intervals of the MSSM index. The CPUE 3CD data begin in 1996. Empty panels indicate species that we do not have a model for in the CPUE 3CD data."}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-cpue3CD.png"), dpi = NA)

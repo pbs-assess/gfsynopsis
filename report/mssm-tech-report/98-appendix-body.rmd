@@ -8,7 +8,7 @@ mssm_survey_changes <- readr::read_csv(here::here('report', 'mssm-tech-report', 
   mutate(Details = tidyr::replace_na(Details, '-')) |>
   mutate(Change = gsub('\\(minor\\)', '', Change))
 
-csasdown::csas_table(mssm_survey_changes, caption = "Summary of changes to the Multispecies Small-Mesh Bottom Trawl Survey (MSSM).", format = "latex") |>
+csasdown::csas_table(mssm_survey_changes, caption = "Summary of changes to the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). These changes are compiled from Rutherford et al. In prep.", format = "latex") |>
   kableExtra::column_spec(1, width = "1.5cm") |>
   kableExtra::column_spec(2, width = "4.3cm") |>
   kableExtra::column_spec(3, width = "9.3cm")
@@ -21,25 +21,34 @@ csasdown::csas_table(mssm_survey_changes, caption = "Summary of changes to the M
 
 Comparison of fish lengths sampled in the MSSM and SYN WCVI surveys over time.
 
-```{r size-time0, fig.cap="TODO"}
+(ref:size-time0-cap) Same as Figure \@ref(fig:size-dist-time) for additional species.
+
+(ref:size-time1-cap) Same as Figure \@ref(fig:size-dist-time) for additional species.
+
+(ref:size-time2-cap) Same as Figure \@ref(fig:size-dist-time) for additional species.
+
+(ref:size-time3-cap) Same as Figure \@ref(fig:size-dist-time) for additional species.
+
+
+```{r size-time0, fig.cap="(ref:size-time0-cap)"}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/size-time-0.png"), dpi = NA)
 
 ```
 
-```{r size-time1, fig.cap="TODO"}
+```{r size-time1, fig.cap="(ref:size-time1-cap)"}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/size-time-1.png"), dpi = NA)
 
 ```
 
-```{r size-time2, fig.cap="TODO"}
+```{r size-time2, fig.cap="(ref:size-time2-cap)"}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/size-time-2.png"), dpi = NA)
 
 ```
 
-```{r size-time3, fig.cap="TODO"}
+```{r size-time3, fig.cap="(ref:size-time2-cap)"}
 
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/size-time-3.png"), dpi = NA)
 
