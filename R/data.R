@@ -157,7 +157,7 @@ get_iphc_hook_data <- function(path = ".", species = "pacific halibut") {
     message("File: <iphc_sets_info.rds> not found, querying GFBio using
         gfiphc::get_iphc_sets_info() - requires VPN connection\n")
     iphc_set_info <- get_iphc_sets_info() # requires VPN connection
-    saveRDS(iphc_set_info, "iphc-set-info.rds")
+    saveRDS(iphc_set_info, file.path(path, "iphc-set-info.rds"))
   }
 
   iphc_set_info <- readRDS(file.path(path, "iphc-set-info.rds")) |>
