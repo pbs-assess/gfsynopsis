@@ -310,6 +310,13 @@ purrr::walk(to_build, function(i) {
     length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
       show_col_types = FALSE) |> as.data.frame()
 
+    # FIXME!
+
+    if (spp$species_common_name[i] == "kelp greenling") {
+      dat$survey_samples <-
+        dplyr::filter(dat$survey_samples, !(weight > 0.1 & length < 10))
+    }
+
     gfsynopsis::make_pages(
       dat = dat,
       dat_iphc = dat_iphc,
