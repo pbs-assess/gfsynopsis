@@ -2,6 +2,11 @@
 
 <!-- JD: Closer?-->
 
+
+<!-- TODO ADD BACK: -->
+<!-- Data extracted from the GFBio database for 1975--2022 [databases2023]. -->
+<!-- However, publicly available data for the Multispecies Small Mesh survey is available on the Ocean Biodiversity Information System (OBIS) [@mssm2022obis]. -->
+
 # Summary of changes to the MSSM survey and implications for groundfish indices
 
 ## Survey timing and area
@@ -12,9 +17,10 @@ The consistency in survey timing means that timing is unlikely to affect abundan
 
 The MSSM is a fixed station survey with transects run in an east-west direction [@rutherfordinprep].
 Over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)).
-In part this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught.
+In part, this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught [@rutherfordinprep].
+<!-- TODO: or personal communication? -->
 In 2022, sampling was extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
-Changes in spatial coverage over time may mean that an index estimated using a spatiotemporal model is better suited for calculating an index over the full time-series than a design-based index. <!-- TRUE??? -->
+Changes in spatial coverage over time mean that an index standardized using a model-based approach may be better suited for calculating an index over the full time-series than a design-based index.
 
 ```{r historical-grid, fig.cap="Grid coverage based on the year a grid cell was last sampled. Darker shades indicate more recent years (e.g., the modern sampling grid 2009 - 2021) and lighter shades correspond to changes in navigation systems (1979 and 1998). Grid cells are 3 x 3 km area, and depth contours are shown at 100 m, 200 m, 500 m, and 1000 m.", out.width="3.5in"}
 
@@ -22,9 +28,9 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-historic
 
 ```
 
-The navigation system used in the MSSM survey has changed twice: once in 1979 from Loran A to Loran C and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)).
+The navigation system used in the MSSM survey has changed twice: once in 1979 from Loran A to Loran C and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid))  [@rutherfordinprep].
 Improved accuracy of GPS means that early survey locations may therefore be more variable.
-As a consequence of more accurate positioning, @sinclair2001pcod found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows in the MSSM survey.
+As a consequence of more accurate positioning, @sinclair2001pcod found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows in the MSSM survey over time.
 
 Between 1975 and 1977, there was a noticeable shift in sampling locations relative to subsequent years (Figure \@ref(fig:spatial-shift)).
 It is possible that this reflects surveys used to establish the extent of the shrimping grounds (Personal communication: D.T. Rutherford). 
@@ -38,19 +44,19 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-spatial-
 
 Gear changes occurred in 1977, 2006, 2007, and 2011 (Table \@ref(tab:change-table)).
 In 1977, the net, foot rope, and doors were changed.
-A series of calibration tows was done in 1976.
-The 70 foot semi-balloon shrimp net was replaced with the National Marine Fisheries Science (NMFS) 61 foot shrimp trawl net [@rutherfordinprep].
-No calibration tows were performed, but @boutillier1976cruiserep found that the NMFS net was 1.4 more efficient than the 70 foot semi-balloon net, meaning that catch weights in the first years of the survey are likely to be biased down relative to 1977 onward.
+A series of calibration tows were performed in 1976.
+The 70 foot (21.3 m) semi-balloon shrimp net was replaced with the National Marine Fisheries Science (NMFS) 61 foot (18.6 m) shrimp trawl net [@rutherfordinprep].
+No calibration tows were performed, but @boutillier1976cruiserep found that the NMFS net was 1.4 more efficient than the 70 foot semi-balloon net, meaning that catch weights in the first years of the survey are likely to be biased low relative to 1977 onward.
 
 In 2006, the NMFS net was replaced with a 61 foot American shrimp trawl net (Table \@ref(tab:change-table)).
 However, only two comparable sets of tows were collected [see Table 2 and 3 in @rutherfordinprep].
 In these two tows, there were three species not caught in the NMFS net and seven species not caught in the American net (Figure \@ref(fig:net-comp)).
 The mean catch of these species was less than 10 kg in the net that did catch them.
 
-Unfortunately, the lack of calibration tows means that it is not possible to include gear changes in a modelled index. 
+Unfortunately, the lack of calibration tows means that it is not possible to include gear changes in a modeled index. 
 Furthermore, the visual comparison of only two comparative tows does not provide a clear indication of how the gear change affected capture rates.
 
-```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977-2005 and the 61 foot American shrimp trawl net has been used from 2006-present. Only two sets of comparison trawls were done with each net at two locations in 2006. ", out.width="60%"}
+```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977--2005 and the 61 foot American shrimp trawl net has been used from 2006--present. Only two sets of comparison trawls were done with each net at two locations in 2006.", out.width="60%"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/net-comp.png"), dpi = NA)
 ```
 
@@ -75,14 +81,14 @@ The mean annual catch of all flatfishes identified to species was higher after 2
 This suggests that flatfish counts before 2003 are likely underestimated because the catch was not fully sorted.
 
 In 2002, abnormally high catches of 'Eelpouts' and 'Skates' were recorded relative to years before 2002 and when we aggregated species catches for post-2003 years (Figure \@ref(fig:spp-aggregate-plot)).
-These outliers do not appear to reflect a decimal recording error, duplicated data (there were three high 'Skate' sets in 2002), nor is it likely that it is due to a misidentification.
+These outliers do not appear to reflect a decimal recording error, duplicated data (there were three high 'Skate' sets in 2002), nor is it likely that it is due to a misidentification since these are easily distinguished from other species groups.
 It is possible that these species aggregates were data entry errors (e.g., a species coding error).
 
 ```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="\\textwidth"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/aggregated-id-level-plot.png"), dpi = NA)
 ```
 
-Some species that were possibly misidentified prior to 2003 include:
+Species that were possibly misidentified prior to 2003 include (Personal communications: D.T. Rutherford, M. Wyeth, S. Hardy):
 
 - Stripetail Rockfish as Sharpchin Rockfish
 - Yellowmouth as Pacific Ocean Perch
@@ -90,7 +96,7 @@ Some species that were possibly misidentified prior to 2003 include:
 - Small Pacific Cod as Pacific Tomcod
 - Petrale Sole as Flathead Sole (at all sizes that Flatheads are observed)
 
-For example, recorded abundances of Pacific Tomcod decrease after 2003, and it is possible that this is because of misidentified Pacific Cod prior to 2003.
+For example, recorded abundances of Pacific Tomcod decrease after 2003, and it is possible that this is because of misidentified Pacific Cod prior to 2003 (Figure \@ref(fig:cod-comparison)).
 However, these abundances were relatively small, with annual catch sizes of Pacific Tomcod typically less than 5 kg/year.
 
 ```{r cod-comparison, fig.cap="Mean annual catch (kg) of Pacific Cod, Pacific Tomcod, and Walleye Pollock. Grey shading highlights the period prior to full sorting and identification in 2003.", out.width="50%"}
