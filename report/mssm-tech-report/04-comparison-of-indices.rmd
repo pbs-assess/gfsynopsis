@@ -1,33 +1,30 @@
 # Comparing the MSSM survey indices to related indices
 
-The Multispecies Small-Mesh Survey is the longest running groundfish survey on the BC coast, therefore it is important to understand how well the historical data capture trends in species abundances.
+The Multispecies Small-Mesh Survey is the longest running continuous groundfish survey on the BC coast, therefore it is important to understand how well the historical data capture trends in species abundances.
 The change in survey locations over time (e.g., Figure \@ref(fig:spatial-shift)) means that a modelled index, which accounts for latent spatial effects, may be a better approach than a design-based index.
 We compared the modelled MSSM survey indices to the MSSM design-based indices, modelled SYN WCVI indices, and the modelled commercial CPUE 3CD indices.
 
-The design-based indices are calculated as the mean catch weight in each depth stratum (which for shrimp is a single stratum??). <!-- Do you know if this is true - that shrimp  are just one depth stratum? The survey is only ~50 - 150 m -->
-This mean catch is then multipled by the total stratum area. 
-Confidence intervals are estimated using a bootstrapping procedure with 1000 replicates, drawing samples with replacement, from all the tows (See Appendix F in anderson2019synopsis).
+The design-based indices are calculated following a standard depth-stratified mean estimator.
+For each year, an average catch is calculated for each of two depth strata.
+These averages are then multiplied by each stratum's area. 
+Confidence intervals are estimated using a bootstrap procedure with 1000 replicates, drawing stratified samples with replacement, from all tows [see Appendix F in @anderson2019synopsis].
 
-For the modelled MSSM indices, SYN WCVI indices, and commercial CPUE 3CD indices, we used the model outputs from the 2024 Technical Report by @anderson2024synopsis.  
-
-Briefly, spatiotemporal models were fit to the data from the MSSM and the synoptic trawl survey off WCVI [SYN WCVI] using the R [r2023] package `sdmTMB` [@anderson2022sdmTMB]. 
+For the modelled MSSM indices, SYN WCVI indices, and commercial CPUE 3CD indices, we used the model outputs from @anderson2024synopsis.  
+Briefly, spatiotemporal models were fit to the data from the MSSM and the SYN WCVI using the R [r2023] package 'sdmTMB' [@anderson2022sdmTMB]. 
 Models were only fit to species that had a proportion of positive sets $\ge$ 5%.
-In the MSSM data, for six species that did not have catch weights before 2003 ,because of the family-level identification, the proportion of positive sets was calculated for 2003 to present.
+In the MSSM data, for six species that did not have catch weights before 2003, because of the family-level identification, the proportion of positive sets was calculated for 2003 to present.
 However, of these species, only Blackbelly Eelpout met the 5% coverage threshold to be modelled.
 Additionally, in 2022, 64% of the MSSM trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values.
 
-The spatiotemporal models for both the MSSM and SYN WCVI had constant spatial random fields. 
-Unless models did not converge, then the spatial random field was turned off (i.e., set to zero) and only the spatiotmporal random field was included.
-The spatiotemporal component however differed between the surveys, for the MSSM indices, the models were structured using a random walk with Gaussian field annual deviations, to account for the changes in the sampling domain over time.
-For the SYN WCVI, which has a consistent sampling domain over time, the models were structured using independent and identically distributed (IID) Gaussian field annual deviations.
-For each survey and species, five possible families were considered: Tweedie, delta-gamma, delta-lognormal, delta-Poisson-link-gamma, and delta-Poisson-link-lognormal.
+The spatiotemporal models for both the MSSM and SYN WCVI surveys were first with constant spatial Gaussian Markov random fields (GMRFs) and spatiotemporal GMRFs. 
+If models did not converge [criteria in @anderson2024synopsis], then the spatial random field was turned off (i.e., set to zero) and only the spatiotemporal random field was included.
+The spatiotemporal component however differed between the surveys, for the MSSM indices, the GMRFs were structured as a random walk to account for the changes in the sampling domain over time.
+For the SYN WCVI, which has a consistent sampling domain over time, the spatiotemporal component was structured using independent GRMFs with a common variance along with independent annual means.
+For each survey and species, five possible families were considered: Tweedie, delta-gamma, delta-lognormal, delta-Poisson-link-gamma, and delta-Poisson-link-lognormal [@anderson2024synopsis].
 From these models, the model with the lowest marginal AIC (Akaike information criterion) was selected and used in this report. 
-We omitted poorly fitted models: those which did not meet convergence criteria, those where the maximum estimated CIs were greater than 10 times the maximum estimated biomass, and those where the mean coefficient of variation was < 1. Details are available in Appendix A of Anderson et al. (@anderson2024synopsis).
+We omitted poorly fitted models: those which did not meet convergence criteria [@anderson2024synopsis], those where the maximum estimated CIs were greater than 10 times the maximum estimated biomass, and those where the mean coefficient of variation was < 1.
 
-<!-- Need blurb about CPUE 3CD -->
-
-To derive a area-weighted biomass indices, the models were then used to estimate abundance across standardised sampling grids.
-
+To derive area-weighted biomass indices, the models were then used to estimate abundance across standardised sampling grids.
 For the MSSM, the sampling domain was defined by creating a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
 Any grid cell that intersected with more than one survey location was retained.
 This time period covered the most consistently sampled locations in recent years.
@@ -35,16 +32,18 @@ We used a subset of the grid cells that were last sampled between 2009 to 2021 (
 In 2022, additional stations that were infrequently or not sampled since 1975 were sampled and so these grid cells were not used to estimate a biomass index.
 For the SYN WCVI, we compared indices predicted on the 2 $\times$ 2 km grid covering the extent of the SYN WCVI sampling domain, but also on the 3 $\times$ 3 km MSSM grid. 
 
-
-
-
+We derived standardized commercial catch per unit effort (CPUE) indices from [@anderson2024synopsis] outputs using methods described in [@anderson2019synopsis Appendix D].
+Briefly, the standardization uses a generalized linear mixed model (GLMM) with a Tweedie observation likelihood and a log link fitted with the 'glmmTMB' R package [@glmmTMB].
+Binned (factor) covariates are included for depth, latitude, and month.
+An additional factor predictor is included for year.
+Locality (spatial polygon), a locality-year intercation, and fishing vessel are treated as random intercepts.
+The coefficients on the factor year effects are considered the standardized index.
 
 ## Comparison of modelled and design-based indices of abundance
 
 Trends in each species index were similar between the model-based and design-based MSSM indices.
 However, for most species, the design-based index had more variable mean annual estimates compared with the modelled index (Figure \@ref(fig:mssm-model-design)) and larger confidence intervals around these estimates.
-Trends in Yellowtail Rockfish, Bocaccio, Canary Rockfish, and Redstripe Rockfish had the greatest deviations from their respective modelled indices.
-
+Design-based indices for Yellowtail Rockfish, Bocaccio, Canary Rockfish, and Redstripe Rockfish had the greatest deviations from their respective modelled indices.
 For species with insufficient data for modelling (<5% positive sets) or where models did not meet convergence checks, we have shown the design-based index for reference (Figure \@ref(fig:design-indices)).
 
 (ref:model-design-indices) Comparison of modelled (green line) and design-based (pink open circles) indices from the MSSM survey.
