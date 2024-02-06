@@ -21,9 +21,9 @@ get_mssm_cor <- function(mssm_index_type, comp_index_type, cor_thresh = 0.5, win
   year_cutoff <- ifelse(grepl("SYN WCVI", comp_index_type), 2004, 1996)
 
   if ((comp_index_type == "CPUE 3CD")) {
-    spp_intersect <- intersect(unique(mssm_3km_inds$species), unique(cpue_ind$species))
+    spp_intersect <- intersect(unique(mssm_inds$species), unique(cpue_ind$species))
   } else {
-    spp_intersect <- intersect(unique(mssm_3km_inds$species), unique(syn_wcvi_inds$species))
+    spp_intersect <- intersect(unique(mssm_inds$species), unique(syn_wcvi_inds$species))
   }
   spp_intersect <- stringr::str_to_title(spp_intersect)
 

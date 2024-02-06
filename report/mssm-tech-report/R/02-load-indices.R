@@ -13,7 +13,7 @@ mssm_d_inds <- spp_vector |>
   as_tibble() |>
   filter(survey_abbrev == 'MSSM WCVI') |>
   mutate(survey_abbrev = "MSSM Design")
-  #saveRDS(mssm_d_inds, file = file.path(mssm_data, 'mssm-design-inds.rds'))
+  saveRDS(mssm_d_inds, file = file.path(mssm_data, 'mssm-design-inds.rds'))
 } else {
   mssm_d_inds <- readRDS(file.path(mssm_data, 'mssm-design-inds.rds')) |>
     group_by(species) |>
@@ -94,28 +94,28 @@ mssm_inds <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = fam
   mutate(extreme_uci = max(upperci) > 10 * max(biomass))
 
 # Old tweedie MSSM indexes comparing 2km and 3km
-mssm_2km_inds <- spp_vector |>
-  map(\(sp) readRDS(file.path(mssm_sc, '2km-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
-  setNames(spp_vector) |>
-  keep(\(x) inherits(x, 'data.frame')) |>
-  bind_rows(.id = 'species') |>
-  as_tibble() |>
-  mutate(year_bins = "~ 1") |>
-  mutate(grid = '2km') |>
-  group_by(species) |>
-  mutate(extreme_uci = max(upperci) > 10 * max(biomass)) |>
-  ungroup()
+# mssm_2km_inds <- spp_vector |>
+#   map(\(sp) readRDS(file.path(mssm_sc, '2km-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
+#   setNames(spp_vector) |>
+#   keep(\(x) inherits(x, 'data.frame')) |>
+#   bind_rows(.id = 'species') |>
+#   as_tibble() |>
+#   mutate(year_bins = "~ 1") |>
+#   mutate(grid = '2km') |>
+#   group_by(species) |>
+#   mutate(extreme_uci = max(upperci) > 10 * max(biomass)) |>
+#   ungroup()
 
-mssm_3km_inds <- spp_vector |>
-  map(\(sp) readRDS(file.path(mssm_sc, '3km-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
-  setNames(spp_vector) |>
-  keep(\(x) inherits(x, 'data.frame')) |>
-  bind_rows(.id = 'species') |>
-  as_tibble() |>
-  mutate(grid = "3km") |>
-  group_by(species) |>
-  mutate(extreme_uci = max(upperci) > 10 * max(biomass)) |>
-  ungroup()
+# mssm_3km_inds <- spp_vector |>
+#   map(\(sp) readRDS(file.path(mssm_sc, '3km-grid', paste0(gfsynopsis:::clean_name(sp), '_st-rw.rds')))) |>
+#   setNames(spp_vector) |>
+#   keep(\(x) inherits(x, 'data.frame')) |>
+#   bind_rows(.id = 'species') |>
+#   as_tibble() |>
+#   mutate(grid = "3km") |>
+#   group_by(species) |>
+#   mutate(extreme_uci = max(upperci) > 10 * max(biomass)) |>
+#   ungroup()
 
 # SYN WCVI index
 # syn_inds <-
