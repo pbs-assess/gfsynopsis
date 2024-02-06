@@ -1,16 +1,3 @@
-# Abstract text draft:
-- Since 1973, DFO has conducted the Multispecies Small-Mesh Survey (MSSM), which is one of the longest continuous bottom trawl time-series for groundfish off the coast of West Coast Vancouver Island (WCVI). 
-- The survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordanii*) populations however groundfish species have also been quantified and sampled in this survey. 
-- The MSSM has the potential to serve as an important historical baseline for groundfish species off WCVI, given that the current synoptic trawls used to produce fishery-independent stock along the coast of British Columbia began only in 2003. 
-- However, over the years changes to the survey, which include shifts in the spatial area sampled, changes to gear used, and changes to sampling procedures, may affect the quality of indices of species abundance for groundfish. 
-
-
-- We examine the changes to the MSSM and asses how they may affect interpretation of groundfish abundance indices. 
-- We also fit spatiotemporal models to derive indices of abundance to account for changes to the spatial sampling. 
-- Finally we compare the data collected in the MSSM and the Synoptic Trawl off WCVI [SYN WCVI] to determine whether the groundfish data collected in the MSSM provides new information not captured in the SYN WCVI. 
-
-- Are we supposed to have conclusions?
-
 # Introduction
 
 DFO has conducted annual surveys at fixed stations in shrimp grounds off West Coast Vancouver Island (WCVI) since 1973.
@@ -20,20 +7,16 @@ However, groundfish species have also been quantified and sampled in this survey
 <!-- TODO: we need a bit here about what we were asked to do... -->
 
 The MSSM is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
-This means that it has the potential to serve as an important historical baseline, given that the current synoptic trawls used to produce fishery-independent stock along the coast of British Columbia began only in 2003. 
-Currently the MSSM data are not used to produce fishery-independent indices of abundance and are not included in formal stock assessments.
-This survey has undergone several changes that likely affect interpretation of standardised indices, and to date this has not been examined.
-It is also unknown whether the groundfish data from the MSSM provides new information not captured in the coastwide synoptic trawls. 
+The survey therefore has the potential to serve as an important historical baseline, given that the current synoptic trawls used to produce fisheries-independent population biomass indices along the coast of British Columbia only began in or after 2003.
+Although Technical Working Groups have frequently considered including MSSM indices in groundfish stock assessments, they have tended to be excluded due to uncertainties around whether they are reflective of relative biomass through time.
+The survey has undergone several changes that likely affect interpretation of indices and biological samples, and to date this has not been systematically examined across species.
+It is also unknown whether the groundfish data from the MSSM provides new information not already captured in the synoptic WCVI bottom trawl survey (SYN WCVI). 
 
 In this report we:
 
-1. Highlight changes that may affect interpretation of the groundfish data (e.g., gear used, sampling protocols, species identification).
-2. Compare spatiotemporal indices with traditional design-based indices. 
-3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modelled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the synoptic trawl survey off WCVI [SYN WCVI]).
-4. Compare the differences in sampling and information captured in the MSSM and SYN WCVI surveys.
-
-Data extracted from the GFBio database for 1975--2022 [databases2023].
-However, publicly available data for the Multispecies Small Mesh survey is available on the Ocean Biodiversity Information System (OBIS) [@mssm2022obis].
-
+1. Highlight changes that may affect interpretation of the groundfish data (e.g., changes to gear used, sampling protocols, species identification).
+2. Compare spatiotemporal model-based indices of relative population biomass with traditional design-based indices.
+3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modeled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the SYN WCVI survey).
+4. Compare differences in sampling and information captured in the MSSM and SYN WCVI surveys.
 
 \clearpage
