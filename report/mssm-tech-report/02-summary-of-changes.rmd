@@ -1,13 +1,7 @@
-<!-- SA: it seems to me that this section is about more than just changes to the MSSM survey, but also a bunch of methods of what we/you did and results. Adjust section title? -->
+# Summary of changes to the MSSM survey and implications for groundfish indices {#sec:summary-of-changes}
 
-<!-- JD: Closer?-->
-
-
-<!-- TODO ADD BACK: -->
-<!-- Data extracted from the GFBio database for 1975--2022 [databases2023]. -->
-<!-- However, publicly available data for the Multispecies Small Mesh survey is available on the Ocean Biodiversity Information System (OBIS) [@mssm2022obis]. -->
-
-# Summary of changes to the MSSM survey and implications for groundfish indices
+To highlight changes that may affect interpretation of the groundfish data we used data extracted from the GFBio for 1975--2022 [@databases2023].
+A publicly available data for the Multispecies Small Mesh survey is also available on the Ocean Biodiversity Information System (OBIS) [@mssm2022obis].
 
 ## Survey timing and area
 
@@ -17,8 +11,8 @@ The consistency in survey timing means that timing is unlikely to affect abundan
 
 The MSSM is a fixed station survey with transects run in an east-west direction [@rutherfordinprep].
 Over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)).
-In part, this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught [@rutherfordinprep].
-<!-- TODO: or personal communication? -->
+In part, this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught (Personal communications: D.T. Rutherford).
+
 In 2022, sampling was extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
 Changes in spatial coverage over time mean that an index standardized using a model-based approach may be better suited for calculating an index over the full time-series than a design-based index.
 
@@ -84,7 +78,7 @@ In 2002, abnormally high catches of 'Eelpouts' and 'Skates' were recorded relati
 These outliers do not appear to reflect a decimal recording error, duplicated data (there were three high 'Skate' sets in 2002), nor is it likely that it is due to a misidentification since these are easily distinguished from other species groups.
 It is possible that these species aggregates were data entry errors (e.g., a species coding error).
 
-```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="\\textwidth"}
+```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="75%"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/aggregated-id-level-plot.png"), dpi = NA)
 ```
 

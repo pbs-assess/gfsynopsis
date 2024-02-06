@@ -1,4 +1,4 @@
-# Comparing the MSSM survey indices to related indices
+# Comparing the MSSM survey indices to related indices {#sec:comparing-indices}
 
 The Multispecies Small-Mesh Survey is the longest running continuous groundfish survey on the BC coast, therefore it is important to understand how well the historical data capture trends in species abundances.
 The change in survey locations over time (e.g., Figure \@ref(fig:spatial-shift)) means that a modelled index, which accounts for latent spatial effects, may be a better approach than a design-based index.

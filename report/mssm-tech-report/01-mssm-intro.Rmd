@@ -4,8 +4,6 @@ DFO has conducted annual surveys at fixed stations in shrimp grounds off West Co
 Formerly known as the 'Shrimp Survey', this survey was designed to collect data to assess stock status of Pink shrimp (*Pandalus jordani*) populations.
 However, groundfish species have also been quantified and sampled in this survey and this survey is now known as the Multispecies Small Mesh survey (MSSM).
 
-<!-- TODO: we need a bit here about what we were asked to do... -->
-
 The MSSM is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
 The survey therefore has the potential to serve as an important historical baseline, given that the current synoptic trawls used to produce fisheries-independent population biomass indices along the coast of British Columbia only began in or after 2003.
 Although Technical Working Groups have frequently considered including MSSM indices in groundfish stock assessments, they have tended to be excluded due to uncertainties around whether they are reflective of relative biomass through time.
@@ -14,10 +12,10 @@ It is also unknown whether the groundfish data from the MSSM provides new inform
 
 In this report we:
 
-1. Highlight changes that may affect interpretation of the groundfish data (e.g., changes to gear used, sampling protocols, species identification).
-2. Compare spatiotemporal model-based indices of relative population biomass with traditional design-based indices.
-3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modeled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the SYN WCVI survey).
-4. Compare differences in sampling and information captured in the MSSM and SYN WCVI surveys.
-5. Evaluate whether the MSSM may have provided an earlier signal of recruitment for several rockfish species given its smaller mesh than the SYN WCVI.
+1. Highlight changes that may affect interpretation of the groundfish data (e.g., changes to gear used, sampling protocols, species identification) [Section \@ref(sec:summary-of-changes)](#sec:summary-of-changes).
+2. Compare spatiotemporal model-based indices of relative population biomass with traditional design-based indices ([Section \@ref(sec:comparing-indices)](#sec:comparing-indices)).
+3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modeled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the SYN WCVI survey) ([Section \@ref(sec:comparing-indices)](#sec:comparing-indices)).
+4. Compare differences in sampling and information captured in the MSSM and SYN WCVI surveys ([Section \@ref(sec:sampling-differences)](#sec:sampling-differences)).
+5. Evaluate whether the MSSM may have provided an earlier signal of recruitment for several rockfish species given its smaller mesh than the SYN WCVI ([Section \@ref(sec:recruitment)](#sec:recruitment)).
 
 \clearpage
