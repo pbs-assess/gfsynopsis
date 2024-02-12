@@ -759,7 +759,7 @@ Order: Perciformes, Family: Stichaeidae,
 Order: Perciformes, Family: Anarhichadidae,
 [FishBase](http://www.fishbase.org/summary/Anarrhichthys-ocellatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279605)\
-COSEWIC Annual report: @cosewic2003annualrep\
+COSEWIC Annual Report: @cosewic2003annualrep\
 COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \begin{figure}[b!]
