@@ -9,7 +9,7 @@ For each year, an average catch is calculated for each of two depth strata.
 These averages are then multiplied by each stratum's area. 
 Confidence intervals are estimated using a bootstrap procedure with 1000 replicates, drawing stratified samples with replacement, from all tows [see Appendix F in @anderson2019synopsis].
 
-For the modelled MSSM indices, SYN WCVI indices, and commercial CPUE 3CD indices, we used the model outputs from @anderson2024synopsis.  
+For the modelled MSSM indices, SYN WCVI indices, and commercial CPUE 3CD indices, we used the model outputs from @anderson2024synopsis. 
 Briefly, spatiotemporal models were fit to the data from the MSSM and the SYN WCVI using the R [@r2023] package 'sdmTMB' [@anderson2022sdmTMB]. 
 Models were only fit to species that had a proportion of positive sets $\ge$ 5%.
 In the MSSM data, for six species that did not have catch weights before 2003, because of the family-level identification, the proportion of positive sets was calculated for 2003 to present.
