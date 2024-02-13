@@ -87,6 +87,8 @@ get_iphc_pos_sets <- function(survey_dat) {
 #' @param gradient_thresh Threshold used in [sdmTMB::sanity()] (default = 0.001).
 #' @param cache A string specifying file path to cache directory.
 #' @param check_cache Check whether index file already exists? Default = `FALSE`.
+#' @param cache_predictions Cache model predictions? Can be large.
+#' @param cache_fits Cache model fits? Can be large.
 #' @param grid A data frame containing the locations of IPHC stations used to make predictions and generate the index.
 #'
 #' @returns Either a string or dataframe:
@@ -114,13 +116,14 @@ get_iphc_stitched_index <- function(
     gradient_thresh = 0.001,
     cache = NULL,
     check_cache = FALSE,
+    cache_fits = FALSE,
+    cache_predictions = FALSE, 
     grid) {
   pred_cache <- file.path(cache, "predictions")
   fit_cache <- file.path(cache, "fits")
-
   dir.create(cache, showWarnings = FALSE, recursive = TRUE)
-  dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
-  dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
+  if (cache_predictions) dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
+  if (cache_fits) dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
   species_hyphens <- clean_name(species)
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
@@ -209,9 +212,11 @@ get_iphc_stitched_index <- function(
     sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
   }
 
-  fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
-  # cat("\n\tSaving:", fit_filename, "\n")
-  # saveRDS(fit, fit_filename)
+  if (cache_fits) {
+    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+    cat("\n\tSaving:", fit_filename, "\n")
+    saveRDS(fit, fit_filename)
+  }
 
   if (!all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))) {
     cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
@@ -231,9 +236,11 @@ get_iphc_stitched_index <- function(
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
     pred$species <- unique(fit$data$species_common_name)
 
-    pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
-    # cat("\n\tSaving:", pred_filename, "\n")
-    # saveRDS(pred, pred_filename)
+    if (cache_predictions) {
+      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+      cat("\n\tSaving:", pred_filename, "\n")
+      saveRDS(pred, pred_filename)
+    }
   }
 
   message("Getting index for: ", species)
