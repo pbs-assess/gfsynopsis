@@ -6,10 +6,10 @@ library(tidyverse)
 devtools::load_all()
 # ---------
 # Try fitting model
-dc <- here::here('report', 'data-cache-july-2023')
+dc <- here::here('report', 'data-cache-nov-2023')
 # iphc_set_info <- get_iphc_sets_info() # requires VPN connection
 # saveRDS(iphc_set_info, 'iphc_set_info.rds')
-iphc_set_info <- readRDS(file.path(dc, 'iphc', 'iphc_set_info.rds')) |>
+iphc_set_info <- readRDS(file.path(dc, 'iphc', 'iphc-set-info.rds')) |>
   rename(lon = 'long')
 hook_bait <- readRDS(file.path(dc, 'iphc', 'hook-with-bait.rds'))$set_counts |>
   mutate(baited_hooks = ifelse(!is.na(N_it), N_it, N_it20)) |>
@@ -44,11 +44,11 @@ dat <- lapply(spp_list, FUN = function(sp) {
   mutate(species = sp)
 }) |>
   enframe() |>
-  unnest(cols = value)
-
-dat <- left_join(dat, hook_bait) |>
-  left_join(x = _, y = iphc_set_info) |> # get observed hook counts
-  mutate(catch = ifelse(!is.na(N_it), N_it, N_it20),
+  unnest(cols = value) |>
+  # Combine with bait counts
+  left_join(hook_bait) |>
+  left_join(iphc_set_info) |> # get observed hook counts
+  mutate(catch_count = ifelse(!is.na(N_it), N_it, N_it20),
          sample_n = ifelse(!is.na(N_it), 'all', '20'),
          effSkate = ifelse(!is.na(N_it), E_it, E_it20),
          hook_removed = obsHooksPerSet - baited_hooks) |>
@@ -56,51 +56,63 @@ dat <- left_join(dat, hook_bait) |>
   #mutate(effSkate = ifelse(sample_n == 'N_it', E_it, E_it20)) |>
   # @FIXME need to get total observed hooks for 1995 - 2003
   mutate(fyear = factor(year), log_eff_skate = log(effSkate),
-         fstation = factor(station)) # mgcv needs factor inputs
+         fstation = factor(station)) |> # mgcv needs factor inputs
+  drop_na(catch_count, effSkate, prop_removed)
 
 dat <- dat |> select(
   year, station, lat, lon, sample_n,
-  species, catch, effSkate, hook_removed,
+  species, catch_count, effSkate, hook_removed,
   obsHooksPerSet, iphcUsabilityCode, standard,
   prop_removed, log_eff_skate,
   fyear, fstation
-)
-
+) |>
 # For now, work with N_it20 values and then can compare effect of sampling design
-test_dat <- dat %>% filter(year >= 2003) |>
+  filter(year >= 2003) |>
   filter(sample_n == "all") |> # Have to choose an option because Andy has scaled down the
   filter(iphcUsabilityCode %in% c(1, 3), standard == "Y") |> # Match Joe's data use filtering
-  sdmTMB::add_utm_columns(ll_names = c("lon", "lat"))
+  sdmTMB::add_utm_columns(ll_names = c("lon", "lat")) |>
+  drop_na(obsHooksPerSet)
+
+        !is.na(data$N_dat) &
+          !is.na(data$effSkateIPHC) &
+          !is.na(data$region_INLA) & !is.na(data$prop_removed)
 
 pstar <- 0.823 # lingcod
 #pstar <- 0.920 # arrowtooth
 #pstar <- 0.99 # halibut
 
-test_dat <- test_dat |>
-  mutate(upr = sdmTMB:::get_censored_upper(prop_removed, n_catch = catch,
-    n_hooks = obsHooksPerSet, pstar = pstar)) |>
-  mutate(pstar = pstar, cens = prop_removed > pstar)
-  #mutate(upr = ifelse(upr > catch, floor(upr / 4), upr))
-  #mutate(upr = ifelse(prop_removed > pstar, catch + 20, catch))
+d <- dat |>
+  mutate(pstar = pstar, cens = prop_removed > pstar) |>
+  mutate(obs_id = as.factor(seq(1, n()))) # Account for variance constraint when using Poisson
+  #mutate(upr = ifelse(upr > catch_count, floor(upr / 4), upr))
+  #mutate(upr = ifelse(prop_removed > pstar, catch_count + 20, catch_count))
+d$upr <- sdmTMB:::get_censored_upper(
+  prop_removed = d$prop_removed,
+  n_catch = d$catch_count,
+  n_hooks = d$obsHooksPerSet,
+  pstar = pstar)
+# Note to self... Joe's event_id is obs_id here...
 
+#mesh <- make_mesh(d, xy_cols = c("X", "Y"), cutoff = 15)
+mesh <- make_mesh(d, xy_cols = c("X", "Y"), n_knots = 3)
+missing_years <- sdmTMB:::find_missing_time(d$year)
 
-mesh <- make_mesh(test_dat, xy_cols = c("X", "Y"), cutoff = 15)
-missing_years <- sdmTMB:::find_missing_time(test_dat$year)
-
-quantile(test_dat$prop_removed)
-stop()
+quantile(d$prop_removed)
 
 message(spp_list)
-#f <- formula(catch ~ 0 + as.factor(year))
-f <- formula(catch ~ 1)
+f <- formula(catch_count ~ fyear + (1 | obs_id))
+f <- formula('catch_count ~ -1 + year + (1 | obs_id) + (1 | fstation)')
+#f <- formula(catch_count ~ 1)
 st <- 'iid'#'rw'
 sp <- 'off'
+
+missing_years <- 2013L
 
 fit1 <- sdmTMB(
   formula = f,
   family = poisson(),
   time = "year", spatiotemporal = st, spatial = sp,
-  mesh = mesh, data = test_dat, offset = 'log_eff_skate',
+  mesh = mesh, data = d, offset = 'log_eff_skate',
   extra_time = missing_years,
   silent = FALSE
 )
@@ -110,17 +122,15 @@ fit1 <- sdmTMB(
 
 fit2 <- sdmTMB(
   formula = f,
-  family = censored_poisson(),
+  family = censored_poisson(link = 'log'),
   time = "year",
   spatiotemporal = st,
   spatial = sp,
   mesh = mesh,
-  data = test_dat,
+  data = d,
   offset = 'log_eff_skate',
-  #experimental = list(lwr = test_dat$lwr, upr = test_dat$upr),
-  control = sdmTMBcontrol(censored_upper = test_dat$upr),
+  control = sdmTMBcontrol(censored_upper = d$upr),
   extra_time = missing_years,
-  #control = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
   silent = FALSE)
 
 fit3 <- sdmTMB(
@@ -130,10 +140,10 @@ fit3 <- sdmTMB(
   spatiotemporal = st,
   spatial = sp,
   mesh = mesh,
-  data = test_dat,
+  data = d,
   offset = 'log_eff_skate',
-  #experimental = list(lwr = test_dat$lwr, upr = test_dat$upr),fit3
-  control = sdmTMBcontrol(censored_upper = test_dat$upr),
+  #experimental = list(lwr = d$lwr, upr = d$upr),fit3
+  control = sdmTMBcontrol(censored_upper = d$upr),
   extra_time = missing_years,
   #control = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
   silent = FALSE)
@@ -143,9 +153,9 @@ sanity(fit1)
 sanity(fit2)
 sanity(fit3)
 
-min_year <- min(test_dat$year)
-max_year <- max(test_dat$year)
-newdata <- sdmTMB::replicate_df(iphc_grid, "year", unique(test_dat$year)) |>
+min_year <- min(d$year)
+max_year <- max(d$year)
+newdata <- sdmTMB::replicate_df(iphc_grid, "year", unique(d$year)) |>
   mutate(fstation = factor(station))
 
 fit1_pred <- sdmTMB:::predict.sdmTMB(object = fit1, newdata = newdata, type = "link", return_tmb_object = TRUE)
