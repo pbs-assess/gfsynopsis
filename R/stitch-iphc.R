@@ -23,7 +23,7 @@ prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
       hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
       prop_removed = 1 - prop_bait_hooks
     ) |>
-    dplyr::mutate(offset = log(effSkate * hook_adjust_factor)) |> # use ICR for hook competition for now
+    dplyr::mutate(offset = log(effSkate / hook_adjust_factor)) |> # use ICR for hook competition for now
     dplyr::mutate(present = case_when(catch > 0 ~ 1, catch == 0 ~ 0, TRUE ~ NA)) |> # useful for plotting and pos sets
     dplyr::mutate(
       fyear = factor(year),
