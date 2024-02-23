@@ -1,31 +1,24 @@
 # Conclusions
 
-The Multispecies Small Mesh survey is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI and has the potential to serve as an important historical baseline. 
-Unfortunately, it was not possible to rigorously examine the uncertainties associated with the sorting protocol change that occurred in 2003. 
+Although the Multispecies Small Mesh survey is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI several changes to the survey mean that the data are less reliable before 2003. 
+Two key changes to the survey likely affect interpretation of the groundfish data.
+The first and most important is the change in sorting protocol in 2001 (full sorting using a conveyor belt) and in 2003 (species-level identification of all catch). 
+This change likely affects indices of abundance and is one that cannot be accounted for using the modelled indices. 
+Before 2003, most species abundances are likely underestimates, particularly for those species that were identified only to the family level (e.g., skates, sculpins).
+Although rockfish and flatfish species were identified to species-level before 2003, the mean annual catch of all flatfishes identified to species was higher after 2001 (i.e., once complete sorting was done on a conveyor belt). This suggests that flatfish counts before 2003 are underestimated because the catch was not fully sorted. 
+An additional uncertainty is the change in net that occurred in 2006, which did not have sufficient calibration tows to include in models or to critically assess the affect on groundfish catch. 
 
-1. Highlight changes that may affect interpretation of the groundfish data (e.g., changes to gear used, sampling protocols, species identification).
-  * Two key changes that may affect interpretation of the groundfish data:
-    * The first and likely most important is the change in sorting protocol in 2001 (full sorting using a conveyor belt) and in 2003 (species-level identification of all catch). 
-    This change  most likely to affect indices of abundance and is one that cannot be accounted for using the modelled indices. 
-        - Before 2003, most species abundances are likely underestimates, particularly for those species that were identified only to the family level (e.g., skates, sculpins).
-        - Although rockfish and flatfish species were identified to species-level before 2003, the mean annual catch of all flatfishes identified to species was higher after 2001 (i.e., once complete sorting was done on a conveyor belt). This suggests that flatfish counts before 2003 are likely underestimated because the catch was not fully sorted.
-    * An additional uncertainty that is difficult to account for is the change in net that occurred in 2006, which did not have sufficient calibration tows to assess the affect on groundfish catch. 
+When we compared spatiotemporal, model-based indices of relative population biomass with traditional design-based indices we found that the trends in each species were similar but the design-based index typically had more variable mean annual estimates and larger uncertainties compared with the modelled index.
+In addition to the changes in the survey spatial coverage over time, these results suggest, that over the full time-series, a model-based approach to index standardisation is better suited for calculating an index over the full time-series than a design-based index.  
 
-2. Compare spatiotemporal model-based indices of relative population biomass with traditional design-based indices
-    * Trends in each species index were similar between the model-based and design-based MSSM indices but the design-based index typically had more variable mean annual estimates and larger uncertainties compared with the modelled index.
-    Combined with the changes in the survey spatial coverage over time this suggests, that over the full time-series, a model-based approach to index standardisation is better suited for calculating an index over the full time-series than a design-based index.  
+Unfortunately, it was not possible to rigorously examine the uncertainties associated with the switch to comprehensive species sorting and identification that occurred in 2003 because the best dataset for comparison was the SYN WCVI survey which only began in 2003. Comparison with the SYN WCVI, particularly when compared to the same survey area as sampled in the MSSM showed comparable trends (e.g., correlations $\ge$ 0.5) across most species. 
+The comparison with the CPUE 3CD---the only dataset that spans the 2003 change in sorting protocol---did not show strong correlations in species trends, with only 10/11 species having  $\ge$ 0.5 correlation between time-series. 
+However, the due to the differences in spatial coverage of the MSSM and CPUE 3CD and the lack of proportionality between CPUE and stock abundance @harley2001, it is difficult to draw clear conclusions. 
 
-3. Investigate how well historical MSSM groundfish data may represent trends in abundance by comparing modeled MSSM indices with indices from two other sources in the same region (commercial catch per unit effort [CPUE] in groundfish management area 3CD and the SYN WCVI survey).  
+The information captured in the MSSM and SYN WCVI surveys was similar. 
+When comparing the MSSM and the SYN WCVI, encounters, catch densities, and range of lengths and ages were similar for most species when the  MSSM and SYN WCVI surveys are compared. 
+Eulachon, Flathead Sole, and Blackbelly Eelpout were encountered at least twice as frequently and at higher densities in the MSSM survey than in the SYN WCVI survey.
 
-While comparison with the CPUE 3CD, the only dataset that overlaps the 
-While the commercial catch per unit effort [CPUE] had weak correlations with the modelled MSSM indices, it is important to note that this 
-
-
-4. Compare differences in sampling and information captured in the MSSM and SYN WCVI surveys.
-    * When comparing the MSSM and the SYN WCVI, encounters, catch densities, and range of lengths and ages were similar for most species when the  MSSM and SYN WCVI surveys are compared. 
-    * Eulachon, Flathead Sole, and Blackbelly Eelpout were encountered at least twice as frequently and at higher densities in the MSSM survey than in the SYN WCVI survey.
-
-5. Evaluate whether the MSSM may have provided an earlier signal of recruitment for several rockfish species given its smaller mesh than the SYN WCVI.
-    * There was some evidence of recruitment events in the MSSM data that were either not observed in the SYN WCVI (Rougheye/Blackspotted Rockfish Complex, Darkblotched Rockfish).
-    * The annual nature of this survey also means that there is the opportunity to catch surprises early.
-    For example, very small Bocaccio were detected in 2016 in the MSSM survey.
+However, the MSSM may have provided an earlier signal of recruitment for several rockfish species given its smaller mesh than the SYN WCVI. 
+There was some evidence of recruitment events in the MSSM data that were either not observed in the SYN WCVI (Rougheye/Blackspotted Rockfish Complex, Darkblotched Rockfish).
+The annual nature of this survey also means that there is the opportunity to catch surprises early (e.g., small Bocaccio captured in 2016). 

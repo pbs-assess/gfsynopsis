@@ -73,7 +73,7 @@ We compared a 10-year rolling window correlation between the modelled MSSM vs. C
 
 Overall, the modelled MSSM indices were more variable, with larger fluctuations over time, relative to the other indices (Figures \@ref(fig:mssm-cpue), \@ref(fig:mssm-syn-wcvi), \@ref(fig:mssm-syn-wcvi-mssm)).
 The trends in the MSSM index and SYN WCVI were similar across more species when we estimated both indices using the same MSSM grid (Figures \@ref(fig:mssm-syn-wcvi-mssm), \@ref(fig:rolling-window-correlation)) than compared to SYN WCVI indices predicted over the full SYN WCVI survey grid (Figure \@ref(fig:mssm-syn-wcvi)).
-This is expected given that this better captures matching spatial patterns and covariates, such as depth, that can affect species distributions (Figure \@ref(fig:depth-dist)).
+This is expected given that this better captures matching spatial patterns and covariates, such as depth, that can affect species distributions (Figure \@ref(fig:depth-dist)). Twenty out of the twenty-seven species had a correlation $\ge$ 0.5 between the full time-series.
 
 The average correlation between the MSSM and the SYN WCVI predicted on the MSSM grid increased early in the time-series (Figure \@ref(fig:rolling-window-correlation)).
 However, the comparison of the MSSM with the SYN WCVI indices coincides with the most important change in 2003 of full species identification and quantification (Table \@ref(tab:change-table)).
@@ -81,7 +81,7 @@ The low correlations in early years appears to be driven by Dover Sole, Slender 
 
 The commercial CPUE 3CD data precedes the 2003 change in sorting procedure.
 However, the rolling window correlations were more variable and generally lower between the MSSM and the CPUE 3CD indices (Figure \@ref(fig:rolling-window-correlation)).
-The average correlation between the MSSM and the CPUE 3CD indices was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years.
+The average correlation between the MSSM and the CPUE 3CD indices was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years. When the full time-series were compared, only 10/11 of the species had correlations $\ge$ 0.5. 
 
 ```{r mssm-cpue, fig.cap="Comparison of MSSM (green) and CPUE 3CD (orange)indices. Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean. The axes are set to encompass the confidence intervals of the MSSM index. The CPUE 3CD data begin in 1996. Empty panels indicate species that we do not have a model for in the CPUE 3CD data."}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-cpue3CD.png"), dpi = NA)
