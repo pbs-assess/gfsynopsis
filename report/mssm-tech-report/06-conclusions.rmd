@@ -12,13 +12,13 @@ When we compared spatiotemporal-model-based indices of relative population bioma
 In addition to being able to account for changes in the survey spatial coverage over time, these results suggest a model-based approach to index standardisation is better suited for calculating an index than a design-based approach for the MSSM survey. 
 
 It was not possible to rigorously examine the uncertainties associated with the switch to comprehensive species sorting and identification that occurred in 2003 because the best dataset for comparison was the SYN WCVI survey which only began in 2003.
-Comparison with the SYN WCVI, particularly when compared to the same survey area as sampled in the MSSM showed comparable trends (e.g., correlations $\ge$ 0.5) across most species.
+Comparison with the SYN WCVI, particularly when using the same survey grid, showed comparable trends (e.g., correlations $\ge$ 0.5) across most species.
 The comparison with commercial trawl CPUE in area 3CD---the only dataset that spans the 2003 change in sorting protocol---did not show strong correlations with survey index trends, with only 10/11 species having  $\ge$ 0.5 correlation between time-series. 
 However, due to the differences in spatial coverage of the MSSM and CPUE 3CD and well-known possibility that commercial CPUE is not necessarily proportional to abundance @harley2001, it is difficult to draw clear conclusions. 
 
-The information captured in the MSSM and SYN WCVI surveys was similar.
-When comparing the MSSM and the SYN WCVI, encounter rates, catch densities, and range of lengths and ages were similar for most species when the MSSM and SYN WCVI surveys are compared. 
-Eulachon, Flathead Sole, and Blackbelly Eelpout were encountered at least twice as frequently and at higher densities in the MSSM survey than in the SYN WCVI survey.
+The information captured in the MSSM and SYN WCVI surveys was largely similar, but with potentially greater ability to detect recruitment from the MSSM.
+When comparing the MSSM and the SYN WCVI, encounter rates, catch densities, and range of lengths and ages were similar for most species.
+Of note, Eulachon, Flathead Sole, and Blackbelly Eelpout were encountered at least twice as frequently and at higher densities in the MSSM survey than in the SYN WCVI survey.
 However, the MSSM may have provided an earlier signal of recruitment for several rockfish species given its smaller mesh than the SYN WCVI. 
 There was some evidence of recruitment events in the MSSM data that were either not observed in the SYN WCVI survey or were not observed until later (Rougheye/Blackspotted Rockfish Complex, Darkblotched Rockfish).
 The annual nature of the MSSM survey also means that there is the opportunity to catch surprises early (e.g., small Bocaccio captured in 2016).

@@ -55,7 +55,7 @@ The axes are set to encompass the model-based confidence intervals.
 Years before 2003 are shaded grey to indicate that catch observations in the MSSM survey are considered less reliable than modern data.
 'Mean CV' is the mean of the annual coefficients of variation (CVs) for the modelled (M) and design-based (D) indices.
 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets.
-The modelled index was predicted on 3 x 3 km grid (Figure \@ref(fig:historical-grid)).
+The modelled index was predicted on 3 $\times$ 3 km grid (Figure \@ref(fig:historical-grid)).
 
 ```{r mssm-model-design, fig.cap="(ref:model-design-indices)", out.width="5.25in"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-model-design_pjs-mode.png"), dpi = NA)
