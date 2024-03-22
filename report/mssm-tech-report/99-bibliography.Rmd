@@ -8,9 +8,13 @@
 
 # References
 
+<div id="refs"></div>
+
 <!-- The following sets the appropriate indentation for the references -->
 \noindent
 \vspace{-2em}
 \setlength{\parindent}{-0.2in}
 \setlength{\leftskip}{0.2in}
 \setlength{\parskip}{8pt}
+
+\clearpage

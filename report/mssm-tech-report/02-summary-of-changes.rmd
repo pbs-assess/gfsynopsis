@@ -22,7 +22,7 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-historic
 
 ```
 
-The navigation system used in the MSSM survey has changed twice: once in 1979 from Loran A to Loran C and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid))  [@rutherfordinprep].
+The navigation system used in the MSSM survey has changed twice: once in 1979 from Loran A to Loran C and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)) [@rutherfordinprep].
 Improved accuracy of GPS means that early survey locations may therefore be more variable.
 As a consequence of more accurate positioning, @sinclair2001pcod found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows in the MSSM survey over time.
 
@@ -46,8 +46,7 @@ In 2006, the NMFS net was replaced with a 61 foot American shrimp trawl net (Tab
 However, only two comparable sets of tows were collected [see Table 2 and 3 in @rutherfordinprep].
 In these two tows, there were three species not caught in the NMFS net and seven species not caught in the American net (Figure \@ref(fig:net-comp)).
 The mean catch of these species was less than 10 kg in the net that did catch them.
-
-Unfortunately, the lack of calibration tows means that it is not possible to include gear changes in a modeled index. 
+The lack of sufficient calibration tows means that it is challenging to account for any changes in catchability or selectivity in a modeled index. 
 Furthermore, the visual comparison of only two comparative tows does not provide a clear indication of how the gear change affected capture rates.
 
 ```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977--2005 and the 61 foot American shrimp trawl net has been used from 2006--present. Only two sets of comparison trawls were done with each net at two locations in 2006.", out.width="60%"}

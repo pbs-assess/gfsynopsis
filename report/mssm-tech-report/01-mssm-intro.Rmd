@@ -6,9 +6,9 @@ However, groundfish species have also been quantified and sampled in this survey
 
 The MSSM is one of the longest continuous bottom trawl time-series for groundfish off the coast of WCVI.
 The survey therefore has the potential to serve as an important historical baseline, given that the current synoptic trawls used to produce fisheries-independent population biomass indices along the coast of British Columbia only began in or after 2003.
-Although Technical Working Groups have frequently considered including MSSM indices in groundfish stock assessments, they have tended to be excluded due to uncertainties around whether they are reflective of relative biomass through time.
+Although Technical Working Groups have frequently considered including MSSM indices in groundfish stock assessments, the indeces have tended to be excluded due to uncertainties around whether they are reflective of relative biomass density through time.
 The survey has undergone several changes that likely affect interpretation of indices and biological samples, and to date this has not been systematically examined across species.
-It is also unknown whether the groundfish data from the MSSM provides new information not already captured in the synoptic WCVI bottom trawl survey (SYN WCVI). 
+It is also unclear whether the groundfish data from the MSSM provides new information not already captured in the synoptic WCVI bottom trawl survey (SYN WCVI).
 
 In this report we:
 

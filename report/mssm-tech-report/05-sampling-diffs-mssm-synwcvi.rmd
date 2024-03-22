@@ -1,7 +1,7 @@
 # Sampling differences between MSSM and SYN WCVI {#sec:sampling-differences}
 
 All of the species captured in the MSSM survey are also caught in the SYN WCVI survey (Figure \@ref(fig:encounter-tigure)).
-Most species have similar encounter probabilities across the surveys, with a higher frequency of capturing flatfish species like Slender Sole, Rex Sole, Dover Sole, and Arrowtooth Flounder.
+Most species have similar encounter probabilities across the surveys, with a higher frequency of capturing flatfish species such as Slender Sole, Rex Sole, Dover Sole, and Arrowtooth Flounder.
 However, species such as Eulachon, Flathead Sole, and Blackbelly Eelpout were encountered at least twice as frequently in the MSSM survey than in the SYN WCVI survey (Figure \@ref(fig:encounter-tigure)).
 These species also have much higher densities of fish caught in the MSSM survey than the SYN WCVI survey.
 Differences in encounters and catch densities are slightly smaller when considering only SYN WCVI trawls done in the same depth range as the MSSM survey (75--219 m), which suggests that there are factors other than depth also affecting these differences.
@@ -17,12 +17,12 @@ Several fish species are generally found to be smaller in the MSSM survey, with 
 However, the shortest lengths sampled in the MSSM were also almost always sampled at some time in the SYN WCVI (Figure \@ref(fig:length-dist), Appendix \@ref(app:size-time)).
 
 Only seven species have ageing data in the MSSM (Figure \@ref(fig:age-dist)). 
-We were able to compare six of them with SYN WCVI (Figure \@ref(fig:age-dist))--- Pygmy Rockfish has no ageing data from the SYN WCVI.
+We were able to compare six of them with SYN WCVI (Figure \@ref(fig:age-dist))---Pygmy Rockfish has no ageing data from the SYN WCVI.
 Similar to the length sampling, the lower end of the age range sampled in the MSSM were almost always also sampled in the SYN WCVI.
 
 ## Investigating whether the MSSM survey can detect early signs of recruitment {#sec:recruitment}
 
-We saw some evidence of recruitment events in the MSSM data that were either not observed in the SYN WCVI (Rougheye/Blackspotted Rockfish Complex, Darkblotched Rockfish), or was observed one year earlier than the SYN WCVI (Bocaccio) (Figure \@ref(fig:size-dist-time)).
+We saw some evidence of recruitment events in the MSSM data that were either not observed in the SYN WCVI (Rougheye/Blackspotted Rockfish Complex, Darkblotched Rockfish), or were observed one year earlier than the SYN WCVI (Bocaccio) (Figure \@ref(fig:size-dist-time)).
 Rougheye/Blackspotted Rockfish Complex and Darkblotched Rockfish are two species that were consistently caught at smaller sizes in the MSSM than in the SYN WCVI (Figure \@ref(fig:size-dist-time)).
 Both of these species showed an increase in the relative biomass index from the MSSM a few years after small fish were observed, but this increase was not seen in the SYN WCVI data.
 The Bocaccio recruitment event in 2016 [@dfo2022bocaccio] was first observed in the MSSM data (Figure \@ref(fig:size-dist-time)).

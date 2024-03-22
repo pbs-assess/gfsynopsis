@@ -1,6 +1,6 @@
 # Comparing the MSSM survey indices to related indices {#sec:comparing-indices}
 
-The Multispecies Small-Mesh Survey is the longest running continuous groundfish survey on the BC coast, therefore it is important to understand how well the historical data capture trends in species abundances.
+The Multispecies Small-Mesh Survey is the longest running continuous groundfish survey on the BC coast, therefore it is important to understand how well the data capture trends in species abundances.
 The change in survey locations over time (e.g., Figure \@ref(fig:spatial-shift)) means that a modelled index, which accounts for latent spatial effects, may be a better approach than a design-based index.
 We compared the modelled MSSM survey indices to the MSSM design-based indices, modelled SYN WCVI indices, and the modelled commercial CPUE 3CD indices.
 
@@ -10,21 +10,21 @@ These averages are then multiplied by each stratum's area.
 Confidence intervals are estimated using a bootstrap procedure with 1000 replicates, drawing stratified samples with replacement, from all tows [see Appendix F in @anderson2019synopsis].
 
 For the modelled MSSM indices, SYN WCVI indices, and commercial CPUE 3CD indices, we used the model outputs from @anderson2024synopsis. 
-Briefly, spatiotemporal models were fit to the data from the MSSM and the SYN WCVI using the R [@r2023] package 'sdmTMB' [@anderson2022sdmTMB]. 
+Briefly, spatiotemporal models were fit to the data from the MSSM and the SYN WCVI using the R [@r2023] package sdmTMB [@anderson2022sdmTMB]. 
 Models were only fit to species that had a proportion of positive sets $\ge$ 5%.
 In the MSSM data, for six species that did not have catch weights before 2003, because of the family-level identification, the proportion of positive sets was calculated for 2003 to present.
 However, of these species, only Blackbelly Eelpout met the 5% coverage threshold to be modelled.
 Additionally, in 2022, 64% of the MSSM trawls (57 fishing events) did not have doorspread values and so for these fishing events we calculated the mean doorspread of 2022 and used this for the missing values.
 
-The spatiotemporal models for both the MSSM and SYN WCVI surveys were first with constant spatial Gaussian Markov random fields (GMRFs) and spatiotemporal GMRFs. 
+The spatiotemporal models for both the MSSM and SYN WCVI surveys were fit with constant spatial Gaussian Markov random fields (GMRFs) and spatiotemporal GMRFs. 
 If models did not converge [criteria in @anderson2024synopsis], then the spatial random field was turned off (i.e., set to zero) and only the spatiotemporal random field was included.
-The spatiotemporal component however differed between the surveys, for the MSSM indices, the GMRFs were structured as a random walk to account for the changes in the sampling domain over time.
+The spatiotemporal component, however, differed in structure between the surveys: for the MSSM indices, the GMRFs were structured as a random walk to account for the changes in the sampling domain over time.
 For the SYN WCVI, which has a consistent sampling domain over time, the spatiotemporal component was structured using independent GRMFs with a common variance along with independent annual means.
-For each survey and species, five possible families were considered: Tweedie, delta-gamma, delta-lognormal, delta-Poisson-link-gamma, and delta-Poisson-link-lognormal [@anderson2024synopsis].
-From these models, the model with the lowest marginal AIC (Akaike information criterion) was selected and used in this report. 
+For each survey and species, five possible families were considered: Tweedie, delta-gamma, delta-lognormal, Poisson-link delta-gamma, and Poisson-link delta-lognormal [@thorson2018three; @anderson2024synopsis].
+From these models, the model with the lowest marginal AIC (Akaike information criterion) was selected and used in this report.
 We omitted poorly fitted models: those which did not meet convergence criteria [@anderson2024synopsis], those where the maximum estimated CIs were greater than 10 times the maximum estimated biomass, and those where the mean coefficient of variation was < 1.
 
-To derive area-weighted biomass indices, the models were then used to estimate abundance across standardised sampling grids.
+To derive area-weighted biomass indices, the models were then used to estimate abundance across standardized sampling grids.
 For the MSSM, the sampling domain was defined by creating a 3 $\times$ 3 km grid covering the extent of all survey locations in WCVI Shrimp Survey Areas 124 and 125.
 Any grid cell that intersected with more than one survey location was retained.
 This time period covered the most consistently sampled locations in recent years.
@@ -36,7 +36,7 @@ We derived standardized commercial catch per unit effort (CPUE) indices from [@a
 Briefly, the standardization uses a generalized linear mixed model (GLMM) with a Tweedie observation likelihood and a log link fitted with the 'glmmTMB' R package [@glmmTMB].
 Binned (factor) covariates are included for depth, latitude, and month.
 An additional factor predictor is included for year.
-Locality (spatial polygon), a locality-year intercation, and fishing vessel are treated as random intercepts.
+Locality (spatial polygon), a locality-year interaction, and fishing vessel are treated as random intercepts.
 The coefficients on the factor year effects are considered the standardized index.
 
 ## Comparison of modelled and design-based indices of abundance
@@ -77,11 +77,12 @@ This is expected given that this better captures matching spatial patterns and c
 
 The average correlation between the MSSM and the SYN WCVI predicted on the MSSM grid increased early in the time-series (Figure \@ref(fig:rolling-window-correlation)).
 However, the comparison of the MSSM with the SYN WCVI indices coincides with the most important change in 2003 of full species identification and quantification (Table \@ref(tab:change-table)).
-The low correlations in early years appears to be driven by Dover Sole, Slender Sole, English Sole, Pacific Sanddab, and Darkblotched Rockfish, but it is unclear how this could be driven by sorting changes.
+The low correlations in early years appear to be driven by Dover Sole, Slender Sole, English Sole, Pacific Sanddab, and Darkblotched Rockfish, but it is unclear how this could be driven by sorting changes.
 
-The commercial CPUE 3CD data precedes the 2003 change in sorting procedure.
+The commercial CPUE 3CD data precedes the 2003 change in sorting procedure on the MSSM.
 However, the rolling window correlations were more variable and generally lower between the MSSM and the CPUE 3CD indices (Figure \@ref(fig:rolling-window-correlation)).
-The average correlation between the MSSM and the CPUE 3CD indices was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years. When the full time-series were compared, only 10/11 of the species had correlations $\ge$ 0.5. 
+The average correlation between the MSSM and the CPUE 3CD indices was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years.
+When the full time-series were compared, only 10/11 of the species had correlations $\ge$ 0.5. 
 
 ```{r mssm-cpue, fig.cap="Comparison of MSSM (green) and CPUE 3CD (orange)indices. Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean. The axes are set to encompass the confidence intervals of the MSSM index. The CPUE 3CD data begin in 1996. Empty panels indicate species that we do not have a model for in the CPUE 3CD data."}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-cpue3CD.png"), dpi = NA)
@@ -110,4 +111,3 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-correla
 ```
 
 \clearpage
-
