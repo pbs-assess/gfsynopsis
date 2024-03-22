@@ -13,7 +13,7 @@ In addition to being able to account for changes in the survey spatial coverage 
 
 It was not possible to rigorously examine the uncertainties associated with the switch to comprehensive species sorting and identification that occurred in 2003 because the best dataset for comparison was the SYN WCVI survey which only began in 2003.
 Comparison with the SYN WCVI, particularly when using the same survey grid, showed comparable trends (e.g., correlations $\ge$ 0.5) across most species.
-The comparison with commercial trawl CPUE in area 3CD---the only dataset that spans the 2003 change in sorting protocol---did not show strong correlations with survey index trends, with only 10/11 species having  $\ge$ 0.5 correlation between time-series. 
+The comparison with commercial trawl CPUE in area 3CD---the only dataset that spans the 2003 change in sorting protocol---did not show strong correlations with survey index trends, with only 10/21 species having  $\ge$ 0.5 correlation between time-series. 
 However, due to the differences in spatial coverage of the MSSM and CPUE 3CD and well-known possibility that commercial CPUE is not necessarily proportional to abundance @harley2001, it is difficult to draw clear conclusions. 
 
 The information captured in the MSSM and SYN WCVI surveys was largely similar, but with potentially greater ability to detect recruitment from the MSSM.
