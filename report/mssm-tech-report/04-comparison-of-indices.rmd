@@ -82,7 +82,7 @@ The low correlations in early years appear to be driven by Dover Sole, Slender S
 The commercial CPUE 3CD data precedes the 2003 change in sorting procedure on the MSSM.
 However, the rolling window correlations were more variable and generally lower between the MSSM and the CPUE 3CD indices (Figure \@ref(fig:rolling-window-correlation)).
 The average correlation between the MSSM and the CPUE 3CD indices was lower in the years prior to 2003 than after, which is driven by low correlations in Bocaccio and Redstripe Rockfish in early years.
-When the full time-series were compared, only 10/11 of the species had correlations $\ge$ 0.5. 
+When the full time-series were compared, only 10/21 of the species had correlations $\ge$ 0.5. 
 
 ```{r mssm-cpue, fig.cap="Comparison of MSSM (green) and CPUE 3CD (orange)indices. Time-series with a solid trend line and shaded ribbon for 95\\% confidence intervals represent an index that has been standardised with a spatiotemporal model. Vertical axes are scaled between zero and the maximum upper confidence interval value of the modelled index. Then the two indices have been scaled to have the same geometric mean. The axes are set to encompass the confidence intervals of the MSSM index. The CPUE 3CD data begin in 1996. Empty panels indicate species that we do not have a model for in the CPUE 3CD data."}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/index-mssm-model-cpue3CD.png"), dpi = NA)
