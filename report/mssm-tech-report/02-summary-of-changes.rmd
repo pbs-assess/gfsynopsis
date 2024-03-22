@@ -11,7 +11,7 @@ The consistency in survey timing means that timing is unlikely to affect abundan
 
 The MSSM is a fixed station survey with transects run in an east-west direction [@rutherfordinprep].
 Over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)).
-In part, this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught (Personal communications: D.T. Rutherford).
+In part, this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught (Personal communication: D.T. Rutherford).
 
 In 2022, sampling was extended eastward and northward to cover the original extent better than any year since 1975 (Figure \@ref(fig:spatial-shift)).
 Changes in spatial coverage over time mean that an index standardized using a model-based approach may be better suited for calculating an index over the full time-series than a design-based index.
@@ -23,7 +23,7 @@ knitr::include_graphics(here::here("report/mssm-tech-report/figure/grid-historic
 ```
 
 The navigation system used in the MSSM survey has changed twice: once in 1979 from Loran A to Loran C and again in 1998 from Loran C to the Global Positioning System (GPS) (Figure \@ref(fig:historical-grid)) [@rutherfordinprep].
-Improved accuracy of GPS means that early survey locations may therefore be more variable.
+The improved accuracy of GPS means that early survey locations may therefore be more variable.
 As a consequence of more accurate positioning, @sinclair2001pcod found that there was a trend in distance travelled over time with shorter distances travelled for the 30 minute tows in the MSSM survey over time.
 
 Between 1975 and 1977, there was a noticeable shift in sampling locations relative to subsequent years (Figure \@ref(fig:spatial-shift)).
@@ -47,7 +47,7 @@ However, only two comparable sets of tows were collected [see Table 2 and 3 in @
 In these two tows, there were three species not caught in the NMFS net and seven species not caught in the American net (Figure \@ref(fig:net-comp)).
 The mean catch of these species was less than 10 kg in the net that did catch them.
 The lack of sufficient calibration tows means that it is challenging to account for any changes in catchability or selectivity in a modeled index. 
-Furthermore, the visual comparison of only two comparative tows does not provide a clear indication of how the gear change affected capture rates.
+Furthermore, the visual comparison of only two comparative tows does not provide a clear indication of how the gear change affected capture rates (Figure \@ref(fig:net-comp)).
 
 ```{r net-comp, fig.cap="Mean catch of species caught in two sets of comparative sets of gear in 2006. The 61 foot National Marine Fisheries Service (NFMS) net was used between 1977--2005 and the 61 foot American shrimp trawl net has been used from 2006--present. Only two sets of comparison trawls were done with each net at two locations in 2006.", out.width="60%"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/net-comp.png"), dpi = NA)
@@ -63,7 +63,7 @@ The most notable change to catch sorting and sampling occurred in 2003; from 200
 Prior to 2003, `r length(post_2003_spp)` species had zero catch weights and catch counts.
 Of these, six species are caught regularly: Big Skate, Sandpaper Skate, Longnose Skate, Blackbelly Eelpout, Stripetail Rockfish, and Slim Sculpin (Figure \@ref(fig:mean-catch-pre-post-2003)).
 
-```{r mean-catch-pre-post-2003, fig.cap="Mean annual catch (kg) of fish species that have been caught in at least three sets in the Multi-Species Small Mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width = "\\textwidth"}
+```{r mean-catch-pre-post-2003, fig.cap="Mean annual catch (kg) of fish species that have been caught in at least three sets in the Multi-Species Small Mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width = "0.9\\textwidth"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/sampling-2003.png"), dpi = NA)
 ```
 
@@ -75,7 +75,7 @@ This suggests that flatfish counts before 2003 are likely underestimated because
 
 In 2002, abnormally high catches of 'Eelpouts' and 'Skates' were recorded relative to years before 2002 and when we aggregated species catches for post-2003 years (Figure \@ref(fig:spp-aggregate-plot)).
 These outliers do not appear to reflect a decimal recording error, duplicated data (there were three high 'Skate' sets in 2002), nor is it likely that it is due to a misidentification since these are easily distinguished from other species groups.
-It is possible that these species aggregates were data entry errors (e.g., a species coding error).
+It is possible that these species aggregates were data entry errors (e.g., species coding errors).
 
 ```{r spp-aggregate-plot, fig.cap="Mean annual catch (kg) of higher level taxonomic identifications of species that have been caught in the Multi-species small mesh survey. Grey shading highlights the period prior to full sorting and identification in 2003. The grey vertical line in 2001 indicates a change in sorting protocol where all sorting occurred below deck using a conveyor belt system (Rutherford et al. in prep).", out.width="75%"}
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/aggregated-id-level-plot.png"), dpi = NA)
