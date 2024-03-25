@@ -1,15 +1,15 @@
 # Summary of changes to the MSSM survey and implications for groundfish indices {#sec:summary-of-changes}
 
-To highlight changes that may affect interpretation of the groundfish data we used data extracted from the GFBio for 1975--2022 [@databases2023].
+To highlight changes that may affect interpretation of the groundfish data we used data extracted from the GFBio database for 1975--2022 [@databases2023].
 A publicly available data for the Multispecies Small Mesh survey is also available on the Ocean Biodiversity Information System (OBIS) [@mssm2022obis].
 
 ## Survey timing and area
 
-The Multi-Species Small Mesh survey (MSSM) is typically conducted in the last week of April to the first weeks of May with the exception of late surveys in 1985 and 1987 (Table \@ref(tab:change-table)).
+The Multi-Species Small Mesh (MSSM) survey is typically conducted in the last week of April to the first weeks of May with the exception of late surveys in 1985 and 1987 (Table \@ref(tab:change-table)).
 In 1977 and 1978, additional surveys were conducted in September on commercial vessels, but these have been excluded from this report.
 The consistency in survey timing means that timing is unlikely to affect abundance indices. 
 
-The MSSM is a fixed station survey with transects run in an east-west direction [@rutherfordinprep].
+The MSSM survey is a fixed station survey with transects run in an east-west direction [@rutherfordinprep].
 Over the years, the extent of the survey has decreased (Figure \@ref(fig:historical-grid)).
 In part, this is likely because in early years, when shrimp were caught near the east or west boundaries of the survey area, additional trawls would be carried out further in this direction until shrimp stopped being caught (Personal communication: D.T. Rutherford).
 

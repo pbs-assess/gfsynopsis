@@ -2,7 +2,7 @@
 title: |
   "Assessing the quality of groundfish population indices derived from the Multispecies Small Mesh Survey"
 french_title: Titre ici (*Nom latin de l'espèce*)
-year: 2023
+year: 2024
 report_number: nnn
 author: |
   Jillian C. Dunic,
