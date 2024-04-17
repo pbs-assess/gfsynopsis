@@ -13,6 +13,12 @@ csasdown::csas_table(mssm_survey_changes, caption = "Summary of changes to the M
   kableExtra::column_spec(2, width = "4.3cm") |>
   kableExtra::column_spec(3, width = "9.3cm")
 
+# For producing table in word
+  # flextable::flextable(mssm_survey_changes) |>
+  # flextable::set_caption(caption = "Summary of changes to the Multispecies Small-Mesh Bottom Trawl Survey (MSSM). These changes are compiled from Rutherford et al. In prep.") |>
+  # #flextable::set_table_properties(layout = "autofit") |>
+  # flextable::width(width = c(1.5, 4.3, 9.3), j = 1:3)
+
 ```
 
 \clearpage
