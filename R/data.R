@@ -47,6 +47,7 @@ get_data <- function(
     compress = compress, force = force
   )
   get_iphc_hook_data(path = file.path(path, "iphc"))
+  get_ll_bait_counts(path = path)
 }
 
 #' Get the IPHC data for all years, should get merged into get_data at some point
