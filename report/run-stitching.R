@@ -6,6 +6,9 @@ sc_synoptic_dl <- file.path(stitch_cache, "synoptic-delta-lognormal")
 sc_synoptic_dpg <- file.path(stitch_cache, "synoptic-delta-poisson-link-gamma")
 sc_synoptic_dpl <- file.path(stitch_cache, "synoptic-delta-poisson-link-lognormal")
 
+sc_synoptic_dpgg <- file.path(stitch_cache, "synoptic-delta-poisson-link-gengamma")
+sc_synoptic_dgg <- file.path(stitch_cache, "synoptic-delta-gengamma")
+
 sc_hbll_out <- file.path(stitch_cache, "hbll_outside")
 sc_hbll_out_n <- file.path(stitch_cache, "hbll_outside_n")
 sc_hbll_out_s <- file.path(stitch_cache, "hbll_outside_s")
@@ -22,6 +25,9 @@ dir.create(sc_synoptic_dg, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_synoptic_dl, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_synoptic_dpg, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_synoptic_dpl, showWarnings = FALSE, recursive = TRUE)
+
+dir.create(sc_synoptic_dpgg, showWarnings = FALSE, recursive = TRUE)
+dir.create(sc_synoptic_dgg, showWarnings = FALSE, recursive = TRUE)
 
 dir.create(sc_hbll_out, showWarnings = FALSE, recursive = TRUE)
 dir.create(sc_hbll_out_n, showWarnings = FALSE, recursive = TRUE)
@@ -145,11 +151,22 @@ furrr::future_walk(spp_vector, function(.sp) {
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpl,
     grid_dir = grid_dir, check_cache = TRUE
   )
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gengamma(type = "poisson-link"),
+    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpgg,
+    grid_dir = grid_dir, check_cache = TRUE
+  )
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gengamma(),
+    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dgg,
+    grid_dir = grid_dir, check_cache = TRUE
+  )
 })
 
 # work through all individual synoptics:
 syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
-families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-poisson-link-lognormal", "delta-poisson-link-gamma")
+families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-poisson-link-lognormal", "delta-poisson-link-gamma", "delta-poisson-link-gengamma", "delta-gengamma")
 
 tofit <- tidyr::expand_grid(.sp = spp_vector, .syn = syns, .family = families)
 # furrr::future_walk(spp_vector, function(.sp) {
@@ -162,6 +179,8 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
   if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
   if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
   if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
+  if (.family == "delta-gengamma") .fam <- sdmTMB::delta_gengamma()
+  if (.family == "delta-poisson-link-gengamma") .fam <- sdmTMB::delta_gengamma(type = "poisson-link")
   tag <- paste0(.syn, "-", .family)
   .cache <- paste0("report/stitch-cache/synoptic-", tag)
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
@@ -194,6 +213,8 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
   if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
   if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
   if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
+  if (.family == "delta-gengamma") .fam <- sdmTMB::delta_gengamma()
+  if (.family == "delta-poisson-link-gengamma") .fam <- sdmTMB::delta_gengamma(type = "poisson-link")
   tag <- paste0(.syn, "-", .family)
   .cache <- paste0("report/stitch-cache/synoptic-", tag)
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type_iid, ".rds")
