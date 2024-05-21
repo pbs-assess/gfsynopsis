@@ -1,18 +1,29 @@
 fit_sdmTMB_cpue <- function(
-    cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
-    # survey_grids = c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
-    survey_grids = "SYN HS",
-    species_proper = "SPINY DOGFISH",
+    cpue_data_file, # e.g. here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
+    species,
+    survey_grids = c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
     final_year = as.numeric(format(Sys.Date(), "%Y")) - 1L,
     min_positive_tows = 100L,
     min_positive_trips = 5L,
     min_yrs_with_trips = 5L,
-    plots = FALSE) {
+    plots = FALSE, silent = TRUE) {
   # library(dplyr)
   library(sdmTMB)
   library(sf)
 
   if (plots) library(ggplot2)
+
+  if (require("RhpcBLASctl")) {
+    RhpcBLASctl::blas_set_num_threads(1) # default currently is all/80!
+    RhpcBLASctl::omp_set_num_threads(1) # default currently is all/80!
+  }
+
+  NA_return <-
+    data.frame(
+      year = NA, est = NA, lwr = NA, upr = NA, log_est = NA, se = NA,
+      region = paste(survey_grids, collapse = "; "), species = species,
+      stringsAsFactors = FALSE
+    )
 
   params <- list()
   params$area <- c("^5A|^5B|^5C|^5D|^5E|^3C|^3D")
@@ -24,9 +35,9 @@ fit_sdmTMB_cpue <- function(
   params$depth_bin_quantiles <- c(0.001, 0.999)
   params$lat_range <- c(48, Inf)
   params$depth_range <- c(-Inf, Inf)
-  params$species_proper <- species_proper
+  params$species <- species
 
-  spp <- gsub(" ", "-", gsub("\\/", "-", tolower(params$species_proper)))
+  spp <- gsub(" ", "-", gsub("\\/", "-", tolower(params$species)))
 
   d1996 <- readr::read_rds(cpue_data_file)
   d1996$fishing_event_id_unique <- paste0(
@@ -46,25 +57,9 @@ fit_sdmTMB_cpue <- function(
   grid <- gfdata::survey_blocks |>
     dplyr::filter(grepl("^SYN", survey_abbrev))
 
-  bathy <- marmap::getNOAA.bathy(
-    lon1 = -138, lon2 = -120, lat1 = 47, lat2 = 57,
-    resolution = 1, keep = TRUE
-  )
-
-  grid_ll <- sf::st_transform(grid, crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-  suppressWarnings({
-    grid_ll_coord <- grid_ll |>
-      sf::st_centroid() |>
-      sf::st_coordinates()
-  })
-
-  x <- marmap::get.depth(bathy, grid_ll_coord[, 1:2], locator = FALSE) |>
-    dplyr::mutate(depth_m = (depth * -1))
-  grid$depth_marmap <- x$depth_m
-
   dat <- gfplot::tidy_cpue_index(
     d1996,
-    species_common = tolower(params$species_proper),
+    species_common = tolower(params$species),
     gear = "bottom trawl",
     use_alt_year = FALSE,
     year_range = c(1996, params$final_year),
@@ -79,6 +74,28 @@ fit_sdmTMB_cpue <- function(
     lat_band_width = 0.02,
     return_raw_data = TRUE #<
   )
+
+  if (nrow(dat) < 200) {
+    return(NA_return)
+  }
+
+  bathy <- marmap::getNOAA.bathy(
+    lon1 = -138, lon2 = -120, lat1 = 47, lat2 = 57,
+    resolution = 1, keep = TRUE
+  )
+
+  grid_ll <- sf::st_transform(grid, crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+  suppressWarnings({
+    grid_ll_coord <- grid_ll |>
+      sf::st_centroid() |>
+      sf::st_coordinates()
+  })
+
+
+  x <- marmap::get.depth(bathy, grid_ll_coord[, 1:2], locator = FALSE) |>
+    dplyr::mutate(depth_m = (depth * -1))
+  grid$depth_marmap <- x$depth_m
+
 
   dat <- sdmTMB::add_utm_columns(dat, c("longitude", "latitude"), utm_crs = 32609, units = "km")
   x <- marmap::get.depth(bathy, dat[, c("longitude", "latitude")], locator = FALSE) |>
@@ -173,7 +190,7 @@ fit_sdmTMB_cpue <- function(
   dat$depth_scaled <- (dat$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
 
   if (plots) {
-    g <- ggplot(dat, aes(as.factor(year), (spp_catch + 1)/ hours_fished)) +
+    g <- ggplot(dat, aes(as.factor(year), (spp_catch + 1) / hours_fished)) +
       geom_boxplot() +
       scale_y_log10()
     print(g)
@@ -198,91 +215,86 @@ fit_sdmTMB_cpue <- function(
 
   dat$month_num <- as.numeric(dat$month)
 
-  if (nrow(dat) > 200) {
-    if (length(unique(dat$month)) >= 9) { # use month smoother
-      f <- spp_catch ~ 0 + as.factor(year) +
-        depth_scaled + I(depth_scaled^2) +
-        (1 | vessel) + s(month_num, bs = "cc")
-      mm <- stats::model.matrix(spp_catch ~ 0 + as.factor(year) +
-        depth_scaled + I(depth_scaled^2), data = dat)
-    } else {
-      f <- spp_catch ~ 0 + as.factor(year) +
-        depth_scaled + I(depth_scaled^2) +
-        (1 | vessel) + as.factor(month)
-      mm <- stats::model.matrix(spp_catch ~ 0 + as.factor(year) +
-        depth_scaled + I(depth_scaled^2) + as.factor(month), data = dat)
-    }
-
-    tictoc::tic()
-    fit <- sdmTMB::sdmTMB(
-      f,
-      knots = list(month_num = c(0.5, 12.5)),
-      family = sdmTMB::delta_lognormal(),
-      # family = sdmTMB::delta_lognormal(type = "poisson-link"),
-      # family = sdmTMB::delta_gamma(),
-      control = sdmTMBcontrol(profile = c("b_j", "b_j2"), multiphase = FALSE),
-      # control = sdmTMBcontrol(multiphase = FALSE),
-      priors = sdmTMBpriors(b = normal(rep(0, ncol(mm)), rep(20, ncol(mm)))),
-      mesh = mesh,
-      offset = log(dat$hours_fished),
-      spatial = "on",
-      spatiotemporal = "iid",
-      data = dat,
-      time = "year",
-      anisotropy = TRUE,
-      predict_args = list(newdata = gg, re_form_iid = NA),
-      index_args = list(area = rep(4, nrow(gg))),
-      do_index = TRUE,
-      silent = FALSE
-    )
-    tictoc::toc()
+  if (length(unique(dat$month)) >= 9) { # use month smoother
+    f <- spp_catch ~ 0 + as.factor(year) +
+      depth_scaled + I(depth_scaled^2) +
+      (1 | vessel) + s(month_num, bs = "cc")
+    mm <- stats::model.matrix(spp_catch ~ 0 + as.factor(year) +
+      depth_scaled + I(depth_scaled^2), data = dat)
   } else {
-    return(NA)
+    f <- spp_catch ~ 0 + as.factor(year) +
+      depth_scaled + I(depth_scaled^2) +
+      (1 | vessel) + as.factor(month)
+    mm <- stats::model.matrix(spp_catch ~ 0 + as.factor(year) +
+      depth_scaled + I(depth_scaled^2) + as.factor(month), data = dat)
+  }
+
+  if (nrow(dat) < 200) {
+    return(NA_return)
+  }
+
+  tictoc::tic()
+  fit <- tryCatch(sdmTMB::sdmTMB(
+    f,
+    knots = list(month_num = c(0.5, 12.5)),
+    family = sdmTMB::delta_lognormal(),
+    # family = sdmTMB::delta_lognormal(type = "poisson-link"),
+    # family = sdmTMB::delta_gamma(),
+    control = sdmTMBcontrol(profile = c("b_j", "b_j2"), multiphase = FALSE),
+    # control = sdmTMBcontrol(multiphase = FALSE),
+    priors = sdmTMBpriors(b = normal(rep(0, ncol(mm)), rep(20, ncol(mm)))),
+    mesh = mesh,
+    offset = log(dat$hours_fished),
+    spatial = "on",
+    spatiotemporal = "iid",
+    data = dat,
+    time = "year",
+    anisotropy = TRUE,
+    predict_args = list(newdata = gg, re_form_iid = NA),
+    index_args = list(area = rep(4, nrow(gg))),
+    do_index = TRUE,
+    silent = silent
+  ), error = function(e) NA)
+  tictoc::toc()
+  if (length(fit) == 1L) {
+    if (is.na(fit)) {
+      return(NA_return)
+    }
   }
 
   s <- sanity(fit)
-  if (!s$all_ok) {
-    fit <- update(fit, anisotropy = FALSE)
+  if (!all(unlist(s))) {
+    fit <- tryCatch(update(fit, anisotropy = FALSE), error = function(e) NA)
     s <- sanity(fit)
   }
-  if (!s$all_ok) {
-    fit <- update(fit, spatiotemporal = "off")
+  if (length(fit) == 1L) {
+    if (is.na(fit)) {
+      return(NA_return)
+    }
+  }
+
+  if (!all(unlist(s))) {
+    fit <- tryCatch(update(fit, spatiotemporal = "off"), error = function(e) NA)
     s <- sanity(fit)
   }
-  if (!s$all_ok) {
-    return(NA)
+  if (length(fit) == 1L) {
+    if (is.na(fit)) {
+      return(NA_return)
+    }
+  }
+
+  if (!all(unlist(s))) {
+    return(NA_return)
   }
   fit
 
-  # regions <- list(
-  #   c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
-  #   c("SYN HS", "SYN WCHG"),
-  #   c("SYN QCS"),
-  #   c("SYN WCVI")
-  # )
-  # region_names <- c("Coastwide", "WCHG + HS", "QCS", "WCVI")
-
   do_expanion <- function(model) {
-    # lapply(seq_along(regions), \(i) {
-    # lapply(4, \(i) {
-    # cat(region_names[i], "\n")
-    # nd <- dplyr::filter(gg, survey %in% regions[[i]])
-    # pred <- predict(model, newdata = gg, return_tmb_object = TRUE, re_form_iid = NA)
-
-    # pred <- predict(fit, newdata = gg, return_tmb_object = TRUE, re_form_iid = NA)
-    # ind2 <- get_index(pred, bias_correct = TRUE, area = 4)
-
     ind <- get_index(model, bias_correct = TRUE, area = 4)
     ind$region <- paste(survey_grids, collapse = "; ")
-    ind$species <- params$species_proper
-    # gc()
+    ind$species <- params$species
     ind
-    # })
   }
   ind <- do_expanion(fit)
-  # ind2 <- do_expanion(fit2)
-  # ind4 <- do_expanion(fit4)
-  # ind3 <- do_expanion(fit3)
 
   if (plots) {
     g <- ind |> ggplot(aes(year, est, ymin = lwr, ymax = upr)) +
@@ -290,10 +302,6 @@ fit_sdmTMB_cpue <- function(
       facet_wrap(~region, scales = "free_y") +
       ylim(0, NA)
     print(g)
-      # geom_ribbon(data = ind3, fill = "red", alpha = 0.3)
-      # geom_ribbon(data = ind4, fill = "red", alpha = 0.3) +
-      # geom_ribbon(data = ind2, fill = "green", alpha = 0.3)
-
   }
 
   ind
