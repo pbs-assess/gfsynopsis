@@ -112,11 +112,13 @@ get_data_iphc_hook_with_bait <- function(
 #' @export
 #'
 get_ll_bait_counts <- function(path = ".", species = 442, ssid = c(22, 36, 39, 40)) {
-  ll_hook_data <- gfdata::get_ll_hook_data(species = species, ssid = ssid)
-  # Use bait counts only because other columns have questionable data quality
-  bait_counts <- ll_hook_data |>
-    dplyr::select(ssid, year, fishing_event_id, count_bait_only)
-  saveRDS(bait_counts, file.path(path, "bait-counts.rds"))
+  if (!file.exists(file.path(path, "bait-counts.rds"))) {
+    ll_hook_data <- gfdata::get_ll_hook_data(species = species, ssid = ssid)
+    # Use bait counts only because other columns have questionable data quality
+    bait_counts <- ll_hook_data |>
+      dplyr::select(ssid, year, fishing_event_id, count_bait_only)
+    saveRDS(bait_counts, file.path(path, "bait-counts.rds"))
+  }
 }
 
 
