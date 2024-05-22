@@ -40,6 +40,7 @@
 #'   Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
 #'   [gfsynopsis::get_stitched_index()].
 #' @param index_ggplot Pre-made ggplots for survey indices.
+#' @param spatiotemporal_cpue Logical: use commercial trawl CPUE sdmTMB model output?
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -100,7 +101,8 @@ make_pages <- function(
     grid_dir,
     hbll_bait_counts,
     iphc_hook_counts,
-    index_ggplot
+    index_ggplot,
+    spatiotemporal_cpue = FALSE
   ) {
   progress_fn <- function(...) cli::cli_progress_step(..., spinner = TRUE)
   # cli::cli_inform("------------------------------------")
@@ -181,7 +183,11 @@ make_pages <- function(
 
   fig_folder <- file.path(report_lang_folder, "figure-pages")
   ggplot_folder <- file.path(report_lang_folder, "ggplot-objects")
-  cpue_cache <- file.path(report_folder, "cpue-cache")
+  if (spatiotemporal_cpue) {
+    cpue_cache <- file.path(report_folder, "cpue-sdmTMB-cache")
+  } else {
+    cpue_cache <- file.path(report_folder, "cpue-cache")
+  }
   survey_map_cache <- file.path(report_folder, "map-cache")
   vb_cache <- file.path(report_folder, "vb-cache")
   iphc_index_cache <- file.path(report_folder, "iphc-cache")
@@ -409,14 +415,31 @@ make_pages <- function(
 
   if ("cpue_index" %in% names(dat)) {
     if (nrow(dat$catch) > 0) {
-      if (!file.exists(cpue_cache_spp)) {
-        cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
-          species = unique(dat$catch$species_common_name),
-          save_model = save_gg_objects, parallel = parallel
-        )
-        saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-      } else {
-        cpue_index <- readRDS(cpue_cache_spp)
+      # if (!file.exists(cpue_cache_spp)) {
+      #   cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
+      #     species = unique(dat$catch$species_common_name),
+      #     save_model = save_gg_objects, parallel = parallel
+      #   )
+      #   saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+      # } else {
+      cpue_index <- readRDS(cpue_cache_spp)
+      # }
+
+      if (spatiotemporal_cpue) {
+        old <- cpue_index
+        if (!all_NA(old)) {
+          new <- transmute(old, year, model = "Combined", est = est, est_unstandardized = est, est_link = log_est, se_link = se, lwr, upr)
+          new$area <- case_when(
+            old$region == "SYN QCS; SYN HS; SYN WCVI; SYN WCHG" ~ "3CD5ABCDE",
+            old$region == "SYN HS; SYN WCHG" ~ "5CDE",
+            old$region == "SYN QCS" ~ "5AB",
+            old$region == "SYN WCVI" ~ "3CD",
+            .default = NA_character_
+          )
+          new <- new[!is.na(new$se_link),,drop=FALSE]
+          cpue_index <- new
+          if (nrow(cpue_index) == 0L) cpue_index <- NA
+        }
       }
 
       if (all_not_NA(cpue_index)) { # enough vessels?

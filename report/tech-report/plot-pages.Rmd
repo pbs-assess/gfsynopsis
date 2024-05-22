@@ -407,7 +407,7 @@ Order: Gadiformes, Family: Gadidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254538)\
 Last Research Document: @forrest2020pcod\
 Last Science Advisory Report: @dfo2019pcod3cd5abcd\
-Last Science Response: @dfo2021pcod\
+Last Science Response: @dfo2021pcod, @dfo2024pcod\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-cod-1.png}
 \end{figure}

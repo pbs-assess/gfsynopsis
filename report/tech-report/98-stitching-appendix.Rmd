@@ -91,7 +91,7 @@ We chose the 2009 to 2021 timespan because it reflected a relatively stable samp
 Some areas that were sampled in earlier years are no longer sampled and would add considerable uncertainty to the index calculations if we predicted on these no-longer-sampled grid cells.
 Similarly, the 2022 survey year introduced some new survey locations that had not been surveyed since the 1970s.
 
-```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM WCVI). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", fig.pos= "H", out.width="3.3in"}
+```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM WCVI). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", fig.pos= "H", out.width="3.3in", eval=FALSE}
 knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
 ```
 

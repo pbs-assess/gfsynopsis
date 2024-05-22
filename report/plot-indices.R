@@ -13,7 +13,7 @@
 # library(here)
 # devtools::load_all(".")
 
-make_index_panel <- function(spp_w_hyphens, final_year_surv = 2022, french = FALSE, all_survey_years = NULL) {
+make_index_panel <- function(spp_w_hyphens, final_year_surv = 2023, french = FALSE, all_survey_years = NULL) {
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"

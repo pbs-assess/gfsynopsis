@@ -42,7 +42,8 @@ dir.create(sc_mssm_dpl, showWarnings = FALSE, recursive = TRUE)
 
 model_type_iid <- "st-iid"
 
-furrr::future_walk(spp_vector, function(.sp) {
+# furrr::future_walk(spp_vector, function(.sp) {
+purrr::walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
   stitch_cached_sp <- file.path(c(
     sc_synoptic,
@@ -56,6 +57,8 @@ furrr::future_walk(spp_vector, function(.sp) {
     sc_synoptic_dpl
   ),
     spp_filename)
+
+  print(spp_filename)
 
   # if(any(!file.exists(stitch_cached_sp))) {
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
@@ -207,7 +210,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
 
 # IID versions
 furrr::future_pmap(tofit, function(.sp, .syn, .family) {
-# purrr::pmap(tofit[786,,drop=FALSE], function(.sp, .syn, .family) {
+# purrr::pmap(tofit, function(.sp, .syn, .family) {
   if (.family == "tweedie") .fam <- sdmTMB::tweedie()
   if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
   if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
@@ -218,6 +221,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
   tag <- paste0(.syn, "-", .family)
   .cache <- paste0("report/stitch-cache/synoptic-", tag)
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type_iid, ".rds")
+  print(spp_filename)
   stitch_cached_sp <- file.path(.cache, spp_filename)
   # if(!file.exists(stitch_cached_sp)) {
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
