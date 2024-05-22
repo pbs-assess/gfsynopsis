@@ -76,7 +76,11 @@ fit_sdmTMB_cpue <- function(
   )
 
   if (nrow(dat) < 200) {
-    return(NA_return)
+    if (!return_raw_cpue) {
+      return(NA_return)
+    } else {
+      return(NA)
+    }
   }
 
   bathy <- marmap::getNOAA.bathy(
@@ -191,7 +195,9 @@ fit_sdmTMB_cpue <- function(
   dat$depth_scaled <- (dat$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
 
   if (return_raw_cpue) {
-    ret <- group_by(dat, year) |>
+    ret <- dat |>
+      filter(!is.na(spp_catch), !is.na(hours_fished)) |>
+      group_by(year) |>
       summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
       mutate(est_unstandardized = est_unstandardized /
           exp(mean(log(est_unstandardized))))

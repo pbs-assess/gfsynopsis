@@ -211,6 +211,7 @@ dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
 all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
   dplyr::distinct()
 
+if (!is_hake_server()) {
 # these are complex, do outside first:
 source(here::here("report", "plot-indices.R"))
 # make_index_panel("north-pacific-spiny-dogfish")
@@ -222,6 +223,7 @@ make_index_panel("longnose-skate", all_survey_years = all_survey_years)
 make_index_panel("whitebarred-prickleback", all_survey_years = all_survey_years)
 make_index_panel("rougheye-blackspotted-rockfish-complex", all_survey_years = all_survey_years)
 index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
+}
 
 
 
@@ -251,7 +253,7 @@ index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel, all_survey_year
 # })
 # future::plan(sequential)
 
-if (parallel_processing && is_hake_server()) future::plan(future::multisession, workers = 12L)
+if (parallel_processing && is_hake_server()) future::plan(future::multisession, workers = 10L)
 if (parallel_processing && !is_hake_server()) future::plan(future::multisession, workers = 2L)
 source(here::here("report/cpue-sdmTMB.R"))
 message("Fit sdmTMB CPUE models")
@@ -263,8 +265,8 @@ xx <- spp$species_common_name
 set.seed(123)
 xx <- sample(xx, length(xx), replace = FALSE)
 # xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
-# furrr::future_walk(xx, function(.sp) {
-purrr::walk(xx, \(.sp) {
+furrr::future_walk(xx, function(.sp) {
+# purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   raw_cpue_cache_spp <- paste0(file.path(raw_cpue_cache, spp_file), ".rds")
