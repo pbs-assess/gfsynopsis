@@ -6,7 +6,7 @@ fit_sdmTMB_cpue <- function(
     min_positive_tows = 100L,
     min_positive_trips = 5L,
     min_yrs_with_trips = 5L,
-    plots = FALSE, silent = TRUE) {
+    plots = FALSE, silent = TRUE, return_data = FALSE) {
   # library(dplyr)
   library(sdmTMB)
   library(sf)
@@ -138,6 +138,7 @@ fit_sdmTMB_cpue <- function(
   intersected_grid <- sf::st_intersects(grid_region, dat_sf_reduced)
   intersected_grid_i <- which(lengths(intersected_grid) > 0)
   grid_region_reduced <- grid_region[intersected_grid_i, ]
+  grid_region_reduced <- grid_region # !!
 
   if (plots) {
     g <- grid_region_reduced |>
@@ -188,6 +189,9 @@ fit_sdmTMB_cpue <- function(
   # dplyr::filter(dat, hours_fished > 2000) # 8762.05!
   dat <- dplyr::filter(dat, hours_fished < 2000)
   dat$depth_scaled <- (dat$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
+  if (return_data) {
+    return(dat)
+  }
 
   if (plots) {
     g <- ggplot(dat, aes(as.factor(year), (spp_catch + 1) / hours_fished)) +
