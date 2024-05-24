@@ -204,7 +204,6 @@ prep_stitch_grids(
 if (FALSE) { # slow to check!
   source(here::here("report", "run-stitching.R"))
 }
-future::plan(sequential)
 
 # get all survey years to convert NAs to 0s:
 dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
@@ -215,17 +214,15 @@ if (!is_hake_server()) {
 # these are complex, do outside first:
 source(here::here("report", "plot-indices.R"))
 # make_index_panel("north-pacific-spiny-dogfish")
-make_index_panel("basking-shark")
-make_index_panel("pacific-cod", all_survey_years = all_survey_years)
-make_index_panel("arrowtooth-flounder", all_survey_years = all_survey_years)
-# make_index_panel("big-skate")
-make_index_panel("longnose-skate", all_survey_years = all_survey_years)
-make_index_panel("whitebarred-prickleback", all_survey_years = all_survey_years)
-make_index_panel("rougheye-blackspotted-rockfish-complex", all_survey_years = all_survey_years)
-index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
+# make_index_panel("basking-shark")
+# make_index_panel("pacific-cod", all_survey_years = all_survey_years)
+# make_index_panel("arrowtooth-flounder", all_survey_years = all_survey_years)
+# # make_index_panel("big-skate")
+# make_index_panel("longnose-skate", all_survey_years = all_survey_years)
+# make_index_panel("whitebarred-prickleback", all_survey_years = all_survey_years)
+# make_index_panel("rougheye-blackspotted-rockfish-complex", all_survey_years = all_survey_years)
+index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
 }
-
-
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
@@ -269,7 +266,7 @@ furrr::future_walk(xx, function(.sp) {
 # purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
-  raw_cpue_cache_spp <- paste0(file.path(raw_cpue_cache, spp_file), ".rds")
+  raw_cpue_cache_spp <-
   regions <- list(
     c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
     c("SYN HS", "SYN WCHG"),
@@ -279,8 +276,11 @@ furrr::future_walk(xx, function(.sp) {
   if (!file.exists(cpue_cache_spp)) {
     cat(.sp, "\n")
     cpue_index_l <- lapply(regions, \(r) {
+      .r <- gsub(" ", "-", paste(r, collapse = "-"))
+      .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
       ret <- fit_sdmTMB_cpue(
         cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
+        raw_cpue_caching_file = here::here(.f),
         survey_grids = r,
         final_year = 2023,
         species = .sp
@@ -291,23 +291,30 @@ furrr::future_walk(xx, function(.sp) {
     cpue_index <- do.call(rbind, cpue_index_l)
     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
   }
-  if (!file.exists(raw_cpue_cache_spp)) {
-    cat(.sp, "\n")
-    cpue_index_l <- lapply(regions, \(r) {
-      ret <- fit_sdmTMB_cpue(
-        cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
-        survey_grids = r,
-        final_year = 2023,
-        species = .sp, return_raw_cpue = TRUE
-      )
-      gc()
-      ret
-    })
-    cpue_index <- do.call(rbind, cpue_index_l)
-    saveRDS(cpue_index, file = raw_cpue_cache_spp, compress = FALSE)
-  }
+  # if (!file.exists(raw_cpue_cache_spp)) {
+  #   cat(.sp, "\n")
+  #   cpue_index_l <- lapply(regions, \(r) {
+  #     ret <- fit_sdmTMB_cpue(
+  #       cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
+  #       survey_grids = r,
+  #       final_year = 2023,
+  #       species = .sp, return_raw_cpue = TRUE
+  #     )
+  #     gc()
+  #     ret
+  #   })
+  #   cpue_index <- do.call(rbind, cpue_index_l)
+  #   saveRDS(cpue_index, file = raw_cpue_cache_spp, compress = FALSE)
+  # }
 })
 future::plan(sequential)
+f <- list.files(raw_cpue_cache, full.names = TRUE)
+raw_cpue <- purrr::map_dfr(f, \(x) {
+  a <- readRDS(x)
+  if (!all(is.na(a[[1L]]))) a
+})
+raw_cpue <- filter(raw_cpue, is.finite(est_unstandardized))
+raw_cpue <- filter(raw_cpue, !is.na(est_unstandardized))
 
 if (!is_hake_server()) {
 
@@ -334,8 +341,12 @@ rlang::inform("Building")
 rlang::inform(paste(spp$species_common_name)[to_build])
 
 # Trash compiled objects for safety:
-unlink("vb_gfplot.*")
-unlink("lw_gfplot.*")
+# unlink("vb_gfplot.*")
+# unlink("lw_gfplot.*")
+
+if (exists("ii")) {
+  to_build <- to_build[to_build %in% ii]
+}
 
 purrr::walk(to_build, function(i) {
   tryCatch({
@@ -352,7 +363,6 @@ purrr::walk(to_build, function(i) {
       show_col_types = FALSE) |> as.data.frame()
 
     # FIXME!
-
     if (spp$species_common_name[i] == "kelp greenling") {
       dat$survey_samples <-
         dplyr::filter(dat$survey_samples, !(weight > 0.1 & length < 10))
@@ -382,18 +392,13 @@ purrr::walk(to_build, function(i) {
       hbll_bait_counts = hbll_bait_counts,
       iphc_hook_counts = iphc_hook_counts,
       index_ggplot = index_ggplots[[i]],
-      spatiotemporal_cpue = TRUE
+      spatiotemporal_cpue = TRUE,
+      raw_cpue = raw_cpue
     )
     # }, error = function(e) warning("Error"))
   }, error = function(e) stop("Error"))
-  # }, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
-  # "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
-# }
-  # .options = furrr::furrr_options(globals = c("build_dir", "dat_iphc, dat", "spp", "example_spp", "d_cpue", "dc"))
-
-  })
-# future::plan(sequential)
-beepr::beep()
+})
+# beepr::beep()
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.

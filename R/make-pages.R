@@ -102,7 +102,8 @@ make_pages <- function(
     hbll_bait_counts,
     iphc_hook_counts,
     index_ggplot,
-    spatiotemporal_cpue = FALSE
+    spatiotemporal_cpue = FALSE,
+  raw_cpue = NULL
   ) {
   progress_fn <- function(...) cli::cli_progress_step(..., spinner = TRUE)
   # cli::cli_inform("------------------------------------")
@@ -425,10 +426,10 @@ make_pages <- function(
       cpue_index <- readRDS(cpue_cache_spp)
       # }
 
-      if (spatiotemporal_cpue) {
+      if (spatiotemporal_cpue) { # a ton of code to jam this into the old function...
         old <- cpue_index
         if (!all_NA(old)) {
-          new <- transmute(old, year, model = "Combined", est = est, est_unstandardized = est, est_link = log_est, se_link = se, lwr, upr)
+          new <- transmute(old, year, model = "Combined", est = est, est_link = log_est, se_link = se, lwr, upr)
           new$area <- case_when(
             old$region == "SYN QCS; SYN HS; SYN WCVI; SYN WCHG" ~ "3CD5ABCDE",
             old$region == "SYN HS; SYN WCHG" ~ "5CDE",
@@ -437,13 +438,33 @@ make_pages <- function(
             .default = NA_character_
           )
           new <- new[!is.na(new$se_link),,drop=FALSE]
+          new <- group_by(new, area) |>
+            mutate(geo_mean = exp(mean(log(est)))) |>
+            mutate(
+              upr = upr / geo_mean,
+              lwr = lwr / geo_mean,
+              est = est / geo_mean
+            ) |> ungroup()
           cpue_index <- new
           if (nrow(cpue_index) == 0L) cpue_index <- NA
+        }
+        rr <- dplyr::filter(raw_cpue, species == spp)
+        rr$area <- case_when(
+          rr$region == "SYN QCS; SYN HS; SYN WCVI; SYN WCHG" ~ "3CD5ABCDE",
+          rr$region == "SYN HS; SYN WCHG" ~ "5CDE",
+          rr$region == "SYN QCS" ~ "5AB",
+          rr$region == "SYN WCVI" ~ "3CD",
+          .default = NA_character_
+        )
+        if (nrow(rr) > 0) {
+          cpue_index <- dplyr::left_join(cpue_index, dplyr::select(rr, year, area, est_unstandardized),
+            by = join_by(year, area))
+        } else {
+          cpue_index$est_unstandardized <- cpue_index$est
         }
       }
 
       if (all_not_NA(cpue_index)) { # enough vessels?
-
         g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
           ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
           ylab("") + xlab("") +
