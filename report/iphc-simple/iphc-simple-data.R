@@ -65,6 +65,13 @@ names(set) <- gsub("\\/", "_per_", names(set))
 names(set) <- gsub("\\.", "", names(set))
 names(set) <- gsub("___", "_", names(set))
 set$date <- lubridate::dmy(set$date)
+
+set |>
+  ggplot(aes(midlon_fished, midlat_fished, colour = purpose_code)) +
+  geom_point() +
+  facet_wrap(~year)
+
+table(set$purpose_code)
 set <- filter(set, purpose_code == "Standard Grid")
 set_dat <- transmute(set,
   year = as.integer(year),
@@ -73,10 +80,15 @@ set_dat <- transmute(set,
   longitude = midlon_fished,
   latitude = midlat_fished,
   depth_m = 1.8288 * avgdepth_fm,
-  eff,
+  usable = eff,
   soak_time_min,
   temp_c
 )
+set_dat |>
+  ggplot(aes(longitude, latitude)) +
+  geom_point() +
+  facet_wrap(~year)
+
 
 dat <- dplyr::inner_join(count_dat, set_dat, by = join_by(year, station, station_key))
 
@@ -84,7 +96,7 @@ dat <- dplyr::inner_join(count_dat, set_dat, by = join_by(year, station, station
 
 full <- select(
   dat, year, station, station_key, longitude, latitude,
-  hooks_observed, sample_type, eff, soak_time_min, temp_c, depth_m
+  hooks_observed, sample_type, usable, soak_time_min, temp_c, depth_m
 ) |> distinct()
 full <- purrr::map_dfr(
   sort(unique(count_dat$species_science_name)),
@@ -101,6 +113,8 @@ dat$species_common_name <- NULL
 dat <- left_join(dat, select(spp, species_science_name, species_common_name),
   by = join_by(species_science_name)
 )
+dat <- filter(dat, usable == "Y")
+dat$usable <- NULL
 
 # diagnostics ---------------------------------------------------------------
 
@@ -113,15 +127,17 @@ stopifnot(length(unique(table(dat$species_common_name))) == 1L)
 dat_sf <- sf::st_as_sf(dat, coords = c("longitude", "latitude"), crs = 4326) |>
   sf::st_transform(crs = 32609)
 
-dat_sf |>
-  filter(species_common_name == "north pacific spiny dogfish") |>
-  ggplot(aes(colour = number_observed / hooks_observed)) +
-  geom_sf(pch = 19, size = 1) +
-  facet_wrap(~year) +
-  scale_colour_viridis_c(trans = "sqrt")
+coast <- rnaturalearth::ne_countries(scale = 10, continent = "north america", returnclass = "sf") |>
+  sf::st_crop(xmin = -135, xmax = -121, ymin = 46, ymax = 55.6) |>
+  sf::st_transform(crs = 32609)
 
 dat_sf |>
+  # filter(year == 2018) |>
   filter(species_common_name == "north pacific spiny dogfish") |>
-  ggplot(aes(colour = eff)) +
-  geom_sf(pch = 19, size = 1) +
-  facet_wrap(~year)
+  ggplot() +
+  geom_sf(data = coast) +
+  geom_sf(pch = 19, size = 1, mapping = aes(colour = number_observed / hooks_observed)) +
+  facet_wrap(~year) +
+  scale_colour_viridis_c(trans = "sqrt") +
+  coord_sf(xlim = c(192152, 932873), ylim = c(5357711, 6132290)) +
+  labs(colour = "count/hook")
