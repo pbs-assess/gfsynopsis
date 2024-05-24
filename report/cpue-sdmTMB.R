@@ -77,6 +77,7 @@ fit_sdmTMB_cpue <- function(
 
   if (nrow(dat) < 200) {
     if (!return_raw_cpue) {
+      saveRDS(NA, file = raw_cpue_caching_file, compress = FALSE)
       return(NA_return)
     } else {
       return(NA)
@@ -194,17 +195,18 @@ fit_sdmTMB_cpue <- function(
   dat <- dplyr::filter(dat, hours_fished < 2000)
   dat$depth_scaled <- (dat$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
 
+  ret <- dat |>
+    filter(!is.na(spp_catch), !is.na(hours_fished)) |>
+    group_by(year) |>
+    summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
+    mutate(est_unstandardized = est_unstandardized /
+        exp(mean(log(est_unstandardized))))
+  ret$region <- paste(survey_grids, collapse = "; ")
+  ret$species <- params$species
   if (return_raw_cpue) {
-    ret <- dat |>
-      filter(!is.na(spp_catch), !is.na(hours_fished)) |>
-      group_by(year) |>
-      summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
-      mutate(est_unstandardized = est_unstandardized /
-          exp(mean(log(est_unstandardized))))
-    ret$region <- paste(survey_grids, collapse = "; ")
-    ret$species <- params$species
     return(ret)
   }
+  saveRDS(ret, file = raw_cpue_caching_file, compress = FALSE)
 
   if (plots) {
     g <- ggplot(dat, aes(as.factor(year), (spp_catch + 1) / hours_fished)) +
