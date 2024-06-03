@@ -42,7 +42,9 @@ is_hake_server <- function() {
   future::availableCores() > 50L
 }
 if (is_hake_server()) {
-  cores <- 60L
+  cores <- 30L
+  RhpcBLASctl::blas_set_num_threads(1) # default currently is all/80!
+  RhpcBLASctl::omp_set_num_threads(1)
 }
 
 # ------------------------------------------------------------------------------
@@ -60,7 +62,7 @@ if (parallel_processing) {
 
 # Read in fresh data or load cached data if available: ------------------------
 message('Loading data')
-dc <- here("report", "data-cache-nov-2023")
+dc <- here("report", "data-cache-2024-05")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -199,56 +201,126 @@ prep_stitch_grids(
 # -----
 
 # Stitch surveys if not cached
-# future::plan(multisession, workers = 10L)
-source(here::here("report", "run-stitching.R"))
-future::plan(sequential)
+if (FALSE) { # slow to check!
+  source(here::here("report", "run-stitching.R"))
+}
 
 # get all survey years to convert NAs to 0s:
 dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
 all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
   dplyr::distinct()
 
+if (!is_hake_server()) {
 # these are complex, do outside first:
 source(here::here("report", "plot-indices.R"))
 # make_index_panel("north-pacific-spiny-dogfish")
-make_index_panel("basking-shark")
-make_index_panel("pacific-cod", all_survey_years = all_survey_years)
-# make_index_panel("big-skate")
-make_index_panel("longnose-skate", all_survey_years = all_survey_years)
-make_index_panel("whitebarred-prickleback", all_survey_years = all_survey_years)
-make_index_panel("rougheye-blackspotted-rockfish-complex", all_survey_years = all_survey_years)
-index_ggplots <- purrr::map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
-
-if (!is_hake_server()) {
+# make_index_panel("basking-shark")
+# make_index_panel("pacific-cod", all_survey_years = all_survey_years)
+# make_index_panel("arrowtooth-flounder", all_survey_years = all_survey_years)
+# # make_index_panel("big-skate")
+# make_index_panel("longnose-skate", all_survey_years = all_survey_years)
+# make_index_panel("whitebarred-prickleback", all_survey_years = all_survey_years)
+# make_index_panel("rougheye-blackspotted-rockfish-complex", all_survey_years = all_survey_years)
+index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
+}
 
 # ------------------------------------------------------------------------------
 # CPUE model fits
 
-if (parallel_processing) future::plan(future::multisession, workers = 4L)
-message("Fit CPUE models")
-cpue_cache <- file.path("report", "cpue-cache")
+# if (parallel_processing) future::plan(future::multisession, workers = 4L)
+# message("Fit CPUE models")
+# cpue_cache <- file.path("report", "cpue-cache")
+# dir.create(cpue_cache, showWarnings = FALSE)
+# xx <- spp$species_common_name
+# xx <- sample(xx, length(xx), replace = FALSE)
+# furrr::future_walk(xx, function(.sp) {
+# # purrr::walk(xx, function(.sp) {
+#   spp_file <- gfsynopsis:::clean_name(.sp)
+#   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+#   if (!file.exists(cpue_cache_spp)) {
+#     cat(.sp, "\n")
+#     cpue_index <- gfsynopsis::fit_cpue_indices(
+#       dat = d_cpue,
+#       species = .sp,
+#       save_model = .sp %in% example_spp,
+#       parallel = FALSE
+#     )
+#     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+#   }
+# })
+# future::plan(sequential)
+
+if (parallel_processing && is_hake_server()) future::plan(future::multisession, workers = 10L)
+if (parallel_processing && !is_hake_server()) future::plan(future::multisession, workers = 2L)
+source(here::here("report/cpue-sdmTMB.R"))
+message("Fit sdmTMB CPUE models")
+cpue_cache <- file.path("report", "cpue-sdmTMB-cache")
+raw_cpue_cache <- file.path("report", "raw-cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
+dir.create(raw_cpue_cache, showWarnings = FALSE)
 xx <- spp$species_common_name
+set.seed(123)
 xx <- sample(xx, length(xx), replace = FALSE)
+# xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
 furrr::future_walk(xx, function(.sp) {
+# purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+  raw_cpue_cache_spp <-
+  regions <- list(
+    c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
+    c("SYN HS", "SYN WCHG"),
+    c("SYN QCS"),
+    c("SYN WCVI")
+  )
   if (!file.exists(cpue_cache_spp)) {
     cat(.sp, "\n")
-    cpue_index <- gfsynopsis::fit_cpue_indices(
-      dat = d_cpue,
-      species = .sp,
-      save_model = .sp %in% example_spp,
-      parallel = FALSE
-    )
+    cpue_index_l <- lapply(regions, \(r) {
+      .r <- gsub(" ", "-", paste(r, collapse = "-"))
+      .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
+      ret <- fit_sdmTMB_cpue(
+        cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
+        raw_cpue_caching_file = here::here(.f),
+        survey_grids = r,
+        final_year = 2023,
+        species = .sp
+      )
+      gc()
+      ret
+    })
+    cpue_index <- do.call(rbind, cpue_index_l)
     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
   }
+  # if (!file.exists(raw_cpue_cache_spp)) {
+  #   cat(.sp, "\n")
+  #   cpue_index_l <- lapply(regions, \(r) {
+  #     ret <- fit_sdmTMB_cpue(
+  #       cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
+  #       survey_grids = r,
+  #       final_year = 2023,
+  #       species = .sp, return_raw_cpue = TRUE
+  #     )
+  #     gc()
+  #     ret
+  #   })
+  #   cpue_index <- do.call(rbind, cpue_index_l)
+  #   saveRDS(cpue_index, file = raw_cpue_cache_spp, compress = FALSE)
+  # }
 })
 future::plan(sequential)
+f <- list.files(raw_cpue_cache, full.names = TRUE)
+raw_cpue <- purrr::map_dfr(f, \(x) {
+  a <- readRDS(x)
+  if (!all(is.na(a[[1L]]))) a
+})
+raw_cpue <- filter(raw_cpue, is.finite(est_unstandardized))
+raw_cpue <- filter(raw_cpue, !is.na(est_unstandardized))
 
-# ------------------------------------------------------------------------------
-# This is the guts of where the figure pages get made:
-message("Make figure pages")
+if (!is_hake_server()) {
+
+  # ------------------------------------------------------------------------------
+  # This is the guts of where the figure pages get made:
+  message("Make figure pages")
 fig_check <- file.path(build_dir, "figure-pages",
   gfsynopsis:::clean_name(spp$species_common_name))
 fig_check1 <- paste0(fig_check, "-1.", ext)
@@ -272,31 +344,11 @@ rlang::inform(paste(spp$species_common_name)[to_build])
 # unlink("vb_gfplot.*")
 # unlink("lw_gfplot.*")
 
+if (exists("ii")) {
+  to_build <- to_build[to_build %in% ii]
+}
 
-# missing <- rep(TRUE, length(missing))
-# for (i in to_build[seq(1, floor(length(to_build) / 2))]) {
-# for (i in to_build[seq(floor(length(to_build) / 2), length(to_build))]) {
-# plan(multisession, workers = 10L)
-
-# options(future.globals.maxSize = 2000 * 1024 ^ 2) # 2000 mb
-# options(future.globals.onReference = "error")
-# if (parallel_processing) {
-  # if (!is_rstudio && is_unix) {
-    # future::plan(multicore, workers = 2L)
-    # future::plan(multisession, workers = 2L)
-  # } else {
-    # future::plan(multisession) # much frustration
-
-# furrr::future_walk(to_build, function(i) {
 purrr::walk(to_build, function(i) {
-# purrr::walk(to_build[41:80], function(i) {
-# purrr::walk(to_build[81:length(to_build)], function(i) {
-# purrr::walk(to_build, function(i) {
-# for (i in to_build) {
-  # out <- lapply(which(missing), function(i) {
-
-# future::plan(multisession, workers = 9L)
-# out <- future.apply::future_lapply(which(missing), function(i) {
   tryCatch({
     cli::cli_inform("------------------------------------")
     cli::cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
@@ -311,7 +363,6 @@ purrr::walk(to_build, function(i) {
       show_col_types = FALSE) |> as.data.frame()
 
     # FIXME!
-
     if (spp$species_common_name[i] == "kelp greenling") {
       dat$survey_samples <-
         dplyr::filter(dat$survey_samples, !(weight > 0.1 & length < 10))
@@ -330,28 +381,24 @@ purrr::walk(to_build, function(i) {
       png_format = if (ext == "png") TRUE else FALSE,
       parallel = FALSE, # for CPUE fits; need a lot of memory if true!
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
-      synoptic_max_survey_years = list("SYN WCHG" = 2022, "SYN HS" = 2021, "SYN WCVI" = 2022, "SYN QCS" = 2021),
-      hbll_out_max_survey_years = list("HBLL OUT N" = 2021, "HBLL OUT S" = 2022),
+      synoptic_max_survey_years = list("SYN WCHG" = 2022, "SYN HS" = 2023, "SYN WCVI" = 2022, "SYN QCS" = 2023),
+      hbll_out_max_survey_years = list("HBLL OUT N" = 2023, "HBLL OUT S" = 2022),
       iphc_max_survey_year = 2022,
-      final_year_comm = 2022,
-      final_year_surv = 2022,
+      final_year_comm = 2023,
+      final_year_surv = 2023,
       length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
       stitch_model_type = 'st-rw',
       grid_dir = file.path(data_cache, 'grids'),
       hbll_bait_counts = hbll_bait_counts,
       iphc_hook_counts = iphc_hook_counts,
-      index_ggplot = index_ggplots[[i]]
+      index_ggplot = index_ggplots[[i]],
+      spatiotemporal_cpue = TRUE,
+      raw_cpue = raw_cpue
     )
     # }, error = function(e) warning("Error"))
   }, error = function(e) stop("Error"))
-  # }, future.packages = c("gfplot", "gfsynopsis", "rosettafish", "gfiphc",
-  # "magrittr", "dplyr", "boot", "rlang", "RColorBrewer", "ggplot2"))
-# }
-  # .options = furrr::furrr_options(globals = c("build_dir", "dat_iphc, dat", "spp", "example_spp", "d_cpue", "dc"))
-
-  })
-# future::plan(sequential)
-beepr::beep()
+})
+# beepr::beep()
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.

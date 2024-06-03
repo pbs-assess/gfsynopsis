@@ -24,7 +24,7 @@ This section provides captions for each of the visualizations that form the spec
 
 ```{r make-surv-abbrev-text, eval=TRUE}
 # happens to have data for all the surveys:
-dat_survey_index <- readRDS(here::here("report/data-cache-aug-2023/canary-rockfish.rds"))
+dat_survey_index <- readRDS(here::here("report/data-cache-2024-05/canary-rockfish.rds"))
 dat_survey_index <- dat_survey_index$survey_index
 survs <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
