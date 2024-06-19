@@ -486,7 +486,7 @@ get_stitched_index <- function(
     fit <- try(
       sdmTMB::sdmTMB(
         formula = form, family = family,
-        time = "year", spatiotemporal = "rw", spatial = "off",
+        time = "year", spatiotemporal = "rw", spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
       )
@@ -498,10 +498,11 @@ get_stitched_index <- function(
   if (!sanity_check && spatiotemporal == "iid") {
     message("Sanity check failed, refitting with spatiotemporal = 'off'")
     spatial <- "off"
+    spatiotemporal <- "off"
     fit <- try(
       sdmTMB::sdmTMB(
         formula = form, family = family,
-        time = "year", spatiotemporal = "off", spatial = "on",
+        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset,
         silent = silent, control = ctrl, priors = priors
       )
