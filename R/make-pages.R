@@ -90,7 +90,6 @@ make_pages <- function(
     synoptic_max_survey_years =
       list("SYN WCHG" = 2020, "SYN HS" = 2019, "SYN WCVI" = 2018, "SYN QCS" = 2019),
     hbll_out_max_survey_years = list("HBLL OUT N" = 2019, "HBLL OUT S" = 2020),
-    iphc_max_survey_year = 2022,
     parallel = FALSE,
     french = FALSE,
     final_year_comm = 2021,
@@ -100,7 +99,6 @@ make_pages <- function(
     stitch_model_type = "st-rw",
     grid_dir,
     hbll_bait_counts,
-    iphc_hook_counts,
     index_ggplot,
     spatiotemporal_cpue = FALSE,
   raw_cpue = NULL
@@ -131,25 +129,8 @@ make_pages <- function(
     species_code == unique(dat$survey_sets$species_code)
   )
 
-  dat_iphc$set_counts <- dplyr::mutate(dat_iphc$set_counts, species_common_name = spp)
-
-  # Filter IPHC species known to be only enumerated explicitly since a certain year:
-  # See HG predators analysis: gfiphc/vignettes/analysis_for_HG_herring_predators.html
-  #   Aleutian Skate: Looks like only enumerated explicitly since 2007, 2018 map shows mean 0.31 fish/skate. Include.
-  #   Abyssal Skate - no catch, ignore.
-  #   Broad Skate - no catch, ignore.
-  #   Big Skate - looks like enumerated explicitly since 1998, and 2018 map shows mean 0.69 fish/skate. Include.
-  #   Roughtail Skate - looks like only caught in three or four years (mean +ve sets 1/177). No catch in 2018. Include.
-  #   Sandpaper Skate - only shows up for a few years. Mean +ve sets 5/177, 2018 mean 0.14 fish/skate. Include.
-  #   Longnose Skate - only shows up since 1998 (presumably unidentified beforehand), mean +ve sets 57/135, 2018 mean 0.96 fish/skate. Include.
-  #   Alaska Skate - only showed up in five years, 2018 mean 0.14 fish/skate. Only plotted since 2003 (like Sandpaper). Include.
-  if (spp == "aleutian skate") dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 2007)
-  if (spp == 'big skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 1998)
-  if (spp == 'longnose skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 1998)
-  if (spp == 'alaska skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 2003)
-  if (spp == 'sandpaper skate') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 2003)
-  # Not analysed in HG analysis, but is not explicitly identified until 1998 ('unidentified idiots' until then)
-  if (spp == 'shortspine thornyhead') dat_iphc$set_counts <- dplyr::filter(dat_iphc$set_counts, year >= 1998)
+  #dat_iphc <- gfdata::load_iphc_dat(species == spp)
+  #dat_iphc$set_counts <- dplyr::mutate(dat_iphc$set_counts, species_common_name = spp)
 
   if (identical(spp, "sablefish")) {
     dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 110)
@@ -206,6 +187,7 @@ make_pages <- function(
   dir.create(file.path(stitch_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(stitch_cache, "hbll_outside"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(stitch_cache, "hbll_inside"), showWarnings = FALSE, recursive = TRUE)
+  dir.create(file.path(stitch_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
 
   gg_folder_spp <- paste0(file.path(ggplot_folder, spp_file), ".rds")
   fig_folder_spp1 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-1.png" else "-1.pdf")
@@ -986,10 +968,15 @@ make_pages <- function(
   #   iphc_density <- ""
   #   iphc_map_dat <- iphc_fits$pred_dat
   # }
-
   # hack to create IPHC raw data as of 2020:
-  dd <- dat_iphc$set_counts
-  dd <- dd[dd$year == iphc_max_survey_year, , drop = FALSE]
+  dd <- dat_iphc
+  if (nrow(dd) == 0L) {
+    dd <- gfdata::iphc_sets |>
+      rename(lon = "longitude", lat = "latitude") |>
+      mutate(present = 0, number_observed = 0, combined = NA)
+  }
+  max_iphc_year <- max(dd$year)
+  dd <- dd[dd$year == max(dd$year), , drop = FALSE]
   # if (iphc_max_survey_year == 2020) {
   #   iphc2019 <- dat_iphc$set_counts[
   #     dat_iphc$set_counts$year == iphc_max_survey_year, , drop = FALSE]
@@ -1000,16 +987,16 @@ make_pages <- function(
   dd$X <- dd$lon
   dd$Y <- dd$lat
   dd <- dplyr::as_tibble(gfplot:::ll2utm(dd, utm_zone = 9))
-  dd$present <- ifelse(dd$C_it20 > 0, 1, 0)
-  dd$density <- dd$C_it20
+  dd$present <- ifelse(dd$number_observed > 0, 1, 0)
+  dd$density <- dd$number_observed / dd$effective_skates
   dd$combined <- dd$density
   dd$combined <- ifelse(dd$combined == 0, NA, dd$combined)
-  dd$depth <- NA
-  dd$depth[1] <- 0 # fake for min()
-  dd$depth[2] <- 1e4 # fake for max()
+  dd$depth <- dd$depth_m
+  # dd$depth[1] <- 0 # fake for min()
+  # dd$depth[2] <- 1e4 # fake for max()
   dd$survey <- "IPHC FISS"
   if (sum(!is.na(dd$combined)) >= 1L) { # calculate a density to label on the map
-    iphc_density <- mean(dd$C_it20, na.rm = TRUE)
+    iphc_density <- mean(dd$density, na.rm = TRUE)
     iphc_density <- round_density(iphc_density)
     if (french) iphc_density <- format_french_1000s_expr(iphc_density)
   } else {
@@ -1022,7 +1009,7 @@ make_pages <- function(
         pred_dat = dd, raw_dat = dd,
         show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
         show_model_predictions = TRUE, # hack to make plotting work; actually raw data
-        annotations = "IPHC", iphc_year = iphc_max_survey_year
+        annotations = "IPHC", iphc_year = max_iphc_year
       ) +
       coord_cart + ggplot2::ggtitle(en2fr("IPHC survey catch rate", french)) +
       ggplot2::scale_fill_viridis_c(

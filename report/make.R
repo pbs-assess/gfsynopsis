@@ -20,7 +20,6 @@ library(here)
 library(dplyr)
 library(gfplot)
 #devtools::load_all("../gfplot")
-library(gfiphc)
 # library(gfsynopsis)
 devtools::load_all(".")
 library(rosettafish)
@@ -169,7 +168,6 @@ if (isFALSE(french)) {
 # ------------------------------------------------------------------------------
 # Cache stitched index
 message("Cache stitched indexes")
-dc_iphc <- file.path(dc, "iphc")
 dc_stitch <- file.path(dc, "stitch-data") # Data used
 stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
 dir.create(stitch_cache, showWarnings = FALSE, recursive = TRUE)
@@ -184,11 +182,10 @@ spp_vector <- sample(spp_vector, length(spp_vector))
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 grid_dir <- file.path(dc, 'grids')
 # IPHC
-iphc_hook_counts <- readRDS(file.path(dc_iphc, 'iphc-hook-counts.rds'))
-# @QUESTION - should this be added to data.R instead of buried in here?
 # Use 2017 grid for predictions (can be changed)
-iphc_grid <- iphc_hook_counts |>
+iphc_grid <- gfdata::iphc_sets |>
   filter(year == 2017) |>
+  rename(lon = "longitude", lat = "latitude") |>
   select(year, station, lon, lat) |>
   sdmTMB::add_utm_columns(ll_names = c('lon', 'lat'))
 
@@ -354,9 +351,9 @@ purrr::walk(to_build, function(i) {
     cli::cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
 
     dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-    dat_iphc <- readRDS(file.path(dc, "iphc", paste0(spp$spp_w_hyphens[i], ".rds")))
+    dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
+      rename(lat = 'latitude', lon = 'longitude')
     hbll_bait_counts <- readRDS(file.path(dc, 'bait-counts.rds'))
-    iphc_hook_counts <- readRDS(file.path(dc, 'iphc', 'iphc-hook-counts.rds'))
     dat$cpue_index <- d_cpue
 
     length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
@@ -383,14 +380,12 @@ purrr::walk(to_build, function(i) {
       save_gg_objects = spp$species_common_name[i] %in% example_spp,
       synoptic_max_survey_years = list("SYN WCHG" = 2022, "SYN HS" = 2023, "SYN WCVI" = 2022, "SYN QCS" = 2023),
       hbll_out_max_survey_years = list("HBLL OUT N" = 2023, "HBLL OUT S" = 2022),
-      iphc_max_survey_year = 2022,
       final_year_comm = 2023,
       final_year_surv = 2023,
       length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
       stitch_model_type = 'st-rw',
       grid_dir = file.path(data_cache, 'grids'),
       hbll_bait_counts = hbll_bait_counts,
-      iphc_hook_counts = iphc_hook_counts,
       index_ggplot = index_ggplots[[i]],
       spatiotemporal_cpue = TRUE,
       raw_cpue = raw_cpue

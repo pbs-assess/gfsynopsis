@@ -253,9 +253,8 @@ furrr::future_walk(spp_vector, function(.sp) {
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
 
   if(!file.exists(file.path(sc_iphc, spp_filename))) {
-    survey_dat <- readRDS(file.path(dc_iphc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$set_counts |>
-      mutate(species_common_name = .sp) |>
-      gfsynopsis::prep_iphc_stitch_dat(survey_dat = _, hook_dat = iphc_hook_counts)
+    survey_dat <- gfdata::load_iphc_dat(species = .sp) |>
+      gfsynopsis::prep_iphc_stitch_dat()
 
     gfsynopsis::get_iphc_stitched_index(survey_dat = survey_dat, species = .sp,
       form = 'catch ~ 1',

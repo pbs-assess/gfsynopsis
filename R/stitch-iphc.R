@@ -1,38 +1,25 @@
 #' Prepare IPHC FISS data for index stitching
 #'
-#' @param survey_dat A dataframe from `[gfplot::get_survey_sets()]`
-#' @param hook_dat A dataframe from [gfsynopsis::get_ll_bait_counts()]
+#' Currently this does not use the 2022 GFBio observer data which is 'all hooks'
 #'
 #' @returns A dataframe the same length as `survey_dat`
 #' @export
 
-prep_iphc_stitch_dat <- function(survey_dat, hook_dat) {
-  clean_dat <-
-    dplyr::left_join(survey_dat, hook_dat, by = c("year", "station", "lat", "lon")) |> # get observed hook counts
-    sdmTMB::add_utm_columns(c("lon", "lat"), utm_crs = 32609) |>
+prep_iphc_stitch_dat <- function(survey_dat) {
+  clean_dat <- survey_dat |>
+    sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
     dplyr::mutate(
-      catch = ifelse(!is.na(N_it), N_it, N_it20),
-      sample_n = ifelse(!is.na(N_it), "whole_haul", "20_hook"),
-      effSkate = ifelse(!is.na(N_it), E_it, E_it20),
-      hook_removed = obsHooksPerSet - baited_hooks
-    ) |>
-    dplyr::mutate(prop_removed = hook_removed / obsHooksPerSet) |>
-    dplyr::mutate(baited_hooks = replace(baited_hooks, which(baited_hooks == 0), 1)) |>
-    dplyr::mutate(prop_bait_hooks = baited_hooks / obsHooksPerSet) |>
-    dplyr::mutate(
-      hook_adjust_factor = -log(prop_bait_hooks) / (1 - prop_bait_hooks),
-      prop_removed = 1 - prop_bait_hooks
-    ) |>
-    dplyr::mutate(offset = log(effSkate / hook_adjust_factor)) |> # use ICR for hook competition for now
-    dplyr::mutate(present = case_when(catch > 0 ~ 1, catch == 0 ~ 0, TRUE ~ NA)) |> # useful for plotting and pos sets
-    dplyr::mutate(
-      fyear = factor(year),
+      catch = number_observed,
+      baits_returned = replace(baits_returned, which(baits_returned == 0), 1),
+      prop_bait_hooks = baits_returned / hooks_observed,
+      prop_removed = 1 - prop_bait_hooks,
+      hook_adjust_factor = -(log(prop_bait_hooks) / (1 - prop_bait_hooks)),
+      offset = log(effective_skates / hook_adjust_factor),
+      present = case_when(catch > 0 ~ 1, catch == 0 ~ 0, .default = NA), # useful for plotting and pos sets
+      fyear = factor(year), # mgcv needs factor inputs (useful if we do the censoring and need to get pstar)
       fstation = factor(station)
-    ) |> # mgcv needs factor inputs
-    dplyr::filter(usable == "Y", standard == "Y", !is.na(catch)) #|> # some species weren't measured at different points in time series
-    # ADD filtering out of species before they were explicitly identified
-    #dplyr::filter(!(species_common_name %in% c("big skate", "longnose skate") & year < 1998)) |>
-    #dplyr::filter(!(species_common_name == "shortspine thornyhead" & year < 1998)) # first shows up in 1998
+    ) |>
+    dplyr::filter(usable == "Y", pbs_standard_grid, !is.na(catch)) #|> # some species weren't measured at different points in time series
 }
 
 #' Get table of positive sets for IPHC FISS data
@@ -80,7 +67,7 @@ get_iphc_pos_sets <- function(survey_dat) {
 #' @param cutoff If `mesh = NULL`, mesh cutoff for [sdmTMB::make_mesh()].
 #' @param family The family and link for [sdmTMB::sdmTMB()].
 #' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
-#'    (default = 'log_eff_skate').
+#'    (default = 'offset').
 #' @param priors Optional penalties/priors used in [sdmTMB::sdmTMBpriors()].
 #' @param silent A boolean. Silent or include optimization details.
 #' @param ctrl Optimization control options via [sdmTMB::sdmTMBcontrol()].
@@ -109,7 +96,7 @@ get_iphc_stitched_index <- function(
     time_varying = NULL,
     time_varying_type = NULL,
     mesh = NULL, cutoff = 20,
-    offset = "log_eff_skate",
+    offset = "offset",
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
     ctrl = sdmTMB::sdmTMBcontrol(), # sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),

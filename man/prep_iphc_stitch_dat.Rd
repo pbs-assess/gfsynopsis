@@ -4,12 +4,7 @@
 \alias{prep_iphc_stitch_dat}
 \title{Prepare IPHC FISS data for index stitching}
 \usage{
-prep_iphc_stitch_dat(survey_dat, hook_dat)
-}
-\arguments{
-\item{survey_dat}{A dataframe from \verb{[gfplot::get_survey_sets()]}}
-
-\item{hook_dat}{A dataframe from \code{\link[=get_ll_bait_counts]{get_ll_bait_counts()}}}
+prep_iphc_stitch_dat()
 }
 \value{
 A dataframe the same length as \code{survey_dat}
