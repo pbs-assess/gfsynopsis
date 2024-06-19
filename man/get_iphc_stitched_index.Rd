@@ -24,6 +24,8 @@ get_iphc_stitched_index(
   gradient_thresh = 0.001,
   cache = NULL,
   check_cache = FALSE,
+  cache_fits = FALSE,
+  cache_predictions = FALSE,
   grid
 )
 }
@@ -74,6 +76,10 @@ Default is \code{NULL}.}
 \item{cache}{A string specifying file path to cache directory.}
 
 \item{check_cache}{Check whether index file already exists? Default = \code{FALSE}.}
+
+\item{cache_fits}{Cache model fits? Can be large.}
+
+\item{cache_predictions}{Cache model predictions? Can be large.}
 
 \item{grid}{A data frame containing the locations of IPHC stations used to make predictions and generate the index.}
 }

@@ -104,7 +104,7 @@ get_iphc_stitched_index <- function(
     cache = NULL,
     check_cache = FALSE,
     cache_fits = FALSE,
-    cache_predictions = FALSE, 
+    cache_predictions = FALSE,
     grid) {
   pred_cache <- file.path(cache, "predictions")
   fit_cache <- file.path(cache, "fits")

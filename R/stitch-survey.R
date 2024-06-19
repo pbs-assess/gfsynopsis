@@ -54,7 +54,7 @@ prep_stitch_dat <- function(survey_dat, bait_counts) {
     dplyr::mutate(fyear = as.factor(year)) |>
     dplyr::mutate(prop_removed = ifelse(grepl("HBLL", survey_abbrev), 1 - prop_bait_hooks, NA)) |>
     dplyr::filter(!is.na(offset), is.finite(offset)) |>
-    # 150 remove duplicated fishing event 
+    # 150 remove duplicated fishing event
     # @FIXME shouldn't need this after switch to trials version of gfdata)
     dplyr::distinct(species_common_name, fishing_event_id, .keep_all = TRUE)
 }

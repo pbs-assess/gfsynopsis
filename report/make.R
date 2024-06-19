@@ -317,7 +317,7 @@ if (!is_hake_server()) {
 
   # ------------------------------------------------------------------------------
   # This is the guts of where the figure pages get made:
-  message("Make figure pages")
+message("Make figure pages")
 fig_check <- file.path(build_dir, "figure-pages",
   gfsynopsis:::clean_name(spp$species_common_name))
 fig_check1 <- paste0(fig_check, "-1.", ext)

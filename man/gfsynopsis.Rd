@@ -2,6 +2,7 @@
 % Please edit documentation in R/gfsynopsis.R
 \docType{package}
 \name{gfsynopsis}
+\alias{gfsynopsis-package}
 \alias{gfsynopsis}
 \title{gfsynopsis package}
 \description{
@@ -10,4 +11,21 @@ gfsynopsis package
 \details{
 See the README on
 \href{https://github.com/seananderson/gfsynopsis#readme}{GitHub}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/seananderson/gfsynopsis}
+  \item Report bugs at \url{https://github.com/seananderson/gfsynopsis/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Sean Anderson \email{sean.anderson@dfo-mpo.gc.ca}
+
+Authors:
+\itemize{
+  \item Elise Keppel
+}
+
 }
