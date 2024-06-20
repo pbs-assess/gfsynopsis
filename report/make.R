@@ -100,12 +100,14 @@ spp$family[spp$species_common_name == "deacon rockfish"] <-
   spp$family[spp$species_common_name == "vermilion rockfish"]
 
 # downloaded from:
-# https://species-registry.canada.ca/index-en.html#/species?ranges=1,18&taxonomyId=4&sortBy=commonNameSort&sortDirection=asc&pageSize=10
-# on 2023-04-18
+# https://species-registry.canada.ca/index-en.html#/species?ranges=Pacific%20Ocean&taxonomyId=Fishes%20%28marine%29&sortBy=commonNameSort&sortDirection=asc&pageSize=10
+# they seem to keep changing URL query syntax, so: Range - Pacific Ocean; Taxonomic group - Fishes (marine)
+# on 2024-06-18
 cos <- readr::read_csv(here::here("report/COSEWIC-species.csv"), show_col_types = FALSE)
+#cos <- readr::read_csv(here::here("report/COSEWIC-species-old.csv"), show_col_types = FALSE)
 cos <- dplyr::filter(cos, !grepl("Salmon", `COSEWIC common name`))
 cos <- dplyr::filter(cos, !grepl("Trout", `COSEWIC common name`))
-cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`))
+# cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`)) # pixie poacher seems to have been removed since 2024
 cos <- rename(cos, species_science_name = `Scientific name`,
   cosewic_status = `COSEWIC status`, sara_status = `Schedule status`,
   cosewic_pop = `COSEWIC population`)
@@ -127,6 +129,10 @@ cos <- left_join(cos, cos_multi_pop, by = "species_science_name") %>%
 cos$species_science_name <- tolower(cos$species_science_name)
 cos <- distinct(cos) # to remove duplicates (e.g., Eulachon, YE, RE/BS rockfish)
 spp <- left_join(spp, cos, by = "species_science_name")
+
+# Also check for new Species at Risk/COSEWIC documents ---
+# See: https://species-registry.canada.ca/index-en.html#/documents?documentTypeId=18,14,11,9&ranges=18&sortBy=documentTypeSort&sortDirection=asc&pageSize=10
+# Can download and sort by publication date
 
 # ------------------------------------------------------------------------------
 # Parse metadata that will be used at the top of each species page:
