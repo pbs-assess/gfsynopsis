@@ -895,7 +895,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-alutus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254573)\
 Last Research Documents: @edwards2013pophg, @edwards2014popwcvi, @haigh2018popqcs\
-Last Science Advisory Reports: @dfo2013popwcvihg, @dfo2017popqcs\
+Last Science Advisory Report: @dfo2024pop\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-ocean-perch-1.png}
 \end{figure}
@@ -1197,7 +1197,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-maliger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274815)\
-Last Research Document: @yamanaka2011quillback\
+Last Research Documents: @yamanaka2011quillback, @huynh2024quillback_inside\
 Last Science Advisory Reports: @dfo2023quillback_inside, @dfo2023quillback_outside\
 COSEWIC Status Report: @cosewic2009quillback\
 COSEWIC Status: Threatened, SARA Status: No Status
@@ -1562,7 +1562,7 @@ Order: Scorpaeniformes, Family: Anoplopomatidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
 Last Research Documents: @cox2019sablefish, @cox2023sablefish\
 Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefish\
-Last Science Response: @dfo2023sablefishmp\
+Last Science Response: @dfo2024sablefish\
 The annual sablefish trap survey is not included in this report. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sablefish-1.png}
