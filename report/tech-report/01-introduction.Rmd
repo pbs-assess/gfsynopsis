@@ -12,8 +12,9 @@ However, formal stock assessments are not conducted on an annual basis for most 
 The original groundfish data synopsis report was developed to provide a snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
 The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
 In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2022].
-TODO 2023...
-In this version, we update the report to include 2023 data. We also update referenced stock assessment Research Documents, Science Advisory Reports, and Science Responses.
+A version with data up to 2022 is currently in press as a Technical Report.
+In this version, we update the report to include 2023 data.
+We also update referenced stock assessment Research Documents, Science Advisory Reports, and Science Responses.
 
 The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
 The goals of the report are to
@@ -61,8 +62,6 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, and @synopsis2022.
 
-We first summarize all major changes. We include methodological details on coastwide spatiotemporal survey modelling in Appendix \@ref(app:stitching).
-
-Updates:
-
-* TODO
+This version of the report is largely unchanged from the last technical report covering data up to 2022.
+One change is that the data for the IPHC spatiotemporal model index is now derived directly from the [IPHC website](https://www.iphc.int/data/fiss-survey-raw-survey-data/).
+We provide details on this new data processing in Appendix A.
