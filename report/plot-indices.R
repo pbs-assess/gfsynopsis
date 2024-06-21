@@ -91,10 +91,14 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2023, french = FAL
   # sub iphc -------------------------------------------------
   # replace IPHC design with NA so that they still show up as empty panels but
   # we aren't going to show the design index this year
+  # dat_design <- dat_design |>
+  #   filter(survey_abbrev != "IPHC FISS") |>
+  #   bind_rows(tibble(survey_abbrev = "IPHC FISS"))
 
-  dat_design <- dat_design |>
-    filter(survey_abbrev != "IPHC FISS") |>
-    bind_rows(tibble(survey_abbrev = "IPHC FISS"))
+  dat_design <- gfsynopsis:::sub_iphc_design(
+    dc,
+    iphc_index_cache_spp, spp_w_hyphens, dat_design
+  )
 
   # read geostat ---------------------------------------------
 
