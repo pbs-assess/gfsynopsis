@@ -1,6 +1,6 @@
 # International Pacific Halibut Commission survey updates {#app:iphc}
 
-Data for the IPHC spatiotemporal model index is now derived directly from the [IPHC website](https://www.iphc.int/data/fiss-survey-raw-survey-data/).
+Data for the IPHC spatiotemporal model index are now derived directly from the [IPHC website](https://www.iphc.int/data/fiss-survey-raw-survey-data/).
 The code to process these data is housed in the [gfdata package](https://github.com/pbs-assess/gfdata) within the `data-raw` folder.
 The function `load_iphc_dat()` loads data from internal data objects `gfdata::iphc_catch` and `gfdata::iphc_sets`.
 
