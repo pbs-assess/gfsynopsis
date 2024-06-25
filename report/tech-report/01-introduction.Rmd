@@ -62,6 +62,5 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, and @synopsis2022.
 
-This version of the report is largely unchanged from the last technical report covering data up to 2022.
-One change is that the data for the IPHC spatiotemporal model index is now derived directly from the [IPHC website](https://www.iphc.int/data/fiss-survey-raw-survey-data/).
+The data for the IPHC spatiotemporal model index is now derived directly from the [IPHC website](https://www.iphc.int/data/fiss-survey-raw-survey-data/).
 We provide details on this new data processing in Appendix A.

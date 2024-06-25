@@ -4,7 +4,9 @@ Data for the IPHC spatiotemporal model index are now derived directly from the [
 The code to process these data is housed in the [gfdata package](https://github.com/pbs-assess/gfdata) within the `data-raw` folder.
 The function `load_iphc_dat()` loads data from internal data objects `gfdata::iphc_catch` and `gfdata::iphc_sets`.
 
-A list of the important steps to processing these data follows:
+Here we list the important steps to the process:
+
+- We visited <https://www.iphc.int/data/fiss-survey-raw-survey-data/>, expanded the year range to 1998 to 2023, selected "2B" from "IPHC Regulatory Areas", left everything else at defaults, and selected Excel format from the "Crosstab" section. We downloaded both the "Non-Pacific halibut data" and "Set and Pacific halibut data". Our code then proceeds through the following steps.
 
 - We replace Rougheye and Blackspotted Rockfish data rows with the summed counts of these two species since we report the complex of these species.
 
