@@ -18,7 +18,7 @@ In press. Will be out soon.
 
 **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
 
-Paper on the synopsis report:
+### Paper on the synopsis report:
 
 Anderson, S.C., E.A. Keppel, A.M. Edwards. 2020. Reproducible visualization of raw fisheries data for 113 species improves transparency, assessment efficiency, and monitoring. Fisheries. 45:535–543. https://doi.org/10.1002/fsh.10441. ([Preprint PDF](https://www.dropbox.com/s/4mmnomvmpg0dbky/Anderson_etal_2020_reproducible_visualization_preprint.pdf?dl=1))
 
