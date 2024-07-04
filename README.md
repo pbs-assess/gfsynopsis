@@ -2,9 +2,21 @@
 
 -----------------
 
-### Link to the latest Science Response (data up to 2021): **[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-eng.html)** | **[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-fra.html)**
+### Technical Report (data up to 2023):
 
-Links to the 2019 Research Document (includes appendices): **[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
+In review. Will be out soon.
+
+### Technical Report (data up to 2022):
+
+In press. Will be out soon.
+
+### Science Response (data up to 2021): 
+
+**[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-eng.html)** | **[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-fra.html)**
+
+### Research Document (data up 2019; includes appendices describing data and methods): 
+
+**[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
 
 Paper on the synopsis report:
 
