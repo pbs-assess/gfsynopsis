@@ -10,6 +10,6 @@ Documents and Science Advisory Reports, and any information related to
 designations by the Committee on the Status of Endangered Wildlife in Canada
 (COSEWIC) and to listings under the *Species at Risk Act* (SARA). The species are
 ordered according to DFO species codes. The previous section
-provides links to the pages sorted alphabetically by common name.
+provides links to the pages sorted alphabetically by common and scientific names.
 
 \clearpage
