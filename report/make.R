@@ -1,3 +1,5 @@
+setwd(here::here())
+
 french <- FALSE
 
 if (french) {
@@ -303,6 +305,7 @@ raw_cpue <- purrr::map_dfr(f, \(x) {
 })
 raw_cpue <- filter(raw_cpue, is.finite(est_unstandardized))
 raw_cpue <- filter(raw_cpue, !is.na(est_unstandardized))
+# raw_cpue <- NULL
 
 if (!is_hake_server()) {
 
@@ -388,15 +391,17 @@ purrr::walk(to_build, function(i) {
 
 # Extracts just the CPUE map plots for Pacific Cod for the examples.
 # These objects are too big to cache in an .Rmd file otherwise.
-if (!french) {
-  g_alt <- readRDS(paste0(build_dir, "/ggplot-objects/pacific-cod.rds"))
-  saveRDS(g_alt$cpue_spatial, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial.rds"))
-  saveRDS(g_alt$cpue_spatial_ll, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
-}
-if (french) {
-  g_alt <- readRDS(paste0(build_dir, "/ggplot-objects/pacific-cod.rds"))
-  saveRDS(g_alt$cpue_spatial, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial.rds"))
-  saveRDS(g_alt$cpue_spatial_ll, file = paste0(build_dir, "ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
+if (!exists("ii")) {
+  if (!french) {
+    g_alt <- readRDS(paste0(build_dir, "/ggplot-objects/pacific-cod.rds"))
+    saveRDS(g_alt$cpue_spatial, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+    saveRDS(g_alt$cpue_spatial_ll, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
+  }
+  if (french) {
+    g_alt <- readRDS(paste0(build_dir, "/ggplot-objects/pacific-cod.rds"))
+    saveRDS(g_alt$cpue_spatial, file = paste0(build_dir, "/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+    saveRDS(g_alt$cpue_spatial_ll, file = paste0(build_dir, "ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
+  }
 }
 
 # ------------------------------------------------------------------------------
