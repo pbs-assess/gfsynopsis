@@ -2,7 +2,8 @@
 
 This section contains the main species-by-species data visualizations. Each
 species is shown on two pages with the same layout used throughout. See
-the previous 'Plot descriptions' section for detailed figure captions. In addition
+the previous 'Plot descriptions' section (Section \@ref(sec:plot-descriptions)) 
+for detailed figure captions. In addition
 to the figures, we also provide the scientific name, taxonomic details, DFO
 species code [page in @hart1988], a link to the FishBase and WoRMS (World
 Register of Marine Species) web pages, details of the most recent DFO Research
