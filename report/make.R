@@ -411,6 +411,9 @@ temp <- lapply(spp$species_common_name, function(x) {
   } else {
     spp_title <- stringr::str_to_title(x)
   }
+  if (spp_title == "North Pacific Spiny Dogfish") {
+    spp_title <- "Pacific Spiny Dogfish"
+  }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()
   latin_name <- spp$species_science_name[spp$species_common_name == x]
