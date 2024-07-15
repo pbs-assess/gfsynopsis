@@ -113,6 +113,12 @@ make_pages <- function(
   dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp) |>
     mutate(survey_abbrev = ifelse(survey_abbrev %in% c("HBLL INS N", "HBLL INS S"), "HBLL INS N/S", survey_abbrev))
   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == spp)
+
+  ## remove recreational samples:
+  dat$commercial_samples <- dat$commercial_samples[!grepl("recreational", tolower(dat$commercial_samples$gear_desc)),,drop=FALSE]
+  ## remove unknown sector samples:
+  dat$commercial_samples <- dat$commercial_samples[!grepl("^unknown", tolower(dat$commercial_samples$gear_desc)),,drop=FALSE]
+
   dat$catch <- dplyr::filter(dat$catch, species_common_name == spp)
 
   # TODO: temp:
