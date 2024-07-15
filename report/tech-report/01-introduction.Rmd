@@ -56,9 +56,9 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 # Updates {#sec:update}
 
-## Summary of updates
+In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, and @synopsis2022data.
 
-* In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, and @synopsis2022data.
+Additionally:
 
 * We updated the recent references at the top of each species page.
 
