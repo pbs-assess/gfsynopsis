@@ -246,6 +246,7 @@ make_pages <- function(
     sb <- NA
   }
 
+  survey_cols_dark <- gsub("6c6c6c", "000000", survey_cols)
   if (all(!is.na(sb))) {
     # Plot the most recent 15 years with age data
     age_comp_first_year <- ifelse(max(sb$year) - min(sb$year) > 15, max(sb$year) - 15, min(sb$year))
@@ -254,7 +255,6 @@ make_pages <- function(
     sb$survey_abbrev <- factor(sb$survey_abbrev, levels = samp_panels)
 
     ## make grey surveys darker to better distinguish from light grey males:
-    survey_cols_dark <- gsub("6c6c6c", "000000", survey_cols)
 
     sb <- sb |> filter(year >= age_comp_first_year)
     g_ages <- plot_ages(sb, survey_cols = survey_cols_dark,
