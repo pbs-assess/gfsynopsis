@@ -58,7 +58,13 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 ## Summary of updates
 
-In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, and @synopsis2022data.
+* In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, and @synopsis2022data.
 
-The data for the IPHC spatiotemporal model index is now derived directly from the [IPHC website](https://www.iphc.int/data/fiss-survey-raw-survey-data/).
-We provide details on this new data processing in Appendix A.
+* We updated the recent references at the top of each species page.
+
+* The data for the IPHC spatiotemporal model index is now derived directly from the [IPHC website](https://www.iphc.int/data/fiss-survey-raw-survey-data/).
+We provide details on this new data processing in Appendix \@ref(app:iphc).
+
+* We removed recreational and unknown sectors from the commercial biological samples.
+
+* We updated the species name "North Pacific Spiny Dogfish" to "Pacific Spiny Dogfish" in accordance with the latest American Fisheries Society recommendation.
