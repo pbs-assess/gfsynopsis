@@ -457,6 +457,16 @@ make_pages <- function(
       }
 
       if (all_not_NA(cpue_index)) { # enough vessels?
+
+        ## remove those with giant SEs:
+        cpue_index <- group_by(cpue_index, area) |>
+          mutate(max_se = max(se_link)) |>
+          mutate(
+            est = if_else(max_se < 3, est, NA_real_),
+            lwr = if_else(max_se < 3, lwr, NA_real_),
+            upr = if_else(max_se < 3, upr, NA_real_)
+          )
+
         g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
           ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
           ylab("") + xlab("") +
