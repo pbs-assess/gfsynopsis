@@ -83,7 +83,7 @@ make_pages <- function(
       "SYN HS/QCS/WCHG/WCVI" = "#6c6c6c",
       "SYN HS/QCS/WCVI" = "#6c6c6c",
       "HBLL OUT N/S" = "#6c6c6c",
-      "Commercial" = "#303030"
+      "Commercial" = "#000000"
     ),
     mat_min_n = 20,
     survey_map_outlier = 1,
@@ -247,8 +247,11 @@ make_pages <- function(
 
     sb$survey_abbrev <- factor(sb$survey_abbrev, levels = samp_panels)
 
+    ## make grey surveys darker to better distinguish from light grey males:
+    survey_cols_dark <- gsub("6c6c6c", "000000", survey_cols)
+
     sb <- sb |> filter(year >= age_comp_first_year)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols,
+    g_ages <- plot_ages(sb, survey_cols = survey_cols_dark,
       year_range = c(age_comp_first_year, age_comp_final_year), french = french) +
       guides(fill = "none", colour = "none") +
       ggtitle(en2fr("Age frequencies", french)) +
@@ -358,8 +361,9 @@ make_pages <- function(
       } else {
         ggplot2::waiver()
       }
+
       g_lengths <- plot_lengths(sb,
-        survey_cols = survey_cols,
+        survey_cols = survey_cols_dark,
         survey_facets = "survey_abbrev2",
         bin_size = bin_width, min_total = min_total, french = french
       ) +
