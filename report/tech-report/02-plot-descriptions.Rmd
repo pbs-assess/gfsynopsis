@@ -48,7 +48,7 @@ surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collaps
 
 (ref:survey-index-example) Example relative biomass index trends from trawl and longline surveys for `r sp`.
 Dots represent design-based mean estimates of relative biomass and vertical lines around the dots represent 95% bootstrap confidence intervals.
-Time series with a solid trend line and shaded ribbon for 95% confidence intervals represent an index that has been standardized with a spatiotemporal model (see Appendix A) \@ref(app:stitching).
+Time series with a solid trend line and shaded ribbon for 95% confidence intervals represent an index that has been standardized with a spatiotemporal model [see Appendix A in @synopsis2021data].
 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets.
 All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey.
 When both types of indices are shown, they are scaled to have the same geometric mean and the axes are set to encompass the model-based confidence intervals.
