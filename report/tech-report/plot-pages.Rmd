@@ -145,7 +145,7 @@ Order: Squaliformes, Family: Somniosidae,
 
 \clearpage
 
-## North Pacific Spiny Dogfish {#sec:north-pacific-spiny-dogfish}
+## Pacific Spiny Dogfish {#sec:north-pacific-spiny-dogfish}
 
 \emph{Squalus suckleyi} (044)\
 Order: Squaliformes, Family: Squalidae,
@@ -426,7 +426,7 @@ Last Science Response: @dfo2021pcod, @dfo2024pcod\
 Order: Gadiformes, Family: Merlucciidae,
 [FishBase](http://www.fishbase.org/summary/Merluccius-productus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272458)\
-Last joint Canada-US stock assessment: @berger2023hake\
+Last joint Canada-US stock assessment: @grandin2024hake\
 Note that Pacific Hake undergoes a directed joint
       Canada-US coastwide
  survey and annual assessment, which are not
@@ -1331,7 +1331,7 @@ Last Research Document: @yamanaka2001inshore\
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-paucispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274833)\
-Last Research Document: @stanley2012bocaccio\
+Last Research Document: @starrhaigh2022bocaccio\
 Last Science Advisory Report: @dfo2020bocaccio\
 Last Science Response: @dfo2022bocaccio\
 COSEWIC Status Report: @cosewic2013bocaccio\
@@ -2039,7 +2039,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
-IPHC Report of Assessment and Research Activities: @iphc2017\
+Most Recent Stock Assessment: @iphc2024\
 Note that Pacific Halibut undergoes thorough assessment by the
       International Pacific
  Halibut Commission based on the annual
