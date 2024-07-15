@@ -6,7 +6,7 @@ The function `gfdata::load_iphc_dat()` joins data from the package data objects 
 
 Here we list the important steps to the process:
 
-- We visit <https://www.iphc.int/data/fiss-survey-raw-survey-data/>, expand the year range to 1998--2023, select "2B" from "IPHC Regulatory Areas", leave all other options at defaults, and select "Excel format" from the "Crosstab" section. We download both the "Non-Pacific halibut data" and "Set and Pacific halibut data". Our code then proceeds through the following steps.
+- We visit <https://www.iphc.int/data/fiss-survey-raw-survey-data/>, expand the year range to 1998--2023, select "2B" from "IPHC Regulatory Areas", leave all other options at defaults, and select "Excel format" from the "Crosstab" section. We scroll down to select "Non-Pacific Halibut Data" and download it. Once done, we similarly select "Set and Pacific halibut data" and download it. Our code then proceeds through the following steps.
 
 - We replace Rougheye and Blackspotted Rockfish data rows with the summed counts of these two species since we report the complex of these species.
 
@@ -31,6 +31,6 @@ Some minor differences arise because some sets deemed "usable" or "unusable" in 
 This affects a total of 48 sets (year-station combinations) over the full time series. 
 At this point we do not have an explanation for these minor differences in usability columns---it appears these have been updated in the raw IPHC dataset that is now publicly shared.
 
-We do not update the IPHC design-based index for 2023 (this requires a different data pipeline involving gfiphc), but we do plot the design-based index up to 2022 for comparison with the new version.
+We do not update the IPHC design-based index for 2023 (this requires a different data pipeline involving the gfiphc package), but we do plot the design-based index up to 2022 for comparison with the new version.
 We note that the gfiphc package is still the appropriate dataset and tool for calculating a design-based IPHC survey index as described in @anderson2019synopsis.
 The new dataset above is formed in a more streamlined process and is designed for use with geostatistical modelling.
