@@ -4,11 +4,11 @@
 
 ### Technical Report (data up to 2023):
 
-In review. Will be out soon.
+As of July 29, 2024: In final approval stage. Will be out soon.
 
 ### Technical Report (data up to 2022):
 
-In press. Will be out soon.
+As of July 29, 2024: In press. Will be out soon.
 
 ### Science Response (data up to 2021): 
 
