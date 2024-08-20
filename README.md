@@ -8,7 +8,7 @@ As of July 29, 2024: In final approval stage. Will be out soon.
 
 ### Technical Report (data up to 2022):
 
-As of July 29, 2024: In press. Will be out soon.
+**[English](https://science-catalogue.canada.ca/record=4125206~S6)**
 
 ### Science Response (data up to 2021): 
 
