@@ -222,7 +222,7 @@ spatial_shift_plot <-
       filter(year %in% c(1975, 1976, 1977, 1978, 1979, 1985, 1995, 1998, 2003, 2013, 2021, 2022)),
       aes(x = longitude, y = latitude), alpha = 1, size = 1, stroke = 0.5, shape = 21, fill = 'white') +
     scale_fill_manual(values = grid_colours) +
-    facet_wrap(~ year, nrow = 2) +
+    facet_wrap(~ year, nrow = 3) +
     guides(fill = "none") +
     theme(legend.position = c(0.95, 0.95),
           axis.text = element_blank(),
@@ -232,7 +232,7 @@ spatial_shift_plot <-
 spatial_shift_plot
 
 ggsave(file.path(mssm_figs, 'grid-spatial-sampling-changes.png'), plot = spatial_shift_plot,
-  width = 8, height = 3.8)
+  width = 7, height = 7)
 
-ggsave(file.path(mssm_figs, 'grid-spatial-sampling-changes_wide.png'), plot = spatial_shift_plot,
-  width = 11, height = 7.2)
+# ggsave(file.path(mssm_figs, 'grid-spatial-sampling-changes_wide.png'), plot = spatial_shift_plot,
+#   width = 11, height = 7.2)

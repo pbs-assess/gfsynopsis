@@ -1,8 +1,7 @@
 library(tidyverse)
 library(zoo)
 library(patchwork)
-devtools::load_all()
-theme_set(theme_pbs())
+theme_set(gfplot::theme_pbs(base_size = 12))
 library(sf)
 
 cores <- floor(unname(future::availableCores()/2))
@@ -10,6 +9,8 @@ is_rstudio <- function() Sys.getenv("RSTUDIO") == "1"
 .future <- if (is_rstudio()) future::multisession else future::multicore
 future::plan(.future, workers = cores)
 options(future.rng.onMisuse = "ignore")
+
+source(here::here('report', 'mssm-tech-report', 'R', '00-utils.R'))
 
 # Load data
 data_cache <- here::here('report', 'data-cache-nov-2023')
@@ -19,17 +20,18 @@ mssm_data <- here::here(mssm_dir, 'data')
 mssm_data_out <- here::here(mssm_dir, 'data-outputs')
 cpue_cache <- here::here('report', 'cpue-cache')
 
-stitch_cache <- here::here(mssm_dir, 'stitch-cache')
-syn_sc <- here::here(mssm_dir, 'stitch-cache', 'SYN-WCVI')
-mssm_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm')
+stitch_cache <- here::here('report', 'stitch-cache')
+# syn_sc <- here::here(mssm_dir, 'stitch-cache', 'SYN-WCVI')
+# mssm_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm')
 
 mssm_figs <- here::here(mssm_dir, 'figure')
 
-survey_cols <- c("MSSM WCVI" = "#1b9e77",
-  "MSSM Model" = "#1b9e77",
-  "MSSM Design" = "#e7298a",
-  "SYN WCVI" = "#7570b3",
-  "SYN WCVI on MSSM Grid" = "#7570b3",
+survey_cols <- c("SMMS WCVI" = "#1b9e77",
+  "SMMS Model" = "#1b9e77",
+  "SMMS" = "#1b9e77",
+  "SMMS Design" = "#e7298a",
+  "SYN WCVI" = "#4f4a8c",
+  "SYN WCVI on SMMS Grid" = "#4f4a8c",
   "CPUE 3CD" = "#d95f02")
 
 grid_colours <- c(
@@ -43,17 +45,13 @@ grid_colours <- c(
   "2022" = "#ff7f00"#"#08306b"
 )
 
-spp_vector  <- gfsynopsis::get_spp_names()$species_common_name
-spp_name_lu <- gfsynopsis::get_spp_names() |> select(species_common_name, spp_w_hyphens)
+spp_hyphens  <- gfsynopsis::get_spp_names()$spp_w_hyphens
 
-spp_levels <- gfsynopsis::get_spp_names() |> arrange(species_code) |>
-  pluck('species_common_name')
-
-mssm_survey_changes <- readr::read_csv(file.path(mssm_data, 'mssm-survey-changes.csv'))
-
-mssm_survey_changes |>
-  filter(stringr::str_detect(Change, "Navigation|Data")) |>
-  select(Year, Change, Details)
+spp_name_lu <- gfsynopsis::get_spp_names() |>
+  select(species_common_name, spp_w_hyphens, species_code,
+         species_science_name, spp_w_hyphens, type, itis_tsn, worms_id) |>
+  mutate(species_common_name = gsub("north pacific spiny dogfish", "pacific spiny dogfish", species_common_name))
+spp_levels <- spp_name_lu |> arrange(species_code) |> pluck('species_common_name')
 
 order_spp <- function(df) {
   mutate(df, species = factor(stringr::str_to_title(species), levels = stringr::str_to_title(spp_levels)))
@@ -61,10 +59,12 @@ order_spp <- function(df) {
 
 # Load raw data for each survey so we can calculate overlapping years
 if (!file.exists(file.path(mssm_data, 'spp_dat.rds'))) {
-  spp_dat <- spp_vector |>
-    map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), ".rds")))$survey_sets) |>
+  spp_dat <- spp_hyphens |>
+    map(\(sp) readRDS(file.path(data_cache, paste0(sp, ".rds")))$survey_sets) |>
     bind_rows() |>
-    filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI'))
+    filter(survey_abbrev %in% c('MSSM WCVI', 'SYN WCVI')) |>
+    mutate(survey_abbrev = gsub("MSSM", "SMMS", survey_abbrev)) |>
+    mutate(species_common_name = gsub("north pacific spiny dogfish", "pacific spiny dogfish", species_common_name))
   beepr::beep()
   # Slow to load all the data
   saveRDS(spp_dat, file = file.path(mssm_data, 'spp_dat.rds'))
@@ -73,7 +73,7 @@ if (!file.exists(file.path(mssm_data, 'spp_dat.rds'))) {
 }
 
 mssm_no_doorspread <- spp_dat |>
-  filter(survey_abbrev == 'MSSM WCVI', year == 2022) |>
+  filter(survey_abbrev == 'SMMS WCVI', year == 2022) |>
   distinct(fishing_event_id, .keep_all = TRUE) |>
   summarise(n = sum(doorspread_m == 0), percent = round(100 * n / n()))
 
@@ -88,21 +88,34 @@ sw_dat <- spp_dat |>
 # I double checked that all(catch_count == 0) as well...
 mssm_dat <- spp_dat |>
   select(-survey_series_id.x) |>
-  filter(survey_abbrev == 'MSSM WCVI') |>
+  filter(survey_abbrev == 'SMMS WCVI') |>
   prep_mssm_dat() |>
   group_by(species_common_name) |>
   filter(!all(catch == 0)) |> # some species are in there with all zeros
-  ungroup() |>
-  filter(!(year %in% 1977:1978 & month == 9)) |> # Filter out the extra sampling
-  mutate(gear = case_when( # add gear type change
-    year < 1977 ~ 'shrimp balloon',
-    year < 2006 & year > 1977 ~ 'NMFS',
-    year > 2006 ~ 'American',
-    year == 2006 & fishing_event_id %in% c(1158541, 1158542) ~ 'American',
-    year == 2006 & fishing_event_id %in% c(1158559, 1158560) ~ 'NMFS',
-    year == 2006 & !(fishing_event_id %in% c(1158541, 1158542, 1158559, 1158560)) ~ 'American'
-    )
-)
+  ungroup()
+
+mssm_spp <- spp_name_lu |>
+  filter(species_common_name %in% unique(mssm_dat$species_common_name)) |>
+  mutate(worms_id = as.numeric(ifelse(species_common_name == "rougheye/blackspotted rockfish complex", 274771, worms_id))) # itis_tsn is just rougheye lookup
+
+# ------------------------------------------------------------------------------
+# Gather and arrange some metadata
+# WoRMS seems to have more up to date taxonomies
+if (!file.exists(here::here("report", "mssm-tech-report", "data", "mssm-worms.rds"))) {
+  cls <- taxize::classification(mssm_spp$worms_id, db = 'worms')
+  saveRDS(cls, file = here::here("report", "mssm-tech-report", "data", "mssm-worms.rds"))
+} else {
+  cls <- readRDS(here::here("report", "mssm-tech-report", "data", "mssm-worms.rds"))
+}
+
+mssm_spp <- taxize:::rbind.classification(cls) |>
+  mutate(worms_id = as.numeric(query),
+         rank = tolower(rank)) |>
+  select(name, rank, worms_id) |>
+  filter(!(rank %in% c("kingdom", "subkingdom", "infrakingdom", "phylum", "subphylum"))) |>
+  pivot_wider(id_cols = c("worms_id"), names_from = rank, values_from = name) |>
+  left_join(mssm_spp)
+
 
 # Check the two 'calibration tows' done in 2006
 comp_trawls <- c('American-1' = 1158541, 'NMFS-1' = 1158559,
@@ -182,5 +195,8 @@ mk_mssm_grid <- function(dat_wgs84, grid_spacing) {
 
   list(mssm_grid = mssm_grid, mssm_grid_sf = mssm_grid_sf)
   }
+
+# Get pandalus jordani catches that match with the fish fishing event ids used in the analysis
+pj <- readRDS(file.path(mssm_data, 'pink-shrimp.rds'))
 
 mssm_loaded <- TRUE

@@ -6,16 +6,14 @@ if (!('mssm_loaded' %in% ls())) {
 
 # MSSM design index
 if (!file.exists(file.path(mssm_data, 'mssm-design-inds.rds'))) {
-mssm_d_inds <- spp_vector |>
-  map(\(sp) readRDS(file.path(data_cache, paste0(gfsynopsis:::clean_name(sp), '.rds')))$survey_index) |>
-  setNames(spp_vector) |>
-  bind_rows(.id = 'species') |>
-  as_tibble() |>
+mssm_d_inds <- spp_hyphens |>
+  map_df(\(sp) readRDS(file.path(data_cache, paste0(sp, '.rds')))$survey_index) |>
   filter(survey_abbrev == 'MSSM WCVI') |>
-  mutate(survey_abbrev = "MSSM Design")
+  mutate(survey_abbrev = "SMMS Design")
   saveRDS(mssm_d_inds, file = file.path(mssm_data, 'mssm-design-inds.rds'))
 } else {
   mssm_d_inds <- readRDS(file.path(mssm_data, 'mssm-design-inds.rds')) |>
+    rename(species = "species_common_name") |>
     group_by(species) |>
     mutate(mean_cv = mean(re, na.rm = TRUE)) |>
     ungroup()
@@ -62,35 +60,47 @@ take_min_aic <- function(x) {
   }
 }
 
-syn_wcvi_inds <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = families) |>
-  purrr::pmap_dfr(function(.s, f) {
-  get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), .s, .family = f)
+syn_wcvi_inds <- tidyr::expand_grid(.s = spp_hyphens, .f = families) |>
+  purrr::pmap_dfr(function(.s, .f) {
+    filename <- paste0("synoptic-SYN WCVI-", .f)
+    get_index(file.path(here::here(), "report", "mssm-tech-report", "stitch-cache", filename), .s, .family = .f)
+    # get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), .s, .family = f)
 }) |> group_by(species) |>
   take_min_aic() |>
   ungroup() |>
   mutate(grid = 'SYN WCVI')
 
-syn_wcvi_inds$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_wcvi_inds$species)
 
 syn_mssm_grid_inds <- syn_wcvi_inds |>
-  select(.sp = species, .family = family) |>
-  distinct() |>
-  purrr::pmap(\(.sp, .family) {
-    get_index(paste0("report/stitch-cache/synoptic-mssm-SYN WCVI-", .family, "/"), clean_name(.sp), .family = .family)
-  }) |>
+  distinct(species, family) |>
+  mutate(folder = paste0("synoptic-mssm-SYN WCVI-", family),
+         filename = paste0(gfsynopsis::clean_name(species), "_st-rw", ".rds")) |>
+  select(folder, filename, species, family) |>
+    purrr::pmap(\(folder, filename, species, family) {
+      ind <- readRDS(file.path(here::here(), "report", "mssm-tech-report", "stitch-cache", folder, filename))
+      ind |> mutate(species = species, family = family)
+    }) |>
   bind_rows() |>
   as_tibble() |>
-  mutate(survey_abbrev = 'SYN WCVI on MSSM Grid') |>
-  mutate(grid = 'MSSM 3km')
+  mutate(survey_abbrev = 'SYN WCVI on SMMS Grid') |>
+  mutate(grid = 'SMMS 3km')
+
+syn_wcvi_inds$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_wcvi_inds$species)
+syn_wcvi_inds$species <- gsub("north pacific spiny dogfish", "pacific spiny dogfish", syn_wcvi_inds$species)
+syn_mssm_grid_inds$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_mssm_grid_inds$species)
+syn_mssm_grid_inds$species <- gsub("north pacific spiny dogfish", "pacific spiny dogfish", syn_mssm_grid_inds$species)
 
 
-mssm_inds <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = families) |>
-  purrr::pmap_dfr(function(.s, f) {
-  get_index(paste0("report/stitch-cache/mssm-", f, "/"), .s, .family = f)
+
+mssm_inds <- tidyr::expand_grid(.s = spp_hyphens, .f = families) |>
+  purrr::pmap_dfr(function(.s, .f) {
+    filename <- paste0("mssm-", .f)
+    get_index(file.path(here::here(), "report", "mssm-tech-report", "stitch-cache", filename), .s, .family = .f)
 }) |> group_by(species) |>
   take_min_aic() |>
   ungroup() |>
-  mutate(survey_abbrev = "MSSM Model") |>
+  mutate(survey_abbrev = "SMMS Model") |>
+  mutate(stitch_regions = "SMMS Model") |>
   mutate(extreme_uci = max(upperci) > 10 * max(biomass))
 
 # Old tweedie MSSM indexes comparing 2km and 3km
@@ -138,14 +148,22 @@ mssm_inds <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = fam
 #     mutate(grid = "3km MSSM")
 
 # --- CPUE index ---
-cpue_ind <- spp_vector |>
-  map(\(sp) readRDS(file.path(cpue_cache, paste0(gfsynopsis:::clean_name(sp), '.rds')))) |>
-  setNames(spp_vector) |>
-  keep(\(x) inherits(x, 'data.frame')) |>
-  bind_rows(.id = 'species') |>
+cpue_ind <- spp_hyphens |>
+  map(\(sp) {
+    ind <- readRDS(file.path(cpue_cache, paste0(sp, '.rds')))
+    if (length(ind) == 1L) {
+      ind <- NULL
+    } else {
+      ind$spp_w_hyphens <- sp
+    }
+    ind
+  }) |>
+  compact() |>
+  bind_rows() |>
   filter(area == '3CD') |>
   rename(biomass = est, lowerci = lwr, upperci = upr) |>
   mutate(survey_abbrev = 'CPUE 3CD') |>
+  left_join(select(spp_name_lu, spp_w_hyphens, species = species_common_name)) |>
   group_by(species) |>
   mutate(mean_cv = mean(sqrt(exp(se_link^2) - 1))) |>
   ungroup()
@@ -163,20 +181,21 @@ cpue_mssm_overlap <- intersect(cpue_years, mssm_years)
 inds <- bind_rows(mssm_inds, syn_wcvi_inds, syn_mssm_grid_inds, cpue_ind, mssm_d_inds) |>
   mutate(syn_overlap = ifelse(year %in% syn_mssm_overlap, TRUE, FALSE),
          cpue_overlap = ifelse(year %in% cpue_mssm_overlap, TRUE, FALSE)) |>
-  filter(mean_cv < 1)
+  filter(mean_cv < 1) |>
+  mutate(species = gsub("north pacific spiny dogfish", "pacific spiny dogfish", species))
 
 mssm_geomeans <- inds |>
-  filter(survey_abbrev %in% c("MSSM Model", "MSSM Design")) |>
+  filter(survey_abbrev %in% c("SMMS Model", "SMMS Design")) |>
   group_by(species, survey_abbrev) |>
   summarise(mssm_geomean = exp(mean(log(biomass))), .groups = 'drop')
 
 syn_overlap_geomeans <- inds |>
-  filter(syn_overlap, survey_abbrev %in% c("MSSM Model", "SYN WCVI", "SYN WCVI on MSSM Grid")) |>
+  filter(syn_overlap, survey_abbrev %in% c("SMMS Model", "SYN WCVI", "SYN WCVI on SMMS Grid")) |>
   group_by(species, survey_abbrev) |>
   summarise(syn_overlap_geomean = exp(mean(log(biomass))), .groups = 'drop')
 
 cpue_overlap_geomeans <- inds |>
-  filter(cpue_overlap, survey_abbrev %in% c("MSSM Model", "CPUE 3CD")) |>
+  filter(cpue_overlap, survey_abbrev %in% c("SMMS Model", "CPUE 3CD")) |>
   group_by(species, survey_abbrev) |>
   summarise(cpue_overlap_geomean = exp(mean(log(biomass))), .groups = 'drop')
 
@@ -201,6 +220,7 @@ raw_inds <- bind_rows(mssm_inds, syn_wcvi_inds, syn_mssm_grid_inds, cpue_ind, ms
          cpue_overlap = ifelse(year %in% cpue_mssm_overlap, TRUE, FALSE)) |>
   mutate(survey_abbrev = factor(survey_abbrev, levels = names(survey_cols))) |>
   mutate(species = gsub("rougheye blackspotted", "rougheye/blackspotted", species)) |>
+  mutate(species = gsub("north pacific spiny dogfish", "pacific spiny dogfish", species)) |>
   order_spp()
 
 spp_in_mssm <- mssm_inds |>
@@ -208,6 +228,7 @@ spp_in_mssm <- mssm_inds |>
   filter(mean_cv < 1 | is.na(mean_cv)) |>
   distinct(species) |>
   mutate(species = gsub("rougheye blackspotted", "rougheye/blackspotted", species)) |>
+  mutate(species = gsub("north pacific spiny dogfish", "pacific spiny dogfish", species)) |>
   pluck('species') |>
   stringr::str_to_title()
 
@@ -327,8 +348,8 @@ tidy_stats_df <- function(dat, survey1, survey2, survey2_code) {
 }
 
 comp_df <- tibble(
-  'survey1' = c('MSSM Design', rep('MSSM Model', 4)),
-  'survey2' = c('MSSM Design', 'MSSM Design', 'SYN WCVI', 'SYN WCVI on MSSM Grid', 'CPUE 3CD'),
+  'survey1' = c('SMMS Design', rep('SMMS Model', 4)),
+  'survey2' = c('SMMS Design', 'SMMS Design', 'SYN WCVI', 'SYN WCVI on SMMS Grid', 'CPUE 3CD'),
   'survey2_code' = c('', 'D', 'S', 'S', 'C'))
 
 max_ci_scaled <- comp_df |>
@@ -338,7 +359,7 @@ purrr::pmap(\(survey1, survey2) scale_geo_design(raw_inds, # |> filter(species %
 ) |>
   bind_rows() |>
   group_by(comp) |>
-  filter(ifelse(comp == "MSSM Design-MSSM Design", species %in% spp_in_mssm_design_only, species %in% spp_in_mssm)) |>
+  filter(ifelse(comp == "SMMS Design-SMMS Design", species %in% spp_in_mssm_design_only, species %in% spp_in_mssm)) |>
   ungroup()
 
 stats_df <- comp_df |>
@@ -347,7 +368,7 @@ stats_df <- comp_df |>
   ) |>
   bind_rows() |>
   group_by(comp) |>
-  filter(ifelse(comp == "MSSM Design-MSSM Design", species %in% spp_in_mssm_design_only, species %in% spp_in_mssm)) |>
+  filter(ifelse(comp == "SMMS Design-SMMS Design", species %in% spp_in_mssm_design_only, species %in% spp_in_mssm)) |>
   ungroup()
 
 indices_loaded <- TRUE

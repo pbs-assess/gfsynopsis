@@ -1,46 +1,30 @@
-Year,Change,Details,Gear,Survey timing,Target tow length,Depth range,GPS system,Vessel,Catch sorting
-1973,First year,"Gear- Net: 70' semi-balloon, Foot rope: bobbin and roller, Doors: 3.5 x 8.5 ft wood Late april, early May 30 minute 50--200 m  Loran A CCGS G.B Reed Large fish removed from catch dumped on deck and weight estimated (e.g., Pacific Spiny Dogfish, Arrowtooth Flounder). Small fish and shrimp placed in baskets. Baskets counted and dumped. One or two baskets were sorted and weighed to extrapolate catch weights","Net: 70' semi-balloon, Foot rope: bobbin and roller, Doors: 3.5 x 8.5 ft wood","Late april, early May",30 minute,50--200 m,Loran A,CCGS G.B Reed,"Large fish removed from catch dumped on deck and weight estimated (e.g., dogfish, turbot). Small fish and shrimp placed in baskets. Baskets counted and dumped. One or two baskets were sorted and weighed to extrapolate catch weights"
-1974,No survey,,,,,,,,
-1975,None,,,,,,,,
-1976,Sorting protocol (minor),3--4 baskets were randomly weighted to get an average basket weight,,,,,,,3--4 baskets were randomly weighted to get an average basket weight of small fish and shrimp
-1977,Gear,"Net type, foot rope, and doors changed. No calibration tows done, see Rutherford et al. In prep.","Net: 61' NMFS, Foot rope: tickler chain, Doors: Astoria V",,,,,,
-1977,"Additional surveys","Additional surveys done in September (data are found in GFBio and have been filtered out in this report's analysis)",,,,,,,
-1978,"Additional surveys","Additional surveys done in September (data are found in GFBio and have been filtered out in this report's analysis)",,,,,,,"Large fish total catch weighted
-Each basket of mixed shrimp/small fish/inverts weighed"
-1978,Sorting protocol,Large fish total catch weighted; each basket of mixed shrimp/small fish/inverts weighed,,,,,,,
-1979,Navigation systems,From Loran A to Loran C,,,,,Loran C,,
-1980,Sampling protocol,Shrimp biological samples begin,,,,,,,
-1981 - 1983,None,,,,,,,,
-1984,No survey,,,,,,,,
-1985,Survey timing,Survey timing (May 24--June 7),,May 24--June 7,,,,,
-1986,No survey,,,,,,,,
-1987,Survey timing,Survey timing (Aug 4--14),,Aug 4--14,,,,CCGS W.E. Ricker,
-1987,Vessel change,W.E. Ricker,,,,,,CCGS W.E. Ricker,
-1988,None,,,,,,,,
-1989,Limited survey area,Area 125OFF not surveyed,,,,,,F/V Sharelene K,
-1989,Commercial vessel used,F/V Sharelene K,,,,,,F/V Sharelene K,
-1990,None,,,,,,,,
-1991,Limited survey area,Area 125OFF not surveyed,,,,,,,
-1992 - 1997,None,,,,,,,,
-1998,Navigation systems,From Loran C to GPS,,,,,Global Positioning System technology,,
-1999,None,,,,,,,,
-2000,Sampling protocol,Eulachon biological samples begin,,,,,,,
-2001,Sorting protocol,"Full catch sorted on conveyor belt. Large species sorted, weighed, and sampled; ~10 kg mixed small species baskets sorted to species/family and weighed",,,,,,,"Large species sorted, weighed, and sampled. ~10 kg mixed small species baskets sorted to species and weighed"
-2002,None,,,,,,,,
-2003,Sorting protocol,All catch sorted and identified to species/lowest taxonomic level,,,,,,,
-2004,None,,,,,,,,
-2005,Commercial vessel used,F/V Frosti,,,,,,F/V Frosti,
-2006,Gear,Net changed (NMFS to 61' American net); Two replicate tows made to compare net catches.,"Net: 61' American, Foot rope: tickler chain, Doors: Astoria V",,,,,CCGS W.E. Ricker,
-2007,Gear,Foot rope changed (tickler chain to roller gear),"Net: 61' American, Foot rope: roller gear, Doors: Astoria V",,,,,,
-2008,None,,,,,,,,
-2009,Data capture,Electronic data capture using GFBioField,,,,,,,
-2010,None,,,,,,,,
-2011,Gear,Doors changed (Astoria V to 76' Thyboron Type 2 Heavy),"Net: 61' American, Foot rope: roller gear, Doors: 76' Thyboron Type 2 Heavy",,,,,,
-2012,None,,,,,,,,
-2013,Tow duration reduced,Reduced from 30 min to 20 min,,,20 minutes,,,,
-2013,Net monitoring system,Notus Trawlmaster net monitoring system implemented,,,,,,,
-2014--16,None,,,,,,,,
-2017--19,Commercial vessel used,F/V Nordic Pearl,,,,,,F/V Nordic Pearl,
-2020,No survey,COVID-19,,,,,,,
-2021,Vessel change,CCGS Sir John Franklin,,,,,,CCGS Sir John Franklin,
-2022,None,,,,,,,,
+Year,General,Fishing gear,Sorting protocol
+1973,"Timing: Late April, early May 30::Tow duration: 30 minute::Depth range: 50--200 m::Navigation system: Loran A::Vessel: CCGS G.B Reed","Net: 70' semi-balloon::Foot rope: bobbin and roller::Doors: 3.5 x 8.5 ft wood","Large fish removed from catch and their weight estimated (e.g., Pacific Spiny Dogfish, Arrowtooth Flounder). Mix of small fish, shrimp, and other invertebrates were placed in baskets that were counted. One or two baskets were sorted and weighed to extrapolate catch weights"
+1974,No survey,,
+1976,,,A random selection of 3--4 baskets per tow were weighed to determine an average basket weight.
+1977,,Net changed: to NMFS shrimp trawl.::Foot rope changed: from bobbin and rollers to chain footrope with a tickler chain in front. A tickler chain is shorter than the footrope and causes shrimp to ‘jump’ of the bottom into the net.::Doors changed: to 5.5 x 8.5 Nor’eastern Astoria otter trawl V-doors.::No calibration tows completed.,
+1977--78,Additional surveys conducted in September (data are found in GFBio and have been filtered out of this report's analysis),,
+1978,,,"Large fish weighed instead of estimated. Each basket of mixed small fish, shrimp, and other invertebrates weighed."
+1979,Navigation systems changed: from Loran A to Loran C,,
+1980,,,Shrimp biological samples begin
+1984,No survey,,
+1985,Survey timing (May 24--June 7),,
+1986,No survey,,
+1987,"Survey timing (Aug 4--14);::Vessel change: W.E. Ricker",,
+1989,"Limited survey area: Area 125OFF not surveyed;::Commercial vessel used: F/V Sharelene K",,
+1991,Limited survey area: Area 125OFF not surveyed,,
+1998,Navigation systems: from Loran C to GPS,,
+2000,,,Eulachon biological samples begin
+Early 2000s,,Third wire trawl eye used for net mensuration. Exact year is not known.,
+2001,,,"Full catch sorted on conveyor belt. Large species sorted and weighed. Whenever possible, the mix of small fish, shrimp, and other invertebrates was sorted and weighed. If sorting the mix was too time consuming, a ~10 kg subsample was sorted and weighed."
+2001--03,,,Gradual increase in the detail of species identification. Concerted effort to identify catch to species instead of higher taxonomic groupings such as the family.
+2003,,,Standard protocol for catch to identify to the lowest possible taxonomic level. Groundfish biological samples begin.
+2005,Commercial vessel used: F/V Frosti,,
+2006,,Net changed: to 61’ American net.::Footgear changed: to rubber cookies with no tickler chain.::Two replicate tows made to compare net catches.,
+2007,,Tickler chain added to footgear.,
+2009,,,Electronic data capture using GFBioField
+2011,,Doors changed: from Astoria V to 76’ Thyboron Type 2 Heavy,
+2013,Tow duration reduced: from 30 min to 20 min,Wireless net monitoring system implemented. Use of third wire trawl eye discontinued.,
+2017--19,Commercial vessel used: F/V Nordic Pearl,,
+2020,No survey COVID-19,,
+2021,Vessel change: CCGS Sir John Franklin,Scanmar net monitoring system,600 kg bin scale allows full weighing of most tows instead of visual or other estimation methods for large catches.

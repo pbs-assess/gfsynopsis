@@ -1,8 +1,7 @@
-book_filename: "techreport"
+book_filename: "GF-SMMS-tech-report" # this seems to cause a warning message.
 rmd_files: ["index.Rmd",
   "01-mssm-intro.Rmd",
   "02-summary-of-changes.Rmd",
-  #"03-methods.Rmd",
   "04-comparison-of-indices.Rmd",
   "05-sampling-diffs-mssm-synwcvi.rmd",
   "06-conclusions.rmd",

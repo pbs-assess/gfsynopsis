@@ -11,11 +11,11 @@ if (!('size_dat' %in% ls())) {
 }
 
 # --- Rolling window correlation ---
-mssm_index_type <- "MSSM Design"
-mssm_index_type <- "MSSM Model"
+mssm_index_type <- "SMMS Design"
+mssm_index_type <- "SMMS Model"
 comp_index_type <- "CPUE 3CD"
 comp_index_type <- "SYN WCVI"
-comp_index_type <- "SYN WCVI on MSSM Grid"
+comp_index_type <- "SYN WCVI on SMMS Grid"
 
 get_mssm_cor <- function(mssm_index_type, comp_index_type, cor_thresh = 0.5, window = 10) {
   year_cutoff <- ifelse(grepl("SYN WCVI", comp_index_type), 2004, 1996)
@@ -93,33 +93,33 @@ get_mssm_cor <- function(mssm_index_type, comp_index_type, cor_thresh = 0.5, win
 # cor_thresh = 0.25
 #cor_thresh = 0.50
 cor_thresh = NULL
-cor1 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "CPUE 3CD", cor_thresh = cor_thresh)
-cor2 <- get_mssm_cor(mssm_index_type = "MSSM Design", comp_index_type = "CPUE 3CD", cor_thresh = cor_thresh)
-cor3 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI", cor_thresh = cor_thresh)
-cor4 <- get_mssm_cor(mssm_index_type = "MSSM Design", comp_index_type = "SYN WCVI", cor_thresh = cor_thresh)
-cor5 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI on MSSM Grid", cor_thresh = cor_thresh)
+cor1 <- get_mssm_cor(mssm_index_type = "SMMS Model", comp_index_type = "CPUE 3CD", cor_thresh = cor_thresh)
+cor2 <- get_mssm_cor(mssm_index_type = "SMMS Design", comp_index_type = "CPUE 3CD", cor_thresh = cor_thresh)
+cor3 <- get_mssm_cor(mssm_index_type = "SMMS Model", comp_index_type = "SYN WCVI", cor_thresh = cor_thresh)
+cor4 <- get_mssm_cor(mssm_index_type = "SMMS Design", comp_index_type = "SYN WCVI", cor_thresh = cor_thresh)
+cor5 <- get_mssm_cor(mssm_index_type = "SMMS Model", comp_index_type = "SYN WCVI on SMMS Grid", cor_thresh = cor_thresh)
 
-full_cor1 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "CPUE 3CD", cor_thresh = NULL, window = 0)
-full_cor2 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI", cor_thresh = NULL, window = 0)
-full_cor3 <- get_mssm_cor(mssm_index_type = "MSSM Model", comp_index_type = "SYN WCVI on MSSM Grid", cor_thresh = NULL, window = 0)
+full_cor1 <- get_mssm_cor(mssm_index_type = "SMMS Model", comp_index_type = "CPUE 3CD", cor_thresh = NULL, window = 0)
+full_cor2 <- get_mssm_cor(mssm_index_type = "SMMS Model", comp_index_type = "SYN WCVI", cor_thresh = NULL, window = 0)
+full_cor3 <- get_mssm_cor(mssm_index_type = "SMMS Model", comp_index_type = "SYN WCVI on SMMS Grid", cor_thresh = NULL, window = 0)
 
 full_cor <- bind_rows(full_cor1, full_cor2, full_cor3)
 
 cor_df <- bind_rows(cor1, cor2, cor3, cor4, cor5) |>
-  filter(comp %in% c("MSSM Model ~ CPUE 3CD", "MSSM Model ~ SYN WCVI", "MSSM Model ~ SYN WCVI on MSSM Grid")) |>
+  filter(comp %in% c("SMMS Model ~ CPUE 3CD", "SMMS Model ~ SYN WCVI", "SMMS Model ~ SYN WCVI on SMMS Grid")) |>
   left_join(full_cor |>
       rename(mean_cor = 'cor_val') |>
       group_by(comp) |>
       ungroup()) |>
   filter(mean_cor >= 0.5) |>
   mutate(comp = factor(comp, levels = c(
-  "MSSM Model ~ SYN WCVI on MSSM Grid",
-  'MSSM Model ~ SYN WCVI',
-  "MSSM Model ~ CPUE 3CD")))
+  "SMMS Model ~ SYN WCVI on SMMS Grid",
+  'SMMS Model ~ SYN WCVI',
+  "SMMS Model ~ CPUE 3CD")))
 
 cor_plot <- cor_df |>
 ggplot(aes(x = start_year, y = cor_vals)) +
-  geom_rect(data = filter(cor_df, comp == "MSSM Model ~ CPUE 3CD") |> slice(1),
+  geom_rect(data = filter(cor_df, comp == "SMMS Model ~ CPUE 3CD") |> slice(1),
     aes(xmin = -Inf, xmax = 2003, ymin = -Inf, ymax = Inf),
     fill = "gray85", alpha = 0.4) +
   geom_point(data = cor_df |> group_by(comp) |> slice(which.max(start_year)) |>
@@ -147,7 +147,9 @@ ggsave(file.path(mssm_figs, 'index-correlation.png'), plot = cor_plot,
 
 # ------ Mean correlation ~ size -------
 full_cor |>
-  left_join(size_diff_lu, by = c('species' = 'species_common_name')) |>
+  mutate(species_common_name = tolower(species)) |>
+  select(-species) |>
+  left_join(size_diff_lu) |>
 ggplot(data = _, aes(x = abs_diff, y = cor_val)) +
   geom_point() +
   geom_hline(yintercept = 0, colour = 'grey70') +
@@ -161,6 +163,8 @@ depth_comp <- bind_rows(sw_dat, mssm_dat) |>
  distinct(survey_series_id, fishing_event_id, .keep_all =TRUE)
 
 depth_comp |> filter(year > 2003) |>
+  filter(!(fishing_event_id %in% c(2787033, 2787038, 2787043))) |> # these seem to be outliers
+  mutate(survey_abbrev = gsub("SMMS WCVI", "SMMS", survey_abbrev)) |>
   ggplot(aes(x = depth_m, fill = year)) +
   geom_density(aes(group = year), alpha = 0.5) +
   facet_wrap(~ survey_abbrev, scales = 'free_y', ncol = 1) +
@@ -169,9 +173,10 @@ depth_comp |> filter(year > 2003) |>
   # geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = min(mssm_dat$depth_m, na.rm = TRUE)), aes(xmin = -Inf, xmax = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.1) +
   # geom_rect(data = tibble(survey_abbrev = 'SYN WCVI', depth_m = max(mssm_dat$depth_m, na.rm = TRUE)), aes(xmax = Inf, xmin = depth_m, ymin = -Inf, ymax = Inf), fill = 'grey50', alpha = 0.1) +
   theme(axis.text.y = element_blank(),
-        legend.position = c(0.7, 0.9), legend.direction = 'horizontal',
+        legend.position.inside = c(0.7, 0.7),
+        legend.direction = 'vertical',
         legend.key.width=unit(0.05,"npc")) +
   labs(x = "Depth (m)", y = "Sampling frequency", fill = "Year")
 
-ggsave(file.path(mssm_figs, 'depth-ranges-mssm-syn-wcvi.png'), width = 5.8, height = 3.3)
+ggsave(file.path(mssm_figs, 'depth-ranges-mssm-syn-wcvi.png'), width = 6, height = 3.4)
 
