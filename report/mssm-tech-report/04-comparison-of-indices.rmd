@@ -1,7 +1,7 @@
 # Comparing the SMMS survey indices to related indices {#sec:comparing-indices}
 
-The Small-mesh Multi-species survey is the longest running continuous bottom trawl survey on the BC coast.
-As a long-running dataset for groundfish, it is therefore important to understand how well the data capture trends in species abundances.
+The SMMS is the longest running continuous bottom trawl survey on the BC coast.
+As a long-running annual dataset for groundfish, it is therefore important to understand how well the data capture trends in species biomass.
 The change in survey locations over time (e.g., Figure \@ref(fig:spatial-shift)) means that a modelled index, which accounts for latent spatial effects, may be a better approach than a design-based index.
 We compared the modelled SMMS survey indices to the SMMS design-based indices, modelled SYN WCVI indices, and the modelled commercial catch-per-unit-effort (CPUE) indices from the Pacific Marine Fisheries Commission (PMFC) areas for West Coast Vancouver Island (areas 3C and 3D).
 These datasets overlap spatially (Figure \@ref(fig:mssm-syn-cpue-map)) and the commercial CPUE 3CD time series extends back to 1996 allowing a comparison to species abundance indices prior to the 2001--2003 sorting procedure changes. 
@@ -15,9 +15,9 @@ The solid hexagons are from 2013 onwards after the trawl footprint was frozen, h
 knitr::include_graphics(here::here("report/mssm-tech-report/figure/map-mssm-syn-wcvi-cpue-3cd.png"), dpi = 300)
 ```
 
-The design-based indices were calculated following a standard depth-stratified mean estimator.
+We calculated design-based indices following a standard depth-stratified mean estimator.
 For each year, an average catch was calculated for each of two depth strata and then multiplied by each stratum's area. 
-Confidence intervals were estimated using a bootstrap procedure with 1000 replicates, drawing stratified samples with replacement, from all tows [see Appendix F in @anderson2019synopsis].
+Confidence intervals were estimated using a stratified bootstrap procedure with 1000 replicates [see Appendix F in @anderson2019synopsis].
 
 For the modelled SMMS indices, SYN WCVI indices, and commercial CPUE 3CD indices, we used the model outputs from @anderson2024synopsis. 
 Briefly, spatiotemporal models were fit to the data from the SMMS and the SYN WCVI using the R [@r2023] package sdmTMB [@anderson2022sdmTMB]. 
