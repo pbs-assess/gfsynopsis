@@ -25,11 +25,12 @@ There was some evidence of recruitment events in the SMMS data that were either 
 The annual nature of the SMMS survey, compared to the biennial SYN WCVI, means that there is the potential to detect surprise events early (e.g., small Bocaccio captured in 2016) as well as to provide a more continuous data source to stock assessment models.
 
 In conclusion, the analyses presented in this report suggest that the SMMS index should be considered as an index of relative biomass in BC groundfish stock assessment.
-The SMMS indices correlate well with the SYN WCVI in overlapping years from 2003 onwards for many species.
+Analyses such as those included here can support decisions to include or exclude the SMMS index from assessments for particular stocks.
+The SMMS indices correlated well with the SYN WCVI in overlapping years from 2003 onwards for many groundfish species.
 Evidence for whether the SMMS is a reliable index for most groundfish species is less strong pre 2003, which is unfortunate since a primary use case of the SMMS would be providing a fisheries independent population index that begins before 2003.
 The SMMS had lower correlation with commercial CPUE extending back to 1996 than the SYN WCVI from 2003 onwards.
-It is unclear whether this is due to fisheries dependent vs. independent data, different standardization methods, different spatial domains, or changes to the SMMS survey from 2003 onwards in catch sorting and sampling.
-Regardless of whether the SMMS is used for years pre-2003, it may be useful to assessments because it provides an annual index instead of biennial and tends to sample the same or smaller size groundfish, presumably due to a smaller mesh size.
+It is unclear whether this is due to fisheries dependent vs. independent data sources, different standardization methods, different spatial domains, or changes to the SMMS survey from 2003 onwards in catch sorting and sampling.
+Regardless of whether the SMMS is used for years pre-2003, it may be useful to groundfish assessments because it provides an annual index instead of biennial, and it tends to sample the same or smaller sized groundfish.
 As of 2024, there are plans to revise the SMMS survey design.
-If the survey design is revised, future review of the impacts on groundfish may be required.
+If the survey design is revised, future review of the impacts on groundfish indices may be required.
 
