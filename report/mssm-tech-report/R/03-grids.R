@@ -57,22 +57,22 @@ base_map <- function(xlim = c(-127.5, -125.45), ylim = c(48.6, 49.7)) {
 
 # ---- Compare grid cell size -----
 # Make 3x3 km grid ---
-mssm_grid_3km <- pcod_dat |>
-  mk_mssm_grid(grid_spacing = 3000)
+# mssm_grid_3km <- pcod_dat |>
+#   mk_mssm_grid(grid_spacing = 3000)
 
-mssm_grid_3km[[1]] |>
-  dplyr::filter(year >= 2009 & year <= 2021) |>
-  dplyr::distinct(X, Y, .keep_all = TRUE)
+# mssm_grid_3km[[1]] |>
+#   dplyr::filter(year >= 2009 & year <= 2021) |>
+#   dplyr::distinct(X, Y, .keep_all = TRUE)
 
-mssm_grid_3km[[2]] |>
-  filter(year >= 2009 & year <= 2021) |>
-  distinct(geometry, .keep_all = TRUE) |>
-  ggplot() +
-  geom_sf(aes(fill = year)) +
-  geom_sf(data = mssm_grid_3km[[2]] |> filter(year == 2021), fill = 'pink') +
-  geom_sf(data = pcod_sf |> filter(year == 2021), shape = 21, size = 3, fill = 'white') +
-  geom_sf(data = mssm_grid_3km[[2]] |> filter(year == 2019), colour = 'purple', fill = NA) +
-  geom_sf(data = pcod_sf |> filter(year == 2019), shape = 21, size = 3, fill = 'white')
+# mssm_grid_3km[[2]] |>
+#   filter(year >= 2009 & year <= 2021) |>
+#   distinct(geometry, .keep_all = TRUE) |>
+#   ggplot() +
+#   geom_sf(aes(fill = year)) +
+#   geom_sf(data = mssm_grid_3km[[2]] |> filter(year == 2021), fill = 'pink') +
+#   geom_sf(data = pcod_sf |> filter(year == 2021), shape = 21, size = 3, fill = 'white') +
+#   geom_sf(data = mssm_grid_3km[[2]] |> filter(year == 2019), colour = 'purple', fill = NA) +
+#   geom_sf(data = pcod_sf |> filter(year == 2019), shape = 21, size = 3, fill = 'white')
 
 # mssm_grid_3km[[1]] |>
 #   filter(year >= 2009 & year <= 2021) |>
@@ -80,74 +80,74 @@ mssm_grid_3km[[2]] |>
 # saveRDS(file.path(grid_dir, 'mssm-grid-3km_2009-2021.rds'))
 
 # Make 2x2 km grid
-mssm_grid_2km <- pcod_dat |>
-  mk_mssm_grid(grid_spacing = 2000)
+# mssm_grid_2km <- pcod_dat |>
+#   mk_mssm_grid(grid_spacing = 2000)
 
-km2 <-
-  ggplot(data = mssm_grid_2km[[2]] |> filter(year >= 2009 & year <= 2021)) +
-  base_map() +
-  geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
-  geom_sf(alpha = 0.2) +
-  scale_fill_manual(values = grid_colours)
-km3 <-
-  ggplot(data = mssm_grid_3km[[2]] |> filter(year >= 2009 & year <= 2021)) +
-  base_map() +
-  geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
-  geom_sf(alpha = 0.2) +
-  theme(axis.text.y = element_blank()) +
-  scale_fill_manual(values = grid_colours)
-km2 + km3
+# km2 <-
+#   ggplot(data = mssm_grid_2km[[2]] |> filter(year >= 2009 & year <= 2021)) +
+#   base_map() +
+#   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
+#   geom_sf(alpha = 0.2) +
+#   scale_fill_manual(values = grid_colours)
+# km3 <-
+#   ggplot(data = mssm_grid_3km[[2]] |> filter(year >= 2009 & year <= 2021)) +
+#   base_map() +
+#   geom_sf(data = pcod_sf, shape = 1, colour = 'grey50', alpha = 0.8, size = 0.1) +
+#   geom_sf(alpha = 0.2) +
+#   theme(axis.text.y = element_blank()) +
+#   scale_fill_manual(values = grid_colours)
+# km2 + km3
 
-ggsave(filename = file.path(mssm_figs, '2km-3km-grid-comp.png'), width = 6.7, height = 4.6)
+# ggsave(filename = file.path(mssm_figs, '2km-3km-grid-comp.png'), width = 6.7, height = 4.6)
 
 # --- Look at spatial distribution of sampling ------------
 # Grid from GFBioField
-sgrid <- sf::st_read(file.path(mssm_data, "SMMS-grid/SMMS_Survey_Blocks.shp"))
+# sgrid <- sf::st_read(file.path(mssm_data, "SMMS-grid/SMMS_Survey_Blocks.shp"))
 
-gfbio_grid <- sgrid |>
-  # Select only sites off WCVI (since there is no ssid corresponding to 7 or 'MSSM WCVI')
-  filter(GROUPING_C %in% c(112, 113)) |>
-  sf::st_crop(sgrid, sf::st_bbox(c(xmin = -128, ymin = 48.5, xmax = -126, ymax = 50))) %>%
-  sf::st_set_crs('WGS84') %>%
-  mutate(area = units::set_units(sf::st_area(.), km^2))
+# gfbio_grid <- sgrid |>
+#   # Select only sites off WCVI (since there is no ssid corresponding to 7 or 'MSSM WCVI')
+#   filter(GROUPING_C %in% c(112, 113)) |>
+#   sf::st_crop(sgrid, sf::st_bbox(c(xmin = -128, ymin = 48.5, xmax = -126, ymax = 50))) %>%
+#   sf::st_set_crs('WGS84') %>%
+#   mutate(area = units::set_units(sf::st_area(.), km^2))
 
 # --- Grid used in synopsis
-grid_plot <- mssm_grid_sf |>
-  filter(year >= 2009 & year <= 2019) |>
-  distinct(geometry) |>
-  ggplot() +
-    base_map() +
-    geom_sf(data = pcod_sf, colour = 'grey50', shape = 1, alpha = 0, size = 0.1) +
-    geom_sf(aes(fill = '2009'), alpha = 0.5) +
-    scale_fill_manual(values = grid_colours) +
-    labs(fill = "Grid") +
-    theme(legend.position = c(0.8, 0.9)) +
-    theme(axis.text = element_text(size = 6),
-        legend.text = element_text(size = 6),
-        legend.title = element_blank()) +
-    guides(fill = "none")
-grid_plot
+# grid_plot <- mssm_grid_sf |>
+#   filter(year >= 2009 & year <= 2019) |>
+#   distinct(geometry) |>
+#   ggplot() +
+#     base_map() +
+#     geom_sf(data = pcod_sf, colour = 'grey50', shape = 1, alpha = 0, size = 0.1) +
+#     geom_sf(aes(fill = '2009'), alpha = 0.5) +
+#     scale_fill_manual(values = grid_colours) +
+#     labs(fill = "Grid") +
+#     theme(legend.position = c(0.8, 0.9)) +
+#     theme(axis.text = element_text(size = 6),
+#         legend.text = element_text(size = 6),
+#         legend.title = element_blank()) +
+#     guides(fill = "none")
+# grid_plot
 
-ggsave(file.path(mssm_figs, 'grid-prediction-2009_no-points.png'), width = 3.5, height = 3.7)
+# ggsave(file.path(mssm_figs, 'grid-prediction-2009_no-points.png'), width = 3.5, height = 3.7)
 
-grid_plot_2009_points <- mssm_grid_sf |>
-  filter(year >= 2009 & year <= 2019) |>
-  distinct(geometry) |>
-  ggplot() +
-    base_map() +
-    geom_sf(data = pcod_sf |> filter(year < 2009), shape = 1, colour = 'grey50', alpha = 0.5, size = 0.1) +
-    geom_sf(aes(fill = '2009'), alpha = 0.5) +
-    geom_sf(data = pcod_sf |> filter(year >= 2009 & year <= 2019), shape = 1, colour = 'black', alpha = 0.5, size = 0.1) +
-    scale_fill_manual(values = grid_colours) +
-    labs(fill = "Grid") +
-    theme(legend.position = c(0.8, 0.9))
-grid_plot_2009_points + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
-    theme(axis.text = element_text(size = 6),
-        legend.text = element_text(size = 6),
-        legend.title = element_blank()) +
-    guides(fill = "none")
+# grid_plot_2009_points <- mssm_grid_sf |>
+#   filter(year >= 2009 & year <= 2019) |>
+#   distinct(geometry) |>
+#   ggplot() +
+#     base_map() +
+#     geom_sf(data = pcod_sf |> filter(year < 2009), shape = 1, colour = 'grey50', alpha = 0.5, size = 0.1) +
+#     geom_sf(aes(fill = '2009'), alpha = 0.5) +
+#     geom_sf(data = pcod_sf |> filter(year >= 2009 & year <= 2019), shape = 1, colour = 'black', alpha = 0.5, size = 0.1) +
+#     scale_fill_manual(values = grid_colours) +
+#     labs(fill = "Grid") +
+#     theme(legend.position = c(0.8, 0.9))
+# grid_plot_2009_points + geom_sf(data = gfbio_grid, alpha = 0, colour = NA) +
+#     theme(axis.text = element_text(size = 6),
+#         legend.text = element_text(size = 6),
+#         legend.title = element_blank()) +
+#     guides(fill = "none")
 
-ggsave(file.path(mssm_figs, 'grid-prediction-2009.png'), width = 4, height = 2.8)
+# ggsave(file.path(mssm_figs, 'grid-prediction-2009.png'), width = 4, height = 2.8)
 #ggsave(file.path(here::here('report', 'tech-report', 'figure'), 'grid-prediction-2009.png'),
 #  width = 3.5, height = 3.7)
 #system("optipng -strip all report/tech-report/figure/grid-prediction-2009.png")
@@ -207,10 +207,10 @@ grid_historical_plot
 ggsave(filename = file.path(mssm_figs, 'grid-historical-nav-changes_no-points.png'),
   width = 4, height = 2.8)
 
-grid_historical_plot +
-  geom_point(data = pcod_dat, aes(x = longitude, y = latitude), shape = 1,
-             size = 0.5, alpha = 0.2)
-ggsave(file.path(mssm_figs, 'grid-historical-nav-changes_points.png'), width = 4, height = 3.8)
+# grid_historical_plot +
+#   geom_point(data = pcod_dat, aes(x = longitude, y = latitude), shape = 1,
+#              size = 0.5, alpha = 0.2)
+# ggsave(file.path(mssm_figs, 'grid-historical-nav-changes_points.png'), width = 4, height = 3.8)
 
 spatial_shift_plot <-
   ggplot() +

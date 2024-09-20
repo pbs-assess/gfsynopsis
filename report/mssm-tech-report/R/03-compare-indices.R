@@ -338,34 +338,34 @@ mssm_syn_inds_mssm_grid
 ggsave(file.path(mssm_figs, 'index-mssm-model-syn-wcvi-model-mssm-grid.png'),
   width = 7.5, height = 9.5)
 
-mssm_syn_grid_zoom_in <- tibble(
-  'survey1' = rep('SMMS Model', 2),
-  'survey2' = c('SYN WCVI', 'SYN WCVI on SMMS Grid')
-) |>
-purrr::pmap(\(survey1, survey2)
-  scale_geo_design(raw_inds |> filter(species %in% spp_in_mssm, year > 2003),
-    survey1, survey2)
-) |>
-  bind_rows() |>
-  filter(comp %in% c("SMMS Model-SYN WCVI on SMMS Grid", 'SMMS Model-SYN WCVI')) |>
-  distinct() |>
-  filter(species != 'shiner perch') |>
-ggplot(data = _) +
-  ind_layers(colours = c("SYN WCVI" = "#7570b3", "SYN WCVI on SMMS Grid" = "#a6761d",
-    "SMMS Model" = "#1b9e77"),
-    xlim = c(2003 - 0.2, 2022 + 0.2),
-    ribbon_alpha = 0.15,
-    ncol = 3) +
-  guides(colour = guide_legend(direction = "vertical"),
-    fill = 'none') +
-  geom_rect(data = . %>% filter(species == 'Shiner Perch') %>%
-    distinct(species, .keep_all = TRUE),
-    mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
-    fill = "white", colour = NA)
-mssm_syn_grid_zoom_in
+# mssm_syn_grid_zoom_in <- tibble(
+#   'survey1' = rep('SMMS Model', 2),
+#   'survey2' = c('SYN WCVI', 'SYN WCVI on SMMS Grid')
+# ) |>
+# purrr::pmap(\(survey1, survey2)
+#   scale_geo_design(raw_inds |> filter(species %in% spp_in_mssm, year > 2003),
+#     survey1, survey2)
+# ) |>
+#   bind_rows() |>
+#   filter(comp %in% c("SMMS Model-SYN WCVI on SMMS Grid", 'SMMS Model-SYN WCVI')) |>
+#   distinct() |>
+#   filter(species != 'shiner perch') |>
+# ggplot(data = _) +
+#   ind_layers(colours = c("SYN WCVI" = "#7570b3", "SYN WCVI on SMMS Grid" = "#a6761d",
+#     "SMMS Model" = "#1b9e77"),
+#     xlim = c(2003 - 0.2, 2022 + 0.2),
+#     ribbon_alpha = 0.15,
+#     ncol = 3) +
+#   guides(colour = guide_legend(direction = "vertical"),
+#     fill = 'none') +
+#   geom_rect(data = . %>% filter(species == 'Shiner Perch') %>%
+#     distinct(species, .keep_all = TRUE),
+#     mapping = aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf),
+#     fill = "white", colour = NA)
+# mssm_syn_grid_zoom_in
 
-ggsave(file.path(mssm_figs, 'index-mssm-syn-wcvi-mssm-grid-zoom-in.png'),
-  width = 7.5, height = 9.5)
+# ggsave(file.path(mssm_figs, 'index-mssm-syn-wcvi-mssm-grid-zoom-in.png'),
+#   width = 7.5, height = 9.5)
 
 # MSSM ~ CPUE 3CD
 cpue_stats_df <- stats_df |>

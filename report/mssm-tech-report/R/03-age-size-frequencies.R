@@ -290,20 +290,17 @@ sp <- 'arrowtooth flounder'
 plot_size_time(sp, raw_data = TRUE)
 plot_size_time(sp, raw_data = FALSE)
 
+# test <- size_dat |>
+#     filter(year > 2003) |>
+#     group_by(species_common_name, year, survey_abbrev) |>
+#     summarise(q50 = quantile(length, 0.5, na.rm = TRUE),
+#               q25 = quantile(length, 0.25, na.rm = TRUE),
+#               q75 = quantile(length, 0.75, na.rm = TRUE),
+#               n = sum(!is.na(length))) |>
+#     ungroup()
 
-
-
-test <- size_dat |>
-    filter(year > 2003) |>
-    group_by(species_common_name, year, survey_abbrev) |>
-    summarise(q50 = quantile(length, 0.5, na.rm = TRUE),
-              q25 = quantile(length, 0.25, na.rm = TRUE),
-              q75 = quantile(length, 0.75, na.rm = TRUE),
-              n = sum(!is.na(length))) |>
-    ungroup()
-
-test |> filter(species_common_name == "bocaccio") |>
-  arrange(q50)
+# test |> filter(species_common_name == "bocaccio") |>
+#   arrange(q50)
 
 # size_summary_spp <- distinct(size_comp_df, species_common_name) |>
 #   pull(species_common_name)
