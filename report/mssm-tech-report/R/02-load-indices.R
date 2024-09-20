@@ -63,7 +63,7 @@ take_min_aic <- function(x) {
 syn_wcvi_inds <- tidyr::expand_grid(.s = spp_hyphens, .f = families) |>
   purrr::pmap_dfr(function(.s, .f) {
     filename <- paste0("synoptic-SYN WCVI-", .f)
-    get_index(file.path(here::here(), "report", "mssm-tech-report", "stitch-cache", filename), .s, .family = .f)
+    get_index(file.path(stitch_cache, filename), .s, .family = .f)
     # get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), .s, .family = f)
 }) |> group_by(species) |>
   take_min_aic() |>
@@ -77,7 +77,7 @@ syn_mssm_grid_inds <- syn_wcvi_inds |>
          filename = paste0(gfsynopsis::clean_name(species), "_st-rw", ".rds")) |>
   select(folder, filename, species, family) |>
     purrr::pmap(\(folder, filename, species, family) {
-      ind <- readRDS(file.path(here::here(), "report", "mssm-tech-report", "stitch-cache", folder, filename))
+      ind <- readRDS(file.path(stitch_cache, folder, filename))
       ind |> mutate(species = species, family = family)
     }) |>
   bind_rows() |>
@@ -95,7 +95,7 @@ syn_mssm_grid_inds$species <- gsub("north pacific spiny dogfish", "pacific spiny
 mssm_inds <- tidyr::expand_grid(.s = spp_hyphens, .f = families) |>
   purrr::pmap_dfr(function(.s, .f) {
     filename <- paste0("mssm-", .f)
-    get_index(file.path(here::here(), "report", "mssm-tech-report", "stitch-cache", filename), .s, .family = .f)
+    get_index(file.path(stitch_cache, filename), .s, .family = .f)
 }) |> group_by(species) |>
   take_min_aic() |>
   ungroup() |>

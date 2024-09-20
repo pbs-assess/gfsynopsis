@@ -13,14 +13,14 @@ options(future.rng.onMisuse = "ignore")
 source(here::here('report', 'mssm-tech-report', 'R', '00-utils.R'))
 
 # Load data
+# SPLIT OUT TODO: Specify gfsynopsis data cache here when
 data_cache <- here::here('report', 'data-cache-nov-2023')
-grid_dir <- here::here(data_cache, 'grids')
+# grid_dir <- here::here(data_cache, 'grids')
 mssm_dir <- here::here('report', 'mssm-tech-report')
 mssm_data <- here::here(mssm_dir, 'data')
 mssm_data_out <- here::here(mssm_dir, 'data-outputs')
-cpue_cache <- here::here('report', 'cpue-cache')
-
-stitch_cache <- here::here('report', 'stitch-cache')
+cpue_cache <- here::here(mssm_data, 'cpue-cache')
+stitch_cache <- here::here(mssm_data, 'stitch-cache')
 # syn_sc <- here::here(mssm_dir, 'stitch-cache', 'SYN-WCVI')
 # mssm_sc <- here::here(mssm_dir, 'stitch-cache', 'mssm')
 

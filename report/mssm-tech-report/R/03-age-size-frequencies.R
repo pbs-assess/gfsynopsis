@@ -76,9 +76,10 @@ size_diff_lu <-
          ) |>
   drop_na(abs_diff) |>
   select(species_common_name, syn_minus_mssm_q50, abs_diff, pct_diff) |>
-  mutate(bigger = case_when(pct_diff > 10 ~ 'SYN',
-                          pct_diff < -10 ~ 'SMMS',
+  mutate(bigger = case_when(pct_diff > 10 ~ 'SYN WCVI\nlarger',
+                          pct_diff < -10 ~ 'SMMS\nlarger',
                           TRUE ~ "< 10% difference")) |>
+  mutate(bigger = factor(bigger, levels = c("SMMS\nlarger", "< 10% difference", "SYN WCVI\nlarger"))) |>
   arrange(bigger, abs_diff) |>
   mutate(bg = ifelse(row_number() %% 2 == 1, 'grey95', NA),
          species = stringr::str_to_title(species_common_name)) |>
@@ -135,7 +136,7 @@ size_comp <- size_comp_df |>
     labs(colour = "Survey", y = 'Length (cm)') +
     theme(legend.position = c(0.5, -0.4),
       legend.direction = "horizontal",
-      plot.margin = margin(1, 1, 35, 1))
+      plot.margin = margin(1, 5, 35, 1))
 size_comp
 
 ggsave(file.path(mssm_figs, 'size-comp.png'), plot = size_comp, width = 10.5, height = 6.6)
@@ -157,8 +158,8 @@ age_diff_lu <-
   mutate(syn_minus_mssm_q50 = `SYN WCVI` - `SMMS`,
          abs_diff = abs(syn_minus_mssm_q50)) |>
   select(species_common_name, syn_minus_mssm_q50, abs_diff) |>
-  mutate(bigger = case_when(syn_minus_mssm_q50 > 0 ~ 'SYN',
-                          syn_minus_mssm_q50 < 0 ~ 'SMMS',
+  mutate(bigger = case_when(syn_minus_mssm_q50 > 0 ~ 'SYN WCVI older',
+                          syn_minus_mssm_q50 < 0 ~ 'SMMS older',
                           TRUE ~ "Equal")) |>
   arrange(bigger, abs_diff) |>
   mutate(bg = ifelse(row_number() %% 2 == 1, 'grey95', NA),
@@ -288,6 +289,21 @@ sp <- 'bocaccio'
 sp <- 'arrowtooth flounder'
 plot_size_time(sp, raw_data = TRUE)
 plot_size_time(sp, raw_data = FALSE)
+
+
+
+
+test <- size_dat |>
+    filter(year > 2003) |>
+    group_by(species_common_name, year, survey_abbrev) |>
+    summarise(q50 = quantile(length, 0.5, na.rm = TRUE),
+              q25 = quantile(length, 0.25, na.rm = TRUE),
+              q75 = quantile(length, 0.75, na.rm = TRUE),
+              n = sum(!is.na(length))) |>
+    ungroup()
+
+test |> filter(species_common_name == "bocaccio") |>
+  arrange(q50)
 
 # size_summary_spp <- distinct(size_comp_df, species_common_name) |>
 #   pull(species_common_name)

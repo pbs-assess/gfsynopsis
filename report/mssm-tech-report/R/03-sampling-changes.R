@@ -13,7 +13,8 @@ net_comp_df <- mssm_dat |>
   group_by(species_common_name) |>
   filter(sum(mean_catch) > 0) |>
   ungroup() |>
-  mutate(species_common_name = gsub("north pacific", "pacific", species_common_name))
+  mutate(species_common_name = gsub("north pacific", "pacific", species_common_name)) |>
+  mutate(species_common_name = stringr::str_to_title(species_common_name))
 
 net_comp_df |> filter(net == 'NMFS', mean_catch == 0)
 net_comp_df |> filter(net == 'American', mean_catch == 0)
@@ -178,7 +179,7 @@ cod_comparison <-
 cod_comparison
 
 ggsave(file.path(mssm_figs, 'sampling-cod.png'), plot = cod_comparison,
-  width = 6, height = 6.5)
+  width = 6, height = 5.3)
 
 # ---- Fish aggregates ---------------------
 # How I got to more-mssm-spp.rds:

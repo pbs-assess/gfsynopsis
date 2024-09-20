@@ -130,7 +130,7 @@ ggplot(aes(x = start_year, y = cor_vals)) +
   guides(colour = "none") +
   facet_wrap(~ comp, scale = 'free_x') +
   scale_x_continuous(breaks = scales::pretty_breaks()) +
-  coord_cartesian(clip = "off") +
+  coord_cartesian(clip = "on") +
     ggrepel::geom_text_repel(
     data = cor_df %>% group_by(comp, species) %>% slice(which.max(start_year)),
     aes(label = species, x = start_year, colour = species),
@@ -139,11 +139,12 @@ ggplot(aes(x = start_year, y = cor_vals)) +
     direction = "y"
   ) +
   labs(x = "Start year of 10-year rolling window",
-       y = "Correlation")
+       y = "Correlation") +
+  theme(plot.margin = margin(0, 10, 4, 1))
 cor_plot
 
 ggsave(file.path(mssm_figs, 'index-correlation.png'), plot = cor_plot,
-  width = 10.5, height = 4.3)
+  width = 10.6, height = 5.2)
 
 # ------ Mean correlation ~ size -------
 full_cor |>
