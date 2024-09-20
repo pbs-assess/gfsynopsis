@@ -1,4 +1,4 @@
-# Conclusions
+# Discussion
 
 Although the SMMS provides the longest continuous bottom trawl time-series for groundfish off the coast of WCVI, several changes to the survey mean that the data are less reliable before 2003. 
 The most important changes are the changes to the sorting protocol in 2001 (full sorting using a conveyor belt) and in 2003 (species-level identification of all the catch).
@@ -30,4 +30,6 @@ Evidence for whether the SMMS is a reliable index for most groundfish species is
 The SMMS had lower correlation with commercial CPUE extending back to 1996 than the SYN WCVI from 2003 onwards.
 It is unclear whether this is due to fisheries dependent vs. independent data, different standardization methods, different spatial domains, or changes to the SMMS survey from 2003 onwards in catch sorting and sampling.
 Regardless of whether the SMMS is used for years pre-2003, it may be useful to assessments because it provides an annual index instead of biennial and tends to sample the same or smaller size groundfish, presumably due to a smaller mesh size.
+As of 2024, there are plans to revise the SMMS survey design.
+If the survey design is revised, future review of the impacts on groundfish may be required.
 

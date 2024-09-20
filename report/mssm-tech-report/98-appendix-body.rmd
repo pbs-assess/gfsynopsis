@@ -30,7 +30,7 @@ csasdown::csas_table(mssm_survey_changes, caption = "Summary of changes to the S
 
 # Size distributions over time {#app:size-time}
 
-Comparison of fish lengths sampled in the Small-mesh Multi-species (SMMS)  and the Synoptic West Coast Vancouver Island (SYN WCVI) bottom trawl surveys over time. Species are ordered in decreasing median size differences observed between the two surveys (Figure \@ref(fig:size-dist-time)). 
+Comparison of fish lengths sampled in the Small-mesh Multi-species (SMMS)  and the Synoptic West Coast Vancouver Island (SYN WCVI) bottom trawl surveys over time. Species are ordered by decreasing median size differences observed between the two surveys (Figure \@ref(fig:size-dist-time)). 
 
 (ref:size-time0-cap) Same as Figure \@ref(fig:size-dist-time) for additional species.
 
