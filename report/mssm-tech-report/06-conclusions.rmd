@@ -30,7 +30,7 @@ The SMMS indices correlated well with the SYN WCVI in overlapping years from 200
 Evidence for whether the SMMS is a reliable index for most groundfish species is less strong pre 2003, which is unfortunate since a primary use case of the SMMS would be providing a fisheries independent population index that begins before 2003.
 The SMMS had lower correlation with commercial CPUE extending back to 1996 than the SYN WCVI from 2003 onwards.
 It is unclear whether this is due to fisheries dependent vs. independent data sources, different standardization methods, different spatial domains, or changes to the SMMS survey from 2003 onwards in catch sorting and sampling.
-Regardless of whether the SMMS is used for years pre-2003, it may be useful to groundfish assessments because it provides an annual index instead of biennial, and it tends to sample the same or smaller sized groundfish.
+Regardless of whether the SMMS is used for years pre-2003, it may be useful to groundfish assessments because it provides an annual index instead of a biennial index, and it tends to sample the same or smaller sized groundfish than the SYN WCVI survey.
 As of 2024, there are plans to revise the SMMS survey design.
 If the survey design is revised, future review of the impacts on groundfish indices may be required.
 
