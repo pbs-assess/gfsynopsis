@@ -63,7 +63,7 @@ if (parallel_processing) {
 
 # Read in fresh data or load cached data if available: ------------------------
 message('Loading data')
-dc <- here("report", "data-cache-2024-05")
+dc <- here("report", "data-cache-2024-10")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
@@ -635,3 +635,4 @@ if (optimize_png) {
 
 
 }
+
