@@ -3,7 +3,7 @@ title: |
   "A data synopsis for British Columbia groundfish: 2023 data update"
 french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2023"
 year: 2024
-report_number: nnn
+report_number: 3641
 author: |
   Sean C. Anderson,
   Jillian C. Dunic,
@@ -12,7 +12,7 @@ author: |
 author_list: "Anderson, S.C., Dunic, J.C., Keppel, E.A., and Edwards, A.M."
 region: Pacific Region
 french_region: Région du Pacifique
-isbn: ""
+isbn: "978-0-660-73817-8"
 address: |
   Pacific Biological Station\
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
@@ -28,6 +28,7 @@ abstract: |
   The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, forms the backbone of most fisheries stock assessments. For British Columbia groundfish, vast quantities of such data are collected. However, the Fisheries and Oceans Canada Pacific groundfish section lacks the capacity to conduct formal stock assessments for most stocks annually, and therefore, much of these data are not summarized to represent the nature of the data holdings. Here, we update a reproducible report that gives a snapshot of population and fishing trends, growth and maturity patterns, as well as data availability, for 116 groundfish species in British Columbia. This update includes data up to 2023.
 french_abstract: |
   La combinaison de données dépendantes de la pêche, telles que les captures et l'effort de pêche, et de données d'enquête indépendantes de la pêche, telles que les indices de biomasse et la composition par âge, constitue l'épine dorsale de la plupart des évaluations des stocks halieutiques. Pour les poissons de fond de la Colombie-Britannique, de grandes quantités de données de ce type sont collectées. Cependant, la section des poissons de fond du Pacifique de Pêches et Océans Canada n'a pas la capacité d'effectuer des évaluations formelles de la plupart des stocks chaque année, et par conséquent, la plupart de ces données ne sont pas résumées pour représenter la nature des fonds de données. Ici, nous mettons à jour un rapport reproductible qui donne un aperçu des tendances de la population et de la pêche, des modèles de croissance et de maturité, ainsi que de la disponibilité des données, pour 116 espèces de poissons de fond en Colombie-Britannique. Cette mise à jour inclut les données jusqu'en 2023. 
+citation_french: ""
 output:
  csasdown::techreport_pdf:
    french: false
