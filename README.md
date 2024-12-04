@@ -4,7 +4,7 @@
 
 ### Technical Report (data up to 2023):
 
-As of July 29, 2024: In final approval stage. Will be out soon.
+**[English](https://doi.org/10.60825/aevx-nb49)**
 
 ### Technical Report (data up to 2022):
 
