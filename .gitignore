@@ -108,3 +108,4 @@ report/mssm-appendix/*.csv
 report/tech-report/tmp-*
 *SMMS-grid*
 marmap*\.csv
+*/spatial-filtering/data/*

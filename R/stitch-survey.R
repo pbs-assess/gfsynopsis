@@ -311,7 +311,7 @@ add_upr <- function(
 get_stitched_index <- function(
     survey_dat, species = "arrowtooth flounder",
     survey_type = "synoptic",
-    model_type = "st-rw",
+    model_type = "st-rw", # TODO: rethink this parameter - either - need?
     form = NULL,
     family = sdmTMB::tweedie(),
     time = "year",
@@ -338,13 +338,15 @@ get_stitched_index <- function(
   if (cache_fits) dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
 
   species_hyphens <- clean_name(species)
+  .survey_abbrev <- unique(survey_dat$survey_abbrev)
+
   out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
 
   if (check_cache & file.exists(out_filename)) {
     out <- readRDS(out_filename)
     return(out)
   }
-
+# FIXME START: pull out data filtering before data are passed to stitching function
   if (survey_type == 'mssm' & is.null(survey_dat)) {
     out <- "No MSSM survey data"
     saveRDS(out, out_filename)
@@ -388,15 +390,15 @@ get_stitched_index <- function(
     saveRDS(out, out_filename)
     return(out)
   }
-
+# FIXME END: the above chunk can be pulled out
   # Only calculate positive sets if stitching
   mean_num_sets <- sum(stitch_regions_df$mean_n_sets)
   mean_num_pos_sets <- sum(stitch_regions_df$mean_n_pos)
-
+# FIXME: I think the below filtering can also be pulled out)
   survey_dat <- survey_dat |>
     dplyr::filter(species_common_name == species & survey_type == survey_type &
       survey_abbrev %in% stitch_regions)
-
+# TODO: not sure if this is even needed anymore
   survey_dat <- drop_duplicated_fe(survey_dat) #150
 
   survey_dat <- droplevels(survey_dat) # drop extra factor levels before running models
@@ -433,7 +435,7 @@ get_stitched_index <- function(
     }
   }
   form <- stats::as.formula(form)
-
+# TODO: get rid of this switch and have only custom function passed through
   fit <- switch(model_type,
     `st-iid` = try(
       sdmTMB::sdmTMB(
@@ -554,7 +556,8 @@ get_stitched_index <- function(
       saveRDS(pred, pred_filename)
     }
   }
-
+# FIXME: I think I want to add the family used
+# TODO: species should probably match rest of the data: species_common_name
   if (length(pred)) {
     cat("\n\tCalculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = newdata$area)
@@ -566,6 +569,7 @@ get_stitched_index <- function(
     index$num_pos_sets <- mean_num_pos_sets
     index$survey_type <- survey_type
     index$stitch_regions <- paste(stitch_regions, collapse = ", ")
+    index$species_common_name <- species
     out <- index |>
       dplyr::rename(
         survey_abbrev = survey_type, biomass = "est",
@@ -627,4 +631,124 @@ get_inclusion_table <- function(survey_dat = NULL, survey_type) {
 drop_duplicated_fe <- function(x) {
   stopifnot("fishing_event_id" %in% names(x))
   x[!duplicated(x[["fishing_event_id"]]), , drop = FALSE]
+}
+
+# ------------------------------------------------------------------------------
+# TODO: Putting this here for now, but maybe best moved to gfplot
+#' Scale Indices
+#'
+#' This function scales index values from design-based, geostatistical model-
+#' based, or the combination of both for plotting.
+#'
+#' @param dat_design A data frame containing the design-based indices.
+#' @param dat_geostat A data frame containing the output from
+#'   \code{sdmTMB::get_index()}.
+#' @param .groups A character vector specifying the grouping variables to use
+#'   for scaling. Default is \code{c("species_common_name", "survey_abbrev")}.
+#' @param scale_by A character string specifying the method to scale by, with
+#'   the following cases:
+#'   \itemize{
+#'     \item If both \code{dat_design} and \code{dat_geostat} are provided:
+#'       \itemize{
+#'         \item \code{"upperci"}: Indices will be scaled by the maximum scaled
+#'           upper confidence interval (\code{upperci}), which itself is scaled
+#'           by the geometric mean of the geostatistical index.
+#'         \item \code{"geomean"}: Indices will be scaled by the scaled geometric
+#'           mean of the geostatistical index.
+#'       }
+#'     \item If only one of \code{dat_design} or \code{dat_geostat} is provided:
+#'       \itemize{
+#'         \item \code{"upperci"}:w Indices will be scaled by the maximum
+#'           \code{upperci} of the available index.
+#'         \item \code{"geomean"}: Indices will be scaled by the geometric mean
+#'           of the available index.
+#'       }
+#'   }
+#'
+#' @return A data frame similar to \code{dat_design}, with additional scaled
+#'   columns such as \code{biomass_scaled}, \code{lowerci_scaled}, and
+#'   \code{upperci_scaled}.
+#' @details
+#' This function scales index values based on specified methods, grouping by
+#' specified columns. If no valid data is available (e.g., all \code{NA} values
+#' in the relevant column), scaled values will be set to \code{NA_real_}.
+#' @examples
+#' # Example?
+
+scale_indices <- function(dat_design = NULL, dat_geostat = NULL,
+  .groups = c("species_common_name", "survey_abbrev"),
+  scale_by = c("upperci", "geomean")) {
+
+  if (!is.null(dat_design)) dat_design$method <- "design"
+  if (!is.null(dat_geostat))    dat_geostat$method <- "geostat"
+
+  dat <- bind_rows(dat_design, dat_geostat)
+
+  dat_scaled <- dat |>
+    group_by(across(all_of(.groups))) |>
+    group_split() |>
+    purrr::map_dfr(\(x) {
+      scale_by <- match.arg(scale_by, c("upperci", "geomean"))
+      both_present <- length(unique(x$method[!is.na(x$biomass)])) > 1L
+
+      if (both_present) {
+        x_geo <- filter(x, method == "geostat")
+        x_des <- filter(x, method == "design")
+
+        overlapping_years <- inner_join(
+          select(x_geo, year),
+          select(x_des, year, biomass),
+          by = join_by(year)
+        ) |>
+          filter(biomass > 0) |> # can't take geometric mean of these!
+          pull("year")
+
+        x_geo_mean <- exp(mean(log(x_geo$biomass[x_geo$year %in% overlapping_years])))
+        x_des_mean <- exp(mean(log(x_des$biomass[x_des$year %in% overlapping_years])))
+
+        x_geo <- mutate(x_geo,
+          biomass_scaled = biomass / x_geo_mean,
+          lowerci_scaled = lowerci / x_geo_mean,
+          upperci_scaled = upperci / x_geo_mean
+        )
+        x_des <- mutate(x_des,
+          biomass_scaled = biomass / x_des_mean,
+          lowerci_scaled = lowerci / x_des_mean,
+          upperci_scaled = upperci / x_des_mean
+        )
+
+        scale_factor <- switch(
+          scale_by,
+          geomean = exp(mean(log(x_geo$biomass_scaled[x_geo$year %in% overlapping_years]), na.rm = TRUE)),
+          upperci = max(x_geo$upperci_scaled, na.rm = TRUE)
+        )
+
+        xx <- bind_rows(x_geo, x_des)
+        x <- mutate(xx,
+          biomass_scaled = biomass_scaled / scale_factor,
+          lowerci_scaled = lowerci_scaled / scale_factor,
+          upperci_scaled = upperci_scaled / scale_factor
+        )
+      } else {
+        if (sum(!is.na(x$biomass))) {
+          switch(scale_by,
+            upperci = mutate(x,
+              biomass_scaled = biomass / max(upperci, na.rm = TRUE),
+              lowerci_scaled = lowerci / max(upperci, na.rm = TRUE),
+              upperci_scaled = upperci / max(upperci, na.rm = TRUE)
+            ),
+            geomean = mutate(x,
+              biomass_scaled = biomass / exp(mean(log(biomass), na.rm = TRUE)),
+              lowerci_scaled = lowerci / exp(mean(log(biomass), na.rm = TRUE)),
+              upperci_scaled = upperci / exp(mean(log(biomass), na.rm = TRUE))
+            ))
+        } else {
+          mutate(x,
+            biomass_scaled = NA_real_,
+            lowerci_scaled = NA_real_,
+            upperci_scaled = NA_real_
+          )
+        }
+      }
+    })
 }
