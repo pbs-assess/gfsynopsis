@@ -47,6 +47,7 @@ fit_sdmTMB_cpue <- function(
 
   if (plots) {
     gfdata::survey_blocks |>
+      filter(active_block) |>
       dplyr::filter(grepl("^SYN", survey_abbrev)) |>
       ggplot(aes(colour = survey_abbrev)) +
       geom_sf() +
@@ -55,6 +56,7 @@ fit_sdmTMB_cpue <- function(
   }
 
   grid <- gfdata::survey_blocks |>
+    filter(active_block) |>
     dplyr::filter(grepl("^SYN", survey_abbrev))
 
   dat <- gfplot::tidy_cpue_index(
