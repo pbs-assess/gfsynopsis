@@ -26,13 +26,12 @@ make_pages(
     `SYN QCS` = "#4DAF4A", `HBLL OUT N` = "#FF7F00", `HBLL OUT S` = "#FDBF6F",
     `HBLL INS N/S` = "#A65628", `IPHC FISS` = "#F781BF", `MSSM WCVI` = "#6c6c6c",
     `MSSM Geostat` = "#6c6c6c", `MSA HS` = "#6c6c6c", `SYN HS/QCS/WCHG/WCVI` = "#6c6c6c",
-    `SYN HS/QCS/WCVI` = "#6c6c6c", `HBLL OUT N/S` = "#6c6c6c", Commercial = "#303030"),
+    `SYN HS/QCS/WCVI` = "#6c6c6c", `HBLL OUT N/S` = "#6c6c6c", Commercial = "#000000"),
   mat_min_n = 20,
   survey_map_outlier = 1,
   synoptic_max_survey_years = list(`SYN WCHG` = 2020, `SYN HS` = 2019, `SYN WCVI` = 2018,
     `SYN QCS` = 2019),
   hbll_out_max_survey_years = list(`HBLL OUT N` = 2019, `HBLL OUT S` = 2020),
-  iphc_max_survey_year = 2022,
   parallel = FALSE,
   french = FALSE,
   final_year_comm = 2021,
@@ -42,10 +41,10 @@ make_pages(
   stitch_model_type = "st-rw",
   grid_dir,
   hbll_bait_counts,
-  iphc_hook_counts,
   index_ggplot,
   spatiotemporal_cpue = FALSE,
-  raw_cpue = NULL
+  raw_cpue = NULL,
+  shapefile = NULL
 )
 }
 \arguments{
@@ -113,6 +112,9 @@ Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
 \item{index_ggplot}{Pre-made ggplots for survey indices.}
 
 \item{spatiotemporal_cpue}{Logical: use commercial trawl CPUE sdmTMB model output?}
+
+\item{shapefile}{An optional shapefile used to subset or highlight a region
+of interest.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.

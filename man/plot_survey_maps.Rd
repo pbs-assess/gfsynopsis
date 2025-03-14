@@ -23,6 +23,7 @@ plot_survey_maps(
   hbll_n_year = 2017,
   hbll_s_year = 2018,
   iphc_year = 2018,
+  shapefile = NULL,
   ...
 )
 }
@@ -66,9 +67,9 @@ include. These annotations include the relevent years on the map.}
 
 \item{iphc_year}{Year for IPHC survey label.}
 
-\item{...}{Any other arguments to pass to \code{\link[gfplot:plot_survey_sets]{gfplot::plot_survey_sets()}}.}
+\item{...}{Any other arguments to pass to \code{\link[=plot_survey_sets_synopsis]{plot_survey_sets_synopsis()}}.}
 }
 \description{
 \code{plot_survey_maps()} is a helper function that calls
-\code{\link[gfplot:plot_survey_sets]{gfplot::plot_survey_sets()}} appropriately for the various surveys.
+\code{\link[=plot_survey_sets_synopsis]{plot_survey_sets_synopsis()}} appropriately for the various surveys.
 }

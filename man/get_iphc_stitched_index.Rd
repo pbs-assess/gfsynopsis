@@ -17,7 +17,7 @@ get_iphc_stitched_index(
   time_varying_type = NULL,
   mesh = NULL,
   cutoff = 20,
-  offset = "log_eff_skate",
+  offset = "offset",
   priors = sdmTMB::sdmTMBpriors(),
   silent = TRUE,
   ctrl = sdmTMB::sdmTMBcontrol(),
@@ -63,7 +63,7 @@ Default is \code{NULL}.}
 \item{cutoff}{If \code{mesh = NULL}, mesh cutoff for \code{\link[sdmTMB:make_mesh]{sdmTMB::make_mesh()}}.}
 
 \item{offset}{A string naming the offset column in \code{dat} used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}
-(default = 'log_eff_skate').}
+(default = 'offset').}
 
 \item{priors}{Optional penalties/priors used in \code{\link[sdmTMB:priors]{sdmTMB::sdmTMBpriors()}}.}
 

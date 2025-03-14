@@ -4,11 +4,11 @@
 \alias{prep_iphc_stitch_dat}
 \title{Prepare IPHC FISS data for index stitching}
 \usage{
-prep_iphc_stitch_dat()
+prep_iphc_stitch_dat(survey_dat)
 }
 \value{
 A dataframe the same length as \code{survey_dat}
 }
 \description{
-Prepare IPHC FISS data for index stitching
+Currently this does not use the 2022 GFBio observer data which is 'all hooks'
 }
