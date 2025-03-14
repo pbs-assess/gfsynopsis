@@ -6,6 +6,7 @@ fit_sdmTMB_cpue <- function(
     min_positive_tows = 100L,
     min_positive_trips = 5L,
     min_yrs_with_trips = 5L,
+    raw_cpue_caching_file = NULL,
     plots = FALSE, silent = TRUE, return_raw_cpue = FALSE) {
   # library(dplyr)
   library(sdmTMB)
@@ -202,7 +203,7 @@ fit_sdmTMB_cpue <- function(
     group_by(year) |>
     summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
     mutate(est_unstandardized = est_unstandardized /
-        exp(mean(log(est_unstandardized))))
+      exp(mean(log(est_unstandardized))))
   ret$region <- paste(survey_grids, collapse = "; ")
   ret$species <- params$species
   if (return_raw_cpue) {

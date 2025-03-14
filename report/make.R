@@ -232,71 +232,71 @@ index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_surv
 # ------------------------------------------------------------------------------
 # CPUE model fits
 
-if (parallel_processing) future::plan(future::multisession, workers = 4L)
-message("Fit CPUE models")
-cpue_cache <- file.path("report", "cpue-cache")
-dir.create(cpue_cache, showWarnings = FALSE)
-xx <- spp$species_common_name
-xx <- sample(xx, length(xx), replace = FALSE)
-furrr::future_walk(xx, function(.sp) {
-# purrr::walk(xx, function(.sp) {
-  spp_file <- gfsynopsis:::clean_name(.sp)
-  cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
-  if (!file.exists(cpue_cache_spp)) {
-    cat(.sp, "\n")
-    cpue_index <- gfsynopsis::fit_cpue_indices(
-      dat = d_cpue,
-      species = .sp,
-      save_model = .sp %in% example_spp,
-      parallel = FALSE
-    )
-    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-  }
-})
-future::plan(sequential)
+# if (parallel_processing) future::plan(future::multisession, workers = 4L)
+# message("Fit CPUE models")
+# cpue_cache <- file.path("report", "cpue-cache")
+# dir.create(cpue_cache, showWarnings = FALSE)
+# xx <- spp$species_common_name
+# xx <- sample(xx, length(xx), replace = FALSE)
+# furrr::future_walk(xx, function(.sp) {
+# # purrr::walk(xx, function(.sp) {
+#   spp_file <- gfsynopsis:::clean_name(.sp)
+#   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+#   if (!file.exists(cpue_cache_spp)) {
+#     cat(.sp, "\n")
+#     cpue_index <- gfsynopsis::fit_cpue_indices(
+#       dat = d_cpue,
+#       species = .sp,
+#       save_model = .sp %in% example_spp,
+#       parallel = FALSE
+#     )
+#     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+#   }
+# })
+# future::plan(sequential)
 
 # if (parallel_processing && is_hake_server()) future::plan(future::multisession, workers = 10L)
 # if (parallel_processing && !is_hake_server()) future::plan(future::multisession, workers = 2L)
-# source(here::here("report/cpue-sdmTMB.R"))
-# message("Fit sdmTMB CPUE models")
+source(here::here("report/cpue-sdmTMB.R"))
+message("Fitting sdmTMB CPUE models")
 cpue_cache <- file.path("report", "cpue-sdmTMB-cache")
 raw_cpue_cache <- file.path("report", "raw-cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
 dir.create(raw_cpue_cache, showWarnings = FALSE)
-# xx <- spp$species_common_name
-# set.seed(123)
-# xx <- sample(xx, length(xx), replace = FALSE)
-# # xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
+xx <- spp$species_common_name
+set.seed(123)
+xx <- sample(xx, length(xx), replace = FALSE)
+# xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
 # furrr::future_walk(xx, function(.sp) {
-# # purrr::walk(xx, \(.sp) {
-#   spp_file <- gfsynopsis:::clean_name(.sp)
-#   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
-#   raw_cpue_cache_spp <-
-#   regions <- list(
-#     c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
-#     c("SYN HS", "SYN WCHG"),
-#     c("SYN QCS"),
-#     c("SYN WCVI")
-#   )
-#   if (!file.exists(cpue_cache_spp)) {
-#     cat(.sp, "\n")
-#     cpue_index_l <- lapply(regions, \(r) {
-#       .r <- gsub(" ", "-", paste(r, collapse = "-"))
-#       .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
-#       ret <- fit_sdmTMB_cpue(
-#         cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
-#         raw_cpue_caching_file = here::here(.f),
-#         survey_grids = r,
-#         final_year = 2023,
-#         species = .sp
-#       )
-#       gc()
-#       ret
-#     })
-#     cpue_index <- do.call(rbind, cpue_index_l)
-#     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-#   }
-# })
+ purrr::walk(xx[62], \(.sp) {
+  spp_file <- gfsynopsis:::clean_name(.sp)
+  cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+  raw_cpue_cache_spp <-
+  regions <- list(
+    c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
+    c("SYN HS", "SYN WCHG"),
+    c("SYN QCS"),
+    c("SYN WCVI")
+  )
+  if (!file.exists(cpue_cache_spp)) {
+    cat(.sp, "\n")
+    cpue_index_l <- lapply(regions, \(r) {
+      .r <- gsub(" ", "-", paste(r, collapse = "-"))
+      .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
+      ret <- fit_sdmTMB_cpue(
+        cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
+        raw_cpue_caching_file = here::here(.f),
+        survey_grids = r,
+        final_year = 2023,
+        species = .sp
+      )
+      gc()
+      ret
+    })
+    cpue_index <- do.call(rbind, cpue_index_l)
+    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+  }
+})
 future::plan(sequential)
 f <- list.files(raw_cpue_cache, full.names = TRUE)
 raw_cpue <- purrr::map_dfr(f, \(x) {
