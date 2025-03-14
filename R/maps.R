@@ -118,8 +118,12 @@ fit_survey_maps <- function(dat,
 #' @param ... Any other arguments to pass to [gfplot::plot_survey_sets()].
 #'
 #' @export
-plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
-  show_raw_data = TRUE, pos_pt_col = "#FFFFFF60",
+plot_survey_maps <- function(
+  pred_dat, 
+  raw_dat, 
+  show_axes = FALSE,
+  show_raw_data = TRUE, 
+  pos_pt_col = "#FFFFFF60",
   bin_pt_col = "#FFFFFF40",
   pos_pt_fill = "#FFFFFF05",
   north_symbol = FALSE,
@@ -133,6 +137,9 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   hbll_n_year = 2017,
   hbll_s_year = 2018,
   iphc_year = 2018,
+  xlim = c(375, 680),
+  ylim = c(5200, 6150),
+  north_symbol_coord = c(500, 5975),
   ...) {
 
   annotations <- match.arg(annotations)
@@ -155,7 +162,8 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
   }
 
   g <- plot_survey_sets(pred_dat, raw_dat,
-    fill_column = fill_column, show_model_predictions = show_model_predictions,
+    fill_column = fill_column, 
+    show_model_predictions = show_model_predictions,
     show_raw_data = show_raw_data,
     pos_pt_col = pos_pt_col,
     bin_pt_col = bin_pt_col,
@@ -166,8 +174,8 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
       viridis::scale_colour_viridis(trans = trans, option = "C"),
     rotation_center = c(500, 5700), rotation_angle = 40,
     north_symbol = north_symbol,
-    xlim = c(375, 680), ylim = c(5200, 6150), x_buffer = 0, y_buffer = 0,
-    north_symbol_coord = c(130, 5975), show_axes = show_axes,
+    xlim = xlim, ylim = ylim, x_buffer = 0, y_buffer = 0,
+    north_symbol_coord = north_symbol_coord, show_axes = show_axes,
     extrapolate_depth = TRUE, ...
   ) + ggplot2::theme(legend.position = "bottom") +
     guides(fill = "none", size = "none")
