@@ -41,6 +41,8 @@
 #'   [gfsynopsis::get_stitched_index()].
 #' @param index_ggplot Pre-made ggplots for survey indices.
 #' @param spatiotemporal_cpue Logical: use commercial trawl CPUE sdmTMB model output?
+#' @param shapefile An optional shapefile used to subset or highlight a region
+#'   of interest.
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -101,7 +103,8 @@ make_pages <- function(
     hbll_bait_counts,
     index_ggplot,
     spatiotemporal_cpue = FALSE,
-  raw_cpue = NULL
+    raw_cpue = NULL,
+    shapefile = NULL
   ) {
   progress_fn <- function(...) cli::cli_progress_step(..., spinner = TRUE)
   # cli::cli_inform("------------------------------------")
@@ -952,7 +955,8 @@ make_pages <- function(
         syn_wchg_year = synoptic_max_survey_years[["SYN WCHG"]],
         syn_wcvi_year = synoptic_max_survey_years[["SYN WCVI"]],
         syn_qcs_hs_year = synoptic_max_survey_years[["SYN QCS"]], # FIXME HS hardcoded to QCS
-        show_model_predictions = "combined" %in% names(syn_fits$pred_dat)
+        show_model_predictions = "combined" %in% names(syn_fits$pred_dat),
+        shapefile = shapefile
       ) +
       coord_cart + ggplot2::ggtitle(en2fr("Synoptic survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
@@ -1029,7 +1033,7 @@ make_pages <- function(
         pred_dat = dd, raw_dat = dd,
         show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
         show_model_predictions = TRUE, # hack to make plotting work; actually raw data
-        annotations = "IPHC", iphc_year = max_iphc_year
+        annotations = "IPHC", iphc_year = max_iphc_year, shapefile = shapefile
       ) +
       coord_cart + ggplot2::ggtitle(en2fr("IPHC survey catch rate", french)) +
       ggplot2::scale_fill_viridis_c(
@@ -1067,7 +1071,7 @@ make_pages <- function(
         hbll_n_year = hbll_out_max_survey_years[["HBLL OUT N"]],
         hbll_s_year = hbll_out_max_survey_years[["HBLL OUT S"]],
         show_model_predictions = "combined" %in% names(hbll_fits$pred_dat),
-        annotations = "HBLL"
+        annotations = "HBLL", shapefile = shapefile
       ) +
       coord_cart + ggplot2::ggtitle(en2fr("HBLL OUT survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
