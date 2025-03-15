@@ -7,6 +7,7 @@ fit_sdmTMB_cpue <- function(
     min_positive_trips = 5L,
     min_yrs_with_trips = 5L,
     raw_cpue_caching_file = NULL,
+    index_shape_file = NULL, #needs to be read in as sf object
     plots = FALSE, silent = TRUE, return_raw_cpue = FALSE) {
   # library(dplyr)
   library(sdmTMB)
@@ -46,19 +47,28 @@ fit_sdmTMB_cpue <- function(
     d1996$trip_id, "-", d1996$fishing_event_id
   )
 
-  if (plots) {
-    gfdata::survey_blocks |>
-      filter(active_block) |>
-      dplyr::filter(grepl("^SYN", survey_abbrev)) |>
-      ggplot(aes(colour = survey_abbrev)) +
-      geom_sf() +
-      theme_minimal() +
-      scale_colour_brewer(palette = "Dark2")
-  }
+  # if (plots) {
+  #   gfdata::survey_blocks |>
+  #     filter(active_block) |>
+  #     dplyr::filter(grepl("^SYN", survey_abbrev)) |>
+  #     ggplot(aes(colour = survey_abbrev)) +
+  #     geom_sf() +
+  #     theme_minimal() +
+  #     scale_colour_brewer(palette = "Dark2")
+  # }
 
   grid <- gfdata::survey_blocks |>
     filter(active_block) |>
     dplyr::filter(grepl("^SYN", survey_abbrev))
+
+  if (plots) {
+    grid |>
+      ggplot(aes(colour = survey_abbrev, fill = survey_abbrev)) +
+      geom_sf() +
+      theme_minimal() +
+      scale_colour_brewer(palette = "Dark2")+
+      scale_fill_brewer(palette = "Dark2")
+  }
 
   dat <- gfplot::tidy_cpue_index(
     d1996,
@@ -146,13 +156,13 @@ fit_sdmTMB_cpue <- function(
   intersected_grid <- sf::st_intersects(grid_region, dat_sf_reduced)
   intersected_grid_i <- which(lengths(intersected_grid) > 0)
   grid_region_reduced <- grid_region[intersected_grid_i, ]
-  grid_region_reduced <- grid_region # !!
+  # grid_region_reduced <- grid_region # !!
 
   if (plots) {
     g <- grid_region_reduced |>
       ggplot() +
       geom_sf() +
-      geom_sf(data = dat_sf_reduced, alpha = 0.6, pch = ".", colour = "red") +
+      # geom_sf(data = dat_sf_reduced, alpha = 0.6, pch = ".", colour = "red") +
       theme_light()
     print(g)
   }
@@ -166,7 +176,6 @@ fit_sdmTMB_cpue <- function(
   gg$depth_m <- grid_region_reduced$depth_m
   gg$depth_marmap <- grid_region_reduced$depth_marmap
   gg$log_depth <- log(gg$depth_m)
-  gg$month_num <- 1
   gg$vessel <- factor(NA)
 
   dat_reduced <- dat[intersected_i, ]
@@ -218,23 +227,12 @@ fit_sdmTMB_cpue <- function(
     print(g)
   }
 
-  .cutoff <- if (length(survey_grids) > 2) 25 else 10
-  mesh <- make_mesh(dat, c("X", "Y"), cutoff = .cutoff)
-  plot(mesh$mesh)
-  mesh$mesh$n
-
-  gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat$year)))
-  gg$depth_scaled <- (gg$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
-  dat$vessel <- as.factor(dat$vessel)
-
   get_most_common_level <- function(x) {
     rev(names(sort(table(x))))[[1]]
   }
   base_month <- get_most_common_level(dat$month)
 
   dat$month <- stats::relevel(factor(dat$month), ref = base_month)
-  gg$month <- factor(base_month, levels = levels(dat$month))
-
   dat$month_num <- as.numeric(dat$month)
 
   if (length(unique(dat$month)) >= 9) { # use month smoother
@@ -254,6 +252,57 @@ fit_sdmTMB_cpue <- function(
   if (nrow(dat) < 200) {
     return(NA_return)
   }
+
+  .cutoff <- if (length(survey_grids) > 2) 25 else 10
+
+  ## original mesh approach
+  # mesh <- make_mesh(dat, c("X", "Y"), cutoff = if (length(survey_grids) > 2) 25 else 10)
+
+  ## make a more even mesh using the grid
+  mesh_from_grid <- make_mesh(gg, c("X", "Y"), cutoff = .cutoff)
+  mesh <- make_mesh(dat, c("X", "Y"), mesh = mesh_from_grid$mesh)
+
+  plot(mesh$mesh)
+  mesh$mesh$n
+
+
+  ## Further subseting of grid to new area of interest ----
+
+  if (!is.null(index_shape_file)) {
+
+  index_shape_file_sf <- sf::st_transform(index_shape_file, crs = sf::st_crs(grid))
+
+  new_grid <- sf::st_intersects(grid_region_reduced, index_shape_file_sf)
+  new_grid_i <- which(lengths(new_grid) > 0)
+  index_grid <- grid_region_reduced[new_grid_i, ]
+
+  if (nrow(index_grid) == 0L) {
+      return(NA_return)
+  }
+
+  suppressWarnings(
+    co <- sf::st_centroid(index_grid)
+  )
+  co <- sf::st_coordinates(co)
+  gg <- data.frame(X = co[, 1] / 1000, Y = co[, 2] / 1000)
+  gg$depth_m <- index_grid$depth_m
+  gg$depth_marmap <- index_grid$depth_marmap
+  gg$log_depth <- log(gg$depth_m)
+  gg$vessel <- factor(NA)
+
+  if (plots) {
+    g <- ggplot(gg, aes(X, Y)) +
+      geom_tile(fill = "grey60", width = 2, height = 2) +
+      coord_fixed() +
+      theme_light()
+    print(g)
+  }
+  }
+
+  gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat$year)))
+  gg$depth_scaled <- (gg$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
+  gg$month <- factor(base_month, levels = levels(dat$month))
+  gg$month_num <- as.numeric(gg$month)
 
   tictoc::tic()
   fit <- tryCatch(sdmTMB::sdmTMB(
