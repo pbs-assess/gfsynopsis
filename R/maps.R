@@ -477,7 +477,7 @@ plot_survey_sets_synopsis <- function(pred_dat, raw_dat, fill_column = c("combin
 
   if (!is.null(shapefile)) {
     g <- g + geom_polygon(mapping = aes_string(x = "X", y = "Y", group = "PID"),
-      fill = NA, colour = "red", data = shape_rotated, lwd = 0.8)
+      fill = NA, colour = "black", data = shape_rotated, lwd = 0.7)
   }
 
   if (north_symbol) {
