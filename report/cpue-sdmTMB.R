@@ -23,7 +23,9 @@ fit_sdmTMB_cpue <- function(
   NA_return <-
     data.frame(
       year = NA, est = NA, lwr = NA, upr = NA, log_est = NA, se = NA,
-      region = paste(survey_grids, collapse = "; "), species = species,
+      type = NA,
+      region = paste(survey_grids, collapse = "; "),
+      species = species,
       stringsAsFactors = FALSE
     )
 
@@ -278,7 +280,7 @@ fit_sdmTMB_cpue <- function(
 
   if (nrow(index_grid) == 0L) {
       return(NA_return)
-  }
+  } else {
 
   suppressWarnings(
     co <- sf::st_centroid(index_grid)
@@ -298,11 +300,12 @@ fit_sdmTMB_cpue <- function(
     print(g)
   }
   }
+  }
 
   gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat$year)))
   gg$depth_scaled <- (gg$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
   gg$month <- factor(base_month, levels = levels(dat$month))
-  gg$month_num <- as.numeric(gg$month)
+  gg$month_num <- as.numeric(base_month)
 
   tictoc::tic()
   fit <- tryCatch(sdmTMB::sdmTMB(
@@ -327,6 +330,7 @@ fit_sdmTMB_cpue <- function(
     silent = silent
   ), error = function(e) NA)
   tictoc::toc()
+
   if (length(fit) == 1L) {
     if (is.na(fit)) {
       return(NA_return)
