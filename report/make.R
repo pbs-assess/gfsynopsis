@@ -382,7 +382,8 @@ purrr::walk(to_build, function(i) {
       hbll_bait_counts = hbll_bait_counts,
       index_ggplot = index_ggplots[[i]],
       spatiotemporal_cpue = TRUE,
-      raw_cpue = raw_cpue
+      raw_cpue = raw_cpue,
+      shapefile = sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
     )
     # }, error = function(e) warning("Error"))
   }, error = function(e) stop("Error"))
