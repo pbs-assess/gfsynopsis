@@ -4,10 +4,6 @@
 #'
 #' @returns A cleaned data frame
 #' @export
-#'
-#' @examples
-#' get_spp_names() |>
-#'   join_itis_spp()
 join_itis_spp <- function(spp) {
   if (!file.exists(here("report", "itis.rds"))) {
     cls <- taxize::classification(spp$itis_tsn[!is.na(spp$itis_tsn)], db = 'itis')
