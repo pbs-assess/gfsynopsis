@@ -46,6 +46,7 @@ if (getRversion() >= "2.15.1") {
     "stitch_tally",
     "survey_abbrev2", "survey_domain_year", "survey_series_name", "tow_length_m",
     "upper", "upperci", "utm_zone", "year_bin",
-    "COSEWIC", "Scientific", "Schedule", "itis_tsn"
+    "COSEWIC", "Scientific", "Schedule", "itis_tsn", "baits_returned", "hooks_observed",
+    "number_observed", "sara_status", "cosewic_pop", "cosewic_status"
   ))
 }
