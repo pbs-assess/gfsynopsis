@@ -805,6 +805,7 @@ make_pages <- function(
       show_historical = TRUE, start_year = 2013,
       fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
       colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
+      shapefile = shapefile,
       percent_excluded_xy = if (!french) c(0.015, -0.02) else c(0.08, -0.02),
       percent_excluded_text = if (!french) "Fishing events excluded due to Privacy Act" else "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
     ) +
@@ -837,6 +838,7 @@ make_pages <- function(
         fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
         colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
         fill_lab = "CPUE (kg/fe)",
+        shapefile = shapefile,
         percent_excluded_xy = if (!french) c(0.015, -0.02) else c(0.08, -0.02),
         percent_excluded_text = if (!french) "Fishing events excluded due to Privacy Act" else "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
       ) +
