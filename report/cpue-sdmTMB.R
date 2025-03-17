@@ -7,9 +7,8 @@ fit_sdmTMB_cpue <- function(
     min_positive_trips = 5L,
     min_yrs_with_trips = 5L,
     raw_cpue_caching_file = NULL,
-    index_shape_file = NULL, #needs to be read in as sf object
+    shapefile = NULL, # an sf polygon object
     plots = FALSE, silent = TRUE, return_raw_cpue = FALSE) {
-  # library(dplyr)
   library(sdmTMB)
   library(sf)
 
@@ -68,7 +67,7 @@ fit_sdmTMB_cpue <- function(
       ggplot(aes(colour = survey_abbrev, fill = survey_abbrev)) +
       geom_sf() +
       theme_minimal() +
-      scale_colour_brewer(palette = "Dark2")+
+      scale_colour_brewer(palette = "Dark2") +
       scale_fill_brewer(palette = "Dark2")
   }
 
@@ -115,7 +114,6 @@ fit_sdmTMB_cpue <- function(
   x <- marmap::get.depth(bathy, grid_ll_coord[, 1:2], locator = FALSE) |>
     dplyr::mutate(depth_m = (depth * -1))
   grid$depth_marmap <- x$depth_m
-
 
   dat <- sdmTMB::add_utm_columns(dat, c("longitude", "latitude"), utm_crs = 32609, units = "km")
   x <- marmap::get.depth(bathy, dat[, c("longitude", "latitude")], locator = FALSE) |>
@@ -270,36 +268,34 @@ fit_sdmTMB_cpue <- function(
 
   ## Further subseting of grid to new area of interest ----
 
-  if (!is.null(index_shape_file)) {
+  if (!is.null(shapefile)) {
+    shapefile_sf <- sf::st_transform(shapefile, crs = sf::st_crs(grid))
 
-  index_shape_file_sf <- sf::st_transform(index_shape_file, crs = sf::st_crs(grid))
+    new_grid <- sf::st_intersects(grid_region_reduced, shapefile_sf)
+    new_grid_i <- which(lengths(new_grid) > 0)
+    index_grid <- grid_region_reduced[new_grid_i, ]
 
-  new_grid <- sf::st_intersects(grid_region_reduced, index_shape_file_sf)
-  new_grid_i <- which(lengths(new_grid) > 0)
-  index_grid <- grid_region_reduced[new_grid_i, ]
-
-  if (nrow(index_grid) == 0L) {
+    if (nrow(index_grid) == 0L) {
       return(NA_return)
-  } else {
+    } else {
+      suppressWarnings(
+        co <- sf::st_centroid(index_grid)
+      )
+      co <- sf::st_coordinates(co)
+      gg <- data.frame(X = co[, 1] / 1000, Y = co[, 2] / 1000)
+      gg$depth_m <- index_grid$depth_m
+      gg$depth_marmap <- index_grid$depth_marmap
+      gg$log_depth <- log(gg$depth_m)
+      gg$vessel <- factor(NA)
 
-  suppressWarnings(
-    co <- sf::st_centroid(index_grid)
-  )
-  co <- sf::st_coordinates(co)
-  gg <- data.frame(X = co[, 1] / 1000, Y = co[, 2] / 1000)
-  gg$depth_m <- index_grid$depth_m
-  gg$depth_marmap <- index_grid$depth_marmap
-  gg$log_depth <- log(gg$depth_m)
-  gg$vessel <- factor(NA)
-
-  if (plots) {
-    g <- ggplot(gg, aes(X, Y)) +
-      geom_tile(fill = "grey60", width = 2, height = 2) +
-      coord_fixed() +
-      theme_light()
-    print(g)
-  }
-  }
+      if (plots) {
+        g <- ggplot(gg, aes(X, Y)) +
+          geom_tile(fill = "grey60", width = 2, height = 2) +
+          coord_fixed() +
+          theme_light()
+        print(g)
+      }
+    }
   }
 
   gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat$year)))
@@ -361,7 +357,7 @@ fit_sdmTMB_cpue <- function(
   if (!all(unlist(s))) {
     return(NA_return)
   }
-  fit
+  # fit
 
   do_expanion <- function(model) {
     ind <- get_index(model, bias_correct = TRUE, area = 4)
