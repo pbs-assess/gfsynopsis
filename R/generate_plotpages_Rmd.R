@@ -10,7 +10,7 @@
 #' @export
 generate_plotpages_Rmd <- function(x, spp) {
   message(x)
-  spp_file <- gfsynopsis:::clean_name(x)
+  spp_file <- clean_name(x)
   if (french) {
     spp_title <- spp$species_french_name[spp$species_common_name == x]
   } else {
@@ -48,7 +48,7 @@ generate_plotpages_Rmd <- function(x, spp) {
   out[[i]] <- paste0("## ", spp_title, " {#sec:", spp_hyphen, "}\n")
   i <- i + 1
   out[[i]] <- paste0(
-    gfsynopsis:::emph(latin_name), " (", species_code, ")", "\\\n",
+    emph(latin_name), " (", species_code, ")", "\\\n",
     en2fr("Order", french), ": ", spp$order[spp$species_common_name == x], ", ",
     en2fr("Family", french), ": ", spp$family[spp$species_common_name == x],
     ","

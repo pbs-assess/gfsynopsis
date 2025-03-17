@@ -8,6 +8,8 @@
 #' @importFrom stats quantile
 #' @importFrom utils capture.output
 #' @importFrom ggplot2 aes
+#' @importFrom dplyr group_split across all_of join_by
+#' @importFrom here here
 ## usethis namespace: end
 NULL
 
@@ -43,6 +45,7 @@ if (getRversion() >= "2.15.1") {
     "slope_xh", "specCount", "speed_mpm", "spNameIPHC", "standard", "station",
     "stitch_tally",
     "survey_abbrev2", "survey_domain_year", "survey_series_name", "tow_length_m",
-    "upper", "upperci", "utm_zone", "year_bin"
+    "upper", "upperci", "utm_zone", "year_bin",
+    "COSEWIC", "Scientific", "Schedule", "itis_tsn"
   ))
 }

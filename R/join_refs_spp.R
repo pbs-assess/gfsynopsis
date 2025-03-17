@@ -36,11 +36,11 @@ join_refs_spp <- function(spp, french = FALSE) {
     ))
   if (isFALSE(french)) {
     spp$species_french_name <-
-      tolower(rosettafish::en2fr(gfsynopsis:::first_cap(spp$species_common_name)))
+      tolower(rosettafish::en2fr(first_cap(spp$species_common_name)))
     spp$species_common_name <- tolower(spp$species_common_name)
   } else { # French
     spp$species_french_name <- rosettafish::en2fr(spp$species_common_name)
-    spp$species_french_name <- purrr::map_chr(spp$species_french_name, gfsynopsis:::cap)
+    spp$species_french_name <- purrr::map_chr(spp$species_french_name, cap)
     spp$species_common_name <- tolower(spp$species_common_name)
   }
   spp
