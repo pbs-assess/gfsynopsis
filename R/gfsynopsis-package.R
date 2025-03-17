@@ -1,17 +1,14 @@
-#' gfsynopsis package
-#'
-#' gfsynopsis package
-#'
-#' See the README on
-#' \href{https://github.com/seananderson/gfsynopsis#readme}{GitHub}
-#'
-#' @docType package
-#' @name gfsynopsis
-#'
+#' @keywords internal
+"_PACKAGE"
+
+# The following block is used by usethis to automatically manage
+# roxygen namespace tags. Modify with care!
+## usethis namespace: start
 #' @importFrom rlang .data
 #' @importFrom stats quantile
 #' @importFrom utils capture.output
 #' @importFrom ggplot2 aes
+## usethis namespace: end
 NULL
 
 # from: https://github.com/jennybc/googlesheets/blob/master/R/googlesheets.R
