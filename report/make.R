@@ -2,10 +2,8 @@
 # It must be run before the report can be rendered.
 
 # Things to update each year:
-- # UPDATE THE .CSV IN R/join_refs_spp.R
-  - # UPDATE THE .CSV IN R/get_cosewic_data.R
-
-    setwd(here::here())
+# UPDATE THE .CSV IN R/join_refs_spp.R
+# UPDATE THE .CSV IN R/get_cosewic_data.R
 
 # Settings ------------------------------------------------------------
 
@@ -18,10 +16,12 @@ optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
 
-dc <- here("report", "data-cache-2025-03")
+dc <- here::here("report", "data-cache-2025-03")
 shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
 
 # Setup ---------------------------------------------------------------
+
+setwd(here::here())
 
 if (french) {
   options(french = TRUE)
