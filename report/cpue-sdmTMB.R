@@ -1,5 +1,5 @@
 fit_sdmTMB_cpue <- function(
-    cpue_data_file, # e.g. here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
+    cpue_data_file, # e.g. report/data-cache-2025-03/cpue-index-dat.rds
     species,
     survey_grids = c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
     final_year = as.numeric(format(Sys.Date(), "%Y")) - 1L,
@@ -7,7 +7,7 @@ fit_sdmTMB_cpue <- function(
     min_positive_trips = 5L,
     min_yrs_with_trips = 5L,
     raw_cpue_caching_file = NULL,
-    shapefile = NULL, # an sf polygon object
+    shapefile = NULL, # an sf polygon object; e.g. the Haida shape file
     plots = FALSE, silent = TRUE, return_raw_cpue = FALSE) {
   library(sdmTMB)
   library(sf)
@@ -48,15 +48,15 @@ fit_sdmTMB_cpue <- function(
     d1996$trip_id, "-", d1996$fishing_event_id
   )
 
-  # if (plots) {
-  #   gfdata::survey_blocks |>
-  #     filter(active_block) |>
-  #     dplyr::filter(grepl("^SYN", survey_abbrev)) |>
-  #     ggplot(aes(colour = survey_abbrev)) +
-  #     geom_sf() +
-  #     theme_minimal() +
-  #     scale_colour_brewer(palette = "Dark2")
-  # }
+  if (plots) {
+    gfdata::survey_blocks |>
+      filter(active_block) |>
+      dplyr::filter(grepl("^SYN", survey_abbrev)) |>
+      ggplot(aes(colour = survey_abbrev)) +
+      geom_sf() +
+      theme_minimal() +
+      scale_colour_brewer(palette = "Dark2")
+  }
 
   grid <- gfdata::survey_blocks |>
     filter(active_block) |>
@@ -109,7 +109,6 @@ fit_sdmTMB_cpue <- function(
       sf::st_centroid() |>
       sf::st_coordinates()
   })
-
 
   x <- marmap::get.depth(bathy, grid_ll_coord[, 1:2], locator = FALSE) |>
     dplyr::mutate(depth_m = (depth * -1))
@@ -320,7 +319,7 @@ fit_sdmTMB_cpue <- function(
     data = dat,
     time = "year",
     anisotropy = TRUE,
-    predict_args = list(newdata = gg, re_form_iid = NA),
+    predict_args = list(newdata = gg, re_form_iid = NA, offset = rep(0, nrow(gg))),
     index_args = list(area = rep(4, nrow(gg))),
     do_index = TRUE,
     silent = silent
@@ -377,3 +376,78 @@ fit_sdmTMB_cpue <- function(
 
   ind
 }
+
+message("Fitting sdmTMB CPUE models")
+cpue_cache <- file.path("report", "cpue-sdmTMB-cache")
+raw_cpue_cache <- file.path("report", "raw-cpue-cache")
+dir.create(cpue_cache, showWarnings = FALSE)
+dir.create(raw_cpue_cache, showWarnings = FALSE)
+xx <- spp$species_common_name
+set.seed(123)
+xx <- sample(xx, length(xx), replace = FALSE)
+# xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
+# furrr::future_walk(xx, function(.sp) {
+purrr::walk(xx[4], \(.sp) {
+  spp_file <- gfsynopsis:::clean_name(.sp)
+  cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+  raw_cpue_cache_spp <-
+    regions <- list(
+      c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
+      c("SYN HS", "SYN WCHG"),
+      c("SYN QCS"),
+      c("SYN WCVI")
+    )
+  if (!file.exists(cpue_cache_spp)) {
+    cat(.sp, "\n")
+    cpue_index_l <- lapply(regions, \(r) {
+      .r <- gsub(" ", "-", paste(r, collapse = "-"))
+      .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
+      ret <- fit_sdmTMB_cpue(
+        cpue_data_file = file.path(dc, "cpue-index-dat.rds"),
+        raw_cpue_caching_file = here::here(.f),
+        survey_grids = r,
+        final_year = 2023,
+        species = .sp,
+        shapefile = shapefile
+      )
+      gc()
+      ret
+    })
+    cpue_index <- do.call(rbind, cpue_index_l)
+    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+  }
+})
+
+# Old non-spatial models:
+
+# if (parallel_processing) future::plan(future::multisession, workers = 4L)
+# message("Fit CPUE models")
+# cpue_cache <- file.path("report", "cpue-cache")
+# dir.create(cpue_cache, showWarnings = FALSE)
+# xx <- spp$species_common_name
+# xx <- sample(xx, length(xx), replace = FALSE)
+# furrr::future_walk(xx, function(.sp) {
+# # purrr::walk(xx, function(.sp) {
+#   spp_file <- gfsynopsis:::clean_name(.sp)
+#   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
+#   if (!file.exists(cpue_cache_spp)) {
+#     cat(.sp, "\n")
+#     cpue_index <- gfsynopsis::fit_cpue_indices(
+#       dat = d_cpue,
+#       species = .sp,
+#       save_model = .sp %in% example_spp,
+#       parallel = FALSE
+#     )
+#     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+#   }
+# })
+# future::plan(sequential)
+
+# f <- list.files(raw_cpue_cache, full.names = TRUE)
+# raw_cpue <- purrr::map_dfr(f, \(x) {
+#   a <- readRDS(x)
+#   if (!all(is.na(a[[1L]]))) a
+# })
+# raw_cpue <- filter(raw_cpue, is.finite(est_unstandardized))
+# raw_cpue <- filter(raw_cpue, !is.na(est_unstandardized))
+# raw_cpue <- NULL
