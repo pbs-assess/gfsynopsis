@@ -386,8 +386,8 @@ xx <- spp$species_common_name
 set.seed(123)
 xx <- sample(xx, length(xx), replace = FALSE)
 # xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
-# furrr::future_walk(xx, function(.sp) {
-purrr::walk(xx[4], \(.sp) {
+furrr::future_walk(xx, function(.sp) {
+# purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   raw_cpue_cache_spp <-

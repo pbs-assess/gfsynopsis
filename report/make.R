@@ -152,8 +152,8 @@ if (!is_hake_server()) {
 
 # CPUE model fits -----------------------------------------------------
 
-if (parallel_processing && is_hake_server()) future::plan(future::multisession, workers = 10L)
-if (parallel_processing && !is_hake_server()) future::plan(future::multisession, workers = 1L)
+if (parallel_processing && is_hake_server()) future::plan(future::multicore, workers = 12L)
+if (!is_hake_server()) future::plan(future::sequential)
 source(here::here("report/cpue-sdmTMB.R"))
 future::plan(sequential)
 
