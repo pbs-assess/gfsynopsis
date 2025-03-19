@@ -13,7 +13,7 @@ plot_cpue_spaghetti(model, fleet, index_data, era = c("modern", "historical"))
 \code{\link[gfplot:tidy_cpue_historical]{gfplot::tidy_cpue_historical()}} or \code{\link[gfplot:tidy_cpue_index]{gfplot::tidy_cpue_index()}}.}
 
 \item{index_data}{Standardized index data. Output from
-\code{\link[gfplot:fit_cpue_index_glmmtmb]{gfplot::predict_cpue_index_tweedie()}}.}
+\code{\link[gfplot:predict_cpue_index_tweedie]{gfplot::predict_cpue_index_tweedie()}}.}
 
 \item{era}{Modern or historical.}
 }

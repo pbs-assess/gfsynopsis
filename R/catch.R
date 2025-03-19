@@ -1,28 +1,36 @@
 #' Plot catches
 #'
 #' @param dat The data
-#' @param blank_plot Whether or not the plot should be blank
+#' @param blank_plot Whether or not the plot should be blank.
 #' @param xlim x limit
 #' @param french Logical
+#' @param area_labels Vector of panel labels for areas.
+#' @param blank_non_coastwide Logical. If `TRUE`, all non-'coastwide' panels are
+#'   left blank.
 #' @param ... Other arguments to pass to [gfplot::plot_catch()].
 #'
 #' @export
 plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2020),
-  french = FALSE, ...) {
+  french = FALSE, area_labels = c("Coastwide", "5CDE", "5AB", "3CD"), 
+  blank_non_coastwide = FALSE, ...) {
 
   if (!blank_plot) {
     catch_areas <- gfplot::tidy_catch(dat, areas = c("5[CDE]+", "5[AB]+", "3[CD]+"))
     catch_all <- gfplot::tidy_catch(dat, areas = NULL)
     catch <- bind_rows(catch_all, catch_areas)
 
+    if (blank_non_coastwide) {
+      catch$value[catch$area != "Coastwide"] <- 0
+    } 
+
     if (french) {
       catch$area <- as.character(catch$area)
-      catch$area <- gsub("Coastwide", rosettafish::en2fr("Coastwide"), catch$area)
-      catch$area <- factor(catch$area,
-        levels = c(rosettafish::en2fr("Coastwide"), "5CDE", "5AB", "3CD"))
+        catch$area <- gsub("Coastwide", rosettafish::en2fr(area_labels[1]), catch$area)
+        catch$area <- factor(catch$area,
+          levels = c(rosettafish::en2fr(area_labels[1]), area_labels[2:length(area_labels)]))
     } else {
-      catch$area <- factor(catch$area,
-        levels = c("Coastwide", "5CDE", "5AB", "3CD"))
+      catch$area <- gsub("Coastwide", area_labels[1], catch$area)
+      catch$area <- factor(catch$area, levels = area_labels)
     }
   } else {
     catch <- dat
@@ -50,7 +58,7 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2020),
 
   labs <- unique(select(catch, area))
 
-  if (isTRUE(french)) .mult <- 0.91 else .mult <- 0.935 # vertical area label
+  if (isTRUE(french)) .mult <- 0.91 else .mult <- 0.905 # vertical area label
   g <- g + geom_text(
       data = labs, x = yrs[1] + 1.1, y = max_val * .mult,
       aes_string(label = "area"),

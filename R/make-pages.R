@@ -138,6 +138,38 @@ make_pages <- function(
     species_code == unique(dat$survey_sets$species_code)
   )
 
+  # filter by shapefile if needed:
+  if (!is.null(shapefile)) {
+    progress_fn("Subsetting biological samples and catch spatially")
+    dat$commercial_samples <- dat$commercial_samples |>
+      dplyr::filter(!is.na(latitude) & !is.na(longitude)) |>
+      subset_spatial(
+        sf_poly = shapefile,
+        xy_coords = c("longitude", "latitude"),
+        dat_crs = 4326,
+        return_sf = FALSE
+      )
+
+    filtered_survey_sets <- dat$survey_sets |>
+      subset_spatial(
+        sf_poly = shapefile, xy_coords = c("longitude", "latitude"),
+        dat_crs = 4326,
+        return_sf = FALSE
+      )
+    dat$survey_samples <- filtered_survey_sets |>
+      dplyr::select(survey_series_id = survey_series_id.x, fishing_event_id, latitude, longitude) |>
+      dplyr::inner_join(dat$survey_samples, by = dplyr::join_by(survey_series_id, fishing_event_id))
+
+    dat$catch <- dat$catch |>
+      dplyr::filter(!is.na(lat) & !is.na(lon)) |>
+      subset_spatial(
+        sf_poly = shapefile,
+        xy_coords = c("lon", "lat"),
+        dat_crs = 4326,
+        return_sf = FALSE
+      )
+  }
+
   #dat_iphc <- gfdata::load_iphc_dat(species == spp)
   #dat_iphc$set_counts <- dplyr::mutate(dat_iphc$set_counts, species_common_name = spp)
 
@@ -473,8 +505,14 @@ make_pages <- function(
            upr = if_else(max_se < 3, upr, NA_real_)
          )
 
+
+       if (is.null(shapefile)) {
+         .labs <- c("Coastwide", "5CDE", "5AB", "3CD")
+       } else {
+         .labs <- c("Whole area", "5CDE", "5AB", "3CD")
+       }
        cpue_index$area <- "Whole area"
-       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm), area_labels = c("Whole area", "5CDE", "5AB", "3CD")) +
+       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm), area_labels = .labs) +
          ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
          ylab("") + xlab("") +
          ggplot2::theme(
@@ -508,9 +546,21 @@ make_pages <- function(
   }
 
   # Commercial catch: ----------------------------------------------------------
-  progress_fn('\tCommercial catch')
+  progress_fn('Commercial catch')
   if (nrow(dat$catch) > 0) {
-    g_catch <- gfsynopsis::plot_catches(dat$catch, french = french, xlim = c(1955, final_year_comm))
+    if (is.null(shapefile)) {
+      .labs <- c("Coastwide", "5CDE", "5AB", "3CD")
+    } else {
+      .labs <- c("Whole area", "5CDE", "5AB", "3CD")
+    }
+
+    g_catch <- gfsynopsis::plot_catches(
+      dat$catch, 
+      french = french, 
+      xlim = c(1955, final_year_comm),
+      blank_non_coastwide = !is.null(shapefile),
+      area_labels = .labs
+    )
   } else {
     g_catch <- ggplot() +
       theme_pbs()

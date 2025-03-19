@@ -29,11 +29,11 @@ multiple surveys if desired.}
 
 \item{years}{The years of survey data to use.}
 
-\item{...}{Any other arguments to pass to \code{\link[gfplot:survey-spatial-modelling]{gfplot::fit_survey_sets()}}.}
+\item{...}{Any other arguments to pass to \code{\link[gfplot:fit_survey_sets]{gfplot::fit_survey_sets()}}.}
 
 \item{model}{Whether to fit an INLA or glmmfields model.}
 }
 \description{
 \code{fit_survey_maps()} is a helper function that calls
-\code{\link[gfplot:survey-spatial-modelling]{gfplot::fit_survey_sets()}} appropriately for the various surveys.
+\code{\link[gfplot:fit_survey_sets]{gfplot::fit_survey_sets()}} appropriately for the various surveys.
 }

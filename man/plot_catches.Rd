@@ -9,17 +9,24 @@ plot_catches(
   blank_plot = FALSE,
   xlim = c(1955, 2020),
   french = FALSE,
+  area_labels = c("Coastwide", "5CDE", "5AB", "3CD"),
+  blank_non_coastwide = FALSE,
   ...
 )
 }
 \arguments{
 \item{dat}{The data}
 
-\item{blank_plot}{Whether or not the plot should be blank}
+\item{blank_plot}{Whether or not the plot should be blank.}
 
 \item{xlim}{x limit}
 
 \item{french}{Logical}
+
+\item{area_labels}{Vector of panel labels for areas.}
+
+\item{blank_non_coastwide}{Logical. If \code{TRUE}, all non-'coastwide' panels are
+left blank.}
 
 \item{...}{Other arguments to pass to \code{\link[gfplot:plot_catch]{gfplot::plot_catch()}}.}
 }

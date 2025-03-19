@@ -1,4 +1,9 @@
+library(dplyr)
+library(ggplot2)
+
 d0 <- readRDS(here::here("report", "data-cache-2025-03", "north-pacific-spiny-dogfish.rds"))
+
+shp <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
 
 # ---------------------------
 # Filter the data
@@ -19,16 +24,16 @@ filtered_survey_samples <- filtered_survey_sets |>
 
 # --- commercial_samples ---
 pmfc_areas <- paste(c("5b", "5c", "5d", "5e"), collapse = "|^")
-filtered_comm_samps_alltime <- commercial_samples |>
+filtered_comm_samps_alltime <- d0$commercial_samples |>
   filter(stringr::str_detect(
     major_stat_area_name,
     pattern = stringr::regex(paste0("(^", pmfc_areas, ")"), ignore_case = TRUE)
     )
   )
-filtered_comm_samps_latlon <- commercial_samples |>
+filtered_comm_samps_latlon <- d0$commercial_samples |>
   filter(!is.na(latitude) & !is.na(longitude)) |> # this will result in only records from 2006 onwards
   subset_spatial(sf_poly = shp, xy_coords = c("longitude", "latitude"), dat_crs = 4326, return_sf = TRUE)
-
+table(filtered_comm_samps_latlon$year)
 
 # --- catch ---
 pmfc_areas <- paste(c("5b", "5c", "5d", "5e"), collapse = "|^")
@@ -38,9 +43,11 @@ filtered_catch_alltime <- d0$catch |>
     pattern = stringr::regex(paste0("(^", pmfc_areas, ")"), ignore_case = TRUE)
     )
   )
+
 filtered_catch_latlon <- d0$catch |>
   filter(!is.na(lat) & !is.na(lon)) |> # this will result in only records from 2006 onwards
   subset_spatial(sf_poly = shp, xy_coords = c("lon", "lat"), dat_crs = 4326, return_sf = TRUE)
+table(filtered_catch_latlon$year)
 
 # --- cpue spatial ---
 filtered_trawl_cpue <- d0$cpue_spatial |>
