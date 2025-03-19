@@ -170,9 +170,11 @@ make_pages <- function(
       )
   }
 
-  #dat_iphc <- gfdata::load_iphc_dat(species == spp)
-  #dat_iphc$set_counts <- dplyr::mutate(dat_iphc$set_counts, species_common_name = spp)
-
+  # TODO: get these fixed in the databases
+  if (identical(spp, "kelp greenling")) {
+    dat$survey_samples <-
+      dplyr::filter(dat$survey_samples, !(weight > 0.1 & length < 10))
+  }
   if (identical(spp, "sablefish")) {
     dat$survey_samples <- dplyr::filter(dat$survey_samples, length < 110)
     dat$commercial_samples <- dplyr::filter(dat$commercial_samples, length < 110)
@@ -709,14 +711,15 @@ make_pages <- function(
   # Maturity ogives: -----------------------------------------------------------
   progress_fn("Maturity ogives")
   if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
-    mat_age <- dat$survey_samples %>%
+    mat_age <- try({dat$survey_samples %>%
       fit_mat_ogive(
         type = "age",
         months = seq(1, 12)
-      )
+      )})
   } else {
     mat_age <- NA
   }
+  if (inherits(mat_age, "try-error")) mat_age <- NA
 
   type <- "none"
 
@@ -765,11 +768,16 @@ make_pages <- function(
   }
 
   if (length(mat_age) > 1L && type != "none") {
-    g_mat_age <- gfplot::plot_mat_ogive(mat_age, prediction_type = type, french = french) +
-      guides(colour = "none", fill = "none", lty = "none") +
-      ggplot2::guides(lty = "none", colour = "none") +
-      ggtitle(en2fr("Age at maturity", french)) +
-      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french), colour = en2fr("Sex", french), lty = en2fr("Sex", french))
+    g_mat_age <- 
+      gfplot::plot_mat_ogive(mat_age, prediction_type = type, french = french) +
+        guides(colour = "none", fill = "none", lty = "none") +
+        ggplot2::guides(lty = "none", colour = "none") +
+        ggtitle(en2fr("Age at maturity", french)) +
+        ggplot2::labs(
+          x = en2fr("Age (years)", french), 
+          y = en2fr("Probability mature", french), 
+          colour = en2fr("Sex", french), lty = en2fr("Sex", french)
+        )
   } else {
     g_mat_age <- ggplot() +
       theme_pbs() +
@@ -787,6 +795,7 @@ make_pages <- function(
   } else {
     mat_length <- NA
   }
+  if (inherits(mat_length, "try-error")) mat_length <- NA
 
   type <- "none"
   if (length(mat_length) > 1L) {
@@ -821,17 +830,18 @@ make_pages <- function(
   if (spp == "curlfin sole") type <- "none" # FIXME almost none; way off
 
   if (length(mat_length) > 1L && type != "none") {
-    g_mat_length <- gfplot::plot_mat_ogive(mat_length, prediction_type = type, french = french) +
-      ggplot2::theme(
-        legend.position = c(0.9, 0.2),
-        legend.key.width = grid::unit(1.8, units = "char")
-      ) +
-      ggplot2::guides(
-        lty =
+    g_mat_length <- 
+      gfplot::plot_mat_ogive(mat_length, prediction_type = type, french = french) +
+        ggplot2::theme(
+          legend.position = c(0.9, 0.2),
+          legend.key.width = grid::unit(1.8, units = "char")
+        ) +
+        ggplot2::guides(
+          lty =
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7)))
-      ) +
-      ggtitle(en2fr("Length at maturity", french)) +
-      ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french)))
+        ) +
+        ggtitle(en2fr("Length at maturity", french)) +
+        ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french)))
   } else {
     g_mat_length <- ggplot() +
       theme_pbs() +
@@ -839,6 +849,7 @@ make_pages <- function(
       ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
       ggplot2::guides(lty = "none", colour = "none")
   }
+
   # Commercial CPUE maps -------------------------------------------------------
   progress_fn("Commercial CPUE maps")
   coord_cart <- coord_cartesian(xlim = map_xlim, ylim = map_ylim)
