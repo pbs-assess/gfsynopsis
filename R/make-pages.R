@@ -927,7 +927,7 @@ make_pages <- function(
     # Multiply by 1000 for computational reasons.
     # Otherwise the numbers are too small sometimes:
     dat$survey_sets$density_kgpm2 <- dat$survey_sets$density_kgpm2 * 1000
-    surv <- c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")
+    surv <- c("SYN QCS-HS", "SYN WCHG", "SYN WCVI")
     syn_fits <- gfsynopsis::fit_survey_maps(dat$survey_sets,
       surveys = surv, species = spp,
       silent = TRUE, years = seq(2002, max(unlist(synoptic_max_survey_years)))

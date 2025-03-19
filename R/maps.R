@@ -17,7 +17,7 @@
 #' @export
 fit_survey_maps <- function(dat,
   species = "pacific cod", include_depth = TRUE, family = sdmTMB::tweedie(),
-  surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
+  surveys = c("SYN QCS-HS", "SYN WCHG", "SYN WCVI"),
   years = c(2017, 2018),
   ...) {
   dat <- dplyr::filter(dat, species_common_name %in% species)
@@ -30,7 +30,7 @@ fit_survey_maps <- function(dat,
   dat <- drop_duplicated_fe(dat) #150
 
   out <- lapply(surveys, function(surv) {
-    if (!surv %in% c("HBLL OUT N", "HBLL OUT S", "IPHC FISS", "SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"))
+    if (!surv %in% c("HBLL OUT N", "HBLL OUT S", "IPHC FISS", "SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI", "SYN QCS-HS"))
       stop("survey value was '", surv, "' but must be one of ",
         "c('HBLL OUT N', 'HBLL OUT S', 'IPHC FISS', 'SYN QCS', 'SYN HS', 'SYN WCHG', 'SYN WCVI')")
     message("Fitting model for the survey ", surv)
@@ -62,14 +62,15 @@ fit_survey_maps <- function(dat,
         rename(X = lon, Y = lat)
       premade_grid <- list(grid = premade_grid, cell_area = 1.0)
     }
-    if (surv %in% c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI")) {
+    if (surv %in% c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI", "SYN QCS-HS")) {
       density_column <- "density_kgpm2"
-      .dat <- filter(dat, survey_abbrev %in% surv)
+      .surv <- if (!surv == "SYN QCS-HS") surv else c("SYN QCS", "SYN HS")
+      .dat <- filter(dat, survey_abbrev %in% .surv)
       # premade_grid <- NULL
-      premade_grid <- dplyr::filter(gfplot::synoptic_grid, survey %in% surv)
+      premade_grid <- dplyr::filter(gfplot::synoptic_grid, survey %in% .surv)
       premade_grid <- list(grid = premade_grid, cell_area = 4.0)
       last_year <- max(.dat$year)
-      raw_dat <- tidy_survey_sets(.dat, surv,
+      raw_dat <- tidy_survey_sets(.dat, .surv,
         years = last_year, density_column = "density_kgpm2"
       )
     }
@@ -81,7 +82,7 @@ fit_survey_maps <- function(dat,
     list(model = m, raw_dat = raw_dat)
   })
 
-  pred_dat <- purrr::map_df(out, function(x) data.frame(x$model$predictions, survey = x$model$survey, stringsAsFactors = FALSE))
+  pred_dat <- purrr::map_df(out, function(x) data.frame(select(x$model$predictions, -survey), survey = x$model$survey, stringsAsFactors = FALSE))
   raw_dat  <- purrr::map_df(out, function(x) data.frame(x$raw_dat, survey = x$model$survey, stringsAsFactors = FALSE))
   models   <- purrr::map(out,    function(x) x$model)
 
