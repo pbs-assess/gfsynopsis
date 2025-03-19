@@ -2,22 +2,25 @@
 # It must be run before the report can be rendered.
 
 # Things to update each year:
-# UPDATE THE .CSV IN R/join_refs_spp.R
-# UPDATE THE .CSV IN R/get_cosewic_data.R
+# - [ ] update the .csv in R/join_refs_spp.R
+# - [ ] update the .csv in R/get_cosewic_data.R
+# - [x] update the IPHC survey set data
+# - [x] pull all new data from the servers; done as part of this file with get_data()
+# - [x] update the years in the call to make_pages() below
 
 # Settings ------------------------------------------------------------
 
 french <- FALSE
-# shapefile <- NULL
-
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
-example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
+example_spp <- c("petrale sole", "pacific cod") # species used as example in the report
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
+dc <- here::here("report", "data-cache-2025-03") # cache folder location
 
-dc <- here::here("report", "data-cache-2025-03")
+# optional shape file to filter any spatial by:
 shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
+# shapefile <- NULL # if not filtering, set `shapefile <- NULL`
 
 # Setup ---------------------------------------------------------------
 
@@ -205,12 +208,6 @@ purrr::walk(to_build, function(i) {
       length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
         show_col_types = FALSE
       ) |> as.data.frame()
-
-      # FIXME!
-      if (spp$species_common_name[i] == "kelp greenling") {
-        dat$survey_samples <-
-          dplyr::filter(dat$survey_samples, !(weight > 0.1 & length < 10))
-      }
 
       gfsynopsis::make_pages(
         dat = dat,
