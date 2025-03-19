@@ -459,7 +459,8 @@ make_pages <- function(
        #   cpue_index$est_unstandardized <- cpue_index$est
        # }
      }
-     cpue_index$est_unstandardized <- NA
+     # FIXME: temporary:
+     cpue_index$est_unstandardized <- cpue_index$est
 
      if (all_not_NA(cpue_index)) { # enough vessels?
 
@@ -472,7 +473,8 @@ make_pages <- function(
            upr = if_else(max_se < 3, upr, NA_real_)
          )
 
-       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
+       cpue_index$area <- "Whole area"
+       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm), area_labels = c("Whole area", "5CDE", "5AB", "3CD")) +
          ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
          ylab("") + xlab("") +
          ggplot2::theme(
