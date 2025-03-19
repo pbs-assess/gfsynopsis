@@ -2,10 +2,8 @@
 # It must be run before the report can be rendered.
 
 # Things to update each year:
-- # UPDATE THE .CSV IN R/join_refs_spp.R
-- # UPDATE THE .CSV IN R/get_cosewic_data.R
-
-setwd(here::here())
+# UPDATE THE .CSV IN R/join_refs_spp.R
+# UPDATE THE .CSV IN R/get_cosewic_data.R
 
 # Settings ------------------------------------------------------------
 
@@ -18,10 +16,12 @@ optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
 
-dc <- here("report", "data-cache-2024-05")
+dc <- here::here("report", "data-cache-2025-03")
 shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
 
 # Setup ---------------------------------------------------------------
+
+setwd(here::here())
 
 if (french) {
   options(french = TRUE)
@@ -56,7 +56,7 @@ if (is_hake_server()) {
 
 # Set up parallel processing or sequential ----------------------------
 
-options(future.globals.maxSize = 800 * 1024 ^ 2) # 800 mb
+options(future.globals.maxSize = 800 * 1024^2) # 800 mb
 if (parallel_processing) {
   if (!is_rstudio && is_unix) {
     future::plan(multicore, workers = cores)
@@ -67,38 +67,35 @@ if (parallel_processing) {
   future::plan(sequential)
 }
 
-# Read in fresh data or load cached data if available: ------------------------
+# Read in fresh data or load cached data if available -----------------
 
-message('Loading data')
+message("Loading data")
 gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
 d_cpue <- readRDS(file.path(dc, "cpue-index-dat.rds"))
 spp <- gfsynopsis::get_spp_names() %>%
   select(
     species_common_name, species_code,
     species_science_name, spp_w_hyphens, type, itis_tsn, worms_id
-  ) |> arrange(species_common_name)
+  ) |>
+  arrange(species_common_name)
 spp <- join_itis_spp(spp)
 
-# Geostatistical model fits: (a bit slow) --------------------------------------
+# Geostatistical model fits (a bit slow) ------------------------------
 # fi <- here("report", "geostat-cache", "geostat-index-estimates.rds")
 # if (!file.exists(fi)) source(here("report/make-geostat.R"))
 # dat_geostat_index <- readRDS(fi)
 
-# ------------------------------------------------------------------------------
-# Gather and arrange some metadata
+# Gather and arrange some metadata ------------------------------------
 
 # UPDATE THE .CSV IN THIS EACH YEAR! see R/get_cosewic_data.R
 cos <- get_cosewic_data()
 spp <- left_join(spp, cos, by = "species_science_name")
 
-# ------------------------------------------------------------------------------
-# Parse metadata that will be used at the top of each species page:
-
 # UPDATE THE .CSV IN THIS EACH YEAR! see R/join_refs_spp.R
 spp <- join_refs_spp(spp, french = french)
 
-# ------------------------------------------------------------------------------
-# Cache stitched index
+# Cache stitched indices ----------------------------------------------
+
 message("Cache stitched indexes")
 dc_stitch <- file.path(dc, "stitch-data") # Data used
 stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
@@ -112,14 +109,14 @@ set.seed(92729)
 spp_vector <- sample(spp_vector, length(spp_vector))
 # Synoptic/HBLL
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
-grid_dir <- file.path(dc, 'grids')
+grid_dir <- file.path(dc, "grids")
 # IPHC
 # Use 2017 grid for predictions (can be changed)
 iphc_grid <- gfdata::iphc_sets |>
   filter(year == 2017) |>
   rename(lon = "longitude", lat = "latitude") |>
   select(year, station, lon, lat) |>
-  sdmTMB::add_utm_columns(ll_names = c('lon', 'lat'))
+  sdmTMB::add_utm_columns(ll_names = c("lon", "lat"))
 
 # 2023 specific code ------
 # For 2023, let's use the below chunk because we have not updated the grids.
@@ -140,113 +137,44 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
   dplyr::distinct()
 
 if (!is_hake_server()) {
-# these are complex, do outside first:
-source(here::here("report", "plot-indices.R"))
-# make_index_panel("north-pacific-spiny-dogfish")
-# make_index_panel("basking-shark")
-# make_index_panel("pacific-cod", all_survey_years = all_survey_years)
-# make_index_panel("arrowtooth-flounder", all_survey_years = all_survey_years)
-# # make_index_panel("big-skate")
-# make_index_panel("longnose-skate", all_survey_years = all_survey_years)
-# make_index_panel("whitebarred-prickleback", all_survey_years = all_survey_years)
-# make_index_panel("rougheye-blackspotted-rockfish-complex", all_survey_years = all_survey_years)
-index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
+  # these are complex, do outside first:
+  source(here::here("report", "plot-indices.R"))
+  # make_index_panel("north-pacific-spiny-dogfish")
+  # make_index_panel("basking-shark")
+  # make_index_panel("pacific-cod", all_survey_years = all_survey_years)
+  # make_index_panel("arrowtooth-flounder", all_survey_years = all_survey_years)
+  # # make_index_panel("big-skate")
+  # make_index_panel("longnose-skate", all_survey_years = all_survey_years)
+  # make_index_panel("whitebarred-prickleback", all_survey_years = all_survey_years)
+  # make_index_panel("rougheye-blackspotted-rockfish-complex", all_survey_years = all_survey_years)
+  index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
 }
 
-# ------------------------------------------------------------------------------
-# CPUE model fits
+# CPUE model fits -----------------------------------------------------
 
-# if (parallel_processing) future::plan(future::multisession, workers = 4L)
-# message("Fit CPUE models")
-# cpue_cache <- file.path("report", "cpue-cache")
-# dir.create(cpue_cache, showWarnings = FALSE)
-# xx <- spp$species_common_name
-# xx <- sample(xx, length(xx), replace = FALSE)
-# furrr::future_walk(xx, function(.sp) {
-# # purrr::walk(xx, function(.sp) {
-#   spp_file <- gfsynopsis:::clean_name(.sp)
-#   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
-#   if (!file.exists(cpue_cache_spp)) {
-#     cat(.sp, "\n")
-#     cpue_index <- gfsynopsis::fit_cpue_indices(
-#       dat = d_cpue,
-#       species = .sp,
-#       save_model = .sp %in% example_spp,
-#       parallel = FALSE
-#     )
-#     saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-#   }
-# })
-# future::plan(sequential)
-
-
-# if (parallel_processing && is_hake_server()) future::plan(future::multisession, workers = 10L)
-# if (parallel_processing && !is_hake_server()) future::plan(future::multisession, workers = 2L)
+if (parallel_processing && is_hake_server()) future::plan(future::multicore, workers = 12L)
+if (!is_hake_server()) future::plan(future::sequential)
 source(here::here("report/cpue-sdmTMB.R"))
-message("Fitting sdmTMB CPUE models")
-cpue_cache <- file.path("report", "cpue-sdmTMB-cache")
-raw_cpue_cache <- file.path("report", "raw-cpue-cache")
-dir.create(cpue_cache, showWarnings = FALSE)
-dir.create(raw_cpue_cache, showWarnings = FALSE)
-xx <- spp$species_common_name
-set.seed(123)
-xx <- sample(xx, length(xx), replace = FALSE)
-# xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
-# furrr::future_walk(xx, function(.sp) {
-purrr::walk(xx, \(.sp) {
-  spp_file <- gfsynopsis:::clean_name(.sp)
-  cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
-  raw_cpue_cache_spp <-
-  regions <- list(
-    c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
-    c("SYN HS", "SYN WCHG"),
-    c("SYN QCS"),
-    c("SYN WCVI")
-  )
-  if (!file.exists(cpue_cache_spp)) {
-    cat(.sp, "\n")
-    cpue_index_l <- lapply(regions, \(r) {
-      .r <- gsub(" ", "-", paste(r, collapse = "-"))
-      .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
-      ret <- fit_sdmTMB_cpue(
-        cpue_data_file = here::here("report/data-cache-2024-05/cpue-index-dat.rds"),
-        raw_cpue_caching_file = here::here(.f),
-        survey_grids = r,
-        final_year = 2023,
-        species = .sp,
-        shapefile = shapefile
-      )
-      gc()
-      ret
-    })
-    cpue_index <- do.call(rbind, cpue_index_l)
-    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-  }
-})
 future::plan(sequential)
-f <- list.files(raw_cpue_cache, full.names = TRUE)
-raw_cpue <- purrr::map_dfr(f, \(x) {
-  a <- readRDS(x)
-  if (!all(is.na(a[[1L]]))) a
-})
-raw_cpue <- filter(raw_cpue, is.finite(est_unstandardized))
-raw_cpue <- filter(raw_cpue, !is.na(est_unstandardized))
-# raw_cpue <- NULL
 
-if (!is_hake_server()) {
+if (is_hake_server()) stop()
 
-  # ------------------------------------------------------------------------------
-  # This is the guts of where the figure pages get made:
+# Make figure pages ---------------------------------------------------
+
 message("Make figure pages")
-fig_check <- file.path(build_dir, "figure-pages",
-  gfsynopsis:::clean_name(spp$species_common_name))
+fig_check <- file.path(
+  build_dir, "figure-pages",
+  gfsynopsis:::clean_name(spp$species_common_name)
+)
 fig_check1 <- paste0(fig_check, "-1.", ext)
 fig_check2 <- paste0(fig_check, "-2.", ext)
 missing <- !file.exists(fig_check1) | !file.exists(fig_check2)
 # missing <- rep(TRUE, length(missing))
 for (i in which(!missing)) {
-  cat(crayon::green(clisymbols::symbol$tick),
-    "Figure pages for", spp$species_common_name[i], "already exist\n")
+  cat(
+    crayon::green(clisymbols::symbol$tick),
+    "Figure pages for", spp$species_common_name[i], "already exist\n"
+  )
 }
 missing_spp <- spp$species_common_name[missing]
 to_build <- which(missing)
@@ -263,57 +191,60 @@ if (exists("ii")) {
 }
 
 purrr::walk(to_build, function(i) {
-  tryCatch({
-    cli::cli_inform("------------------------------------")
-    cli::cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
+  tryCatch(
+    {
+      cli::cli_inform("------------------------------------")
+      cli::cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
 
-    dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
-    dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
-      rename(lat = 'latitude', lon = 'longitude')
-    hbll_bait_counts <- readRDS(file.path(dc, 'bait-counts.rds'))
-    dat$cpue_index <- d_cpue
+      dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+      dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
+        rename(lat = "latitude", lon = "longitude")
+      hbll_bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
+      dat$cpue_index <- d_cpue
 
-    length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
-      show_col_types = FALSE) |> as.data.frame()
+      length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
+        show_col_types = FALSE
+      ) |> as.data.frame()
 
-    # FIXME!
-    if (spp$species_common_name[i] == "kelp greenling") {
-      dat$survey_samples <-
-        dplyr::filter(dat$survey_samples, !(weight > 0.1 & length < 10))
-    }
+      # FIXME!
+      if (spp$species_common_name[i] == "kelp greenling") {
+        dat$survey_samples <-
+          dplyr::filter(dat$survey_samples, !(weight > 0.1 & length < 10))
+      }
 
-    gfsynopsis::make_pages(
-      dat = dat,
-      dat_iphc = dat_iphc,
-      spp = spp$species_common_name[i],
-      all_survey_years = all_survey_years,
-      d_geostat_index = NULL, # dat_geostat_index, # spatiotemporal model fits
-      include_map_square = FALSE, # to check the map aspect ratio
-      french = french,
-      report_lang_folder = build_dir,
-      resolution = 150, # balance size with resolution
-      png_format = if (ext == "png") TRUE else FALSE,
-      parallel = FALSE, # for CPUE fits; need a lot of memory if true!
-      save_gg_objects = spp$species_common_name[i] %in% example_spp,
-      synoptic_max_survey_years = list("SYN WCHG" = 2022, "SYN HS" = 2023, "SYN WCVI" = 2022, "SYN QCS" = 2023),
-      hbll_out_max_survey_years = list("HBLL OUT N" = 2023, "HBLL OUT S" = 2022),
-      final_year_comm = 2023,
-      final_year_surv = 2023,
-      length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i],],
-      stitch_model_type = 'st-rw',
-      grid_dir = file.path(data_cache, 'grids'),
-      hbll_bait_counts = hbll_bait_counts,
-      index_ggplot = ggplot() + geom_point(),
-      # index_ggplot = index_ggplots[[i]],
-      spatiotemporal_cpue = TRUE,
-      raw_cpue = raw_cpue,
-      shapefile = shapefile
-    )
- }, error = function(e) stop("Error"))
+      gfsynopsis::make_pages(
+        dat = dat,
+        dat_iphc = dat_iphc,
+        spp = spp$species_common_name[i],
+        all_survey_years = all_survey_years,
+        d_geostat_index = NULL, # dat_geostat_index, # spatiotemporal model fits
+        include_map_square = FALSE, # to check the map aspect ratio
+        french = french,
+        report_lang_folder = build_dir,
+        resolution = 150, # balance size with resolution
+        png_format = if (ext == "png") TRUE else FALSE,
+        parallel = FALSE, # for CPUE fits; need a lot of memory if true!
+        save_gg_objects = spp$species_common_name[i] %in% example_spp,
+        synoptic_max_survey_years = list("SYN WCHG" = 2024, "SYN HS" = 2023, "SYN WCVI" = 2024, "SYN QCS" = 2023),
+        hbll_out_max_survey_years = list("HBLL OUT N" = 2023, "HBLL OUT S" = 2024),
+        final_year_comm = 2024,
+        final_year_surv = 2024,
+        length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i], ],
+        stitch_model_type = "st-rw",
+        grid_dir = file.path(data_cache, "grids"),
+        hbll_bait_counts = hbll_bait_counts,
+        index_ggplot = ggplot() + geom_point(),
+        # index_ggplot = index_ggplots[[i]],
+        spatiotemporal_cpue = TRUE,
+        raw_cpue = NULL,
+        shapefile = shapefile
+      )
+    },
+    error = function(e) stop("Error")
+  )
 })
-# beepr::beep()
 
-# Extracts just the CPUE map plots for Pacific Cod for the examples.
+# Extract saved ggplot objects for example plots ----------------------
 # These objects are too big to cache in an .Rmd file otherwise.
 if (!exists("ii")) {
   if (!french) {
@@ -328,10 +259,8 @@ if (!exists("ii")) {
   }
 }
 
-# ------------------------------------------------------------------------------
+# Generate plot-pages.Rmd ---------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
-
-# Generate `plot-pages.Rmd`:
 temp <- lapply(spp$species_common_name, \(x) generate_plotpages_Rmd(x = x, spp = spp))
 temp <- lapply(temp, function(x) paste(x, collapse = "\n"))
 temp <- paste(temp, collapse = "\n")
@@ -339,8 +268,8 @@ temp <- c("<!-- This page has been automatically generated: do not edit by hand 
 con <- file(file.path(build_dir, "plot-pages.Rmd"), encoding = "UTF-8")
 writeLines(temp, con = con)
 
-# ------------------------------------------------------------------------------
-# Optimize png files for TeX
+# Optimize png files for TeX ------------------------------------------
+# pdflatex is much faster if png files are optimized
 
 if (optimize_png) {
   cores <- parallel::detectCores()
@@ -354,7 +283,4 @@ if (optimize_png) {
     ))
     setwd(here())
   }
-}
-
-
 }

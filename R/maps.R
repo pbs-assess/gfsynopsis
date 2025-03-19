@@ -363,8 +363,12 @@ plot_survey_sets_synopsis <- function(pred_dat, raw_dat, fill_column = c("combin
     north_lab_coord <- c(r$x, r$y)
   }
 
-  coast <- load_coastline(range(raw_dat$lon) + c(-1, 1),
-    range(raw_dat$lat) + c(-1, 1),
+  # coast <- load_coastline(range(raw_dat$lon) + c(-1, 1),
+  #   range(raw_dat$lat) + c(-1, 1),
+  #   utm_zone = utm_zone
+  # )
+  coast <- load_coastline(c(-134.973, -124.052),
+    c(47.298, 55.656),
     utm_zone = utm_zone
   )
   coast <- rotate_df(coast, rotation_angle, rotation_center)

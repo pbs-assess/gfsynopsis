@@ -171,9 +171,10 @@ clean_area <- function(area) {
 #' @param dat The data
 #' @param blank_plot Whether or not a blank plot should be generated
 #' @param xlim The x limits
+#' @param area_labels Area labels
 #'
 #' @export
-plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
+plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017), area_labels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")) {
   yrs <- xlim
 
   if (!blank_plot) {
@@ -188,9 +189,9 @@ plot_cpue_indices <- function(dat, blank_plot = FALSE, xlim = c(1996, 2017)) {
       ) %>%
       arrange(area) %>%
       ungroup() %>%
-      mutate(area = factor(area, levels = c(clean_area("3CD|5ABCDE"), "5CDE", "5AB", "3CD")))
+      mutate(area = factor(area, levels = area_labels))
   }
-  labs <- tibble(area = factor(levels(dat$area), levels = levels(dat$area)))
+  labs <- tibble(area = factor(levels(dat$area), levels = area_labels))
 
   g <- ggplot(dat, aes_string("year", "est", ymin = "lwr", ymax = "upr"))
 

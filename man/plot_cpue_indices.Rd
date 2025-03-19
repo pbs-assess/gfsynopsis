@@ -4,7 +4,12 @@
 \alias{plot_cpue_indices}
 \title{Plot CPUE indices}
 \usage{
-plot_cpue_indices(dat, blank_plot = FALSE, xlim = c(1996, 2017))
+plot_cpue_indices(
+  dat,
+  blank_plot = FALSE,
+  xlim = c(1996, 2017),
+  area_labels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")
+)
 }
 \arguments{
 \item{dat}{The data}
@@ -12,6 +17,8 @@ plot_cpue_indices(dat, blank_plot = FALSE, xlim = c(1996, 2017))
 \item{blank_plot}{Whether or not a blank plot should be generated}
 
 \item{xlim}{The x limits}
+
+\item{area_labels}{Area labels}
 }
 \description{
 Plot CPUE indices
