@@ -768,7 +768,7 @@ make_pages <- function(
   }
 
   if (length(mat_age) > 1L && type != "none") {
-    g_mat_age <- 
+    g_mat_age <- try({
       gfplot::plot_mat_ogive(mat_age, prediction_type = type, french = french) +
         guides(colour = "none", fill = "none", lty = "none") +
         ggplot2::guides(lty = "none", colour = "none") +
@@ -778,7 +778,15 @@ make_pages <- function(
           y = en2fr("Probability mature", french), 
           colour = en2fr("Sex", french), lty = en2fr("Sex", french)
         )
+    })
   } else {
+    g_mat_age <- ggplot() +
+      theme_pbs() +
+      ggtitle(en2fr("Age at maturity", french)) +
+      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
+      ggplot2::guides(lty = "none", colour = "none")
+  }
+  if (!inherits(g_mat_age, "ggplot")) {
     g_mat_age <- ggplot() +
       theme_pbs() +
       ggtitle(en2fr("Age at maturity", french)) +
@@ -787,11 +795,11 @@ make_pages <- function(
   }
 
   if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
-    mat_length <- dat$survey_samples %>%
+    mat_length <- try({dat$survey_samples %>%
       fit_mat_ogive(
         type = "length",
         months = 1:12
-      )
+      )})
   } else {
     mat_length <- NA
   }
@@ -830,7 +838,7 @@ make_pages <- function(
   if (spp == "curlfin sole") type <- "none" # FIXME almost none; way off
 
   if (length(mat_length) > 1L && type != "none") {
-    g_mat_length <- 
+    g_mat_length <- try({
       gfplot::plot_mat_ogive(mat_length, prediction_type = type, french = french) +
         ggplot2::theme(
           legend.position = c(0.9, 0.2),
@@ -842,7 +850,15 @@ make_pages <- function(
         ) +
         ggtitle(en2fr("Length at maturity", french)) +
         ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french)))
+      })
   } else {
+    g_mat_length <- ggplot() +
+      theme_pbs() +
+      ggtitle(en2fr("Length at maturity", french)) +
+      ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
+      ggplot2::guides(lty = "none", colour = "none")
+  }
+  if (!inherits(g_mat_length, "ggplot")) {
     g_mat_length <- ggplot() +
       theme_pbs() +
       ggtitle(en2fr("Length at maturity", french)) +
