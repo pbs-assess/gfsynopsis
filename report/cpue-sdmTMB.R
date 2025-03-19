@@ -140,8 +140,16 @@ fit_sdmTMB_cpue <- function(
   }
 
   intersected <- sf::st_intersects(dat_sf, grid_region)
-  intersected_i <- which(lengths(intersected) > 0)
-  dat_sf_reduced <- dat_sf[intersected_i, ]
+
+  ## Further sub-setting of data to new area of interest ----
+  if (!is.null(shapefile)) {
+    shapefile_sf <- sf::st_transform(shapefile, crs = sf::st_crs(grid))
+    dat_reduced_intersected <- sf::st_intersects(dat_sf, shapefile_sf)
+    intersected_i <- which(lengths(dat_reduced_intersected) > 0 & lengths(intersected) > 0)
+    dat_sf_reduced <- dat_sf[intersected_i, ]
+  } else {
+    dat_sf_reduced <- dat_sf[which(lengths(intersected) > 0), ]
+  }
 
   if (plots) {
     g <- dat_sf_reduced |>
@@ -155,7 +163,6 @@ fit_sdmTMB_cpue <- function(
   intersected_grid <- sf::st_intersects(grid_region, dat_sf_reduced)
   intersected_grid_i <- which(lengths(intersected_grid) > 0)
   grid_region_reduced <- grid_region[intersected_grid_i, ]
-  # grid_region_reduced <- grid_region # !!
 
   if (plots) {
     g <- grid_region_reduced |>
@@ -264,12 +271,10 @@ fit_sdmTMB_cpue <- function(
   plot(mesh$mesh)
   mesh$mesh$n
 
-
   ## Further subseting of grid to new area of interest ----
 
   if (!is.null(shapefile)) {
     shapefile_sf <- sf::st_transform(shapefile, crs = sf::st_crs(grid))
-
     new_grid <- sf::st_intersects(grid_region_reduced, shapefile_sf)
     new_grid_i <- which(lengths(new_grid) > 0)
     index_grid <- grid_region_reduced[new_grid_i, ]
@@ -306,8 +311,8 @@ fit_sdmTMB_cpue <- function(
   fit <- tryCatch(sdmTMB::sdmTMB(
     f,
     knots = list(month_num = c(0.5, 12.5)),
-    family = sdmTMB::delta_lognormal(),
-    # family = sdmTMB::delta_lognormal(type = "poisson-link"),
+    # family = sdmTMB::delta_lognormal(),
+    family = sdmTMB::delta_lognormal(type = "poisson-link"),
     # family = sdmTMB::delta_gamma(),
     control = sdmTMBcontrol(profile = c("b_j", "b_j2"), multiphase = FALSE),
     # control = sdmTMBcontrol(multiphase = FALSE),
@@ -386,17 +391,21 @@ xx <- spp$species_common_name
 set.seed(123)
 xx <- sample(xx, length(xx), replace = FALSE)
 # xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
-furrr::future_walk(xx, function(.sp) {
-# purrr::walk(xx, \(.sp) {
+# furrr::future_walk(xx, function(.sp) {
+purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
-  raw_cpue_cache_spp <-
-    regions <- list(
-      c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
-      c("SYN HS", "SYN WCHG"),
-      c("SYN QCS"),
-      c("SYN WCVI")
-    )
+  # raw_cpue_cache_spp <-
+  regions <- list(
+    c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
+    c("SYN HS", "SYN WCHG"),
+    c("SYN QCS"),
+    c("SYN WCVI")
+  )
+  if (!is.null(shapefile)) {
+    regions[[1]] <- c("SYN QCS", "SYN HS", "SYN WCHG") # remove WCVI for Haida shapefile
+    regions <- regions[1]
+  }
   if (!file.exists(cpue_cache_spp)) {
     cat(.sp, "\n")
     cpue_index_l <- lapply(regions, \(r) {
@@ -406,15 +415,16 @@ furrr::future_walk(xx, function(.sp) {
         cpue_data_file = file.path(dc, "cpue-index-dat.rds"),
         raw_cpue_caching_file = here::here(.f),
         survey_grids = r,
-        final_year = 2023,
+        final_year = 2024,
         species = .sp,
-        shapefile = shapefile
+        shapefile = shapefile,
+        silent = FALSE
       )
       gc()
       ret
     })
     cpue_index <- do.call(rbind, cpue_index_l)
-    saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+    saveRDS(cpue_index, file = cpue_cache_spp, compress = TRUE)
   }
 })
 
