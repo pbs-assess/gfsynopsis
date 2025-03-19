@@ -9,7 +9,7 @@ fit_survey_maps(
   species = "pacific cod",
   include_depth = TRUE,
   family = sdmTMB::tweedie(),
-  surveys = c("SYN QCS", "SYN HS", "SYN WCHG", "SYN WCVI"),
+  surveys = c("SYN QCS-HS", "SYN WCHG", "SYN WCVI"),
   years = c(2017, 2018),
   ...
 )
