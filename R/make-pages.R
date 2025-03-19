@@ -409,80 +409,82 @@ make_pages <- function(
     all(is.na(x[[1L]]))
   }
 
-##  if ("cpue_index" %in% names(dat)) {
-##    if (nrow(dat$catch) > 0) {
-##      # if (!file.exists(cpue_cache_spp)) {
-##      #   cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
-##      #     species = unique(dat$catch$species_common_name),
-##      #     save_model = save_gg_objects, parallel = parallel
-##      #   )
-##      #   saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
-##      # } else {
-##      cpue_index <- readRDS(cpue_cache_spp)
-##      # }
-##
-##      if (spatiotemporal_cpue) { # a ton of code to jam this into the old function...
-##        old <- cpue_index
-##        if (!all_NA(old)) {
-##          new <- transmute(old, year, model = "Combined", est = est, est_link = log_est, se_link = se, lwr, upr)
-##          new$area <- case_when(
-##            old$region == "SYN QCS; SYN HS; SYN WCVI; SYN WCHG" ~ "3CD5ABCDE",
-##            old$region == "SYN HS; SYN WCHG" ~ "5CDE",
-##            old$region == "SYN QCS" ~ "5AB",
-##            old$region == "SYN WCVI" ~ "3CD",
-##            .default = NA_character_
-##          )
-##          new <- new[!is.na(new$se_link),,drop=FALSE]
-##          new <- group_by(new, area) |>
-##            mutate(geo_mean = exp(mean(log(est)))) |>
-##            mutate(
-##              upr = upr / geo_mean,
-##              lwr = lwr / geo_mean,
-##              est = est / geo_mean
-##            ) |> ungroup()
-##          cpue_index <- new
-##          if (nrow(cpue_index) == 0L) cpue_index <- NA
-##        }
-##        rr <- dplyr::filter(raw_cpue, species == spp)
-##        rr$area <- case_when(
-##          rr$region == "SYN QCS; SYN HS; SYN WCVI; SYN WCHG" ~ "3CD5ABCDE",
-##          rr$region == "SYN HS; SYN WCHG" ~ "5CDE",
-##          rr$region == "SYN QCS" ~ "5AB",
-##          rr$region == "SYN WCVI" ~ "3CD",
-##          .default = NA_character_
-##        )
-##        if (nrow(rr) > 0) {
-##          cpue_index <- dplyr::left_join(cpue_index, dplyr::select(rr, year, area, est_unstandardized),
-##            by = join_by(year, area))
-##        } else {
-##          cpue_index$est_unstandardized <- cpue_index$est
-##        }
-##      }
-##
-##      if (all_not_NA(cpue_index)) { # enough vessels?
-##
-##        ## remove those with giant SEs:
-##        cpue_index <- group_by(cpue_index, area) |>
-##          mutate(max_se = max(se_link)) |>
-##          mutate(
-##            est = if_else(max_se < 3, est, NA_real_),
-##            lwr = if_else(max_se < 3, lwr, NA_real_),
-##            upr = if_else(max_se < 3, upr, NA_real_)
-##          )
-##
-##        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
-##          ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
-##          ylab("") + xlab("") +
-##          ggplot2::theme(
-##            axis.title.y = element_blank(),
-##            axis.text.y = element_blank(),
-##            axis.ticks.y = element_blank()
-##          )
-##      }
-##    }
-##  } else {
+ if ("cpue_index" %in% names(dat)) {
+   if (nrow(dat$catch) > 0) {
+     # if (!file.exists(cpue_cache_spp)) {
+     #   cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
+     #     species = unique(dat$catch$species_common_name),
+     #     save_model = save_gg_objects, parallel = parallel
+     #   )
+     #   saveRDS(cpue_index, file = cpue_cache_spp, compress = FALSE)
+     # } else {
+     cpue_index <- readRDS(cpue_cache_spp)
+     # }
+
+     if (spatiotemporal_cpue) { # a ton of code to jam this into the old function...
+       old <- cpue_index
+       if (!all_NA(old)) {
+         new <- transmute(old, year, model = "Combined", est = est, est_link = log_est, se_link = se, lwr, upr)
+         new$area <- case_when(
+           old$region == "SYN QCS; SYN HS; SYN WCVI; SYN WCHG" ~ "3CD5ABCDE",
+           old$region == "SYN HS; SYN WCHG" ~ "5CDE",
+           old$region == "SYN QCS" ~ "5AB",
+           old$region == "SYN WCVI" ~ "3CD",
+           .default = NA_character_
+         )
+         new <- new[!is.na(new$se_link),,drop=FALSE]
+         new <- group_by(new, area) |>
+           mutate(geo_mean = exp(mean(log(est)))) |>
+           mutate(
+             upr = upr / geo_mean,
+             lwr = lwr / geo_mean,
+             est = est / geo_mean
+           ) |> ungroup()
+         cpue_index <- new
+         if (nrow(cpue_index) == 0L) cpue_index <- NA
+       }
+       # # raw/unstandardized CPUE:
+       # rr <- dplyr::filter(raw_cpue, species == spp)
+       # rr$area <- case_when(
+       #   rr$region == "SYN QCS; SYN HS; SYN WCVI; SYN WCHG" ~ "3CD5ABCDE",
+       #   rr$region == "SYN HS; SYN WCHG" ~ "5CDE",
+       #   rr$region == "SYN QCS" ~ "5AB",
+       #   rr$region == "SYN WCVI" ~ "3CD",
+       #   .default = NA_character_
+       # )
+       # if (nrow(rr) > 0) {
+       #   cpue_index <- dplyr::left_join(cpue_index, dplyr::select(rr, year, area, est_unstandardized),
+       #     by = join_by(year, area))
+       # } else {
+       #   cpue_index$est_unstandardized <- cpue_index$est
+       # }
+     }
+     cpue_index$est_unstandardized <- NA
+
+     if (all_not_NA(cpue_index)) { # enough vessels?
+
+       ## remove those with giant SEs:
+       cpue_index <- group_by(cpue_index, area) |>
+         mutate(max_se = max(se_link)) |>
+         mutate(
+           est = if_else(max_se < 3, est, NA_real_),
+           lwr = if_else(max_se < 3, lwr, NA_real_),
+           upr = if_else(max_se < 3, upr, NA_real_)
+         )
+
+       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm)) +
+         ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
+         ylab("") + xlab("") +
+         ggplot2::theme(
+           axis.title.y = element_blank(),
+           axis.text.y = element_blank(),
+           axis.ticks.y = element_blank()
+         )
+     }
+   }
+ } else {
     cpue_index <- NA
-##  }
+ }
   if (nrow(dat$catch) == 0 || all_NA(cpue_index)) {
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
