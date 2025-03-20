@@ -10,7 +10,7 @@ get_stitched_index(
   survey_type = "synoptic",
   model_type = "st-rw",
   form = NULL,
-  family = sdmTMB::tweedie(),
+  family = "tweedie",
   time = "year",
   spatial = "on",
   spatiotemporal = "rw",
@@ -44,7 +44,8 @@ get_stitched_index(
 'catch ~ 1' (the default, unless \code{family = poisson()} or \code{family = sdmTMB::censored_possion()}
 then "catch ~ 1 + (1|obs_id)").}
 
-\item{family}{The family and link for \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.}
+\item{family}{A character string specifying the distribution family.
+Passed to \code{get_family_object()}.}
 
 \item{time}{An optional time column name (as character), used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}.
 (default = 'year')}
@@ -100,4 +101,17 @@ Either a string or dataframe:
 }
 \description{
 Get stitched index across survey regions in synoptic trawl and HBLL surveys
+}
+\details{
+\strong{Family}
+
+Allowed values for \code{family}:
+\itemize{
+\item Standard families: \code{"lognormal"}, \code{"gamma"}, \code{"gengamma"}, \code{"tweedie"}, \code{"nb2"}.
+\item Delta models: \code{"delta-gamma"}, \code{"delta-lognormal"}, \code{"delta-gengamma"}.
+\item Delta models with Poisson link: \code{"delta-gamma-poisson-link"}, \code{"delta-lognormal-poisson-link"}, \code{"delta-gengamma-poisson-link"}.
+}
+
+The selected \code{family} is passed to \code{get_family_object()}, which maps the input string
+to the appropriate \code{sdmTMB} family object.
 }
