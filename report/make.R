@@ -109,22 +109,6 @@ set.seed(92729)
 spp_vector <- sample(spp_vector, length(spp_vector))
 # Synoptic/HBLL
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
-grid_dir <- file.path(dc, "grids")
-# IPHC
-# Use 2017 grid for predictions (can be changed)
-iphc_grid <- gfdata::iphc_sets |>
-  filter(year == 2017) |>
-  rename(lon = "longitude", lat = "latitude") |>
-  select(year, station, lon, lat) |>
-  sdmTMB::add_utm_columns(ll_names = c("lon", "lat"))
-
-# 2023 specific code ------
-# For 2023, let's use the below chunk because we have not updated the grids.
-prep_stitch_grids(
-  grid_dir = grid_dir,
-  hbll_ins_grid_input = file.path(dc_stitch, "hbll-inside-grid_water-area.rds")
-)
-# -----
 
 # Stitch surveys if not cached
 if (FALSE) { # slow to check!

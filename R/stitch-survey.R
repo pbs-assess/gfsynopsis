@@ -140,56 +140,62 @@ get_stitch_lu <- function(survey_dat, species, survey_type, survey_col = 'survey
     dplyr::arrange(survey_type, species_common_name)
 }
 
-# Prepare grids ----------------------------------------------------------------
-#' Write grids used for stitching index
+# Utility functions ------------------------------------------------------------
+#' Choose the survey grid for matching survey abbreviations. Data for all but the
+#' IPHC FISS come from `gfdata`.
 #'
-#' @description
-#' Write grid objects used for stitching index. These are written to a
-#' <data-outputs/grids> directory.
-#' Will not be needed if clean grids are added to `gfdata`
-#' @param grid_dir Path where cleaned grids should be stored
-#' @param hbll_ins_grid_input RDS object containing the HBLL INS grid with water
-#'   area values.
+#' @param .survey_abbrev A vector containing at least one of the following surveys:
+#' "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL INS N" "HBLL INS S",
+#' "HBLL OUT N", "HBLL OUT S", "MSSM WCVI", and "IPHC FISS".
 #'
-#' @returns Synoptic, HBLL OUT, and HBLL INS grids as .rds files.
+#' @return A survey grid of active blocks with associated overwater area
+#' Synoptic surveys: returns grid fr
+#' MSSM WCVI: returns grid covering locations sampled between 2009 to 2022
+#' and has a cell area of 9 km2. It also includes only management areas 124 and 125
+#' IPHC FISS: returns grid of locations covering stations sampled in 2017
+#' and has a cell area of 1 km2
 #'
 #' @export
 #'
-prep_stitch_grids <- function(grid_dir, hbll_ins_grid_input) {
-  dir.create(grid_dir, showWarnings = FALSE, recursive = TRUE)
+choose_survey_grid <- function(.survey_abbrev) {
+  valid_surveys <- c(
+    "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+    "HBLL INS N", "HBLL INS S",
+    "HBLL OUT N", "HBLL OUT S",
+    "MSSM WCVI", "IPHC FISS")
 
-  synoptic_grid_file <- file.path(grid_dir, "synoptic_grid.rds")
-  hbll_out_grid_file <- file.path(grid_dir, "hbll_out_grid.rds")
-  hbll_ins_grid_file <- file.path(grid_dir, "hbll_ins_grid.rds")
-  # @TODO will update when grids are added to gfdata
-  if (!file.exists(synoptic_grid_file)) {
-    syn_grid <-
-      gfplot::synoptic_grid |>
-      dplyr::rename(area = "cell_area") |>
-      dplyr::select(-survey_series_name, -utm_zone, -survey_domain_year)
-    saveRDS(syn_grid, synoptic_grid_file)
+  if (is.null(.survey_abbrev) || !all(.survey_abbrev %in% valid_surveys)) {
+    stop("Invalid '.survey_abbrev'. Must be one or more of: ", paste(valid_surveys, collapse = ", "))
   }
 
-  if (!file.exists(hbll_out_grid_file)) {
-    hbll_n_grid <- gfplot::hbll_n_grid$grid |>
-      dplyr::mutate(survey = "HBLL OUT N")
-    hbll_s_grid <- gfplot::hbll_s_grid$grid |>
-      dplyr::mutate(survey = "HBLL OUT S")
+  if (any(grepl("SYN|HBLL", .survey_abbrev))) {
+    cli::cli_inform("Filtering survey_blocks grid to: {paste(.survey_abbrev, collapse = ', ')}")
+    .grid <- gfdata::survey_blocks |>
+      select(survey_abbrev, active_block, area) |>
+      filter(active_block == TRUE) |>
+      sf::st_centroid() %>%
+      # match sdmTMB coordinate system
+      dplyr::mutate(X = sf::st_coordinates(.)[,1] / 1000,
+                    Y = sf::st_coordinates(.)[,2] / 1000) |>
+      sf::st_drop_geometry() |>
+      filter(survey_abbrev %in% .survey_abbrev)
+  } else if (.survey_abbrev == "MSSM WCVI") {
+    cli::cli_inform("Filtering mssm_grid to: {paste(.survey_abbrev, collapse = ', ')}")
+    .grid <- gfdata::mssm_grid |>
+      dplyr::filter(year >= 2009 & year < 2022) |>
+      dplyr::distinct(X, Y, survey, area)
 
-    hbll_out_grid <- dplyr::bind_rows(hbll_n_grid, hbll_s_grid) |>
-      dplyr::rename(longitude = "X", latitude = "Y") |>
-      sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
-      dplyr::mutate(area = 4) |>
-      dplyr::select(survey, X, Y, depth, area)
-    saveRDS(hbll_out_grid, hbll_out_grid_file)
-  }
-
-  if (!file.exists(hbll_ins_grid_file)) {
-    hbll_ins_grid <-
-      readRDS(hbll_ins_grid_input) |>
-      sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
-      dplyr::select(survey, X, Y, depth, area)
-    saveRDS(hbll_ins_grid, hbll_ins_grid_file)
+  } else if (.survey_abbrev == "IPHC FISS") {
+    cli::cli_inform("Using IPHC 2017 grid")
+    .grid <- gfdata::iphc_sets |>
+      filter(year == 2017) |>
+      rename(lon = "longitude", lat = "latitude") |>
+      select(year, station, lon, lat) |>
+      mutate(area = 1) |>
+      sdmTMB::add_utm_columns(ll_names = c('lon', 'lat'))
+  } else {
+    .grid <- NULL
+    warning("No valid grid created for the specified survey abbreviation.")
   }
 }
 
