@@ -528,11 +528,13 @@ make_pages <- function(
     cpue_index <- NA
  }
   if (nrow(dat$catch) == 0 || all_NA(cpue_index)) {
+
+    entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
         expand.grid(
-          area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
-            levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")
+          area = factor(c(entire_area_name, "5CDE", "5AB", "3CD"),
+            levels = c(entire_area_name, "5CDE", "5AB", "3CD")
           ), year = 2000,
           est = NA, lwr = NA, upr = NA
         ),
@@ -564,12 +566,13 @@ make_pages <- function(
       area_labels = .labs
     )
   } else {
+    entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"
     g_catch <- ggplot() +
       theme_pbs()
     g_catch <- gfsynopsis::plot_catches(expand.grid(
       year = 999,
-      area = factor(c("Coastwide", "5AB", "5CDE", "3CD"),
-        levels = c("Coastwide", "5AB", "5CDE", "3CD")
+      area = factor(c(entire_area_name, "5AB", "5CDE", "3CD"),
+        levels = c(entire_area_name, "5AB", "5CDE", "3CD")
       ),
       gear = "abc", value = 1, stringsAsFactors = FALSE
     ), blank_plot = TRUE) +
