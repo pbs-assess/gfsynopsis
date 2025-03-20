@@ -2,20 +2,25 @@
 % Please edit documentation in R/stitch-survey.R
 \name{choose_survey_grid}
 \alias{choose_survey_grid}
-\title{Choose the survey grid matching the survey type. For the MSSM survey, the grid
-is filtered to include only cells that were last sampled from 2009 to 2022
-(year grid was last updated)}
+\title{Choose the survey grid for matching survey abbreviations. Data for all but the
+IPHC FISS come from \code{gfdata}.}
 \usage{
-choose_survey_grid(survey_type, grid_dir)
+choose_survey_grid(.survey_abbrev)
 }
 \arguments{
-\item{survey_type}{A string matching one of: "synoptic", "hbll_outside", "hbll_inside", "mssm"}
-
-\item{grid_dir}{Path where cleaned grids were stored from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}}
+\item{.survey_abbrev}{A vector containing at least one of the following surveys:
+"SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL INS N" "HBLL INS S",
+"HBLL OUT N", "HBLL OUT S", "MSSM WCVI", and "IPHC FISS".}
 }
 \value{
-A dataframe containing a survey grid from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}
+A survey grid of active blocks with associated overwater area
+Synoptic surveys: returns grid fr
+MSSM WCVI: returns grid covering locations sampled between 2009 to 2022
+and has a cell area of 9 km2. It also includes only management areas 124 and 125
+IPHC FISS: returns grid of locations covering stations sampled in 2017
+and has a cell area of 1 km2
 }
 \description{
-TODO: update with calls to gfdata once updated grid functions are added there.
+Choose the survey grid for matching survey abbreviations. Data for all but the
+IPHC FISS come from \code{gfdata}.
 }

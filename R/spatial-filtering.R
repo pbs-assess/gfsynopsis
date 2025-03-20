@@ -18,6 +18,8 @@
 #'
 #' @return A dataframe without geometry (default) or an \pkg{sf} object if
 #' `return_sf = TRUE`.
+#'
+#' @export
 subset_spatial <- function(dat, sf_poly, xy_coords, dat_crs = 4326, return_sf = FALSE) {
   xy_name_check <- setdiff(xy_coords, names(dat))
   if (length(xy_name_check) > 0) {

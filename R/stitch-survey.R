@@ -140,83 +140,104 @@ get_stitch_lu <- function(survey_dat, species, survey_type, survey_col = 'survey
     dplyr::arrange(survey_type, species_common_name)
 }
 
-# Prepare grids ----------------------------------------------------------------
-#' Write grids used for stitching index
+# Utility functions ------------------------------------------------------------
+#' Choose the survey grid for matching survey abbreviations. Data for all but the
+#' IPHC FISS come from `gfdata`.
 #'
-#' @description
-#' Write grid objects used for stitching index. These are written to a
-#' <data-outputs/grids> directory.
-#' Will not be needed if clean grids are added to `gfdata`
-#' @param grid_dir Path where cleaned grids should be stored
-#' @param hbll_ins_grid_input RDS object containing the HBLL INS grid with water
-#'   area values.
+#' @param .survey_abbrev A vector containing at least one of the following surveys:
+#' "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL INS N" "HBLL INS S",
+#' "HBLL OUT N", "HBLL OUT S", "MSSM WCVI", and "IPHC FISS".
 #'
-#' @returns Synoptic, HBLL OUT, and HBLL INS grids as .rds files.
+#' @return A survey grid of active blocks with associated overwater area
+#' Synoptic surveys: returns grid fr
+#' MSSM WCVI: returns grid covering locations sampled between 2009 to 2022
+#' and has a cell area of 9 km2. It also includes only management areas 124 and 125
+#' IPHC FISS: returns grid of locations covering stations sampled in 2017
+#' and has a cell area of 1 km2
 #'
 #' @export
 #'
-prep_stitch_grids <- function(grid_dir, hbll_ins_grid_input) {
-  dir.create(grid_dir, showWarnings = FALSE, recursive = TRUE)
+choose_survey_grid <- function(.survey_abbrev) {
+  valid_surveys <- c(
+    "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+    "HBLL INS N", "HBLL INS S",
+    "HBLL OUT N", "HBLL OUT S",
+    "MSSM WCVI", "IPHC FISS")
 
-  synoptic_grid_file <- file.path(grid_dir, "synoptic_grid.rds")
-  hbll_out_grid_file <- file.path(grid_dir, "hbll_out_grid.rds")
-  hbll_ins_grid_file <- file.path(grid_dir, "hbll_ins_grid.rds")
-  # @TODO will update when grids are added to gfdata
-  if (!file.exists(synoptic_grid_file)) {
-    syn_grid <-
-      gfplot::synoptic_grid |>
-      dplyr::rename(area = "cell_area") |>
-      dplyr::select(-survey_series_name, -utm_zone, -survey_domain_year)
-    saveRDS(syn_grid, synoptic_grid_file)
+  if (is.null(.survey_abbrev) || !all(.survey_abbrev %in% valid_surveys)) {
+    stop("Invalid '.survey_abbrev'. Must be one or more of: ", paste(valid_surveys, collapse = ", "))
   }
 
-  if (!file.exists(hbll_out_grid_file)) {
-    hbll_n_grid <- gfplot::hbll_n_grid$grid |>
-      dplyr::mutate(survey = "HBLL OUT N")
-    hbll_s_grid <- gfplot::hbll_s_grid$grid |>
-      dplyr::mutate(survey = "HBLL OUT S")
+  if (any(grepl("SYN|HBLL", .survey_abbrev))) {
+    cli::cli_inform("Filtering survey_blocks grid to: {paste(.survey_abbrev, collapse = ', ')}")
+    .grid <- gfdata::survey_blocks |>
+      select(survey_abbrev, active_block, area) |>
+      filter(active_block == TRUE) |>
+      sf::st_centroid() %>%
+      # match sdmTMB coordinate system
+      dplyr::mutate(X = sf::st_coordinates(.)[,1] / 1000,
+                    Y = sf::st_coordinates(.)[,2] / 1000) |>
+      sf::st_drop_geometry() |>
+      filter(survey_abbrev %in% .survey_abbrev)
+  } else if (.survey_abbrev == "MSSM WCVI") {
+    cli::cli_inform("Filtering mssm_grid to: {paste(.survey_abbrev, collapse = ', ')}")
+    .grid <- gfdata::mssm_grid |>
+      dplyr::filter(year >= 2009 & year < 2022) |>
+      dplyr::distinct(X, Y, survey, area)
 
-    hbll_out_grid <- dplyr::bind_rows(hbll_n_grid, hbll_s_grid) |>
-      dplyr::rename(longitude = "X", latitude = "Y") |>
-      sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
-      dplyr::mutate(area = 4) |>
-      dplyr::select(survey, X, Y, depth, area)
-    saveRDS(hbll_out_grid, hbll_out_grid_file)
-  }
-
-  if (!file.exists(hbll_ins_grid_file)) {
-    hbll_ins_grid <-
-      readRDS(hbll_ins_grid_input) |>
-      sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
-      dplyr::select(survey, X, Y, depth, area)
-    saveRDS(hbll_ins_grid, hbll_ins_grid_file)
+  } else if (.survey_abbrev == "IPHC FISS") {
+    cli::cli_inform("Using IPHC 2017 grid")
+    .grid <- gfdata::iphc_sets |>
+      filter(year == 2017) |>
+      rename(lon = "longitude", lat = "latitude") |>
+      select(year, station, lon, lat) |>
+      mutate(area = 1) |>
+      sdmTMB::add_utm_columns(ll_names = c('lon', 'lat'))
+  } else {
+    .grid <- NULL
+    warning("No valid grid created for the specified survey abbreviation.")
   }
 }
 
-# Utility functions ------------------------------------------------------------
-#' Choose the survey grid matching the survey type. For the MSSM survey, the grid
-#' is filtered to include only cells that were last sampled from 2009 to 2022
-#' (year grid was last updated)
+#' Retrieve an R Family Object from a String
 #'
-#' TODO: update with calls to gfdata once updated grid functions are added there.
+#' This function takes a character string representing a distribution family name
+#' and returns the corresponding R family object, primarily for use in statistical
+#' modeling with `sdmTMB` or `glm`. The default link function for all distributions
+#' is `"log"`, unless otherwise specified.
 #'
-#' @param survey_type A string matching one of: "synoptic", "hbll_outside", "hbll_inside", "mssm"
-#' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
+#' @param fit_fam A character string specifying the family to use.
+#'   Must be one of the following:
+#'   - `"delta-gamma"`: Delta-Gamma distribution (`sdmTMB::delta_gamma`)
+#'   - `"delta-lognormal"`: Delta-Lognormal distribution (`sdmTMB::delta_lognormal`)
+#'   - `"delta-gengamma"`: Delta-Generalized Gamma distribution (`sdmTMB::delta_gengamma`)
+#'   - `"delta-gamma-poisson-link"`: Delta-Gamma with Poisson link (`sdmTMB::delta_gamma`)
+#'   - `"delta-lognormal-poisson-link"`: Delta-Lognormal with Poisson link (`sdmTMB::delta_lognormal`)
+#'   - `"delta-gengamma-poisson-link"`: Delta-Generalized Gamma with Poisson link (`sdmTMB::delta_gengamma`)
+#'   - `"tweedie"`: Tweedie distribution (`sdmTMB::tweedie`)
+#'   - `"nb2"`: Negative binomial (`sdmTMB::nbinom2`)
 #'
-#' @return A dataframe containing a survey grid from [gfsynopsis::prep_stitch_grids()]
+#' @return An R family object used for model fitting.
 #' @export
 #'
-choose_survey_grid <- function(survey_type, grid_dir) {
-  if (grepl("SYN", survey_type)) survey_type <- 'synoptic'
-  if (survey_type %in% c("HBLL OUT N", "HBLL OUT S")) survey_type <- "hbll_outside"
-  switch(survey_type,
-    synoptic = readRDS(file.path(grid_dir, "synoptic_grid.rds")),
-    hbll_outside = readRDS(file.path(grid_dir, "hbll_out_grid.rds")),
-    hbll_inside = readRDS(file.path(grid_dir, "hbll_ins_grid.rds")),
-    mssm = gfdata::mssm_grid |>
-      dplyr::filter(year >= 2009 & year < 2022) |>
-      dplyr::distinct(X, Y, survey, area),
-    stop("Invalid `survey_type` value")
+#' @examples
+#' get_family_object("lognormal")
+get_family_object <- function(fit_fam) {
+  switch(fit_fam,
+    "lognormal" = sdmTMB::lognormal(link = "log"),
+    "gamma" = Gamma(link = "log"),
+    "gengamma" = sdmTMB::gengamma(link = "log"),
+    "delta-gamma" = sdmTMB::delta_gamma(link2 = "log", type = "standard"),
+    "delta-lognormal" = sdmTMB::delta_lognormal(link2 = "log", type = "standard"),
+    "delta-gengamma" = sdmTMB::delta_gengamma(link2 = "log", type = "standard"),
+    "delta-gamma-poisson-link" = sdmTMB::delta_gamma(link2 = "log", type = "poisson-link"),
+    "delta-lognormal-poisson-link" = sdmTMB::delta_lognormal(link2 = "log", type = "poisson-link"),
+    "delta-gengamma-poisson-link" = sdmTMB::delta_gengamma(link2 = "log", type = "poisson-link"),
+    "tweedie" = sdmTMB::tweedie(link = "log"),
+    "nb2" = sdmTMB::nbinom2(link = "log"),
+    # Add more cases for other families if needed
+    # TODO: add censored poisson/negbin
+    stop("Invalid family name")
   )
 }
 
@@ -288,7 +309,8 @@ add_upr <- function(
 #'     if `model_type = st-rw`, and `~1` if `model_type = 'st-rw_tv-rw'`.
 #' @param mesh Optional mesh object created using [sdmTMB::make_mesh()].
 #' @param cutoff If `mesh = NULL`, mesh cutoff for [sdmTMB::make_mesh()].
-#' @param family The family and link for [sdmTMB::sdmTMB()].
+#' @param family A character string specifying the distribution family.
+#'    Passed to `get_family_object()`.
 #' @param offset A string naming the offset column in `dat` used in [sdmTMB::sdmTMB()]
 #' @param priors Optional penalties/priors used in [sdmTMB::sdmTMBpriors()].
 #' @param silent A boolean. Silent or include optimization details.
@@ -298,14 +320,25 @@ add_upr <- function(
 #' @param check_cache Check whether index file already exists? Default = `FALSE`.
 #' @param cache_predictions Cache model predictions? Can be large.
 #' @param cache_fits Cache model fits? Can be large.
-#' @param survey_grid A data frame containing the spatial grid over which predictions are to be made.
-#'    If `survey_grid` = NULL (the default). Grid should contain cell area.
-#' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
+#' @param index_grid A data frame containing the spatial grid over which predictions are to be made.
+#'    If `index_grid` = NULL (the default). Grid should contain cell area.
+#' @param shapefile An `sf` polygon object used to filter the prediction/index grid.
+#'    Used for the spatially filtered synopsis report. Default = `NULL`
 #'
 #' @returns Either a string or dataframe:
 #' * `insufficient data to stitch regions` if the number of positive sets is too low to stitch
 #' * `Failed sanity check` if the model failed to converge
 #' * A dataframe containing the stitched index formatted to use with [gfplot::plot_survey_index()]
+#'
+#' @details
+#' Allowed values for `family`:
+#' - Standard families: `"lognormal"`, `"gamma"`, `"gengamma"`, `"tweedie"`, `"nb2"`.
+#' - Delta models: `"delta-gamma"`, `"delta-lognormal"`, `"delta-gengamma"`.
+#' - Delta models with Poisson link: `"delta-gamma-poisson-link"`, `"delta-lognormal-poisson-link"`, `"delta-gengamma-poisson-link"`.
+#'
+#' The selected `family` is passed to `get_family_object()`, which maps the input string
+#' to the appropriate `sdmTMB` family object.
+#'
 #' @export
 #'
 get_stitched_index <- function(
@@ -313,7 +346,7 @@ get_stitched_index <- function(
     survey_type = "synoptic",
     model_type = "st-rw", # TODO: rethink this parameter - either - need?
     form = NULL,
-    family = sdmTMB::tweedie(),
+    family = "tweedie",
     time = "year",
     spatial = "on",
     spatiotemporal = "rw",
@@ -329,18 +362,17 @@ get_stitched_index <- function(
     check_cache = FALSE,
     cache_predictions = FALSE,
     cache_fits = FALSE,
-    survey_grid = NULL,
-    grid_dir) {
+    index_grid = NULL,
+    shapefile = NULL) {
   pred_cache <- file.path(cache, "predictions")
   fit_cache <- file.path(cache, "fits")
   dir.create(cache, showWarnings = FALSE, recursive = TRUE)
   if (cache_predictions) dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
   if (cache_fits) dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
-
   species_hyphens <- clean_name(species)
-  .survey_abbrev <- unique(survey_dat$survey_abbrev)
+  out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
 
-  out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
+  family_obj <- get_family_object(family)
 
   if (check_cache & file.exists(out_filename)) {
     out <- readRDS(out_filename)
@@ -422,9 +454,27 @@ get_stitched_index <- function(
 
   if (!is.null(offset)) offset <- survey_dat[[offset]]
 
+    # Allow variable input of grids
+  if (is.null(index_grid)) {
+    index_grid <- choose_survey_grid(stitch_regions)
+  }
+
+  if (!is.null(shapefile)) {
+    index_grid <- index_grid |>
+      mutate(X1000 = X * 1000, Y1000 = Y * 1000) |>
+      subset_spatial(sf_poly = shapefile, xy_coords = c("X1000", "Y1000"), dat_crs = 32609)
+
+    if (nrow(index_grid) == 0) {
+      cli::cli_alert_info("\n  Shapefile does not intersect with survey grid")
+      cli::cli_ul(c("Skipping fitting", "No file output"))
+      return(invisible(NULL))
+    }
+  }
+
+
   cat("\n\tFitting:", model_type, " ", species, "\n")
 
-  is_cpois <- family$family[[1]] == "censored_poisson"
+  is_cpois <- family == "censored_poisson"
   intercept <- as.integer(model_type == "st-rw")
   if (is.null(form)) {
     if (is_cpois) {
@@ -439,7 +489,7 @@ get_stitched_index <- function(
   fit <- switch(model_type,
     `st-iid` = try(
       sdmTMB::sdmTMB(
-        formula = form, family = family,
+        formula = form, family = family_obj,
         time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, priors = priors,
         silent = silent, control = ctrl
@@ -447,7 +497,7 @@ get_stitched_index <- function(
     ),
     `st-rw` = try(
       sdmTMB::sdmTMB(
-        formula = form, family = family,
+        formula = form, family = family_obj,
         time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl, priors = priors
@@ -455,7 +505,7 @@ get_stitched_index <- function(
     ),
     `st-rw_tv-rw` = try(
       sdmTMB::sdmTMB(
-        formula = form, family = family,
+        formula = form, family = family_obj,
         time_varying = ~1, time_varying_type = "rw",
         time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
@@ -465,7 +515,7 @@ get_stitched_index <- function(
     custom = try(
       sdmTMB::sdmTMB(
         formula = form,
-        family = family,
+        family = family_obj,
         time = time,
         spatial = spatial,
         spatiotemporal = spatiotemporal,
@@ -487,7 +537,7 @@ get_stitched_index <- function(
     spatial <- "off"
     fit <- try(
       sdmTMB::sdmTMB(
-        formula = form, family = family,
+        formula = form, family = family_obj,
         time = "year", spatiotemporal = "rw", spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
         silent = silent, control = ctrl
@@ -503,7 +553,7 @@ get_stitched_index <- function(
     spatiotemporal <- "off"
     fit <- try(
       sdmTMB::sdmTMB(
-        formula = form, family = family,
+        formula = form, family = family_obj,
         time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
         data = survey_dat, mesh = mesh, offset = offset,
         silent = silent, control = ctrl, priors = priors
@@ -513,7 +563,7 @@ get_stitched_index <- function(
   }
 
   if (cache_fits) {
-    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
     cat("\n\tSaving:", fit_filename, "\n")
     saveRDS(fit, fit_filename)
   }
@@ -525,25 +575,19 @@ get_stitched_index <- function(
     return(out)
   }
 
-  #fit <- readRDS(fit_filename)
+  # fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+  # fit <- readRDS(fit_filename)
   if (inherits(fit, "sdmTMB")) {
     cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
 
-    # Allow variable input of grids
-    if (is.null(survey_grid)) survey_grid <- choose_survey_grid(survey_type, grid_dir)
-
-    newdata <- sdmTMB::replicate_df(dat = survey_grid, time_name = "year",
-      time_values = sort(union(fit$data$year, fit$extra_time))) |>
-      dplyr::filter(
-        survey %in% fit$data$survey_abbrev
-        # year %in% fit$data$year
-      ) |>
-      droplevels()
+    newdata <- sdmTMB::replicate_df(dat = index_grid, time_name = "year",
+      time_values = sort(union(fit$data$year, fit$extra_time)))
 
     if (survey_type == 'mssm' & isTRUE(grep('year_bin', form))) {
-      newdata <- sdmTMB::replicate_df(newdata, time_name = 'year_bin', time_values = unique(fit$data$year_bin))
+      newdata <- sdmTMB::replicate_df(newdata, time_name = 'year_bin',
+        time_values = unique(fit$data$year_bin))
     }
 
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
@@ -551,13 +595,12 @@ get_stitched_index <- function(
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
 
     if (cache_predictions) {
-      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
       cat("\n\tSaving:", pred_filename, "\n")
       saveRDS(pred, pred_filename)
     }
   }
-# FIXME: I think I want to add the family used
-# TODO: species should probably match rest of the data: species_common_name
+
   if (length(pred)) {
     cat("\n\tCalculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = newdata$area)
@@ -570,6 +613,7 @@ get_stitched_index <- function(
     index$survey_type <- survey_type
     index$stitch_regions <- paste(stitch_regions, collapse = ", ")
     index$species_common_name <- species
+    index$family <- family
     out <- index |>
       dplyr::rename(
         survey_abbrev = survey_type, biomass = "est",
@@ -634,7 +678,7 @@ drop_duplicated_fe <- function(x) {
 }
 
 # ------------------------------------------------------------------------------
-# TODO: Putting this here for now, but maybe best moved to gfplot
+# TODO: Putting this here for now, not actually used here but could be useful later
 #' Scale Indices
 #'
 #' This function scales index values from design-based, geostatistical model-

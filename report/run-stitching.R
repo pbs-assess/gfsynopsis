@@ -68,23 +68,26 @@ purrr::walk(spp_vector, function(.sp) {
   get_stitched_index(
     survey_dat = survey_dat, species = .sp,
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic,
-    grid_dir = grid_dir, check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   get_stitched_index(
     survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT S"), species = .sp,
     cutoff = 10,
     survey_type = "HBLL OUT S", model_type = model_type, cache = sc_hbll_out_s,
-    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
-    check_cache = TRUE
+    family = "nb2",
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   get_stitched_index(
     survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT N"), species = .sp,
     cutoff = 10,
     survey_type = "HBLL OUT N", model_type = model_type, cache = sc_hbll_out_n,
-    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
-    check_cache = TRUE
+    family = "nb2",
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   # IID
@@ -96,10 +99,11 @@ purrr::walk(spp_vector, function(.sp) {
     #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
     # ),
     survey_type = "HBLL OUT S", model_type = model_type_iid, cache = sc_hbll_out_s,
-    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    family = "nb2",
     spatiotemporal = "iid", spatial = "on",
     form = catch ~ 0 + as.factor(year),
-    check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   # IID
@@ -111,7 +115,7 @@ purrr::walk(spp_vector, function(.sp) {
     #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
     # ),
     survey_type = "HBLL OUT N", model_type = model_type_iid, cache = sc_hbll_out_n,
-    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    family = "nb2",
     spatiotemporal = "iid", spatial = "on",
     form = catch ~ 0 + as.factor(year),
     check_cache = TRUE
@@ -120,56 +124,59 @@ purrr::walk(spp_vector, function(.sp) {
   get_stitched_index(
     survey_dat = survey_dat, species = .sp,
     survey_type = "hbll_outside", model_type = model_type, cache = sc_hbll_out,
-    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    family = "nb2",
     check_cache = TRUE
   )
 
   get_stitched_index(
     survey_dat = survey_dat, species = .sp,
     survey_type = "hbll_inside", model_type = model_type, cache = sc_hbll_ins,
-    family = sdmTMB::nbinom2(link = "log"), grid_dir = grid_dir,
+    family = "nb2",
+    check_cache = FALSE,
+    shapefile = shapefile
+  )
+
+  get_stitched_index(
+    survey_dat = survey_dat, species = .sp, family = "delta-gamma",
+    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dg,
     check_cache = TRUE
   )
 
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gamma(),
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dg,
-    grid_dir = grid_dir, check_cache = TRUE
-  )
-
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_lognormal(),
+    survey_dat = survey_dat, species = .sp, family = "delta-lognormal",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dl,
-    grid_dir = grid_dir, check_cache = TRUE
+    check_cache = TRUE
   )
 
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_poisson_link_gamma(),
+    survey_dat = survey_dat, species = .sp, family = "delta-gamma-poisson-link",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpg,
-    grid_dir = grid_dir, check_cache = TRUE
+    check_cache = TRUE
   )
 
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_poisson_link_lognormal(),
+    survey_dat = survey_dat, species = .sp, family = "delta-lognormal-poisson-link",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpl,
-    grid_dir = grid_dir, check_cache = TRUE
+    check_cache = TRUE
   )
 
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gengamma(type = "poisson-link"),
+    survey_dat = survey_dat, species = .sp, family = "delta-gengamma-poisson-link",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpgg,
-    grid_dir = grid_dir, check_cache = TRUE
+    check_cache = TRUE
   )
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = sdmTMB::delta_gengamma(),
+    survey_dat = survey_dat, species = .sp, family = "delta-gengamma",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dgg,
-    grid_dir = grid_dir, check_cache = TRUE
+    check_cache = TRUE
   )
 })
 
 # work through all individual synoptics:
 syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
-families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-poisson-link-lognormal", "delta-poisson-link-gamma", "delta-poisson-link-gengamma", "delta-gengamma")
+families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-gengamma",
+  "delta-poisson-link-lognormal", "delta-poisson-link-gamma",
+  "delta-poisson-link-gengamma")
 
 tofit <- tidyr::expand_grid(.sp = spp_vector, .syn = syns, .family = families)
 # furrr::future_walk(spp_vector, function(.sp) {
@@ -177,13 +184,6 @@ tofit <- tidyr::expand_grid(.sp = spp_vector, .syn = syns, .family = families)
 #     purrr::walk(syns, function(.syn) {
 furrr::future_pmap(tofit, function(.sp, .syn, .family) {
 # purrr::pmap(tofit, function(.sp, .syn, .family) {
-  if (.family == "tweedie") .fam <- sdmTMB::tweedie()
-  if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
-  if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
-  if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
-  if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
-  if (.family == "delta-gengamma") .fam <- sdmTMB::delta_gengamma()
-  if (.family == "delta-poisson-link-gengamma") .fam <- sdmTMB::delta_gengamma(type = "poisson-link")
   tag <- paste0(.syn, "-", .family)
   .cache <- paste0("report/stitch-cache/synoptic-", tag)
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
@@ -200,9 +200,9 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
     }
   }
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = .fam,
+    survey_dat = survey_dat, species = .sp, family = .family,
     survey_type = .syn, model_type = model_type, cache = .cache,
-    grid_dir = grid_dir, check_cache = TRUE, cutoff = .cutoff
+    check_cache = TRUE, cutoff = .cutoff
   )
 })
 # })
@@ -211,13 +211,6 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
 # IID versions
 furrr::future_pmap(tofit, function(.sp, .syn, .family) {
 # purrr::pmap(tofit, function(.sp, .syn, .family) {
-  if (.family == "tweedie") .fam <- sdmTMB::tweedie()
-  if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
-  if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
-  if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
-  if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
-  if (.family == "delta-gengamma") .fam <- sdmTMB::delta_gengamma()
-  if (.family == "delta-poisson-link-gengamma") .fam <- sdmTMB::delta_gengamma(type = "poisson-link")
   tag <- paste0(.syn, "-", .family)
   .cache <- paste0("report/stitch-cache/synoptic-", tag)
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type_iid, ".rds")
@@ -235,7 +228,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
     }
   # }
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = .fam,
+    survey_dat = survey_dat, species = .sp, family = .family,
     survey_type = .syn, model_type = model_type_iid, cache = .cache,
     spatiotemporal = "iid", spatial = "on",
     form = catch ~ 0 + as.factor(year),
@@ -243,7 +236,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
     #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
     #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
     # ),
-    grid_dir = grid_dir, check_cache = TRUE, cutoff = .cutoff, silent = FALSE
+    check_cache = TRUE, cutoff = .cutoff, silent = FALSE
   )
 })
 
@@ -300,7 +293,7 @@ furrr::future_walk(spp_vector, function(.sp) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
-        family = sdmTMB::tweedie(),
+        family = "tweedie",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
         cutoff = CUTOFF, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
@@ -309,7 +302,7 @@ furrr::future_walk(spp_vector, function(.sp) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
-        family = sdmTMB::delta_gamma(),
+        family = "delta-gamma",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dg,
         cutoff = CUTOFF, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
@@ -318,7 +311,7 @@ furrr::future_walk(spp_vector, function(.sp) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
-        family = sdmTMB::delta_lognormal(),
+        family = "delta-lognormal",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
         cutoff = CUTOFF, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
@@ -327,7 +320,16 @@ furrr::future_walk(spp_vector, function(.sp) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
-        family = sdmTMB::delta_poisson_link_gamma(),
+        family = "delta-gengamma",
+        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
+        cutoff = CUTOFF, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
+
+      get_stitched_index(
+        form = 'catch ~ 1',
+        survey_dat = survey_dat, species = .sp,
+        family = "delta-gamma-poisson-link",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpg,
         cutoff = CUTOFF, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
@@ -336,82 +338,89 @@ furrr::future_walk(spp_vector, function(.sp) {
       get_stitched_index(
         form = 'catch ~ 1',
         survey_dat = survey_dat, species = .sp,
-        family = sdmTMB::delta_poisson_link_lognormal(),
+        family = "delta-lognormal-poisson-link",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpl,
         cutoff = CUTOFF, silent = FALSE,
         grid_dir = NULL, check_cache = TRUE
       )
 
-
+      get_stitched_index(
+        form = 'catch ~ 1',
+        survey_dat = survey_dat, species = .sp,
+        family = "delta-gengamma-poisson-link",
+        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
+        cutoff = CUTOFF, silent = FALSE,
+        grid_dir = NULL, check_cache = TRUE
+      )
     }
   }
 })
 
-# fit SYN WCVI but predict on MSSM grid
-# first we need to grab the families from when they were fit before to save time
-get_index <- function(folder, spp, .family = "", model_tag = "st-rw") {
-  paths <- list.files(folder, pattern = ".rds", full.names = TRUE)
-  path <- paths[grepl(spp, paths)]
-  if (length(path) > 1) {
-    path <- path[grepl(model_tag, path)]
-  }
-  if (length(path)) {
-    file_names <- list.files(folder, pattern = ".rds")
-    sp <- gsub("-", " ", spp)
-    if (file.exists(path)) {
-      d <- readRDS(path)
-      if (length(d) > 1L) {
-        return(dplyr::mutate(d, species = sp, family = .family))
-      }
-    }
-  }
-}
-families <- c(
-  "delta-gamma",
-  "delta-poisson-link-gamma",
-  "tweedie",
-  "delta-poisson-link-lognormal",
-  "delta-lognormal"
-)
-take_min_aic <- function(x) {
-  if (nrow(x)) {
-    filter(x, aic == min(aic))
-  }
-}
-syn_wcvi <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = families) |>
-  purrr::pmap_dfr(function(.s, f) {
-  get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), .s, .family = f)
-}) |> group_by(species) |>
-  take_min_aic()
+# # fit SYN WCVI but predict on MSSM grid
+# # first we need to grab the families from when they were fit before to save time
+# get_index <- function(folder, spp, .family = "", model_tag = "st-rw") {
+#   paths <- list.files(folder, pattern = ".rds", full.names = TRUE)
+#   path <- paths[grepl(spp, paths)]
+#   if (length(path) > 1) {
+#     path <- path[grepl(model_tag, path)]
+#   }
+#   if (length(path)) {
+#     file_names <- list.files(folder, pattern = ".rds")
+#     sp <- gsub("-", " ", spp)
+#     if (file.exists(path)) {
+#       d <- readRDS(path)
+#       if (length(d) > 1L) {
+#         return(dplyr::mutate(d, species = sp, family = .family))
+#       }
+#     }
+#   }
+# }
+# families <- c(
+#   "delta-gamma",
+#   "delta-poisson-link-gamma",
+#   "tweedie",
+#   "delta-poisson-link-lognormal",
+#   "delta-lognormal"
+# )
+# take_min_aic <- function(x) {
+#   if (nrow(x)) {
+#     filter(x, aic == min(aic))
+#   }
+# }
+# syn_wcvi <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = families) |>
+#   purrr::pmap_dfr(function(.s, f) {
+#   get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), .s, .family = f)
+# }) |> group_by(species) |>
+#   take_min_aic()
 
-syn_wcvi$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_wcvi$species)
+# syn_wcvi$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_wcvi$species)
 
-# now fit just the best family but predict on MSSM grid:
-syn_wcvi |>
-  select(.sp = species, .family = family) |>
-  distinct() |>
-  # purrr::pmap(\(.sp, .family) {
-  furrr::future_pmap(\(.sp, .family) {
-    if (.family == "tweedie") .fam <- sdmTMB::tweedie()
-    if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
-    if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
-    if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
-    if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
-    .syn <- "SYN WCVI"
-    tag <- paste0(.syn, "-", .family)
-    .cache <- paste0("report/stitch-cache/synoptic-mssm-", tag)
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
-      filter(survey_abbrev == .syn)
-    .cutoff <- 10
-    mssm_grid <- gfdata::mssm_grid |>
-      mutate(survey = "SYN WCVI") |>
-      filter(year >= 2009 & year < 2022) |>
-      distinct(X, Y, survey, area)
+# # now fit just the best family but predict on MSSM grid:
+# syn_wcvi |>
+#   select(.sp = species, .family = family) |>
+#   distinct() |>
+#   # purrr::pmap(\(.sp, .family) {
+#   furrr::future_pmap(\(.sp, .family) {
+#     if (.family == "tweedie") .fam <- sdmTMB::tweedie()
+#     if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
+#     if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
+#     if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
+#     if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
+#     .syn <- "SYN WCVI"
+#     tag <- paste0(.syn, "-", .family)
+#     .cache <- paste0("report/stitch-cache/synoptic-mssm-", tag)
+#     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+#       prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
+#       filter(survey_abbrev == .syn)
+#     .cutoff <- 10
+#     mssm_grid <- gfdata::mssm_grid |>
+#       mutate(survey = "SYN WCVI") |>
+#       filter(year >= 2009 & year < 2022) |>
+#       distinct(X, Y, survey, area)
 
-    get_stitched_index(
-      survey_dat = survey_dat, species = .sp, family = .fam,
-      survey_type = .syn, model_type = model_type, cache = .cache,
-      check_cache = TRUE, cutoff = .cutoff, survey_grid = mssm_grid
-    )
-  })
+#     get_stitched_index(
+#       survey_dat = survey_dat, species = .sp, family = .fam,
+#       survey_type = .syn, model_type = model_type, cache = .cache,
+#       check_cache = TRUE, cutoff = .cutoff, index_grid = mssm_grid
+#     )
+#   })

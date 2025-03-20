@@ -73,4 +73,3 @@ find_length_outliers <- function(xx) {
   else
     return(numeric(0))
 }
-
