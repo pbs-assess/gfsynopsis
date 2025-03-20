@@ -8,7 +8,7 @@
 # Settings ------------------------------------------------------------
 
 french <- FALSE
-# shapefile <- NULL
+shapefile <- NULL
 
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # a species used as an example in the Res Doc
@@ -97,8 +97,11 @@ spp <- join_refs_spp(spp, french = french)
 # Cache stitched indices ----------------------------------------------
 
 message("Cache stitched indexes")
-dc_stitch <- file.path(dc, "stitch-data") # Data used
-stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
+if (is.null(shapefile)) {
+  stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
+} else {
+  stitch_cache <- file.path("report", "spatial-stitch-cache") # Stitched outputs
+}
 dir.create(stitch_cache, showWarnings = FALSE, recursive = TRUE)
 
 # Stitch inputs

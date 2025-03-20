@@ -27,8 +27,8 @@ get_stitched_index(
   check_cache = FALSE,
   cache_predictions = FALSE,
   cache_fits = FALSE,
-  survey_grid = NULL,
-  grid_dir
+  index_grid = NULL,
+  shapefile = NULL
 )
 }
 \arguments{
@@ -86,10 +86,11 @@ if \code{model_type = st-rw}, and \code{~1} if \code{model_type = 'st-rw_tv-rw'}
 
 \item{cache_fits}{Cache model fits? Can be large.}
 
-\item{survey_grid}{A data frame containing the spatial grid over which predictions are to be made.
-If \code{survey_grid} = NULL (the default). Grid should contain cell area.}
+\item{index_grid}{A data frame containing the spatial grid over which predictions are to be made.
+If \code{index_grid} = NULL (the default). Grid should contain cell area.}
 
-\item{grid_dir}{Path where cleaned grids were stored from \code{\link[=prep_stitch_grids]{prep_stitch_grids()}}}
+\item{shapefile}{An \code{sf} polygon object used to filter the prediction/index grid.
+Used for the spatially filtered synopsis report. Default = \code{NULL}}
 }
 \value{
 Either a string or dataframe:

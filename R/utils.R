@@ -107,7 +107,7 @@ subset_spatial <- function(dat, sf_poly, xy_coords, dat_crs = 4326, return_sf = 
     sf::st_filter(sf_poly)
 
   if (!return_sf) {
-    st_drop_geometry(out_sf)
+    sf::st_drop_geometry(out_sf)
   } else {
     out_sf
   }

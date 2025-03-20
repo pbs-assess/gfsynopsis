@@ -320,9 +320,10 @@ add_upr <- function(
 #' @param check_cache Check whether index file already exists? Default = `FALSE`.
 #' @param cache_predictions Cache model predictions? Can be large.
 #' @param cache_fits Cache model fits? Can be large.
-#' @param survey_grid A data frame containing the spatial grid over which predictions are to be made.
-#'    If `survey_grid` = NULL (the default). Grid should contain cell area.
-#' @param grid_dir Path where cleaned grids were stored from [gfsynopsis::prep_stitch_grids()]
+#' @param index_grid A data frame containing the spatial grid over which predictions are to be made.
+#'    If `index_grid` = NULL (the default). Grid should contain cell area.
+#' @param shapefile An `sf` polygon object used to filter the prediction/index grid.
+#'    Used for the spatially filtered synopsis report. Default = `NULL`
 #'
 #' @returns Either a string or dataframe:
 #' * `insufficient data to stitch regions` if the number of positive sets is too low to stitch
@@ -361,16 +362,15 @@ get_stitched_index <- function(
     check_cache = FALSE,
     cache_predictions = FALSE,
     cache_fits = FALSE,
-    survey_grid = NULL,
-    grid_dir) {
+    index_grid = NULL,
+    shapefile = NULL) {
   pred_cache <- file.path(cache, "predictions")
   fit_cache <- file.path(cache, "fits")
   dir.create(cache, showWarnings = FALSE, recursive = TRUE)
   if (cache_predictions) dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
   if (cache_fits) dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
-
   species_hyphens <- clean_name(species)
-  .survey_abbrev <- unique(survey_dat$survey_abbrev)
+  out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
 
   family_obj <- get_family_object(family)
 
@@ -453,6 +453,24 @@ get_stitched_index <- function(
   }
 
   if (!is.null(offset)) offset <- survey_dat[[offset]]
+
+    # Allow variable input of grids
+  if (is.null(index_grid)) {
+    index_grid <- choose_survey_grid(stitch_regions)
+  }
+
+  if (!is.null(shapefile)) {
+    index_grid <- index_grid |>
+      mutate(X1000 = X * 1000, Y1000 = Y * 1000) |>
+      subset_spatial(sf_poly = shapefile, xy_coords = c("X1000", "Y1000"), dat_crs = 32609)
+
+    if (nrow(index_grid) == 0) {
+      cli::cli_alert_info("\n  Shapefile does not intersect with survey grid")
+      cli::cli_ul(c("Skipping fitting", "No file output"))
+      return(invisible(NULL))
+    }
+  }
+
 
   cat("\n\tFitting:", model_type, " ", species, "\n")
 
@@ -545,7 +563,7 @@ get_stitched_index <- function(
   }
 
   if (cache_fits) {
-    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
     cat("\n\tSaving:", fit_filename, "\n")
     saveRDS(fit, fit_filename)
   }
@@ -557,25 +575,19 @@ get_stitched_index <- function(
     return(out)
   }
 
-  #fit <- readRDS(fit_filename)
+  # fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+  # fit <- readRDS(fit_filename)
   if (inherits(fit, "sdmTMB")) {
     cat("\n\tGetting predictions\n")
     # Prepare newdata for getting predictions
     year_range_seq <- min(survey_dat$year):max(survey_dat$year)
 
-    # Allow variable input of grids
-    if (is.null(survey_grid)) survey_grid <- choose_survey_grid(survey_type, grid_dir)
-
-    newdata <- sdmTMB::replicate_df(dat = survey_grid, time_name = "year",
-      time_values = sort(union(fit$data$year, fit$extra_time))) |>
-      dplyr::filter(
-        survey %in% fit$data$survey_abbrev
-        # year %in% fit$data$year
-      ) |>
-      droplevels()
+    newdata <- sdmTMB::replicate_df(dat = index_grid, time_name = "year",
+      time_values = sort(union(fit$data$year, fit$extra_time)))
 
     if (survey_type == 'mssm' & isTRUE(grep('year_bin', form))) {
-      newdata <- sdmTMB::replicate_df(newdata, time_name = 'year_bin', time_values = unique(fit$data$year_bin))
+      newdata <- sdmTMB::replicate_df(newdata, time_name = 'year_bin',
+        time_values = unique(fit$data$year_bin))
     }
 
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
@@ -583,13 +595,12 @@ get_stitched_index <- function(
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
 
     if (cache_predictions) {
-      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
       cat("\n\tSaving:", pred_filename, "\n")
       saveRDS(pred, pred_filename)
     }
   }
-# FIXME: I think I want to add the family used
-# TODO: species should probably match rest of the data: species_common_name
+
   if (length(pred)) {
     cat("\n\tCalculating index\n")
     index <- sdmTMB::get_index(pred, bias_correct = TRUE, area = newdata$area)
@@ -667,7 +678,7 @@ drop_duplicated_fe <- function(x) {
 }
 
 # ------------------------------------------------------------------------------
-# TODO: Putting this here for now, but maybe best moved to gfplot
+# TODO: Putting this here for now, not actually used here but could be useful later
 #' Scale Indices
 #'
 #' This function scales index values from design-based, geostatistical model-
