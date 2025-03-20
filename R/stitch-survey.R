@@ -169,7 +169,7 @@ choose_survey_grid <- function(.survey_abbrev) {
   }
 
   if (any(grepl("SYN|HBLL", .survey_abbrev))) {
-    cli::cli_inform("Filtering survey_blocks grid to: {paste(.survey_abbrev, collapse = ', ')}")
+    cli::cli_inform("\nFiltering survey_blocks grid to: {paste(.survey_abbrev, collapse = ', ')}")
     .grid <- gfdata::survey_blocks |>
       select(survey_abbrev, active_block, area) |>
       filter(active_block == TRUE) |>
@@ -370,7 +370,7 @@ get_stitched_index <- function(
   if (cache_predictions) dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
   if (cache_fits) dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
   species_hyphens <- clean_name(species)
-  out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
+  out_filename <- file.path(cache, paste0(species_hyphens, "_", model_type, ".rds"))
 
   family_obj <- get_family_object(family)
 
@@ -378,7 +378,6 @@ get_stitched_index <- function(
     out <- readRDS(out_filename)
     return(out)
   }
-# FIXME START: pull out data filtering before data are passed to stitching function
   if (survey_type == 'mssm' & is.null(survey_dat)) {
     out <- "No MSSM survey data"
     saveRDS(out, out_filename)
@@ -422,11 +421,9 @@ get_stitched_index <- function(
     saveRDS(out, out_filename)
     return(out)
   }
-# FIXME END: the above chunk can be pulled out
   # Only calculate positive sets if stitching
   mean_num_sets <- sum(stitch_regions_df$mean_n_sets)
   mean_num_pos_sets <- sum(stitch_regions_df$mean_n_pos)
-# FIXME: I think the below filtering can also be pulled out)
   survey_dat <- survey_dat |>
     dplyr::filter(species_common_name == species & survey_type == survey_type &
       survey_abbrev %in% stitch_regions)
@@ -563,7 +560,7 @@ get_stitched_index <- function(
   }
 
   if (cache_fits) {
-    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
+    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
     cat("\n\tSaving:", fit_filename, "\n")
     saveRDS(fit, fit_filename)
   }
@@ -595,7 +592,7 @@ get_stitched_index <- function(
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
 
     if (cache_predictions) {
-      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
+      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", model_type, ".rds"))
       cat("\n\tSaving:", pred_filename, "\n")
       saveRDS(pred, pred_filename)
     }

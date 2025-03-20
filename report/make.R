@@ -11,7 +11,6 @@
 # Settings ------------------------------------------------------------
 
 french <- FALSE
-shapefile <- NULL
 
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # species used as example in the report

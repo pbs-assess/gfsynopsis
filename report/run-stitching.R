@@ -139,36 +139,42 @@ purrr::walk(spp_vector, function(.sp) {
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = "delta-gamma",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dg,
-    check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = "delta-lognormal",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dl,
-    check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = "delta-gamma-poisson-link",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpg,
-    check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = "delta-lognormal-poisson-link",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpl,
-    check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = "delta-gengamma-poisson-link",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpgg,
-    check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = "delta-gengamma",
     survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dgg,
-    check_cache = TRUE
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 })
 
@@ -202,7 +208,8 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
   get_stitched_index(
     survey_dat = survey_dat, species = .sp, family = .family,
     survey_type = .syn, model_type = model_type, cache = .cache,
-    check_cache = TRUE, cutoff = .cutoff
+    check_cache = TRUE, cutoff = .cutoff,
+    shapefile = shapefile
   )
 })
 # })
@@ -236,7 +243,8 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
     #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
     #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
     # ),
-    check_cache = TRUE, cutoff = .cutoff, silent = FALSE
+    check_cache = TRUE, cutoff = .cutoff, silent = FALSE,
+    shapefile = shapefile
   )
 })
 
@@ -261,7 +269,9 @@ furrr::future_walk(spp_vector, function(.sp) {
       cutoff = 20,
       grid = iphc_grid, silent = FALSE,
       cache = sc_iphc,
-      check_cache = TRUE)
+      check_cache = TRUE,
+      shapefile = shapefile
+    )
   }
 })
 
@@ -296,7 +306,8 @@ furrr::future_walk(spp_vector, function(.sp) {
         family = "tweedie",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
         cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
+        grid_dir = NULL, check_cache = TRUE,
+        shapefile = shapefile
       )
 
       get_stitched_index(
@@ -305,7 +316,8 @@ furrr::future_walk(spp_vector, function(.sp) {
         family = "delta-gamma",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dg,
         cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
+        grid_dir = NULL, check_cache = TRUE,
+        shapefile = shapefile
       )
 
       get_stitched_index(
@@ -314,7 +326,8 @@ furrr::future_walk(spp_vector, function(.sp) {
         family = "delta-lognormal",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
         cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
+        grid_dir = NULL, check_cache = TRUE,
+        shapefile = shapefile
       )
 
       get_stitched_index(
@@ -323,7 +336,8 @@ furrr::future_walk(spp_vector, function(.sp) {
         family = "delta-gengamma",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
         cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
+        grid_dir = NULL, check_cache = TRUE,
+        shapefile = shapefile
       )
 
       get_stitched_index(
@@ -332,7 +346,8 @@ furrr::future_walk(spp_vector, function(.sp) {
         family = "delta-gamma-poisson-link",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpg,
         cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
+        grid_dir = NULL, check_cache = TRUE,
+        shapefile = shapefile
       )
 
       get_stitched_index(
@@ -341,7 +356,8 @@ furrr::future_walk(spp_vector, function(.sp) {
         family = "delta-lognormal-poisson-link",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpl,
         cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
+        grid_dir = NULL, check_cache = TRUE,
+        shapefile = shapefile
       )
 
       get_stitched_index(
@@ -350,7 +366,8 @@ furrr::future_walk(spp_vector, function(.sp) {
         family = "delta-gengamma-poisson-link",
         survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
         cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
+        grid_dir = NULL, check_cache = TRUE,
+        shapefile = shapefile
       )
     }
   }
