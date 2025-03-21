@@ -42,7 +42,7 @@ is_unix <- .Platform$OS.type == "unix"
 if (french) {
   build_dir <- paste0("report/tech-report-fr-", tag)
 } else {
-  build_dir <- paste0("report/tech-report", tag)
+  build_dir <- paste0("report/tech-report-", tag)
 }
 
 library(here)
@@ -109,9 +109,9 @@ spp <- join_refs_spp(spp, french = french)
 
 message("Cache stitched indexes")
 if (is.null(shapefile)) {
-  stitch_cache <- file.path("report", "stitch-cache") # Stitched outputs
+  stitch_cache <- file.path("report", paste0("cache-", tag), "stitch-cache") # Stitched outputs
 } else {
-  stitch_cache <- file.path("report", "spatial-stitch-cache") # Stitched outputs
+  stitch_cache <- file.path("report", paste0("cache-", tag), "spatial-stitch-cache") # Stitched outputs
 }
 dir.create(stitch_cache, showWarnings = FALSE, recursive = TRUE)
 
