@@ -63,6 +63,8 @@ if (is_hake_server()) {
   RhpcBLASctl::omp_set_num_threads(1)
 }
 
+dir.create(file.path("report", paste0("cache-", tag)), showWarnings = FALSE)
+
 # Set up parallel processing or sequential ----------------------------
 
 options(future.globals.maxSize = 800 * 1024^2) # 800 mb
