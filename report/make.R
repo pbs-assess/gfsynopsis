@@ -44,7 +44,6 @@ if (french) {
 } else {
   build_dir <- paste0("report/tech-report-", tag)
 }
-
 library(here)
 library(dplyr)
 devtools::load_all("../gfplot/")

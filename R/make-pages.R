@@ -216,7 +216,6 @@ make_pages <- function(
     cpue_cache <- file.path(report_folder, tag_cache, "cpue-cache")
   }
   survey_map_cache <- file.path(report_folder, tag_cache, "map-cache")
-  vb_cache <- file.path(report_folder, tag_cache, "vb-cache")
   iphc_index_cache <- file.path(report_folder, tag_cache, "iphc-cache")
   stitch_cache <- file.path(report_folder, tag_cache, "stitch-cache")
 
@@ -227,7 +226,6 @@ make_pages <- function(
   dir.create(file.path(survey_map_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(survey_map_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
-  dir.create(vb_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(stitch_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(stitch_cache, "hbll_outside"), showWarnings = FALSE, recursive = TRUE)
@@ -241,7 +239,6 @@ make_pages <- function(
   map_cache_spp_synoptic <- paste0(file.path(survey_map_cache, "synoptic", spp_file), ".rds")
   map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
   map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
-  vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
   iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_file), ".rds")
   sc_spp_synoptic <- paste0(file.path(stitch_cache, "synoptic", spp_file), "_", stitch_model_type, ".rds")
   sc_spp_hbll_out <- paste0(file.path(stitch_cache, "hbll_outside", spp_file), "_", stitch_model_type, ".rds")
