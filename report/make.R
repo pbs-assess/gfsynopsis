@@ -51,6 +51,7 @@ devtools::load_all("../gfplot/")
 devtools::load_all(".") # gfsynopsis; weird hexbin errors if not load_all()ed
 library(rosettafish)
 library(future)
+library(cli)
 wd <- getwd()
 if (!grepl("gfsynopsis", wd)) stop("Working directory wrong? Should be this repo main folder.")
 
@@ -126,7 +127,7 @@ bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 
 # Stitch surveys if not cached
 if (FALSE) { # slow to check!
-  source(here::here("report", "run-stitching.R"))
+  source(here("report", "run-stitching.R"))
 }
 
 # get all survey years to convert NAs to 0s:
@@ -136,7 +137,7 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
 
 if (!is_hake_server()) {
   # these are complex, do outside first:
-  source(here::here("report", "plot-indices.R"))
+  source(here("report", "plot-indices.R"))
   index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
 }
 
@@ -144,7 +145,7 @@ if (!is_hake_server()) {
 
 if (parallel_processing && is_hake_server()) future::plan(future::multicore, workers = 12L)
 if (!is_hake_server()) future::plan(future::sequential)
-source(here::here("report/cpue-sdmTMB.R"))
+source(here("report/cpue-sdmTMB.R"))
 future::plan(sequential)
 
 if (is_hake_server()) stop()
@@ -168,8 +169,8 @@ for (i in which(!missing)) {
 missing_spp <- spp$species_common_name[missing]
 to_build <- which(missing)
 
-rlang::inform("Building")
-rlang::inform(paste(spp$species_common_name)[to_build])
+cli_inform("Building")
+cli_inform(paste(spp$species_common_name)[to_build])
 
 # Trash compiled objects for safety:
 # unlink("vb_gfplot.*")
@@ -180,8 +181,8 @@ if (exists("ii")) {
 }
 
 for (i in to_build) {
-  cli::cli_inform("------------------------------------")
-  cli::cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
+  cli_inform("------------------------------------")
+  cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
 
   dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
   dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
@@ -189,7 +190,7 @@ for (i in to_build) {
   hbll_bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
   dat$cpue_index <- d_cpue
 
-  length_ticks <- readr::read_csv(here::here("report/length-axis-ticks.csv"),
+  length_ticks <- readr::read_csv(here("report/length-axis-ticks.csv"),
     show_col_types = FALSE
   ) |> as.data.frame()
 
