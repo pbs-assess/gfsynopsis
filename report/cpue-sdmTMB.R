@@ -147,8 +147,10 @@ fit_sdmTMB_cpue <- function(
     dat_reduced_intersected <- sf::st_intersects(dat_sf, shapefile_sf)
     intersected_i <- which(lengths(dat_reduced_intersected) > 0 & lengths(intersected) > 0)
     dat_sf_reduced <- dat_sf[intersected_i, ]
+    dat_reduced <- dat[intersected_i, ]
   } else {
-    dat_sf_reduced <- dat_sf[which(lengths(intersected) > 0), ]
+    dat_sf_reduced <- dat_sf[which(lengths(intersected) > 0),drop=FALSE]
+    dat_reduced <- dat[which(lengths(intersected) > 0), ,drop=FALSE]
   }
 
   if (plots) {
@@ -164,6 +166,17 @@ fit_sdmTMB_cpue <- function(
   intersected_grid_i <- which(lengths(intersected_grid) > 0)
   grid_region_reduced <- grid_region[intersected_grid_i, ]
 
+  ## Further subseting of grid to new area of interest if needed ----
+  if (!is.null(shapefile)) {
+    shapefile_sf <- sf::st_transform(shapefile, crs = sf::st_crs(grid))
+    new_grid <- sf::st_intersects(grid_region_reduced, shapefile_sf)
+    new_grid_i <- which(lengths(new_grid) > 0)
+    grid_region_reduced <- grid_region_reduced[new_grid_i, ]
+    if (nrow(grid_region_reduced) == 0L) {
+      return(NA_return)
+    }
+  }
+
   if (plots) {
     g <- grid_region_reduced |>
       ggplot() +
@@ -176,14 +189,11 @@ fit_sdmTMB_cpue <- function(
     co <- sf::st_centroid(grid_region_reduced)
   )
   co <- sf::st_coordinates(co)
-
   gg <- data.frame(X = co[, 1] / 1000, Y = co[, 2] / 1000)
   gg$depth_m <- grid_region_reduced$depth_m
   gg$depth_marmap <- grid_region_reduced$depth_marmap
   gg$log_depth <- log(gg$depth_m)
   gg$vessel <- factor(NA)
-
-  dat_reduced <- dat[intersected_i, ]
 
   if (plots) {
     g <- ggplot(gg, aes(X, Y)) +
@@ -262,37 +272,6 @@ fit_sdmTMB_cpue <- function(
   mesh <- make_mesh(dat_reduced, c("X", "Y"), mesh = mesh_from_grid$mesh)
 
   if (plots) plot(mesh$mesh)
-
-  ## Further subseting of grid to new area of interest ----
-
-  if (!is.null(shapefile)) {
-    shapefile_sf <- sf::st_transform(shapefile, crs = sf::st_crs(grid))
-    new_grid <- sf::st_intersects(grid_region_reduced, shapefile_sf)
-    new_grid_i <- which(lengths(new_grid) > 0)
-    index_grid <- grid_region_reduced[new_grid_i, ]
-
-    if (nrow(index_grid) == 0L) {
-      return(NA_return)
-    } else {
-      suppressWarnings(
-        co <- sf::st_centroid(index_grid)
-      )
-      co <- sf::st_coordinates(co)
-      gg <- data.frame(X = co[, 1] / 1000, Y = co[, 2] / 1000)
-      gg$depth_m <- index_grid$depth_m
-      gg$depth_marmap <- index_grid$depth_marmap
-      gg$log_depth <- log(gg$depth_m)
-      gg$vessel <- factor(NA)
-
-      if (plots) {
-        g <- ggplot(gg, aes(X, Y)) +
-          geom_tile(fill = "grey60", width = 2, height = 2) +
-          coord_fixed() +
-          theme_light()
-        print(g)
-      }
-    }
-  }
 
   gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat_reduced$year)))
   gg$depth_scaled <- (gg$log_depth - mean(dat_reduced$log_depth)) / sd(dat_reduced$log_depth)
@@ -377,9 +356,9 @@ xx <- spp$species_common_name
 # set.seed(123)
 # xx <- sample(xx, length(xx), replace = FALSE)
 # xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
-# furrr::future_walk(xx, function(.sp) {
+furrr::future_walk(xx, function(.sp) {
 # shapefile <- NULL
-purrr::walk(xx, \(.sp) {
+# purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   regions <- list(
