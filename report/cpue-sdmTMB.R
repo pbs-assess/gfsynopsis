@@ -1,7 +1,13 @@
 fit_sdmTMB_cpue <- function(
     cpue_data_file, # e.g. report/data-cache-2025-03/cpue-index-dat.rds
     species,
-    survey_grids = c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
+    survey_grids_fit = c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
+    survey_grids_predict = list(
+      c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
+      c("SYN HS", "SYN WCHG"),
+      c("SYN QCS"),
+      c("SYN WCVI")
+    ),
     final_year = as.numeric(format(Sys.Date(), "%Y")) - 1L,
     min_positive_tows = 100L,
     min_positive_trips = 5L,
@@ -24,7 +30,7 @@ fit_sdmTMB_cpue <- function(
     data.frame(
       year = NA, est = NA, lwr = NA, upr = NA, log_est = NA, se = NA,
       type = NA,
-      region = paste(survey_grids, collapse = "; "),
+      # region = paste(survey_grids_fit, collapse = "; "),
       species = species,
       stringsAsFactors = FALSE
     )
@@ -128,7 +134,7 @@ fit_sdmTMB_cpue <- function(
   )
   dat_sf <- sf::st_transform(dat_sf, crs = sf::st_crs(grid))
 
-  grid_region <- dplyr::filter(grid, survey_abbrev %in% survey_grids)
+  grid_region <- dplyr::filter(grid, survey_abbrev %in% survey_grids_fit)
 
   if (plots) {
     g <- grid_region |>
@@ -149,9 +155,10 @@ fit_sdmTMB_cpue <- function(
     dat_sf_reduced <- dat_sf[intersected_i, ]
     dat_reduced <- dat[intersected_i, ]
   } else {
-    dat_sf_reduced <- dat_sf[which(lengths(intersected) > 0),drop=FALSE]
-    dat_reduced <- dat[which(lengths(intersected) > 0), ,drop=FALSE]
+    dat_sf_reduced <- dat_sf[which(lengths(intersected) > 0), drop = FALSE]
+    dat_reduced <- dat[which(lengths(intersected) > 0), , drop = FALSE]
   }
+  dat_reduced$log_depth <- log(dat_reduced$depth_marmap)
 
   if (plots) {
     g <- dat_sf_reduced |>
@@ -192,8 +199,11 @@ fit_sdmTMB_cpue <- function(
   gg <- data.frame(X = co[, 1] / 1000, Y = co[, 2] / 1000)
   gg$depth_m <- grid_region_reduced$depth_m
   gg$depth_marmap <- grid_region_reduced$depth_marmap
-  gg$log_depth <- log(gg$depth_m)
-  gg$vessel <- factor(NA)
+  gg$survey_abbrev <- grid_region_reduced$survey_abbrev
+  gg$log_depth <- log(gg$depth_marmap)
+  gg$vessel <- factor(rep(NA, nrow(gg)))
+  gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat_reduced$year)))
+  gg$depth_scaled <- (gg$log_depth - mean(dat_reduced$log_depth)) / sd(dat_reduced$log_depth)
 
   if (plots) {
     g <- ggplot(gg, aes(X, Y)) +
@@ -211,7 +221,6 @@ fit_sdmTMB_cpue <- function(
   }
 
   dat_reduced$area <- params$area_name
-  dat_reduced$log_depth <- log(dat_reduced$depth_marmap)
   gg$log_depth <- log(gg$depth_marmap)
   dat_reduced$vessel <- as.factor(dat_reduced$vessel_registration_number)
   dat_reduced$month <- factor(dat_reduced$month)
@@ -225,7 +234,7 @@ fit_sdmTMB_cpue <- function(
     summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
     mutate(est_unstandardized = est_unstandardized /
       exp(mean(log(est_unstandardized))))
-  ret$region <- paste(survey_grids, collapse = "; ")
+  ret$region <- paste(survey_grids_fit, collapse = "; ")
   ret$species <- params$species
   if (return_raw_cpue) {
     return(ret)
@@ -246,6 +255,8 @@ fit_sdmTMB_cpue <- function(
 
   dat_reduced$month <- stats::relevel(factor(dat_reduced$month), ref = base_month)
   dat_reduced$month_num <- as.numeric(dat_reduced$month)
+  gg$month <- factor(base_month, levels = levels(dat_reduced$month))
+  gg$month_num <- as.numeric(base_month)
 
   if (length(unique(dat_reduced$month)) >= 9) { # use month smoother
     f <- spp_catch ~ 0 + as.factor(year) +
@@ -265,7 +276,7 @@ fit_sdmTMB_cpue <- function(
     return(NA_return)
   }
 
-  .cutoff <- if (length(survey_grids) > 2) 25 else 10
+  .cutoff <- if (length(survey_grids_fit) > 3) 25 else 10
 
   ## make a more even mesh using the grid
   mesh_from_grid <- make_mesh(gg, c("X", "Y"), cutoff = .cutoff)
@@ -273,29 +284,27 @@ fit_sdmTMB_cpue <- function(
 
   if (plots) plot(mesh$mesh)
 
-  gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat_reduced$year)))
-  gg$depth_scaled <- (gg$log_depth - mean(dat_reduced$log_depth)) / sd(dat_reduced$log_depth)
-  gg$month <- factor(base_month, levels = levels(dat_reduced$month))
-  gg$month_num <- as.numeric(base_month)
-
-  fit <- tryCatch(sdmTMB::sdmTMB(
-    f,
-    knots = list(month_num = c(0.5, 12.5)),
-    family = delta_lognormal(type = "poisson-link"),
-    control = sdmTMBcontrol(profile = c("b_j", "b_j2"), multiphase = FALSE),
-    priors = sdmTMBpriors(b = normal(rep(0, ncol(mm)), rep(20, ncol(mm)))),
-    mesh = mesh,
-    offset = log(dat_reduced$hours_fished),
-    spatial = "on",
-    spatiotemporal = "iid",
-    data = dat_reduced,
-    time = "year",
-    anisotropy = TRUE,
-    predict_args = list(newdata = gg, re_form_iid = NA, offset = rep(0, nrow(gg))),
-    index_args = list(area = rep(4, nrow(gg))),
-    do_index = TRUE,
-    silent = silent
-  ), error = function(e) NA)
+  fit <- tryCatch(
+    sdmTMB::sdmTMB(
+      f,
+      knots = list(month_num = c(0.5, 12.5)),
+      family = delta_lognormal(type = "poisson-link"),
+      control = sdmTMBcontrol(profile = c("b_j", "b_j2"), multiphase = FALSE),
+      priors = sdmTMBpriors(b = normal(rep(0, ncol(mm)), rep(20, ncol(mm)))),
+      mesh = mesh,
+      offset = log(dat_reduced$hours_fished),
+      spatial = "on",
+      spatiotemporal = "iid",
+      data = dat_reduced,
+      time = "year",
+      anisotropy = TRUE,
+      # predict_args = list(newdata = gg, re_form_iid = NA, offset = rep(0, nrow(gg))),
+      # index_args = list(area = rep(4, nrow(gg))),
+      # do_index = TRUE,
+      silent = silent
+    ),
+    error = function(e) NA
+  )
 
   if (length(fit) == 1L) {
     if (is.na(fit)) {
@@ -314,27 +323,41 @@ fit_sdmTMB_cpue <- function(
     }
   }
 
-  if (!all(unlist(s))) {
-    fit <- tryCatch(update(fit, spatiotemporal = "off"), error = function(e) NA)
-    s <- sanity(fit)
-  }
-  if (length(fit) == 1L) {
-    if (is.na(fit)) {
-      return(NA_return)
-    }
-  }
+  ## can't turn these off if predicting to subregions or trends will all be the same:
+  # if (!all(unlist(s))) {
+  #   fit <- tryCatch(update(fit, spatiotemporal = "off"), error = function(e) NA)
+  #   s <- sanity(fit)
+  # }
+  # if (length(fit) == 1L) {
+  #   if (is.na(fit)) {
+  #     return(NA_return)
+  #   }
+  # }
 
   if (!all(unlist(s))) {
     return(NA_return)
   }
 
-  do_expanion <- function(model) {
-    ind <- get_index(model, bias_correct = TRUE, area = 4)
-    ind$region <- paste(survey_grids, collapse = "; ")
+  ## need this to iterate over the survey_grids_predict elements
+  do_expanion <- function(model, surveys_to_predict) {
+    cli::cli_inform(paste("Predicting on", paste(surveys_to_predict, collapse = ", ")))
+    this_grid <- filter(gg, survey_abbrev %in% surveys_to_predict)
+    pred <- predict(
+      model,
+      newdata = this_grid,
+      return_tmb_object = TRUE,
+      re_form_iid = NA,
+      offset = rep(0, nrow(this_grid))
+    )
+    ind <- get_index(pred, bias_correct = TRUE, area = 4)
+    gc()
+    ind$region <- paste(surveys_to_predict, collapse = "; ")
     ind$species <- params$species
     ind
   }
-  ind <- do_expanion(fit)
+  gc()
+  ind <- purrr::map_dfr(survey_grids_predict, \(s) do_expanion(fit, s))
+  gc()
 
   if (plots) {
     g <- ind |> ggplot(aes(year, est, ymin = lwr, ymax = upr)) +
@@ -356,9 +379,9 @@ xx <- spp$species_common_name
 # set.seed(123)
 # xx <- sample(xx, length(xx), replace = FALSE)
 # xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
-furrr::future_walk(xx, function(.sp) {
-# shapefile <- NULL
-# purrr::walk(xx, \(.sp) {
+# furrr::future_walk(xx, function(.sp) {
+  # shapefile <- NULL
+purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
   regions <- list(
@@ -369,26 +392,23 @@ furrr::future_walk(xx, function(.sp) {
   )
   if (!is.null(shapefile)) {
     regions[[1]] <- c("SYN QCS", "SYN HS", "SYN WCHG") # remove WCVI for Haida shapefile
-    regions <- regions[1]
+    regions <- regions[[1]]
   }
   if (!file.exists(cpue_cache_spp)) {
     cat(.sp, "\n")
-    cpue_index_l <- lapply(regions, \(r) {
-      .r <- gsub(" ", "-", paste(r, collapse = "-"))
-      .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
-      ret <- fit_sdmTMB_cpue(
-        cpue_data_file = file.path(dc, "cpue-index-dat.rds"),
-        raw_cpue_caching_file = here::here(.f),
-        survey_grids = r,
-        final_year = 2024,
-        species = .sp,
-        shapefile = shapefile,
-        silent = FALSE
-      )
-      gc()
-      ret
-    })
-    cpue_index <- do.call(rbind, cpue_index_l)
+    .r <- gsub(" ", "-", paste(regions[[1]], collapse = "-"))
+    .f <- paste0(file.path(raw_cpue_cache, paste0(spp_file, "-", .r)), ".rds")
+    cpue_index <- fit_sdmTMB_cpue(
+      cpue_data_file = file.path(dc, "cpue-index-dat.rds"),
+      raw_cpue_caching_file = here::here(.f),
+      survey_grids_fit = regions[[1]],
+      survey_grids_predict = regions,
+      final_year = 2024,
+      plots = TRUE,
+      species = .sp,
+      shapefile = shapefile,
+      silent = FALSE
+    )
     saveRDS(cpue_index, file = cpue_cache_spp, compress = TRUE)
   }
 })
