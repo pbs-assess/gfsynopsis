@@ -8,10 +8,11 @@ fit_sdmTMB_cpue <- function(
     min_yrs_with_trips = 5L,
     raw_cpue_caching_file = NULL,
     shapefile = NULL, # an sf polygon object; e.g. the Haida shape file
-    plots = FALSE, silent = TRUE, return_raw_cpue = FALSE) {
+    plots = FALSE,
+    silent = TRUE,
+    return_raw_cpue = FALSE) {
   library(sdmTMB)
   library(sf)
-
   if (plots) library(ggplot2)
 
   if (require("RhpcBLASctl")) {
@@ -121,7 +122,6 @@ fit_sdmTMB_cpue <- function(
 
   grid <- dplyr::filter(grid, depth_marmap > 0)
   dat <- dplyr::filter(dat, depth_marmap > 0)
-
   dat_sf <- sf::st_as_sf(dat,
     coords = c("longitude", "latitude"),
     crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
@@ -168,7 +168,6 @@ fit_sdmTMB_cpue <- function(
     g <- grid_region_reduced |>
       ggplot() +
       geom_sf() +
-      # geom_sf(data = dat_sf_reduced, alpha = 0.6, pch = ".", colour = "red") +
       theme_light()
     print(g)
   }
@@ -201,19 +200,16 @@ fit_sdmTMB_cpue <- function(
     hist(dat_reduced$depth_marmap)
   }
 
-  dat <- dat_reduced # !!
-
-  dat$area <- params$area_name
-
-  dat$log_depth <- log(dat$depth_marmap)
+  dat_reduced$area <- params$area_name
+  dat_reduced$log_depth <- log(dat_reduced$depth_marmap)
   gg$log_depth <- log(gg$depth_marmap)
-  dat$vessel <- as.factor(dat$vessel_registration_number)
-  dat$month <- factor(dat$month)
-  # dplyr::filter(dat, hours_fished > 2000) # 8762.05!
-  dat <- dplyr::filter(dat, hours_fished < 2000)
-  dat$depth_scaled <- (dat$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
+  dat_reduced$vessel <- as.factor(dat_reduced$vessel_registration_number)
+  dat_reduced$month <- factor(dat_reduced$month)
+  # dplyr::filter(dat_reduced, hours_fished > 2000) # 8762.05!
+  dat_reduced <- dplyr::filter(dat_reduced, hours_fished < 2000)
+  dat_reduced$depth_scaled <- (dat_reduced$log_depth - mean(dat_reduced$log_depth)) / sd(dat_reduced$log_depth)
 
-  ret <- dat |>
+  ret <- dat_reduced |>
     filter(!is.na(spp_catch), !is.na(hours_fished)) |>
     group_by(year) |>
     summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
@@ -227,7 +223,7 @@ fit_sdmTMB_cpue <- function(
   saveRDS(ret, file = raw_cpue_caching_file, compress = FALSE)
 
   if (plots) {
-    g <- ggplot(dat, aes(as.factor(year), (spp_catch + 1) / hours_fished)) +
+    g <- ggplot(dat_reduced, aes(as.factor(year), (spp_catch + 1) / hours_fished)) +
       geom_boxplot() +
       scale_y_log10()
     print(g)
@@ -236,40 +232,36 @@ fit_sdmTMB_cpue <- function(
   get_most_common_level <- function(x) {
     rev(names(sort(table(x))))[[1]]
   }
-  base_month <- get_most_common_level(dat$month)
+  base_month <- get_most_common_level(dat_reduced$month)
 
-  dat$month <- stats::relevel(factor(dat$month), ref = base_month)
-  dat$month_num <- as.numeric(dat$month)
+  dat_reduced$month <- stats::relevel(factor(dat_reduced$month), ref = base_month)
+  dat_reduced$month_num <- as.numeric(dat_reduced$month)
 
-  if (length(unique(dat$month)) >= 9) { # use month smoother
+  if (length(unique(dat_reduced$month)) >= 9) { # use month smoother
     f <- spp_catch ~ 0 + as.factor(year) +
       depth_scaled + I(depth_scaled^2) +
       (1 | vessel) + s(month_num, bs = "cc")
     mm <- stats::model.matrix(spp_catch ~ 0 + as.factor(year) +
-      depth_scaled + I(depth_scaled^2), data = dat)
+      depth_scaled + I(depth_scaled^2), data = dat_reduced)
   } else {
     f <- spp_catch ~ 0 + as.factor(year) +
       depth_scaled + I(depth_scaled^2) +
       (1 | vessel) + as.factor(month)
     mm <- stats::model.matrix(spp_catch ~ 0 + as.factor(year) +
-      depth_scaled + I(depth_scaled^2) + as.factor(month), data = dat)
+      depth_scaled + I(depth_scaled^2) + as.factor(month), data = dat_reduced)
   }
 
-  if (nrow(dat) < 200) {
+  if (nrow(dat_reduced) < 200) {
     return(NA_return)
   }
 
   .cutoff <- if (length(survey_grids) > 2) 25 else 10
 
-  ## original mesh approach
-  # mesh <- make_mesh(dat, c("X", "Y"), cutoff = if (length(survey_grids) > 2) 25 else 10)
-
   ## make a more even mesh using the grid
   mesh_from_grid <- make_mesh(gg, c("X", "Y"), cutoff = .cutoff)
-  mesh <- make_mesh(dat, c("X", "Y"), mesh = mesh_from_grid$mesh)
+  mesh <- make_mesh(dat_reduced, c("X", "Y"), mesh = mesh_from_grid$mesh)
 
-  plot(mesh$mesh)
-  mesh$mesh$n
+  if (plots) plot(mesh$mesh)
 
   ## Further subseting of grid to new area of interest ----
 
@@ -302,26 +294,22 @@ fit_sdmTMB_cpue <- function(
     }
   }
 
-  gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat$year)))
-  gg$depth_scaled <- (gg$log_depth - mean(dat$log_depth)) / sd(dat$log_depth)
-  gg$month <- factor(base_month, levels = levels(dat$month))
+  gg <- sdmTMB::replicate_df(gg, "year", time_values = sort(unique(dat_reduced$year)))
+  gg$depth_scaled <- (gg$log_depth - mean(dat_reduced$log_depth)) / sd(dat_reduced$log_depth)
+  gg$month <- factor(base_month, levels = levels(dat_reduced$month))
   gg$month_num <- as.numeric(base_month)
 
-  tictoc::tic()
   fit <- tryCatch(sdmTMB::sdmTMB(
     f,
     knots = list(month_num = c(0.5, 12.5)),
-    # family = sdmTMB::delta_lognormal(),
-    family = sdmTMB::delta_lognormal(type = "poisson-link"),
-    # family = sdmTMB::delta_gamma(),
+    family = delta_lognormal(type = "poisson-link"),
     control = sdmTMBcontrol(profile = c("b_j", "b_j2"), multiphase = FALSE),
-    # control = sdmTMBcontrol(multiphase = FALSE),
     priors = sdmTMBpriors(b = normal(rep(0, ncol(mm)), rep(20, ncol(mm)))),
     mesh = mesh,
-    offset = log(dat$hours_fished),
+    offset = log(dat_reduced$hours_fished),
     spatial = "on",
     spatiotemporal = "iid",
-    data = dat,
+    data = dat_reduced,
     time = "year",
     anisotropy = TRUE,
     predict_args = list(newdata = gg, re_form_iid = NA, offset = rep(0, nrow(gg))),
@@ -329,7 +317,6 @@ fit_sdmTMB_cpue <- function(
     do_index = TRUE,
     silent = silent
   ), error = function(e) NA)
-  tictoc::toc()
 
   if (length(fit) == 1L) {
     if (is.na(fit)) {
@@ -361,7 +348,6 @@ fit_sdmTMB_cpue <- function(
   if (!all(unlist(s))) {
     return(NA_return)
   }
-  # fit
 
   do_expanion <- function(model) {
     ind <- get_index(model, bias_correct = TRUE, area = 4)
@@ -388,14 +374,14 @@ raw_cpue_cache <- file.path("report", "raw-cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
 dir.create(raw_cpue_cache, showWarnings = FALSE)
 xx <- spp$species_common_name
-set.seed(123)
-xx <- sample(xx, length(xx), replace = FALSE)
+# set.seed(123)
+# xx <- sample(xx, length(xx), replace = FALSE)
 # xx[!xx %in% tolower(unique(d_cpue$species_common_name))]
 # furrr::future_walk(xx, function(.sp) {
+# shapefile <- NULL
 purrr::walk(xx, \(.sp) {
   spp_file <- gfsynopsis:::clean_name(.sp)
   cpue_cache_spp <- paste0(file.path(cpue_cache, spp_file), ".rds")
-  # raw_cpue_cache_spp <-
   regions <- list(
     c("SYN QCS", "SYN HS", "SYN WCVI", "SYN WCHG"),
     c("SYN HS", "SYN WCHG"),
