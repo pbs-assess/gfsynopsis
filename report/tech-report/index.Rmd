@@ -1,9 +1,9 @@
 ---
 title: |
   "A data synopsis for British Columbia groundfish: 2024 data update"
-french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2023"
-year: 2024
-report_number: 3641
+french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2024"
+year: 2025
+report_number: 000
 author: |
   Sean C. Anderson,
   Jillian C. Dunic,
