@@ -10,18 +10,22 @@
 
 # Settings ------------------------------------------------------------
 
-french <- FALSE
-shapefile <- NULL
+dc <- here::here("report", "data-cache-2025-03") # cache folder location
+tag <- "haida" # e.g., main or haida (affects cache folder name)
 
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # species used as example in the report
 optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
-dc <- here::here("report", "data-cache-2025-03") # cache folder location
+french <- FALSE
 
 # optional shape file to filter any spatial by:
-shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
+if (tag == "haida") {
+  shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
+} else {
+  shapefile <- NULL
+}
 # shapefile <- NULL # if not filtering, set `shapefile <- NULL`
 
 # Setup ---------------------------------------------------------------
@@ -36,9 +40,9 @@ is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
 is_unix <- .Platform$OS.type == "unix"
 
 if (french) {
-  build_dir <- "report/tech-report-fr"
+  build_dir <- paste0("report/tech-report-fr-", tag)
 } else {
-  build_dir <- "report/tech-report"
+  build_dir <- paste0("report/tech-report", tag)
 }
 
 library(here)
@@ -196,6 +200,7 @@ for (i in to_build) {
     include_map_square = FALSE, # to check the map aspect ratio
     french = french,
     report_lang_folder = build_dir,
+    tag = tag,
     resolution = 150, # balance size with resolution
     png_format = if (ext == "png") TRUE else FALSE,
     parallel = FALSE, # for CPUE fits; need a lot of memory if true!

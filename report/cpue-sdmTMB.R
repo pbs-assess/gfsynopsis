@@ -369,8 +369,8 @@ fit_sdmTMB_cpue <- function(
 }
 
 message("Fitting sdmTMB CPUE models")
-cpue_cache <- file.path("report", "cpue-sdmTMB-cache")
-raw_cpue_cache <- file.path("report", "raw-cpue-cache")
+cpue_cache <- file.path("report", paste0("cache-", tag), "cpue-sdmTMB-cache")
+raw_cpue_cache <- file.path("report", paste0("cache-", tag), "raw-cpue-cache")
 dir.create(cpue_cache, showWarnings = FALSE)
 dir.create(raw_cpue_cache, showWarnings = FALSE)
 xx <- spp$species_common_name

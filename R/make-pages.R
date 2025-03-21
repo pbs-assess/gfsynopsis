@@ -67,6 +67,7 @@ make_pages <- function(
     spp_file = clean_name(spp),
     report_folder = "report",
     report_lang_folder = "report",
+    tag = "main",
     include_map_square = FALSE,
     map_xlim = c(360, 653),
     map_ylim = c(5275, 6155),
@@ -205,18 +206,19 @@ make_pages <- function(
     )
 
   # File and folder setup: -----------------------------------------------------
+  tag_cache <- paste0("cache-", tag)
 
   fig_folder <- file.path(report_lang_folder, "figure-pages")
   ggplot_folder <- file.path(report_lang_folder, "ggplot-objects")
   if (spatiotemporal_cpue) {
-    cpue_cache <- file.path(report_folder, "cpue-sdmTMB-cache")
+    cpue_cache <- file.path(report_folder, tag_cache, "cpue-sdmTMB-cache")
   } else {
-    cpue_cache <- file.path(report_folder, "cpue-cache")
+    cpue_cache <- file.path(report_folder, tag_cache, "cpue-cache")
   }
-  survey_map_cache <- file.path(report_folder, "map-cache")
-  vb_cache <- file.path(report_folder, "vb-cache")
-  iphc_index_cache <- file.path(report_folder, "iphc-cache")
-  stitch_cache <- file.path(report_folder, "stitch-cache")
+  survey_map_cache <- file.path(report_folder, tag_cache, "map-cache")
+  vb_cache <- file.path(report_folder, tag_cache, "vb-cache")
+  iphc_index_cache <- file.path(report_folder, tag_cache, "iphc-cache")
+  stitch_cache <- file.path(report_folder, tag_cache, "stitch-cache")
 
   dir.create(fig_folder, showWarnings = FALSE, recursive = TRUE)
   dir.create(ggplot_folder, showWarnings = FALSE, recursive = TRUE)
