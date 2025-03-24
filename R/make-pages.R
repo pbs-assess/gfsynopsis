@@ -67,6 +67,7 @@ make_pages <- function(
     spp_file = clean_name(spp),
     report_folder = "report",
     report_lang_folder = "report",
+    tag = "main",
     include_map_square = FALSE,
     map_xlim = c(360, 653),
     map_ylim = c(5275, 6155),
@@ -205,18 +206,18 @@ make_pages <- function(
     )
 
   # File and folder setup: -----------------------------------------------------
+  tag_cache <- paste0("cache-", tag)
 
   fig_folder <- file.path(report_lang_folder, "figure-pages")
   ggplot_folder <- file.path(report_lang_folder, "ggplot-objects")
   if (spatiotemporal_cpue) {
-    cpue_cache <- file.path(report_folder, "cpue-sdmTMB-cache")
+    cpue_cache <- file.path(report_folder, tag_cache, "cpue-sdmTMB-cache")
   } else {
-    cpue_cache <- file.path(report_folder, "cpue-cache")
+    cpue_cache <- file.path(report_folder, tag_cache, "cpue-cache")
   }
-  survey_map_cache <- file.path(report_folder, "map-cache")
-  vb_cache <- file.path(report_folder, "vb-cache")
-  iphc_index_cache <- file.path(report_folder, "iphc-cache")
-  stitch_cache <- file.path(report_folder, "stitch-cache")
+  survey_map_cache <- file.path(report_folder, tag_cache, "map-cache")
+  iphc_index_cache <- file.path(report_folder, tag_cache, "iphc-cache")
+  stitch_cache <- file.path(report_folder, tag_cache, "stitch-cache")
 
   dir.create(fig_folder, showWarnings = FALSE, recursive = TRUE)
   dir.create(ggplot_folder, showWarnings = FALSE, recursive = TRUE)
@@ -225,7 +226,6 @@ make_pages <- function(
   dir.create(file.path(survey_map_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(survey_map_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
-  dir.create(vb_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(stitch_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(stitch_cache, "hbll_outside"), showWarnings = FALSE, recursive = TRUE)
@@ -239,7 +239,6 @@ make_pages <- function(
   map_cache_spp_synoptic <- paste0(file.path(survey_map_cache, "synoptic", spp_file), ".rds")
   map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
   map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
-  vb_cache_spp <- paste0(file.path(vb_cache, spp_file), ".rds")
   iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_file), ".rds")
   sc_spp_synoptic <- paste0(file.path(stitch_cache, "synoptic", spp_file), "_", stitch_model_type, ".rds")
   sc_spp_hbll_out <- paste0(file.path(stitch_cache, "hbll_outside", spp_file), "_", stitch_model_type, ".rds")
@@ -528,11 +527,13 @@ make_pages <- function(
     cpue_index <- NA
  }
   if (nrow(dat$catch) == 0 || all_NA(cpue_index)) {
+
+    entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"
     g_cpue_index <-
       gfsynopsis::plot_cpue_indices(
         expand.grid(
-          area = factor(c("3CD5ABCDE", "5CDE", "5AB", "3CD"),
-            levels = c("3CD5ABCDE", "5CDE", "5AB", "3CD")
+          area = factor(c(entire_area_name, "5CDE", "5AB", "3CD"),
+            levels = c(entire_area_name, "5CDE", "5AB", "3CD")
           ), year = 2000,
           est = NA, lwr = NA, upr = NA
         ),
@@ -564,12 +565,13 @@ make_pages <- function(
       area_labels = .labs
     )
   } else {
+    entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"
     g_catch <- ggplot() +
       theme_pbs()
     g_catch <- gfsynopsis::plot_catches(expand.grid(
       year = 999,
-      area = factor(c("Coastwide", "5AB", "5CDE", "3CD"),
-        levels = c("Coastwide", "5AB", "5CDE", "3CD")
+      area = factor(c(entire_area_name, "5AB", "5CDE", "3CD"),
+        levels = c(entire_area_name, "5AB", "5CDE", "3CD")
       ),
       gear = "abc", value = 1, stringsAsFactors = FALSE
     ), blank_plot = TRUE) +

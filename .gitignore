@@ -110,3 +110,4 @@ report/tech-report/tmp-*
 marmap*\.csv
 */spatial-filtering/data/*
 .DS_store
+report/spatial-filtering/shape-files/haida

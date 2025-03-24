@@ -82,7 +82,12 @@ fit_survey_maps <- function(dat,
     list(model = m, raw_dat = raw_dat)
   })
 
-  pred_dat <- purrr::map_df(out, function(x) data.frame(select(x$model$predictions, -survey), survey = x$model$survey, stringsAsFactors = FALSE))
+  if ("survey" %in% names(out[[1]]$model$predictions)) {
+    pred_dat <- purrr::map_df(out, function(x) data.frame(dplyr::select(x$model$predictions, -survey), survey = x$model$survey, stringsAsFactors = FALSE)) 
+  } else {
+    pred_dat <- purrr::map_df(out, function(x) data.frame(x$model$predictions, survey = x$model$survey, stringsAsFactors = FALSE))
+  }
+
   raw_dat  <- purrr::map_df(out, function(x) data.frame(x$raw_dat, survey = x$model$survey, stringsAsFactors = FALSE))
   models   <- purrr::map(out,    function(x) x$model)
 
@@ -584,6 +589,9 @@ rotate_coords <- function(x, y, rotation_angle, rotation_center) {
 }
 
 rotate_df <- function(df, rotation_angle, rotation_center) {
+  if (!"X" %in% names(df) || !"Y" %in% names(df)) {
+    stop("X and Y columns are missing from data frame to rotate with rotate_df()")
+  } 
   r <- rotate_coords(df$X, df$Y,
     rotation_angle = rotation_angle,
     rotation_center = rotation_center
