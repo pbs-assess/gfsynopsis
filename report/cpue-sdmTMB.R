@@ -392,7 +392,7 @@ purrr::walk(xx, \(.sp) {
   )
   if (!is.null(shapefile)) {
     regions[[1]] <- c("SYN QCS", "SYN HS", "SYN WCHG") # remove WCVI for Haida shapefile
-    regions <- regions[[1]]
+    regions <- regions[1]
   }
   if (!file.exists(cpue_cache_spp)) {
     cat(.sp, "\n")
