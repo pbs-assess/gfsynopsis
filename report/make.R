@@ -8,6 +8,14 @@
 # - [x] pull all new data from the servers; done as part of this file with get_data()
 # - [x] update the years in the call to make_pages() below
 
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args)) {
+  ii <- as.numeric(args[1])
+  interactive <- FALSE
+} else {
+  interactive <- TRUE
+}
+
 # Settings ------------------------------------------------------------
 
 dc <- here::here("report", "data-cache-2025-03") # cache folder location
