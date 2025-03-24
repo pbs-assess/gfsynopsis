@@ -442,7 +442,7 @@ make_pages <- function(
     all(is.na(x[[1L]]))
   }
 
- if ("cpue_index" %in% names(dat)) {
+ # if ("cpue_index" %in% names(dat)) {
    if (nrow(dat$catch) > 0) {
      # if (!file.exists(cpue_cache_spp)) {
      #   cpue_index <- gfsynopsis::fit_cpue_indices(dat$cpue_index,
@@ -523,9 +523,9 @@ make_pages <- function(
          )
      }
    }
- } else {
-    cpue_index <- NA
- }
+ # } else {
+ #    cpue_index <- NA
+ # }
   if (nrow(dat$catch) == 0 || all_NA(cpue_index)) {
 
     entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"

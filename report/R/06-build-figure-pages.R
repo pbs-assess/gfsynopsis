@@ -4,8 +4,8 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
   dplyr::distinct()
 
 # these are complex, do outside first:
-source(here("report", "plot-indices.R"))
-index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
+## source(here("report", "plot-indices.R"))
+## index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
 
 # Make figure pages ---------------------------------------------------
 
@@ -45,7 +45,7 @@ for (i in to_build) {
   dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
     rename(lat = "latitude", lon = "longitude")
   hbll_bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
-  dat$cpue_index <- d_cpue
+  # dat$cpue_index <- d_cpue
 
   length_ticks <- readr::read_csv(here("report/length-axis-ticks.csv"),
     show_col_types = FALSE
