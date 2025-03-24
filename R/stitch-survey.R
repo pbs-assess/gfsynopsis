@@ -107,6 +107,31 @@ prep_mssm_dat <- function(survey_dat) {
   )
 }
 
+#' Prepare IPHC FISS data for index stitching
+#'
+#' Currently this does not use the 2022 GFBio observer data which is 'all hooks'
+#'
+#' @returns A dataframe the same length as `survey_dat`
+#' @export
+
+prep_iphc_stitch_dat <- function(survey_dat) {
+  clean_dat <- survey_dat |>
+    sdmTMB::add_utm_columns(c("longitude", "latitude"), utm_crs = 32609) |>
+    dplyr::mutate(
+      survey_abbrev = "IPHC FISS",
+      survey_type = "IPHC FISS",
+      catch = number_observed,
+      baits_returned = replace(baits_returned, which(baits_returned == 0), 1),
+      prop_bait_hooks = baits_returned / hooks_observed,
+      prop_removed = 1 - prop_bait_hooks,
+      hook_adjust_factor = -(log(prop_bait_hooks) / (1 - prop_bait_hooks)),
+      offset = log(effective_skates / hook_adjust_factor),
+      present = case_when(catch > 0 ~ 1, catch == 0 ~ 0, .default = NA), # useful for plotting and pos sets
+      fyear = factor(year), # mgcv needs factor inputs (useful if we do the censoring and need to get pstar)
+      fstation = factor(station)
+    ) |>
+    dplyr::filter(usable == "Y", pbs_standard_grid, !is.na(catch)) #|> # some species weren't measured at different points in time series
+}
 
 #' Get table of positive sets for each region and survey type
 #'
@@ -121,7 +146,11 @@ prep_mssm_dat <- function(survey_dat) {
 get_stitch_lu <- function(survey_dat, species, survey_type, survey_col = 'survey_type') {
   # stopifnot(survey_type %in% c("synoptic", "mssm", "hbll_outside", "hbll_inside",
   #   "SYN WCVI"))
-  if (survey_type %in% c('SYN WCVI', 'SYN WCHG', 'SYN HS', 'SYN QCS', "HBLL OUT N", "HBLL OUT S")) survey_col = 'survey_abbrev'
+  if (survey_type %in% c(
+    'SYN WCVI', 'SYN WCHG', 'SYN HS', 'SYN QCS',
+    "HBLL OUT N", "HBLL OUT S",
+    "MSSM WCVI", "IPHC FISS")
+    ) { survey_col <- 'survey_abbrev' }
   survey_dat |>
     dplyr::filter(species_common_name %in% {{ species }}, .data[[survey_col]] %in% {{ survey_type }}) |>
     dplyr::group_by(species_common_name, survey_type, survey_abbrev, year) |>
@@ -169,7 +198,7 @@ choose_survey_grid <- function(.survey_abbrev) {
   }
 
   if (any(grepl("SYN|HBLL", .survey_abbrev))) {
-    cli::cli_inform("Filtering survey_blocks grid to: {paste(.survey_abbrev, collapse = ', ')}")
+    message("\tFiltering survey_blocks grid to: ", paste(.survey_abbrev, collapse = ", "))
     .grid <- gfdata::survey_blocks |>
       select(survey_abbrev, active_block, area) |>
       filter(active_block == TRUE) |>
@@ -180,13 +209,13 @@ choose_survey_grid <- function(.survey_abbrev) {
       sf::st_drop_geometry() |>
       filter(survey_abbrev %in% .survey_abbrev)
   } else if (.survey_abbrev == "MSSM WCVI") {
-    cli::cli_inform("Filtering mssm_grid to: {paste(.survey_abbrev, collapse = ', ')}")
+    message("Filtering mssm_grid to: ", paste(.survey_abbrev, collapse = ", "))
     .grid <- gfdata::mssm_grid |>
       dplyr::filter(year >= 2009 & year < 2022) |>
       dplyr::distinct(X, Y, survey, area)
 
   } else if (.survey_abbrev == "IPHC FISS") {
-    cli::cli_inform("Using IPHC 2017 grid")
+    message("\tUsing IPHC 2017 grid")
     .grid <- gfdata::iphc_sets |>
       filter(year == 2017) |>
       rename(lon = "longitude", lat = "latitude") |>
@@ -292,9 +321,6 @@ add_upr <- function(
 #' @param form Optional string specifying model formula.
 #'   'catch ~ 1' (the default, unless `family = poisson()` or `family = sdmTMB::censored_possion()`
 #'   then "catch ~ 1 + (1|obs_id)").
-#' @param form Optional string specifying model formula.
-#'    'catch ~ 1' (the default, unless `family = poisson()` or `family = sdmTMB::censored_possion()`
-#'    then "catch ~ 1 + (1|obs_id)").
 #' @param time An optional time column name (as character), used in [sdmTMB::sdmTMB()].
 #'    (default = 'year')
 #' @param spatial Estimate spatial random fields? See [sdmTMB::sdmTMB()].
@@ -342,17 +368,19 @@ add_upr <- function(
 #' @export
 #'
 get_stitched_index <- function(
-    survey_dat, species = "arrowtooth flounder",
+    survey_dat,
+    species = "arrowtooth flounder",
     survey_type = "synoptic",
-    model_type = "st-rw", # TODO: rethink this parameter - either - need?
     form = NULL,
     family = "tweedie",
     time = "year",
     spatial = "on",
     spatiotemporal = "rw",
+    use_extra_time = NULL,
     time_varying = NULL,
     time_varying_type = NULL,
-    mesh = NULL, cutoff = 20,
+    mesh = NULL,
+    cutoff = 20,
     offset = "offset",
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
@@ -370,7 +398,8 @@ get_stitched_index <- function(
   if (cache_predictions) dir.create(pred_cache, showWarnings = FALSE, recursive = TRUE)
   if (cache_fits) dir.create(fit_cache, showWarnings = FALSE, recursive = TRUE)
   species_hyphens <- clean_name(species)
-  out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
+  model_tag <- paste0("sp-", spatial, "-st-", spatiotemporal)
+  out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_tag, ".rds"))
 
   family_obj <- get_family_object(family)
 
@@ -416,7 +445,11 @@ get_stitched_index <- function(
 
   if ((survey_type %in% c('synoptic', 'hbll_outside', 'hbll_inside') &
        length(stitch_regions) < 2) |
-      (survey_type %in% c('mssm', 'SYN WCVI', 'SYN WCHG', 'SYN QCS', 'SYN HS', 'HBLL OUT N', 'HBLL OUT S') && length(stitch_regions) == 0)) {
+    (survey_type %in% c(
+      'SYN WCVI', 'SYN WCHG', 'SYN QCS', 'SYN HS',
+      'HBLL OUT N', 'HBLL OUT S',
+      'mssm', "IPHC FISS"
+    ) && length(stitch_regions) == 0)) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
     out <- "insufficient data to stitch regions"
     saveRDS(out, out_filename)
@@ -431,25 +464,26 @@ get_stitched_index <- function(
     dplyr::filter(species_common_name == species & survey_type == survey_type &
       survey_abbrev %in% stitch_regions)
 # TODO: not sure if this is even needed anymore
-  survey_dat <- drop_duplicated_fe(survey_dat) #150
+
+  if (!("IPHC FISS" %in% stitch_regions)) survey_dat <- drop_duplicated_fe(survey_dat) #150
 
   survey_dat <- droplevels(survey_dat) # drop extra factor levels before running models
 
-  cat("\n\tStitching index for:", species)
-  cat("\n\t\t- For regions: ", paste(stitch_regions, collapse = ", "))
+  cat("\n\tStitching index for: ", species)
+  cat("\t\t- For regions: ", paste(stitch_regions, collapse = ", "), "\n")
 
   if (is.null(mesh)) {
-    cat("\n\t\t- No mesh provided, making mesh with cutoff:", cutoff)
+    cat("\n\t\t- No mesh provided, making mesh with cutoff:", cutoff, "\n")
     mesh <- sdmTMB::make_mesh(survey_dat, c("X", "Y"), cutoff = cutoff)
   }
 
   missing_years <- sdmTMB:::find_missing_time(survey_dat$year)
 
-  if (length(missing_years) < 1L) {
-    cat("\n\t\t- No missing time to be filled in.")
+  if (length(missing_years) < 1L || !use_extra_time) {
+    cat("\t\t- No missing time to be filled in.\n")
     missing_years <- NULL
   } else {
-    cat("\n\t\t- Filling in extra_time with:", missing_years)
+    cat("\t\t- Filling in extra_time with:", missing_years, "\n")
   }
 
   if (!is.null(offset)) offset <- survey_dat[[offset]]
@@ -472,48 +506,22 @@ get_stitched_index <- function(
   }
 
 
-  cat("\n\tFitting:", model_type, " ", species, "\n")
+  cat("\tFitting:", model_tag, " ", species, "\n")
 
-  is_cpois <- family == "censored_poisson"
-  intercept <- as.integer(model_type == "st-rw")
-  if (is.null(form)) {
-    if (is_cpois) {
-      survey_dat$obs_id <- as.factor(seq(1, nrow(survey_dat)))
-      form <- paste0("catch ~ ", intercept, " + (1 | obs_id)")
-    } else {
-      form <- paste0("catch ~ ", intercept)
-    }
-  }
-  form <- stats::as.formula(form)
-# TODO: get rid of this switch and have only custom function passed through
-  fit <- switch(model_type,
-    `st-iid` = try(
-      sdmTMB::sdmTMB(
-        formula = form, family = family_obj,
-        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
-        data = survey_dat, mesh = mesh, offset = offset, priors = priors,
-        silent = silent, control = ctrl
-      )
-    ),
-    `st-rw` = try(
-      sdmTMB::sdmTMB(
-        formula = form, family = family_obj,
-        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
-        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
-        silent = silent, control = ctrl, priors = priors
-      )
-    ),
-    `st-rw_tv-rw` = try(
-      sdmTMB::sdmTMB(
-        formula = form, family = family_obj,
-        time_varying = ~1, time_varying_type = "rw",
-        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
-        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
-        silent = silent, control = ctrl, priors = priors
-      )
-    ),
-    custom = try(
-      sdmTMB::sdmTMB(
+  # is_cpois <- family == "censored_poisson"
+  # intercept <- as.integer(spatiotemporal == "rw")
+  # if (is.null(form)) {
+  #   if (is_cpois) {
+  #     survey_dat$obs_id <- as.factor(seq(1, nrow(survey_dat)))
+  #     form <- paste0("catch ~ ", intercept, " + (1 | obs_id)")
+  #   } else {
+  #     form <- paste0("catch ~ ", intercept)
+  #   }
+  # }
+  # form <- stats::as.formula(form)
+
+  fit <- try(
+    sdmTMB::sdmTMB(
         formula = form,
         family = family_obj,
         time = time,
@@ -521,12 +529,13 @@ get_stitched_index <- function(
         spatiotemporal = spatiotemporal,
         time_varying = time_varying,
         time_varying_type = time_varying_type,
-        data = survey_dat, mesh = mesh, offset = offset, extra_time = missing_years,
+        data = survey_dat,
+        mesh = mesh,
+        offset = offset,
+        extra_time = missing_years,
         priors = priors,
         silent = silent, control = ctrl
       )
-    ),
-    stop("Invalid `model_type` value")
   )
 
   sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
@@ -563,19 +572,19 @@ get_stitched_index <- function(
   }
 
   if (cache_fits) {
-    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
+    fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", family, "_", model_tag, ".rds"))
     cat("\n\tSaving:", fit_filename, "\n")
     saveRDS(fit, fit_filename)
   }
 
   if (!sanity_check) {
-    cat("\n\tFailed sanity check for:", model_type, " ", species, "\n")
+    cat("\n\tFailed sanity check for:", model_tag, " ", species, "\n")
     out <- "Failed sanity check"
     saveRDS(out, out_filename)
     return(out)
   }
 
-  # fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_type, ".rds"))
+  # fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", model_tag, ".rds"))
   # fit <- readRDS(fit_filename)
   if (inherits(fit, "sdmTMB")) {
     cat("\n\tGetting predictions\n")
@@ -585,17 +594,12 @@ get_stitched_index <- function(
     newdata <- sdmTMB::replicate_df(dat = index_grid, time_name = "year",
       time_values = sort(union(fit$data$year, fit$extra_time)))
 
-    if (survey_type == 'mssm' & isTRUE(grep('year_bin', form))) {
-      newdata <- sdmTMB::replicate_df(newdata, time_name = 'year_bin',
-        time_values = unique(fit$data$year_bin))
-    }
-
     newdata$obs_id <- 1L # fake; needed something (1 | obs_id) in formula
     # re_form_iid = NA, so obs_id ignored in prediction
     pred <- stats::predict(fit, newdata, return_tmb_object = TRUE, re_form_iid = NA)
 
     if (cache_predictions) {
-      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", family, "_", model_type, ".rds"))
+      pred_filename <- file.path(pred_cache, paste0(species_hyphens, "_", family, "_", model_tag, ".rds"))
       cat("\n\tSaving:", pred_filename, "\n")
       saveRDS(pred, pred_filename)
     }

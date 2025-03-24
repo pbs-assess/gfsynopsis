@@ -1,193 +1,179 @@
 # to be run as part of `report/make.R`
 
-sc_synoptic <- file.path(stitch_cache, "synoptic-tweedie")
-sc_synoptic_dg <- file.path(stitch_cache, "synoptic-delta-gamma")
-sc_synoptic_dl <- file.path(stitch_cache, "synoptic-delta-lognormal")
-sc_synoptic_dpg <- file.path(stitch_cache, "synoptic-delta-poisson-link-gamma")
-sc_synoptic_dpl <- file.path(stitch_cache, "synoptic-delta-poisson-link-lognormal")
-
-sc_synoptic_dpgg <- file.path(stitch_cache, "synoptic-delta-poisson-link-gengamma")
-sc_synoptic_dgg <- file.path(stitch_cache, "synoptic-delta-gengamma")
-
+sc_synoptic <- file.path(stitch_cache, "synoptic")
 sc_hbll_out <- file.path(stitch_cache, "hbll_outside")
 sc_hbll_out_n <- file.path(stitch_cache, "hbll_outside_n")
 sc_hbll_out_s <- file.path(stitch_cache, "hbll_outside_s")
 sc_hbll_ins <- file.path(stitch_cache, "hbll_inside")
 sc_iphc <- file.path(stitch_cache, "iphc")
-sc_mssm <- file.path(stitch_cache, 'mssm-tweedie')
-sc_mssm_dg <- file.path(stitch_cache, 'mssm-delta-gamma')
-sc_mssm_dl <- file.path(stitch_cache, 'mssm-lognormal')
-sc_mssm_dpg <- file.path(stitch_cache, 'mssm-delta-poisson-link-gamma')
-sc_mssm_dpl <- file.path(stitch_cache, 'mssm-delta-poisson-link-lognormal')
+sc_mssm <- file.path(stitch_cache, 'mssm')
 
-dir.create(sc_synoptic, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_synoptic_dg, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_synoptic_dl, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_synoptic_dpg, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_synoptic_dpl, showWarnings = FALSE, recursive = TRUE)
+# survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+#     prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
 
-dir.create(sc_synoptic_dpgg, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_synoptic_dgg, showWarnings = FALSE, recursive = TRUE)
+syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
+families <- c(
+  "tweedie",
+  "delta-gamma", "delta-lognormal", "delta-gengamma",
+  "delta-lognormal-poisson-link", "delta-gamma-poisson-link",
+  "delta-gengamma-poisson-link"
+)
 
-dir.create(sc_hbll_out, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_hbll_out_n, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_hbll_out_s, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_hbll_ins, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_iphc, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_mssm, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_mssm_dg, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_mssm_dl, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_mssm_dpg, showWarnings = FALSE, recursive = TRUE)
-dir.create(sc_mssm_dpl, showWarnings = FALSE, recursive = TRUE)
+# RW stitched regions (and MSSM WCVI)
+# -----------------------------------------
+furrr::future_walk(spp_vector, function(.sp) {
+# purrr::walk(spp_vector, function(.sp) {
+  # Load and clean survey data
+  survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+    prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
 
-model_type_iid <- "st-iid"
+  purrr::walk(families, function(.fam) {
+    # Stitched SYN surveys - all regions
+    get_stitched_index(
+      survey_dat = survey_dat,
+      species = .sp,
+      survey_type = "synoptic",
+      cutoff = 20,
+      form = catch ~ 1,
+      family = .fam,
+      spatial = "on",
+      spatiotemporal = "rw",
+      use_extra_time = TRUE,
+      offset = 'offset',
+      cache = sc_synoptic,
+      check_cache = TRUE,
+      shapefile = shapefile
+    )
+    #  # MSSM WCVI
+    # get_stitched_index(
+    #   survey_dat = survey_dat |> filter(survey_abbrev == "MSSM WCVI"),
+    #   species = .sp,
+    #   survey_type = "MSSM WCVI",
+    #   cutoff = 8,
+    #   form = catch ~ 1,
+    #   family = .fam,
+    #   spatial = "on",
+    #   spatiotemporal = "iid",
+    #   use_extra_time = FALSE,
+    #   cache = sc_mssm,
+    #   check_cache = TRUE,
+    #   shapefile = shapefile
+    # )
+  })
 
-# furrr::future_walk(spp_vector, function(.sp) {
-purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-  stitch_cached_sp <- file.path(c(
-    sc_synoptic,
-    sc_hbll_out,
-    sc_hbll_ins,
-    sc_hbll_out_n,
-    sc_hbll_out_s,
-    sc_synoptic_dg,
-    sc_synoptic_dl,
-    sc_synoptic_dpg,
-    sc_synoptic_dpl
-  ),
-    spp_filename)
-
-  print(spp_filename)
-
-  # if(any(!file.exists(stitch_cached_sp))) {
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
-  # }
-
+  # HBLL outside N/S
+  # -----------------
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp,
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic,
+    survey_dat = filter(survey_dat, survey_abbrev %in% c("HBLL OUT N", "HBLL OUT S")),
+    survey_type = "hbll_outside",
+    species = .sp,
+    cutoff = 20,
+    form = catch ~ 1,
+    family = "nb2",
+    spatial = "on",
+    spatiotemporal = "rw",
+    use_extra_time = TRUE,
+    offset = 'offset',
+    cache = sc_hbll_out,
     check_cache = TRUE,
     shapefile = shapefile
   )
 
+  # HBLL OUT N st = rw
   get_stitched_index(
-    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT S"), species = .sp,
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT N"),
+    survey_type = "HBLL OUT N",
+    species = .sp,
     cutoff = 10,
-    survey_type = "HBLL OUT S", model_type = model_type, cache = sc_hbll_out_s,
+    form = catch ~ 1,
     family = "nb2",
+    spatial = "on",
+    spatiotemporal = "rw",
+    use_extra_time = TRUE,
+    offset = 'offset',
+    cache = sc_hbll_out_n,
     check_cache = TRUE,
     shapefile = shapefile
   )
 
+  # HBLL OUT S st = rw
   get_stitched_index(
-    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT N"), species = .sp,
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT S"),
+    survey_type = "HBLL OUT S",
+    species = .sp,
     cutoff = 10,
-    survey_type = "HBLL OUT N", model_type = model_type, cache = sc_hbll_out_n,
+    form = catch ~ 1,
     family = "nb2",
+    spatial = "on",
+    spatiotemporal = "rw",
+    use_extra_time = TRUE,
+    offset = 'offset',
+    cache = sc_hbll_out_s,
     check_cache = TRUE,
     shapefile = shapefile
   )
 
-  # IID
+  # HBLL OUT N st = iid
   get_stitched_index(
-    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT S"), species = .sp,
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT N"),
+    survey_type = "HBLL OUT N",
+    species = .sp,
     cutoff = 10,
-    # priors = sdmTMB::sdmTMBpriors(
-    #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
-    #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
-    # ),
-    survey_type = "HBLL OUT S", model_type = model_type_iid, cache = sc_hbll_out_s,
-    family = "nb2",
-    spatiotemporal = "iid", spatial = "on",
     form = catch ~ 0 + as.factor(year),
+    family = "nb2",
+    spatial = "on",
+    spatiotemporal = "iid",
+    use_extra_time = FALSE,
+    cache = sc_hbll_out_n,
     check_cache = TRUE,
     shapefile = shapefile
   )
 
-  # IID
+  # HBLL OUT S st = iid
   get_stitched_index(
-    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT N"), species = .sp,
+    survey_dat = filter(survey_dat, survey_abbrev == "HBLL OUT S"),
+    survey_type = "HBLL OUT S",
+    species = .sp,
     cutoff = 10,
-    # priors = sdmTMB::sdmTMBpriors(
-    #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
-    #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
-    # ),
-    survey_type = "HBLL OUT N", model_type = model_type_iid, cache = sc_hbll_out_n,
-    family = "nb2",
-    spatiotemporal = "iid", spatial = "on",
     form = catch ~ 0 + as.factor(year),
-    check_cache = TRUE
-  )
-
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp,
-    survey_type = "hbll_outside", model_type = model_type, cache = sc_hbll_out,
     family = "nb2",
-    check_cache = TRUE
-  )
-
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp,
-    survey_type = "hbll_inside", model_type = model_type, cache = sc_hbll_ins,
-    family = "nb2",
-    check_cache = FALSE,
+    spatial = "on",
+    spatiotemporal = "iid",
+    use_extra_time = FALSE,
+    cache = sc_hbll_out_s,
+    check_cache = TRUE,
     shapefile = shapefile
   )
 
+  # HBLL inside N/S
+  # -----------------
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = "delta-gamma",
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dg,
-    check_cache = TRUE
-  )
-
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = "delta-lognormal",
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dl,
-    check_cache = TRUE
-  )
-
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = "delta-gamma-poisson-link",
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpg,
-    check_cache = TRUE
-  )
-
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = "delta-lognormal-poisson-link",
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpl,
-    check_cache = TRUE
-  )
-
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = "delta-gengamma-poisson-link",
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dpgg,
-    check_cache = TRUE
-  )
-  get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = "delta-gengamma",
-    survey_type = "synoptic", model_type = model_type, cache = sc_synoptic_dgg,
-    check_cache = TRUE
+    survey_dat = filter(survey_dat, survey_abbrev %in% c("HBLL INS N", "HBLL INS S")),
+    survey_type = "hbll_inside",
+    species = .sp,
+    cutoff = 20,
+    form = catch ~ 1,
+    family = "nb2",
+    spatial = "on",
+    spatiotemporal = "rw",
+    use_extra_time = TRUE,
+    offset = 'offset',
+    cache = sc_hbll_ins,
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 })
 
-# work through all individual synoptics:
-syns <- c("SYN HS", "SYN QCS", "SYN WCVI", "SYN WCHG")
-families <- c("tweedie", "delta-gamma", "delta-lognormal", "delta-gengamma",
-  "delta-poisson-link-lognormal", "delta-poisson-link-gamma",
-  "delta-poisson-link-gengamma")
-
+# Fit individual SYN surveys
+# -----------------------------------------
 tofit <- tidyr::expand_grid(.sp = spp_vector, .syn = syns, .family = families)
-# furrr::future_walk(spp_vector, function(.sp) {
-#   purrr::walk(families, function(.family) {
-#     purrr::walk(syns, function(.syn) {
-furrr::future_pmap(tofit, function(.sp, .syn, .family) {
-# purrr::pmap(tofit, function(.sp, .syn, .family) {
-  tag <- paste0(.syn, "-", .family)
-  .cache <- paste0("report/stitch-cache/synoptic-", tag)
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
+# furrr::future_pmap(tofit, function(.sp, .syn, .family) {
+purrr::pmap(tofit, function(.sp, .syn, .family) {
+
+  .cache <- file.path(stitch_cache, paste0("synoptic-", .syn))
+  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", .family, "_sp-on-st-rw", ".rds")
   stitch_cached_sp <- file.path(.cache, spp_filename)
+
   if(!file.exists(stitch_cached_sp)) {
     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
       prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
@@ -199,228 +185,94 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
       .cutoff <- 10
     }
   }
+  # RW individual SYN
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = .family,
-    survey_type = .syn, model_type = model_type, cache = .cache,
-    check_cache = TRUE, cutoff = .cutoff
+    survey_dat = survey_dat,
+    species = .sp,
+    survey_type = .syn,
+    cutoff = .cutoff,
+    form = catch ~ 1,
+    family = .family,
+    spatial = "on",
+    spatiotemporal = "rw",
+    use_extra_time = TRUE,
+    offset = 'offset',
+    cache = .cache,
+    check_cache = TRUE,
+    shapefile = shapefile
   )
-})
-# })
-# })
 
-# IID versions
-furrr::future_pmap(tofit, function(.sp, .syn, .family) {
-# purrr::pmap(tofit, function(.sp, .syn, .family) {
-  tag <- paste0(.syn, "-", .family)
-  .cache <- paste0("report/stitch-cache/synoptic-", tag)
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type_iid, ".rds")
-  print(spp_filename)
-  stitch_cached_sp <- file.path(.cache, spp_filename)
-  # if(!file.exists(stitch_cached_sp)) {
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-      prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
-      filter(survey_abbrev == .syn)
-    if (.syn == "SYN WCHG") {
-      survey_dat <- filter(survey_dat, year != 2014) # partial year
-      .cutoff <- 8
-    } else {
-      .cutoff <- 10
-    }
-  # }
+  # IID individual SYN
   get_stitched_index(
-    survey_dat = survey_dat, species = .sp, family = .family,
-    survey_type = .syn, model_type = model_type_iid, cache = .cache,
-    spatiotemporal = "iid", spatial = "on",
-    form = catch ~ 0 + as.factor(year),
-    # priors = sdmTMB::sdmTMBpriors(
-    #   matern_s = pc_matern(range_gt = 10, sigma_lt = 5),
-    #   matern_st = pc_matern(range_gt = 10, sigma_lt = 2)
-    # ),
-    check_cache = TRUE, cutoff = .cutoff, silent = FALSE
+    survey_dat = survey_dat,
+    species = .sp,
+    survey_type = .syn,
+    cutoff = .cutoff,
+    form = catch ~ 1,
+    family = .family,
+    spatial = "on",
+    spatiotemporal = "iid",
+    use_extra_time = FALSE,
+    offset = 'offset',
+    cache = .cache,
+    check_cache = TRUE,
+    shapefile = shapefile
   )
 })
 
-# Stitch IPHC surveys if not cached
-furrr::future_walk(spp_vector, function(.sp) {
-  # purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
-
-  if(!file.exists(file.path(sc_iphc, spp_filename))) {
-    survey_dat <- gfdata::load_iphc_dat(species = .sp) |>
-      gfsynopsis::prep_iphc_stitch_dat()
-
-    gfsynopsis::get_iphc_stitched_index(survey_dat = survey_dat, species = .sp,
-      form = 'catch ~ 1',
-      family = sdmTMB::nbinom2(link = "log"),
-      time = 'year',
-      spatial = 'on',
-      spatiotemporal = 'rw',
-      model_type = 'st-rw',
-      offset = 'offset',
-      gradient_thresh = 0.001,
-      cutoff = 20,
-      grid = iphc_grid, silent = FALSE,
-      cache = sc_iphc,
-      check_cache = TRUE)
-  }
+# IPHC FISS
+# -----------------------------------------
+# furrr::future_walk(spp_vector, function(.sp) {
+purrr::walk(spp_vector, function(.sp) {
+  survey_dat <- gfdata::load_iphc_dat(species = .sp) |>
+    prep_iphc_stitch_dat(survey_dat = _)
+  get_stitched_index(
+    survey_dat = survey_dat,
+    species = .sp,
+    survey_type = "IPHC FISS",
+    form = catch ~ 1,
+    family = "nb2",
+    time = 'year',
+    spatial = 'on',
+    spatiotemporal = 'rw',
+    use_extra_time = TRUE,
+    offset = 'offset',
+    gradient_thresh = 0.001,
+    cutoff = 20,
+    cache = sc_iphc,
+    check_cache = TRUE
+  )
 })
 
-# Stitch MSSM Survey if not cached
-# future::plan(future::multicore, workers = 5)
-furrr::future_walk(spp_vector, function(.sp) {
-  # purrr::walk(spp_vector, function(.sp) {
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", model_type, ".rds")
+# ------------------------------------------------------------------------------
+# Get best model
+# -----------------------------------------
 
-  if (
-    !file.exists(file.path(sc_mssm, spp_filename)) ||
-      !file.exists(file.path(sc_mssm_dg, spp_filename)) ||
-      !file.exists(file.path(sc_mssm_dl, spp_filename)) ||
-      !file.exists(file.path(sc_mssm_dpl, spp_filename)) ||
-      !file.exists(file.path(sc_mssm_dpg, spp_filename))
-  ) {
+take_min_aic <- function(x) {
+  if (nrow(x)) {
+    filter(x, aic == min(aic))
+  }
+}
 
-    survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis::clean_name(.sp), ".rds")))$survey_sets |>
-      filter(survey_abbrev == "MSSM WCVI")
-    # Some species not included in survey_set data frame at all, so we need to skip these
-    if (nrow(survey_dat) == 0) {
-      out <- "No MSSM survey data"
-      message(out)
-      saveRDS(out, file.path(sc_mssm, spp_filename))
-    } else {
-      survey_dat <- prep_mssm_dat(survey_dat)
+# Question: I don't know if some should only be comparing iid, or compare it all?
+sc_list <- list.files(stitch_cache)
 
-      CUTOFF <- 8
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = "tweedie",
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm,
-        cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
+purrr::map_dfr(spp_vector, function(.sp) {
+  sp_hyphens <- gfsynopsis::clean_name(spp_vector)
+  out_file <- file.path(min_aic_dir, paste0(sp_hyphens, ".rds"))
 
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = "delta-gamma",
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dg,
-        cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
+  ind_df <- purrr::map_dfr(sc_list, function(.sc) {
+    cache_files <- list.files(file.path(stitch_cache, .sc), full.names = TRUE)
+    index_files <- cache_files[grepl(sp_hyphens, cache_files)]
 
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = "delta-lognormal",
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
-        cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
-
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = "delta-gengamma",
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
-        cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
-
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = "delta-gamma-poisson-link",
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpg,
-        cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
-
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = "delta-lognormal-poisson-link",
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dpl,
-        cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
-
-      get_stitched_index(
-        form = 'catch ~ 1',
-        survey_dat = survey_dat, species = .sp,
-        family = "delta-gengamma-poisson-link",
-        survey_type = "mssm", model_type = 'st-rw', cache = sc_mssm_dl,
-        cutoff = CUTOFF, silent = FALSE,
-        grid_dir = NULL, check_cache = TRUE
-      )
+    if (length(index_files) == 0) {
+      message("No indices found for: ", paste0(.sc, "/", sp_hyphens, "*"))
+      return(invisible(NULL))
     }
-  }
+
+    purrr::map_dfr(index_files, \(i) {
+      readRDS(i)
+    }) |> take_min_aic()
+  })
+  saveRDS(ind_df, out_file)
 })
-
-# # fit SYN WCVI but predict on MSSM grid
-# # first we need to grab the families from when they were fit before to save time
-# get_index <- function(folder, spp, .family = "", model_tag = "st-rw") {
-#   paths <- list.files(folder, pattern = ".rds", full.names = TRUE)
-#   path <- paths[grepl(spp, paths)]
-#   if (length(path) > 1) {
-#     path <- path[grepl(model_tag, path)]
-#   }
-#   if (length(path)) {
-#     file_names <- list.files(folder, pattern = ".rds")
-#     sp <- gsub("-", " ", spp)
-#     if (file.exists(path)) {
-#       d <- readRDS(path)
-#       if (length(d) > 1L) {
-#         return(dplyr::mutate(d, species = sp, family = .family))
-#       }
-#     }
-#   }
-# }
-# families <- c(
-#   "delta-gamma",
-#   "delta-poisson-link-gamma",
-#   "tweedie",
-#   "delta-poisson-link-lognormal",
-#   "delta-lognormal"
-# )
-# take_min_aic <- function(x) {
-#   if (nrow(x)) {
-#     filter(x, aic == min(aic))
-#   }
-# }
-# syn_wcvi <- tidyr::expand_grid(.s = gfsynopsis::clean_name(spp_vector), f = families) |>
-#   purrr::pmap_dfr(function(.s, f) {
-#   get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), .s, .family = f)
-# }) |> group_by(species) |>
-#   take_min_aic()
-
-# syn_wcvi$species <- gsub("rougheye blackspotted", "rougheye/blackspotted", syn_wcvi$species)
-
-# # now fit just the best family but predict on MSSM grid:
-# syn_wcvi |>
-#   select(.sp = species, .family = family) |>
-#   distinct() |>
-#   # purrr::pmap(\(.sp, .family) {
-#   furrr::future_pmap(\(.sp, .family) {
-#     if (.family == "tweedie") .fam <- sdmTMB::tweedie()
-#     if (.family == "delta-gamma") .fam <- sdmTMB::delta_gamma()
-#     if (.family == "delta-lognormal") .fam <- sdmTMB::delta_lognormal()
-#     if (.family == "delta-poisson-link-lognormal") .fam <- sdmTMB::delta_poisson_link_lognormal()
-#     if (.family == "delta-poisson-link-gamma") .fam <- sdmTMB::delta_poisson_link_gamma()
-#     .syn <- "SYN WCVI"
-#     tag <- paste0(.syn, "-", .family)
-#     .cache <- paste0("report/stitch-cache/synoptic-mssm-", tag)
-#     survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
-#       prep_stitch_dat(survey_dat = _, bait_counts = bait_counts) |>
-#       filter(survey_abbrev == .syn)
-#     .cutoff <- 10
-#     mssm_grid <- gfdata::mssm_grid |>
-#       mutate(survey = "SYN WCVI") |>
-#       filter(year >= 2009 & year < 2022) |>
-#       distinct(X, Y, survey, area)
-
-#     get_stitched_index(
-#       survey_dat = survey_dat, species = .sp, family = .fam,
-#       survey_type = .syn, model_type = model_type, cache = .cache,
-#       check_cache = TRUE, cutoff = .cutoff, index_grid = mssm_grid
-#     )
-#   })
