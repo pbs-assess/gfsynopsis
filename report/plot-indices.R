@@ -13,16 +13,17 @@
 # library(here)
 # devtools::load_all(".")
 
-make_index_panel <- function(spp_w_hyphens, final_year_surv = 2023, french = FALSE, all_survey_years = NULL) {
+make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FALSE,
+  all_survey_years = NULL, shapefile = NULL) {
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"
   # dc <- here("report", "data-cache-nov-2023")
   dat <- readRDS(paste0(file.path(dc, spp_w_hyphens), ".rds"))
   report_folder <- "report"
-  iphc_index_cache <- file.path(report_folder, "iphc-cache")
-  dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
-  iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_w_hyphens), ".rds")
+  # iphc_index_cache <- file.path(report_folder, "iphc-cache")
+  # dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
+  # iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_w_hyphens), ".rds")
 
   survey_cols <- c(
     "SYN WCHG" = "#E41A1C",
@@ -91,78 +92,20 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2023, french = FAL
   # sub iphc -------------------------------------------------
   # replace IPHC design with NA so that they still show up as empty panels but
   # we aren't going to show the design index this year
-  # dat_design <- dat_design |>
-  #   filter(survey_abbrev != "IPHC FISS") |>
-  #   bind_rows(tibble(survey_abbrev = "IPHC FISS"))
+  dat_design <- dat_design |>
+    filter(survey_abbrev != "IPHC FISS") |>
+    bind_rows(tibble(survey_abbrev = "IPHC FISS"))
 
-  dat_design <- gfsynopsis:::sub_iphc_design(
-    dc,
-    iphc_index_cache_spp, spp_w_hyphens, dat_design
-  )
+  # dat_design <- gfsynopsis:::sub_iphc_design(
+  #   dc,
+  #   iphc_index_cache_spp, spp_w_hyphens, dat_design
+  # )
 
   # read geostat ---------------------------------------------
+  dat_geo <- readRDS(file.path(stitch_cache, "min_aic", paste0(spp_w_hyphens, ".rds")))
 
-  get_index <- function(folder, spp, .family = "", model_tag = "st-iid") {
-    paths <- list.files(folder, pattern = ".rds", full.names = TRUE)
-    path <- paths[grepl(spp, paths)]
-    if (length(path) > 1) {
-      path <- path[grepl(model_tag, path)]
-    }
-    if (length(path)) {
-      file_names <- list.files(folder, pattern = ".rds")
-      sp <- gsub("-", " ", spp)
-      if (file.exists(path)) {
-        # if (grepl("QCS", path)) browser()
-        d <- readRDS(path)
-        if (length(d) > 1L) {
-          return(dplyr::mutate(d, species = sp, family = .family))
-        }
-      }
-    }
-  }
-
-  families <- c(
-    "delta-gamma",
-    "delta-poisson-link-gamma",
-    "tweedie",
-    "delta-poisson-link-lognormal",
-    "delta-lognormal"
-  )
-  geo <- list()
-  take_min_aic <- function(x) {
-    if (nrow(x)) {
-      # x <- filter(x, !grepl("lognormal", family))
-      filter(x, aic == min(aic))
-    }
-  }
-  geo$syn_coast <- purrr::map_dfr(families, \(f) {
-    get_index(paste0("report/stitch-cache/synoptic-", f, "/"), spp_w_hyphens, .family = f)
-  }) |> take_min_aic()
-  geo$syn_hs <- purrr::map_dfr(families, \(f) {
-    get_index(paste0("report/stitch-cache/synoptic-SYN HS-", f, "/"), spp_w_hyphens, .family = f)
-  }) |> take_min_aic()
-  geo$syn_qcs <- purrr::map_dfr(families, \(f) {
-    get_index(paste0("report/stitch-cache/synoptic-SYN QCS-", f, "/"), spp_w_hyphens, .family = f)
-  }) |> take_min_aic()
-  geo$syn_wchg <- purrr::map_dfr(families, \(f) {
-    get_index(paste0("report/stitch-cache/synoptic-SYN WCHG-", f, "/"), spp_w_hyphens, .family = f)
-  }) |> take_min_aic()
-  geo$syn_wcvi <- purrr::map_dfr(families, \(f) {
-    get_index(paste0("report/stitch-cache/synoptic-SYN WCVI-", f, "/"), spp_w_hyphens, .family = f)
-  }) |> take_min_aic()
-  geo$hbll_out_n <- geo$hbll_ins <- get_index("report/stitch-cache/hbll_outside_n/", spp_w_hyphens)
-  geo$hbll_out_s <- geo$hbll_ins <- get_index("report/stitch-cache/hbll_outside_s/", spp_w_hyphens)
-  geo$mssm <- purrr::map_dfr(families, \(f) {
-    get_index(paste0("report/stitch-cache/mssm-", f, "/"), spp_w_hyphens, .family = f)
-  }) |> take_min_aic()
-  geo$hbll_ins <- get_index("report/stitch-cache/hbll_inside/", spp_w_hyphens)
-  geo$hbll_out <- get_index("report/stitch-cache/hbll_outside/", spp_w_hyphens)
-  geo$iphc <- get_index(paste0("report/stitch-cache/iphc"), spp_w_hyphens)
-  if ("iphc" %in% names(geo)) {
-    geo$iphc$stitch_regions <- "IPHC FISS"
-  }
-  if (length(geo)) {
-    dat_geo <- bind_rows(geo)
+  if (length(dat_geo)) {
+    # dat_geo <- bind_rows(geo)
     dat_geo$survey_abbrev <- dat_geo$stitch_regions
     dat_geo$survey_abbrev <- gsub("HBLL INS N, HBLL INS S", "HBLL INS N/S", dat_geo$survey_abbrev)
     dat_geo$survey_abbrev <- gsub("HBLL OUT N, HBLL OUT S", "HBLL OUT N/S", dat_geo$survey_abbrev)

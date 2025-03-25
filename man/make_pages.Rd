@@ -18,6 +18,7 @@ make_pages(
   spp_file = clean_name(spp),
   report_folder = "report",
   report_lang_folder = "report",
+  tag = "main",
   include_map_square = FALSE,
   map_xlim = c(360, 653),
   map_ylim = c(5275, 6155),
