@@ -8,12 +8,12 @@ get_stitched_index(
   survey_dat,
   species = "arrowtooth flounder",
   survey_type = "synoptic",
-  model_type = "st-rw",
   form = NULL,
   family = "tweedie",
   time = "year",
   spatial = "on",
   spatiotemporal = "rw",
+  use_extra_time = NULL,
   time_varying = NULL,
   time_varying_type = NULL,
   mesh = NULL,
@@ -37,8 +37,6 @@ get_stitched_index(
 \item{species}{A string specifying the \code{species_common_name}.}
 
 \item{survey_type}{A string matching one of: "synoptic" (the default), "hbll_outside", "hbll_inside".}
-
-\item{model_type}{A string matching one of: "st-rw" (the default), "st-rw_tv-rw", or "custom".}
 
 \item{form}{Optional string specifying model formula.
 'catch ~ 1' (the default, unless \code{family = poisson()} or \code{family = sdmTMB::censored_possion()}
@@ -91,6 +89,8 @@ If \code{index_grid} = NULL (the default). Grid should contain cell area.}
 
 \item{shapefile}{An \code{sf} polygon object used to filter the prediction/index grid.
 Used for the spatially filtered synopsis report. Default = \code{NULL}}
+
+\item{model_type}{A string matching one of: "st-rw" (the default), "st-rw_tv-rw", or "custom".}
 }
 \value{
 Either a string or dataframe:
