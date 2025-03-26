@@ -101,6 +101,18 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FAL
   #   iphc_index_cache_spp, spp_w_hyphens, dat_design
   # )
 
+  if (!is.null(shapefile)) {
+    dat_design <- tibble(
+      survey_abbrev = lvls,
+      year = NA_integer_,
+      biomass = NA_real_,
+      lowerci = NA_real_,
+      upperci = NA_real_,
+      mean_cv = NA_real_,
+      num_sets = NA_integer_,
+      num_pos_sets = NA_integer_
+    )
+  }
   # read geostat ---------------------------------------------
   dat_geo <- readRDS(file.path(stitch_cache, "min_aic", paste0(spp_w_hyphens, ".rds")))
 
@@ -206,7 +218,7 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FAL
     both_scaled$survey_abbrev <- forcats::fct_drop(both_scaled$survey_abbrev)
   }
   # COVID, weird in some cases:
-  both_scaled <- filter(both_scaled, !(survey_abbrev == "MSSM WCVI" & year == 2020))
+  both_scaled <- filter(both_scaled, !isTRUE(survey_abbrev == "MSSM WCVI" & year == 2020))
 
   geo_scaled <- filter(both_scaled, method == "geostat")
   des_scaled <- filter(both_scaled, method == "design")
