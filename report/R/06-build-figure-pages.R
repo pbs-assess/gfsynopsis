@@ -4,8 +4,10 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
   dplyr::distinct()
 
 # these are complex, do outside first:
-## source(here("report", "plot-indices.R"))
-## index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel, all_survey_years = all_survey_years)
+source(here("report", "plot-indices.R"))
+index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel,
+  all_survey_years = all_survey_years, shapefile = shapefile
+)
 
 # Make figure pages ---------------------------------------------------
 
@@ -70,12 +72,10 @@ for (i in to_build) {
     final_year_comm = 2024,
     final_year_surv = 2024,
     length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i], ],
-    stitch_model_type = "st-rw",
-    grid_dir = file.path(data_cache, "grids"),
     hbll_bait_counts = hbll_bait_counts,
-    index_ggplot = ggplot() +
-      geom_point(),
-    # index_ggplot = index_ggplots[[i]],
+    # index_ggplot = ggplot() +
+    #   geom_point(),
+    index_ggplot = index_ggplots[[i]],
     spatiotemporal_cpue = TRUE,
     raw_cpue = NULL,
     shapefile = shapefile
