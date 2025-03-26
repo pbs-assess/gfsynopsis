@@ -227,10 +227,6 @@ make_pages <- function(
   dir.create(file.path(survey_map_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
   dir.create(file.path(survey_map_cache, "hbll"), showWarnings = FALSE, recursive = TRUE)
   dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
-  dir.create(file.path(stitch_cache, "synoptic"), showWarnings = FALSE, recursive = TRUE)
-  dir.create(file.path(stitch_cache, "hbll_outside"), showWarnings = FALSE, recursive = TRUE)
-  dir.create(file.path(stitch_cache, "hbll_inside"), showWarnings = FALSE, recursive = TRUE)
-  dir.create(file.path(stitch_cache, "iphc"), showWarnings = FALSE, recursive = TRUE)
 
   gg_folder_spp <- paste0(file.path(ggplot_folder, spp_file), ".rds")
   fig_folder_spp1 <- paste0(file.path(fig_folder, spp_file), if (png_format) "-1.png" else "-1.pdf")
@@ -240,11 +236,6 @@ make_pages <- function(
   map_cache_spp_iphc <- paste0(file.path(survey_map_cache, "iphc", spp_file), ".rds")
   map_cache_spp_hbll <- paste0(file.path(survey_map_cache, "hbll", spp_file), ".rds")
   iphc_index_cache_spp <- paste0(file.path(iphc_index_cache, spp_file), ".rds")
-  sc_spp_synoptic <- paste0(file.path(stitch_cache, "synoptic", spp_file), "_", stitch_model_type, ".rds")
-  sc_spp_hbll_out <- paste0(file.path(stitch_cache, "hbll_outside", spp_file), "_", stitch_model_type, ".rds")
-  sc_spp_hbll_ins <- paste0(file.path(stitch_cache, "hbll_inside", spp_file), "_", stitch_model_type, ".rds")
-  sc_spp_iphc <- paste0(file.path(stitch_cache, "iphc", spp_file), "_", stitch_model_type, ".rds")
-  sc_spp_mssm <- paste0(file.path(stitch_cache, "mssm", spp_file), "_", stitch_model_type, ".rds")
 
   samp_panels <- c(
     "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI", "HBLL OUT N",
@@ -558,8 +549,8 @@ make_pages <- function(
     }
 
     g_catch <- gfsynopsis::plot_catches(
-      dat$catch, 
-      french = french, 
+      dat$catch,
+      french = french,
       xlim = c(1955, final_year_comm),
       blank_non_coastwide = !is.null(shapefile),
       area_labels = .labs
@@ -776,8 +767,8 @@ make_pages <- function(
         ggplot2::guides(lty = "none", colour = "none") +
         ggtitle(en2fr("Age at maturity", french)) +
         ggplot2::labs(
-          x = en2fr("Age (years)", french), 
-          y = en2fr("Probability mature", french), 
+          x = en2fr("Age (years)", french),
+          y = en2fr("Probability mature", french),
           colour = en2fr("Sex", french), lty = en2fr("Sex", french)
         )
     })
