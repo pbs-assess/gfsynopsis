@@ -25,7 +25,14 @@ get_data <- function(
             species = .d$species_code[i],
             file_name = .d$spp_w_hyphens[i],
             path = path, unsorted_only = FALSE, historical_cpue = FALSE,
-            survey_sets = TRUE, verbose = FALSE, compress = compress
+            survey_sets = TRUE, verbose = FALSE, compress = compress,
+            ssid = c(
+              1, 3, 4, 16, # syn trawl
+              2, # hs msa
+              7, # smms wcvi
+              14, # iphc
+              22, 36, 39, 40 # hbll ins/out n/s
+            )
           )
         },
         error = function(e) e
