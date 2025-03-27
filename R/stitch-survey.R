@@ -359,12 +359,12 @@ get_stitched_index <- function(
   out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_tag, ".rds"))
 
   family_obj <- get_family_object(family)
-
+browser()
   if (check_cache & file.exists(out_filename)) {
     out <- readRDS(out_filename)
     return(out)
   }
-  if (survey_type == 'mssm' & is.null(survey_dat)) {
+  if (survey_type == 'MSSM WCVI' & is.null(survey_dat)) {
     out <- "No MSSM survey data"
     saveRDS(out, out_filename)
     return(out)
@@ -404,7 +404,7 @@ get_stitched_index <- function(
     (survey_type %in% c(
       'SYN WCVI', 'SYN WCHG', 'SYN QCS', 'SYN HS',
       'HBLL OUT N', 'HBLL OUT S',
-      'mssm', "IPHC FISS"
+      'MSSM WCVI', "IPHC FISS"
     ) && length(stitch_regions) == 0)) {
     cat("\n\tInsufficient data to stitch regions for: ", survey_type, species, "\n")
     out <- "insufficient data to stitch regions"
