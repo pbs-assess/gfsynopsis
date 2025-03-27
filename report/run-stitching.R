@@ -44,21 +44,21 @@ furrr::future_walk(spp_vector, function(.sp) {
       check_cache = TRUE,
       shapefile = shapefile
     )
-    #  # MSSM WCVI
-    # get_stitched_index(
-    #   survey_dat = survey_dat |> filter(survey_abbrev == "MSSM WCVI"),
-    #   species = .sp,
-    #   survey_type = "MSSM WCVI",
-    #   cutoff = 8,
-    #   form = catch ~ 1,
-    #   family = .fam,
-    #   spatial = "on",
-    #   spatiotemporal = "iid",
-    #   use_extra_time = FALSE,
-    #   cache = sc_mssm,
-    #   check_cache = TRUE,
-    #   shapefile = shapefile
-    # )
+     # MSSM WCVI
+    get_stitched_index(
+      survey_dat = survey_dat |> filter(survey_abbrev == "MSSM WCVI"),
+      species = .sp,
+      survey_type = "MSSM WCVI",
+      cutoff = 8,
+      form = catch ~ 1,
+      family = .fam,
+      spatial = "on",
+      spatiotemporal = "rw",
+      use_extra_time = FALSE,
+      cache = sc_mssm,
+      check_cache = TRUE,
+      shapefile = shapefile
+    )
   })
 
   # HBLL outside N/S
