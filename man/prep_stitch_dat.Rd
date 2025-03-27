@@ -15,5 +15,5 @@ prep_stitch_dat(survey_dat, bait_counts)
 A dataframe the same length as \code{survey_dat}
 }
 \description{
-Prepare survey set data for index stitching
+Prepares data from SYN, HBLL, and MSSM WCVI survey sets.
 }
