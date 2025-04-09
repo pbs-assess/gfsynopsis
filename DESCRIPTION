@@ -10,7 +10,7 @@ Description: Facilitates the creation of reproducible data synopsis report
 License: GPL (>=2)
 URL: https://github.com/seananderson/gfsynopsis
 BugReports: https://github.com/seananderson/gfsynopsis/issues
-Depends: 
+Depends:
     R (>= 3.2.0)
 Imports:
     assertthat,
@@ -28,6 +28,7 @@ Imports:
     grid,
     gridExtra,
     here,
+    httr2,
     lubridate,
     magrittr,
     mgcv,
@@ -36,6 +37,7 @@ Imports:
     purrr,
     RColorBrewer,
     readr,
+    RefManageR,
     reshape,
     reshape2,
     rlang,
@@ -56,7 +58,7 @@ Suggests:
     taxize,
     testthat,
     tibble
-Remotes: 
+Remotes:
     github::pbs-assess/gfdata,
     github::pbs-assess/gfiphc,
     github::pbs-assess/gfplot,
