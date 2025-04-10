@@ -14,7 +14,7 @@
 # devtools::load_all(".")
 
 make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FALSE,
-  all_survey_years = NULL, shapefile = NULL) {
+  all_survey_years = NULL, shapefile = NULL, stitch_cache = NULL) {
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"

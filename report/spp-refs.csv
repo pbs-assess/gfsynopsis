@@ -2,7 +2,7 @@ species_common_name,resdoc,sar,type_other_ref,other_ref,cosewic_status_reports
 abyssal skate,,,,,
 alaska skate,,,,,
 aleutian skate,,,,,
-arrowtooth flounder,grandin2017arrowtooth,dfo2023arrowtooth,,,
+arrowtooth flounder,grandin2017arrowtooth,dfo2023arrowtooth,Last Science Response,dfo2025arrowtooth,
 basking shark,mcfarlane2008basking,,Species at Risk Act Recovery Strategy and Action Plan,"dfo2011baskingshark, cosewic2020baskingshark",cosewic2018baskingshark
 big skate,king2015biglongnoseskate,dfo2014biglongnoseskate,,,
 bigfin eelpout,,,,,
@@ -11,7 +11,7 @@ black rockfish,yamanaka2001inshore,,,,
 blackbelly eelpout,,,,,
 blue shark,,,,,cosewic2016blueshark
 bluntnose sixgill shark,,,,,cosewic2007bluntnose
-bocaccio,starrhaigh2022bocaccio,dfo2020bocaccio,Last Science Response,dfo2022bocaccio,cosewic2013bocaccio
+bocaccio,starr2022bocaccio,dfo2020bocaccio,Last Science Response,dfo2024bocaccio,cosewic2013bocaccio
 broad skate,,,,,
 brown cat shark,,,COSEWIC Annual Report,cosewic2007annualrep,
 canary rockfish,"starr2023canary","dfo2023canary",,,cosewic2007canary
@@ -26,22 +26,22 @@ giant wrymouth,,,,,
 lingcod,"king2011lingOutside, holt2016lingSOG","dfo2011lingOutside, dfo2015lingSOG",,,
 longnose skate,king2015biglongnoseskate,dfo2014biglongnoseskate,COSEWIC Annual Report,cosewic2007annualrep,
 longspine thornyhead,haigh2005longspineidiots,,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007longspine
-north pacific spiny dogfish,galluci2011dogfish,dfo2010dogfish,,,cosewic2011dogfish
+north pacific spiny dogfish,"galluci2011dogfish, anderson2025dogfish",dfo2010dogfish,,,cosewic2011dogfish
 pacific cod,forrest2020pcod,dfo2019pcod3cd5abcd,Last Science Response,"dfo2021pcod, dfo2024pcod",
 pacific flatnose,,,,,
 pacific grenadier,,,,,
-pacific hake,,,Last joint Canada-US stock assessment,grandin2024hake,
-pacific ocean perch,"edwards2013pophg, edwards2014popwcvi, haigh2018popqcs",dfo2024pop,,,
+pacific hake,,,Last joint Canada-US stock assessment,johnson2025hake,
+pacific ocean perch,starr2025pop,dfo2024pop,,,
 pacific sleeper shark,,,,,
 pacific tomcod,,,,,
-petrale sole,starr2009petrale,dfo1998petrale,,,
+petrale sole,starr2009petrale,dfo2025petrale,,,
 quillback rockfish,"yamanaka2011quillback, huynh2024quillback_inside","dfo2023quillback_inside, dfo2023quillback_outside",,,cosewic2009quillback
 redbanded rockfish,edwards2017redbanded,,,,
 redstripe rockfish,starr2021redstripe,dfo2018redstripe,,,
 rex sole,,,Research Document featuring a case study of 3CD Rex Sole,anderson2021mp,
 rougheye/blackspotted rockfish complex,"starr2020rougheye",dfo2020rougheye,Species at Risk Act Management Plan Series,dfo2012longspineidiots,cosewic2007rougheye
 roughtail skate,,,,,
-sablefish,"cox2019sablefish, cox2023sablefish","dfo2017sablefish, dfo2023sablefish",Last Science Response,dfo2024sablefish,
+sablefish,johnson2024sablefish,"dfo2017sablefish, dfo2023sablefishom",Last Science Response,dfo2024sablefish,
 salmon shark,,,,,
 sandpaper skate,,,COSEWIC Annual Report,cosewic2007annualrep,
 shiner perch,,,,,
@@ -65,4 +65,4 @@ yelloweye rockfish,"cox2020YEout, haggarty2021yelloweyeinside","dfo2020yelloweye
 yellowmouth rockfish,"starr2022yellowmouth",dfo2022yellowmouth,,,cosewic2010yellowmouth
 yellowtail rockfish,,dfo2015yellowtail,,,
 tope shark,,,,,cosewic2021tope
-pacific halibut,,,Most Recent Stock Assessment,iphc2024,
+pacific halibut,,,Most Recent Stock Assessment,iphc2025,

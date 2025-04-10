@@ -73,3 +73,37 @@ find_length_outliers <- function(xx) {
   else
     return(numeric(0))
 }
+
+#' Download References from gfbib
+#'
+#' Downloads the English BibTeX file from the
+#' \href{https://github.com/pbs-assess/gfbib}{gfbib GitHub repository}
+#' and optionally removes all `url` fields using `RefManageR`.
+#'
+#' @param path A string specifying path where the BibTeX file should be saved.
+#'   Default is `"report/tech-report/spp-refs.bib"`.
+#' @param rm_url Logical; if `TRUE` (default), removes the `url` field from all entries
+#'   in the BibTeX file using `RefManageR::ReadBib()` and `WriteBib()`.
+#'
+#' @details
+#' The function downloads the raw BibTeX file from the `main` branch of the
+#' `pbs-assess/gfbib` repository on GitHub. If `rm_url` is set to `TRUE`,
+#' it uses `RefManageR` to remove the `url` field from all entries and overwrite
+#' the file with the cleaned version.
+#'
+#' @return No return value. The function is called for its side effect of writing
+#' a cleaned BibTeX file to disk.
+#'
+#' @import httr2
+#' @import RefManageR
+#'
+pull_gfbib <- function(path = "report/tech-report/bib/spp-refs.bib", rm_url = TRUE) {
+  httr2::request("https://raw.githubusercontent.com/pbs-assess/gfbib/refs/heads/main/csas-refs.bib") |>
+  httr2::req_perform(path = path)
+
+  if (rm_url) {
+    bib <- RefManageR::ReadBib(path, check = FALSE)
+    bib$url <- NULL
+    RefManageR::WriteBib(bib, file = path)
+  }
+}
