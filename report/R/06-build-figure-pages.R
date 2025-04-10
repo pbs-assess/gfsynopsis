@@ -5,14 +5,19 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
 
 # these are complex, do outside first:
 source(here("report", "plot-indices.R"))
+if (tag == "main") {
+  stitch_cache <- here::here("report", paste0("cache-", tag), "stitch-cache")
+} else {
+  stitch_cache <- here::here("report", paste0("cache-", tag), "spatial-stitch-cache")
+}
 if (interactive) {
   index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel,
     all_survey_years = all_survey_years, shapefile = shapefile,
-    stitch_cache = here::here("report", paste0("cache-", tag), "spatial-stitch-cache"))
-} else { # just do one because we're running in parallel
+    stitch_cache = stitch_cache)
+} else { # just do one because we're running in parallel for one species
   gg <- purrr::map(spp$spp_w_hyphens[ii], make_index_panel,
     all_survey_years = all_survey_years, shapefile = shapefile,
-    stitch_cache = here::here("report", paste0("cache-", tag), "spatial-stitch-cache"))
+    stitch_cache = stitch_cache)
   index_ggplots <- list()
   index_ggplots[[ii]] <- gg[[1]]
 }
