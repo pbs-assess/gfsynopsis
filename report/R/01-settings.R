@@ -1,7 +1,7 @@
 # Settings ------------------------------------------------------------
 
 dc <- here::here("report", "data-cache-2025-03") # cache folder location
-tag <- "haida" # e.g., main or haida (affects cache folder name)
+tag <- "main" # e.g., main or haida (affects cache folder name)
 
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
 example_spp <- c("petrale sole", "pacific cod") # species used as example in the report
