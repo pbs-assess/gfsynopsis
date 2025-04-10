@@ -230,7 +230,7 @@ furrr::future_pmap(tofit, function(.sp, .syn, .family) {
     species = .sp,
     survey_type = .syn,
     cutoff = .cutoff,
-    form = catch ~ 1,
+    form = catch ~ 0 + as.factor(year),
     family = .family,
     spatial = "on",
     spatiotemporal = "iid",
