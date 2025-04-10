@@ -17,6 +17,9 @@ if (length(args)) {
   interactive <- TRUE
 }
 
+# ii <- 21
+# interactive <- FALSE
+
 library(here)
 source(here("report/R/01-settings.R"))
 # source(here("report/R/01-settings-haida.R"))
@@ -29,3 +32,13 @@ source(here("report/R/06-build-figure-pages.R"))
 # source(here("report/R/08-build-Rmd.R"))
 # source(here("report/R/09-optimize-png.R"))
 
+if (FALSE) {
+  setwd(here("report/tech-report-main/"))
+  csasdown::render()
+  setwd(here("."))
+}
+if (FALSE) {
+  setwd(here("report/tech-report-haida/"))
+  csasdown::render()
+  setwd(here("."))
+}
