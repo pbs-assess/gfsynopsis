@@ -5,9 +5,18 @@ all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
 
 # these are complex, do outside first:
 source(here("report", "plot-indices.R"))
-index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel,
-  all_survey_years = all_survey_years, shapefile = shapefile,
-  stitch_cache = here::here("report", paste0("cache-", tag), "spatial-stitch-cache"))
+if (interactive) {
+  index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel,
+    all_survey_years = all_survey_years, shapefile = shapefile,
+    stitch_cache = here::here("report", paste0("cache-", tag), "spatial-stitch-cache"))
+} else { # just do one because we're running in parallel
+  gg <- purrr::map(spp$spp_w_hyphens[ii], make_index_panel,
+    all_survey_years = all_survey_years, shapefile = shapefile,
+    stitch_cache = here::here("report", paste0("cache-", tag), "spatial-stitch-cache"))
+  index_ggplots <- list()
+  index_ggplots[[ii]] <- gg[[1]]
+}
+# saveRDS(index_ggplots, file = here::here("report", paste0("cache-", tag), "index-ggplots.rds"), compress = FALSE)
 
 # Make figure pages ---------------------------------------------------
 
@@ -28,16 +37,15 @@ for (i in which(!missing)) {
 missing_spp <- spp$species_common_name[missing]
 to_build <- which(missing)
 
+if (exists("ii")) {
+  to_build <- to_build[to_build %in% ii]
+}
 cli_inform("Building")
 cli_inform(paste(spp$species_common_name)[to_build])
 
 # Trash compiled objects for safety:
 # unlink("vb_gfplot.*")
 # unlink("lw_gfplot.*")
-
-if (exists("ii")) {
-  to_build <- to_build[to_build %in% ii]
-}
 
 for (i in to_build) {
   cli_inform("------------------------------------")
@@ -47,7 +55,6 @@ for (i in to_build) {
   dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
     rename(lat = "latitude", lon = "longitude")
   hbll_bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
-  # dat$cpue_index <- d_cpue
 
   length_ticks <- readr::read_csv(here("report/length-axis-ticks.csv"),
     show_col_types = FALSE
@@ -73,8 +80,6 @@ for (i in to_build) {
     final_year_surv = 2024,
     length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i], ],
     hbll_bait_counts = hbll_bait_counts,
-    # index_ggplot = ggplot() +
-    #   geom_point(),
     index_ggplot = index_ggplots[[i]],
     spatiotemporal_cpue = TRUE,
     raw_cpue = NULL,
