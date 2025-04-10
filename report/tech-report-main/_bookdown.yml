@@ -1,12 +1,12 @@
 book_filename: "gfsynopsis-2024-data"
 rmd_files: ["index.Rmd",
-#"01-introduction.Rmd",
-# "02-plot-descriptions.Rmd",
+            "01-introduction.Rmd",
+            "02-plot-descriptions.Rmd",
             "04-indices.Rmd",
             "05-synopsis-plots-intro.Rmd",
             "plot-pages.Rmd",
             "90-appendix-start.Rmd",
-            "98-iphc-appendix.Rmd",
+            "98-stitching-appendix.Rmd",
             "999-appendix-end.Rmd",
             "99-bibliography.Rmd"
             ]

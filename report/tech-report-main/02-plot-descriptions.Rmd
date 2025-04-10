@@ -24,7 +24,7 @@ This section provides captions for each of the visualizations that form the spec
 
 ```{r make-surv-abbrev-text, eval=TRUE}
 # happens to have data for all the surveys:
-dat_survey_index <- readRDS(here::here("report/data-cache-2024-05/canary-rockfish.rds"))
+dat_survey_index <- readRDS(here::here("report/data-cache-2025-03/canary-rockfish.rds"))
 dat_survey_index <- dat_survey_index$survey_index
 survs <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
@@ -218,8 +218,8 @@ the 3-vessel privacy requirement. `r map_text`
 trans <- "fourth_root_power"
 
 g_alt <- list()
-g_alt$cpue_spatial <- readRDS(here::here("report/tech-report/ggplot-objects/pacific-cod-cpue-spatial.rds"))
-g_alt$cpue_spatial_ll <- readRDS(here::here("report/tech-report/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
+g_alt$cpue_spatial <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+g_alt$cpue_spatial_ll <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
 
 p1_trawl <-
   g_alt$cpue_spatial +
