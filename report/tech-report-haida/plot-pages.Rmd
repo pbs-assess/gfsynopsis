@@ -151,7 +151,7 @@ Order: Squaliformes, Family: Somniosidae,
 Order: Squaliformes, Family: Squalidae,
 [FishBase](http://www.fishbase.org/summary/Squalus-suckleyi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=299224)\
-Last Research Document: @galluci2011dogfish\
+Last Research Documents: @galluci2011dogfish, @anderson2025dogfish\
 Last Science Advisory Report: @dfo2010dogfish\
 COSEWIC Status Report: @cosewic2011dogfish\
 COSEWIC Status: Special Concern, SARA Status: No Status
@@ -426,7 +426,7 @@ Last Science Response: @dfo2021pcod, @dfo2024pcod\
 Order: Gadiformes, Family: Merlucciidae,
 [FishBase](http://www.fishbase.org/summary/Merluccius-productus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272458)\
-Last joint Canada-US stock assessment: @grandin2024hake\
+Last joint Canada-US stock assessment: @johnson2025hake\
 Note that Pacific Hake undergoes a directed joint
       Canada-US coastwide
  survey and annual assessment, which are not
@@ -894,7 +894,7 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-alutus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254573)\
-Last Research Documents: @edwards2013pophg, @edwards2014popwcvi, @haigh2018popqcs\
+Last Research Document: @starr2025pop\
 Last Science Advisory Report: @dfo2024pop\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-ocean-perch-1.png}
@@ -1331,9 +1331,9 @@ Last Research Document: @yamanaka2001inshore\
 Order: Scorpaeniformes, Family: Scorpaenidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-paucispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274833)\
-Last Research Document: @starrhaigh2022bocaccio\
+Last Research Document: @starr2022bocaccio\
 Last Science Advisory Report: @dfo2020bocaccio\
-Last Science Response: @dfo2022bocaccio\
+Last Science Response: @dfo2024bocaccio\
 COSEWIC Status Report: @cosewic2013bocaccio\
 COSEWIC Status: Endangered, SARA Status: No Status
 
@@ -1560,8 +1560,8 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 Order: Scorpaeniformes, Family: Anoplopomatidae,
 [FishBase](http://www.fishbase.org/summary/Anoplopoma-fimbria), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
-Last Research Documents: @cox2019sablefish, @cox2023sablefish\
-Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefish\
+Last Research Document: @johnson2024sablefish\
+Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefishom\
 Last Science Response: @dfo2024sablefish\
 The annual sablefish trap survey is not included in this report. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown.
 \begin{figure}[b!]
@@ -1946,6 +1946,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279792)\
 Last Research Document: @grandin2017arrowtooth\
 Last Science Advisory Report: @dfo2023arrowtooth\
+Last Science Response: @dfo2025arrowtooth\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/arrowtooth-flounder-1.png}
 \end{figure}
@@ -1983,7 +1984,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Eopsetta-jordani), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280690)\
 Last Research Document: @starr2009petrale\
-Last Science Advisory Report: @dfo1998petrale\
+Last Science Advisory Report: @dfo2025petrale\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/petrale-sole-1.png}
 \end{figure}
@@ -2039,7 +2040,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
-Most Recent Stock Assessment: @iphc2024\
+Most Recent Stock Assessment: @iphc2025\
 Note that Pacific Halibut undergoes thorough assessment by the
       International Pacific
  Halibut Commission based on the annual
