@@ -139,6 +139,14 @@ make_pages <- function(
     species_code == unique(dat$survey_sets$species_code)
   )
 
+  # remove commercial basking shark: #187
+  if (spp == "basking shark") {
+   dat$catch <- dplyr::filter(dat$catch, species_common_name == "AAA") # trash all 
+   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == "AAA") # trash all 
+   dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == "AAA")
+   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == "AAA")
+  }
+
   # filter by shapefile if needed:
   if (!is.null(shapefile)) {
     progress_fn("Subsetting biological samples and catch spatially")
