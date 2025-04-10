@@ -505,11 +505,10 @@ make_pages <- function(
            upr = if_else(max_se < 3, upr, NA_real_)
          )
 
-
        if (is.null(shapefile)) {
          .labs <- c("Coastwide", "5CDE", "5AB", "3CD")
        } else {
-         .labs <- c("Whole area", "5CDE", "5AB", "3CD")
+         .labs <- c("3CD5ABCDE", "5CDE", "5AB", "3CD")
          cpue_index$area <- "Whole area"
        }
        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm), area_labels = .labs) +
