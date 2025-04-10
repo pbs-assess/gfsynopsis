@@ -1,13 +1,5 @@
 setwd(here::here())
 
-args <- commandArgs(trailingOnly = TRUE)
-if (length(args)) {
-  ii <- as.numeric(args[1])
-  interactive <- FALSE
-} else {
-  interactive <- TRUE
-}
-
 if (french) {
   options(french = TRUE)
   options(OutDec = ",")

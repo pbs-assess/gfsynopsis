@@ -1,4 +1,5 @@
 # This file generates all the main synopsis figures in `report/figure-pages`.
+
 # It must be run before the report can be rendered.
 
 # Things to update each year:
@@ -8,10 +9,18 @@
 # - [x] pull all new data from the servers; done as part of this file with get_data()
 # - [x] update the years in the call to make_pages() below
 
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args)) {
+  ii <- as.numeric(args[1])
+  interactive <- FALSE
+} else {
+  interactive <- TRUE
+}
+
 library(here)
 source(here("report/R/01-settings.R"))
 # source(here("report/R/01-settings-haida.R"))
-source(here("report/R/02-packages.R")) # command line args get read here if present
+source(here("report/R/02-packages.R"))
 source(here("report/R/03-load-data.R"))
 # source(here("report/R/04-survey-index-standardization.R"))
 # source(here("report/R/05-cpue-index-standardization.R"))
