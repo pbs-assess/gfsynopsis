@@ -510,8 +510,8 @@ make_pages <- function(
          .labs <- c("Coastwide", "5CDE", "5AB", "3CD")
        } else {
          .labs <- c("Whole area", "5CDE", "5AB", "3CD")
+         cpue_index$area <- "Whole area"
        }
-       cpue_index$area <- "Whole area"
        g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm), area_labels = .labs) +
          ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
          ylab("") + xlab("") +
