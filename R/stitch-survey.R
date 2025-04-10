@@ -359,7 +359,7 @@ get_stitched_index <- function(
   out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_tag, ".rds"))
 
   family_obj <- get_family_object(family)
-browser()
+  
   if (check_cache & file.exists(out_filename)) {
     out <- readRDS(out_filename)
     return(out)

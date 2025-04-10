@@ -9,13 +9,14 @@
 # - [x] update the years in the call to make_pages() below
 
 library(here)
-source(here("report/R/01-settings-haida.R"))
-source(here("report/R/02-packages.R"))
+source(here("report/R/01-settings.R"))
+# source(here("report/R/01-settings-haida.R"))
+source(here("report/R/02-packages.R")) # command line args get read here if present
 source(here("report/R/03-load-data.R"))
-source(here("report/R/04-survey-index-standardization.R"))
-source(here("report/R/05-cpue-index-standardization.R"))
+# source(here("report/R/04-survey-index-standardization.R"))
+# source(here("report/R/05-cpue-index-standardization.R"))
 source(here("report/R/06-build-figure-pages.R"))
-source(here("report/R/07-cache-ggplots.R"))
-source(here("report/R/08-build-Rmd.R"))
-source(here("report/R/09-optimize-png.R"))
+# source(here("report/R/07-cache-ggplots.R"))
+# source(here("report/R/08-build-Rmd.R"))
+# source(here("report/R/09-optimize-png.R"))
 
