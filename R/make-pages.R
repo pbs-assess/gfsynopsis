@@ -141,8 +141,8 @@ make_pages <- function(
 
   # remove commercial basking shark: #187
   if (spp == "basking shark") {
-   dat$catch <- dplyr::filter(dat$catch, species_common_name == "AAA") # trash all 
-   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == "AAA") # trash all 
+   dat$catch <- dplyr::filter(dat$catch, species_common_name == "AAA") # trash all
+   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == "AAA") # trash all
    dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == "AAA")
    dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == "AAA")
   }
@@ -535,7 +535,8 @@ make_pages <- function(
           ), year = 2000,
           est = NA, lwr = NA, upr = NA
         ),
-        blank_plot = TRUE, xlim = c(1996, final_year_comm)
+        blank_plot = TRUE, xlim = c(1996, final_year_comm),
+        area_labels = c(entire_area_name, "5CDE", "5AB", "3CD")
       ) +
       ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
       ylab("") + xlab("") +
@@ -548,6 +549,8 @@ make_pages <- function(
 
   # Commercial catch: ----------------------------------------------------------
   progress_fn('Commercial catch')
+  dat$catch$temp_total <- dat$catch$landed_kg + dat$catch$discarded_kg
+  dat$catch <- dat$catch[dat$catch$temp_total > 0,,drop=FALSE]
   if (nrow(dat$catch) > 0) {
     if (is.null(shapefile)) {
       .labs <- c("Coastwide", "5CDE", "5AB", "3CD")
