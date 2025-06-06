@@ -37,7 +37,7 @@ plot_catches <- function(dat, blank_plot = FALSE, xlim = c(1955, 2020),
   }
   yrs <- xlim
 
-  g <- gfplot::plot_catch(catch, xlim = xlim, french = french, ...) +
+  g <- gfplot::plot_catch(catch, xlim = xlim, french = french, units = NULL, ...) +
     # ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2)) +
     theme(panel.spacing = unit(-0.1, "lines")) +
     theme(
