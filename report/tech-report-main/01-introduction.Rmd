@@ -56,7 +56,7 @@ knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), d
 
 # Updates {#sec:update}
 
-In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, and TODO.
+In this report, all figure pages were rebuilt with updated data using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, and @synopsis2023data.
 
 Additionally:
 
