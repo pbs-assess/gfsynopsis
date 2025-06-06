@@ -3,7 +3,7 @@
 # Plot Descriptions {#sec:plot-descriptions}
 
 ```{r load-example-figs}
-g <- readRDS(here::here("report/tech-report/ggplot-objects/petrale-sole.rds"))
+g <- readRDS(here::here("report/tech-report-main/ggplot-objects/petrale-sole.rds"))
 sp <- "Petrale Sole"
 ```
 
@@ -31,7 +31,7 @@ survs <- c(
   "HBLL OUT N", "HBLL OUT S",
   "HBLL INS N", "HBLL INS S",
   "IPHC FISS", "MSA HS", "MSSM WCVI")
-survs <- tibble(surv_order = seq_along(survs), survey_abbrev = survs)
+survs <- tibble::tibble(surv_order = seq_along(survs), survey_abbrev = survs)
 survey_descriptions <-
   semi_join(dat_survey_index, survs, by = "survey_abbrev") %>%
   select(survey_series_desc, survey_abbrev) %>%
