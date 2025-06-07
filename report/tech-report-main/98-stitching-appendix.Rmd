@@ -1,27 +1,35 @@
 # Standardizing Commercial Catch Rate Data with Spatiotemporal Models {#app:cpue}
 
-We used spatiotemporal models to standardize TODO.
+We used spatiotemporal models to standardize bottom trawl commercial catch per unit effort (CPUE). 
+In previous versions of this report, we had used a non-spatial GLMM approach [@anderson2019synopsis].
 
-For any one linear predictor, we can represent the spatiotemporal model as
+We fit our models with Poisson-link delta models [@thorson2018poisson].
+These delta or hurdle models contain two linked component models, more formally called "linear predictors".
+For any one linear predictor, we can represent the spatiotemporal model as:
 
 \begin{align}
 \mathbb{E}[y_{\boldsymbol{s},t}] &= \mu_{\boldsymbol{s},t},\\
 \mu_{\boldsymbol{s},t} &=
 \exp \left( \eta_{\boldsymbol{s}, t} \right),\\
 \eta_{\boldsymbol{s}, t} &=
+\boldsymbol{X}_{\boldsymbol{s},t} \boldsymbol{\beta} +
+\gamma_v +
 \omega_{\boldsymbol{s}} +
-\delta_{\boldsymbol{s},t} +
-O_{\boldsymbol{s},t}.
+\delta_{\boldsymbol{s},t}
 \end{align}
 
 Here, the expected value, $\mathbb{E}[y_{\boldsymbol{s},t}]$, of response
-variable $y_{\boldsymbol{s},t}$ at spatial coordinates $\boldsymbol{s}$ and time
+variable $y_{\boldsymbol{s},t}$ (catch weight) at spatial coordinates $\boldsymbol{s}$ and time
 (year) $t$ is the mean at that point in space and time, given by $\mu_{\boldsymbol{s},t}$.
-That mean is equal to an inverse link function applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
-The linear predictor is comprised of a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$,
-a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
-and an "offset" $O_{\boldsymbol{s},t}$.
-The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for (log) hours fished.
+That mean then formed by an inverse link function applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
+The linear predictor is comprised of 
+a vector of main effect covariates $\boldsymbol{X}_{\boldsymbol{s},t}$ multiplied by a vector of coefficients $\boldsymbol{\beta}$,
+a random intercept for vessel $v$ ($\gamma_v$),
+a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$, and
+a spatiotemporal value $\delta_{\boldsymbol{s},t}$.
+
+<!-- and an "offset" $O_{\boldsymbol{s},t}$. -->
+<!-- The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for (log) hours fished. -->
 
 The spatial Gaussian Markov random field is assumed to be drawn from a multivariate normal (MVN) distribution with covariance (inverse precision) matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function.
 
@@ -29,16 +37,18 @@ The spatial Gaussian Markov random field is assumed to be drawn from a multivari
 \boldsymbol{\omega} \sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\omega}).
 \end{equation}
 
-The spatiotemporal portion is structured as independent draws from a Gaussian Markov random field annual deviations:
+The spatiotemporal portion is structured as annual independent draws from a Gaussian Markov random field:
 
 \begin{equation}
 \boldsymbol{\epsilon_{t}} \sim \operatorname{MVNormal} \left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon} \right).
 \end{equation}
 
-We chose delta-lognormal [@aitchison1955] with a Poisson link [@thorson2018poisson]
+The main effect coefficients varied by available data.
+For cases with data for 9 or greater months, we fit a model with a mean for each year, a quadratic effect of depth, and a penalized cyclical smoother for month.
+For cases with data for fewer than 9 months, we fit the same model but replaced the cyclical smoother with independent means for each month.
 
-The delta-Poisson-link-lognormal families are described in @thorson2018poisson.
-In these models, the linear predictors ($\eta_1$ and $\eta_2$) represent a group number $n$ and a catch per group $w$
+We chose Poisson-link [@thorson2018poisson] delta-lognormal models.
+In these models, the linear predictors in link (log) space ($\eta_1$ and $\eta_2$) represent theoretical group number $n$ and theoretical catch per group $w$:
 
 \begin{align}
 \log (n) &= \eta_1,\\
@@ -48,24 +58,27 @@ In these models, the linear predictors ($\eta_1$ and $\eta_2$) represent a group
 These get transformed [@thorson2018poisson] as
 
 \begin{align}
-p &= 1 - \exp(- \exp( \log n)),\\
+p &= 1 - \exp(- a \cdot n),\\
 r &= \frac{n w}{p},
 \end{align}
 
-where Eq. A.9 has its roots in a Poisson process (and the 'cloglog' link) and the probabilities $p$ and positive rates $r$ are modelled as Bernoulli and lognormal, respectively.
+where Eq. A.8 has its roots in a Poisson process (and the 'cloglog' link) and the probabilities $p$ and positive rates $r$ are modelled as Bernoulli and lognormal, respectively. The symbol $a$ represents the area swept for a given tow.
 
 We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
 sdmTMB estimates the marginal log likelihood using TMB to integrate over random effects with the Laplace approximation [@kristensen2016].
-This SPDE approach requires creating triangulation "meshes" [@lindgren2011] for SPDE calculations and to interpolate from the random effects to the data locations or prediction locations with bilinear interpolation.
-We constructed our meshes with TODO
+This SPDE approach requires creating finite-element triangulation "meshes" for SPDE calculations and to interpolate from the random effects to the data locations or prediction locations with bilinear interpolation [@lindgren2011].
+We constructed our meshes with the fmesher R package [@fmesher].
 
-We fit our models to all species where TODO.
-We omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (interpreted as ensured their standard deviations were $>$ 0.01). TODO (did we!?)
+We retained the same approach to defining the data representing a "fleet" for a given species as in @anderson2019synopsis, but applied these criteria only to generating a coastwide fleet (region specific indices are described below).
+These criteria included retaining all vessels that 
+had at least 100 tows that were positive for a given species and
+had at least 5 years with 5 trips that were positive for a given species.
+
+We attempted to fit our models to all species with at least 200 rows of data given the fleet definition.
+We omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum absolute marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviation was approaching a boundary (interpreted as ensuring their standard deviations were $>$ 0.01).
 
 From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across a grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015].
-
-We defined the grid as TODO.
-
-This is further described in @anderson2019synopsis.
+We defined the grid as the intersection between the full synoptic survey 2 $\times$ 2 km grid and all commercial trawl locations for a given species fleet. I.e., only grid cells with at least one fishing event for a given species fleet were included.
+We created region-specific standardized indices (i.e., for 5CDE, and 5AB, and 3CD) by partitioning the prediction grid by the given regions.
 
 \clearpage
