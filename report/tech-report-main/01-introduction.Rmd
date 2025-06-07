@@ -61,5 +61,6 @@ In this report:
 * we rebuilt all figure pages with data up to 2024 using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, and @synopsis2023data;
 * we updated the recent references at the top of each species page;
 * we modelled the SYN QCS and SYN HS surveys together in the spatial map visualizations (e.g., Figure \@ref(fig:survey-maps)); and
+* we removed commercial catch for Basking Shark (*Cetorhinus maximus*), which we believe was an error in the data;
 * we updated the commercial catch-per-unit-effort standardization to use a spatiotemporal model (Appendix \@ref(app:cpue)).
 
