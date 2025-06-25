@@ -46,14 +46,6 @@ Inside HBLL north and south are not differentiated because the delineation is no
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
 
-```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="htbp", fig.asp=0.5,cache=FALSE}
-source(here::here("report/tech-report/intro-maps.R"))
-```
-
-```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas. Areas 3AB and 4A are outside of Canadian waters.", out.width="5.2in", fig.pos="htbp"}
-knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), dpi = NA)
-```
-
 # Updates {#sec:update}
 
 In this report:
@@ -63,4 +55,14 @@ In this report:
 * we modelled the SYN QCS and SYN HS surveys together in the spatial map visualizations (e.g., Figure \@ref(fig:survey-maps)); and
 * we removed commercial catch for Basking Shark (*Cetorhinus maximus*), which we believe was an error in the data;
 * we updated the commercial catch-per-unit-effort standardization to use a spatiotemporal model (Appendix \@ref(app:cpue)).
+
+\clearpage
+
+```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="htbp", fig.asp=0.5,cache=FALSE}
+source(here::here("report/tech-report/intro-maps.R"))
+```
+
+```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas. Areas 3AB and 4A are outside of Canadian waters.", out.width="5.8in", fig.pos="htbp"}
+knitr::include_graphics(here::here("report/tech-report/figure/3CD5ABCDE.png"), dpi = NA)
+```
 
