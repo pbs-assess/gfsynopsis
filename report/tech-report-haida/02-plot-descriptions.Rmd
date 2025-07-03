@@ -3,7 +3,7 @@
 # Plot Descriptions {#sec:plot-descriptions}
 
 ```{r load-example-figs}
-g <- readRDS(here::here("report/tech-report/ggplot-objects/petrale-sole.rds"))
+g <- readRDS(here::here("report/tech-report-main/ggplot-objects/petrale-sole.rds"))
 sp <- "Petrale Sole"
 ```
 
@@ -24,14 +24,14 @@ This section provides captions for each of the visualizations that form the spec
 
 ```{r make-surv-abbrev-text, eval=TRUE}
 # happens to have data for all the surveys:
-dat_survey_index <- readRDS(here::here("report/data-cache-2024-05/canary-rockfish.rds"))
+dat_survey_index <- readRDS(here::here("report/data-cache-2025-03/canary-rockfish.rds"))
 dat_survey_index <- dat_survey_index$survey_index
 survs <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
   "HBLL OUT N", "HBLL OUT S",
   "HBLL INS N", "HBLL INS S",
   "IPHC FISS", "MSA HS", "MSSM WCVI")
-survs <- tibble(surv_order = seq_along(survs), survey_abbrev = survs)
+survs <- tibble::tibble(surv_order = seq_along(survs), survey_abbrev = survs)
 survey_descriptions <-
   semi_join(dat_survey_index, survs, by = "survey_abbrev") %>%
   select(survey_series_desc, survey_abbrev) %>%
@@ -218,8 +218,8 @@ the 3-vessel privacy requirement. `r map_text`
 trans <- "fourth_root_power"
 
 g_alt <- list()
-g_alt$cpue_spatial <- readRDS(here::here("report/tech-report/ggplot-objects/pacific-cod-cpue-spatial.rds"))
-g_alt$cpue_spatial_ll <- readRDS(here::here("report/tech-report/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
+g_alt$cpue_spatial <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+g_alt$cpue_spatial_ll <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
 
 p1_trawl <-
   g_alt$cpue_spatial +

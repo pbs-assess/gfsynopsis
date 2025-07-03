@@ -1,56 +1,55 @@
-# Estimating Population Indices with Spatiotemporal Models {#app:stitching}
+# Standardizing Commercial Catch Rate Data with Spatiotemporal Models {#app:cpue}
 
-We used spatiotemporal models both to standardize individual surveys and to combine or "stitch" related surveys into BC coastwide or survey-wide indices of abundance or biomass.
-We first describe the models used to combine surveys and then describe updates to the models for individual surveys.
-These combined indices appear in the survey relative index figures (e.g., Figure \@ref(fig:survey-index)) for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.
-We apply the same approach for the MSSM WCVI survey and the IPHC FISS because changes to the sampling domain in both cases necessitate a similar (autoregressive) model.
+We used spatiotemporal models to standardize bottom trawl commercial catch per unit effort (CPUE). 
+In the first three versions of this report, we used a non-spatial GLMM approach [@anderson2019synopsis; @synopsis2021data; @synopsis2022data].
+We erroneously used the approach described below in the 2023-data update version [@synopsis2023data].
 
-We considered models that included both one and two linear predictors (described below).
-For any one linear predictor, we can represent the spatiotemporal model as
+We fit our models with Poisson-link delta models [@thorson2018poisson].
+These delta or hurdle models contain two linked component models, more formally called "linear predictors".
+For any one linear predictor, we can represent the spatiotemporal model as:
 
 \begin{align}
 \mathbb{E}[y_{\boldsymbol{s},t}] &= \mu_{\boldsymbol{s},t},\\
 \mu_{\boldsymbol{s},t} &=
 \exp \left( \eta_{\boldsymbol{s}, t} \right),\\
 \eta_{\boldsymbol{s}, t} &=
+\boldsymbol{X}_{\boldsymbol{s},t} \boldsymbol{\beta} +
+\gamma_v +
 \omega_{\boldsymbol{s}} +
-\delta_{\boldsymbol{s},t} +
-O_{\boldsymbol{s},t}.
+\delta_{\boldsymbol{s},t}
 \end{align}
 
 Here, the expected value, $\mathbb{E}[y_{\boldsymbol{s},t}]$, of response
-variable $y_{\boldsymbol{s},t}$ at spatial coordinates $\boldsymbol{s}$ and time
+variable $y_{\boldsymbol{s},t}$ (catch weight) at spatial coordinates $\boldsymbol{s}$ and time
 (year) $t$ is the mean at that point in space and time, given by $\mu_{\boldsymbol{s},t}$.
-That mean is equal to an inverse link function applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
-The linear predictor is comprised of a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$,
-a spatiotemporal value $\delta_{\boldsymbol{s},t}$,
-and an "offset" $O_{\boldsymbol{s},t}$.
-The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for survey effort (here, log area swept for trawl surveys, log effective hooks fished for HBLL surveys, and log effective skates fished for IPHC FISS).
+That mean is then formed by an inverse link function applied to the linear predictor $\eta_{\boldsymbol{s},t}$.
+The linear predictor is comprised of 
+a vector of main effect covariates $\boldsymbol{X}_{\boldsymbol{s},t}$ multiplied by a vector of coefficients $\boldsymbol{\beta}$,
+a random intercept for vessel $v$ ($\gamma_v$),
+a spatial Gaussian random field value $\omega_{\boldsymbol{s}}$, and
+a spatiotemporal value $\delta_{\boldsymbol{s},t}$.
 
-The spatial Gaussian random field is assumed to be drawn from a multivariate normal (MVN) distribution with covariance matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function
+<!-- and an "offset" $O_{\boldsymbol{s},t}$. -->
+<!-- The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for (log) hours fished. -->
+
+The spatial Gaussian Markov random field is assumed to be drawn from a multivariate normal (MVN) distribution with covariance (inverse precision) matrix $\boldsymbol{\Sigma}_{\omega}$ constrained by a Matérn covariance function.
 
 \begin{equation}
 \boldsymbol{\omega} \sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\omega}).
 \end{equation}
 
-The spatiotemporal portion is structured as a random walk with Gaussian random field annual deviations
+The spatiotemporal portion is structured as annual independent draws from a Gaussian Markov random field:
 
-\begin{align}
-\boldsymbol{\delta}_{t=1} &\sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon}),\\
-\boldsymbol{\delta}_{t>1} &= \boldsymbol{\delta}_{t-1} +  \boldsymbol{\epsilon_{t-1}},  \:
-\boldsymbol{\epsilon_{t-1}} \sim \operatorname{MVNormal} \left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon} \right).
-\end{align}
+\begin{equation}
+\boldsymbol{\epsilon_{t}} \sim \operatorname{MVNormal} \left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon} \right).
+\end{equation}
 
-We chose this random walk structure based on ongoing research into spatiotemporal model structures that are robust to the bienniel survey structure present in the BC surveys modelled here.
-Such a structure has been used previously in @anderson2023sopo and @english2023.
-The structure is similar to the first-order autoregressive (AR1) spatiotemporal model used by the International Pacific Halibut Commission when modelling their survey data [@webster2020].
+The main effect coefficients varied by available data.
+For cases with data for 9 or greater months, we fit a model with a mean for each year, a quadratic effect of depth, and a penalized cyclical smoother for month.
+For cases with data for fewer than 9 months, we fit the same model but replaced the cyclical smoother with independent means for each month.
 
-For the trawl surveys, which sample catch weight per area swept, we considered five possible families (combinations of linear predictor links and observation likelihoods): Tweedie, delta-gamma, delta-lognormal, delta-Poisson-link-gamma, and delta-Poisson-link-lognormal.
-We then choose the family with the lowest marginal AIC (Akaike information criterion) for each survey-species combination (among the models that converged).
-The @tweedie1984 likelihood with a log link is the approach described in @anderson2019synopsis.
-The delta-gamma and delta-lognormal families are widely used [e.g., @thorson2015] delta or hurdle [@aitchison1955] models with (1) a linear predictor for encounter probability with a logit link and a Bernoulli likelihood and (2) a linear predictor for catch rate conditional on an encounter with a log link and a gamma or lognormal likelihood.
-The delta-Poisson-link-gamma and delta-Poisson-link-lognormal families are described in @thorson2018poisson.
-In these models, the linear predictors ($\eta_1$ and $\eta_2$) represent a group number $n$ and a catch per group $w$
+We chose Poisson-link [@thorson2018poisson] delta-lognormal models.
+In these models, the linear predictors in link (log) space ($\eta_1$ and $\eta_2$) represent theoretical group number $n$ and theoretical catch per group $w$:
 
 \begin{align}
 \log (n) &= \eta_1,\\
@@ -60,56 +59,28 @@ In these models, the linear predictors ($\eta_1$ and $\eta_2$) represent a group
 These get transformed [@thorson2018poisson] as
 
 \begin{align}
-p &= 1 - \exp(- \exp( \log n)),\\
+p &= 1 - \exp(- a \cdot n),\\
 r &= \frac{n w}{p},
 \end{align}
 
-where Eq. A.9 has its roots in a Poisson process (and the 'cloglog' link) and the probabilities $p$ and positive rates $r$ are modelled as Bernoulli and gamma or lognormal, respectively.
-
-In the case of the hook and line surveys (IPHC, HBLL OUT, HBLL INS), which sample catch counts, we applied a negative binomial ('NB2') observation likelihood [@hilbe2011] where the variance scales quadratically with the mean.
-For these hook and line surveys, we applied an instantaneous catch rate (ICR) correction factor to the observed counts based on the number of baited hooks returned [@somerton1995; @obradovich2018; @anderson2019synopsis Appendix G; further background in @watson2022].
-We explored a censored Poisson likelihood with additional observation-level dispersion [@watson2022], but found a poorer fit to the data (as indicated by marginal AIC and plots of residuals) for many species and model convergence issues in several cases.
-We plan to revisit this censored likelihood approach in a future version of the report.
+where Eq. A.8 has its roots in a Poisson process (and the complementary log-log link) and the probabilities $p$ and positive rates $r$ are modelled as Bernoulli and lognormal, respectively. The symbol $a$ represents the area swept for a given tow.
 
 We implemented these models using the Stochastic Partial Differential Equation (SPDE) approximation to Gaussian random fields with Gaussian Markov random fields [@lindgren2011] for computational efficiency using the R [@r2023] package sdmTMB [@anderson2022sdmTMB].
 sdmTMB estimates the marginal log likelihood using TMB to integrate over random effects with the Laplace approximation [@kristensen2016].
-This SPDE approach requires creating triangulation "meshes" [@lindgren2011] for SPDE calculations and to interpolate from the random effects to the data locations or prediction locations with bilinear interpolation.
-We constructed our meshes with a minimum triangle edge length of 20 km for the SYN, HBLL, and IPHC models and with a minimum edge length of 8 km for the MSSM WCVI survey, which was smaller in size.
+This SPDE approach requires creating finite-element triangulation "meshes" for SPDE calculations and to interpolate from the random effects to the data locations or prediction locations with bilinear interpolation [@lindgren2011].
+We constructed our meshes with the fmesher R package [@fmesher].
 
-We fit our models to all species where the proportion of positive sets across all observed survey sets was $\ge$ 5%.
-Due to the smaller survey area, deeper depth strata, and geographical distance to the other synoptic surveys, when the proportion of positive sets in SYN WCHG was $<$ 5%, we ommitted this survey from the modelling.
-We also omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviations were approaching a boundary (interpreted as ensured their standard deviations were $>$ 0.01).
-For the MSSM survey we also omitted models when the maximum estimated confidence intervals were $>$ 10 times the maximum estimated biomass or when the mean coefficient of variation was $>$ 1.
-These are both indicative of poorly fitted models.
+We retained the same approach to defining the data representing a "fleet" for a given species as in @anderson2019synopsis, but applied these criteria only to generating a coastwide fleet (region specific indices are described below).
+These criteria included retaining all vessels that 
+had at least 100 tows that were positive for a given species and
+had at least 5 years with 5 trips that were positive for a given species.
 
-From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across the entire survey grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015].
-This is further described in @anderson2019synopsis.
-The 2 $\times$ 2 km survey grid for the Synoptic trawl surveys and the Hard Bottom Longline surveys is shown throughout the species pages (e.g., Figure \@ref(fig:survey-maps)).
-We derived a survey grid for the MSSM survey by overlaying a 3 $\times$ 3 km grid covering all sampling locations between 2009 and 2021 (Figure \@ref(fig:mssm-grid)).
-The 3 km grid size approximately matched the resolution of the now-fixed-station sampling design.
-We chose the 2009 to 2021 timespan because it reflected a relatively stable sampling design relevant to recent years.
-Some areas that were sampled in earlier years are no longer sampled and would add considerable uncertainty to the index calculations if we predicted on these no-longer-sampled grid cells.
-Similarly, the 2022 survey year introduced some new survey locations that had not been surveyed since the 1970s.
+We attempted to fit our models to all species with at least 200 rows of data given the fleet definition.
+We omitted models that did not pass convergence criteria. To assess convergence, we checked that the Hessian was positive definite, that the maximum absolute marginal log likelihood gradient was $<$ 0.001 with respect to all fixed effects, and that no Gaussian random field marginal standard deviation was approaching a boundary (interpreted as ensuring their values were $>$ 0.01).
 
-```{r mssm-grid, fig.cap="Prediction grid used to calculate biomass indices for the Multispecies Small-Mesh Bottom Trawl Survey (MSSM WCVI). Grid cells are 3 $\\times$ 3 km and cover all sampling locations 2009--2021. Points (grey) indicate sampling locations, with points in black representing locations sampled 2009--2021.", fig.pos= "H", out.width="3.3in", eval=FALSE}
-knitr::include_graphics(here::here('report', 'tech-report', 'figure', 'grid-prediction-2009.png'), dpi = NA)
-```
-
-We derived spatiotemporal model-based indices of abundance for the individual surveys largely as described in @anderson2019synopsis with the following changes:
-
-- We considered the same five families described above and selected the family with the lowest marginal AIC. @anderson2019synopsis only considered the Tweedie.
-- We added model-based indices of abundance for HBLL OUT N, HBLL OUT S, and IPHC FISS. @anderson2019synopsis only included the synoptic trawl surveys.
-- We constructed the SPDE meshes with a minimum triangle edge cutoff distance of 10 km for SYN HS, SYN QCS, and SYN WCVI and a cutoff distance of 8 km for SYN WCHG (which tends to have more fine-scale spatial variation than the other regions given the rapid transition to deep depths). @anderson2019synopsis used a k-means clustering algorithm to derive the vertices of the mesh, but we are now following subsequent recommendations on mesh construction best practices [e.g., @righetto2020].
-
-<!-- - A single model was fit to the combined data from each type of survey. -->
-<!-- - The expected biomass density was predicted over the combined survey grid. -->
-<!-- - For the IPHC FISS, the spatial grid of sampling stations from 2017 was used for predictions. The grid from 2017 represents a standard sampling grid, which matches the survey domain of the majority of the IPHC FISS data (e.g., unlike the 2018 expansion year). Similar to the IPHC design-based index only stations declared as usable and standard (REF?) -->
-<!-- - Difference from 2019: we used nbinom2 for HBLL and IPHC surveys. -->
-<!-- - I said that we stitched for >= 5% but we don't include if model didn't fit -->
-<!-- - Mesh cutoff: 20 for all surveys except for MSSM which has mesh cutoff = 5 -->
-<!-- -`formula = catch ~ 1, family = tweedie or nbinom2, time = "year", spatiotemporal = "rw", spatial = "on"` -->
-<!-- - Offset for IPHC was log(effSkate * hook_adjust_factor) with ICR method -->
-<!-- - Offset for HBLL is now (remember to empty HBLL stitched caches) log(hook_count / hook_adjust_factor) with ICR method -->
-<!-- - Offset for SYN and MSSM was log(area_swept / 1e5) -->
+From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across a grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015].
+We defined the grid as the intersection between the full synoptic survey 2 $\times$ 2 km grid and all commercial trawl locations for a given species fleet. I.e., only grid cells with at least one fishing event for a given species fleet were included.
+Future versions of the report may consider fishing-event thresholds for defining the grid.
+We created region-specific standardized indices (i.e., indices for 5CDE, and 5AB, and 3CD) by partitioning the prediction grid by the given regions.
 
 \clearpage
