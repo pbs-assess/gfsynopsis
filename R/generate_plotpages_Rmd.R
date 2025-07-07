@@ -56,25 +56,25 @@ generate_plotpages_Rmd <- function(x, spp) {
   i <- i + 1
   out[[i]] <- paste0(
     "[FishBase]",
-    "(http://www.fishbase.org/summary/",
+    "(http://www.fishbase.se/summary/",
     gsub(" ", "-", gfplot:::firstup(latin_name)), ")"
   )
   if (species_code == "394") { # Sebastes aleutianus/melanostictus
     .names <- rougheye_split(gfplot:::firstup(latin_name))
     out[[i]] <- paste0(
       "[FishBase 1]",
-      "(http://www.fishbase.org/summary/", .names[1], "),"
+      "(http://www.fishbase.se/summary/", .names[1], "),"
     )
     i <- i + 1
     out[[i]] <- paste0(
       "[FishBase 2]",
-      "(http://www.fishbase.org/summary/", .names[2], ")"
+      "(http://www.fishbase.se/summary/", .names[2], ")"
     )
   }
   if (species_code == "039") { # Requiem Sharks
     out[[i]] <- paste0(
       "[FishBase]",
-      "(http://www.fishbase.org/Summary/FamilySummary.php?ID=11)"
+      "(http://www.fishbase.se/Summary/FamilySummary.php?ID=11)"
     )
   }
 
