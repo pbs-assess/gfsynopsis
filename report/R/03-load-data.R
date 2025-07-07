@@ -8,7 +8,7 @@ spp <- gfsynopsis::get_spp_names() %>%
     species_science_name, spp_w_hyphens, type, itis_tsn, worms_id
   ) |>
   arrange(species_common_name)
-spp <- join_itis_spp(spp)
+spp <- join_worms_spp(spp)
 
 # Gather and arrange some metadata ------------------------------------
 

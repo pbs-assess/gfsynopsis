@@ -77,7 +77,8 @@ generate_plotpages_Rmd <- function(x, spp) {
       "(http://www.fishbase.org/Summary/FamilySummary.php?ID=11)"
     )
   }
-  if (worms_id != "unknown") {
+
+  if (!is.na(worms_id)) {
     out[[i]] <- paste0(out[[i]], ", ")
     i <- i + 1
     out[[i]] <- paste0(
