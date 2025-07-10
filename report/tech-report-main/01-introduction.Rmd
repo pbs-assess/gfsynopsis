@@ -54,7 +54,7 @@ In this report:
 * We updated the recent references at the top of each species page.
 * We modelled the SYN QCS and SYN HS surveys together in the spatial map visualizations (e.g., Figure \@ref(fig:survey-maps)). In previous versions there were modelled separately, which could result in a discontinuity at the border of the two surveys.
 * We updated the commercial catch-per-unit-effort standardization to use a spatiotemporal model (Appendix \@ref(app:cpue)).
-* We switched from [ITIS](https://itis.gov/) (Integrated Taxonomic Information System) to [WoRMS](https://www.marinespecies.org/) (World Register of Marine Species) for taxonomic information printed at the top of each page. WoRMS is generally considered more up to date for marine species taxonomy than ITIS. Noteably, this updated the order for rockfish from Scorpaeniformes to Perciformes and the family from Scorpaenidae to Sebastidae.
+* We switched from [ITIS](https://itis.gov/) (Integrated Taxonomic Information System) to [WoRMS](https://www.marinespecies.org/) (World Register of Marine Species) for taxonomic information printed at the top of each page. WoRMS is generally considered more up to date for marine species taxonomy than ITIS. Noteably, this updated the order for rockfish from *Scorpaeniformes* to *Perciformes* and the family from *Scorpaenidae* to *Sebastidae*.
 * We removed small (mostly < 100 kg) observations of commercial catch for Basking Shark (*Cetorhinus maximus*) from 2018 onwards, which we believe were due to species misidentification. Most of these records were from after 2020 when the trawl fleet switched from on-board observers to electronic monitoring.
 * We updated the common name for *Coryphaenoides cinereus* from "Popeye" to "Popeye  Grenadier".
 
