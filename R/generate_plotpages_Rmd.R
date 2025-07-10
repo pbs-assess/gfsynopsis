@@ -19,8 +19,8 @@ generate_plotpages_Rmd <- function(x, spp) {
   if (spp_title == "North Pacific Spiny Dogfish") {
     spp_title <- "Pacific Spiny Dogfish"
   }
-  if (spp_title == "Popeye grenadier") {
-    spp_title <- "Pacific Spiny Dogfish"
+  if (spp_title == "Popeye") {
+    spp_title <- "Popeye grenadier"
   }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()
