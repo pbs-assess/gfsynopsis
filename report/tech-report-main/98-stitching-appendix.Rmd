@@ -2,7 +2,7 @@
 
 We used spatiotemporal models to standardize bottom trawl commercial catch per unit effort (CPUE). 
 In the first three versions of this report, we used a non-spatial GLMM approach [@anderson2019synopsis; @synopsis2021data; @synopsis2022data].
-We erroneously used the approach described below in the 2023-data update version [@synopsis2023data].
+We used the model-based approach described here without documentation of the methodological change in the 2023-data update version [@synopsis2023data].
 
 We fit our models with Poisson-link delta models [@thorson2018poisson].
 These delta or hurdle models contain two linked component models, more formally called "linear predictors".
@@ -80,7 +80,8 @@ We omitted models that did not pass convergence criteria. To assess convergence,
 
 From our fitted models, we calculated an area-weighted biomass index by predicting density from our model across a grid, multiplying that density by grid cell area, and summing the resulting biomass across grid cells [e.g., @thorson2015].
 We defined the grid as the intersection between the full synoptic survey 2 $\times$ 2 km grid and all commercial trawl locations for a given species fleet. I.e., only grid cells with at least one fishing event for a given species fleet were included.
-Future versions of the report may consider fishing-event thresholds for defining the grid.
+This grid definition includes some cells that are now part of the frozen trawl footprint. 
+Future versions may consider dropping cells outside the footprint and/or increasing the fishing-event threshold for defining the grid.
 We created region-specific standardized indices (i.e., indices for 5CDE, and 5AB, and 3CD) by partitioning the prediction grid by the given regions.
 
 \clearpage
