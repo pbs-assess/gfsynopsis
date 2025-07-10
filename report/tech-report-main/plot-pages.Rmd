@@ -6,7 +6,7 @@
 
 \emph{Hexanchus griseus} (027)\
 Order: Hexanchiformes, Family: Hexanchidae,
-[FishBase](http://www.fishbase.se/summary/Hexanchus-griseus), 
+[FishBase](http://www.fishbase.org/summary/Hexanchus-griseus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105833)\
 COSEWIC Status Report: @cosewic2007bluntnose\
 COSEWIC Status: Special Concern, SARA Status: Special Concern
@@ -27,7 +27,7 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 
 \emph{Cetorhinus maximus} (034)\
 Order: Lamniformes, Family: Cetorhinidae,
-[FishBase](http://www.fishbase.se/summary/Cetorhinus-maximus), 
+[FishBase](http://www.fishbase.org/summary/Cetorhinus-maximus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105837)\
 Last Research Document: @mcfarlane2008basking\
 Species at Risk Act Recovery Strategy and Action Plan: @dfo2011baskingshark, @cosewic2020baskingshark\
@@ -50,7 +50,7 @@ COSEWIC Status: Endangered, SARA Status: Endangered
 
 \emph{Lamna ditropis} (036)\
 Order: Lamniformes, Family: Lamnidae,
-[FishBase](http://www.fishbase.se/summary/Lamna-ditropis), 
+[FishBase](http://www.fishbase.org/summary/Lamna-ditropis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271421)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/salmon-shark-1.png}
@@ -68,7 +68,7 @@ Order: Lamniformes, Family: Lamnidae,
 
 \emph{Apristurus brunneus} (038)\
 Order: Carcharhiniformes, Family: Pentanchidae,
-[FishBase](http://www.fishbase.se/summary/Apristurus-brunneus), 
+[FishBase](http://www.fishbase.org/summary/Apristurus-brunneus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158512)\
 COSEWIC Annual Report: @cosewic2007annualrep\
 COSEWIC Status: Data Deficient, SARA Status: No Status
@@ -89,7 +89,7 @@ COSEWIC Status: Data Deficient, SARA Status: No Status
 
 \emph{Galeorhinus galeus} (040)\
 Order: Carcharhiniformes, Family: Triakidae,
-[FishBase](http://www.fishbase.se/summary/Galeorhinus-galeus), 
+[FishBase](http://www.fishbase.org/summary/Galeorhinus-galeus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105820)\
 COSEWIC Status Report: @cosewic2021tope\
 COSEWIC Status: Special Concern, SARA Status: Special Concern
@@ -110,7 +110,7 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 
 \emph{Prionace glauca} (041)\
 Order: Carcharhiniformes, Family: Carcharhinidae,
-[FishBase](http://www.fishbase.se/summary/Prionace-glauca), 
+[FishBase](http://www.fishbase.org/summary/Prionace-glauca), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=105801)\
 COSEWIC Status Report: @cosewic2016blueshark\
 COSEWIC Status: Not at Risk, SARA Status: No Status
@@ -131,7 +131,7 @@ COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \emph{Somniosus pacificus} (043)\
 Order: Squaliformes, Family: Somniosidae,
-[FishBase](http://www.fishbase.se/summary/Somniosus-pacificus), 
+[FishBase](http://www.fishbase.org/summary/Somniosus-pacificus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271654)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-sleeper-shark-1.png}
@@ -149,7 +149,7 @@ Order: Squaliformes, Family: Somniosidae,
 
 \emph{Squalus suckleyi} (044)\
 Order: Squaliformes, Family: Squalidae,
-[FishBase](http://www.fishbase.se/summary/Squalus-suckleyi), 
+[FishBase](http://www.fishbase.org/summary/Squalus-suckleyi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=299224)\
 Last Research Documents: @galluci2011dogfish, @anderson2025dogfish\
 Last Science Advisory Report: @dfo2010dogfish\
@@ -172,7 +172,7 @@ COSEWIC Status: Special Concern, SARA Status: No Status
 
 \emph{Bathyraja aleutica} (052)\
 Order: Rajiformes, Family: Arhynchobatidae,
-[FishBase](http://www.fishbase.se/summary/Bathyraja-aleutica), 
+[FishBase](http://www.fishbase.org/summary/Bathyraja-aleutica), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271506)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/aleutian-skate-1.png}
@@ -190,7 +190,7 @@ Order: Rajiformes, Family: Arhynchobatidae,
 
 \emph{Bathyraja abyssicola} (054)\
 Order: Rajiformes, Family: Arhynchobatidae,
-[FishBase](http://www.fishbase.se/summary/Bathyraja-abyssicola), 
+[FishBase](http://www.fishbase.org/summary/Bathyraja-abyssicola), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271503)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/abyssal-skate-1.png}
@@ -208,7 +208,7 @@ Order: Rajiformes, Family: Arhynchobatidae,
 
 \emph{Amblyraja badia} (055)\
 Order: Rajiformes, Family: Rajidae,
-[FishBase](http://www.fishbase.se/summary/Amblyraja-badia), 
+[FishBase](http://www.fishbase.org/summary/Amblyraja-badia), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271499)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/broad-skate-1.png}
@@ -226,7 +226,7 @@ Order: Rajiformes, Family: Rajidae,
 
 \emph{Beringraja binoculata} (056)\
 Order: Rajiformes, Family: Rajidae,
-[FishBase](http://www.fishbase.se/summary/Beringraja-binoculata), 
+[FishBase](http://www.fishbase.org/summary/Beringraja-binoculata), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=1021330)\
 Last Research Document: @king2015biglongnoseskate\
 Last Science Advisory Report: @dfo2014biglongnoseskate\
@@ -246,7 +246,7 @@ Last Science Advisory Report: @dfo2014biglongnoseskate\
 
 \emph{Bathyraja trachura} (057)\
 Order: Rajiformes, Family: Arhynchobatidae,
-[FishBase](http://www.fishbase.se/summary/Bathyraja-trachura), 
+[FishBase](http://www.fishbase.org/summary/Bathyraja-trachura), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271538)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/roughtail-skate-1.png}
@@ -264,7 +264,7 @@ Order: Rajiformes, Family: Arhynchobatidae,
 
 \emph{Bathyraja interrupta} (058)\
 Order: Rajiformes, Family: Arhynchobatidae,
-[FishBase](http://www.fishbase.se/summary/Bathyraja-interrupta), 
+[FishBase](http://www.fishbase.org/summary/Bathyraja-interrupta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271515)\
 COSEWIC Annual Report: @cosewic2007annualrep\
 COSEWIC Status: Not at Risk, SARA Status: No Status
@@ -285,7 +285,7 @@ COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \emph{Raja rhina} (059)\
 Order: Rajiformes, Family: Rajidae,
-[FishBase](http://www.fishbase.se/summary/Raja-rhina), 
+[FishBase](http://www.fishbase.org/summary/Raja-rhina), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271581)\
 Last Research Document: @king2015biglongnoseskate\
 Last Science Advisory Report: @dfo2014biglongnoseskate\
@@ -308,7 +308,7 @@ COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \emph{Bathyraja parmifera} (061)\
 Order: Rajiformes, Family: Arhynchobatidae,
-[FishBase](http://www.fishbase.se/summary/Bathyraja-parmifera), 
+[FishBase](http://www.fishbase.org/summary/Bathyraja-parmifera), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271528)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/alaska-skate-1.png}
@@ -326,7 +326,7 @@ Order: Rajiformes, Family: Arhynchobatidae,
 
 \emph{Hydrolagus colliei} (066)\
 Order: Chimaeriformes, Family: Chimaeridae,
-[FishBase](http://www.fishbase.se/summary/Hydrolagus-colliei), 
+[FishBase](http://www.fishbase.org/summary/Hydrolagus-colliei), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=271406)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/spotted-ratfish-1.png}
@@ -344,7 +344,7 @@ Order: Chimaeriformes, Family: Chimaeridae,
 
 \emph{Allosmerus elongatus} (138)\
 Order: Osmeriformes, Family: Osmeridae,
-[FishBase](http://www.fishbase.se/summary/Allosmerus-elongatus), 
+[FishBase](http://www.fishbase.org/summary/Allosmerus-elongatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279564)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/whitebait-smelt-1.png}
@@ -362,7 +362,7 @@ Order: Osmeriformes, Family: Osmeridae,
 
 \emph{Thaleichthys pacificus} (148)\
 Order: Osmeriformes, Family: Osmeridae,
-[FishBase](http://www.fishbase.se/summary/Thaleichthys-pacificus), 
+[FishBase](http://www.fishbase.org/summary/Thaleichthys-pacificus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282959)\
 Last Research Document: @schweigert2012eulachon\
 Last Science Advisory Report: @dfo2015eulachon\
@@ -385,7 +385,7 @@ COSEWIC Status: Endangered (Central Pacific Coast population, Fraser River popul
 
 \emph{Antimora microlepis} (220)\
 Order: Gadiformes, Family: Moridae,
-[FishBase](http://www.fishbase.se/summary/Antimora-microlepis), 
+[FishBase](http://www.fishbase.org/summary/Antimora-microlepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272460)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-flatnose-1.png}
@@ -403,7 +403,7 @@ Order: Gadiformes, Family: Moridae,
 
 \emph{Gadus macrocephalus} (222)\
 Order: Gadiformes, Family: Gadidae,
-[FishBase](http://www.fishbase.se/summary/Gadus-macrocephalus), 
+[FishBase](http://www.fishbase.org/summary/Gadus-macrocephalus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254538)\
 Last Research Document: @forrest2020pcod\
 Last Science Advisory Report: @dfo2019pcod3cd5abcd\
@@ -424,12 +424,12 @@ Last Science Response: @dfo2021pcod, @dfo2024pcod\
 
 \emph{Merluccius productus} (225)\
 Order: Gadiformes, Family: Merlucciidae,
-[FishBase](http://www.fishbase.se/summary/Merluccius-productus), 
+[FishBase](http://www.fishbase.org/summary/Merluccius-productus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272458)\
 Last joint Canada-US stock assessment: @johnson2025hake\
 Note that Pacific Hake undergoes a directed joint
       Canada-US coastwide
- survey and annual assessment, which are not
+ acoustic survey and annual assessment, which are not
       included in this report. The most recent
  stock assessment
       should be consulted for details on stock status.
@@ -449,7 +449,7 @@ Note that Pacific Hake undergoes a directed joint
 
 \emph{Microgadus proximus} (226)\
 Order: Gadiformes, Family: Gadidae,
-[FishBase](http://www.fishbase.se/summary/Microgadus-proximus), 
+[FishBase](http://www.fishbase.org/summary/Microgadus-proximus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=275873)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-tomcod-1.png}
@@ -467,7 +467,7 @@ Order: Gadiformes, Family: Gadidae,
 
 \emph{Gadus chalcogrammus} (228)\
 Order: Gadiformes, Family: Gadidae,
-[FishBase](http://www.fishbase.se/summary/Gadus-chalcogrammus), 
+[FishBase](http://www.fishbase.org/summary/Gadus-chalcogrammus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=300735)\
 Last Research Document: @starr2021pollock\
 Last Science Advisory Report: @dfo2018pollock\
@@ -487,7 +487,7 @@ Last Science Advisory Report: @dfo2018pollock\
 
 \emph{Lycodes cortezianus} (233)\
 Order: Perciformes, Family: Zoarcidae,
-[FishBase](http://www.fishbase.se/summary/Lycodes-cortezianus), 
+[FishBase](http://www.fishbase.org/summary/Lycodes-cortezianus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274097)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/bigfin-eelpout-1.png}
@@ -505,7 +505,7 @@ Order: Perciformes, Family: Zoarcidae,
 
 \emph{Bothrocara brunneum} (235)\
 Order: Perciformes, Family: Zoarcidae,
-[FishBase](http://www.fishbase.se/summary/Bothrocara-brunneum), 
+[FishBase](http://www.fishbase.org/summary/Bothrocara-brunneum), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279397)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/twoline-eelpout-1.png}
@@ -523,7 +523,7 @@ Order: Perciformes, Family: Zoarcidae,
 
 \emph{Lycodes brevipes} (242)\
 Order: Perciformes, Family: Zoarcidae,
-[FishBase](http://www.fishbase.se/summary/Lycodes-brevipes), 
+[FishBase](http://www.fishbase.org/summary/Lycodes-brevipes), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254595)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/shortfin-eelpout-1.png}
@@ -541,7 +541,7 @@ Order: Perciformes, Family: Zoarcidae,
 
 \emph{Lycodes diapterus} (243)\
 Order: Perciformes, Family: Zoarcidae,
-[FishBase](http://www.fishbase.se/summary/Lycodes-diapterus), 
+[FishBase](http://www.fishbase.org/summary/Lycodes-diapterus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254597)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/black-eelpout-1.png}
@@ -559,7 +559,7 @@ Order: Perciformes, Family: Zoarcidae,
 
 \emph{Lycodes palearis} (244)\
 Order: Perciformes, Family: Zoarcidae,
-[FishBase](http://www.fishbase.se/summary/Lycodes-palearis), 
+[FishBase](http://www.fishbase.org/summary/Lycodes-palearis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254585)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/wattled-eelpout-1.png}
@@ -577,7 +577,7 @@ Order: Perciformes, Family: Zoarcidae,
 
 \emph{Lycodes pacificus} (245)\
 Order: Perciformes, Family: Zoarcidae,
-[FishBase](http://www.fishbase.se/summary/Lycodes-pacificus), 
+[FishBase](http://www.fishbase.org/summary/Lycodes-pacificus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274116)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/blackbelly-eelpout-1.png}
@@ -595,7 +595,7 @@ Order: Perciformes, Family: Zoarcidae,
 
 \emph{Coryphaenoides cinereus} (250)\
 Order: Gadiformes, Family: Macrouridae,
-[FishBase](http://www.fishbase.se/summary/Coryphaenoides-cinereus), 
+[FishBase](http://www.fishbase.org/summary/Coryphaenoides-cinereus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272326)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/popeye-1.png}
@@ -613,7 +613,7 @@ Order: Gadiformes, Family: Macrouridae,
 
 \emph{Coryphaenoides acrolepis} (251)\
 Order: Gadiformes, Family: Macrouridae,
-[FishBase](http://www.fishbase.se/summary/Coryphaenoides-acrolepis), 
+[FishBase](http://www.fishbase.org/summary/Coryphaenoides-acrolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272313)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-grenadier-1.png}
@@ -631,7 +631,7 @@ Order: Gadiformes, Family: Macrouridae,
 
 \emph{Coryphaenoides filifer} (254)\
 Order: Gadiformes, Family: Macrouridae,
-[FishBase](http://www.fishbase.se/summary/Coryphaenoides-filifer), 
+[FishBase](http://www.fishbase.org/summary/Coryphaenoides-filifer), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272331)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/threadfin-grenadier-1.png}
@@ -649,7 +649,7 @@ Order: Gadiformes, Family: Macrouridae,
 
 \emph{Albatrossia pectoralis} (256)\
 Order: Gadiformes, Family: Macrouridae,
-[FishBase](http://www.fishbase.se/summary/Albatrossia-pectoralis), 
+[FishBase](http://www.fishbase.org/summary/Albatrossia-pectoralis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=236135)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/giant-grenadier-1.png}
@@ -667,7 +667,7 @@ Order: Gadiformes, Family: Macrouridae,
 
 \emph{Nezumia stelgidolepis} (257)\
 Order: Gadiformes, Family: Macrouridae,
-[FishBase](http://www.fishbase.se/summary/Nezumia-stelgidolepis), 
+[FishBase](http://www.fishbase.org/summary/Nezumia-stelgidolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272428)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/california-grenadier-1.png}
@@ -685,7 +685,7 @@ Order: Gadiformes, Family: Macrouridae,
 
 \emph{Cymatogaster aggregata} (304)\
 Order: Ovalentaria incertae sedis, Family: Embiotocidae,
-[FishBase](http://www.fishbase.se/summary/Cymatogaster-aggregata), 
+[FishBase](http://www.fishbase.org/summary/Cymatogaster-aggregata), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280461)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/shiner-perch-1.png}
@@ -703,7 +703,7 @@ Order: Ovalentaria incertae sedis, Family: Embiotocidae,
 
 \emph{Bryozoichthys marjorius} (331)\
 Order: Perciformes, Family: Stichaeidae,
-[FishBase](http://www.fishbase.se/summary/Bryozoichthys-marjorius), 
+[FishBase](http://www.fishbase.org/summary/Bryozoichthys-marjorius), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254575)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pearly-prickleback-1.png}
@@ -721,7 +721,7 @@ Order: Perciformes, Family: Stichaeidae,
 
 \emph{Lumpenus sagitta} (337)\
 Order: Perciformes, Family: Lumpenidae,
-[FishBase](http://www.fishbase.se/summary/Lumpenus-sagitta), 
+[FishBase](http://www.fishbase.org/summary/Lumpenus-sagitta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254579)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/snake-prickleback-1.png}
@@ -739,7 +739,7 @@ Order: Perciformes, Family: Lumpenidae,
 
 \emph{Poroclinus rothrocki} (340)\
 Order: Perciformes, Family: Lumpenidae,
-[FishBase](http://www.fishbase.se/summary/Poroclinus-rothrocki), 
+[FishBase](http://www.fishbase.org/summary/Poroclinus-rothrocki), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254385)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/whitebarred-prickleback-1.png}
@@ -757,7 +757,7 @@ Order: Perciformes, Family: Lumpenidae,
 
 \emph{Anarrhichthys ocellatus} (351)\
 Order: Perciformes, Family: Anarhichadidae,
-[FishBase](http://www.fishbase.se/summary/Anarrhichthys-ocellatus), 
+[FishBase](http://www.fishbase.org/summary/Anarrhichthys-ocellatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279605)\
 COSEWIC Annual Report: @cosewic2003annualrep\
 COSEWIC Status: Not at Risk, SARA Status: No Status
@@ -778,7 +778,7 @@ COSEWIC Status: Not at Risk, SARA Status: No Status
 
 \emph{Cryptacanthodes giganteus} (355)\
 Order: Perciformes, Family: Cryptacanthodidae,
-[FishBase](http://www.fishbase.se/summary/Cryptacanthodes-giganteus), 
+[FishBase](http://www.fishbase.org/summary/Cryptacanthodes-giganteus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=276392)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/giant-wrymouth-1.png}
@@ -796,7 +796,7 @@ Order: Perciformes, Family: Cryptacanthodidae,
 
 \emph{Cryptacanthodes aleutensis} (356)\
 Order: Perciformes, Family: Cryptacanthodidae,
-[FishBase](http://www.fishbase.se/summary/Cryptacanthodes-aleutensis), 
+[FishBase](http://www.fishbase.org/summary/Cryptacanthodes-aleutensis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=276390)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/dwarf-wrymouth-1.png}
@@ -814,7 +814,7 @@ Order: Perciformes, Family: Cryptacanthodidae,
 
 \emph{Zaprora silenus} (359)\
 Order: Perciformes, Family: Zaproridae,
-[FishBase](http://www.fishbase.se/summary/Zaprora-silenus), 
+[FishBase](http://www.fishbase.org/summary/Zaprora-silenus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254353)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/prowfish-1.png}
@@ -832,7 +832,7 @@ Order: Perciformes, Family: Zaproridae,
 
 \emph{Ammodytes personatus} (361)\
 Order: Perciformes, Family: Ammodytidae,
-[FishBase](http://www.fishbase.se/summary/Ammodytes-personatus), 
+[FishBase](http://www.fishbase.org/summary/Ammodytes-personatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272967)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-sand-lance-1.png}
@@ -850,7 +850,7 @@ Order: Perciformes, Family: Ammodytidae,
 
 \emph{Icosteus aenigmaticus} (386)\
 Order: Scombriformes, Family: Icosteidae,
-[FishBase](http://www.fishbase.se/summary/Icosteus-aenigmaticus), 
+[FishBase](http://www.fishbase.org/summary/Icosteus-aenigmaticus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281153)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/ragfish-1.png}
@@ -868,8 +868,9 @@ Order: Scombriformes, Family: Icosteidae,
 
 \emph{Sebastes aleutianus/melanostictus} (394)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase 1](http://www.fishbase.se/summary/Sebastes-aleutianus),
-[FishBase 2](http://www.fishbase.se/summary/Sebastes-melanostictus)\
+[FishBase 1](http://www.fishbase.org/summary/Sebastes-aleutianus),
+[FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=unknown)\
 Last Research Document: @starr2020rougheye\
 Last Science Advisory Report: @dfo2020rougheye\
 Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
@@ -892,7 +893,7 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 
 \emph{Sebastes alutus} (396)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-alutus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-alutus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254573)\
 Last Research Document: @starr2025pop\
 Last Science Advisory Report: @dfo2024pop\
@@ -912,7 +913,7 @@ Last Science Advisory Report: @dfo2024pop\
 
 \emph{Sebastes aurora} (400)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-aurora), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-aurora), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274774)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/aurora-rockfish-1.png}
@@ -930,7 +931,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes babcocki} (401)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-babcocki), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-babcocki), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274775)\
 Last Research Document: @edwards2017redbanded\
 \begin{figure}[b!]
@@ -949,7 +950,7 @@ Last Research Document: @edwards2017redbanded\
 
 \emph{Sebastes borealis} (403)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-borealis), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-borealis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274777)\
 Last Research Document: @schnute1999shortraker\
 Last Science Advisory Report: @dfo1999shortraker\
@@ -969,7 +970,7 @@ Last Science Advisory Report: @dfo1999shortraker\
 
 \emph{Sebastes brevispinis} (405)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-brevispinis), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-brevispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274778)\
 Last Research Document: @starr2016silvergray\
 Last Science Advisory Report: @dfo2014silvergray\
@@ -989,7 +990,7 @@ Last Science Advisory Report: @dfo2014silvergray\
 
 \emph{Sebastes caurinus} (407)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-caurinus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-caurinus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274780)\
 Technical Report: @yamanaka2001inshore\
 \begin{figure}[b!]
@@ -1008,7 +1009,7 @@ Technical Report: @yamanaka2001inshore\
 
 \emph{Sebastes variabilis} (409)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-variabilis), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-variabilis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=398442)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/dusky-rockfish-1.png}
@@ -1026,7 +1027,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes crameri} (410)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-crameri), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-crameri), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274785)\
 Last Research Document: @haigh2008darkblotched\
 COSEWIC Status Report: @cosewic2010darkblotched\
@@ -1048,7 +1049,7 @@ COSEWIC Status: Special Concern, SARA Status: No Status
 
 \emph{Sebastes diploproa} (412)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-diploproa), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-diploproa), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274787)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/splitnose-rockfish-1.png}
@@ -1066,7 +1067,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes elongatus} (414)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-elongatus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-elongatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274788)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/greenstriped-rockfish-1.png}
@@ -1084,7 +1085,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes emphaeus} (415)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-emphaeus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-emphaeus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274789)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/puget-sound-rockfish-1.png}
@@ -1102,7 +1103,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes entomelas} (417)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-entomelas), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-entomelas), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274791)\
 Last Research Document: @starr2021widow\
 Last Science Advisory Report: @dfo2019widow\
@@ -1122,7 +1123,7 @@ Last Science Advisory Report: @dfo2019widow\
 
 \emph{Sebastes flavidus} (418)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-flavidus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-flavidus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274795)\
 Last Science Advisory Report: @dfo2015yellowtail\
 \begin{figure}[b!]
@@ -1141,7 +1142,7 @@ Last Science Advisory Report: @dfo2015yellowtail\
 
 \emph{Sebastes goodei} (420)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-goodei), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-goodei), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274798)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chilipepper-1.png}
@@ -1159,7 +1160,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes helvomaculatus} (421)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-helvomaculatus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-helvomaculatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274799)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/rosethorn-rockfish-1.png}
@@ -1177,7 +1178,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes jordani} (423)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-jordani), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-jordani), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274806)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/shortbelly-rockfish-1.png}
@@ -1195,7 +1196,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes maliger} (424)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-maliger), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-maliger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274815)\
 Last Research Documents: @yamanaka2011quillback, @huynh2024quillback_inside\
 Last Science Advisory Reports: @dfo2023quillback_inside, @dfo2023quillback_outside\
@@ -1218,7 +1219,7 @@ COSEWIC Status: Threatened, SARA Status: No Status
 
 \emph{Sebastes melanops} (426)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-melanops), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-melanops), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274817)\
 Last Research Document: @yamanaka2001inshore\
 \begin{figure}[b!]
@@ -1237,7 +1238,7 @@ Last Research Document: @yamanaka2001inshore\
 
 \emph{Sebastes melanostomus} (427)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-melanostomus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-melanostomus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274819)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/blackgill-rockfish-1.png}
@@ -1255,7 +1256,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes miniatus} (428)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-miniatus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-miniatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274820)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/vermilion-rockfish-1.png}
@@ -1273,7 +1274,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes diaconus} (429)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-diaconus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-diaconus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=1384909)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/deacon-rockfish-1.png}
@@ -1291,7 +1292,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes nebulosus} (431)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-nebulosus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-nebulosus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274824)\
 Last Research Document: @yamanaka2001inshore\
 \begin{figure}[b!]
@@ -1310,7 +1311,7 @@ Last Research Document: @yamanaka2001inshore\
 
 \emph{Sebastes nigrocinctus} (433)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-nigrocinctus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-nigrocinctus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274825)\
 Last Research Document: @yamanaka2001inshore\
 \begin{figure}[b!]
@@ -1329,7 +1330,7 @@ Last Research Document: @yamanaka2001inshore\
 
 \emph{Sebastes paucispinis} (435)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-paucispinis), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-paucispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274833)\
 Last Research Document: @starr2022bocaccio\
 Last Science Advisory Report: @dfo2020bocaccio\
@@ -1353,7 +1354,7 @@ COSEWIC Status: Endangered, SARA Status: No Status
 
 \emph{Sebastes pinniger} (437)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-pinniger), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-pinniger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274836)\
 Last Research Document: @starr2023canary\
 Last Science Advisory Report: @dfo2023canary\
@@ -1376,7 +1377,7 @@ COSEWIC Status: Threatened, SARA Status: No Status
 
 \emph{Sebastes proriger} (439)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-proriger), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-proriger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274838)\
 Last Research Document: @starr2021redstripe\
 Last Science Advisory Report: @dfo2018redstripe\
@@ -1396,7 +1397,7 @@ Last Science Advisory Report: @dfo2018redstripe\
 
 \emph{Sebastes reedi} (440)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-reedi), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-reedi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274840)\
 Last Research Document: @starr2022yellowmouth\
 Last Science Advisory Report: @dfo2022yellowmouth\
@@ -1419,7 +1420,7 @@ COSEWIC Status: Threatened, SARA Status: No Status
 
 \emph{Sebastes ruberrimus} (442)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-ruberrimus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-ruberrimus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Last Research Documents: @cox2020YEout, @haggarty2021yelloweyeinside\
 Last Science Advisory Reports: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside\
@@ -1443,7 +1444,7 @@ COSEWIC Status: Threatened, SARA Status: Special Concern
 
 \emph{Sebastes saxicola} (444)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-saxicola), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-saxicola), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274848)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/stripetail-rockfish-1.png}
@@ -1461,7 +1462,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes variegatus} (446)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-variegatus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-variegatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274863)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/harlequin-rockfish-1.png}
@@ -1479,7 +1480,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes wilsoni} (448)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-wilsoni), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-wilsoni), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274868)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pygmy-rockfish-1.png}
@@ -1497,7 +1498,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastes zacentrus} (450)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastes-zacentrus), 
+[FishBase](http://www.fishbase.org/summary/Sebastes-zacentrus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274869)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sharpchin-rockfish-1.png}
@@ -1515,7 +1516,7 @@ Order: Perciformes, Family: Sebastidae,
 
 \emph{Sebastolobus alascanus} (451)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastolobus-alascanus), 
+[FishBase](http://www.fishbase.org/summary/Sebastolobus-alascanus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282740)\
 Last Research Document: @starr2015shortspineidiots\
 Last Science Advisory Report: @dfo2016shortspineidiots\
@@ -1535,7 +1536,7 @@ Last Science Advisory Report: @dfo2016shortspineidiots\
 
 \emph{Sebastolobus altivelis} (453)\
 Order: Perciformes, Family: Sebastidae,
-[FishBase](http://www.fishbase.se/summary/Sebastolobus-altivelis), 
+[FishBase](http://www.fishbase.org/summary/Sebastolobus-altivelis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282741)\
 Last Research Document: @haigh2005longspineidiots\
 Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
@@ -1558,7 +1559,7 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 
 \emph{Anoplopoma fimbria} (455)\
 Order: Perciformes, Family: Anoplopomatidae,
-[FishBase](http://www.fishbase.se/summary/Anoplopoma-fimbria), 
+[FishBase](http://www.fishbase.org/summary/Anoplopoma-fimbria), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
 Last Research Document: @johnson2024sablefish\
 Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefishom\
@@ -1580,7 +1581,7 @@ The annual sablefish trap survey is not included in this report. Commercial biol
 
 \emph{Hexagrammos decagrammus} (461)\
 Order: Perciformes, Family: Hexagrammidae,
-[FishBase](http://www.fishbase.se/summary/Hexagrammos-decagrammus), 
+[FishBase](http://www.fishbase.org/summary/Hexagrammos-decagrammus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=240732)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/kelp-greenling-1.png}
@@ -1598,7 +1599,7 @@ Order: Perciformes, Family: Hexagrammidae,
 
 \emph{Hexagrammos stelleri} (466)\
 Order: Perciformes, Family: Hexagrammidae,
-[FishBase](http://www.fishbase.se/summary/Hexagrammos-stelleri), 
+[FishBase](http://www.fishbase.org/summary/Hexagrammos-stelleri), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254545)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/whitespotted-greenling-1.png}
@@ -1616,7 +1617,7 @@ Order: Perciformes, Family: Hexagrammidae,
 
 \emph{Ophiodon elongatus} (467)\
 Order: Perciformes, Family: Hexagrammidae,
-[FishBase](http://www.fishbase.se/summary/Ophiodon-elongatus), 
+[FishBase](http://www.fishbase.org/summary/Ophiodon-elongatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=240745)\
 Last Research Documents: @king2011lingOutside, @holt2016lingSOG\
 Last Science Advisory Reports: @dfo2011lingOutside, @dfo2015lingSOG\
@@ -1636,7 +1637,7 @@ Last Science Advisory Reports: @dfo2011lingOutside, @dfo2015lingSOG\
 
 \emph{Dasycottus setiger} (497)\
 Order: Perciformes, Family: Psychrolutidae,
-[FishBase](http://www.fishbase.se/summary/Dasycottus-setiger), 
+[FishBase](http://www.fishbase.org/summary/Dasycottus-setiger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280488)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/spinyhead-sculpin-1.png}
@@ -1654,7 +1655,7 @@ Order: Perciformes, Family: Psychrolutidae,
 
 \emph{Enophrys bison} (499)\
 Order: Perciformes, Family: Cottidae,
-[FishBase](http://www.fishbase.se/summary/Enophrys-bison), 
+[FishBase](http://www.fishbase.org/summary/Enophrys-bison), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=275355)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/buffalo-sculpin-1.png}
@@ -1672,7 +1673,7 @@ Order: Perciformes, Family: Cottidae,
 
 \emph{Hemilepidotus hemilepidotus} (502)\
 Order: Perciformes, Family: Cottidae,
-[FishBase](http://www.fishbase.se/summary/Hemilepidotus-hemilepidotus), 
+[FishBase](http://www.fishbase.org/summary/Hemilepidotus-hemilepidotus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254521)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/red-irish-lord-1.png}
@@ -1690,7 +1691,7 @@ Order: Perciformes, Family: Cottidae,
 
 \emph{Hemitripterus bolini} (505)\
 Order: Perciformes, Family: Hemitripteridae,
-[FishBase](http://www.fishbase.se/summary/Hemitripterus-bolini), 
+[FishBase](http://www.fishbase.org/summary/Hemitripterus-bolini), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254541)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/bigmouth-sculpin-1.png}
@@ -1708,7 +1709,7 @@ Order: Perciformes, Family: Hemitripteridae,
 
 \emph{Icelinus filamentosus} (510)\
 Order: Perciformes, Family: Cottidae,
-[FishBase](http://www.fishbase.se/summary/Icelinus-filamentosus), 
+[FishBase](http://www.fishbase.org/summary/Icelinus-filamentosus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281136)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/threadfin-sculpin-1.png}
@@ -1726,7 +1727,7 @@ Order: Perciformes, Family: Cottidae,
 
 \emph{Icelinus tenuis} (513)\
 Order: Perciformes, Family: Cottidae,
-[FishBase](http://www.fishbase.se/summary/Icelinus-tenuis), 
+[FishBase](http://www.fishbase.org/summary/Icelinus-tenuis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281142)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/spotfin-sculpin-1.png}
@@ -1744,7 +1745,7 @@ Order: Perciformes, Family: Cottidae,
 
 \emph{Leptocottus armatus} (518)\
 Order: Perciformes, Family: Cottidae,
-[FishBase](http://www.fishbase.se/summary/Leptocottus-armatus), 
+[FishBase](http://www.fishbase.org/summary/Leptocottus-armatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254345)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-staghorn-sculpin-1.png}
@@ -1762,7 +1763,7 @@ Order: Perciformes, Family: Cottidae,
 
 \emph{Malacocottus kincaidi} (519)\
 Order: Perciformes, Family: Psychrolutidae,
-[FishBase](http://www.fishbase.se/summary/Malacocottus-kincaidi), 
+[FishBase](http://www.fishbase.org/summary/Malacocottus-kincaidi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279442)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/blackfin-sculpin-1.png}
@@ -1780,7 +1781,7 @@ Order: Perciformes, Family: Psychrolutidae,
 
 \emph{Myoxocephalus polyacanthocephalus} (521)\
 Order: Perciformes, Family: Cottidae,
-[FishBase](http://www.fishbase.se/summary/Myoxocephalus-polyacanthocephalus), 
+[FishBase](http://www.fishbase.org/summary/Myoxocephalus-polyacanthocephalus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254528)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/great-sculpin-1.png}
@@ -1798,7 +1799,7 @@ Order: Perciformes, Family: Cottidae,
 
 \emph{Paricelinus hopliticus} (532)\
 Order: Perciformes, Family: Jordaniidae,
-[FishBase](http://www.fishbase.se/summary/Paricelinus-hopliticus), 
+[FishBase](http://www.fishbase.org/summary/Paricelinus-hopliticus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282147)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/thornback-sculpin-1.png}
@@ -1816,7 +1817,7 @@ Order: Perciformes, Family: Jordaniidae,
 
 \emph{Psychrolutes phrictus} (534)\
 Order: Perciformes, Family: Psychrolutidae,
-[FishBase](http://www.fishbase.se/summary/Psychrolutes-phrictus), 
+[FishBase](http://www.fishbase.org/summary/Psychrolutes-phrictus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274678)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/giant-blobsculpin-1.png}
@@ -1834,7 +1835,7 @@ Order: Perciformes, Family: Psychrolutidae,
 
 \emph{Radulinus asprellus} (535)\
 Order: Perciformes, Family: Cottidae,
-[FishBase](http://www.fishbase.se/summary/Radulinus-asprellus), 
+[FishBase](http://www.fishbase.org/summary/Radulinus-asprellus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282541)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/slim-sculpin-1.png}
@@ -1852,7 +1853,7 @@ Order: Perciformes, Family: Cottidae,
 
 \emph{Scorpaenichthys marmoratus} (540)\
 Order: Perciformes, Family: Jordaniidae,
-[FishBase](http://www.fishbase.se/summary/Scorpaenichthys-marmoratus), 
+[FishBase](http://www.fishbase.org/summary/Scorpaenichthys-marmoratus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282726)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/cabezon-1.png}
@@ -1870,7 +1871,7 @@ Order: Perciformes, Family: Jordaniidae,
 
 \emph{Podothecus accipenserinus} (550)\
 Order: Perciformes, Family: Agonidae,
-[FishBase](http://www.fishbase.se/summary/Podothecus-accipenserinus), 
+[FishBase](http://www.fishbase.org/summary/Podothecus-accipenserinus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254501)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sturgeon-poacher-1.png}
@@ -1888,7 +1889,7 @@ Order: Perciformes, Family: Agonidae,
 
 \emph{Xeneretmus leiops} (555)\
 Order: Perciformes, Family: Agonidae,
-[FishBase](http://www.fishbase.se/summary/Xeneretmus-leiops), 
+[FishBase](http://www.fishbase.org/summary/Xeneretmus-leiops), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=283172)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/smootheye-poacher-1.png}
@@ -1906,7 +1907,7 @@ Order: Perciformes, Family: Agonidae,
 
 \emph{Careproctus melanurus} (574)\
 Order: Perciformes, Family: Liparidae,
-[FishBase](http://www.fishbase.se/summary/Careproctus-melanurus), 
+[FishBase](http://www.fishbase.org/summary/Careproctus-melanurus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254549)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/blacktail-snailfish-1.png}
@@ -1924,7 +1925,7 @@ Order: Perciformes, Family: Liparidae,
 
 \emph{Citharichthys sordidus} (596)\
 Order: Pleuronectiformes, Family: Paralichthyidae,
-[FishBase](http://www.fishbase.se/summary/Citharichthys-sordidus), 
+[FishBase](http://www.fishbase.org/summary/Citharichthys-sordidus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=275694)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-sanddab-1.png}
@@ -1942,7 +1943,7 @@ Order: Pleuronectiformes, Family: Paralichthyidae,
 
 \emph{Atheresthes stomias} (602)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Atheresthes-stomias), 
+[FishBase](http://www.fishbase.org/summary/Atheresthes-stomias), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279792)\
 Last Research Document: @grandin2017arrowtooth\
 Last Science Advisory Report: @dfo2023arrowtooth\
@@ -1963,7 +1964,7 @@ Last Science Response: @dfo2025arrowtooth\
 
 \emph{Embassichthys bathybius} (605)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Embassichthys-bathybius), 
+[FishBase](http://www.fishbase.org/summary/Embassichthys-bathybius), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280641)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/deepsea-sole-1.png}
@@ -1981,7 +1982,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 
 \emph{Eopsetta jordani} (607)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Eopsetta-jordani), 
+[FishBase](http://www.fishbase.org/summary/Eopsetta-jordani), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280690)\
 Last Research Document: @starr2009petrale\
 Last Science Advisory Report: @dfo2025petrale\
@@ -2001,7 +2002,7 @@ Last Science Advisory Report: @dfo2025petrale\
 
 \emph{Glyptocephalus zachirus} (610)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Glyptocephalus-zachirus), 
+[FishBase](http://www.fishbase.org/summary/Glyptocephalus-zachirus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274287)\
 Research Document featuring a case study of 3CD Rex Sole: @anderson2021mp\
 \begin{figure}[b!]
@@ -2020,7 +2021,7 @@ Research Document featuring a case study of 3CD Rex Sole: @anderson2021mp\
 
 \emph{Hippoglossoides elassodon} (612)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Hippoglossoides-elassodon), 
+[FishBase](http://www.fishbase.org/summary/Hippoglossoides-elassodon), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274289)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/flathead-sole-1.png}
@@ -2038,14 +2039,14 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 
 \emph{Hippoglossus stenolepis} (614)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Hippoglossus-stenolepis), 
+[FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
 Most Recent Stock Assessment: @iphc2025\
 Note that Pacific Halibut undergoes thorough assessment by the
       International Pacific
- Halibut Commission based on the annual
-      standardized setline survey. The most
- recent stock assessment
+ Halibut Commission based on [the annual
+      standardized setline survey](https://www.iphc.int/research/fishery-independent-monitoring/). The most
+ recent [stock assessment](https://www.iphc.int/research/stock-assessment/)
       should be consulted for details on stock status.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-halibut-1.png}
@@ -2063,7 +2064,7 @@ Note that Pacific Halibut undergoes thorough assessment by the
 
 \emph{Isopsetta isolepis} (619)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Isopsetta-isolepis), 
+[FishBase](http://www.fishbase.org/summary/Isopsetta-isolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281189)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/butter-sole-1.png}
@@ -2081,7 +2082,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 
 \emph{Lepidopsetta bilineata} (621)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Lepidopsetta-bilineata), 
+[FishBase](http://www.fishbase.org/summary/Lepidopsetta-bilineata), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281305)\
 Last Research Document: @holt2016rocksole\
 Last Science Advisory Report: @dfo2014rocksole\
@@ -2101,7 +2102,7 @@ Last Science Advisory Report: @dfo2014rocksole\
 
 \emph{Lyopsetta exilis} (625)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Lyopsetta-exilis), 
+[FishBase](http://www.fishbase.org/summary/Lyopsetta-exilis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281452)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/slender-sole-1.png}
@@ -2119,7 +2120,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 
 \emph{Microstomus pacificus} (626)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Microstomus-pacificus), 
+[FishBase](http://www.fishbase.org/summary/Microstomus-pacificus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274294)\
 Last Science Advisory Report: @dfo1999dover\
 \begin{figure}[b!]
@@ -2138,7 +2139,7 @@ Last Science Advisory Report: @dfo1999dover\
 
 \emph{Parophrys vetulus} (628)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Parophrys-vetulus), 
+[FishBase](http://www.fishbase.org/summary/Parophrys-vetulus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254393)\
 Last Research Document: @starr2009english\
 Last Science Advisory Report: @dfo1999english5CD\
@@ -2158,7 +2159,7 @@ Last Science Advisory Report: @dfo1999english5CD\
 
 \emph{Platichthys stellatus} (631)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Platichthys-stellatus), 
+[FishBase](http://www.fishbase.org/summary/Platichthys-stellatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=154781)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/starry-flounder-1.png}
@@ -2176,7 +2177,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 
 \emph{Pleuronichthys coenosus} (633)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Pleuronichthys-coenosus), 
+[FishBase](http://www.fishbase.org/summary/Pleuronichthys-coenosus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282290)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/c-o-sole-1.png}
@@ -2194,7 +2195,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 
 \emph{Pleuronichthys decurrens} (635)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Pleuronichthys-decurrens), 
+[FishBase](http://www.fishbase.org/summary/Pleuronichthys-decurrens), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282292)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/curlfin-sole-1.png}
@@ -2212,7 +2213,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 
 \emph{Psettichthys melanostictus} (636)\
 Order: Pleuronectiformes, Family: Pleuronectidae,
-[FishBase](http://www.fishbase.se/summary/Psettichthys-melanostictus), 
+[FishBase](http://www.fishbase.org/summary/Psettichthys-melanostictus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282396)\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sand-sole-1.png}
