@@ -141,10 +141,10 @@ make_pages <- function(
 
   # remove commercial basking shark: #187
   if (spp == "basking shark") {
-   dat$catch <- dplyr::filter(dat$catch, species_common_name == "AAA") # trash all
-   dat$commercial_samples <- dplyr::filter(dat$commercial_samples, species_common_name == "AAA") # trash all
+   # trash some recent tiny catches that are post observers and highly likely mistakes:
+   dat$catch <- dplyr::filter(dat$catch, discarded_kg > 1000 | landed_kg > 1000)
+   # trash all - all recent and suspect:
    dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == "AAA")
-   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == "AAA")
   }
 
   # filter by shapefile if needed:
