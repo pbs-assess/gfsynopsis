@@ -14,7 +14,9 @@ spp_table <- .spp %>%
   mutate(species_common_name = gsub("Rougheye\\/blackspotted Rockfish Complex", 
     "Rougheye/Blackspotted Rockfish", species_common_name)) |> 
   mutate(species_common_name = gsub("North Pacific Spiny Dogfish", 
-    "Pacific Spiny Dogfish", species_common_name))
+    "Pacific Spiny Dogfish", species_common_name)) |>
+  mutate(species_common_name = gsub("Popeye", 
+    "Popeye grenadier", species_common_name))
 
 spp_table %>% arrange(species_common_name) %>%
   select(species_common_name, species_science_name, section) %>%
