@@ -19,6 +19,9 @@ generate_plotpages_Rmd <- function(x, spp) {
   if (spp_title == "North Pacific Spiny Dogfish") {
     spp_title <- "Pacific Spiny Dogfish"
   }
+  if (spp_title == "Popeye grenadier") {
+    spp_title <- "Pacific Spiny Dogfish"
+  }
   spp_hyphen <- spp$spp_w_hyphens[spp$species_common_name == x]
   out <- list()
   latin_name <- spp$species_science_name[spp$species_common_name == x]
@@ -56,25 +59,25 @@ generate_plotpages_Rmd <- function(x, spp) {
   i <- i + 1
   out[[i]] <- paste0(
     "[FishBase]",
-    "(http://www.fishbase.se/summary/",
+    "(http://www.fishbase.org/summary/",
     gsub(" ", "-", gfplot:::firstup(latin_name)), ")"
   )
   if (species_code == "394") { # Sebastes aleutianus/melanostictus
     .names <- rougheye_split(gfplot:::firstup(latin_name))
     out[[i]] <- paste0(
       "[FishBase 1]",
-      "(http://www.fishbase.se/summary/", .names[1], "),"
+      "(http://www.fishbase.org/summary/", .names[1], "),"
     )
     i <- i + 1
     out[[i]] <- paste0(
       "[FishBase 2]",
-      "(http://www.fishbase.se/summary/", .names[2], ")"
+      "(http://www.fishbase.org/summary/", .names[2], ")"
     )
   }
   if (species_code == "039") { # Requiem Sharks
     out[[i]] <- paste0(
       "[FishBase]",
-      "(http://www.fishbase.se/Summary/FamilySummary.php?ID=11)"
+      "(http://www.fishbase.org/Summary/FamilySummary.php?ID=11)"
     )
   }
 
@@ -149,7 +152,7 @@ generate_plotpages_Rmd <- function(x, spp) {
   if (species_code == "225") {
     if (!french) {
       out[[i]] <- "Note that Pacific Hake undergoes a directed joint
-      Canada-US coastwide\n survey and annual assessment, which are not
+      Canada-US coastwide\n acoustic survey and annual assessment, which are not
       included in this report. The most recent\n stock assessment
       should be consulted for details on stock status."
     } else {
@@ -160,8 +163,8 @@ generate_plotpages_Rmd <- function(x, spp) {
   if (species_code == "614") {
     if (!french) {
       out[[i]] <- "Note that Pacific Halibut undergoes thorough assessment by the
-      International Pacific\n Halibut Commission based on the annual
-      standardized setline survey. The most\n recent stock assessment
+      International Pacific\n Halibut Commission based on [the annual
+      standardized setline survey](https://www.iphc.int/research/fishery-independent-monitoring/). The most\n recent [stock assessment](https://www.iphc.int/research/stock-assessment/)
       should be consulted for details on stock status."
     } else {
       out[[i]] <- "Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
