@@ -2,8 +2,12 @@
 
 # Plot Descriptions {#sec:plot-descriptions}
 
+```{r ggplot-objects-cache}
+ggplot_objects <- here::here("report/tech-report-haida/ggplot-objects")
+```
+
 ```{r load-example-figs}
-g <- readRDS(here::here("report/tech-report-main/ggplot-objects/petrale-sole.rds"))
+g <- readRDS(file.path(ggplot_objects, "petrale-sole.rds"))
 sp <- "Petrale Sole"
 ```
 
@@ -218,8 +222,8 @@ the 3-vessel privacy requirement. `r map_text`
 trans <- "fourth_root_power"
 
 g_alt <- list()
-g_alt$cpue_spatial <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial.rds"))
-g_alt$cpue_spatial_ll <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
+g_alt$cpue_spatial <- readRDS(file.path(ggplot_objects, "pacific-cod-cpue-spatial.rds"))
+g_alt$cpue_spatial_ll <- readRDS(file.path(ggplot_objects, "pacific-cod-cpue-spatial-ll.rds"))
 
 p1_trawl <-
   g_alt$cpue_spatial +

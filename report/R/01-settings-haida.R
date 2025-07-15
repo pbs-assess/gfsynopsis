@@ -10,6 +10,9 @@ parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
 french <- FALSE
 
+# path based on tag for plot descriptions
+ggplot_objects <- here::here("report", paste0("tech-report-", tag), "ggplot-objects")
+
 # optional shape file to filter any spatial by:
 if (tag == "haida") {
   shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
