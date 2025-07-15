@@ -1,106 +1,111 @@
-xlim <- c(122, 890)
-ylim <- c(5373, 6027)
-bath <- c(100, 200, 500)
-utm_zone <- 9
-ll_range <- gfplot:::utm2ll(cbind(X = xlim, Y = ylim), utm_zone = 9)
-coastline_utm <- gfplot:::load_coastline(
-  xlim_ll = ll_range[, "X"] + c(-5, 5),
-  ylim_ll = ll_range[, "Y"] + c(-5, 5),
-  utm_zone = utm_zone
-)
-isobath_utm <- gfplot:::load_isobath(
-  xlim_ll = ll_range[, "X"] + c(-5, 5),
-  ylim_ll = ll_range[, "Y"] + c(-12, 12),
-  bath = bath, utm_zone = utm_zone
-)
-french <- FALSE
-
-# synoptic surveys -------------------------------------------------------------
-
-hs_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$HS, utm_zone = 9)
-qcs_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$QCS, utm_zone = 9)
-wcvi_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCVI, utm_zone = 9)
-wchg_utm <- gfplot:::ll2utm(gfplot::survey_boundaries$WCHG, utm_zone = 9)
-ss <- dplyr::bind_rows(
-  list(data.frame(hs_utm, survey = "Hecate Strait (HS)", stringsAsFactors = FALSE),
-    data.frame(qcs_utm, survey = "Queen Charlotte Sound (QCS)", stringsAsFactors = FALSE),
-    data.frame(wcvi_utm, survey = "West Coast Vancouver Island (WCVI)", stringsAsFactors = FALSE),
-    data.frame(wchg_utm, survey = "West Coast Haida Gwaii (WCHG)", stringsAsFactors = FALSE)))
-
-alpha <- 95
-cols <- c(
-      "West Coast Haida Gwaii (WCHG)" = paste0("#E41A1C", alpha),
-      "West Coast Vancouver Island (WCVI)" = paste0("#984EA3", alpha),
-      "Hecate Strait (HS)" = paste0("#377EB8", alpha),
-      "Queen Charlotte Sound (QCS)" = paste0("#4DAF4A", alpha),
-      "Outside Hard Bottom Longline (N)" = paste0("#FF7F00", alpha),
-      "Outside Hard Bottom Longline (S)" = paste0("#FDBF6F", alpha),
-      "Inside Hard Bottom Longline (N & S)" = paste0("#A65628", alpha),
-      "Multi-Species Small Mesh (MSSM)" = paste0("#6c6c6c", alpha)
-    )
-
-g <- ggplot()
-
-g <- g + geom_polygon(data = ss, aes_string(x = "X", y = "Y", fill = "survey")) +
-  scale_fill_manual(values = c(cols))
-
-g <- g + geom_path(
-  data = isobath_utm, aes_string(
-    x = "X", y = "Y",
-    group = "paste(PID, SID)"
-  ),
-  inherit.aes = FALSE, lwd = 0.4, col = "grey70", alpha = 0.4
-)
-g <- g + geom_polygon(
-  data = coastline_utm,
-  aes_string(x = "X", y = "Y", group = "PID"),
-  inherit.aes = FALSE, lwd = 0.1, fill = "grey91", col = "grey72"
-) +
-  coord_equal(xlim = xlim, ylim = ylim) +
-  gfplot::theme_pbs() + labs(fill = "", colour = "", y = en2fr("Northing", french), x = en2fr("Easting", french))
-
-g <- g + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
-
-
-# HBLL -------------------------------------------------------------------------
-
-hbll_n <- gfplot:::ll2utm(gfplot::hbll_n_grid$grid, utm_zone = 9)
-hbll_s <- gfplot:::ll2utm(gfplot::hbll_s_grid$grid, utm_zone = 9)
-
-hbll_n_in <- gfplot:::ll2utm(gfplot::hbll_inside_n_grid$grid, utm_zone = 9)
-hbll_s_in <- gfplot:::ll2utm(gfplot::hbll_inside_s_grid$grid, utm_zone = 9)
-
-hbll <- dplyr::bind_rows(
-  list(
-    data.frame(hbll_n, survey = "Outside Hard Bottom Longline (N)", stringsAsFactors = FALSE),
-    data.frame(hbll_s, survey = "Outside Hard Bottom Longline (S)", stringsAsFactors = FALSE),
-    data.frame(hbll_n_in, survey = "Inside Hard Bottom Longline (N & S)", stringsAsFactors = FALSE),
-    data.frame(hbll_s_in, survey = "Inside Hard Bottom Longline (N & S)", stringsAsFactors = FALSE))) |>
-  mutate(survey = factor(survey, levels = c(
+survey_lookup <- data.frame(
+  label = c(
+    "West Coast Haida Gwaii (WCHG)",
+    "West Coast Vancouver Island (WCVI)",
+    "Hecate Strait (HS)",
+    "Queen Charlotte Sound (QCS)",
     "Outside Hard Bottom Longline (N)",
     "Outside Hard Bottom Longline (S)",
-    "Inside Hard Bottom Longline (N & S)"))
-  )
+    "Inside Hard Bottom Longline (N & S)",
+    "Inside Hard Bottom Longline (N & S)",
+    "Multi-Species Small Mesh (MSSM WCVI)"
+  ),
+  survey_abbrev = c(
+    "SYN WCHG",
+    "SYN WCVI",
+    "SYN HS",
+    "SYN QCS",
+    "HBLL OUT N",
+    "HBLL OUT S",
+    "HBLL INS N",
+    "HBLL INS S",
+    "MSSM WCVI"
+  ),
+  stringsAsFactors = FALSE
+)
 
-g2 <- ggplot()
-g2 <- g2 + geom_rect(data = hbll,
-  aes_string(xmax = "X + 1", ymax = "Y + 1", xmin = "X - 1", ymin = "Y - 1", fill = "survey")) +
-  scale_fill_manual(values = cols) +
-  geom_path(
-    data = isobath_utm, aes_string(
-      x = "X", y = "Y",
-      group = "paste(PID, SID)"
-    ),
-    inherit.aes = FALSE, lwd = 0.4, col = "grey70", alpha = 0.4
-  )
-g2 <- g2 + geom_polygon(
-  data = coastline_utm,
-  aes_string(x = "X", y = "Y", group = "PID"),
-  inherit.aes = FALSE, lwd = 0.1, fill = "grey91", col = "grey72"
-) +
-  coord_equal(xlim = xlim, ylim = ylim) +
-  gfplot::theme_pbs() + labs(fill = "", colour = "", y = en2fr("Northing", french), x = en2fr("Easting", french))
+cols <- c(
+      "West Coast Haida Gwaii (WCHG)" = "#E41A1C",
+      "Hecate Strait (HS)" = "#377EB8",
+      "Queen Charlotte Sound (QCS)" = "#4DAF4A",
+      "West Coast Vancouver Island (WCVI)" = "#984EA3",
+      "Outside Hard Bottom Longline (N)" = "#FF7F00",
+      "Outside Hard Bottom Longline (S)" = "#FDBF6F",
+      "Inside Hard Bottom Longline (N & S)" = "#A65628",
+      "Multi-Species Small Mesh (MSSM)" = "#6c6c6c"
+    )
 
-g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
+sb <- gfdata::survey_blocks |>
+  dplyr::filter(active_block == TRUE) |>
+  dplyr::left_join(survey_lookup, by = c("survey_abbrev" = "survey_abbrev")) |>
+  sf::st_transform(crs = 32609) |>
+  dplyr::group_by(survey_abbrev, label) |>
+  dplyr::summarise(geometry = sf::st_union(geometry))
 
-gridExtra::grid.arrange(g, g2, nrow = 1)
+syn_grid <- dplyr::filter(sb, survey_abbrev %in% c("SYN WCHG", "SYN WCVI", "SYN HS", "SYN QCS")) |>
+  dplyr::mutate(label = factor(label, levels = c("Hecate Strait (HS)", "West Coast Haida Gwaii (WCHG)", "Queen Charlotte Sound (QCS)", "West Coast Vancouver Island (WCVI)")))
+hbll_grid <- dplyr::filter(sb, survey_abbrev %in% c("HBLL OUT N", "HBLL OUT S", "HBLL INS N", "HBLL INS S")) |>
+  dplyr::mutate(label = factor(label, levels = c("Outside Hard Bottom Longline (N)", "Outside Hard Bottom Longline (S)", "Inside Hard Bottom Longline (N & S)")))
+
+data("isobath", package = "PBSdata")
+
+isobath_sf <- isobath |>
+  as.data.frame() |>
+  dplyr::filter(PID %in% c(100, 200, 500, 1800)) |>
+  sf::st_as_sf(coords = c('X', 'Y'), crs = 4326) |>
+  dplyr::group_by(PID, SID) |>
+  dplyr::summarise(geometry = sf::st_combine(geometry)) %>%
+  sf::st_cast("LINESTRING") |>
+  sf::st_transform(crs = 32609)
+
+coast <- pacea::bc_coast |> sf::st_transform(crs = 32609)
+
+xlim <- sf::st_bbox(sb)[c("xmin", "xmax")]
+ylim <- sf::st_bbox(sb)[c("ymin", "ymax")]
+
+g <- ggplot() +
+  gfplot::theme_pbs() +
+  ggplot2::geom_sf(data = coast, fill = "grey91", colour = "grey72", linewidth = 0.1) +
+  ggplot2::scale_fill_manual(values = cols) +
+  ggplot2::scale_colour_manual(values = cols) +
+  ggplot2::scale_x_continuous(
+    breaks = scales::breaks_pretty(n = 3)(xlim),
+    labels = scales::label_number(scale = 1e-3, big.mark = "")
+    ) +
+  ggplot2::scale_y_continuous(
+    breaks = scales::breaks_pretty(n = 4)(ylim),
+    labels = scales::label_number(scale = 1e-3, big.mark = "")
+    ) +
+  ggplot2::labs(fill = "", colour = "", y = en2fr("Northing", french), x = en2fr("Easting", french)) +
+  ggplot2::theme(legend.justification = c(0, 0),
+        legend.position = "inside",
+        legend.position.inside = c(-0.01, -0.01))
+
+g1 <- g +
+  ggplot2::geom_sf(data = syn_grid,
+    aes(fill = label), linewidth = 0, alpha = 0.7) +
+  ggplot2::geom_sf(data = isobath_sf, colour = "grey70", alpha = 0.4) +
+  ggplot2::coord_sf(xlim = xlim, ylim = ylim, datum=sf::st_crs(sb), expand = FALSE)
+
+g2 <- g +
+  ggplot2::geom_sf(data = hbll_grid,
+    aes(fill = label), linewidth = 0, alpha = 0.7) +
+  ggplot2::geom_sf(data = isobath_sf, colour = "grey70", alpha = 0.4) +
+  ggplot2::coord_sf(xlim = xlim, ylim = ylim, datum=sf::st_crs(sb), expand = FALSE)
+
+if (!is.null(shapefile)) {
+  g1 <- g1 +
+    ggplot2::geom_sf(data = shapefile, fill = NA, colour = "black", linewidth = 0.5) +
+    ggplot2::geom_rect(aes(xmin = xlim[1], xmax = 300000, ymin = ylim[1], ymax = 5470000),
+      fill = "white", alpha = 0.9) +
+    ggplot2::coord_sf(xlim = xlim, ylim = ylim, datum=sf::st_crs(sb), expand = FALSE)
+
+  g2 <- g2 +
+    ggplot2::geom_sf(data = shapefile, fill = NA, colour = "black", linewidth = 0.5) +
+    ggplot2::geom_rect(aes(xmin = xlim[1], xmax = 300000, ymin = ylim[1], ymax = 5440000),
+      fill = "white", alpha = 0.9) +
+    ggplot2::coord_sf(xlim = xlim, ylim = ylim, datum=sf::st_crs(sb), expand = FALSE)
+}
+
+gridExtra::grid.arrange(g1, g2, nrow = 1)
+
