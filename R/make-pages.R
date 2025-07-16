@@ -292,25 +292,29 @@ make_pages <- function(
     ## make grey surveys darker to better distinguish from light grey males:
 
     sb <- sb |> filter(year >= age_comp_first_year)
-    g_ages <- plot_ages(sb, survey_cols = survey_cols_dark,
-      year_range = c(age_comp_first_year, age_comp_final_year), french = french) +
-      guides(fill = "none", colour = "none") +
-      ggtitle(en2fr("Age frequencies", french)) +
-      labs(y = en2fr("Age (years)", french))
+    g_ages <- local({
+      plot_ages(sb, survey_cols = survey_cols_dark,
+        year_range = c(age_comp_first_year, age_comp_final_year), french = french) +
+        guides(fill = "none", colour = "none") +
+        ggtitle(en2fr("Age frequencies", french)) +
+        labs(y = en2fr("Age (years)", french))
+    })
   } else {
-    g_ages <- plot_ages(
-      expand.grid(
-        survey_abbrev = factor(x = samp_panels, levels = samp_panels),
-        year = seq(final_year_surv - 15, final_year_surv, 2),
-        max_size = 8,
-        sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE
-      ),
-      year_range = c(final_year_surv - 15, final_year_surv)
-    ) +
-      guides(fill = "none", colour = "none") +
-      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
-      ggtitle(en2fr("Age frequencies", french)) +
-      labs(y = en2fr("Age (years)", french))
+    g_ages <- local({
+      plot_ages(
+        expand.grid(
+          survey_abbrev = factor(x = samp_panels, levels = samp_panels),
+          year = seq(final_year_surv - 15, final_year_surv, 2),
+          max_size = 8,
+          sex = NA, age = 0, proportion = 0, total = 1, stringsAsFactors = FALSE
+        ),
+        year_range = c(final_year_surv - 15, final_year_surv)
+      ) +
+        guides(fill = "none", colour = "none") +
+        theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
+        ggtitle(en2fr("Age frequencies", french)) +
+        labs(y = en2fr("Age (years)", french))
+    })
   }
 
   # Length compositions: -------------------------------------------------------
@@ -403,33 +407,41 @@ make_pages <- function(
         ggplot2::waiver()
       }
 
-      g_lengths <- plot_lengths(sb,
-        survey_cols = survey_cols_dark,
-        survey_facets = "survey_abbrev2",
-        bin_size = bin_width, min_total = min_total, french = french
-      ) +
-        guides(colour = "none", fill = "none") +
-        ggtitle(en2fr("Length frequencies", french)) +
-        ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
-        ggplot2::ylab(en2fr("Relative length frequency", french)) +
-        scale_x_continuous(breaks = x_breaks, labels = x_labels)
+      g_lengths <- local({
+        plot_lengths(sb,
+          survey_cols = survey_cols_dark,
+          survey_facets = "survey_abbrev2",
+          bin_size = bin_width, min_total = min_total, french = french
+        ) +
+          guides(colour = "none", fill = "none") +
+          ggtitle(en2fr("Length frequencies", french)) +
+          ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
+          ggplot2::ylab(en2fr("Relative length frequency", french)) +
+          scale_x_continuous(breaks = x_breaks, labels = x_labels)
+      })
     })
   } else {
-    g_lengths <- ggplot() +
-      theme_pbs() +
-      ggtitle(en2fr("Length frequencies", french)) +
-      ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
-      ggplot2::ylab(en2fr("Relative length frequency", french))
+    g_lengths <- local({
+      ggplot() +
+        theme_pbs() +
+        ggtitle(en2fr("Length frequencies", french)) +
+        ggplot2::xlab(paste(en2fr("Length", french), "(cm)")) +
+        ggplot2::ylab(en2fr("Relative length frequency", french))
+    })
   }
 
   # Aging precision: -----------------------------------------------------------
   progress_fn("Aging precision")
   if (nrow(dat$age_precision) > 0) {
-    g_age_precision <- tidy_age_precision(dat$age_precision) %>%
-      plot_age_precision()
+    g_age_precision <- local({
+      tidy_age_precision(dat$age_precision) %>%
+        plot_age_precision()
+    })
   } else {
-    g_age_precision <- ggplot() +
-      theme_pbs()
+    g_age_precision <- local({
+      ggplot() +
+        theme_pbs()
+    })
   }
 
   # Commercial CPUE indices: ---------------------------------------------------
@@ -511,14 +523,16 @@ make_pages <- function(
          .labs <- c("Whole area", "5CDE", "5AB", "3CD")
          cpue_index$area <- "Whole area"
        }
-       g_cpue_index <- gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm), area_labels = .labs) +
-         ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
-         ylab("") + xlab("") +
-         ggplot2::theme(
-           axis.title.y = element_blank(),
-           axis.text.y = element_blank(),
-           axis.ticks.y = element_blank()
-         )
+       g_cpue_index <- local({
+         gfsynopsis::plot_cpue_indices(cpue_index, xlim = c(1996, final_year_comm), area_labels = .labs) +
+           ggplot2::ggtitle(en2fr("Commercial bottom trawl CPUE", french)) +
+           ylab("") + xlab("") +
+           ggplot2::theme(
+             axis.title.y = element_blank(),
+             axis.text.y = element_blank(),
+             axis.ticks.y = element_blank()
+           )
+       })
      }
    }
  # } else {
@@ -527,7 +541,7 @@ make_pages <- function(
   if (nrow(dat$catch) == 0 || all_NA(cpue_index)) {
 
     entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"
-    g_cpue_index <-
+    g_cpue_index <- local({
       gfsynopsis::plot_cpue_indices(
         expand.grid(
           area = factor(c(entire_area_name, "5CDE", "5AB", "3CD"),
@@ -545,6 +559,7 @@ make_pages <- function(
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank()
       )
+    })
   }
 
   # Commercial catch: ----------------------------------------------------------
@@ -558,28 +573,36 @@ make_pages <- function(
       .labs <- c("Whole area", "5CDE", "5AB", "3CD")
     }
 
-    g_catch <- gfsynopsis::plot_catches(
-      dat$catch,
-      french = french,
-      xlim = c(1955, final_year_comm),
-      blank_non_coastwide = !is.null(shapefile),
-      area_labels = .labs
-    )
+    g_catch <- local({
+      gfsynopsis::plot_catches(
+        dat$catch,
+        french = french,
+        xlim = c(1955, final_year_comm),
+        blank_non_coastwide = !is.null(shapefile),
+        area_labels = .labs
+      )
+    })
   } else {
     entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"
-    g_catch <- ggplot() +
-      theme_pbs()
-    g_catch <- gfsynopsis::plot_catches(expand.grid(
-      year = 999,
-      area = factor(c(entire_area_name, "5AB", "5CDE", "3CD"),
-        levels = c(entire_area_name, "5AB", "5CDE", "3CD")
-      ),
-      gear = "abc", value = 1, stringsAsFactors = FALSE
-    ), blank_plot = TRUE) +
-      theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+    g_catch <- local({
+      ggplot() +
+        theme_pbs()
+    })
+    g_catch <- local({
+      gfsynopsis::plot_catches(expand.grid(
+        year = 999,
+        area = factor(c(entire_area_name, "5AB", "5CDE", "3CD"),
+          levels = c(entire_area_name, "5AB", "5CDE", "3CD")
+        ),
+        gear = "abc", value = 1, stringsAsFactors = FALSE
+      ), blank_plot = TRUE) +
+        theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+    })
   }
-  g_catch <- g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line")) +
-    ggtitle(en2fr("Commercial catch", french))
+  g_catch <- local({
+    g_catch + ggplot2::theme(legend.key.width = grid::unit(0.7, "line")) +
+      ggtitle(en2fr("Commercial catch", french))
+  })
 
   # Survey biomass indices: ----------------------------------------------------
   progress_fn("Biomass indices")
@@ -591,39 +614,51 @@ make_pages <- function(
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, final_year_surv))
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_comm_samples <- plot_sample_avail(temp,
-    title = en2fr("Commercial samples", french), year_range = c(1996, final_year_surv),
-    french = french
-  ) +
-    ggplot2::ggtitle(en2fr("Commercial specimen counts", french))
+  g_comm_samples <- local({
+    plot_sample_avail(temp,
+      title = en2fr("Commercial samples", french), year_range = c(1996, final_year_surv),
+      french = french
+    ) +
+      ggplot2::ggtitle(en2fr("Commercial specimen counts", french))
+  })
   suppressMessages({
-    g_comm_samples <- g_comm_samples +
-      viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)
+    g_comm_samples <- local({
+      g_comm_samples +
+        viridis::scale_fill_viridis(option = "D", end = 0.82, na.value = na_colour)
+    })
   })
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, final_year_surv))
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
-  g_survey_samples <- plot_sample_avail(temp,
-    title = en2fr("Survey samples", french), year_range = c(1996, final_year_surv),
-    french = french
-  ) +
-    ggplot2::ggtitle(en2fr("Survey specimen counts", french))
+  g_survey_samples <- local({
+    plot_sample_avail(temp,
+      title = en2fr("Survey samples", french), year_range = c(1996, final_year_surv),
+      french = french
+    ) +
+      ggplot2::ggtitle(en2fr("Survey specimen counts", french))
+  })
   suppressMessages({
-    g_survey_samples <- g_survey_samples +
-      viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)
+    g_survey_samples <- local({
+      g_survey_samples +
+        viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)
+    })
   })
 
   # Maturity by month: ---------------------------------------------------------
   progress_fn("Maturity by month")
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples, french = french)
   if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
-    g_maturity_month <- ggplot() +
-      theme_pbs() +
-      ggtitle(en2fr("Maturity frequencies", french))
+    g_maturity_month <- local({
+      ggplot() +
+        theme_pbs() +
+        ggtitle(en2fr("Maturity frequencies", french))
+    })
   } else {
-    g_maturity_month <- dat_tidy_maturity_months %>%
-      plot_maturity_months(min_fish = 0, french = french) +
-      guides(colour = "none", fill = "none") +
-      ggtitle(en2fr("Maturity frequencies", french))
+    g_maturity_month <- local({
+      dat_tidy_maturity_months %>%
+        plot_maturity_months(min_fish = 0, french = french) +
+        guides(colour = "none", fill = "none") +
+        ggtitle(en2fr("Maturity frequencies", french))
+    })
   }
 
   # Growth fits: ---------------------------------------------------------------
@@ -670,10 +705,12 @@ make_pages <- function(
       vb$f$pars <- list(k = NA, linf = NA, t0 = NA)
     }
 
-    g_vb <- plot_vb(object_female = vb$f, object_male = vb$m, french = french) +
-      guides(colour = "none", fill = "none", lty = "none") +
-      ggtitle(en2fr("Growth", french)) +
-      xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length", french), " (cm)"))
+    g_vb <- local({
+      plot_vb(object_female = vb$f, object_male = vb$m, french = french) +
+        guides(colour = "none", fill = "none", lty = "none") +
+        ggtitle(en2fr("Growth", french)) +
+        xlab(en2fr("Age (years)", french)) + ylab(paste0(en2fr("Length", french), " (cm)"))
+    })
 
     sink(tempfile())
     lw_m <- fit_length_weight(dat$survey_samples,
@@ -686,29 +723,34 @@ make_pages <- function(
     )
     sink()
 
-    g_length_weight <-
+    g_length_weight <- local({
       plot_length_weight(object_female = lw_f, object_male = lw_m, french = french) +
-      ggplot2::theme(
-        legend.position = c(0.87, 0.2),
-        legend.key.width = grid::unit(1.8, units = "char")
-      ) +
-      ggplot2::guides(
-        lty =
+        ggplot2::theme(
+          legend.position = c(0.87, 0.2),
+          legend.key.width = grid::unit(1.8, units = "char")
+        ) +
+        ggplot2::guides(
+          lty =
           guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7)))
-      ) +
-      xlab(paste0(en2fr("Length", french), " (cm)")) + ylab(paste0(en2fr("Weight", french), " (kg)")) +
-      ggtitle(en2fr("Length-weight relationship", french))
+        ) +
+        xlab(paste0(en2fr("Length", french), " (cm)")) + ylab(paste0(en2fr("Weight", french), " (kg)")) +
+        ggtitle(en2fr("Length-weight relationship", french))
+    })
   } else {
-    g_vb <- ggplot2::ggplot() +
-      theme_pbs() +
-      xlab(en2fr("Age (years)", french)) +
-      ylab(paste0(en2fr("Length", french), " (cm)")) +
-      ggtitle(en2fr("Growth", french))
-    g_length_weight <- ggplot2::ggplot() +
-      theme_pbs() +
-      xlab(paste0(en2fr("Length", french), " (cm)")) +
-      ylab(paste0(en2fr("Weight", french), " (kg)")) +
-      ggtitle(en2fr("Length-weight relationship", french))
+    g_vb <- local({
+      ggplot2::ggplot() +
+        theme_pbs() +
+        xlab(en2fr("Age (years)", french)) +
+        ylab(paste0(en2fr("Length", french), " (cm)")) +
+        ggtitle(en2fr("Growth", french))
+    })
+    g_length_weight <- local({
+      ggplot2::ggplot() +
+        theme_pbs() +
+        xlab(paste0(en2fr("Length", french), " (cm)")) +
+        ylab(paste0(en2fr("Weight", french), " (kg)")) +
+        ggtitle(en2fr("Length-weight relationship", french))
+    })
   }
 
   # Maturity ogives: -----------------------------------------------------------
@@ -771,7 +813,7 @@ make_pages <- function(
   }
 
   if (length(mat_age) > 1L && type != "none") {
-    g_mat_age <- try({
+    g_mat_age <- try(local({
       gfplot::plot_mat_ogive(mat_age, prediction_type = type, french = french) +
         guides(colour = "none", fill = "none", lty = "none") +
         ggplot2::guides(lty = "none", colour = "none") +
@@ -781,20 +823,24 @@ make_pages <- function(
           y = en2fr("Probability mature", french),
           colour = en2fr("Sex", french), lty = en2fr("Sex", french)
         )
-    })
+    }))
   } else {
-    g_mat_age <- ggplot() +
-      theme_pbs() +
-      ggtitle(en2fr("Age at maturity", french)) +
-      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
-      ggplot2::guides(lty = "none", colour = "none")
+    g_mat_age <- local({
+      ggplot() +
+        theme_pbs() +
+        ggtitle(en2fr("Age at maturity", french)) +
+        ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
+        ggplot2::guides(lty = "none", colour = "none")
+    })
   }
   if (!inherits(g_mat_age, "ggplot")) {
-    g_mat_age <- ggplot() +
-      theme_pbs() +
-      ggtitle(en2fr("Age at maturity", french)) +
-      ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
-      ggplot2::guides(lty = "none", colour = "none")
+    g_mat_age <- local({
+      ggplot() +
+        theme_pbs() +
+        ggtitle(en2fr("Age at maturity", french)) +
+        ggplot2::labs(x = en2fr("Age (years)", french), y = en2fr("Probability mature", french)) +
+        ggplot2::guides(lty = "none", colour = "none")
+    })
   }
 
   if (sum(!is.na(dat$survey_samples$maturity_code)) > 10) {
@@ -841,7 +887,7 @@ make_pages <- function(
   if (spp == "curlfin sole") type <- "none" # FIXME almost none; way off
 
   if (length(mat_length) > 1L && type != "none") {
-    g_mat_length <- try({
+    g_mat_length <- try(local({
       gfplot::plot_mat_ogive(mat_length, prediction_type = type, french = french) +
         ggplot2::theme(
           legend.position = c(0.9, 0.2),
@@ -853,20 +899,24 @@ make_pages <- function(
         ) +
         ggtitle(en2fr("Length at maturity", french)) +
         ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french)))
-      })
+    }))
   } else {
-    g_mat_length <- ggplot() +
-      theme_pbs() +
-      ggtitle(en2fr("Length at maturity", french)) +
-      ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
-      ggplot2::guides(lty = "none", colour = "none")
+    g_mat_length <- local({
+      ggplot() +
+        theme_pbs() +
+        ggtitle(en2fr("Length at maturity", french)) +
+        ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
+        ggplot2::guides(lty = "none", colour = "none")
+    })
   }
   if (!inherits(g_mat_length, "ggplot")) {
-    g_mat_length <- ggplot() +
-      theme_pbs() +
-      ggtitle(en2fr("Length at maturity", french)) +
-      ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
-      ggplot2::guides(lty = "none", colour = "none")
+    g_mat_length <- local({
+      ggplot() +
+        theme_pbs() +
+        ggtitle(en2fr("Length at maturity", french)) +
+        ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french))) +
+        ggplot2::guides(lty = "none", colour = "none")
+    })
   }
 
   # Commercial CPUE maps -------------------------------------------------------
@@ -882,61 +932,69 @@ make_pages <- function(
     inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black"
   )
 
-  g_cpue_spatial <- dat$cpue_spatial %>%
-    plot_cpue_spatial(
-      bin_width = 7, n_minimum_vessels = 3,
-      rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
-      show_historical = TRUE, start_year = 2013,
-      fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
-      colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-      shapefile = shapefile,
-      percent_excluded_xy = if (!french) c(0.015, -0.02) else c(0.08, -0.02),
-      percent_excluded_text = if (!french) "Fishing events excluded due to Privacy Act" else "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
-    ) +
-    ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
-    theme(legend.position = "none") +
-    ggplot2::annotate("text", 360, 6172,
-      label = paste0("2013–", final_year_comm), col = "grey30",
-      hjust = 0
-    )
-  suppressMessages({
-    g_cpue_spatial <- g_cpue_spatial +
-      coord_cart + theme(
-        axis.title = element_blank(),
-        axis.text = element_blank(),
-        axis.ticks = element_blank()
-      )
-  })
-  # g_cpue_spatial <- ggplot() + theme_pbs()
-
-  if (include_map_square) {
-    g_cpue_spatial <- g_cpue_spatial + checking_square
-  }
-
-  suppressMessages({
-    g_cpue_spatial_ll <- dat$cpue_spatial_ll %>%
+  g_cpue_spatial <- local({
+    dat$cpue_spatial %>%
       plot_cpue_spatial(
         bin_width = 7, n_minimum_vessels = 3,
         rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
-        start_year = 2008,
+        show_historical = TRUE, start_year = 2013,
         fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
         colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
-        fill_lab = "CPUE (kg/fe)",
         shapefile = shapefile,
         percent_excluded_xy = if (!french) c(0.015, -0.02) else c(0.08, -0.02),
         percent_excluded_text = if (!french) "Fishing events excluded due to Privacy Act" else "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
       ) +
-      ggplot2::ggtitle(en2fr("Commercial H & L CPUE", french)) +
+      ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
       theme(legend.position = "none") +
-      coord_cart + theme(
-        axis.title = element_blank(),
-        axis.text = element_blank(),
-        axis.ticks = element_blank()
-      ) +
       ggplot2::annotate("text", 360, 6172,
-        label = paste0("2008–", final_year_comm), col = "grey30",
+        label = paste0("2013–", final_year_comm), col = "grey30",
         hjust = 0
       )
+  })
+  suppressMessages({
+    g_cpue_spatial <- local({
+      g_cpue_spatial +
+        coord_cart + theme(
+          axis.title = element_blank(),
+          axis.text = element_blank(),
+          axis.ticks = element_blank()
+        )
+    })
+  })
+  # g_cpue_spatial <- ggplot() + theme_pbs()
+
+  if (include_map_square) {
+    g_cpue_spatial <- local({
+      g_cpue_spatial + checking_square
+    })
+  }
+
+  suppressMessages({
+    g_cpue_spatial_ll <- local({
+      dat$cpue_spatial_ll %>%
+        plot_cpue_spatial(
+          bin_width = 7, n_minimum_vessels = 3,
+          rotation_angle = 40, xlim = map_xlim, ylim = map_ylim,
+          start_year = 2008,
+          fill_scale = ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "D"),
+          colour_scale = ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "D"),
+          fill_lab = "CPUE (kg/fe)",
+          shapefile = shapefile,
+          percent_excluded_xy = if (!french) c(0.015, -0.02) else c(0.08, -0.02),
+          percent_excluded_text = if (!french) "Fishing events excluded due to Privacy Act" else "Activités de pêche exclues en raison de la Loi sur la protection des\nrenseignements personnel"
+        ) +
+        ggplot2::ggtitle(en2fr("Commercial H & L CPUE", french)) +
+        theme(legend.position = "none") +
+        coord_cart + theme(
+          axis.title = element_blank(),
+          axis.text = element_blank(),
+          axis.ticks = element_blank()
+        ) +
+        ggplot2::annotate("text", 360, 6172,
+          label = paste0("2008–", final_year_comm), col = "grey30",
+          hjust = 0
+        )
+    })
   })
   # g_cpue_spatial_ll <- ggplot() + theme_pbs()
 
@@ -1035,7 +1093,7 @@ make_pages <- function(
   }
 
   suppressMessages({
-    g_survey_spatial_syn <-
+    g_survey_spatial_syn <- local({
       gfsynopsis::plot_survey_maps(syn_fits$pred_dat, syn_fits$raw_dat,
         north_symbol = TRUE, annotations = "SYN",
         syn_wchg_year = synoptic_max_survey_years[["SYN WCHG"]],
@@ -1047,17 +1105,20 @@ make_pages <- function(
       coord_cart + ggplot2::ggtitle(en2fr("Synoptic survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
+    })
 
     if (nrow(syn_fits$raw_dat) >= 1L) { # calculate a density to label on the map
       .text <- paste0(en2fr("Mean", french), "~", syn_density, dens_units)
       if (french) {
         .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy; yikes
       }
-      g_survey_spatial_syn <- g_survey_spatial_syn +
-        ggplot2::annotate("text", 360, 5253,
-          col = "grey30", hjust = 0,
-          label = .text, parse = TRUE
-        )
+      g_survey_spatial_syn <- local({
+        g_survey_spatial_syn +
+          ggplot2::annotate("text", 360, 5253,
+            col = "grey30", hjust = 0,
+            label = .text, parse = TRUE
+          )
+      })
     }
   })
 
@@ -1114,7 +1175,7 @@ make_pages <- function(
   }
 
   suppressMessages({
-    g_survey_spatial_iphc <-
+    g_survey_spatial_iphc <- local({
       gfsynopsis::plot_survey_maps(
         pred_dat = dd, raw_dat = dd,
         show_raw_data = FALSE, cell_size = 2.0, circles = TRUE,
@@ -1130,16 +1191,19 @@ make_pages <- function(
         trans = "fourth_root_power", option = "C",
         na.value = "grey35"
       )
+    })
     if (sum(!is.na(dd$combined)) >= 1L) {
       .text <- paste0(en2fr("Mean", french), "~", iphc_density, "~", en2fr("fish/skate", french))
       if (french) {
         .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy
       }
-      g_survey_spatial_iphc <- g_survey_spatial_iphc +
-        ggplot2::annotate("text", 360, 5253,
-          col = "grey30", hjust = 0,
-          label = .text, parse = TRUE
-        )
+      g_survey_spatial_iphc <- local({
+        g_survey_spatial_iphc +
+          ggplot2::annotate("text", 360, 5253,
+            col = "grey30", hjust = 0,
+            label = .text, parse = TRUE
+          )
+      })
     }
   })
 
@@ -1149,7 +1213,7 @@ make_pages <- function(
     if (french) hbll_density <- format_french_1000s_expr(hbll_density)
   }
   suppressMessages({
-    g_survey_spatial_hbll <-
+    g_survey_spatial_hbll <- local({
       gfsynopsis::plot_survey_maps(hbll_fits$pred_dat, hbll_fits$raw_dat,
         pos_pt_col = "#FFFFFF35",
         bin_pt_col = "#FFFFFF12",
@@ -1162,6 +1226,7 @@ make_pages <- function(
       coord_cart + ggplot2::ggtitle(en2fr("HBLL OUT survey biomass", french)) +
       ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C") +
       ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C")
+    })
     dens_units <- paste0("~", en2fr("fish", french), "/km^2")
     if (nrow(hbll_fits$raw_dat) >= 1L) { # calculate a density to label on the map
 
@@ -1169,11 +1234,13 @@ make_pages <- function(
       if (french) {
         .text <- gsub(",", "*','*", .text) # make annotate(parse = TRUE) happy
       }
-      g_survey_spatial_hbll <- g_survey_spatial_hbll +
-        ggplot2::annotate("text", 360, 5253,
-          col = "grey30", hjust = 0,
-          label = .text, parse = TRUE
-        )
+      g_survey_spatial_hbll <- local({
+        g_survey_spatial_hbll +
+          ggplot2::annotate("text", 360, 5253,
+            col = "grey30", hjust = 0,
+            label = .text, parse = TRUE
+          )
+      })
     }
   })
 
