@@ -60,58 +60,58 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FAL
   )
 
   # get design indices ---------------------------------------
-  if (!is.null(shapefile)) {
-    dat_design <- tibble(
-      survey_abbrev = lvls,
-      year = NA_integer_,
-      biomass = NA_real_,
-      lowerci = NA_real_,
-      upperci = NA_real_,
-      mean_cv = NA_real_,
-      num_sets = NA_integer_,
-      num_pos_sets = NA_integer_
+  dat_design <- tidy_survey_index(
+    dat$survey_index,
+    min_years = 1,
+    survey = c(
+      lvls
     )
-  } else {
-    dat_design <- tidy_survey_index(
-      dat$survey_index,
-      min_years = 1,
-      survey = c(
-        lvls
-      )
-    )
+  )
 
-    # pad zeros:
-    if (!is.null(all_survey_years)) {
-      all_survey_years <- filter(all_survey_years, survey_abbrev %in% unique(dat_design$survey_abbrev))
-      dat_design <- full_join(all_survey_years, dat_design,
-        by = c("survey_abbrev", "year")
-      )
-      if (!all(is.na(dat_design$biomass))) {
-        tofill <- is.na(dat_design$biomass) & !is.na(dat_design$year)
-        dat_design$lowerci[tofill] <- 0
-        dat_design$upperci[tofill] <- 0
-        dat_design$biomass[tofill] <- 0
-      }
+  # pad zeros:
+  if (!is.null(all_survey_years)) {
+    all_survey_years <- filter(all_survey_years, survey_abbrev %in% unique(dat_design$survey_abbrev))
+    dat_design <- full_join(all_survey_years, dat_design,
+      by = c("survey_abbrev", "year")
+    )
+    if (!all(is.na(dat_design$biomass))) {
+      tofill <- is.na(dat_design$biomass) & !is.na(dat_design$year)
+      dat_design$lowerci[tofill] <- 0
+      dat_design$upperci[tofill] <- 0
+      dat_design$biomass[tofill] <- 0
     }
+  }
 
-    lvls[lvls == "OTHER HS MSA"] <- "MSA HS"
-    dat_design$survey_abbrev <- gsub(
-      "OTHER HS MSA", "MSA HS",
-      dat_design$survey_abbrev
-    )
-    dat_design$survey_abbrev <- factor(dat_design$survey_abbrev, levels = lvls)
+  lvls[lvls == "OTHER HS MSA"] <- "MSA HS"
+  dat_design$survey_abbrev <- gsub(
+    "OTHER HS MSA", "MSA HS",
+    dat_design$survey_abbrev
+  )
+  dat_design$survey_abbrev <- factor(dat_design$survey_abbrev, levels = lvls)
 
-    # sub iphc -------------------------------------------------
-    # replace IPHC design with NA so that they still show up as empty panels but
-    # we aren't going to show the design index this year
-    dat_design <- dat_design |>
-      filter(survey_abbrev != "IPHC FISS") |>
-      bind_rows(tibble(survey_abbrev = "IPHC FISS"))
+  # sub iphc -------------------------------------------------
+  # replace IPHC design with NA so that they still show up as empty panels but
+  # we aren't going to show the design index this year
+  dat_design <- dat_design |>
+    filter(survey_abbrev != "IPHC FISS") |>
+    bind_rows(tibble(survey_abbrev = "IPHC FISS"))
 
-    # dat_design <- gfsynopsis:::sub_iphc_design(
-    #   dc,
-    #   iphc_index_cache_spp, spp_w_hyphens, dat_design
-    # )
+  # dat_design <- gfsynopsis:::sub_iphc_design(
+  #   dc,
+  #   iphc_index_cache_spp, spp_w_hyphens, dat_design
+  # )
+
+  if (!is.null(shapefile)) {
+    if (!is.null(design_survey_to_include)) {
+      # Keep original data for specified survey, set others to NA
+      dat_design <- dat_design |>
+        mutate(across(c(year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets),
+                     ~if_else(survey_abbrev != design_survey_to_include, NA, .)))
+    } else {
+      #
+      dat_design <- dat_design |>
+        mutate(across(c(year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets), ~NA))
+    }
   }
 
   # read geostat ---------------------------------------------
