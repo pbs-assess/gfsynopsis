@@ -31,7 +31,7 @@ report_DOI: ""
 output:
  csasdown::techreport_pdf:
    french: false
-   copy_sty: true
+   copy_sty: false
    line_nums: false
    line_nums_mod: 1
    lot_lof: false
