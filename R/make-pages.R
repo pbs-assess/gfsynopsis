@@ -628,7 +628,7 @@ make_pages <- function(
 
   # Growth fits: ---------------------------------------------------------------
   progress_fn("Growth fits")
-  if (nrow(dat$survey_samples) >= 10 && spp != "popeye") {
+  if (nrow(dat$survey_samples) >= 10) {
     check_convergence_tmb <- if (identical(spp, "shortspine thornyhead")) FALSE else TRUE
 
     tmb_init <- list(k = 0.5, linf = 40, log_sigma = log(0.1), t0 = -1)
