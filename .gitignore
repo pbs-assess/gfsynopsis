@@ -111,3 +111,6 @@ marmap*\.csv
 */spatial-filtering/data/*
 .DS_store
 report/spatial-filtering/shape-files/haida
+report/SAR Public consultations - 1944 results.csv
+inst/data-examples.qmd
+inst/data-examples2.qmd
