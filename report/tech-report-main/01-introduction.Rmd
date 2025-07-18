@@ -36,7 +36,9 @@ The second page focuses on biological samples from both fishery dependent and in
 This page presents length and age data, maturity data, and an overview of available numbers of sampled fish per year across all survey and commercial samples.
 
 For surveys, the report has focused on the Synoptic Bottom Trawl surveys (Figure \@ref(fig:intro-maps)), the Outside Hard Bottom Longline (HBLL OUT) surveys, the Inside Hard Bottom Longline surveys (HBLL INS) (Figure \@ref(fig:intro-maps)), and the International Pacific Halibut Commission (IPHC) Fishery Independent Setline surveys.
-In this version, we have added data from the Multispecies Small-mesh Bottom Trawl Survey on West Coast Vancouver Island (MSSM WCVI) (formerly known as the "Shrimp Survey") as well as including length and age composition data for the Inside HBLL survey.
+In the 2023-data version, we added data from the Small-mesh Multi-species Bottom
+Trawl Survey on West Coast Vancouver Island (MSSM WCVI) (formerly known as the "Shrimp Survey").
+See @dunic2025smms for an analysis of the quality of the groundfish data from this survey.
 We show survey biomass index trends for the Hecate Strait Multispecies Assemblage (MSA HS) survey.
 The report includes counts of available fish specimens from biological samples on all surveys.
 A brief description of the included surveys is provided in Appendix F of @anderson2019synopsis along with associated references for details on design and implementation.
