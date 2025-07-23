@@ -77,7 +77,7 @@ if (!is.null(shapefile)) {
 albers_bbox_sfc <- sf::st_as_sfc(sf::st_bbox(c(xlim, ylim), crs = sf::st_crs(sb)))
 wgs84_bbox <- sf::st_bbox(sf::st_transform(albers_bbox_sfc, crs = 4326))
 xlim <- wgs84_bbox[c("xmin", "xmax")]
-ylim <- wgs84_bbox[c("ymin", "ymax")]
+ylim <- wgs84_bbox[c("ymin", "ymax")] + c(0, 0.04)
 
 g <- ggplot() +
   gfplot::theme_pbs() +
@@ -110,13 +110,13 @@ g2 <- g +
 if (!is.null(shapefile)) {
   g1 <- g1 +
     ggplot2::geom_sf(data = shapefile, fill = NA, colour = "black", linewidth = 0.5) +
-    ggplot2::geom_rect(aes(xmin = xlim[1], xmax = -130, ymin = ylim[1], ymax = 50),
+    ggplot2::geom_rect(aes(xmin = xlim[1], xmax = -130, ymin = ylim[1], ymax = 49.7),
       fill = "white", alpha = 0.9) +
     ggplot2::coord_sf(xlim = xlim, ylim = ylim, datum = 4326, expand = FALSE)
 
   g2 <- g2 +
     ggplot2::geom_sf(data = shapefile, fill = NA, colour = "black", linewidth = 0.5) +
-    ggplot2::geom_rect(aes(xmin = xlim[1], xmax = -130, ymin = ylim[1], ymax = 50),
+    ggplot2::geom_rect(aes(xmin = xlim[1], xmax = -130, ymin = ylim[1], ymax = 49.7),
       fill = "white", alpha = 0.9) +
     ggplot2::coord_sf(xlim = xlim, ylim = ylim, datum = 4326, expand = FALSE)
 }

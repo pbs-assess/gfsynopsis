@@ -54,7 +54,7 @@ However, the modelled commercial bottom trawl catch per unit effort (CPUE) indic
 Similar to the survey indices, the commercial catch CPUE was calculated using coastwide data (see Appendix A in synopsis2024data?) and then subset to grid cells within `r roi` for presentation.
 
 **Maps of relative biomass from surveys**
-The maps of relative biomass from surveys (Figure @ref(fig:survey-maps)) display coastwide data with Haida Territory outlined in black to show how regional patterns compare to coastwide patterns
+The maps of relative biomass from surveys (Figure \@ref(fig:survey-maps)) display coastwide data with Haida Territory outlined in black to show how regional patterns compare to coastwide patterns
 
 **Biological sampling data**
 All biological data (length, age, maturity, number of samples) have been filtered to include only samples collected within `r roi`.
@@ -70,7 +70,7 @@ Additional updates since the coastwide 2023 data report [@synopsis2023data]:
 * we updated the recent references at the top of each species page;
 * we modelled the SYN QCS and SYN HS surveys together in the spatial map visualizations (e.g., Figure \@ref(fig:survey-maps)); and
 * we removed commercial catch for Basking Shark (*Cetorhinus maximus*), which we believe was an error in the data;
-* we updated the commercial catch-per-unit-effort standardization to use a spatiotemporal model (Appendix \@ref(app:cpue)).
+* we updated the commercial catch-per-unit-effort standardization to use a spatiotemporal model (Appendix A in @synopsis2024data).
 
 \clearpage
 
