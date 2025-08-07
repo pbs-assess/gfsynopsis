@@ -59,7 +59,7 @@ For the HBLL OUT, HBLL INS, and IPHC FISS the values are abundance rather than b
 Also included are coastwide or survey-wide indices for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.
 
 
-```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=5.8, out.width="4.3in", fig.cap="(ref:survey-index-example)"}
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=5.8, out.width="4.1in", fig.cap="(ref:survey-index-example)"}
 g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
 ```
 
