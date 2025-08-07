@@ -67,7 +67,7 @@ Order: Lamniformes, Family: Lamnidae,
 ## Brown Cat Shark {#sec:brown-cat-shark}
 
 \emph{Apristurus brunneus} (038)\
-Order: Carcharhiniformes, Family: Scyliorhinidae,
+Order: Carcharhiniformes, Family: Pentanchidae,
 [FishBase](http://www.fishbase.org/summary/Apristurus-brunneus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158512)\
 COSEWIC Annual Report: @cosewic2007annualrep\
@@ -429,7 +429,7 @@ Order: Gadiformes, Family: Merlucciidae,
 Last joint Canada-US stock assessment: @johnson2025hake\
 Note that Pacific Hake undergoes a directed joint
       Canada-US coastwide
- survey and annual assessment, which are not
+ acoustic survey and annual assessment, which are not
       included in this report. The most recent
  stock assessment
       should be consulted for details on stock status.
@@ -591,7 +591,7 @@ Order: Perciformes, Family: Zoarcidae,
 
 \clearpage
 
-## Popeye {#sec:popeye}
+## Popeye grenadier {#sec:popeye}
 
 \emph{Coryphaenoides cinereus} (250)\
 Order: Gadiformes, Family: Macrouridae,
@@ -684,7 +684,7 @@ Order: Gadiformes, Family: Macrouridae,
 ## Shiner Perch {#sec:shiner-perch}
 
 \emph{Cymatogaster aggregata} (304)\
-Order: Perciformes, Family: Embiotocidae,
+Order: Ovalentaria incertae sedis, Family: Embiotocidae,
 [FishBase](http://www.fishbase.org/summary/Cymatogaster-aggregata), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280461)\
 \begin{figure}[b!]
@@ -720,7 +720,7 @@ Order: Perciformes, Family: Stichaeidae,
 ## Snake Prickleback {#sec:snake-prickleback}
 
 \emph{Lumpenus sagitta} (337)\
-Order: Perciformes, Family: Stichaeidae,
+Order: Perciformes, Family: Lumpenidae,
 [FishBase](http://www.fishbase.org/summary/Lumpenus-sagitta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254579)\
 \begin{figure}[b!]
@@ -738,7 +738,7 @@ Order: Perciformes, Family: Stichaeidae,
 ## Whitebarred Prickleback {#sec:whitebarred-prickleback}
 
 \emph{Poroclinus rothrocki} (340)\
-Order: Perciformes, Family: Stichaeidae,
+Order: Perciformes, Family: Lumpenidae,
 [FishBase](http://www.fishbase.org/summary/Poroclinus-rothrocki), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254385)\
 \begin{figure}[b!]
@@ -849,7 +849,7 @@ Order: Perciformes, Family: Ammodytidae,
 ## Ragfish {#sec:ragfish}
 
 \emph{Icosteus aenigmaticus} (386)\
-Order: Perciformes, Family: Icosteidae,
+Order: Scombriformes, Family: Icosteidae,
 [FishBase](http://www.fishbase.org/summary/Icosteus-aenigmaticus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281153)\
 \begin{figure}[b!]
@@ -867,9 +867,10 @@ Order: Perciformes, Family: Icosteidae,
 ## Rougheye/Blackspotted Rockfish Complex {#sec:rougheye-blackspotted-rockfish-complex}
 
 \emph{Sebastes aleutianus/melanostictus} (394)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase 1](http://www.fishbase.org/summary/Sebastes-aleutianus),
-[FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus)\
+[FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=unknown)\
 Last Research Document: @starr2020rougheye\
 Last Science Advisory Report: @dfo2020rougheye\
 Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
@@ -891,7 +892,7 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 ## Pacific Ocean Perch {#sec:pacific-ocean-perch}
 
 \emph{Sebastes alutus} (396)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-alutus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254573)\
 Last Research Document: @starr2025pop\
@@ -911,7 +912,7 @@ Last Science Advisory Report: @dfo2024pop\
 ## Aurora Rockfish {#sec:aurora-rockfish}
 
 \emph{Sebastes aurora} (400)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-aurora), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274774)\
 \begin{figure}[b!]
@@ -929,7 +930,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Redbanded Rockfish {#sec:redbanded-rockfish}
 
 \emph{Sebastes babcocki} (401)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-babcocki), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274775)\
 Last Research Document: @edwards2017redbanded\
@@ -948,7 +949,7 @@ Last Research Document: @edwards2017redbanded\
 ## Shortraker Rockfish {#sec:shortraker-rockfish}
 
 \emph{Sebastes borealis} (403)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-borealis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274777)\
 Last Research Document: @schnute1999shortraker\
@@ -968,7 +969,7 @@ Last Science Advisory Report: @dfo1999shortraker\
 ## Silvergray Rockfish {#sec:silvergray-rockfish}
 
 \emph{Sebastes brevispinis} (405)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-brevispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274778)\
 Last Research Document: @starr2016silvergray\
@@ -988,7 +989,7 @@ Last Science Advisory Report: @dfo2014silvergray\
 ## Copper Rockfish {#sec:copper-rockfish}
 
 \emph{Sebastes caurinus} (407)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-caurinus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274780)\
 Technical Report: @yamanaka2001inshore\
@@ -1007,7 +1008,7 @@ Technical Report: @yamanaka2001inshore\
 ## Dusky Rockfish {#sec:dusky-rockfish}
 
 \emph{Sebastes variabilis} (409)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-variabilis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=398442)\
 \begin{figure}[b!]
@@ -1025,7 +1026,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Darkblotched Rockfish {#sec:darkblotched-rockfish}
 
 \emph{Sebastes crameri} (410)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-crameri), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274785)\
 Last Research Document: @haigh2008darkblotched\
@@ -1047,7 +1048,7 @@ COSEWIC Status: Special Concern, SARA Status: No Status
 ## Splitnose Rockfish {#sec:splitnose-rockfish}
 
 \emph{Sebastes diploproa} (412)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-diploproa), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274787)\
 \begin{figure}[b!]
@@ -1065,7 +1066,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Greenstriped Rockfish {#sec:greenstriped-rockfish}
 
 \emph{Sebastes elongatus} (414)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-elongatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274788)\
 \begin{figure}[b!]
@@ -1083,7 +1084,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Puget Sound Rockfish {#sec:puget-sound-rockfish}
 
 \emph{Sebastes emphaeus} (415)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-emphaeus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274789)\
 \begin{figure}[b!]
@@ -1101,7 +1102,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Widow Rockfish {#sec:widow-rockfish}
 
 \emph{Sebastes entomelas} (417)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-entomelas), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274791)\
 Last Research Document: @starr2021widow\
@@ -1121,7 +1122,7 @@ Last Science Advisory Report: @dfo2019widow\
 ## Yellowtail Rockfish {#sec:yellowtail-rockfish}
 
 \emph{Sebastes flavidus} (418)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-flavidus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274795)\
 Last Science Advisory Report: @dfo2015yellowtail\
@@ -1140,7 +1141,7 @@ Last Science Advisory Report: @dfo2015yellowtail\
 ## Chilipepper {#sec:chilipepper}
 
 \emph{Sebastes goodei} (420)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-goodei), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274798)\
 \begin{figure}[b!]
@@ -1158,7 +1159,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Rosethorn Rockfish {#sec:rosethorn-rockfish}
 
 \emph{Sebastes helvomaculatus} (421)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-helvomaculatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274799)\
 \begin{figure}[b!]
@@ -1176,7 +1177,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Shortbelly Rockfish {#sec:shortbelly-rockfish}
 
 \emph{Sebastes jordani} (423)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-jordani), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274806)\
 \begin{figure}[b!]
@@ -1194,7 +1195,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Quillback Rockfish {#sec:quillback-rockfish}
 
 \emph{Sebastes maliger} (424)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-maliger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274815)\
 Last Research Documents: @yamanaka2011quillback, @huynh2024quillback_inside\
@@ -1217,7 +1218,7 @@ COSEWIC Status: Threatened, SARA Status: No Status
 ## Black Rockfish {#sec:black-rockfish}
 
 \emph{Sebastes melanops} (426)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-melanops), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274817)\
 Last Research Document: @yamanaka2001inshore\
@@ -1236,7 +1237,7 @@ Last Research Document: @yamanaka2001inshore\
 ## Blackgill Rockfish {#sec:blackgill-rockfish}
 
 \emph{Sebastes melanostomus} (427)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-melanostomus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274819)\
 \begin{figure}[b!]
@@ -1254,7 +1255,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Vermilion Rockfish {#sec:vermilion-rockfish}
 
 \emph{Sebastes miniatus} (428)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-miniatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274820)\
 \begin{figure}[b!]
@@ -1272,7 +1273,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Deacon Rockfish {#sec:deacon-rockfish}
 
 \emph{Sebastes diaconus} (429)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-diaconus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=1384909)\
 \begin{figure}[b!]
@@ -1290,7 +1291,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## China Rockfish {#sec:china-rockfish}
 
 \emph{Sebastes nebulosus} (431)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-nebulosus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274824)\
 Last Research Document: @yamanaka2001inshore\
@@ -1309,7 +1310,7 @@ Last Research Document: @yamanaka2001inshore\
 ## Tiger Rockfish {#sec:tiger-rockfish}
 
 \emph{Sebastes nigrocinctus} (433)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-nigrocinctus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274825)\
 Last Research Document: @yamanaka2001inshore\
@@ -1328,7 +1329,7 @@ Last Research Document: @yamanaka2001inshore\
 ## Bocaccio {#sec:bocaccio}
 
 \emph{Sebastes paucispinis} (435)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-paucispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274833)\
 Last Research Document: @starr2022bocaccio\
@@ -1352,7 +1353,7 @@ COSEWIC Status: Endangered, SARA Status: No Status
 ## Canary Rockfish {#sec:canary-rockfish}
 
 \emph{Sebastes pinniger} (437)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-pinniger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274836)\
 Last Research Document: @starr2023canary\
@@ -1375,7 +1376,7 @@ COSEWIC Status: Threatened, SARA Status: No Status
 ## Redstripe Rockfish {#sec:redstripe-rockfish}
 
 \emph{Sebastes proriger} (439)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-proriger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274838)\
 Last Research Document: @starr2021redstripe\
@@ -1395,7 +1396,7 @@ Last Science Advisory Report: @dfo2018redstripe\
 ## Yellowmouth Rockfish {#sec:yellowmouth-rockfish}
 
 \emph{Sebastes reedi} (440)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-reedi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274840)\
 Last Research Document: @starr2022yellowmouth\
@@ -1418,7 +1419,7 @@ COSEWIC Status: Threatened, SARA Status: No Status
 ## Yelloweye Rockfish {#sec:yelloweye-rockfish}
 
 \emph{Sebastes ruberrimus} (442)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-ruberrimus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Last Research Documents: @cox2020YEout, @haggarty2021yelloweyeinside\
@@ -1442,7 +1443,7 @@ COSEWIC Status: Threatened, SARA Status: Special Concern
 ## Stripetail Rockfish {#sec:stripetail-rockfish}
 
 \emph{Sebastes saxicola} (444)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-saxicola), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274848)\
 \begin{figure}[b!]
@@ -1460,7 +1461,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Harlequin Rockfish {#sec:harlequin-rockfish}
 
 \emph{Sebastes variegatus} (446)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-variegatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274863)\
 \begin{figure}[b!]
@@ -1478,7 +1479,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Pygmy Rockfish {#sec:pygmy-rockfish}
 
 \emph{Sebastes wilsoni} (448)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-wilsoni), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274868)\
 \begin{figure}[b!]
@@ -1496,7 +1497,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Sharpchin Rockfish {#sec:sharpchin-rockfish}
 
 \emph{Sebastes zacentrus} (450)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-zacentrus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274869)\
 \begin{figure}[b!]
@@ -1514,7 +1515,7 @@ Order: Scorpaeniformes, Family: Scorpaenidae,
 ## Shortspine Thornyhead {#sec:shortspine-thornyhead}
 
 \emph{Sebastolobus alascanus} (451)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastolobus-alascanus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282740)\
 Last Research Document: @starr2015shortspineidiots\
@@ -1534,7 +1535,7 @@ Last Science Advisory Report: @dfo2016shortspineidiots\
 ## Longspine Thornyhead {#sec:longspine-thornyhead}
 
 \emph{Sebastolobus altivelis} (453)\
-Order: Scorpaeniformes, Family: Scorpaenidae,
+Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastolobus-altivelis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282741)\
 Last Research Document: @haigh2005longspineidiots\
@@ -1557,7 +1558,7 @@ COSEWIC Status: Special Concern, SARA Status: Special Concern
 ## Sablefish {#sec:sablefish}
 
 \emph{Anoplopoma fimbria} (455)\
-Order: Scorpaeniformes, Family: Anoplopomatidae,
+Order: Perciformes, Family: Anoplopomatidae,
 [FishBase](http://www.fishbase.org/summary/Anoplopoma-fimbria), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
 Last Research Document: @johnson2024sablefish\
@@ -1579,7 +1580,7 @@ The annual sablefish trap survey is not included in this report. Commercial biol
 ## Kelp Greenling {#sec:kelp-greenling}
 
 \emph{Hexagrammos decagrammus} (461)\
-Order: Scorpaeniformes, Family: Hexagrammidae,
+Order: Perciformes, Family: Hexagrammidae,
 [FishBase](http://www.fishbase.org/summary/Hexagrammos-decagrammus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=240732)\
 \begin{figure}[b!]
@@ -1597,7 +1598,7 @@ Order: Scorpaeniformes, Family: Hexagrammidae,
 ## Whitespotted Greenling {#sec:whitespotted-greenling}
 
 \emph{Hexagrammos stelleri} (466)\
-Order: Scorpaeniformes, Family: Hexagrammidae,
+Order: Perciformes, Family: Hexagrammidae,
 [FishBase](http://www.fishbase.org/summary/Hexagrammos-stelleri), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254545)\
 \begin{figure}[b!]
@@ -1615,7 +1616,7 @@ Order: Scorpaeniformes, Family: Hexagrammidae,
 ## Lingcod {#sec:lingcod}
 
 \emph{Ophiodon elongatus} (467)\
-Order: Scorpaeniformes, Family: Hexagrammidae,
+Order: Perciformes, Family: Hexagrammidae,
 [FishBase](http://www.fishbase.org/summary/Ophiodon-elongatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=240745)\
 Last Research Documents: @king2011lingOutside, @holt2016lingSOG\
@@ -1635,7 +1636,7 @@ Last Science Advisory Reports: @dfo2011lingOutside, @dfo2015lingSOG\
 ## Spinyhead Sculpin {#sec:spinyhead-sculpin}
 
 \emph{Dasycottus setiger} (497)\
-Order: Scorpaeniformes, Family: Psychrolutidae,
+Order: Perciformes, Family: Psychrolutidae,
 [FishBase](http://www.fishbase.org/summary/Dasycottus-setiger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280488)\
 \begin{figure}[b!]
@@ -1653,7 +1654,7 @@ Order: Scorpaeniformes, Family: Psychrolutidae,
 ## Buffalo Sculpin {#sec:buffalo-sculpin}
 
 \emph{Enophrys bison} (499)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Cottidae,
 [FishBase](http://www.fishbase.org/summary/Enophrys-bison), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=275355)\
 \begin{figure}[b!]
@@ -1671,7 +1672,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Red Irish Lord {#sec:red-irish-lord}
 
 \emph{Hemilepidotus hemilepidotus} (502)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Cottidae,
 [FishBase](http://www.fishbase.org/summary/Hemilepidotus-hemilepidotus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254521)\
 \begin{figure}[b!]
@@ -1689,7 +1690,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Bigmouth Sculpin {#sec:bigmouth-sculpin}
 
 \emph{Hemitripterus bolini} (505)\
-Order: Scorpaeniformes, Family: Hemitripteridae,
+Order: Perciformes, Family: Hemitripteridae,
 [FishBase](http://www.fishbase.org/summary/Hemitripterus-bolini), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254541)\
 \begin{figure}[b!]
@@ -1707,7 +1708,7 @@ Order: Scorpaeniformes, Family: Hemitripteridae,
 ## Threadfin Sculpin {#sec:threadfin-sculpin}
 
 \emph{Icelinus filamentosus} (510)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Cottidae,
 [FishBase](http://www.fishbase.org/summary/Icelinus-filamentosus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281136)\
 \begin{figure}[b!]
@@ -1725,7 +1726,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Spotfin Sculpin {#sec:spotfin-sculpin}
 
 \emph{Icelinus tenuis} (513)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Cottidae,
 [FishBase](http://www.fishbase.org/summary/Icelinus-tenuis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=281142)\
 \begin{figure}[b!]
@@ -1743,7 +1744,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Pacific Staghorn Sculpin {#sec:pacific-staghorn-sculpin}
 
 \emph{Leptocottus armatus} (518)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Cottidae,
 [FishBase](http://www.fishbase.org/summary/Leptocottus-armatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254345)\
 \begin{figure}[b!]
@@ -1761,7 +1762,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Blackfin Sculpin {#sec:blackfin-sculpin}
 
 \emph{Malacocottus kincaidi} (519)\
-Order: Scorpaeniformes, Family: Psychrolutidae,
+Order: Perciformes, Family: Psychrolutidae,
 [FishBase](http://www.fishbase.org/summary/Malacocottus-kincaidi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279442)\
 \begin{figure}[b!]
@@ -1779,7 +1780,7 @@ Order: Scorpaeniformes, Family: Psychrolutidae,
 ## Great Sculpin {#sec:great-sculpin}
 
 \emph{Myoxocephalus polyacanthocephalus} (521)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Cottidae,
 [FishBase](http://www.fishbase.org/summary/Myoxocephalus-polyacanthocephalus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254528)\
 \begin{figure}[b!]
@@ -1797,7 +1798,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Thornback Sculpin {#sec:thornback-sculpin}
 
 \emph{Paricelinus hopliticus} (532)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Jordaniidae,
 [FishBase](http://www.fishbase.org/summary/Paricelinus-hopliticus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282147)\
 \begin{figure}[b!]
@@ -1815,7 +1816,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Giant Blobsculpin {#sec:giant-blobsculpin}
 
 \emph{Psychrolutes phrictus} (534)\
-Order: Scorpaeniformes, Family: Psychrolutidae,
+Order: Perciformes, Family: Psychrolutidae,
 [FishBase](http://www.fishbase.org/summary/Psychrolutes-phrictus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274678)\
 \begin{figure}[b!]
@@ -1833,7 +1834,7 @@ Order: Scorpaeniformes, Family: Psychrolutidae,
 ## Slim Sculpin {#sec:slim-sculpin}
 
 \emph{Radulinus asprellus} (535)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Cottidae,
 [FishBase](http://www.fishbase.org/summary/Radulinus-asprellus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282541)\
 \begin{figure}[b!]
@@ -1851,7 +1852,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Cabezon {#sec:cabezon}
 
 \emph{Scorpaenichthys marmoratus} (540)\
-Order: Scorpaeniformes, Family: Cottidae,
+Order: Perciformes, Family: Jordaniidae,
 [FishBase](http://www.fishbase.org/summary/Scorpaenichthys-marmoratus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=282726)\
 \begin{figure}[b!]
@@ -1869,7 +1870,7 @@ Order: Scorpaeniformes, Family: Cottidae,
 ## Sturgeon Poacher {#sec:sturgeon-poacher}
 
 \emph{Podothecus accipenserinus} (550)\
-Order: Scorpaeniformes, Family: Agonidae,
+Order: Perciformes, Family: Agonidae,
 [FishBase](http://www.fishbase.org/summary/Podothecus-accipenserinus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254501)\
 \begin{figure}[b!]
@@ -1887,7 +1888,7 @@ Order: Scorpaeniformes, Family: Agonidae,
 ## Smootheye Poacher {#sec:smootheye-poacher}
 
 \emph{Xeneretmus leiops} (555)\
-Order: Scorpaeniformes, Family: Agonidae,
+Order: Perciformes, Family: Agonidae,
 [FishBase](http://www.fishbase.org/summary/Xeneretmus-leiops), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=283172)\
 \begin{figure}[b!]
@@ -1905,7 +1906,7 @@ Order: Scorpaeniformes, Family: Agonidae,
 ## Blacktail Snailfish {#sec:blacktail-snailfish}
 
 \emph{Careproctus melanurus} (574)\
-Order: Scorpaeniformes, Family: Liparidae,
+Order: Perciformes, Family: Liparidae,
 [FishBase](http://www.fishbase.org/summary/Careproctus-melanurus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254549)\
 \begin{figure}[b!]
@@ -2043,9 +2044,9 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 Most Recent Stock Assessment: @iphc2025\
 Note that Pacific Halibut undergoes thorough assessment by the
       International Pacific
- Halibut Commission based on the annual
-      standardized setline survey. The most
- recent stock assessment
+ Halibut Commission based on [the annual
+      standardized setline survey](https://www.iphc.int/research/fishery-independent-monitoring/). The most
+ recent [stock assessment](https://www.iphc.int/research/stock-assessment/)
       should be consulted for details on stock status.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-halibut-1.png}
