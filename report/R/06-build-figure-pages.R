@@ -12,11 +12,11 @@ if (tag == "main") {
 }
 if (interactive) {
   index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel,
-    all_survey_years = all_survey_years, shapefile = shapefile,
+    all_survey_years = all_survey_years, shapefile = shapefile, french = french,
     stitch_cache = stitch_cache)
 } else { # just do one because we're running in parallel for one species
   gg <- purrr::map(spp$spp_w_hyphens[ii], make_index_panel,
-    all_survey_years = all_survey_years, shapefile = shapefile,
+    all_survey_years = all_survey_years, shapefile = shapefile, french = french,
     stitch_cache = stitch_cache)
   index_ggplots <- list()
   index_ggplots[[ii]] <- gg[[1]]
