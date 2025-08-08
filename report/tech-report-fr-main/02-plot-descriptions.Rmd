@@ -1,0 +1,359 @@
+\clearpage
+
+# Descriptions des graphiques {#sec:plot-descriptions}
+
+```{r load-example-figs}
+g <- readRDS(here::here("report/tech-report-main/ggplot-objects/petrale-sole.rds"))
+sp <- "Petrale Sole"
+```
+
+<!-- A fake square to use to get the aspect ratio of the maps correct: -->
+
+```{r checking-square}
+checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
+  y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
+  inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
+```
+
+Cette section fournit des légendes pour chacune des visualisations qui forment les pages par espèce.
+`r sp` est utilisé comme espèce d'exemple pour toutes les figures sauf pour les cartes de capture par unité d'effort commercial où la morue du Pacifique est utilisée.
+
+\clearpage
+
+## Tendances des indices de biomasse relative provenant des enquêtes
+
+```{r make-surv-abbrev-text, eval=TRUE}
+# happens to have data for all the surveys:
+dat_survey_index <- readRDS(here::here("report/data-cache-2025-03/canary-rockfish.rds"))
+dat_survey_index <- dat_survey_index$survey_index
+survs <- c(
+  "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
+  "HBLL OUT N", "HBLL OUT S",
+  "HBLL INS N", "HBLL INS S",
+  "IPHC FISS", "MSA HS", "MSSM WCVI")
+survs <- tibble::tibble(surv_order = seq_along(survs), survey_abbrev = survs)
+survey_descriptions <-
+  semi_join(dat_survey_index, survs, by = "survey_abbrev") %>%
+  select(survey_series_desc, survey_abbrev) %>%
+  unique()
+survey_descriptions <- bind_rows(survey_descriptions,
+  tibble(survey_series_desc =
+    "Hecate Strait Multispecies Assemblage Bottom Trawl",
+     survey_abbrev = "MSA HS"))
+x <- inner_join(survey_descriptions, survs, by = "survey_abbrev") %>%
+  arrange(surv_order)
+x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
+surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
+```
+
+(ref:survey-index-example) Exemple de tendances des indices de biomasse relative provenant d'enquêtes de chalutage et de palangre pour `r sp`.
+Les points représentent les estimations moyennes de biomasse relative basées sur le plan d'enquête et les lignes verticales autour des points représentent les intervalles de confiance bootstrap de 95 %.
+Les séries temporelles avec une ligne de tendance pleine et un ruban ombré pour les intervalles de confiance de 95 % représentent un indice qui a été standardisé avec un modèle spatiotemporel [voir l'annexe A dans @synopsis2021data].
+Les indices basés sur un modèle spatiotemporel sont omis pour une combinaison enquête-espèce si moins de 5 % des traits contenaient l'espèce ou si aucun modèle n'a convergé.
+« CV moyen » est la moyenne des coefficients de variation annuels (CV), et « Traits +fs moyens » indique le ratio du nombre moyen (à travers les années) de traits qui ont capturé l'espèce d'intérêt par rapport au nombre moyen de traits.
+Tous les axes verticaux sont mis à l'échelle entre zéro et la valeur maximale de l'intervalle de confiance supérieur pour cette enquête.
+Quand les deux types d'indices sont montrés, ils sont mis à l'échelle pour avoir la même moyenne géométrique et les axes sont ajustés pour englober les intervalles de confiance basés sur le modèle.
+Pour le MSSM WCVI, les années avant 2003 sont ombrées en gris pour indiquer que les captures sont considérées comme moins fiables que les données modernes.
+Pour le HBLL OUT, HBLL INS, et IPHC FISS, les valeurs sont des abondances plutôt que des biomasses.
+`r surv_abbrev_text`.
+Sont également inclus des indices à l'échelle côtière ou à l'échelle de l'enquête pour SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, et HBLL INS N/S.
+
+
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=5.8, out.width="4.1in", fig.cap="(ref:survey-index-example)"}
+g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
+```
+
+\clearpage
+
+## Cartes de biomasse relative provenant des enquêtes
+
+```{r map-text}
+map_text <- "Notez que la côte a été tournée de 40$^{\\circ}$ pour faire tenir toutes les cartes dans l'espace disponible. Les contours de profondeur sont montrés à 100 m, 200 m, et 500 m."
+```
+
+(ref:survey-maps-cap) Exemples de cartes de biomasse relative (ou taux de capture) provenant
+d'enquêtes de chalutage et de palangre des dernières années disponibles de chaque enquête pour
+`r sp`. Sont montrées les enquêtes synoptiques de chalutage (à gauche), les enquêtes de palangre
+de fond dur à l'extérieur (HBLL OUT) (au milieu), et l'IPHC FISS (à droite). Les traits
+individuels sont montrés dans les deux panneaux de gauche comme des croix pâles (si l'espèce n'a
+pas été capturée dans ce trait), ou des cercles avec l'aire du cercle proportionnelle à la
+densité d'espèce du trait. L'ombrage coloré (sauf pour l'enquête IPHC)
+indique des prédictions d'un modèle spatial qui inclut la profondeur et la profondeur au carré comme prédicteurs ainsi que
+des effets aléatoires spatiaux [Annexe E dans @anderson2019synopsis]. L'échelle de couleur
+est transformée par racine quatrième pour rendre un motif visuel similaire à une transformation logarithmique sans sur-accentuer les différences près de zéro. L'échelle de couleur
+va de zéro à la valeur la plus élevée dans chaque carte, et le gris foncé 
+indique les régions où les modèles n'ont pas pu être ajustés. Les
+cartes synoptiques et HBLL montrent la densité de biomasse prédite dans tout le domaine d'enquête. La carte IPHC montre les données brutes non modélisées pour les emplacements de stations fixes — les stations sans observations pour une espèce donnée sont montrées comme
+des cercles vides. Les années sur le côté gauche de chaque graphique indiquent l'année de l'enquête respective. Les enquêtes (sauf IPHC) dans lesquelles moins de 2 % des traits
+contenaient l'espèce ne sont pas modélisées et sont montrées avec des données brutes seulement. Les valeurs moyennes montrées en bas sont les valeurs de densité de poissons moyennes des données brutes
+pour toute la côte pour les années indiquées ; pour les données IPHC les unités sont
+poissons par raie réelle, où une raie réelle représente 100 hameçons circulaires
+avec un espacement de 18 pieds [Annexe G dans @anderson2019synopsis]. `r map_text`
+
+```{r survey-maps, warning=FALSE, message=FALSE, fig.asp=1.13, fig.width=6, out.width="3.7in", fig.cap="(ref:survey-maps-cap)", fit.pos="H"}
+trans <- "fourth_root_power"
+units_transformation <- (1000 * 1000) / 1000
+breaks <- c(0.002, 0.05, 0.3)
+
+labs1 <- if (french) {
+  "Densité\nprévue de\nla biomasse\n(kg/km^2)"
+} else {
+  "Predicted\nbiomass\ndensity\n(kg/km^2)"
+}
+
+labs2 <- if (french) {
+  "Densité\nprévue de\nla biomasse\n(poisson/km^2)"
+} else {
+  "Predicted\nbiomass\ndensity\n(fish/km^2)"
+}
+
+labs3 <- if (french) {
+  "Taux de\nprise\n(poisson/raie\nréelle)"
+} else {
+  "Catch\nrate\n(fish/effective\nskate)"
+}
+p1 <- g$survey_spatial_syn +
+  labs(fill = labs1, parse = TRUE) +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = breaks,
+    labels = breaks * units_transformation) +
+  guides(fill = guide_colorbar(), size = "none") +
+  ggtitle(en2fr("Synoptic survey biomass", french))
+
+p2 <- g$survey_spatial_hbll +
+  labs(fill = labs2, parse = TRUE) +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "C", breaks = c(2, 10, 50)) +
+  guides(fill = guide_colorbar(), size = "none") +
+  ggtitle(en2fr("HBLL OUT survey biomass", french))
+
+p3 <- g$survey_spatial_iphc +
+  labs(colour = labs3, parse = TRUE) +
+  guides(colour = guide_colorbar(), size = "none") +
+  ggplot2::scale_fill_viridis_c(trans = "fourth_root_power", option = "C",
+    na.value = 'white', breaks = c(0.2, 0.4, 0.7)) +
+  ggplot2::scale_colour_viridis_c(trans = "fourth_root_power", option = "C",
+    na.value = 'grey35', breaks = c(0.2, 0.4, 0.7)) +
+  ggtitle(en2fr("IPHC survey catch rate", french))
+
+gridExtra::grid.arrange(
+  p1,
+  p2,
+  p3, # + checking_square,
+  nrow = 1)
+```
+
+\clearpage
+
+## Captures de la pêche commerciale
+
+(ref:catches-cap) Exemples de graphiques de captures de pêche commerciale pour `r sp`. Les captures de
+various types d'engins sont indiquées par l'ombrage coloré. Les captures sont calculées comme le
+poids total des débarquements agrégés par année. Les rejets incluent les poids de rejets déclarés
+de toutes les pêches combinées ; cependant, les rejets du chalutage de fond sont
+considérés comme moins fiables avant la couverture complète d'observateurs en 1996 et les rejets de casier, ligne
+et hameçon, chalutage pélagique, et chalutage de fond du détroit de Georgie sont moins
+fiables avant l'intégration des pêches en 2006 et ne sont donc pas inclus.
+Les données de captures avant 1996 et 2006 sont ombrées en gris pour indiquer qu'elles sont considérées comme moins fiables que les données plus récentes.
+Les estimations de captures des flottes de chalutage de fond et pélagique opérant dans les eaux extérieures sont moins certaines avant l'introduction d'un programme d'observateurs en mer en 1996.
+De même, les estimations de captures des secteurs non-chalutiers (palangre et casier) sont moins certaines avant la mise en œuvre d'un programme de surveillance électronique (SE) en mer en 2006.
+Le programme d'observateurs en mer pour la flotte de chalutage a été interrompu au début de 2020 à cause de la COVID-19.
+Depuis lors, la flotte de chalutage a été surveillée en utilisant des systèmes SE. 
+Les systèmes SE sont complétés par un échantillonnage biologique basé au port pour certaines espèces.
+Les zones de gestion, comme indiqué dans le coin supérieur gauche de chaque panneau, sont montrées
+dans la Figure \@ref(fig:management-map).
+
+```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
+g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Catch", french), " (t)"))
+```
+
+\clearpage
+
+## Indices de capture par unité d'effort du chalutage de fond commercial
+
+(ref:trawl-cpue-cap) Exemples de tendances de capture par unité d'effort (CPUE) du chalutage de fond commercial,
+avec l'effort en heures de chalutage, pour `r sp`. Les CPUE commerciales ont été 
+standardisées avec un modèle spatiotemporel (Annexe \@ref(app:cpue)).
+La ligne et la région ombrée représentent la moyenne et l'intervalle de confiance de 95 \%.
+<!-- The dashed line represents an -->
+<!-- unstandardized commercial CPUE index calculated as the sum of catch divided by -->
+<!-- the sum of effort each year.  -->
+Les séries temporelles standardisées sont mises à l'échelle pour avoir le
+même intervalle de confiance maximal de 95 \%.
+<!-- Unstandardized time series are scaled to -->
+<!-- have the same geometric mean as the standardized time series. -->
+<!-- These are relative -->
+<!-- index values---the absolute value of the time series is not -->
+<!-- useful because it depends on arbitrary levels that the standardization -->
+<!-- variables are set to.  -->
+Les zones de gestion, comme indiqué dans le coin supérieur gauche de
+chaque panneau, sont montrées dans la Figure \@ref(fig:management-map).
+
+```{r trawl-cpue-index, fig.asp=1.5, fig.width=4.5, out.width="3.5in", warning=FALSE, fig.cap="(ref:trawl-cpue-cap)"}
+g$cpue_index + ggtitle(en2fr("Commercial bottom trawl CPUE", french))
+```
+
+\clearpage
+
+## Cartes de capture par unité d'effort commercial
+
+(ref:cpue-maps-cap) Exemples de cartes de capture par unité d'effort de chalutage commercial et de ligne et hameçon commercial
+pour la morue du Pacifique (notez que cette figure n'est **pas**
+`r sp` parce que le panneau de ligne et hameçon est principalement vide pour `r sp`). L'ombrage plus clair indique des niveaux plus élevés d'une moyenne géométrique de capture par
+unité d'effort dans une cellule hexagonale donnée. L'échelle de couleur est transformée par racine quatrième
+pour rendre un motif visuel similaire à une transformation logarithmique sans
+sur-accentuer les différences près de zéro. Les cellules font 7 km de largeur et ne sont
+montrées que dans les cas où il y a au moins 3 navires uniques dans une cellule donnée pour
+respecter les exigences de confidentialité. Pour le chalutage de fond, la capture par unité d'effort est
+calculée comme le poids de capture (débarquements plus rejets) divisé par les heures
+de pêche pour tous les traits positifs du secteur de chalutage de poissons de fond. Les données de chalutage sont
+montrées à partir de 2013 après que l'empreinte de chalutage fut [les limites de chalutage basées sur l'écosystème furent établies ; @wallace2015]. Les données de chalutage de
+2007--2012 sont indiquées comme des hexagones gris clair délimités pour illustrer la pêche
+avant l'empreinte gelée. Pour la ligne et hameçon, la capture par unité d'effort est
+montrée comme le nombre de poissons enregistrés comme débarqués ou rejetés par trait.
+Les données de ligne et hameçon sont montrées à partir de 2008. Inclure autant d'années de données
+que possible réduit le nombre d'événements de pêche rejetés lors de l'implémentation
+de l'exigence de confidentialité de 3 navires. `r map_text`
+
+```{r cpue-maps, fig.asp=1.37, fig.width=4.65, out.width="3.6in", fig.cap="(ref:cpue-maps-cap)"}
+trans <- "fourth_root_power"
+
+g_alt <- list()
+g_alt$cpue_spatial <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial.rds"))
+g_alt$cpue_spatial_ll <- readRDS(here::here("report/tech-report-main/ggplot-objects/pacific-cod-cpue-spatial-ll.rds"))
+
+p1_trawl <-
+  g_alt$cpue_spatial +
+  (if(french){
+    labs(fill = "Moyenne\ngéométrique des\nCPUE du chalut (kg/h)")
+      }
+    else{
+      labs(fill = "Geometric\nmean of trawl\nCPUE (kg/h)")
+      }) +
+  (if(french){
+    labs(colour = "Moyenne\ngéométrique des\nCPUE du chalut (kg/h)")
+      }
+  else{
+    labs(colour = "Geometric\nmean of trawl\nCPUE (kg/h)")
+    }) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french)) +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
+  ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 10, 50, 200)) +
+  guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
+    gfplot::theme_pbs() + theme(legend.position = "bottom")
+
+
+p2_ll <-
+  g_alt$cpue_spatial_ll +
+  (if(french){
+    labs(fill = "Moyenne géométrique\nà CPUE H & L\n(poisson/ensemble)")
+      }
+    else{
+      labs(fill = "Geometric\nmean of hook-and-line\n(fish/set)")
+      }) +
+  (if(french){
+    labs(colour = "Moyenne géométrique\nà CPUE H & L\n(poisson/ensemble)")
+      }
+  else{
+    labs(colour = "Geometric\nmean of hook-and-line\n(fish/set)")
+    }) +
+  xlab(en2fr("Easting", french)) +
+  ylab(en2fr("Northing", french)) +
+  ggplot2::scale_fill_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
+  ggplot2::scale_colour_viridis_c(trans = trans, option = "D", breaks = c(2, 5, 10, 20)) +
+  guides(fill = ggplot2::guide_colorbar(), colour = ggplot2::guide_colorbar()) +
+    gfplot::theme_pbs() + theme(legend.position = "bottom")
+
+gridExtra::grid.arrange(
+  p1_trawl, # + checking_square,
+  p2_ll,
+  nrow = 1)
+```
+
+\clearpage
+
+## Échantillons biologiques disponibles {#sec:bio-samples}
+
+```{r samples, warning=FALSE, fig.asp=0.5, fig.width=7, out.width="5.2in", fig.cap=paste0("Example specimen-availability plot for ", sp, ". Shown are the number of available fish specimens that have had their length measured, have been weighed, had their maturity assessed, had their age assessed, and for which ageing structures are available for ageing. Data are shown across all surveys (not just surveys shown elsewhere in the synopsis; top panel) and across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.")}
+gridExtra::grid.arrange(
+  g$survey_samples + ggtitle(en2fr("Survey specimen counts", french)),
+  g$comm_samples + ggtitle(en2fr("Commercial specimen counts", french)),
+  nrow = 2
+)
+```
+
+\clearpage
+
+## Données de composition en longueur
+
+```{r lengths, warning=FALSE, fig.asp=0.8, fig.cap=paste0("Example length-frequency plot for ", sp, ". Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish measured for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish measured for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure \\ref{fig:survey-index} for survey abbreviations.")}
+g$lengths +
+  ggtitle(en2fr("Length frequencies", french)) +
+  labs(x = paste(en2fr("Length", french)," (cm)"),
+    y = en2fr("Relative length frequency", french))
+```
+
+\clearpage
+
+## Données de composition par âge
+
+(ref:ages-cap) Exemple de graphique de fréquence par âge pour `r sp`. Les poissons femelles sont montrés comme
+des cercles colorés (ou noirs) et les poissons mâles sont montrés derrière comme des cercles gris clair. Le nombre total de poissons vieillis pour une enquête et une année données sont
+indiqués en haut des panneaux. Des lignes diagonales sont montrées à intervalles de cinq ans
+pour faciliter le traçage des cohortes à travers le temps.
+Nous traçons la fenêtre de 15 ans la plus récente pour laquelle des données de vieillissement existent.
+Voir la Figure \@ref(fig:survey-index) pour les abréviations d'enquêtes. Des graphiques de précision de vieillissement
+comparant la précision des lectures par deux individus vieillissant les poissons sont fournis
+pour toutes les espèces pour lesquelles des données d'âge existent à l'Annexe A dans
+@anderson2019synopsis.
+
+```{r ages, fig.width=9, fig.asp=0.68, warning=FALSE, fig.cap="(ref:ages-cap)"}
+g$ages +
+  ggtitle(en2fr("Age frequencies", french)) +
+    labs(y = en2fr("Age (years)", french))
+```
+
+\clearpage
+
+## Ajustements de modèles longueur-âge et longueur-poids
+
+```{r length-weight-vb, warning=FALSE, fig.asp=0.4, fig.cap=paste0("Example length-age and length-weight model fits and plots for ", sp, ". The length-age growth curve is a von Bertalanffy model of the form $L_i \\sim \\operatorname{Log-normal} \\left( \\log(l_\\mathrm{inf} (1 - \\exp(-k (A_i - t_0)))), \\sigma \\right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\\sigma$ represents the scale parameter. The length-weight curve is of the form $\\log (W_i) \\sim$ Student-t $(df = 3, \\log(a) + b \\log(L_i), \\sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\\sigma$ representing the observation error scale. The degrees of freedom of the Student-t distribution is set to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendix H in Anderson et al. (2019) for details on the models.")}
+cowplot::plot_grid(g$vb +
+    ggtitle(en2fr("Growth", french)) +
+    labs(x = en2fr("Age (years)", french),
+      y = paste(en2fr("Length", french), " (cm)")),
+  g$length_weight +
+    ggtitle(en2fr("Length-weight relationship", french)) +
+    labs(x =paste(en2fr("Length", french), " (cm)"),
+      y = paste(en2fr("Weight", french), " (kg)"),
+      linetype = en2fr('Sex', french),
+      colour = en2fr('Sex', french)),
+  align = "v")
+```
+
+\clearpage
+
+## Fréquence de maturité par mois
+
+```{r maturity-months, out.width="4in", fig.asp=0.55, fig.width=5, fig.cap=paste0("Example maturity-frequency-by-month plot for ", sp, ". Categories of maturity are listed from most immature (top) to most mature (bottom); individual fish, once mature, cycle through the mature stages. The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.")}
+g$maturity_month + ggtitle(en2fr("Maturity frequencies", french))
+```
+
+\clearpage
+
+## Ogives de maturité
+
+```{r maturity-ogives, fig.asp=0.37, fig.cap=paste0("Example age- and length-at-maturity ogive plots for ", sp, ". Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50\\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix H in Anderson et al. (2019) for details.")}
+cowplot::plot_grid(g$mat_age +
+    ggtitle(en2fr("Age at maturity", french)) +
+    labs(x = en2fr("Age (years)", french),
+      y = en2fr("Probability mature", french)),
+  g$mat_length +
+    ggtitle(en2fr("Length at maturity", french)) +
+    labs(x = paste(en2fr("Length", french), " (cm)"),
+      y = en2fr("Probability mature", french),
+      linetype = en2fr('Sex', french),
+      colour = en2fr('Sex', french)),
+  align = "v")
+```
+
+\clearpage

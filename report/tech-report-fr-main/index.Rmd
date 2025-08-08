@@ -1,0 +1,105 @@
+---
+title: |
+  "A data synopsis for British Columbia groundfish: 2024 data update"
+french_title: |
+  "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2024"
+year: 2025
+report_number: 000
+author: |
+  Sean C. Anderson and
+  Jillian C. Dunic
+author_list: "Anderson, S.C. and Dunic, J.C."
+region: Pacific Region
+french_region: Région du Pacifique
+isbn: "978-0-660-73817-8"
+address: |
+  Pacific Biological Station\
+  Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+  Nanaimo, British Columbia, V9T 6N7, Canada\
+french_address: |
+  Station biologique du Pacifique\
+  Pêches et Océans Canada, 3190 Hammond Bay Road\
+  Nanaimo, Colombie-Britannique, V9T 6N7, Canada\
+  \smallskip
+phone: "(555) 555-5555"
+author_footnote: "Email: sean.anderson@dfo-mpo.gc.ca | telephone: (250) 756-5555"
+abstract: |
+  The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, forms the backbone of most fisheries stock assessments. For British Columbia groundfish, vast quantities of such data are collected. However, the Fisheries and Oceans Canada Pacific groundfish section lacks the capacity to conduct formal stock assessments for most stocks annually, and therefore, much of these data are not summarized to represent the nature of the data holdings. Here, we update a reproducible report that gives a snapshot of population and fishing trends, growth and maturity patterns, as well as data availability, for 116 groundfish species in British Columbia. This update includes data up to 2024.
+french_abstract: |
+  La combinaison de données dépendantes de la pêche, telles que les captures et l'effort de pêche, et de données d'enquête indépendantes de la pêche, telles que les indices de biomasse et la composition par âge, constitue l'épine dorsale de la plupart des évaluations des stocks halieutiques. Pour les poissons de fond de la Colombie-Britannique, de grandes quantités de données de ce type sont collectées. Cependant, la section des poissons de fond du Pacifique de Pêches et Océans Canada n'a pas la capacité d'effectuer des évaluations formelles de la plupart des stocks chaque année, et par conséquent, la plupart de ces données ne sont pas résumées pour représenter la nature des fonds de données. Ici, nous mettons à jour un rapport reproductible qui donne un aperçu des tendances de la population et de la pêche, des modèles de croissance et de maturité, ainsi que de la disponibilité des données, pour 116 espèces de poissons de fond en Colombie-Britannique. Cette mise à jour inclut les données jusqu'en 2024.
+citation_french: ""
+show_continued_text: true
+report_DOI: ""
+output:
+ csasdown::techreport_pdf:
+   french: true
+   copy_sty: true
+   line_nums: false
+   line_nums_mod: 1
+   lot_lof: false
+   draft_watermark: false
+type:
+  techreport
+knit: (function(input, ...) {
+       csasdown::render()
+      })
+site: bookdown::bookdown_site
+link-citations: true
+bibliography: [bib/spp-refs.bib,bib/survey-refs.bib,bib/synopsis.bib]
+header-includes:
+  \usepackage{float}
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+library(knitr)
+knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+if (is_latex_output()) {
+  knitr_figs_dir <- "knitr-figs-pdf/"
+  knitr_cache_dir <- "knitr-cache-pdf/"
+  fig_out_type <- "png"
+} else {
+  knitr_figs_dir <- "knitr-figs-docx/"
+  knitr_cache_dir <- "knitr-cache-docx/"
+  fig_out_type <- "png"
+}
+fig_asp <- 0.618
+fig_width <- 9
+fig_out_width <- "6in"
+fig_dpi <- 180
+fig_align <- "center"
+fig_pos <- "htb"
+opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = knitr_figs_dir,
+  cache.path = knitr_cache_dir,
+  fig.asp = fig_asp,
+  fig.width = fig_width,
+  out.width = fig_out_width,
+  echo = FALSE,
+  autodep = TRUE,
+  cache = FALSE, # !!
+  cache.comments = FALSE,
+  dev = fig_out_type,
+  dpi = fig_dpi,
+  fig.align = fig_align,
+  fig.pos = fig_pos,
+  optipng = "-strip all"
+)
+```
+
+```{r load-libraries, cache=FALSE}
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tibble)
+library(rosettafish)
+library(csasdown)
+library(gfsynopsis)
+```
+
+```{r globals, cache=FALSE}
+french <- TRUE
+```

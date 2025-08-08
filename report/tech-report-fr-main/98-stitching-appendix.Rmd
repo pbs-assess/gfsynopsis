@@ -1,0 +1,86 @@
+# Standardisation des données de taux de capture commerciale avec des modèles spatiotemporels {#app:cpue}
+
+Nous avons utilisé des modèles spatiotemporels pour standardiser les captures par unité d'effort (CPUE) commerciales du chalutage de fond. 
+Dans les trois premières versions de ce rapport, nous avons utilisé une approche de modèle linéaire généralisé à effets mixtes (GLMM) non spatial [@anderson2019synopsis; @synopsis2021data; @synopsis2022data].
+Nous avons utilisé l'approche basée sur le modèle décrite ici sans documentation du changement méthodologique par rapport au GLMM non spatial dans la version de mise à jour des données de 2023 [@synopsis2023data].
+
+Nous avons ajusté nos modèles avec des modèles delta à lien de Poisson [@thorson2018poisson].
+Ces modèles delta ou à obstacle contiennent deux modèles de composantes liées, plus formellement appelés « prédicteurs linéaires ».
+Pour tout prédicteur linéaire, nous pouvons représenter le modèle spatiotemporel comme :
+
+\begin{align}
+\mathbb{E}[y_{\boldsymbol{s},t}] &= \mu_{\boldsymbol{s},t},\\
+\mu_{\boldsymbol{s},t} &=
+\exp \left( \eta_{\boldsymbol{s}, t} \right),\\
+\eta_{\boldsymbol{s}, t} &=
+\boldsymbol{X}_{\boldsymbol{s},t} \boldsymbol{\beta} +
+\gamma_v +
+\omega_{\boldsymbol{s}} +
+\delta_{\boldsymbol{s},t}
+\end{align}
+
+Ici, la valeur attendue, $\mathbb{E}[y_{\boldsymbol{s},t}]$, de la variable de réponse
+$y_{\boldsymbol{s},t}$ (poids de capture) aux coordonnées spatiales $\boldsymbol{s}$ et au temps
+(année) $t$ est la moyenne à ce point dans l'espace et le temps, donnée par $\mu_{\boldsymbol{s},t}$.
+Cette moyenne est ensuite formée par une fonction de lien inverse appliquée au prédicteur linéaire $\eta_{\boldsymbol{s},t}$.
+Le prédicteur linéaire est composé d'un vecteur de covariables d'effets principaux $\boldsymbol{X}_{\boldsymbol{s},t}$ multiplié par un vecteur de coefficients $\boldsymbol{\beta}$,
+d'une ordonnée aléatoire pour le navire $v$ ($\gamma_v$),
+d'une valeur de champ aléatoire gaussien spatial $\omega_{\boldsymbol{s}}$, et
+d'une valeur spatiotemporelle $\delta_{\boldsymbol{s},t}$.
+
+<!-- and an "offset" $O_{\boldsymbol{s},t}$. -->
+<!-- The offset is effectively a covariate with a coefficient fixed at 1 and allows us to control for (log) hours fished. -->
+
+Le champ aléatoire gaussien de Markov spatial est supposé provenir d'une distribution normale multivariée (MVN) avec une matrice de covariance (précision inverse) $\boldsymbol{\Sigma}_{\omega}$ contrainte par une fonction de covariance de Matérn.
+
+\begin{equation}
+\boldsymbol{\omega} \sim \operatorname{MVNormal} (\boldsymbol{0}, \boldsymbol{\Sigma}_{\omega}).
+\end{equation}
+
+La portion spatiotemporelle est structurée comme des tirages indépendants annuels d'un champ aléatoire gaussien de Markov :
+
+\begin{equation}
+\boldsymbol{\epsilon_{t}} \sim \operatorname{MVNormal} \left(\boldsymbol{0}, \boldsymbol{\Sigma}_{\epsilon} \right).
+\end{equation}
+
+Les coefficients d'effets principaux variaient selon les données disponibles.
+Pour les cas avec des données pour 9 mois ou plus, nous avons ajusté un modèle avec une moyenne pour chaque année, un effet quadratique de la profondeur, et un lisseur cyclique pénalisé pour le mois.
+Pour les cas avec des données pour moins de 9 mois, nous avons ajusté le même modèle mais avons remplacé le lisseur cyclique par des moyennes indépendantes pour chaque mois.
+
+Nous avons choisi des modèles delta-lognormaux à lien de Poisson [@thorson2018poisson].
+Dans ces modèles, les prédicteurs linéaires dans l'espace de lien (log) ($\eta_1$ et $\eta_2$) représentent le nombre théorique de groupes $n$ et la capture théorique par groupe $w$ :
+
+\begin{align}
+\log (n) &= \eta_1,\\
+\log (w) &= \eta_2.
+\end{align}
+
+These get transformed [@thorson2018poisson] as
+
+\begin{align}
+p &= 1 - \exp(- a \cdot n),\\
+r &= \frac{n w}{p},
+\end{align}
+
+où l'Éq. A.8 a ses racines dans un processus de Poisson (et le lien log-log complémentaire) et les probabilités $p$ et les taux positifs $r$ sont modélisés comme Bernoulli et lognormal, respectivement. Le symbole $a$ représente l'aire balayée pour un trait donné.
+
+Nous avons implémenté ces modèles en utilisant l'approximation d'équation aux dérivées partielles stochastiques (SPDE) aux champs aléatoires gaussiens avec des champs aléatoires gaussiens de Markov [@lindgren2011] pour l'efficacité computationnelle en utilisant le package R [@r2023] sdmTMB [@anderson2022sdmTMB].
+sdmTMB estime la vraisemblance logarithmique marginale en utilisant TMB pour intégrer sur les effets aléatoires avec l'approximation de Laplace [@kristensen2016].
+Cette approche SPDE nécessite de créer des « maillages » de triangulation d'éléments finis pour les calculs SPDE et d'interpoler des effets aléatoires vers les emplacements de données ou les emplacements de prédiction avec une interpolation bilinéaire [@lindgren2011].
+Nous avons construit nos maillages avec le package R fmesher [@fmesher].
+
+Nous avons conservé la même approche pour définir les données représentant une « flotte » pour une espèce donnée que dans @anderson2019synopsis, mais avons appliqué ces critères seulement pour générer une flotte côtière (les indices spécifiques aux régions sont décrits ci-dessous).
+Ces critères incluaient la conservation de tous les navires qui
+avaient au moins 100 traits qui étaient positifs pour une espèce donnée et
+avaient au moins 5 années avec 5 voyages qui étaient positifs pour une espèce donnée.
+
+Nous avons tenté d'ajuster nos modèles à toutes les espèces avec au moins 200 rangées de données selon la définition de la flotte.
+Nous avons omis les modèles qui n'ont pas passé les critères de convergence. Pour évaluer la convergence, nous avons vérifié que le Hessien était défini positif, que le gradient maximal absolu de la vraisemblance logarithmique marginale était $<$ 0,001 par rapport à tous les effets fixes, et qu'aucun écart-type marginal de champ aléatoire gaussien n'approchait une limite (interprété comme s'assurer que leurs valeurs étaient $>$ 0,01).
+
+À partir de nos modèles ajustés, nous avons calculé un indice de biomasse pondéré par aire en prédisant la densité de notre modèle sur une grille, en multipliant cette densité par l'aire des cellules de grille, et en sommant la biomasse résultante à travers les cellules de grille [p. ex., @thorson2015].
+Nous avons défini la grille comme l'intersection entre la grille complète d'enquête synoptique de 2 $\times$ 2 km et tous les emplacements de chalutage commercial pour une flotte d'espèces donnée. C'est-à-dire que seules les cellules de grille avec au moins un événement de pêche pour une flotte d'espèces donnée ont été incluses.
+Cette définition de grille inclut certaines cellules qui sont à l'extérieur de l'empreinte de chalutage gelée. 
+Les versions futures pourraient considérer abandonner les cellules à l'extérieur de l'empreinte et/ou augmenter le seuil d'événements de pêche pour définir la grille.
+Nous avons créé des indices standardisés spécifiques aux régions (c'est-à-dire des indices pour 5CDE, et 5AB, et 3CD) en partitionnant la grille de prédiction par les régions données.
+
+\clearpage

@@ -1,0 +1,71 @@
+```{r n_species}
+.spp <- gfsynopsis::get_spp_names()
+no_species <- nrow(.spp)
+```
+
+# Introduction {#sec:introduction}
+
+La combinaison de données dépendantes de la pêche, telles que les captures et l'effort de pêche, et de données d'enquêtes indépendantes de la pêche, telles que les indices de biomasse et les compositions par âge, constitue l'épine dorsale de la plupart des évaluations de stocks de pêche.
+Pêches et Océans Canada (MPO) gère de vastes quantités de ces données sur les espèces de poissons de fond en Colombie-Britannique (C.-B.).
+Cependant, les évaluations formelles de stocks ne sont pas effectuées sur une base annuelle pour la plupart des stocks, et une grande partie de ces données ne sont donc pas résumées pour représenter la nature des avoirs de données.
+
+Le rapport de synthèse original des données sur les poissons de fond a été élaboré pour fournir un aperçu des tendances démographiques et de pêche à long terme et récentes, ainsi que de la disponibilité des données, pour toutes les principales espèces de poissons de fond de la C.-B. d'intérêt commercial et de conservation [@anderson2019synopsis; @anderson2020fisheries].
+Le rapport a été publié comme document de recherche du Secrétariat canadien des avis scientifiques (SCAS) [@anderson2019synopsis] pour faciliter l'examen des méthodes, avec l'intention de mettre à jour le rapport selon un calendrier régulier.
+En 2022, la première mise à jour a été publiée comme réponse des Sciences incluant des données jusqu'en 2021 [@synopsis2021data].
+Les versions avec les données de 2022 [@synopsis2022data] et 2023 [@synopsis2023data] ont été publiées comme rapports techniques.
+Dans cette version, nous mettons à jour le rapport pour inclure les données de 2024.
+Nous mettons également à jour les documents de recherche d'évaluation de stocks référencés, les avis consultatifs scientifiques et les réponses des Sciences.
+
+La génération du rapport de synthèse des données sur les poissons de fond est automatisée — extrayant les données des bases de données, ajustant les modèles, générant les visualisations, et assemblant le document pour faciliter la publication rapide, la reproductibilité et la transparence.
+Les objectifs du rapport sont de
+(1) faciliter l'examen régulier par les scientifiques et gestionnaires des poissons de fond des tendances des indices d'enquête et de la composition des stocks
+pour toutes les espèces afin de fournir des informations pour la discussion sur les priorités d'évaluation ;
+(2) générer des ensembles de données standardisés, des ajustements de modèles biologiques et des visualisations qui aideront les scientifiques d'évaluation à développer des modèles opérationnels et à sélectionner des procédures de gestion candidates pour les stocks de poissons de fond ; et
+(3) accroître la transparence des données entre le MPO, l'industrie de la pêche, les Premières Nations, les organisations non gouvernementales et le grand public.
+
+Les principales figures du rapport de synthèse sont présentées dans des sous-sections de deux pages par espèce qui synthétisent visuellement la plupart des données disponibles pour chaque espèce.
+Le rapport couvre `r no_species` espèces de poissons de fond qui sont soit d'intérêt commercial, récréatif, de conservation ou des Premières Nations, soit régulièrement capturées dans nos enquêtes de recherche.
+Le rapport se concentre sur les enquêtes et les types de données applicables au plus large éventail de ces espèces.
+
+Chaque ensemble de pages pour une seule espèce est disposé dans le même format.
+La mise en page commence par le nom commun de l'espèce, le nom scientifique de l'espèce et le code d'espèce du MPO, qui correspond généralement au numéro de page référençant l'espèce dans @hart1988.
+Les figures sont disposées de telle sorte que la première page présente les tendances des séries temporelles d'enquête (Figure \@ref(fig:intro-maps)) et les motifs spatiaux à gauche, et les séries temporelles commerciales par zones de la Commission des pêches marines du Pacifique (Figure \@ref(fig:management-map)) et les motifs spatiaux à droite.
+La deuxième page se concentre sur les échantillons biologiques provenant de sources dépendantes et indépendantes de la pêche.
+Cette page présente les données de longueur et d'âge, les données de maturité, et un aperçu du nombre disponible de poissons échantillonnés par année dans tous les échantillons d'enquête et commerciaux.
+
+Pour les enquêtes, le rapport s'est concentré sur les enquêtes synoptiques de chalutage de fond (Figure \@ref(fig:intro-maps)), les enquêtes de palangre de fond dur à l'extérieur (HBLL OUT), les enquêtes de palangre de fond dur à l'intérieur (HBLL INS) (Figure \@ref(fig:intro-maps)), et les enquêtes de palangre indépendante de la pêche de la Commission internationale du flétan du Pacifique (CIFP).
+Dans la version avec les données de 2023, nous avons ajouté les données de l'enquête de chalutage de fond multi-espèces à petits maillages sur la côte ouest de l'île de Vancouver (MSSM WCVI) (anciennement connue sous le nom d'« enquête sur les crevettes »).
+Voir @dunic2025smms pour une analyse de la qualité des données sur les poissons de fond de cette enquête.
+Nous montrons les tendances de l'indice de biomasse d'enquête pour l'enquête d'assemblage multi-espèces du détroit d'Hécate (MSA HS).
+Le rapport inclut le décompte des spécimens de poissons disponibles provenant d'échantillons biologiques de toutes les enquêtes.
+Une brève description des enquêtes incluses est fournie à l'annexe F de @anderson2019synopsis avec les références associées pour les détails sur la conception et la mise en œuvre.
+
+(ref:intro-maps-cap) Limites des enquêtes synoptiques de chalutage de fond (à gauche) et limites des enquêtes de palangre de fond dur (HBLL) (à droite). 
+Les zones HBLL intérieures nord et sud ne sont pas différenciées car la délimitation n'est pas cohérente d'une année à l'autre. 
+Les emplacements de l'enquête de palangre indépendante de la pêche (FISS) de la Commission internationale du flétan du Pacifique (CIFP) ne sont pas montrés ici car ils couvrent toute la côte et sont illustrés dans le panneau de droite de la Figure \@ref(fig:survey-maps).
+Les couleurs correspondent au codage de couleurs utilisé dans tout le rapport.
+
+# Mises à jour {#sec:update}
+
+Dans ce rapport :
+
+* Nous avons reconstruit toutes les pages de figures avec des données jusqu'en 2024 en utilisant les méthodes décrites dans @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, et @synopsis2023data.
+* Nous avons mis à jour les références récentes en haut de chaque page d'espèce.
+* Nous avons modélisé ensemble les enquêtes SYN QCS et SYN HS dans les visualisations de cartes spatiales (p. ex., Figure \@ref(fig:survey-maps)). Dans les versions précédentes, elles étaient modélisées séparément, ce qui pouvait entraîner une discontinuité à la frontière des deux enquêtes.
+* Nous avons ajouté la distribution gamma généralisée delta [@dunic2025gengamma] aux vraisemblances d'observation candidates pour les modèles de standardisation des indices d'enquête avec un lien standard (logit) et de Poisson [@thorson2018poisson].
+* Nous avons mis à jour la standardisation des captures par unité d'effort commercial pour utiliser un modèle spatiotemporel (Annexe \@ref(app:cpue)).
+* Nous avons changé d'[ITIS](https://itis.gov/) (Système d'information taxonomique intégré) vers [WoRMS](https://www.marinespecies.org/) (Registre mondial des espèces marines) pour les informations taxonomiques imprimées en haut de chaque page. WoRMS est généralement considéré comme plus à jour pour la taxonomie des espèces marines qu'ITIS. Notamment, cela a mis à jour l'ordre pour les sébastes de *Scorpaeniformes* à *Perciformes* et la famille de *Scorpaenidae* à *Sebastidae*.
+* Nous avons retiré les petites observations (principalement < 100 kg) de captures commerciales pour le requin-pèlerin (*Cetorhinus maximus*) à partir de 2018, que nous croyons dues à une erreur d'identification d'espèce. La plupart de ces enregistrements datent d'après 2020 quand la flotte de chalutage est passée d'observateurs à bord à la surveillance électronique.
+* Nous avons mis à jour le nom commun de *Coryphaenoides cinereus* de « Popeye » à « Grenadier Popeye ».
+* Nous avons mis à jour les grilles d'enquête dans la Figure \@ref(fig:survey-maps) pour représenter les derniers domaines d'enquête.
+
+\clearpage
+
+```{r intro-maps, fig.height=2, fig.width=7.9, out.width="\\textwidth", fig.cap="(ref:intro-maps-cap)", fig.pos="htbp", fig.asp=0.5,cache=FALSE}
+source(here::here("report/tech-report-main/intro-maps.R"))
+```
+
+```{r management-map, fig.cap="Carte des zones de la Commission des pêches marines du Pacifique (PMFC) 5AB (Détroit de la Reine-Charlotte), 5CD (Détroit d'Hécate), 5E (Côte ouest de Haida Gwaii), 3CD (Côte ouest de l'île de Vancouver), et 4B (Détroit de Georgie). Celles-ci sont proches, mais non identiques, aux zones d'unité de gestion des poissons de fond portant des noms similaires. Les zones 3AB et 4A sont à l'extérieur des eaux canadiennes.", out.width="5.8in", fig.pos="htbp"}
+knitr::include_graphics(here::here("report/tech-report-main/figure/3CD5ABCDE.png"), dpi = NA)
+```
+

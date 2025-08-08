@@ -1,0 +1,15 @@
+# Figures {#sec:synopsis-plots}
+
+Cette section contient les principales visualisations de données espèce par espèce. Chaque
+espèce est présentée sur deux pages avec la même mise en page utilisée partout. Voir
+la section précédente « Descriptions des graphiques » (Section \@ref(sec:plot-descriptions)) 
+pour des légendes détaillées des figures. En plus
+des figures, nous fournissons également le nom scientifique, les détails taxonomiques, le code
+d'espèce du MPO [page dans @hart1988], un lien vers les pages web de FishBase et WoRMS (Registre
+mondial des espèces marines), les détails des documents de recherche du MPO et des avis consultatifs scientifiques les plus récents, et toute information liée aux
+désignations par le Comité sur la situation des espèces en péril au Canada
+(COSEPAC) et aux inscriptions sous la *Loi sur les espèces en péril* (LEP). Les espèces sont
+classées selon les codes d'espèces du MPO. La section précédente
+fournit des liens vers les pages triées alphabétiquement par noms communs et scientifiques.
+
+\clearpage
