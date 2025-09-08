@@ -1,16 +1,15 @@
 ---
 title: |
   "A data synopsis for British Columbia groundfish for Haida Territory"
-french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2024"
+french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique pour le territoire Haida"
 year: 2025
 report_number: 000
 author: |
-  Sean C. Anderson and
-  Jillian C. Dunic
-author_list: "Anderson, S.C. and Dunic, J.C."
+  Jillian C. Dunic and Sean C. Anderson
+author_list: "Dunic, J.C. and Anderson, S.C."
 region: Pacific Region
 french_region: Région du Pacifique
-isbn: "978-0-660-73817-8"
+isbn: "ISBN GOES HERE"
 address: |
   Pacific Biological Station\
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
@@ -26,16 +25,16 @@ abstract: |
   The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, forms the backbone of most fisheries stock assessments. For British Columbia groundfish, vast quantities of such data are collected. However, the Fisheries and Oceans Canada Pacific groundfish section lacks the capacity to conduct formal stock assessments for most stocks annually, and therefore, much of these data are not summarized to represent the nature of the data holdings. Therefore, we have been producing an annual reproducible report that gives a snapshot of population and fishing trends, growth and maturity patterns, as well as data availability, for 116 groundfish species in British Columbia. This version of the report is a regional adaptation of the coastwide synopsis report, summarising data for Haida Territory. This version of the report includes data up to 2024.
 french_abstract: |
   La combinaison des données dépendantes de la pêche, telles que les captures et l'effort de pêche, et des données d'enquête indépendantes de la pêche, telles que les indices de biomasse et les compositions par âge, constitue l'épine dorsale de la plupart des évaluations de stocks halieutiques. Pour les poissons de fond de la Colombie-Britannique, de vastes quantités de ces données sont collectées. Cependant, la section des poissons de fond du Pacifique de Pêches et Océans Canada manque de capacité pour effectuer des évaluations formelles de stocks pour la plupart des stocks annuellement, et par conséquent, une grande partie de ces données ne sont pas résumées pour représenter la nature des données détenues. Par conséquent, nous avons produit un rapport annuel reproductible qui donne un aperçu des tendances de population et de pêche, des modèles de croissance et de maturité, ainsi que de la disponibilité des données, pour 116 espèces de poissons de fond en Colombie-Britannique. Cette version du rapport est une adaptation régionale du rapport de synthèse côtier, résumant les données pour le territoire Haïda. Cette version du rapport inclut les données jusqu'en 2024.
-citation_french: ""
-report_DOI: ""
+citation_french: "FRENCH CITATION WILL GO HERE"
+report_DOI: "DOI-HERE"
 output:
  csasdown::techreport_pdf:
    french: false
-   copy_sty: true
+   copy_sty: false
    line_nums: false
    line_nums_mod: 1
    lot_lof: false
-   draft_watermark: true
+   draft_watermark: false
 type:
   techreport
 knit: (function(input, ...) {
