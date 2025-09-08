@@ -156,14 +156,7 @@ choose_survey_grid <- function(.survey_abbrev) {
 
   if (any(grepl("SYN|HBLL", .survey_abbrev))) {
     message("\tFiltering survey_blocks grid to: ", paste(.survey_abbrev, collapse = ", "))
-    .grid <- gfdata::survey_blocks |>
-      select(survey_abbrev, active_block, area) |>
-      filter(active_block == TRUE) |>
-      sf::st_centroid() %>%
-      # match sdmTMB coordinate system
-      dplyr::mutate(X = sf::st_coordinates(.)[,1] / 1000,
-                    Y = sf::st_coordinates(.)[,2] / 1000) |>
-      sf::st_drop_geometry() |>
+    .grid <- gfdata::load_survey_blocks(type = "XY", active_only = TRUE) |>
       filter(survey_abbrev %in% .survey_abbrev)
   } else if (.survey_abbrev == "MSSM WCVI") {
     message("Filtering mssm_grid to: ", paste(.survey_abbrev, collapse = ", "))
@@ -359,7 +352,7 @@ get_stitched_index <- function(
   out_filename <- file.path(cache, paste0(species_hyphens, "_", family, "_", model_tag, ".rds"))
 
   family_obj <- get_family_object(family)
-  
+
   if (check_cache & file.exists(out_filename)) {
     out <- readRDS(out_filename)
     return(out)

@@ -10,10 +10,18 @@ parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
 french <- FALSE
 
+# Likely only needed for Haida report
+design_survey_to_include <- "SYN WCHG" # set to NULL if no design index should be included on survey index panel
+
+# path based on tag for plot descriptions
+# Question - also use in 01-introduction? L87, L91?
+ggplot_objects <- here::here("report", paste0("tech-report-", tag), "ggplot-objects")
+
 # optional shape file to filter any spatial by:
 if (tag == "haida") {
   shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"))
 } else {
   shapefile <- NULL
 }
+
 
