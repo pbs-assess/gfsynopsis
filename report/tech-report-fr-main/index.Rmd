@@ -4,14 +4,14 @@ title: |
 french_title: |
   "Une synthèse des données pour les poissons de fond de la Colombie-Britannique : mise à jour des données de 2024"
 year: 2025
-report_number: 000
+report_number: 3718
 author: |
   Sean C. Anderson et
   Jillian C. Dunic
 author_list: "Anderson, S.C. et Dunic, J.C."
 region: Pacific Region
 french_region: Région du Pacifique
-isbn: "978-0-660-73817-8"
+isbn: "978-0-660-78638-4"
 french_address: |
   Pacific Biological Station\
   Fisheries and Oceans Canada, 3190 Hammond Bay Road\
