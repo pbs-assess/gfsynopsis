@@ -946,9 +946,10 @@ make_pages <- function(
       ) +
       ggplot2::ggtitle(en2fr("Commercial trawl CPUE", french)) +
       theme(legend.position = "none") +
-      ggplot2::annotate("text", 360, 6172,
-        label = paste0("2013–", final_year_comm), col = "grey30",
-        hjust = 0
+      ggplot2::annotate("label", 360, 6172,
+        label = paste0("2013–", final_year_comm),
+        fill = "white", colour = "black",
+        label.size = 0, alpha = 0.8, hjust = 0
       )
   })
   suppressMessages({
@@ -990,9 +991,10 @@ make_pages <- function(
           axis.text = element_blank(),
           axis.ticks = element_blank()
         ) +
-        ggplot2::annotate("text", 360, 6172,
-          label = paste0("2008–", final_year_comm), col = "grey30",
-          hjust = 0
+        ggplot2::annotate("label", 360, 6172,
+          label = paste0("2008–", final_year_comm),
+          fill = "white", colour = "black",
+          label.size = 0, alpha = 0.8, hjust = 0
         )
     })
   })
