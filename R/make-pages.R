@@ -566,13 +566,14 @@ make_pages <- function(
   progress_fn('Commercial catch')
   dat$catch$temp_total <- dat$catch$landed_kg + dat$catch$discarded_kg
   dat$catch <- dat$catch[dat$catch$temp_total > 0,,drop=FALSE]
-  if (nrow(dat$catch) > 0) {
-    if (is.null(shapefile)) {
-      .labs <- c("Coastwide", "5CDE", "5AB", "3CD")
-    } else {
-      .labs <- c("Whole area", "5CDE", "5AB", "3CD")
-    }
 
+  if (is.null(shapefile)) {
+    .labs <- c("Coastwide", "5CDE", "5AB", "3CD")
+  } else {
+    .labs <- c("Whole area", "5CDE", "5AB", "3CD")
+  }
+
+  if (nrow(dat$catch) > 0) {
     g_catch <- local({
       gfsynopsis::plot_catches(
         dat$catch,
