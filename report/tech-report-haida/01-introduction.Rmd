@@ -13,7 +13,7 @@ However, formal stock assessments are not conducted on an annual basis for most 
 The original groundfish data synopsis report was developed to provide a coastwide snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
 The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
 In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2021data].
-Versions with 2022 [@synopsis2022data] and 2023 [@synopsis2023data] data were published as Technical Reports.
+Versions with 2022 [@synopsis2022data], 2023 [@synopsis2023data], and 2024 [@synopsis2024data] data were published as Technical Reports.
 
 The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
 The goals of the report are to
@@ -34,43 +34,39 @@ The figures are laid out such that the first page has survey (Figure \@ref(fig:i
 The second page focuses on biological samples from both fishery dependent and independent sources.
 This page presents length and age data, maturity data, and an overview of available numbers of sampled fish per year across all survey and commercial samples.
 
-This report is a regional adaptation of the coastwide synopsis report, summarising data for Haida Territory. 
-We maintain the same automated report format and standardised layout, but focus on data relevant to `r roi`.
-To do so, we have made the following changes relative to the coastwide report:
+This report is a regional adaptation of the coastwide synopsis report, summarising data to provide a snapshot of population trends and data availability specific to Haida Territory.
+We use the same automated report format and standardised layout, but focus on data relevant to `r roi`.
+These changes have also been made to allow for the report to be reproduced for different regions of interest.
+However, it should be noted that as a result of the subsetting and reduced data inputs in some cases, there will be more blank panels and some species pages will have no information to be shown.
+With smaller regions of interest, the uncertainty associated with the survey indices and commercial CPUE will also increase. 
 
-**Survey indices (page 1)**
+To focus this report on `r roi`, we have made the following changes relative to the coastwide report:
+
+**Survey indices**
+
 Spatiotemporal model-based indices of relative biomass or abundance are shown for surveys that sample within `r roi`. 
-In this report, this includes the following individual surveys: three Synoptic Bottom Trawl surveys: West Coast Haida Gwaii (SYN WCHG), Hecate Strait (SYN HS), and Queen Charlotte Sound (SYN QCS); the Outside Hard Bottom Longline (HBLL OUT) North (N) and South (S) (Figure \@ref(fig:intro-maps)); and the International Pacific Halibut Commission Fishery Independent Setline (IPHC FISS) surveys.
-Additionally, we use spatiotemporal models to "stitch" together data from multiple surveys of the same type (e.g., all Synoptic Bottom Trawl surveys, or all HBLL OUT surveys) to produce coastwide indices using all of the data.
-Using these models, we then calculate and present the indices restricted to our specific region of interest. 
-Unlike the coastwide report, we do not include design-based indices when the survey area they represent is not contained within the region of interest because the stratified random sampling method used was designed to be representative of each individual survey region in its entirety. 
-Therefore, in this report, only the design-based indices are presented for SYN WCHG.
-CHECK ME: Subsetting these indices to the smaller spatial area could introduce bias as the original sampling design was done to estimate a design-based index within each survey. REFS? 
+In this report, this includes the following individual surveys: three Synoptic Bottom Trawl surveys: West Coast Haida Gwaii (SYN WCHG), Hecate Strait (SYN HS), and Queen Charlotte Sound (SYN QCS); the Outside Hard Bottom Longline North and South (HBLL OUT N, HBLL OUT S) (Figure \@ref(fig:intro-maps)); and the International Pacific Halibut Commission Fishery Independent Setline (IPHC FISS) surveys.
+We also use spatiotemporal models to "stitch" together data from multiple surveys of the same type (e.g., all Synoptic Bottom Trawl surveys, or all HBLL OUT surveys) to produce coastwide indices.
+Using these models, we calculate and present the indices restricted to `r roi`. 
+We exclude the design-based indices for surveys that are not fully contained within `r roi` because the stratified random sampling method was designed to represent each individual survey region as a whole. 
+Subsetting these indices to the smaller spatial area could introduce bias as the original sampling design was done to estimate a design-based index within each survey. <!--REFS?-->
+Therefore, in this report, the design-based indices are presented only for SYN WCHG.
 
 **Commercial catch**
+
 Commercial fishery catch data has been subset to locations that overlap with `r roi` and are indicated as "Whole Area" (Figure \@ref(fig:catches)). 
-Prior to 2006, commercial catch data did not include latitude/longitude information and so has not been included.
+Prior to 2006, commercial catch data did not include latitude/longitude information and so has not been included. <!--*Q: is there more to say here?*-->
 However, the modelled commercial bottom trawl catch per unit effort (CPUE) indices are presented starting in 1996 (Figure \@ref(fig:trawl-cpue-index)), as is done in the coastwide report. 
-Similar to the survey indices, the commercial catch CPUE was calculated using coastwide data (see Appendix A in synopsis2024data?) and then subset to grid cells within `r roi` for presentation.
+Similar to the survey indices, the commercial catch CPUE was calculated using coastwide data (see Appendix A in @synopsis2024data) and then subset to grid cells within `r roi` for presentation.
 
 **Maps of relative biomass from surveys**
+
 The maps of relative biomass from surveys (Figure \@ref(fig:survey-maps)) display coastwide data with Haida Territory outlined in black to show how regional patterns compare to coastwide patterns
 
 **Biological sampling data**
+
 All biological data (length, age, maturity, number of samples) have been filtered to include only samples collected within `r roi`.
 The fitted growth curves and maturity ogives are specific to samples from `r roi`.
-
-These changes have been made in a way to allow for the report to be reproduced for different regions of interest.
-However, it should be noted that as a result of the subsetting and reduced data inputs in some cases, there will be more blank panels and some species pages will have no information to be shown.
-As the size of `r roi` decreases, the uncertainty associated with the survey indices and commercial CPUE will also increase. 
-This regional approach provides a snapshot of population trends and data availability specific to Haida Territory.
-
-Additional updates since the coastwide 2023 data report [@synopsis2023data]:
-
-* we updated the recent references at the top of each species page;
-* we modelled the SYN QCS and SYN HS surveys together in the spatial map visualizations (e.g., Figure \@ref(fig:survey-maps)); and
-* we removed commercial catch for Basking Shark (*Cetorhinus maximus*), which we believe was an error in the data;
-* we updated the commercial catch-per-unit-effort standardization to use a spatiotemporal model (Appendix A in @synopsis2024data).
 
 \clearpage
 
@@ -79,7 +75,7 @@ shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/
 ```
 
 (ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Longline (HBLL) survey boundaries (right), overlaid with the `r roi` polygon shown as a black line. 
-Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
+The Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
 
