@@ -11,7 +11,7 @@ sp <- "Petrale Sole"
 
 ```{r checking-square}
 checking_square <- geom_polygon(data = data.frame(x = c(400, 600, 600, 400),
-  y = c(5500, 5500, 5700, 5700)), aes_string(x = "x", y = "y"),
+  y = c(5500, 5500, 5700, 5700)), aes(x = x, y = y),
   inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black")
 ```
 
