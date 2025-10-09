@@ -1,5 +1,9 @@
 ## A reproducible data synopsis report for over 100 species of British Columbia groundfish
 
+### Technical Report (data up to 2024):
+
+**[English](https://doi.org/10.60825/h406-v638)** | **[French](https://doi.org/10.60825/2b8n-my73)**
+
 ### Technical Report (data up to 2023):
 
 **[English](https://doi.org/10.60825/aevx-nb49)**
