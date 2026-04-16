@@ -14,11 +14,11 @@
 
 ### Science Response (data up to 2021): 
 
-**[English](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-eng.html)** | **[French](https://www.dfo-mpo.gc.ca/csas-sccs/Publications/ScR-RS/2022/2022_020-fra.html)**
+**[English](https://csas-scas.dfo-mpo.gc.ca/publications-publications/7ab04346-6081-478e-b1c9-6711f022d5fe?lang=en)** | **[French](https://csas-scas.dfo-mpo.gc.ca/publications-publications/7ab04346-6081-478e-b1c9-6711f022d5fe?lang=fr)**
 
 ### Research Document (data up 2019; includes appendices describing data and methods): 
 
-**[English](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html)** | **[French](http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-fra.html)**
+**[English](https://csas-scas.dfo-mpo.gc.ca/publications-publications/0a09ace0-7249-4c72-be1c-579005135e2a?lang=en)** | **[French](https://csas-scas.dfo-mpo.gc.ca/publications-publications/0a09ace0-7249-4c72-be1c-579005135e2a?lang=fr)**
 
 ### Paper on the synopsis report:
 
