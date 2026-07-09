@@ -40,7 +40,7 @@ get_data <- function(
 
       Sys.sleep(sleep)
     }
-    set_dat <- gfdata::get_all_survey_sets(ssid = c(1, 3, 4, 16, 2, 7, 14, 22, 36, 39, 40))
+    set_dat <- gfdata::get_all_survey_sets(species = .d$species_code, ssid = c(1, 3, 4, 16, 2, 7, 22, 36, 39, 40), remove_false_zeros = FALSE, usability = c(0, 1, 2, 6)) # dropped IPHC
     saveRDS(set_dat, file = file.path(path, "survey-sets.rds"), compress = compress)
   }
   if (force || !file.exists(file.path(path, "cpue-index-dat.rds"))) {
