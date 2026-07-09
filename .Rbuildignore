@@ -44,3 +44,4 @@ inst/rockfish-map-dat/
 ^R/scratch$
 ^gfsynopsis\.sublime-project$
 ^gfsynopsis\.sublime-workspace$
+^\.claude$
