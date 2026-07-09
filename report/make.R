@@ -3,11 +3,19 @@
 # It must be run before the report can be rendered.
 
 # Things to update each year:
-# - [ ] update the .csv in R/join_refs_spp.R
-# - [ ] update the .csv in R/get_cosewic_data.R
-# - [ ] update the IPHC survey set data
+# - [x] make sure a release has been issued for the previous report
+# - [x] clone a fresh copy of the repository in a new folder; e.g. `gfsynopsis-2025`
+# - [x] check github issues and add any new species
 # - [x] pull all new data from the servers; done as part of this file with get_data()
-# - [ ] update the years in the call to make_pages() below
+# - [x] update the .csv in R/get_cosewic_data.R
+# - [x] update the IPHC survey set data; that's done over in the gfdata package
+# - [x] update the years in the call to make_pages() below
+# - [ ] check github issues and deal with any new features/bug fixes
+#   - [ ] in 2026: update figure/modelling code to work with the new output from get_all_survey_sets()
+#   - [ ] in 2026: update the design-based indexes to be calculated from the survey set data instead of get_survey_index()
+# - [ ] update the .csv in R/join_refs_spp.R
+# - [ ] rebuild all the survey indices on a server
+# - [ ] rebuild all the CPUE indices on a server
 
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) {
