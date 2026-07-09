@@ -1,8 +1,8 @@
-﻿COSEWIC common name,COSEWIC population,COSEWIC status,COSEWIC last assessment date,Scientific name,Legal common name,Legal population,Schedule status,Last status change,SARA schedule,Date added,Range,Taxonomic group,Under consideration for,GIC decision
-Basking Shark,Pacific population,Endangered,2018-04-27,Cetorhinus maximus,Basking Shark,Pacific population,Endangered,2010-02-23,Schedule 1,2010-02-23,"British Columbia, Pacific Ocean",Fishes (marine),,Added to list
+﻿COSEWIC common name,COSEWIC population,COSEWIC status,COSEWIC last assessment date,Scientific name,Legal common name,Legal population,Schedule 1 status,Last status change,SARA schedule,Date added,Range,Taxonomic group,Under consideration for,GIC decision
+Basking Shark,Pacific population,Endangered,2018-04-27,Cetorhinus maximus,Basking Shark,Pacific population,Endangered,2010-02-23,Schedule 1,2010-02-23,"British Columbia, Pacific Ocean",Fishes (marine),,Add to list
 Big Skate,,Not at Risk,2007-04-22,Raja binoculata,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
 Blue Shark,North Pacific population,Not at Risk,2016-11-27,Prionace glauca,,,No Status,,No schedule,,"British Columbia, Pacific Ocean",Fishes (marine),,
-Bluntnose Sixgill Shark,,Special Concern,2007-04-22,Hexanchus griseus,Bluntnose Sixgill Shark,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Added to list
+Bluntnose Sixgill Shark,,Special Concern,2007-04-22,Hexanchus griseus,Bluntnose Sixgill Shark,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Add to list
 Bocaccio,,Endangered,2013-11-01,Sebastes paucispinis,Bocaccio,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),Addition,Pending
 Brown Cat Shark,,Data Deficient,2007-04-22,Apristurus brunneus,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
 Canary Rockfish,,Threatened,2007-11-30,Sebastes pinniger,Canary Rockfish,,No Status,2011-06-23,No schedule,,Pacific Ocean,Fishes (marine),,Not to list
@@ -41,12 +41,12 @@ Eulachon,Central Pacific Coast population,Endangered,2011-05-06,Thaleichthys pac
 Eulachon,Fraser River population,Endangered,2011-05-06,Thaleichthys pacificus,Eulachon,Fraser River population,No Status,,No schedule,,"British Columbia, Pacific Ocean",Fishes (marine),Addition,Pending
 Eulachon,Nass / Skeena Rivers population,Special Concern,2013-05-03,Thaleichthys pacificus,Eulachon,Nass / Skeena Rivers population,No Status,,No schedule,,"British Columbia, Pacific Ocean",Fishes (marine),Addition,Pending
 Longnose Skate,,Not at Risk,2007-04-22,Raja rhina,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
-Longspine Thornyhead,,Special Concern,2007-04-22,Sebastolobus altivelis,Longspine Thornyhead,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Added to list
+Longspine Thornyhead,,Special Concern,2007-04-22,Sebastolobus altivelis,Longspine Thornyhead,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Add to list
 North Pacific Spiny Dogfish,,Special Concern,2011-11-25,Squalus suckleyi,North Pacific Spiny Dogfish,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),Addition,Pending
 Pacific Sardine,,Not at Risk,2002-05-01,Sardinops sagax,Pacific Sardine,,,,,,Pacific Ocean,Fishes (marine),,
 Quillback Rockfish,,Threatened,2009-11-27,Sebastes maliger,Quillback Rockfish,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),Addition,Pending
-Rougheye Rockfish type I,,Special Concern,2007-04-22,Sebastes sp. type I,Rougheye Rockfish type I,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Added to list
-Rougheye Rockfish type II,,Special Concern,2007-04-22,Sebastes sp. type II,Rougheye Rockfish type II,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Added to list
+Rougheye Rockfish type I,,Special Concern,2007-04-22,Sebastes sp. type I,Rougheye Rockfish type I,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Add to list
+Rougheye Rockfish type II,,Special Concern,2007-04-22,Sebastes sp. type II,Rougheye Rockfish type II,,Special Concern,2009-03-05,Schedule 1,2009-03-05,Pacific Ocean,Fishes (marine),,Add to list
 Sandpaper Skate,,Not at Risk,2007-04-22,Bathyraja interrupta,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
 Sockeye Salmon,Adams-ES population (original),Extinct,2021-12-01,Oncorhynchus nerka,,,No Status,,No schedule,,"British Columbia, Pacific Ocean",Fishes (marine),,
 Sockeye Salmon,Alouette-ES population (original),Special Concern,2021-12-01,Oncorhynchus nerka,Sockeye Salmon,Alouette-ES population (original),No Status,,No schedule,,"British Columbia, Pacific Ocean",Fishes (marine),Addition,Pending
@@ -83,7 +83,7 @@ Sockeye Salmon,Widgeon (River-Type) population,Threatened,2017-11-01,Oncorhynchu
 Spinynose Sculpin,,Data Deficient,1997-04-01,Asemichthys taylori,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
 Steelhead Trout,Chilcotin River population,Endangered,2020-11-04,Oncorhynchus mykiss,Steelhead Trout,Chilcotin River population,No Status,,No schedule,,"British Columbia, Pacific Ocean",Fishes (marine),Addition,Pending
 Steelhead Trout,Thompson River population,Endangered,2020-11-04,Oncorhynchus mykiss,Steelhead Trout,Thompson River population,No Status,,No schedule,,"British Columbia, Pacific Ocean",Fishes (marine),Addition,Pending
-Tope,,Special Concern,2021-05-05,Galeorhinus galeus,Tope,,Special Concern,2009-03-05,Schedule 1,2009-03-05,"British Columbia, Pacific Ocean",Fishes (marine),,Added to list
+Tope,,Special Concern,2021-05-05,Galeorhinus galeus,Tope,,Special Concern,2009-03-05,Schedule 1,2009-03-05,"British Columbia, Pacific Ocean",Fishes (marine),,Add to list
 White Shark,Pacific population,Data Deficient,2006-04-29,Carcharodon carcharias,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
 Wolf-eel,,Not at Risk,2003-05-01,Anarrhichthys ocellatus,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
 Y-Prickleback,,Not at Risk,1991-04-01,Allolumpenus hypochromus,,,No Status,,No schedule,,Pacific Ocean,Fishes (marine),,
