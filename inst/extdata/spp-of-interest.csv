@@ -115,4 +115,7 @@ curlfin sole,B,635,pleuronichthys decurrens,172924,species,pleuronectidae(righte
 sand sole,B,636,psettichthys melanostictus,172928,species,pleuronectidae(righteye flounders),282396
 tope shark,B,040,galeorhinus galeus,160181,species,triakidae(houndsharks),105801
 eulachon,B,148,thaleichthys pacificus,162051,species,osmeridae(smelts),282959
+american shad,B,095,alosa sapidissima,161702,species,clupeidae(herrings),158670
+pacific herring,B,096,clupea pallasii,551209,clupeidae(herrings),151159
+herrings,B,094,clupeidae,161700,clupeidae(anchovies/herring),125464
 # requiem sharks,B,039,carcharhinidae,160178,family,chondrichthyes,105689
