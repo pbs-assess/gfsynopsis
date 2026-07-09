@@ -21,8 +21,8 @@ if (length(args)) {
 # interactive <- FALSE
 
 library(here)
-# source(here("report/R/01-settings.R"))
-source(here("report/R/01-settings-haida.R"))
+source(here("report/R/01-settings.R"))
+# source(here("report/R/01-settings-haida.R"))
 source(here("report/R/02-packages.R"))
 source(here("report/R/03-load-data.R"))
 # source(here("report/R/04-survey-index-standardization.R"))

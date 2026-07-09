@@ -25,7 +25,7 @@ get_data <- function(
             species = .d$species_code[i],
             file_name = .d$spp_w_hyphens[i],
             path = path, unsorted_only = FALSE, historical_cpue = FALSE,
-            survey_sets = TRUE, verbose = FALSE, compress = compress,
+            survey_sets = FALSE, verbose = FALSE, compress = compress,
             ssid = c(
               1, 3, 4, 16, # syn trawl
               2, # hs msa
@@ -40,6 +40,8 @@ get_data <- function(
 
       Sys.sleep(sleep)
     }
+    set_dat <- gfdata::get_all_survey_sets(ssid = c(1, 3, 4, 16, 2, 7, 14, 22, 36, 39, 40))
+    saveRDS(set_dat, file = file.path(path, "survey-sets.rds"), compress = compress)
   }
   if (force || !file.exists(file.path(path, "cpue-index-dat.rds"))) {
     .dat <- gfdata::get_cpue_index(gear = "bottom trawl", min_cpue_year = 1996)
