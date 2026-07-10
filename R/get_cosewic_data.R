@@ -18,7 +18,7 @@ get_cosewic_data <- function() {
   cos <- dplyr::filter(cos, !grepl("Trout", `COSEWIC common name`))
   # cos <- dplyr::filter(cos, !grepl("Pixie Poacher", `COSEWIC common name`)) # pixie poacher seems to have been removed since 2024
   cos <- rename(cos, species_science_name = `Scientific name`,
-    cosewic_status = `COSEWIC status`, sara_status = `Schedule status`,
+    cosewic_status = `COSEWIC status`, sara_status = `Schedule 1 status`,
     cosewic_pop = `COSEWIC population`)
   # For species with different cosewic statuses for different populations, combine the text:
   cos_multi_pop <- cos |>
