@@ -1,7 +1,9 @@
 # Read in fresh data or load cached data if available -----------------
 
-message("Loading data")
-gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
+if (!is_hake_server()) {
+  message("Loading data")
+  gfsynopsis::get_data(type = c("A", "B"), path = dc, force = FALSE)
+}
 spp <- gfsynopsis::get_spp_names() %>%
   select(
     species_common_name, species_code,
@@ -23,24 +25,26 @@ spp <- join_refs_spp(spp, french = french)
 # files to match historical formats and for loading speed
 # because the full df is large
 
-set_data <- readRDS(file.path(dc, "survey-sets.rds"))
-survey_set_dir <- file.path(dc, "survey-sets")
-dir.create(survey_set_dir, showWarnings = FALSE, recursive = TRUE)
+if (!is_hake_server()) {
+  set_data <- readRDS(file.path(dc, "survey-sets.rds"))
+  survey_set_dir <- file.path(dc, "survey-sets")
+  dir.create(survey_set_dir, showWarnings = FALSE, recursive = TRUE)
 
-survey_set_spp <- split(set_data, set_data$species_common_name)
-survey_set_names <- setNames(spp$spp_w_hyphens, spp$species_common_name)
-missing_spp <- setdiff(names(survey_set_spp), names(survey_set_names))
-if (length(missing_spp)) {
-  stop(
-    "Species in survey set data missing from get_spp_names(): ",
-    paste(missing_spp, collapse = ", ")
-  )
-}
+  survey_set_spp <- split(set_data, set_data$species_common_name)
+  survey_set_names <- setNames(spp$spp_w_hyphens, spp$species_common_name)
+  missing_spp <- setdiff(names(survey_set_spp), names(survey_set_names))
+  if (length(missing_spp)) {
+    stop(
+      "Species in survey set data missing from get_spp_names(): ",
+      paste(missing_spp, collapse = ", ")
+    )
+  }
 
-for (sp in names(survey_set_spp)) {
-  saveRDS(
-    gfdata:::convert_to_old_sets(survey_set_spp[[sp]]),
-    file = file.path(survey_set_dir, paste0(survey_set_names[sp], ".rds")),
-    compress = "zstd"
-  )
+  for (sp in names(survey_set_spp)) {
+    saveRDS(
+      gfdata:::convert_to_old_sets(survey_set_spp[[sp]]),
+      file = file.path(survey_set_dir, paste0(survey_set_names[sp], ".rds")),
+      compress = "zstd"
+    )
+  }
 }
