@@ -177,6 +177,9 @@ fit_sdmTMB_cpue <- function(
   intersected_grid <- sf::st_intersects(grid_region, dat_sf_reduced)
   intersected_grid_i <- which(lengths(intersected_grid) > 0)
   grid_region_reduced <- grid_region[intersected_grid_i, ]
+  if (nrow(grid_region_reduced) == 0L) {
+    return(NA_return)
+  }
 
   ## Further subseting of grid to new area of interest if needed ----
   if (!is.null(shapefile)) {
@@ -355,6 +358,11 @@ fit_sdmTMB_cpue <- function(
   do_expanion <- function(model, surveys_to_predict) {
     cli::cli_inform(paste("Predicting on", paste(surveys_to_predict, collapse = ", ")))
     this_grid <- dplyr::filter(gg, survey_abbrev %in% surveys_to_predict)
+    if (nrow(this_grid) == 0L) {
+      ind <- NA_return
+      ind$region <- paste(surveys_to_predict, collapse = "; ")
+      return(ind)
+    }
     pred <- predict(
       model,
       newdata = this_grid,
