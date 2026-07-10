@@ -26,9 +26,17 @@ load_iphc_stitch_data <- function(.sp) {
     prep_iphc_stitch_dat(survey_dat = _)
 }
 
+set_model_fit_threads <- function() {
+  if (requireNamespace("RhpcBLASctl", quietly = TRUE)) {
+    RhpcBLASctl::blas_set_num_threads(1)
+    RhpcBLASctl::omp_set_num_threads(1)
+  }
+}
+
 stitch_opts <- furrr::furrr_options(seed = NULL, scheduling = Inf)
 
 fit_rw_stitched_job <- function(.sp, .family, .job) {
+  set_model_fit_threads()
   survey_dat <- load_stitch_survey_data(.sp)
 
   if (.job == "synoptic") {
@@ -70,6 +78,7 @@ fit_rw_stitched_job <- function(.sp, .family, .job) {
 }
 
 fit_single_region_job <- function(.sp, .job) {
+  set_model_fit_threads()
   survey_dat <- load_stitch_survey_data(.sp)
 
   if (.job == "hbll_outside_rw") {
@@ -202,6 +211,7 @@ fit_single_region_job <- function(.sp, .job) {
 }
 
 fit_synoptic_single_region_job <- function(.sp, .syn, .family) {
+  set_model_fit_threads()
   .cache <- file.path(stitch_cache, paste0("synoptic-", .syn))
   spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", .family, "_sp-on-st-iid", ".rds")
   stitch_cached_sp <- file.path(.cache, spp_filename)
