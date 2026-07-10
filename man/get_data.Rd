@@ -8,9 +8,9 @@ in Survey biomass indices section of make-pages.R)}
 get_data(
   type = c("A", "B"),
   path = ".",
-  compress = FALSE,
+  compress = "gzip",
   force = FALSE,
-  sleep = 20
+  sleep = 2
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ get_data(
 
 \item{path}{Path}
 
-\item{compress}{TRUE or FALSE to compress .rds}
+\item{compress}{Compression passed to \code{saveRDS()}. Defaults to \code{"gzip"}.}
 
 \item{force}{Should data be downloaded even if already cached data exists?}
 

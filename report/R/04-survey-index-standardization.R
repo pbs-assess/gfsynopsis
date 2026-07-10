@@ -9,7 +9,20 @@ if (is.null(shapefile)) {
 dir.create(stitch_cache, showWarnings = FALSE, recursive = TRUE)
 
 # Stitch inputs
-spp_vector <- spp$species_common_name[order(spp$species_common_name)]
+survey_set_dir <- file.path(dc, "survey-sets")
+survey_set_files <- list.files(survey_set_dir, pattern = "\\.rds$")
+survey_set_names <- gsub("\\.rds$", "", survey_set_files)
+spp_available <- spp$spp_w_hyphens %in% survey_set_names
+
+if (any(!spp_available)) {
+  message(
+    "Removing species missing survey-set .rds files from spp_vector: ",
+    paste(spp$species_common_name[!spp_available], collapse = ", ")
+  )
+}
+
+spp_vector <- spp$species_common_name[spp_available]
+spp_vector <- spp_vector[order(spp_vector)]
 # randomize to avoid clumps of non-fitting in parallel:
 set.seed(92729)
 spp_vector <- sample(spp_vector, length(spp_vector))

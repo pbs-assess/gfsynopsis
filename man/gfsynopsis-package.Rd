@@ -11,8 +11,8 @@ Facilitates the creation of reproducible data synopsis report for DFO PBS ground
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/seananderson/gfsynopsis}
-  \item Report bugs at \url{https://github.com/seananderson/gfsynopsis/issues}
+  \item \url{https://github.com/pbs-assess/gfsynopsis}
+  \item Report bugs at \url{https://github.com/pbs-assess/gfsynopsis/issues}
 }
 
 }
@@ -21,6 +21,8 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Sean Anderson \email{sean.anderson@dfo-mpo.gc.ca}
+  \item Jillian Dunic
   \item Elise Keppel
 }
 

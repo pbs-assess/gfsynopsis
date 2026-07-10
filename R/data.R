@@ -2,14 +2,14 @@
 #'  in Survey biomass indices section of make-pages.R)
 #' @param type A or B
 #' @param path Path
-#' @param compress Compression passed to `saveRDS()`. Defaults to `"zstd"`.
+#' @param compress Compression passed to `saveRDS()`. Defaults to `"gzip"`.
 #' @param force Should data be downloaded even if already cached data exists?
 #' @param sleep System sleep in seconds between each species
 #'   to be nice to the server.
 #' @export
 get_data <- function(
     type = c("A", "B"), path = ".",
-    compress = "zstd", force = FALSE, sleep = 20) {
+    compress = "gzip", force = FALSE, sleep = 2) {
   dir.create(path, showWarnings = FALSE)
   .d <- get_spp_names()
   .d <- .d[.d$type %in% type, , drop = FALSE]
@@ -132,7 +132,7 @@ get_ll_bait_counts <- function(path = ".", species = 442, ssid = c(22, 36, 39, 4
     # Use bait counts only because other columns have questionable data quality
     bait_counts <- ll_hook_data |>
       dplyr::select(ssid, year, fishing_event_id, count_bait_only)
-    saveRDS(bait_counts, file.path(path, "bait-counts.rds"), compress = "zstd")
+    saveRDS(bait_counts, file.path(path, "bait-counts.rds"), compress = "gzip")
   }
 }
 

@@ -40,6 +40,7 @@ if (length(missing_spp)) {
 for (sp in names(survey_set_spp)) {
   saveRDS(
     gfdata:::convert_to_old_sets(survey_set_spp[[sp]]),
-    file = file.path(survey_set_dir, paste0(survey_set_names[sp], ".rds"))
+    file = file.path(survey_set_dir, paste0(survey_set_names[sp], ".rds")),
+    compress = "zstd"
   )
 }
