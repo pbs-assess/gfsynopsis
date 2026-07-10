@@ -24,7 +24,7 @@ families <- c(
 furrr::future_walk(spp_vector, function(.sp) {
 # purrr::walk(spp_vector, function(.sp) {
   # Load and clean survey data
-  survey_dat <- readRDS(file.path(dc, paste0(gfsynopsis:::clean_name(.sp), ".rds")))$survey_sets |>
+  survey_dat <- readRDS(file.path(dc, "survey-sets", paste0(gfsynopsis:::clean_name(.sp), ".rds"))) |>
     prep_stitch_dat(survey_dat = _, bait_counts = bait_counts)
 
   purrr::walk(families, function(.fam) {
