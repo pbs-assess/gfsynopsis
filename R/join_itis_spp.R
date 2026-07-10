@@ -40,22 +40,41 @@ join_worms_spp <- function(spp, check_cache = TRUE) {
   worms_file <- here("report", "worms.rds")
 
   spp[grep("tope", spp$species_common_name), "worms_id"] <- "105820"
+  valid_worms_ids <- spp$worms_id[
+    !is.na(spp$worms_id) &
+      spp$worms_id != "unknown" &
+      nzchar(trimws(spp$worms_id))
+  ]
 
   if (!file.exists(worms_file) | !check_cache) {
-    cls <- taxize::classification(spp$worms_id[!is.na(spp$worms_id) & spp$worms_id != "unknown"],
-      db = 'worms')
+    cls <- taxize::classification(valid_worms_ids, db = "worms")
     saveRDS(cls, file = worms_file)
   } else {
     cls <- readRDS(worms_file)
   }
 
-  cls <- cls |>
+  is_valid_entry <- vapply(cls, function(x) inherits(x, "data.frame"), logical(1)) &
+    nzchar(names(cls))
+  if (any(!is_valid_entry)) {
+    warning(
+      sprintf(
+        "Skipping %d malformed WoRMS cache entr%s in %s.",
+        sum(!is_valid_entry),
+        if (sum(!is_valid_entry) == 1L) "y" else "ies",
+        worms_file
+      ),
+      call. = FALSE
+    )
+  }
+  cls_valid <- cls[is_valid_entry]
+
+  cls <- cls_valid |>
     purrr::map_dfr(~ .x, .id = "worms_id") |>
-      dplyr::filter(rank %in% c('Order', 'Family')) |>
-      tidyr::pivot_wider(
-        id_cols = -id,
-        names_from = rank,
-        values_from = name
+    dplyr::filter(rank %in% c("Order", "Family")) |>
+    tidyr::pivot_wider(
+      id_cols = -id,
+      names_from = rank,
+      values_from = name
     ) |>
     dplyr::rename_with(tolower)
 
