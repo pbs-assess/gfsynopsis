@@ -81,7 +81,7 @@ for (i in to_build) {
     save_gg_objects = spp$species_common_name[i] %in% example_spp,
     synoptic_max_survey_years = list("SYN WCHG" = 2024, "SYN HS" = 2025, "SYN WCVI" = 2024, "SYN QCS" = 2025),
     hbll_out_max_survey_years = list("HBLL OUT N" = 2025, "HBLL OUT S" = 2024),
-    final_year_comm = 2025,
+    final_year_comm = final_year_comm,
     final_year_surv = 2025,
     length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i], ],
     hbll_bait_counts = hbll_bait_counts,
@@ -91,4 +91,3 @@ for (i in to_build) {
     shapefile = shapefile
   )
 }
-

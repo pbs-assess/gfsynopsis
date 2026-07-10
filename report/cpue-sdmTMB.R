@@ -57,25 +57,25 @@ fit_sdmTMB_cpue <- function(
 
   if (plots) {
     gfdata::survey_blocks |>
-      filter(active_block) |>
+      dplyr::filter(active_block) |>
       dplyr::filter(grepl("^SYN", survey_abbrev)) |>
-      ggplot(aes(colour = survey_abbrev)) +
-      geom_sf() +
-      theme_minimal() +
-      scale_colour_brewer(palette = "Dark2")
+      ggplot2::ggplot(ggplot2::aes(colour = survey_abbrev)) +
+      ggplot2::geom_sf() +
+      ggplot2::theme_minimal() +
+      ggplot2::scale_colour_brewer(palette = "Dark2")
   }
 
   grid <- gfdata::survey_blocks |>
-    filter(active_block) |>
+    dplyr::filter(active_block) |>
     dplyr::filter(grepl("^SYN", survey_abbrev))
 
   if (plots) {
     grid |>
-      ggplot(aes(colour = survey_abbrev, fill = survey_abbrev)) +
-      geom_sf() +
-      theme_minimal() +
-      scale_colour_brewer(palette = "Dark2") +
-      scale_fill_brewer(palette = "Dark2")
+      ggplot2::ggplot(ggplot2::aes(colour = survey_abbrev, fill = survey_abbrev)) +
+      ggplot2::geom_sf() +
+      ggplot2::theme_minimal() +
+      ggplot2::scale_colour_brewer(palette = "Dark2") +
+      ggplot2::scale_fill_brewer(palette = "Dark2")
   }
 
   dat <- gfplot::tidy_cpue_index(
@@ -98,7 +98,9 @@ fit_sdmTMB_cpue <- function(
 
   if (nrow(dat) < 200) {
     if (!return_raw_cpue) {
-      saveRDS(NA, file = raw_cpue_caching_file, compress = FALSE)
+      if (!is.null(raw_cpue_caching_file)) {
+        saveRDS(NA, file = raw_cpue_caching_file, compress = FALSE)
+      }
       return(NA_return)
     } else {
       return(NA)
@@ -138,10 +140,10 @@ fit_sdmTMB_cpue <- function(
 
   if (plots) {
     g <- grid_region |>
-      ggplot(aes(colour = survey_abbrev)) +
-      geom_sf() +
-      theme_minimal() +
-      scale_colour_brewer(palette = "Dark2")
+      ggplot2::ggplot(ggplot2::aes(colour = survey_abbrev)) +
+      ggplot2::geom_sf() +
+      ggplot2::theme_minimal() +
+      ggplot2::scale_colour_brewer(palette = "Dark2")
     print(g)
   }
 
@@ -158,14 +160,17 @@ fit_sdmTMB_cpue <- function(
     dat_sf_reduced <- dat_sf[which(lengths(intersected) > 0), drop = FALSE]
     dat_reduced <- dat[which(lengths(intersected) > 0), , drop = FALSE]
   }
+  if (nrow(dat_reduced) < 200) {
+    return(NA_return)
+  }
   dat_reduced$log_depth <- log(dat_reduced$depth_marmap)
 
   if (plots) {
     g <- dat_sf_reduced |>
-      ggplot() +
-      geom_sf(data = grid_region) +
-      geom_sf(alpha = 0.6, pch = ".", colour = "red") +
-      theme_light()
+      ggplot2::ggplot() +
+      ggplot2::geom_sf(data = grid_region) +
+      ggplot2::geom_sf(alpha = 0.6, pch = ".", colour = "red") +
+      ggplot2::theme_light()
     print(g)
   }
 
@@ -186,9 +191,9 @@ fit_sdmTMB_cpue <- function(
 
   if (plots) {
     g <- grid_region_reduced |>
-      ggplot() +
-      geom_sf() +
-      theme_light()
+      ggplot2::ggplot() +
+      ggplot2::geom_sf() +
+      ggplot2::theme_light()
     print(g)
   }
 
@@ -206,11 +211,11 @@ fit_sdmTMB_cpue <- function(
   gg$depth_scaled <- (gg$log_depth - mean(dat_reduced$log_depth)) / sd(dat_reduced$log_depth)
 
   if (plots) {
-    g <- ggplot(gg, aes(X, Y)) +
-      geom_tile(fill = "grey60", width = 2, height = 2) +
-      geom_point(data = dat_reduced, colour = "red", size = .5, alpha = 0.1) +
-      coord_fixed() +
-      theme_light()
+    g <- ggplot2::ggplot(gg, ggplot2::aes(X, Y)) +
+      ggplot2::geom_tile(fill = "grey60", width = 2, height = 2) +
+      ggplot2::geom_point(data = dat_reduced, colour = "red", size = .5, alpha = 0.1) +
+      ggplot2::coord_fixed() +
+      ggplot2::theme_light()
     print(g)
   }
 
@@ -226,25 +231,30 @@ fit_sdmTMB_cpue <- function(
   dat_reduced$month <- factor(dat_reduced$month)
   # dplyr::filter(dat_reduced, hours_fished > 2000) # 8762.05!
   dat_reduced <- dplyr::filter(dat_reduced, hours_fished < 2000)
+  if (nrow(dat_reduced) < 200) {
+    return(NA_return)
+  }
   dat_reduced$depth_scaled <- (dat_reduced$log_depth - mean(dat_reduced$log_depth)) / sd(dat_reduced$log_depth)
 
   ret <- dat_reduced |>
-    filter(!is.na(spp_catch), !is.na(hours_fished)) |>
-    group_by(year) |>
-    summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
-    mutate(est_unstandardized = est_unstandardized /
+    dplyr::filter(!is.na(spp_catch), !is.na(hours_fished)) |>
+    dplyr::group_by(year) |>
+    dplyr::summarise(est_unstandardized = sum(spp_catch) / sum(hours_fished)) |>
+    dplyr::mutate(est_unstandardized = est_unstandardized /
       exp(mean(log(est_unstandardized))))
   ret$region <- paste(survey_grids_fit, collapse = "; ")
   ret$species <- params$species
   if (return_raw_cpue) {
     return(ret)
   }
-  saveRDS(ret, file = raw_cpue_caching_file, compress = FALSE)
+  if (!is.null(raw_cpue_caching_file)) {
+    saveRDS(ret, file = raw_cpue_caching_file, compress = FALSE)
+  }
 
   if (plots) {
-    g <- ggplot(dat_reduced, aes(as.factor(year), (spp_catch + 1) / hours_fished)) +
-      geom_boxplot() +
-      scale_y_log10()
+    g <- ggplot2::ggplot(dat_reduced, ggplot2::aes(as.factor(year), (spp_catch + 1) / hours_fished)) +
+      ggplot2::geom_boxplot() +
+      ggplot2::scale_y_log10()
     print(g)
   }
 
@@ -315,6 +325,9 @@ fit_sdmTMB_cpue <- function(
   s <- sanity(fit)
   if (!all(unlist(s))) {
     fit <- tryCatch(update(fit, anisotropy = FALSE), error = function(e) NA)
+    if (length(fit) == 1L && is.na(fit)) {
+      return(NA_return)
+    }
     s <- sanity(fit)
   }
   if (length(fit) == 1L) {
@@ -341,7 +354,7 @@ fit_sdmTMB_cpue <- function(
   ## need this to iterate over the survey_grids_predict elements
   do_expanion <- function(model, surveys_to_predict) {
     cli::cli_inform(paste("Predicting on", paste(surveys_to_predict, collapse = ", ")))
-    this_grid <- filter(gg, survey_abbrev %in% surveys_to_predict)
+    this_grid <- dplyr::filter(gg, survey_abbrev %in% surveys_to_predict)
     pred <- predict(
       model,
       newdata = this_grid,
@@ -360,10 +373,10 @@ fit_sdmTMB_cpue <- function(
   gc()
 
   if (plots) {
-    g <- ind |> ggplot(aes(year, est, ymin = lwr, ymax = upr)) +
-      geom_ribbon() +
-      facet_wrap(~region, scales = "free_y") +
-      ylim(0, NA)
+    g <- ind |> ggplot2::ggplot(ggplot2::aes(year, est, ymin = lwr, ymax = upr)) +
+      ggplot2::geom_ribbon() +
+      ggplot2::facet_wrap(~region, scales = "free_y") +
+      ggplot2::ylim(0, NA)
     print(g)
   }
 
@@ -403,8 +416,8 @@ furrr::future_walk(xx, function(.sp) {
       raw_cpue_caching_file = here::here(.f),
       survey_grids_fit = regions[[1]],
       survey_grids_predict = regions,
-      final_year = 2024,
-      plots = TRUE,
+      final_year = final_year_comm,
+      plots = FALSE,
       species = .sp,
       shapefile = shapefile,
       silent = FALSE

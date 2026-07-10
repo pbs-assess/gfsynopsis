@@ -9,6 +9,7 @@ optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
 french <- FALSE
+final_year_comm <- 2025 # final commercial CPUE year
 
 # path based on tag for plot descriptions
 ggplot_objects <- here::here("report", paste0("tech-report-", tag), "ggplot-objects")
@@ -19,5 +20,4 @@ if (tag == "haida") {
 } else {
   shapefile <- NULL
 }
-
 
