@@ -111,6 +111,22 @@ fit_sdmTMB_cpue <- function(
     lon1 = -138, lon2 = -120, lat1 = 47, lat2 = 57,
     resolution = 1, keep = TRUE
   )
+  get_depth_in_bathy <- function(bathy, coords) {
+    coords <- as.data.frame(coords[, 1:2, drop = FALSE])
+    names(coords) <- c("lon", "lat")
+    lon_range <- range(as.numeric(rownames(bathy)), na.rm = TRUE)
+    lat_range <- range(as.numeric(colnames(bathy)), na.rm = TRUE)
+    in_bathy <- stats::complete.cases(coords) &
+      coords$lon >= lon_range[1] & coords$lon <= lon_range[2] &
+      coords$lat >= lat_range[1] & coords$lat <= lat_range[2]
+    out <- data.frame(lon = coords$lon, lat = coords$lat, depth = NA_real_)
+    if (any(in_bathy)) {
+      out$depth[in_bathy] <- marmap::get.depth(
+        bathy, coords[in_bathy, , drop = FALSE], locator = FALSE
+      )$depth
+    }
+    out
+  }
 
   grid_ll <- sf::st_transform(grid, crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
   suppressWarnings({
@@ -119,12 +135,12 @@ fit_sdmTMB_cpue <- function(
       sf::st_coordinates()
   })
 
-  x <- marmap::get.depth(bathy, grid_ll_coord[, 1:2], locator = FALSE) |>
+  x <- get_depth_in_bathy(bathy, grid_ll_coord[, 1:2]) |>
     dplyr::mutate(depth_m = (depth * -1))
   grid$depth_marmap <- x$depth_m
 
   dat <- sdmTMB::add_utm_columns(dat, c("longitude", "latitude"), utm_crs = 32609, units = "km")
-  x <- marmap::get.depth(bathy, dat[, c("longitude", "latitude")], locator = FALSE) |>
+  x <- get_depth_in_bathy(bathy, dat[, c("longitude", "latitude")]) |>
     dplyr::mutate(depth_m = (depth * -1))
   dat$depth_marmap <- x$depth_m
 
