@@ -10,9 +10,10 @@
 # - [x] update the .csv in R/get_cosewic_data.R
 # - [x] update the IPHC survey set data; that's done over in the gfdata package
 # - [x] update the years in the call to make_pages() below
+# - [x] make sure `design_indexes` is updated over in gfdata (see file data-raw/design-indexes.R)
 # - [ ] check github issues and deal with any new features/bug fixes
 #   - [ ] in 2026: update figure/modelling code to work with the new output from get_all_survey_sets()
-#   - [ ] in 2026: update the design-based indexes to be calculated from the survey set data instead of get_survey_index()
+#   - [x] in 2026: update the design-based indexes to be calculated from the survey set data instead of get_survey_index()
 # - [ ] update the .csv in R/join_refs_spp.R
 # - [ ] rebuild all the survey indices on a server
 # - [ ] rebuild all the CPUE indices on a server
