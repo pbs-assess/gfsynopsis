@@ -63,7 +63,8 @@ Remotes:
     github::pbs-assess/gfdata,
     github::pbs-assess/gfiphc,
     github::pbs-assess/gfplot,
-    github::pbs-assess/rosettafish
+    github::pbs-assess/rosettafish,
+    github::pbs-software/pbs-data/PBSdata
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
