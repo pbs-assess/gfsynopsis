@@ -12,7 +12,7 @@ License: GPL (>=2)
 URL: https://github.com/pbs-assess/gfsynopsis
 BugReports: https://github.com/pbs-assess/gfsynopsis/issues
 Depends:
-    R (>= 4.1.0)
+    R (>= 4.2.0)
 Imports:
     assertthat,
     cli,
