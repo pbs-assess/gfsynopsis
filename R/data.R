@@ -11,7 +11,8 @@ get_data <- function(
     type = c("A", "B"), path = ".",
     compress = "gzip", force = FALSE, sleep = 2) {
   dir.create(path, showWarnings = FALSE)
-  .d <- get_spp_names()
+  spp <- get_spp_names()
+  .d <- spp
   .d <- .d[.d$type %in% type, , drop = FALSE]
   already_exists <- gsub("\\.rds", "", list.files(path))
   if (!force) {
@@ -44,8 +45,8 @@ get_data <- function(
 
   if (force || !file.exists(file.path(path, "survey-sets.rds"))) {
     message("Running get_all_survey_sets()")
-    set_dat <- gfdata::get_all_survey_sets(species = .d$species_code, ssid = c(1, 3, 4, 16, 2, 7, 22, 36, 39, 40), remove_false_zeros = FALSE, usability = c(0, 1, 2, 6)) # dropped IPHC
-    saveRDS(set_dat, file = file.path(path, "survey-sets.rds"), compress = compress)
+    set_dat <- gfdata::get_all_survey_sets(species = spp$species_code, ssid = c(1, 3, 4, 16, 2, 7, 22, 36, 39, 40), remove_false_zeros = FALSE, usability = c(0, 1, 2, 6)) # dropped IPHC
+    saveRDS(set_dat, file = file.path(path, "survey-sets.rds"))
   }
 
   if (force || !file.exists(file.path(path, "cpue-index-dat.rds"))) {
