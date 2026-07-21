@@ -40,9 +40,9 @@ plot_survey_sets_synopsis(
 }
 \arguments{
 \item{pred_dat}{The \code{predictions} element of the output from
-\code{\link[=fit_survey_sets]{fit_survey_sets()}}.}
+\code{\link[gfplot:fit_survey_sets]{fit_survey_sets()}}.}
 
-\item{raw_dat}{The \code{data} element of the output from \code{\link[=fit_survey_sets]{fit_survey_sets()}}.}
+\item{raw_dat}{The \code{data} element of the output from \code{\link[gfplot:fit_survey_sets]{fit_survey_sets()}}.}
 
 \item{fill_column}{The name of the column to plot. Options are \code{"combined"}
 for the combined model, \code{"bin"} for the binary component model, or \code{"pos"}
@@ -77,7 +77,7 @@ geostatistical model predictions.}
 \item{show_raw_data}{Logical for whether or not to show the raw data.}
 
 \item{utm_zone}{The UTM zone to plot in. Should match the zone used in
-\code{\link[=fit_survey_sets]{fit_survey_sets()}}.}
+\code{\link[gfplot:fit_survey_sets]{fit_survey_sets()}}.}
 
 \item{fill_label}{A label to use in the legend for the fill color.}
 
@@ -122,7 +122,7 @@ This analysis report uses this for the IPHC survey.}
 A ggplot object.
 }
 \description{
-Takes the output from \code{\link[=fit_survey_sets]{fit_survey_sets()}} and creates a map of the model
+Takes the output from \code{\link[gfplot:fit_survey_sets]{fit_survey_sets()}} and creates a map of the model
 predictions and/or the raw data. Includes a number of options for customizing
 the map including the ability to rotate the map.
 }

@@ -44,9 +44,9 @@ make_pages(
 )
 }
 \arguments{
-\item{dat}{A data list object from \code{\link[gfdata:get_data]{gfdata::cache_pbs_data()}}.}
+\item{dat}{A data list object from \code{\link[gfdata:cache_pbs_data]{gfdata::cache_pbs_data()}}.}
 
-\item{dat_iphc}{A data list object from \code{\link[gfiphc:iphc_data]{gfiphc::cache_pbs_data_iphc()}}.}
+\item{dat_iphc}{A data list object from \code{\link[gfiphc:cache_pbs_data_iphc]{gfiphc::cache_pbs_data_iphc()}}.}
 
 \item{spp}{A species common name.}
 

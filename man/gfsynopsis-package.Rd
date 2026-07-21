@@ -21,6 +21,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Sean Anderson \email{sean.anderson@dfo-mpo.gc.ca}
   \item Jillian Dunic
   \item Elise Keppel
 }
