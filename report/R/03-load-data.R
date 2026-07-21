@@ -51,3 +51,12 @@ if (!is_hake_server()) { # @Question - why check for hake server here? Is this j
     )
   }
 }
+
+# Check that design indices generated in gfdata are up to date
+design_max_year <- max(gfdata::design_indexes$year, na.rm = TRUE)
+survey_max_year <- max(set_data$year, na.rm = TRUE)
+if (design_max_year < survey_max_year) {
+  warning("gfdata::design_indexes only goes to ", design_max_year,
+    " but survey-sets goes to ", survey_max_year,
+    ". Re-run data-raw/design-indexes.R in gfdata and reinstall.", call. = FALSE)
+}
