@@ -950,7 +950,7 @@ make_pages <- function(
       ggplot2::annotate("label", 360, 6172,
         label = paste0("2013–", final_year_comm),
         fill = "white", colour = "black",
-        label.size = 0, alpha = 0.8, hjust = 0
+        linewidth = 0, alpha = 0.8, hjust = 0
       )
   })
   suppressMessages({
@@ -995,7 +995,7 @@ make_pages <- function(
         ggplot2::annotate("label", 360, 6172,
           label = paste0("2008–", final_year_comm),
           fill = "white", colour = "black",
-          label.size = 0, alpha = 0.8, hjust = 0
+          linewidth = 0, alpha = 0.8, hjust = 0
         )
     })
   })
