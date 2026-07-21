@@ -43,7 +43,7 @@ spp <- gfsynopsis::get_spp_names() %>%
   ) |>
   filter(!species_common_name %in% excluded_report_spp) |>
   arrange(species_common_name)
-spp <- join_worms_spp(spp)
+spp <- join_worms_spp(spp, check_cache = TRUE) # set to FALSE if new species added!
 
 # Gather and arrange some metadata ------------------------------------
 
