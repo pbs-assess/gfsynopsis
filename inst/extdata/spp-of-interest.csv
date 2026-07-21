@@ -116,11 +116,11 @@ sand sole,B,636,psettichthys melanostictus,172928,species,pleuronectidae(rightey
 tope shark,B,040,galeorhinus galeus,160181,species,triakidae(houndsharks),105801
 eulachon,B,148,thaleichthys pacificus,162051,species,osmeridae(smelts),282959
 american shad,B,095,alosa sapidissima,161702,species,clupeidae(herrings),158670
-pacific herring,B,096,clupea pallasii,551209,clupeidae(herrings),151159
-herrings,B,094,clupeidae,161700,clupeidae(anchovies/herring),125464
-chinook salmon,B,124,oncorhynchus tshawytscha,161980,oncorhynchus,158075
-pink salmon,B,108,oncorhynchus gorbuscha,161975,oncorhynchus,127182
-chum salmon,B,112,oncorhynchus keta,161976,oncorhynchus,127183
-coho salmon,B,115,oncorhynchus kisutch,161977,oncorhynchus,127184
+pacific herring,B,096,clupea pallasii,551209,species,clupeidae(herrings),151159
+herrings,B,094,clupeidae,161700,species,clupeidae(anchovies/herring),151159
+chinook salmon,B,124,oncorhynchus tshawytscha,161980,species,oncorhynchus,158075
+pink salmon,B,108,oncorhynchus gorbuscha,161975,species,oncorhynchus,127182
+chum salmon,B,112,oncorhynchus keta,161976,species,oncorhynchus,127183
+coho salmon,B,115,oncorhynchus kisutch,161977,species,oncorhynchus,127184
 sockeye salmon,B,118,oncorhynchus nerka,161979,species,oncorhynchus,254569
 # requiem sharks,B,039,carcharhinidae,160178,family,chondrichthyes,105689
