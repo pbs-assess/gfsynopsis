@@ -8,7 +8,6 @@ make_pages(
   dat,
   dat_iphc,
   spp,
-  d_geostat_index,
   aspect = 1.35,
   short_page_height_ratio = 0.78,
   width = 11.5,
@@ -38,10 +37,6 @@ make_pages(
   final_year_comm = 2021,
   final_year_surv = 2022,
   length_ticks = NULL,
-  all_survey_years = NULL,
-  stitch_model_type = "st-rw",
-  grid_dir,
-  hbll_bait_counts,
   index_ggplot,
   spatiotemporal_cpue = FALSE,
   raw_cpue = NULL,
@@ -49,13 +44,11 @@ make_pages(
 )
 }
 \arguments{
-\item{dat}{A data list object from \code{\link[gfdata:cache_pbs_data]{gfdata::cache_pbs_data()}}.}
+\item{dat}{A data list object from \code{\link[gfdata:get_data]{gfdata::cache_pbs_data()}}.}
 
-\item{dat_iphc}{A data list object from \code{\link[gfiphc:cache_pbs_data_iphc]{gfiphc::cache_pbs_data_iphc()}}.}
+\item{dat_iphc}{A data list object from \code{\link[gfiphc:iphc_data]{gfiphc::cache_pbs_data_iphc()}}.}
 
 \item{spp}{A species common name.}
-
-\item{d_geostat_index}{\code{d_geostat_index} data}
 
 \item{aspect}{The aspect ratio of the 2nd page.}
 
@@ -103,12 +96,6 @@ synoptic survey years to include.}
 
 \item{length_ticks}{A data frame indicating optional length composition
 x-axis breaks and labels.}
-
-\item{all_survey_years}{DF with \code{survey_abbrev} and all \code{year}}
-
-\item{stitch_model_type}{A string indicating what type of stitch model to fit.
-Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
-\code{\link[=get_stitched_index]{get_stitched_index()}}.}
 
 \item{index_ggplot}{Pre-made ggplots for survey indices.}
 

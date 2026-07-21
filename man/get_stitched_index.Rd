@@ -68,7 +68,7 @@ if \code{model_type = st-rw}, and \code{~1} if \code{model_type = 'st-rw_tv-rw'}
 
 \item{offset}{A string naming the offset column in \code{dat} used in \code{\link[sdmTMB:sdmTMB]{sdmTMB::sdmTMB()}}}
 
-\item{priors}{Optional penalties/priors used in \code{\link[sdmTMB:sdmTMBpriors]{sdmTMB::sdmTMBpriors()}}.}
+\item{priors}{Optional penalties/priors used in \code{\link[sdmTMB:priors]{sdmTMB::sdmTMBpriors()}}.}
 
 \item{silent}{A boolean. Silent or include optimization details.}
 
