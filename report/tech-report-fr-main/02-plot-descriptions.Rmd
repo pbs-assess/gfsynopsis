@@ -25,7 +25,7 @@ Cette section fournit des légendes pour chacune des visualisations qui forment 
 
 ```{r make-surv-abbrev-text, eval=TRUE}
 # happens to have data for all the surveys:
-dat_survey_index <- readRDS(here::here("report/data-cache-2025-03/canary-rockfish.rds"))
+dat_survey_index <- readRDS(here::here("report/data-cache-2026-07/canary-rockfish.rds"))
 dat_survey_index <- dat_survey_index$survey_index
 survs <- c(
   "SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
