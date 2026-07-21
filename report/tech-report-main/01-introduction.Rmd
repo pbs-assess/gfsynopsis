@@ -12,8 +12,8 @@ However, formal stock assessments are not conducted on an annual basis for most 
 The original groundfish data synopsis report was developed to provide a snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
 The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
 In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2021data].
-Versions with 2022 [@synopsis2022data] and 2023 [@synopsis2023data] data were published as Technical Reports.
-In this version, we update the report to include 2024 data.
+Versions with 2022 [@synopsis2022data], 2023 [@synopsis2023data], and 2024 [@synopsis2024data] data were published as Technical Reports.
+In this version, we update the report to include 2025 data.
 We also update referenced stock assessment Research Documents, Science Advisory Reports, and Science Responses.
 
 The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
@@ -52,7 +52,7 @@ Colours match the colour coding throughout the report.
 
 In this report:
 
-* We rebuilt all figure pages with data up to 2024 using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, and @synopsis2023data.
+* We rebuilt all figure pages with data up to 2025 using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, @synopsis2023data, and @synopsis2024data.
 * We updated the recent references at the top of each species page.
 * We modelled the SYN QCS and SYN HS surveys together in the spatial map visualizations (e.g., Figure \@ref(fig:survey-maps)). In previous versions they were modelled separately, which could result in a discontinuity at the border of the two surveys.
 * We added the delta generalized gamma distribution [@dunic2025gengamma] to the candidate observation likelihoods for the survey index standardization models with both a standard (logit) and Poisson link [@thorson2018poisson].
