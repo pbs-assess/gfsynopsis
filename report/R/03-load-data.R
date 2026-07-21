@@ -25,8 +25,9 @@ spp <- join_refs_spp(spp, french = french)
 # files to match historical formats and for loading speed
 # because the full df is large
 
-if (!is_hake_server()) {
-  set_data <- readRDS(file.path(dc, "survey-sets.rds"))
+set_data <- readRDS(file.path(dc, "survey-sets.rds"))
+
+if (!is_hake_server()) { # @Question - why check for hake server here? Is this just temporary to prevent it from resplitting since this has already been done?
   survey_set_dir <- file.path(dc, "survey-sets")
   dir.create(survey_set_dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -41,9 +42,11 @@ if (!is_hake_server()) {
   }
 
   for (sp in names(survey_set_spp)) {
+    out_file <- file.path(survey_set_dir, paste0(survey_set_names[sp], ".rds"))
+    if (file.exists(out_file)) next
     saveRDS(
       gfdata:::convert_to_old_sets(survey_set_spp[[sp]]),
-      file = file.path(survey_set_dir, paste0(survey_set_names[sp], ".rds")),
+      file = out_file,
       compress = "zstd"
     )
   }
