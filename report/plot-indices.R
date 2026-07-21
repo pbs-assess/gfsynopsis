@@ -13,7 +13,7 @@
 # library(here)
 # devtools::load_all(".")
 
-make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FALSE,
+make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv = 2024, french = FALSE,
   all_survey_years = NULL, shapefile = NULL, stitch_cache = NULL) {
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
@@ -55,18 +55,18 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FAL
     "HBLL OUT N/S",
     "HBLL INS N/S",
     "IPHC FISS",
-    "OTHER HS MSA", # changes!
+    "HS MSA", # changes! this now matches gfdata::design_indexes
     "MSSM WCVI"
   )
 
   # get design indices ---------------------------------------
-  dat_design <- tidy_survey_index(
-    dat$survey_index,
-    min_years = 1,
-    survey = c(
-      lvls
-    )
-  )
+  dat_design <- gfdata::design_indexes |>
+    dplyr::filter(.data$species_common_name == .env$species_common_name, survey_abbrev %in% lvls) |>
+    dplyr::group_by(survey_abbrev) |>
+    dplyr::mutate(mean_cv = mean(cv_boot, na.rm = TRUE)) |>
+    dplyr::ungroup() |>
+    dplyr::select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv) |>
+    dplyr::mutate(num_sets = NA_real_, num_pos_sets = NA_real_)
 
   # pad zeros:
   if (!is.null(all_survey_years)) {
@@ -82,9 +82,9 @@ make_index_panel <- function(spp_w_hyphens, final_year_surv = 2024, french = FAL
     }
   }
 
-  lvls[lvls == "OTHER HS MSA"] <- "MSA HS"
+  lvls[lvls == "HS MSA"] <- "MSA HS"
   dat_design$survey_abbrev <- gsub(
-    "OTHER HS MSA", "MSA HS",
+    "HS MSA", "MSA HS",
     dat_design$survey_abbrev
   )
   dat_design$survey_abbrev <- factor(dat_design$survey_abbrev, levels = lvls)

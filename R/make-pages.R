@@ -123,7 +123,7 @@ make_pages <- function(
 
   dat$cpue_spatial <- dplyr::filter(dat$cpue_spatial, species_common_name == spp)
   dat$cpue_spatial_ll <- dplyr::filter(dat$cpue_spatial_ll, species_common_name == spp)
-  dat$survey_index <- dplyr::filter(dat$survey_index, species_common_name == spp)
+  dat$survey_index <- dplyr::filter(gfdata::design_indexes, species_common_name == spp)
   dat$age_precision <- dplyr::filter(
     dat$age_precision,
     species_code == unique(dat$survey_sets$species_code)
@@ -196,12 +196,13 @@ make_pages <- function(
   temp_survey_samples <- dat$survey_samples[, common_cols, drop = FALSE]
   dat$combined_samples <- rbind(temp_commercial_samples, temp_survey_samples)
 
-  dat$survey_index$survey_abbrev <- gsub("_", " ", dat$survey_index$survey_abbrev)
-  dat$survey_index$survey_abbrev <-
-    ifelse(dat$survey_index$survey_series_desc ==
-      "Hecate Strait Multispecies Assemblage Bottom Trawl", "MSA HS",
-    dat$survey_index$survey_abbrev
-    )
+  # @TODO remove?
+  # dat$survey_index$survey_abbrev <- gsub("_", " ", dat$survey_index$survey_abbrev)
+  # dat$survey_index$survey_abbrev <-
+  #   ifelse(dat$survey_index$survey_series_desc ==
+  #     "Hecate Strait Multispecies Assemblage Bottom Trawl", "MSA HS",
+  #   dat$survey_index$survey_abbrev
+  #   )
 
   # File and folder setup: -----------------------------------------------------
   tag_cache <- paste0("cache-", tag)

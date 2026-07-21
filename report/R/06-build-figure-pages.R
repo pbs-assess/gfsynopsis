@@ -1,6 +1,5 @@
 # get all survey years to convert NAs to 0s:
-dog <- readRDS(paste0(dc, "/north-pacific-spiny-dogfish.rds"))$survey_index
-all_survey_years <- dplyr::select(dog, survey_abbrev, year) %>%
+all_survey_years <- dplyr::select(gfdata::design_indexes, survey_abbrev, year) |>
   dplyr::distinct()
 
 # these are complex, do outside first:
@@ -11,11 +10,13 @@ if (tag == "main") {
   stitch_cache <- here::here("report", paste0("cache-", tag), "spatial-stitch-cache")
 }
 if (interactive) {
-  index_ggplots <- furrr::future_map(spp$spp_w_hyphens, make_index_panel,
+  index_ggplots <- furrr::future_map2(
+    spp$spp_w_hyphens, spp$species_common_name, make_index_panel,
     all_survey_years = all_survey_years, shapefile = shapefile, french = french,
     stitch_cache = stitch_cache)
 } else { # just do one because we're running in parallel for one species
-  gg <- purrr::map(spp$spp_w_hyphens[ii], make_index_panel,
+  gg <- purrr::map2(
+    spp$spp_w_hyphens[ii], spp$species_common_name[ii], make_index_panel,
     all_survey_years = all_survey_years, shapefile = shapefile, french = french,
     stitch_cache = stitch_cache)
   index_ggplots <- list()
