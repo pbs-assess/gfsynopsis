@@ -12,11 +12,12 @@
 # - [x] update the years in the call to make_pages() below
 # - [x] make sure `design_indexes` is updated over in gfdata (see file data-raw/design-indexes.R)
 # - [ ] check github issues and deal with any new features/bug fixes
-#   - [ ] in 2026: update figure/modelling code to work with the new output from get_all_survey_sets()
+#   - [x] in 2026: update figure/modelling code to work with the new output from get_all_survey_sets()
 #   - [x] in 2026: update the design-based indexes to be calculated from the survey set data instead of get_survey_index()
-# - [ ] update the .csv in R/join_refs_spp.R
-# - [ ] rebuild all the survey indices on a server
-# - [ ] rebuild all the CPUE indices on a server
+# - [ ] update the references .csv in R/join_refs_spp.R
+# - [x] rebuild all the survey indices on a server
+# - [x] rebuild all the CPUE indices on a server
+# - [ ] update the tick marks .csv file 'length-axis-ticks.csv' for the length distributions
 
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) {

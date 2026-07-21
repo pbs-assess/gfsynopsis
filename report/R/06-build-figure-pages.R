@@ -9,7 +9,7 @@ if (tag == "main") {
 } else {
   stitch_cache <- here::here("report", paste0("cache-", tag), "spatial-stitch-cache")
 }
-if (interactive) {
+if (interactive()) {
   index_ggplots <- furrr::future_map2(
     spp$spp_w_hyphens, spp$species_common_name, make_index_panel,
     all_survey_years = all_survey_years, shapefile = shapefile, french = french,
