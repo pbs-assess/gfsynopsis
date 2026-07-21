@@ -340,6 +340,150 @@ Order: Chimaeriformes, Family: Chimaeridae,
 
 \clearpage
 
+## Herrings {#sec:herrings}
+
+\emph{Clupeidae} (094)\
+Order: NA, Family: NA,
+[FishBase](http://www.fishbase.org/summary/Clupeidae), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/herrings-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/herrings-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## American Shad {#sec:american-shad}
+
+\emph{Alosa sapidissima} (095)\
+Order: Clupeiformes, Family: Alosidae,
+[FishBase](http://www.fishbase.org/summary/Alosa-sapidissima), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158670)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/american-shad-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/american-shad-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Pacific Herring {#sec:pacific-herring}
+
+\emph{Clupea pallasii} (096)\
+Order: NA, Family: NA,
+[FishBase](http://www.fishbase.org/summary/Clupea-pallasii), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pacific-herring-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pacific-herring-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Pink Salmon {#sec:pink-salmon}
+
+\emph{Oncorhynchus gorbuscha} (108)\
+Order: NA, Family: NA,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-gorbuscha), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pink-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pink-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Chum Salmon {#sec:chum-salmon}
+
+\emph{Oncorhynchus keta} (112)\
+Order: NA, Family: NA,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-keta), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chum-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chum-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Coho Salmon {#sec:coho-salmon}
+
+\emph{Oncorhynchus kisutch} (115)\
+Order: NA, Family: NA,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-kisutch), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/coho-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/coho-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Sockeye Salmon {#sec:sockeye-salmon}
+
+\emph{Oncorhynchus nerka} (118)\
+Order: NA, Family: NA,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-nerka), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254569)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/sockeye-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/sockeye-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Chinook Salmon {#sec:chinook-salmon}
+
+\emph{Oncorhynchus tshawytscha} (124)\
+Order: NA, Family: NA,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-tshawytscha), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chinook-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chinook-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
 ## Whitebait Smelt {#sec:whitebait-smelt}
 
 \emph{Allosmerus elongatus} (138)\
@@ -1672,7 +1816,7 @@ Order: Perciformes, Family: Cottidae,
 ## Red Irish Lord {#sec:red-irish-lord}
 
 \emph{Hemilepidotus hemilepidotus} (502)\
-Order: Perciformes, Family: Cottidae,
+Order: Perciformes, Family: Hemilepidotidae,
 [FishBase](http://www.fishbase.org/summary/Hemilepidotus-hemilepidotus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254521)\
 \begin{figure}[b!]
