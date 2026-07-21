@@ -1394,27 +1394,38 @@ make_pages <- function(
   dev.off()
 
   if (save_gg_objects) {
-    plots <- list()
-    plots$age_precision <- g_age_precision
-    plots$ages <- g_ages
-    plots$lengths <- g_lengths
-    plots$catch <- g_catch
-    plots$comm_samples <- g_comm_samples
-    plots$survey_samples <- g_survey_samples
-    plots$mat_age <- g_mat_age
-    plots$mat_length <- g_mat_length
-    plots$vb <- g_vb
-    plots$cpue_index <- g_cpue_index
-    plots$cpue_spatial_ll <- g_cpue_spatial_ll
-    plots$cpue_index <- g_cpue_index
-    plots$maturity_month <- g_maturity_month
-    plots$cpue_spatial <- g_cpue_spatial
-    plots$cpue_spatial_ll <- g_cpue_spatial_ll
-    plots$survey_spatial_hbll <- g_survey_spatial_hbll
-    plots$survey_spatial_iphc <- g_survey_spatial_iphc
-    plots$survey_spatial_syn <- g_survey_spatial_syn
-    plots$length_weight <- g_length_weight
-    plots$survey_index <- g_survey_index
-    saveRDS(plots, file = gg_folder_spp)
+    plots <- list(
+      age_precision = g_age_precision,
+      ages = g_ages,
+      lengths = g_lengths,
+      catch = g_catch,
+      comm_samples = g_comm_samples,
+      survey_samples = g_survey_samples,
+      mat_age = g_mat_age,
+      mat_length = g_mat_length,
+      vb = g_vb,
+      cpue_index = g_cpue_index,
+      cpue_spatial_ll = g_cpue_spatial_ll,
+      maturity_month = g_maturity_month,
+      cpue_spatial = g_cpue_spatial,
+      survey_spatial_hbll = g_survey_spatial_hbll,
+      survey_spatial_iphc = g_survey_spatial_iphc,
+      survey_spatial_syn = g_survey_spatial_syn,
+      length_weight = g_length_weight,
+      survey_index = g_survey_index
+    )
+
+    # ggplot() stores its calling environment in `plot_env`. Since these plots
+    # are created inside make_pages(), that environment can retain the full
+    # data and model objects when the plot is serialized. The plots contain
+    # their layer data already, so the calling environment is not needed here.
+    plots <- lapply(plots, function(x) {
+      if (inherits(x, "ggplot")) {
+        x$plot_env <- globalenv()
+      }
+      x
+    })
+
+    saveRDS(plots, file = gg_folder_spp, compress = "zstd")
   }
 }
