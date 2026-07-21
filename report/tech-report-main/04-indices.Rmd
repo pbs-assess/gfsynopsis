@@ -20,7 +20,7 @@ spp_table <- .spp %>%
 
 spp_table %>% arrange(species_common_name) %>%
   select(species_common_name, species_science_name, section) %>%
-  csasdown::csas_table(align = c("l", "l", "l"),
+  csasdowntex::csas_table(align = c("l", "l", "l"),
    col.names = c("Common name", "Scientific name", "Page"))
 ```
 
@@ -31,7 +31,7 @@ spp_table %>% arrange(species_common_name) %>%
 ```{r index-alpha-sci, results='asis', cache=FALSE}
 spp_table %>% arrange(species_science_name) %>%
   select(species_common_name, species_science_name, section) %>%
-  csasdown::csas_table(align = c("l", "l", "l"),
+  csasdowntex::csas_table(align = c("l", "l", "l"),
    col.names = c("Common name", "Scientific name", "Page"))
 ```
 
