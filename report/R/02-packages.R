@@ -14,7 +14,8 @@ if (french) {
 }
 library(here)
 library(dplyr)
-devtools::load_all("../gfplot/")
+# devtools::load_all("../gfplot/")
+library(gfplot)
 devtools::load_all(".") # gfsynopsis; weird hexbin errors if not load_all()ed
 library(rosettafish)
 library(future)
