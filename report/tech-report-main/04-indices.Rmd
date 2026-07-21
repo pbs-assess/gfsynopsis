@@ -17,7 +17,7 @@ spp_table <- .spp %>%
     "Pacific Spiny Dogfish", species_common_name)) |>
   mutate(species_common_name = gsub("Popeye", 
     "Popeye grenadier", species_common_name)) |> 
-  filter(species_common_name != "herrings")
+  filter(species_common_name != "Herrings")
 
 spp_table %>% arrange(species_common_name) %>%
   select(species_common_name, species_science_name, section) %>%
