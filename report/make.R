@@ -17,7 +17,7 @@
 # - [ ] update the references .csv in R/join_refs_spp.R
 # - [x] rebuild all the survey indices on a server
 # - [x] rebuild all the CPUE indices on a server
-# - [ ] update the tick marks .csv file 'length-axis-ticks.csv' for the length distributions
+# - [x] update the tick marks .csv file 'length-axis-ticks.csv' for the length distributions
 
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args)) {
@@ -38,17 +38,17 @@ source(here("report/R/03-load-data.R"))
 # source(here("report/R/04-survey-index-standardization.R"))
 # source(here("report/R/05-cpue-index-standardization.R"))
 source(here("report/R/06-build-figure-pages.R"))
-source(here("report/R/07-cache-ggplots.R"))
-source(here("report/R/08-build-Rmd.R"))
-source(here("report/R/09-optimize-png.R"))
+# source(here("report/R/07-cache-ggplots.R"))
+# source(here("report/R/08-build-Rmd.R"))
+# source(here("report/R/09-optimize-png.R"))
 
 if (FALSE) {
   setwd(here("report/tech-report-main/"))
-  csasdown::render()
+  csasdowntex::render()
   setwd(here("."))
 }
 if (FALSE) {
   setwd(here("report/tech-report-haida/"))
-  csasdown::render()
+  csasdowntex::render()
   setwd(here("."))
 }

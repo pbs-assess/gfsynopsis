@@ -52,7 +52,7 @@ Imports:
 Suggests:
     clisymbols,
     cowplot,
-    csasdown (>= 0.0.3),
+    csasdowntex,
     doParallel,
     parallel,
     plyr,
@@ -61,6 +61,7 @@ Suggests:
     tibble
 Remotes:
     github::pbs-assess/gfdata,
+    github::pbs-assess/csasdowntex,
     github::pbs-assess/gfiphc,
     github::pbs-assess/gfplot,
     github::pbs-assess/rosettafish,
