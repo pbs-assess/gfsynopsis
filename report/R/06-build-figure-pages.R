@@ -22,7 +22,7 @@ if (interactive()) {
   index_ggplots <- list()
   index_ggplots[[ii]] <- gg[[1]]
 }
-# saveRDS(index_ggplots, file = here::here("report", paste0("cache-", tag), "index-ggplots.rds"), compress = FALSE)
+# saveRDS(index_ggplots, file = here::here("report", paste0("cache-", tag), "index-ggplots.rds"))
 
 # Make figure pages ---------------------------------------------------
 

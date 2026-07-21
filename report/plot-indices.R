@@ -82,6 +82,26 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
     }
   }
 
+  # Keep a row for every expected panel, including surveys with no design or
+  # stitched index. The row is all NA so it creates an empty facet without
+  # being interpreted as an observed zero or an observation at a real year.
+  missing_panels <- setdiff(lvls, unique(dat_design$survey_abbrev))
+  if (length(missing_panels)) {
+    dat_design <- bind_rows(
+      dat_design,
+      tibble(
+        survey_abbrev = missing_panels,
+        year = NA_real_,
+        biomass = NA_real_,
+        lowerci = NA_real_,
+        upperci = NA_real_,
+        mean_cv = NA_real_,
+        num_sets = NA_real_,
+        num_pos_sets = NA_real_
+      )
+    )
+  }
+
   lvls[lvls == "HS MSA"] <- "MSA HS"
   dat_design$survey_abbrev <- gsub(
     "HS MSA", "MSA HS",
@@ -131,7 +151,7 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
     dat_geo$survey_abbrev <- gsub("SYN HS, SYN QCS, SYN WCHG, SYN WCVI", "SYN WCHG/HS/QCS/WCVI", dat_geo$survey_abbrev)
     dat_geo$survey_abbrev <- gsub("SYN HS, SYN QCS, SYN WCVI", "SYN HS/QCS/WCVI", dat_geo$survey_abbrev)
     dat_geo <- select(dat_geo, survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets) |> as_tibble()
-    dat_geo <- filter(dat_geo, mean_cv < 1)
+    dat_geo <- filter(dat_geo, mean_cv < 1.25)
 
     # combine both types -------------------------------------
     dat_design$method <- "design"
