@@ -38,11 +38,10 @@ fit_survey_maps <- function(dat,
     if (surv %in% c("HBLL OUT N", "HBLL OUT S")) {
       density_column <- "density_ppkm2"
       .dat <- filter(dat, survey_abbrev %in% surv)
-      if (nrow(.dat) == 0L) stop("No survey data.")
       .dat$survey_abbrev <- surv
       # .dat$year <- years[2]
       premade_grid <- if (surv == "HBLL OUT N") gfplot::hbll_n_grid else gfplot::hbll_s_grid
-      last_year <- max(.dat$year)
+      last_year <- if (nrow(.dat) > 0L) max(.dat$year) else NA_integer_
       raw_dat <- tidy_survey_sets(.dat, surv,
         years = last_year, density_column = density_column
       )
@@ -52,8 +51,7 @@ fit_survey_maps <- function(dat,
       # .dat <- filter(dat, year %in% years[2]) # just last year
       .dat <- filter(dat, year %in% years)
       .dat <- filter(.dat, survey_abbrev %in% surv)
-      last_year <- max(.dat$year)
-      if (nrow(.dat) == 0L) stop("No survey data.")
+      last_year <- if (nrow(.dat) > 0L) max(.dat$year) else NA_integer_
       raw_dat <- tidy_survey_sets(.dat, surv,
         years = last_year, density_column = density_column
       )
@@ -69,26 +67,32 @@ fit_survey_maps <- function(dat,
       # premade_grid <- NULL
       premade_grid <- dplyr::filter(gfplot::synoptic_grid, survey %in% .surv)
       premade_grid <- list(grid = premade_grid, cell_area = 4.0)
-      last_year <- max(.dat$year)
+      last_year <- if (nrow(.dat) > 0L) max(.dat$year) else NA_integer_
       raw_dat <- tidy_survey_sets(.dat, .surv,
         years = last_year, density_column = "density_kgpm2"
       )
     }
-    m <- fit_survey_sets(.dat, survey = surv, years = max(.dat$year),
-      density_column = density_column, tmb_knots = 200, family = family,
-      premade_grid = premade_grid, required_obs_percent = 0.02, ...)
+    if (nrow(.dat) == 0L) {
+      message("No survey data for survey ", surv, " -- skipping model fit.")
+      m <- list(predictions = premade_grid$grid, data = raw_dat, models = NA,
+        survey = surv, years = last_year)
+    } else {
+      m <- fit_survey_sets(.dat, survey = surv, years = max(.dat$year),
+        density_column = density_column, tmb_knots = 200, family = family,
+        premade_grid = premade_grid, required_obs_percent = 0.02, ...)
+    }
     # we may have predicted all years, but just save last year for plotting:
     raw_dat <- dplyr::filter(m$data, year == max(m$data$year))
     list(model = m, raw_dat = raw_dat)
   })
 
   if ("survey" %in% names(out[[1]]$model$predictions)) {
-    pred_dat <- purrr::map_df(out, function(x) data.frame(dplyr::select(x$model$predictions, -survey), survey = x$model$survey, stringsAsFactors = FALSE)) 
+    pred_dat <- purrr::map_df(out, function(x) data.frame(dplyr::select(x$model$predictions, -survey), survey = x$model$survey, stringsAsFactors = FALSE))
   } else {
     pred_dat <- purrr::map_df(out, function(x) data.frame(x$model$predictions, survey = x$model$survey, stringsAsFactors = FALSE))
   }
 
-  raw_dat  <- purrr::map_df(out, function(x) data.frame(x$raw_dat, survey = x$model$survey, stringsAsFactors = FALSE))
+  raw_dat  <- purrr::map_df(out, function(x) data.frame(x$raw_dat, survey = rep(x$model$survey, nrow(x$raw_dat)), stringsAsFactors = FALSE))
   models   <- purrr::map(out,    function(x) x$model)
 
   list(pred_dat = pred_dat, models = models, raw_dat = raw_dat,
@@ -379,8 +383,9 @@ plot_survey_sets_synopsis <- function(pred_dat, raw_dat, fill_column = c("combin
   )
   coast <- rotate_df(coast, rotation_angle, rotation_center)
 
-  isobath <- load_isobath(range(raw_dat$lon) + c(-5, 5),
-    range(raw_dat$lat) + c(-5, 5),
+  isobath <- load_isobath(
+    if (nrow(raw_dat) > 0L) range(raw_dat$lon) + c(-5, 5) else c(-134.973, -124.052),
+    if (nrow(raw_dat) > 0L) range(raw_dat$lat) + c(-5, 5) else c(47.298, 55.656),
     bath = c(100, 200, 500), utm_zone = 9
   )
   isobath <- rotate_df(isobath, rotation_angle, rotation_center)
@@ -591,7 +596,7 @@ rotate_coords <- function(x, y, rotation_angle, rotation_center) {
 rotate_df <- function(df, rotation_angle, rotation_center) {
   if (!"X" %in% names(df) || !"Y" %in% names(df)) {
     stop("X and Y columns are missing from data frame to rotate with rotate_df()")
-  } 
+  }
   r <- rotate_coords(df$X, df$Y,
     rotation_angle = rotation_angle,
     rotation_center = rotation_center

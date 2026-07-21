@@ -115,7 +115,13 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
   }
 
   # read geostat ---------------------------------------------
-  dat_geo <- readRDS(file.path(stitch_cache, "min_aic", paste0(spp_w_hyphens, ".rds")))
+  min_aic_file <- file.path(stitch_cache, "min_aic", paste0(spp_w_hyphens, ".rds"))
+  if (file.exists(min_aic_file)) {
+    dat_geo <- readRDS(min_aic_file)
+  } else {
+    message("No stitched (geostat) index cache found for: ", spp_w_hyphens, " -- design index only")
+    dat_geo <- NULL
+  }
 
   if (length(dat_geo)) {
     # dat_geo <- bind_rows(geo)

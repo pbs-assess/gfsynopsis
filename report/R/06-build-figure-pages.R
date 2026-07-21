@@ -53,11 +53,25 @@ cli_inform(paste(spp$species_common_name)[to_build])
 # unlink("vb_gfplot.*")
 # unlink("lw_gfplot.*")
 
+# As of 2026, survey sets are in report/data-cache-YYYY-MM/species-hyphen.rds;
+# - some species have no file because are not encountered in any survey, so pass
+#   empty dataframe as placeholder
+survey_set_dir <- file.path(dc, "survey-sets")
+survey_sets_template <- list.files(survey_set_dir, pattern = "lingcod.rds", full.names = TRUE)
+empty_survey_sets <- readRDS(survey_sets_template)[0, ]
+
 for (i in to_build) {
   cli_inform("------------------------------------")
   cli_progress_step(paste0("Building figure pages for ", spp$species_common_name[i]), spinner = TRUE)
 
   dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
+  survey_sets_file <- file.path(survey_set_dir, paste0(spp$spp_w_hyphens[i], ".rds"))
+  dat$survey_sets <- if (file.exists(survey_sets_file)) {
+    readRDS(survey_sets_file)
+  } else {
+    message("No survey-sets data for: ", spp$spp_w_hyphens[i], " -- using empty data frame")
+    empty_survey_sets
+  }
   dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
     rename(lat = "latitude", lon = "longitude")
 
