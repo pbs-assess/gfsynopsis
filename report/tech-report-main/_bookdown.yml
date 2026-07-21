@@ -1,4 +1,4 @@
-book_filename: "gfsynopsis-2024-data"
+book_filename: "gfsynopsis-2025-data"
 rmd_files: ["index.Rmd",
             "01-introduction.Rmd",
             "02-plot-descriptions.Rmd",
