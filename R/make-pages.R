@@ -723,7 +723,7 @@ make_pages <- function(
         ) +
         ggplot2::guides(
           lty =
-          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7)))
+          guide_legend(override.aes = list(lty = c(1, 2), linewidth = c(.7, .7)))
         ) +
         xlab(paste0(en2fr("Length", french), " (cm)")) + ylab(paste0(en2fr("Weight", french), " (kg)")) +
         ggtitle(en2fr("Length-weight relationship", french))
@@ -887,7 +887,7 @@ make_pages <- function(
         ) +
         ggplot2::guides(
           lty =
-          guide_legend(override.aes = list(lty = c(1, 2), lwd = c(.7, .7)))
+          guide_legend(override.aes = list(lty = c(1, 2), linewidth = c(.7, .7)))
         ) +
         ggtitle(en2fr("Length at maturity", french)) +
         ggplot2::labs(x = paste0(en2fr("Length", french), " (cm)"), y = paste0(en2fr("Probability mature", french)))
@@ -921,7 +921,7 @@ make_pages <- function(
       x = c(400, 600, 600, 400),
       y = c(5500, 5500, 5700, 5700)
     ), aes_string(x = "x", y = "y"),
-    inherit.aes = FALSE, fill = "grey50", lwd = 1, col = "black"
+    inherit.aes = FALSE, fill = "grey50", linewidth = 1, col = "black"
   )
 
   g_cpue_spatial <- local({
