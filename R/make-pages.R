@@ -1415,6 +1415,6 @@ make_pages <- function(
     plots$survey_spatial_syn <- g_survey_spatial_syn
     plots$length_weight <- g_length_weight
     plots$survey_index <- g_survey_index
-    saveRDS(plots, file = gg_folder_spp, compress = FALSE)
+    saveRDS(plots, file = gg_folder_spp)
   }
 }
