@@ -5,9 +5,6 @@ rmd_files: ["index.Rmd",
             "04-indices.Rmd",
             "05-synopsis-plots-intro.Rmd",
             "plot-pages.Rmd",
-            "90-appendix-start.Rmd",
-            "98-stitching-appendix.Rmd",
-            "999-appendix-end.Rmd",
             "99-bibliography.Rmd"
             ]
 delete_merged_file: true
