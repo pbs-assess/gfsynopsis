@@ -5,7 +5,6 @@
 #' @param dat A data list object from [gfdata::cache_pbs_data()].
 #' @param dat_iphc A data list object from [gfiphc::cache_pbs_data_iphc()].
 #' @param spp A species common name.
-#' @param d_geostat_index `d_geostat_index` data
 #' @param aspect The aspect ratio of the 2nd page.
 #' @param short_page_height_ratio The aspect ratio of the shorter first page.
 #' @param width The width of a page.
@@ -35,10 +34,6 @@
 #' @param parallel Parallel CPUE index fitting?
 #' @param length_ticks A data frame indicating optional length composition
 #'   x-axis breaks and labels.
-#' @param all_survey_years DF with `survey_abbrev` and all `year`
-#' @param stitch_model_type A string indicating what type of stitch model to fit.
-#'   Matching one of: "st-rw" (the default), "st-rw_tv-rw". See
-#'   [gfsynopsis::get_stitched_index()].
 #' @param index_ggplot Pre-made ggplots for survey indices.
 #' @param spatiotemporal_cpue Logical: use commercial trawl CPUE sdmTMB model output?
 #' @param shapefile An optional shapefile used to subset or highlight a region
@@ -57,7 +52,6 @@ make_pages <- function(
     dat,
     dat_iphc,
     spp,
-    d_geostat_index,
     aspect = 1.35,
     short_page_height_ratio = 0.78,
     width = 11.5,
@@ -98,10 +92,6 @@ make_pages <- function(
     final_year_comm = 2021,
     final_year_surv = 2022,
     length_ticks = NULL,
-    all_survey_years = NULL,
-    stitch_model_type = "st-rw",
-    grid_dir,
-    hbll_bait_counts,
     index_ggplot,
     spatiotemporal_cpue = FALSE,
     raw_cpue = NULL,

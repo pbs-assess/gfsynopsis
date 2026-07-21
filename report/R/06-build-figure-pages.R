@@ -59,7 +59,6 @@ for (i in to_build) {
   dat <- readRDS(file.path(dc, paste0(spp$spp_w_hyphens[i], ".rds")))
   dat_iphc <- gfdata::load_iphc_dat(species = spp$species_common_name[i]) |>
     rename(lat = "latitude", lon = "longitude")
-  hbll_bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 
   length_ticks <- readr::read_csv(here("report/length-axis-ticks.csv"),
     show_col_types = FALSE
@@ -69,8 +68,6 @@ for (i in to_build) {
     dat = dat,
     dat_iphc = dat_iphc,
     spp = spp$species_common_name[i],
-    all_survey_years = all_survey_years,
-    d_geostat_index = NULL, # dat_geostat_index, # spatiotemporal model fits
     include_map_square = FALSE, # to check the map aspect ratio
     french = french,
     report_lang_folder = build_dir,
@@ -84,7 +81,6 @@ for (i in to_build) {
     final_year_comm = final_year_comm,
     final_year_surv = 2025,
     length_ticks = length_ticks[length_ticks$species_code == spp$species_code[i], ],
-    hbll_bait_counts = hbll_bait_counts,
     index_ggplot = index_ggplots[[i]],
     spatiotemporal_cpue = TRUE,
     raw_cpue = NULL,
