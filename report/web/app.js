@@ -314,7 +314,7 @@ function enableSpeciesSearch() {
 
 function renderBuildDetails(metadata) {
   const details = [];
-  if (metadata.edition) details.push(`Edition ${metadata.edition}`);
+  if (metadata.edition) details.push(`Data Version ${metadata.edition}`);
   if (metadata.generated_at) {
     const date = new Date(metadata.generated_at);
     if (!Number.isNaN(date.valueOf())) {

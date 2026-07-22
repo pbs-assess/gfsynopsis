@@ -57,8 +57,11 @@ done
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd -- "$script_dir/../.." && pwd)"
 generated_dir="$script_dir/generated"
+npm_cache="${NPM_CONFIG_CACHE:-${TMPDIR:-/tmp}/gfsynopsis-npm-cache}"
 
 cd "$repo_root"
+mkdir -p "$npm_cache"
+export NPM_CONFIG_CACHE="$npm_cache"
 
 printf 'Building website...\n'
 Rscript report/R/10-build-web.R
@@ -102,4 +105,3 @@ npx --yes "wrangler@${wrangler_version}" pages deploy "$generated_dir" \
   --project-name "$project_name" \
   --branch "$deploy_branch" \
   --commit-dirty=true
-

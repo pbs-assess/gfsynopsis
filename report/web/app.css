@@ -502,17 +502,45 @@ main {
 }
 
 .site-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
   padding-block: 1.5rem 2.5rem;
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.85rem;
 }
 
+.site-footer__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .site-footer p {
   margin: 0;
+}
+
+.site-footer__citation {
+  max-width: 105ch;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.site-footer__citation p + p {
+  margin-top: 0.35rem;
+}
+
+.site-footer__citation-heading {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.site-footer__citation cite {
+  font-style: normal;
+}
+
+.site-footer__doi {
+  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .visually-hidden {
@@ -549,7 +577,7 @@ main {
   .species-header,
   .metadata-panel,
   .section-heading,
-  .site-footer {
+  .site-footer__top {
     align-items: stretch;
     flex-direction: column;
   }
