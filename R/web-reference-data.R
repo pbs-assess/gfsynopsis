@@ -245,6 +245,7 @@ web_resolve_note_citations <- function(
   if (!length(notes)) return(character())
   by_key <- setNames(reference_records, vapply(reference_records, `[[`, character(1), "key"))
   lapply(notes, function(note) {
+    note <- trimws(gsub("[[:space:]]+", " ", note))
     matches <- regmatches(
       note,
       gregexpr("\\[@[A-Za-z][A-Za-z0-9_-]*\\]", note, perl = TRUE)
@@ -275,6 +276,6 @@ web_resolve_note_citations <- function(
       }
       note <- sub(match, replacement, note, fixed = TRUE)
     }
-    trimws(gsub("[[:space:]]+", " ", note))
+    note
   }) |> unname()
 }
