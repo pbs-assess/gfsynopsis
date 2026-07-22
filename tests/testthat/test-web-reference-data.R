@@ -19,7 +19,7 @@ test_that("web references resolve bibliography keys and note citations", {
       other = "Last Science Response: @dfo2021pcod, @dfo2024pcod",
       cosewic_status_report = ""
     ),
-    notes = "The source is [@lacko2023]."
+    notes = "The source is\n [@lacko2023]."
   )
 
   references <- gfsynopsis:::web_reference_records(
@@ -43,5 +43,6 @@ test_that("web references resolve bibliography keys and note citations", {
   )
   expect_match(notes[[1L]], "Lacko")
   expect_match(notes[[1L]], "https://publications.gc.ca")
+  expect_false(grepl("[\r\n]", notes[[1L]]))
   expect_false(grepl("@[A-Za-z][A-Za-z0-9_-]*", paste(notes, collapse = " ")))
 })

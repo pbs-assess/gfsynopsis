@@ -275,6 +275,6 @@ web_resolve_note_citations <- function(
       }
       note <- sub(match, replacement, note, fixed = TRUE)
     }
-    note
+    trimws(gsub("[[:space:]]+", " ", note))
   }) |> unname()
 }
