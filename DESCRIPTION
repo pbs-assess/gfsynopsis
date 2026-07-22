@@ -30,6 +30,7 @@ Imports:
     gridExtra,
     here,
     httr2,
+    jsonlite,
     lubridate,
     magrittr,
     mgcv,
@@ -53,12 +54,14 @@ Suggests:
     clisymbols,
     cowplot,
     csasdowntex,
+    devtools,
     doParallel,
     parallel,
     plyr,
     taxize,
     testthat,
     tibble
+Config/testthat/edition: 3
 Remotes:
     github::pbs-assess/gfdata,
     github::pbs-assess/csasdowntex,

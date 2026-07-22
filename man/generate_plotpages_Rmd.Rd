@@ -4,13 +4,17 @@
 \alias{generate_plotpages_Rmd}
 \title{Generate plot-pages.Rmd for a species}
 \usage{
-generate_plotpages_Rmd(x, spp)
+generate_plotpages_Rmd(x, spp, french = FALSE, ext = "png")
 }
 \arguments{
 \item{x}{A species common name}
 
 \item{spp}{Output from \code{\link[=get_spp_names]{get_spp_names()}} that has been cleaned by other
 functions.}
+
+\item{french}{Logical; generate French display text.}
+
+\item{ext}{Image file extension.}
 }
 \value{
 Rmd code in a character vector.

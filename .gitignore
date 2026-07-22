@@ -115,3 +115,6 @@ report/SAR Public consultations - 1944 results.csv
 inst/data-examples.qmd
 inst/data-examples2.qmd
 report/tech-report-main/_book/gfsynopsis-2025-data.tex
+report/web/generated/
+.wrangler/cache/pages.json
+.wrangler/cache/wrangler-account.json

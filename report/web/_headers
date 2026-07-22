@@ -1,0 +1,10 @@
+/*
+  Content-Security-Policy: default-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+
+/species.json
+  Cache-Control: public, max-age=300, must-revalidate
+
+/figures/*
+  Cache-Control: public, max-age=86400
