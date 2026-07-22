@@ -7,6 +7,9 @@ web_reference_scalar <- function(x) {
 web_clean_bib_text <- function(x) {
   if (!web_reference_scalar(x)) return("")
   x <- as.character(x)
+  # Keep the one piece of BibTeX formatting that is meaningful in the web
+  # citation. Other commands are still reduced to their displayed text below.
+  x <- gsub("\\\\emph\\{([^{}]*)\\}", "<em>\\1</em>", x)
   repeat {
     cleaned <- gsub("\\\\[[:alpha:]]+\\{([^{}]*)\\}", "\\1", x)
     if (identical(cleaned, x)) break

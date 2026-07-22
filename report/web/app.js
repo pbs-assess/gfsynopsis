@@ -97,6 +97,22 @@ function renderLinks(links) {
   }
 }
 
+function appendCitationText(container, text) {
+  // Citation markup is generated from trusted BibTeX, but append text nodes
+  // explicitly so bibliography content can never become arbitrary HTML.
+  const emphPattern = /<em>([^<]*)<\/em>/g;
+  let position = 0;
+  let match;
+  while ((match = emphPattern.exec(text)) !== null) {
+    container.append(document.createTextNode(text.slice(position, match.index)));
+    const emphasis = document.createElement("em");
+    emphasis.textContent = match[1];
+    container.append(emphasis);
+    position = emphPattern.lastIndex;
+  }
+  container.append(document.createTextNode(text.slice(position)));
+}
+
 function renderReferences(references) {
   elements.references.replaceChildren();
   elements.referencesSection.hidden = references.length === 0;
@@ -124,7 +140,7 @@ function renderReferences(references) {
     summary.textContent = "Full citation";
     const citation = document.createElement("span");
     citation.className = "reference-text";
-    citation.textContent = reference.citation;
+    appendCitationText(citation, reference.citation);
     details.append(summary, citation);
     item.append(heading, details);
     elements.references.append(item);

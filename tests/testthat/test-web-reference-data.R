@@ -47,3 +47,10 @@ test_that("web references resolve bibliography keys and note citations", {
   expect_equal(notes[[2L]], "A plain note.")
   expect_false(grepl("@[A-Za-z][A-Za-z0-9_-]*", paste(notes, collapse = " ")))
 })
+
+test_that("BibTeX emphasis is retained for web citations", {
+  expect_equal(
+    gfsynopsis:::web_clean_bib_text("Title ({\\emph{Squalus suckleyi}})"),
+    "Title (<em>Squalus suckleyi</em>)"
+  )
+})

@@ -525,7 +525,7 @@ main {
 }
 
 .site-footer__citation {
-  max-width: 105ch;
+  width: 100%;
   margin-top: 1.25rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--line);
