@@ -33,7 +33,7 @@ set_model_fit_threads <- function() {
   }
 }
 
-stitch_opts <- furrr::furrr_options(seed = NULL, scheduling = Inf)
+stitch_opts <- furrr::furrr_options(seed = NULL, scheduling = 2)
 
 fit_rw_stitched_job <- function(.sp, .family, .job) {
   set_model_fit_threads()
