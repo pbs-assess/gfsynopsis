@@ -19,7 +19,6 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"
   # dc <- here("report", "data-cache-nov-2023")
-  dat <- readRDS(paste0(file.path(dc, spp_w_hyphens), ".rds"))
   report_folder <- "report"
   # iphc_index_cache <- file.path(report_folder, "iphc-cache")
   # dir.create(iphc_index_cache, showWarnings = FALSE, recursive = TRUE)
@@ -59,6 +58,42 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
     "MSSM WCVI"
   )
 
+  # Design-index rows do not contain set counts. Calculate the same annual
+  # mean counts used by the stitching code as a fallback for design-only
+  # panels. Bottom-trawl surveys use catch_weight to determine presence;
+  # longline surveys use catch_count.
+  design_set_stats <- tibble::tibble(
+    survey_abbrev = character(),
+    num_sets = double(),
+    num_pos_sets = double()
+  )
+  survey_sets_file <- file.path(dc, "survey-sets", paste0(spp_w_hyphens, ".rds"))
+  if (file.exists(survey_sets_file)) {
+    survey_sets <- readRDS(survey_sets_file)
+    if (is.data.frame(survey_sets) && nrow(survey_sets) > 0L) {
+      design_set_stats <- survey_sets |>
+        dplyr::filter(survey_abbrev %in% lvls) |>
+        dplyr::distinct(survey_abbrev, year, fishing_event_id, .keep_all = TRUE) |>
+        dplyr::mutate(present = dplyr::if_else(
+          grepl("HBLL", survey_abbrev),
+          catch_count > 0,
+          catch_weight > 0
+        )) |>
+        dplyr::group_by(survey_abbrev, year) |>
+        dplyr::summarise(
+          num_sets = dplyr::n(),
+          num_pos_sets = sum(present, na.rm = TRUE),
+          .groups = "drop"
+        ) |>
+        dplyr::group_by(survey_abbrev) |>
+        dplyr::summarise(
+          num_sets = round(mean(num_sets, na.rm = TRUE)),
+          num_pos_sets = round(mean(num_pos_sets, na.rm = TRUE)),
+          .groups = "drop"
+        )
+    }
+  }
+
   # get design indices ---------------------------------------
   dat_design <- gfdata::design_indexes |>
     dplyr::filter(.data$species_common_name == .env$species_common_name, survey_abbrev %in% lvls) |>
@@ -66,7 +101,7 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
     dplyr::mutate(mean_cv = mean(cv_boot, na.rm = TRUE)) |>
     dplyr::ungroup() |>
     dplyr::select(survey_abbrev, year, biomass, lowerci, upperci, mean_cv) |>
-    dplyr::mutate(num_sets = NA_real_, num_pos_sets = NA_real_)
+    dplyr::left_join(design_set_stats, by = "survey_abbrev")
 
   # pad zeros:
   if (!is.null(all_survey_years)) {
