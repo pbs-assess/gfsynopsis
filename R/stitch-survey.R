@@ -334,8 +334,8 @@ get_stitched_index <- function(
     offset = "offset",
     priors = sdmTMB::sdmTMBpriors(),
     silent = TRUE,
-    ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L),
-    gradient_thresh = 0.001,
+    ctrl = sdmTMB::sdmTMBcontrol(nlminb_loops = 1L, newton_loops = 1L, collapse_spatial_variance = TRUE, collapse_threshold = 0.01),
+    gradient_thresh = 0.01,
     cache = NULL,
     check_cache = FALSE,
     cache_predictions = FALSE,
@@ -487,7 +487,7 @@ get_stitched_index <- function(
 
   sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
 
-  # Turn off spatial fields if model doesn't fit
+  # Turn off spatial fields if model still doesn't fit
   if (!sanity_check && spatiotemporal == "rw" && spatial == "on") {
     message("Sanity check failed, refitting with spatial = 'off'")
     spatial <- "off"
@@ -502,21 +502,21 @@ get_stitched_index <- function(
     sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
   }
 
-  # Turn off st fields if IID:
-  if (!sanity_check && spatiotemporal == "iid") {
-    message("Sanity check failed, refitting with spatiotemporal = 'off'")
-    spatial <- "off"
-    spatiotemporal <- "off"
-    fit <- try(
-      sdmTMB::sdmTMB(
-        formula = form, family = family_obj,
-        time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
-        data = survey_dat, mesh = mesh, offset = offset,
-        silent = silent, control = ctrl, priors = priors
-      )
-    )
-    sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
-  }
+  # # Turn off st fields if IID:
+  # if (!sanity_check && spatiotemporal == "iid") {
+  #   message("Sanity check failed, refitting with spatiotemporal = 'off'")
+  #   spatial <- "on"
+  #   spatiotemporal <- "off"
+  #   fit <- try(
+  #     sdmTMB::sdmTMB(
+  #       formula = form, family = family_obj,
+  #       time = "year", spatiotemporal = spatiotemporal, spatial = spatial,
+  #       data = survey_dat, mesh = mesh, offset = offset,
+  #       silent = silent, control = ctrl, priors = priors
+  #     )
+  #   )
+  #   sanity_check <- all(unlist(sdmTMB::sanity(fit, gradient_thresh = gradient_thresh)))
+  # }
 
   if (cache_fits) {
     fit_filename <- file.path(fit_cache, paste0(species_hyphens, "_", family, "_", model_tag, ".rds"))
