@@ -27,7 +27,7 @@ is_hake_server <- function() {
   future::availableCores() > 50L
 }
 if (is_hake_server()) {
-  cores <- 78L
+  cores <- 78L*0.5
   RhpcBLASctl::blas_set_num_threads(1) # default currently is all/80!
   RhpcBLASctl::omp_set_num_threads(1)
 }
