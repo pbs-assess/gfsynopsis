@@ -28,13 +28,7 @@
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom dplyr "%>%"
 #' @importFrom foreach "%dopar%" "%do%"
-#' @importFrom ggplot2 ggplot aes_string geom_hline geom_vline scale_fill_manual
-#'   scale_colour_manual scale_x_continuous scale_size_area coord_cartesian
-#'   guides geom_point facet_wrap xlab ylab geom_col ylim xlim geom_rect
-#'   geom_text scale_fill_continuous geom_line labs scale_y_continuous
-#'   guide_legend geom_ribbon element_text scale_shape_manual element_line
-#'   geom_path geom_polygon coord_equal stat_summary_hex facet_grid
-#'   position_identity coord_fixed
+#' @importFrom ggplot2 ggplot aes_string geom_hline geom_vline scale_fill_manual scale_colour_manual scale_x_continuous scale_size_area coord_cartesian guides geom_point facet_wrap xlab ylab geom_col ylim xlim geom_rect geom_text scale_fill_continuous geom_line labs scale_y_continuous guide_legend geom_ribbon element_text scale_shape_manual element_line geom_path geom_polygon coord_equal stat_summary_hex facet_grid position_identity coord_fixed
 #' @export
 
 fit_cpue_indices <- function(dat,
