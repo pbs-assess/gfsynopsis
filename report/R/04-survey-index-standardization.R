@@ -29,8 +29,13 @@ spp_vector <- sample(spp_vector, length(spp_vector))
 # Synoptic/HBLL
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 
-if (parallel_processing && is_hake_server()) future::plan(future::multicore, workers = cores)
-if (!is_hake_server()) future::plan(future::sequential)
+survey_workers <- min(16L, cores)
+if (parallel_processing && is_hake_server()) {
+  message("Fitting survey indices with ", survey_workers, " workers")
+  future::plan(future::multicore, workers = survey_workers)
+} else {
+  future::plan(future::sequential)
+}
 # Stitch surveys if not cached
 source(here("report", "run-stitching.R"))
 future::plan(sequential)
