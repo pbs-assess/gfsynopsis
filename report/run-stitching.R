@@ -33,10 +33,58 @@ set_model_fit_threads <- function() {
   }
 }
 
-stitch_opts <- furrr::furrr_options(seed = NULL, scheduling = 2)
+stitch_opts <- furrr::furrr_options(seed = NULL, scheduling = Inf)
+
+stitch_output_file <- function(.cache, .sp, .family, .spatiotemporal) {
+  file.path(
+    .cache,
+    paste0(
+      gfsynopsis:::clean_name(.sp), "_", .family,
+      "_sp-on-st-", .spatiotemporal, ".rds"
+    )
+  )
+}
+
+rw_job_is_cached <- function(.sp, .family, .job) {
+  .cache <- switch(.job,
+    synoptic = sc_synoptic,
+    mssm = sc_mssm,
+    stop("Unknown RW stitched job: ", .job)
+  )
+  file.exists(stitch_output_file(.cache, .sp, .family, "rw"))
+}
+
+single_region_job_is_cached <- function(.sp, .job) {
+  job_cache <- switch(.job,
+    hbll_outside_rw = list(sc_hbll_out, "rw"),
+    hbll_out_n_rw = list(sc_hbll_out_n, "rw"),
+    hbll_out_s_rw = list(sc_hbll_out_s, "rw"),
+    hbll_out_n_iid = list(sc_hbll_out_n, "iid"),
+    hbll_out_s_iid = list(sc_hbll_out_s, "iid"),
+    hbll_inside_rw = list(sc_hbll_ins, "rw"),
+    iphc_rw = list(sc_iphc, "rw"),
+    stop("Unknown single-region job: ", .job)
+  )
+  file.exists(stitch_output_file(job_cache[[1]], .sp, "nb2", job_cache[[2]]))
+}
+
+synoptic_single_region_job_is_cached <- function(.sp, .syn, .family) {
+  .cache <- file.path(stitch_cache, paste0("synoptic-", .syn))
+  file.exists(stitch_output_file(.cache, .sp, .family, "iid"))
+}
+
+report_uncached_jobs <- function(.jobs, .label, .total) {
+  message(
+    .label, ": fitting ", nrow(.jobs), " uncached of ", .total,
+    " model jobs"
+  )
+  .jobs
+}
 
 fit_rw_stitched_job <- function(.sp, .family, .job) {
   set_model_fit_threads()
+  # Workers process multiple jobs per future; collect objects from the prior fit.
+  gc()
   survey_dat <- load_stitch_survey_data(.sp)
 
   if (.job == "synoptic") {
@@ -79,6 +127,7 @@ fit_rw_stitched_job <- function(.sp, .family, .job) {
 
 fit_single_region_job <- function(.sp, .job) {
   set_model_fit_threads()
+  gc()
   survey_dat <- load_stitch_survey_data(.sp)
 
   if (.job == "hbll_outside_rw") {
@@ -212,9 +261,9 @@ fit_single_region_job <- function(.sp, .job) {
 
 fit_synoptic_single_region_job <- function(.sp, .syn, .family) {
   set_model_fit_threads()
+  gc()
   .cache <- file.path(stitch_cache, paste0("synoptic-", .syn))
-  spp_filename <- paste0(gfsynopsis:::clean_name(.sp), "_", .family, "_sp-on-st-iid", ".rds")
-  stitch_cached_sp <- file.path(.cache, spp_filename)
+  stitch_cached_sp <- stitch_output_file(.cache, .sp, .family, "iid")
 
   if (file.exists(stitch_cached_sp)) {
     return(invisible(NULL))
@@ -254,6 +303,9 @@ rw_jobs <- tidyr::expand_grid(
   .family = families,
   .job = c("synoptic", "mssm")
 )
+rw_jobs_total <- nrow(rw_jobs)
+rw_jobs <- rw_jobs[!purrr::pmap_lgl(rw_jobs, rw_job_is_cached), , drop = FALSE] |>
+  report_uncached_jobs("RW stitched regions", rw_jobs_total)
 furrr::future_pwalk(
   rw_jobs,
   fit_rw_stitched_job,
@@ -274,6 +326,13 @@ single_region_jobs <- tidyr::expand_grid(
     "iphc_rw"
   )
 )
+single_region_jobs_total <- nrow(single_region_jobs)
+single_region_jobs <- single_region_jobs[
+  !purrr::pmap_lgl(single_region_jobs, single_region_job_is_cached),
+  ,
+  drop = FALSE
+] |>
+  report_uncached_jobs("HBLL/IPHC stitched regions", single_region_jobs_total)
 furrr::future_pwalk(
   single_region_jobs,
   fit_single_region_job,
@@ -283,6 +342,13 @@ furrr::future_pwalk(
 # Fit individual SYN surveys
 # -----------------------------------------
 tofit <- tidyr::expand_grid(.sp = spp_vector, .syn = syns, .family = families)
+tofit_total <- nrow(tofit)
+tofit <- tofit[
+  !purrr::pmap_lgl(tofit, synoptic_single_region_job_is_cached),
+  ,
+  drop = FALSE
+] |>
+  report_uncached_jobs("Individual SYN surveys", tofit_total)
 furrr::future_pwalk(
   tofit,
   fit_synoptic_single_region_job,
