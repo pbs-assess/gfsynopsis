@@ -29,7 +29,7 @@ spp_vector <- sample(spp_vector, length(spp_vector))
 # Synoptic/HBLL
 bait_counts <- readRDS(file.path(dc, "bait-counts.rds"))
 
-survey_workers <- min(16L, cores)
+survey_workers <- min(24L, cores)
 if (parallel_processing && is_hake_server()) {
   message("Fitting survey indices with ", survey_workers, " workers")
   future::plan(future::multicore, workers = survey_workers)
