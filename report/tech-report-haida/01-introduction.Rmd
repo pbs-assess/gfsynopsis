@@ -54,7 +54,7 @@ Therefore, in this report, the design-based indices are presented only for SYN W
 
 **Commercial catch**
 
-Commercial fishery catch data has been subset to locations that overlap with `r roi` and are indicated as "Whole Area" (Figure \@ref(fig:catches)). 
+Commercial fishery catch data has been subset to locations that overlap with `r roi`. The total catch is indicated as "Whole Area" (Figure \@ref(fig:catches)), with breakdowns by the Pacific Marine Fisheries Commission (PMFC) areas 5CDE, and 5AB. 
 Prior to 2006, commercial catch data did not include latitude/longitude information and so has not been included. <!--*Q: is there more to say here?*-->
 However, the modelled commercial bottom trawl catch per unit effort (CPUE) indices are presented starting in 1996 (Figure \@ref(fig:trawl-cpue-index)), as is done in the coastwide report. 
 Similar to the survey indices, the commercial catch CPUE was calculated using coastwide data (see Appendix A in @synopsis2024data) and then subset to grid cells within `r roi` for presentation.

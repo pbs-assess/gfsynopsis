@@ -1,6 +1,6 @@
 # Settings ------------------------------------------------------------
 
-dc <- here::here("report", "data-cache-2025-03") # cache folder location
+dc <- here::here("report", "data-cache-2026-07") # cache folder location
 tag <- "haida" # e.g., main or haida (affects cache folder name)
 
 ext <- "png" # pdf vs. png figs; png for CSAS and smaller file sizes
@@ -9,6 +9,7 @@ optimize_png <- TRUE # optimize the figures at the end? Need optipng installed.
 parallel_processing <- TRUE
 cores <- floor(future::availableCores() / 2)
 french <- FALSE
+final_year_comm <- 2025 # final commercial CPUE year
 
 # Likely only needed for Haida report
 design_survey_to_include <- "SYN WCHG" # set to NULL if no design index should be included on survey index panel

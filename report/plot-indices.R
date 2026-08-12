@@ -13,8 +13,9 @@
 # library(here)
 # devtools::load_all(".")
 
-make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv = 2024, french = FALSE,
-  all_survey_years = NULL, shapefile = NULL, stitch_cache = NULL) {
+make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv = 2024,
+  french = FALSE, all_survey_years = NULL, shapefile = NULL, stitch_cache = NULL,
+  return_data = FALSE) {
   cat(crayon::green(clisymbols::symbol$tick), spp_w_hyphens, "\n")
   # setup -------------------------------------------------
   # spp_w_hyphens <- "pacific-cod"
@@ -185,7 +186,9 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
     dat_geo$survey_abbrev <- gsub("HBLL OUT N, HBLL OUT S", "HBLL OUT N/S", dat_geo$survey_abbrev)
     dat_geo$survey_abbrev <- gsub("SYN HS, SYN QCS, SYN WCHG, SYN WCVI", "SYN WCHG/HS/QCS/WCVI", dat_geo$survey_abbrev)
     dat_geo$survey_abbrev <- gsub("SYN HS, SYN QCS, SYN WCVI", "SYN HS/QCS/WCVI", dat_geo$survey_abbrev)
-    dat_geo <- select(dat_geo, survey_abbrev, year, biomass, lowerci, upperci, mean_cv, num_sets, num_pos_sets) |> as_tibble()
+    dat_geo <- select(dat_geo, survey_abbrev, year, biomass, lowerci, upperci,
+      mean_cv, num_sets, num_pos_sets,
+      spatial, spatiotemporal, family) |> as_tibble()
     dat_geo <- filter(dat_geo, mean_cv < 1.25)
 
     # combine both types -------------------------------------
@@ -324,6 +327,9 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
       g <- ggplot() +
         theme_pbs() +
         ggplot2::ggtitle(en2fr("Survey relative biomass indices", french))
+      if (return_data) {
+        return(NULL)
+      }
     } else {
       g <- plot_survey_index(
         dat = des_scaled,
@@ -387,5 +393,10 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
 
     }
   }))
-  g
+
+  if (return_data) {
+    both_scaled |> tidyr::drop_na(num_sets) # only return surveys with indices
+  } else {
+    g
+  }
 }

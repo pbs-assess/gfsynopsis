@@ -13,12 +13,12 @@ if (interactive()) {
   index_ggplots <- furrr::future_map2(
     spp$spp_w_hyphens, spp$species_common_name, make_index_panel,
     all_survey_years = all_survey_years, shapefile = shapefile, french = french,
-    stitch_cache = stitch_cache)
+    stitch_cache = stitch_cache, return_data = return_data)
 } else { # just do one because we're running in parallel for one species
   gg <- purrr::map2(
     spp$spp_w_hyphens[ii], spp$species_common_name[ii], make_index_panel,
     all_survey_years = all_survey_years, shapefile = shapefile, french = french,
-    stitch_cache = stitch_cache)
+    stitch_cache = stitch_cache, return_data = return_data)
   index_ggplots <- list()
   index_ggplots[[ii]] <- gg[[1]]
 }
@@ -43,9 +43,26 @@ for (i in which(!missing)) {
 missing_spp <- spp$species_common_name[missing]
 to_build <- which(missing)
 
+data_export_check <- file.path(
+  build_dir, "data-export",
+  paste0(gfsynopsis:::clean_name(spp$species_common_name), ".rds")
+)
+missing_export <- !file.exists(data_export_check)
+
+if (return_data) {
+  for (i in which(!missing_export)) {
+    cat(
+      crayon::green(clisymbols::symbol$tick),
+      "Data export for", spp$species_common_name[i], "already exists\n"
+    )
+  }
+  to_build <- which(missing_export)
+}
+
 if (exists("ii")) {
   to_build <- to_build[to_build %in% ii]
 }
+
 cli_inform("Building")
 cli_inform(paste(spp$species_common_name)[to_build])
 
@@ -99,6 +116,7 @@ for (i in to_build) {
     index_ggplot = index_ggplots[[i]],
     spatiotemporal_cpue = TRUE,
     raw_cpue = NULL,
-    shapefile = shapefile
+    shapefile = shapefile,
+    return_data = return_data
   )
 }

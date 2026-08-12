@@ -38,6 +38,7 @@
 #' @param spatiotemporal_cpue Logical: use commercial trawl CPUE sdmTMB model output?
 #' @param shapefile An optional shapefile used to subset or highlight a region
 #'   of interest.
+#' @param return_data Return the data used to make the plots? Defaults to `FALSE`.
 #'
 #' @return
 #' This function generates 2 png files with all of the plots for a given species.
@@ -95,13 +96,29 @@ make_pages <- function(
     index_ggplot,
     spatiotemporal_cpue = FALSE,
     raw_cpue = NULL,
-    shapefile = NULL
+    shapefile = NULL,
+    return_data = FALSE
   ) {
   progress_fn <- function(...) cli::cli_progress_step(..., spinner = TRUE)
   # cli::cli_inform("------------------------------------")
   # progress_fn(paste0("Building figure pages for ", spp))
   # Internal setup calculations: -----------------------------------------------
   height <- width * aspect
+
+  if (return_data) data_export <- list(
+    survey_index = NULL,
+    catch_totals = NULL,
+    trawl_cpue_index = NULL,
+    maps_synoptic_biomass = NULL,
+    maps_hbll_catch = NULL,
+    maps_iphc_catch = NULL,
+    maps_commercial_trawl_cpue = NULL,
+    maps_commercial_longline_cpue = NULL,
+    length_compositions = NULL,
+    age_compositions = NULL,
+    survey_specimen_counts = NULL,
+    commercial_specimen_counts = NULL
+  )
 
   dat$survey_sets <- dplyr::filter(dat$survey_sets, species_common_name == spp)
   dat$survey_samples <- dplyr::filter(dat$survey_samples, species_common_name == spp) |>
@@ -272,6 +289,9 @@ make_pages <- function(
     sb <- NA
   }
 
+  # save age composition data before 15 year filtering
+  if (return_data) data_export$age_compositions <- sb
+
   survey_cols_dark <- gsub("6c6c6c", "000000", survey_cols)
   if (all(!is.na(sb))) {
     # Plot the most recent 15 years with age data
@@ -421,6 +441,8 @@ make_pages <- function(
     })
   }
 
+  if (return_data) data_export$length_compositions <- sb
+
   # Aging precision: -----------------------------------------------------------
   progress_fn("Aging precision")
   if (nrow(dat$age_precision) > 0) {
@@ -508,6 +530,8 @@ make_pages <- function(
            upr = if_else(max_se < 3, upr, NA_real_)
          )
 
+       if (return_data) data_export$trawl_cpue_index <- cpue_index
+
        if (is.null(shapefile)) {
          .labs <- c("3CD5ABCDE", "5CDE", "5AB", "3CD")
        } else {
@@ -570,10 +594,28 @@ make_pages <- function(
         dat$catch,
         french = french,
         xlim = c(1955, final_year_comm),
-        blank_non_coastwide = !is.null(shapefile),
+        blank_non_coastwide = FALSE,
         area_labels = .labs
       )
     })
+
+    if (return_data) {
+      if (!is.null(g_catch$data)) {
+        raw_areas <- unique(substr(dat$catch$major_stat_area_name, 1, 2))
+
+        keep_areas <- if (is.null(shapefile)) "Coastwide" else "Whole area"
+        if (any(raw_areas %in% c("5C", "5D", "5E"))) keep_areas <- c(keep_areas, "5CDE")
+        if (any(raw_areas %in% c("5A", "5B"))) keep_areas <- c(keep_areas, "5AB")
+        if (any(raw_areas %in% c("3C", "3D"))) keep_areas <- c(keep_areas, "3CD")
+
+        data_export$catch_totals <- g_catch$data |>
+          filter(year >= 2007) |>
+          filter(area %in% keep_areas)
+        data_export$catch_totals$species_common_name <- spp
+        attr(data_export$catch_totals, "out.attrs") <- NULL
+      }
+    }
+
   } else {
     entire_area_name <- if (is.null(shapefile)) "3CD5ABCDE" else "Whole area"
     g_catch <- local({
@@ -601,9 +643,20 @@ make_pages <- function(
 
   g_survey_index <- index_ggplot
 
+  if (return_data && !is.null(g_survey_index)) data_export$survey_index <- g_survey_index
+
   # Specimen numbers: ----------------------------------------------------------
   progress_fn("Specimen numbers")
+
   temp <- tidy_sample_avail(dat$commercial_samples, year_range = c(1996, final_year_surv))
+
+  if (return_data) {
+    temp$species_common_name <- spp
+    if (sum(temp$n) > 0) {
+      data_export$commercial_specimen_counts <- temp
+    }
+  }
+
   # FIXME: na_colour always white!?
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_comm_samples <- local({
@@ -620,6 +673,14 @@ make_pages <- function(
     })
   })
   temp <- tidy_sample_avail(dat$survey_samples, year_range = c(1996, final_year_surv))
+
+  if (return_data) {
+    temp$species_common_name <- spp
+    if (sum(temp$n) > 0) {
+      data_export$survey_specimen_counts <- temp
+    }
+  }
+
   na_colour <- if (all(is.na(temp$n_plot))) "transparent" else "grey75"
   g_survey_samples <- local({
     plot_sample_avail(temp,
@@ -634,6 +695,7 @@ make_pages <- function(
         viridis::scale_fill_viridis(option = "C", end = 0.82, na.value = na_colour)
     })
   })
+
 
   # Maturity by month: ---------------------------------------------------------
   progress_fn("Maturity by month")
@@ -924,6 +986,27 @@ make_pages <- function(
     inherit.aes = FALSE, fill = "grey50", linewidth = 1, col = "black"
   )
 
+  if (return_data & nrow(dat$cpue_spatial) > 0) {
+    cpue_spatial_data <- dat$cpue_spatial |>
+      plot_cpue_spatial(
+        bin_width = 7, n_minimum_vessels = 3,
+        start_year = 2013,
+        return_data = TRUE
+      )
+    if (is.data.frame(cpue_spatial_data) && nrow(cpue_spatial_data) > 0) {
+      cpue_spatial_data <- cpue_spatial_data |>
+        gfdata::XY_to_sf(coords = c("x", "y"), crs_to = 4326) %>%
+        mutate(
+          lon = sf::st_coordinates(.)[, "X"],
+          lat = sf::st_coordinates(.)[, "Y"]
+        ) |>
+        sf::st_drop_geometry() |>
+        select(lon, lat, cpue_kg_hr = value, hex_width_km = width, hex_height_km = height)
+
+      data_export$maps_commercial_trawl_cpue <- cpue_spatial_data
+    }
+  }
+
   g_cpue_spatial <- local({
     dat$cpue_spatial %>%
       plot_cpue_spatial(
@@ -961,6 +1044,26 @@ make_pages <- function(
       g_cpue_spatial + checking_square
     })
   }
+
+  if (return_data & nrow(dat$cpue_spatial_ll) > 0) {
+      cpue_spatial_ll <- dat$cpue_spatial_ll |>
+        plot_cpue_spatial(
+          bin_width = 7, n_minimum_vessels = 3,
+          start_year = 2013,
+          return_data = TRUE
+        )
+    if (is.data.frame(cpue_spatial_ll) && nrow(cpue_spatial_ll) > 0) {
+        cpue_spatial_ll <- cpue_spatial_ll |>
+          gfdata::XY_to_sf(coords = c("x", "y"), crs_to = 4326) %>%
+          mutate(
+            lon = sf::st_coordinates(.)[, "X"],
+            lat = sf::st_coordinates(.)[, "Y"]
+          ) |>
+          sf::st_drop_geometry() |>
+          select(lon, lat, cpue_fish_set = value, hex_width_km = width, hex_height_km = height)
+        data_export$maps_commercial_longline_cpue <- cpue_spatial_ll
+      }
+    }
 
   suppressMessages({
     g_cpue_spatial_ll <- local({
@@ -1167,7 +1270,6 @@ make_pages <- function(
   } else {
     iphc_density <- ""
   }
-
   suppressMessages({
     g_survey_spatial_iphc <- local({
       gfsynopsis::plot_survey_maps(
@@ -1237,6 +1339,47 @@ make_pages <- function(
       })
     }
   })
+  # Export survey spatial predictions
+  if (return_data) {
+    if (sum(syn_fits$raw_dat$present) > 0) {
+      syn_dat <- syn_fits$pred_dat |>
+        gfdata::XY_to_sf(crs_to = 4326) %>%
+        mutate(
+          lon = sf::st_coordinates(.)[, "X"],
+          lat = sf::st_coordinates(.)[, "Y"]
+        ) |>
+        sf::st_drop_geometry()
+        # select(-pos, -bin)
+
+      data_export$maps_synoptic_biomass <- syn_dat
+    }
+    if (sum(hbll_fits$raw_dat$present) > 0) {
+      hbll_dat <- hbll_fits$pred_dat |>
+        gfdata::XY_to_sf(crs_to = 4326) %>%
+        mutate(
+          lon = sf::st_coordinates(.)[, "X"],
+          lat = sf::st_coordinates(.)[, "Y"]
+        ) |>
+        sf::st_drop_geometry() #|>
+        # select(-pos, -bin)
+
+      data_export$maps_hbll_catch <- hbll_dat
+    }
+
+    if (sum(dd$present) > 0) {
+      data_export$maps_iphc_catch <- dd
+    }
+  }
+
+  if (return_data) {
+    data_export_dir <- file.path(report_lang_folder, "data-export")
+    if (!dir.exists(data_export_dir)) {
+      dir.create(data_export_dir, recursive = TRUE, showWarnings = FALSE)
+    }
+    sp_hyphens <- gfsynopsis:::clean_name(spp)
+    saveRDS(data_export, file.path(data_export_dir, paste0(sp_hyphens, ".rds")))
+    return(invisible(data_export))
+  }
 
   # Page 1 layout: -------------------------------------------------------------
   progress_fn("Page 1 layout")

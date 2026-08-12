@@ -1,7 +1,7 @@
 ---
 title: |
-  "A data synopsis for British Columbia groundfish for Haida Territory"
-french_title: "Une synthèse des données pour les poissons de fond de la Colombie-Britannique pour le territoire Haida"
+  "A data synopsis for Haida Gwaii Groundfish: 2024"
+french_title: "Une synthèse des données pour les poissons de fond du Haida Gwaii: 2024"
 year: 2025
 report_number: 000
 author: |

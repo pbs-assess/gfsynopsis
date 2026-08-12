@@ -30,6 +30,9 @@ if (length(args)) {
 # ii <- 21
 # interactive <- FALSE
 
+# return_data <- TRUE
+return_data <- FALSE
+
 library(here)
 source(here("report/R/01-settings.R"))
 # source(here("report/R/01-settings-haida.R"))
