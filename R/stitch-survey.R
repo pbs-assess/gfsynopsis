@@ -357,10 +357,22 @@ get_stitched_index <- function(
     out <- readRDS(out_filename)
     return(out)
   }
-  if (survey_type == 'MSSM WCVI' & is.null(survey_dat)) {
-    out <- "No MSSM survey data"
+  if (is.null(survey_dat) || nrow(survey_dat) == 0) {
+    out <- paste0("No ", survey_type, " survey data")
     saveRDS(out, out_filename)
     return(out)
+  }
+
+  if (!is.null(shapefile)) {
+    survey_grid <- choose_survey_grid(unique(survey_dat$survey_abbrev)) |>
+      mutate(X1000 = X * 1000, Y1000 = Y * 1000) |>
+      subset_spatial(sf_poly = shapefile, xy_coords = c("X1000", "Y1000"), dat_crs = 32609)
+    if (nrow(survey_grid) == 0) {
+      cli::cli_alert_info("\n  Shapefile does not intersect with survey grid")
+      out <- "shapefile does not intersect with survey grid"
+      saveRDS(out, out_filename)
+      return(out)
+    }
   }
 
   stitch_lu <- get_stitch_lu(survey_dat, species, survey_type)
@@ -447,8 +459,9 @@ get_stitched_index <- function(
 
     if (nrow(index_grid) == 0) {
       cli::cli_alert_info("\n  Shapefile does not intersect with survey grid")
-      cli::cli_ul(c("Skipping fitting", "No file output"))
-      return(invisible(NULL))
+      out <- "shapefile does not intersect with survey grid"
+      saveRDS(out, out_filename)
+      return(out)
     }
   }
 
