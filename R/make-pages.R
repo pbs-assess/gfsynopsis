@@ -173,7 +173,7 @@ make_pages <- function(
         return_sf = FALSE
       )
     dat$survey_samples <- filtered_survey_sets |>
-      dplyr::select(survey_series_id = survey_series_id.x, fishing_event_id, latitude, longitude) |>
+      dplyr::select(survey_series_id, fishing_event_id, latitude, longitude) |>
       dplyr::inner_join(dat$survey_samples, by = dplyr::join_by(survey_series_id, fishing_event_id))
 
     dat$catch <- dat$catch |>
@@ -347,6 +347,7 @@ make_pages <- function(
     na.rm = TRUE, probs = c(0, 1)
   )) / 20
   bin_width <- mean(c(bin_width1, bin_width2), na.rm = TRUE)
+  if (!is.finite(bin_width) || bin_width <= 0) bin_width <- 1
 
   ss <- tidy_lengths_raw(length_samples_survey,
     bin_size = bin_width,
