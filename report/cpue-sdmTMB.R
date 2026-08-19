@@ -288,9 +288,10 @@ fit_sdmTMB_cpue <- function(
   gg$month_num <- as.numeric(base_month)
 
   if (length(unique(dat_reduced$month)) >= 9) { # use month smoother
+    k_month <- min(10L, length(unique(dat_reduced$month_num))) # cc default k=10 errors if fewer unique months
     f <- spp_catch ~ 0 + as.factor(year) +
       depth_scaled + I(depth_scaled^2) +
-      (1 | vessel) + s(month_num, bs = "cc")
+      (1 | vessel) + s(month_num, bs = "cc", k = k_month)
     mm <- stats::model.matrix(spp_catch ~ 0 + as.factor(year) +
       depth_scaled + I(depth_scaled^2), data = dat_reduced)
   } else {
