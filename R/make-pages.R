@@ -737,21 +737,79 @@ make_pages <- function(
     }
     # https://waves-vagues.dfo-mpo.gc.ca/Library/40603039.pdf
 
-    sink(tempfile())
-    vb_m <- fit_vb(dat$survey_samples,
-      sex = "male", method = "tmb",
-      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
-      tmb_inits = tmb_init
-    )
-    vb_f <- fit_vb(dat$survey_samples,
-      sex = "female", method = "tmb",
-      too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
-      tmb_inits = tmb_init
-    )
-    sink()
-    vb <- list()
-    vb$m <- vb_m
-    vb$f <- vb_f
+    growth_pars_cache <- here::here("report", "growth-pars-cache", paste0(clean_name(spp), ".rds"))
+
+    # Mirrors the empty-fit shape gfplot::fit_vb() already returns for its
+    # own "too few samples" case, so plot_vb() renders it the same way.
+    empty_vb_fit <- function() {
+      list(
+        predictions = tibble::tibble(ages = NA, length = NA),
+        pars = list(k = NA, linf = NA, t0 = NA),
+        data = dat$survey_samples,
+        model = NA
+      )
+    }
+
+    # fit_vb() throws on non-convergence; catch that here so one
+    # non-converging species/sex doesn't kill the whole build.
+    safe_fit_vb <- function(...) {
+      tryCatch(fit_vb(...), error = function(e) empty_vb_fit())
+    }
+
+    fit_growth <- function(tmb_init) {
+      sink(tempfile())
+      on.exit(sink())
+      list(
+        m = safe_fit_vb(dat$survey_samples,
+          sex = "male", method = "tmb",
+          too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
+          tmb_inits = tmb_init
+        ),
+        f = safe_fit_vb(dat$survey_samples,
+          sex = "female", method = "tmb",
+          too_high_quantile = 1, check_convergence_tmb = check_convergence_tmb,
+          tmb_inits = tmb_init
+        )
+      )
+    }
+
+    vb_failed <- function(fit) {
+      any(is.na(unlist(fit$m$pars))) || any(is.na(unlist(fit$f$pars)))
+    }
+
+    # Regional (shapefile-subset) reports only: if the fit fails to converge
+    # with the defaults above, retry once using the coastwide main report's
+    # own growth-fit parameters as starting values (requires main report built
+    # first)
+    has_coastwide_cache <- !is.null(shapefile) && file.exists(growth_pars_cache)
+    vb <- fit_growth(tmb_init)
+    if (has_coastwide_cache && vb_failed(vb)) {
+      coastwide_pars <- readRDS(growth_pars_cache)
+      k <- mean(c(coastwide_pars$m$k, coastwide_pars$f$k))
+      linf <- mean(c(coastwide_pars$m$linf, coastwide_pars$f$linf))
+      t0 <- mean(c(coastwide_pars$m$t0, coastwide_pars$f$t0))
+      if (all(is.finite(c(k, linf, t0)))) {
+        vb <- fit_growth(list(k = k, linf = linf, log_sigma = log(0.1), t0 = t0))
+      }
+    }
+    # if it still hasn't converged at this point, `vb` is an empty fit
+    # (NA pars) -- plot_vb() already handles that gracefully, so we keep going
+    if (vb_failed(vb)) {
+      failed_sexes <- c(
+        if (any(is.na(unlist(vb$m$pars)))) "male",
+        if (any(is.na(unlist(vb$f$pars)))) "female"
+      )
+      cli::cli_alert_warning(
+        "VB growth model did not converge for {spp} ({paste(failed_sexes, collapse = ', ')}); leaving growth panel empty."
+      )
+    }
+
+    # cache this fit's parameters for regional reports to use as a fallback,
+    # only when this *is* the coastwide fit (no shapefile subset):
+    if (is.null(shapefile)) {
+      dir.create(dirname(growth_pars_cache), recursive = TRUE, showWarnings = FALSE)
+      saveRDS(list(m = vb$m$pars, f = vb$f$pars), growth_pars_cache)
+    }
 
     # FIXME: these look way off; omitting them for now
     if (identical(spp, "shortspine thornyhead")) {
