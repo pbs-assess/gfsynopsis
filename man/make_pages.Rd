@@ -40,7 +40,8 @@ make_pages(
   index_ggplot,
   spatiotemporal_cpue = FALSE,
   raw_cpue = NULL,
-  shapefile = NULL
+  shapefile = NULL,
+  return_data = FALSE
 )
 }
 \arguments{
@@ -103,6 +104,8 @@ x-axis breaks and labels.}
 
 \item{shapefile}{An optional shapefile used to subset or highlight a region
 of interest.}
+
+\item{return_data}{Return the data used to make the plots? Defaults to \code{FALSE}.}
 }
 \value{
 This function generates 2 png files with all of the plots for a given species.
