@@ -151,8 +151,8 @@ Order: Squaliformes, Family: Somniosidae,
 Order: Squaliformes, Family: Squalidae,
 [FishBase](http://www.fishbase.org/summary/Squalus-suckleyi), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=299224)\
-Last Research Documents: @galluci2011dogfish, @anderson2025dogfish\
-Last Science Advisory Report: @dfo2010dogfish\
+Last Research Document: @anderson2025dogfish\
+Last Science Advisory Report: @dfo2025dogfish\
 COSEWIC Status Report: @cosewic2011dogfish\
 COSEWIC Status: Special Concern, SARA Status: No Status
 
@@ -340,6 +340,132 @@ Order: Chimaeriformes, Family: Chimaeridae,
 
 \clearpage
 
+## American Shad {#sec:american-shad}
+
+\emph{Alosa sapidissima} (095)\
+Order: Clupeiformes, Family: Alosidae,
+[FishBase](http://www.fishbase.org/summary/Alosa-sapidissima), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158670)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/american-shad-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/american-shad-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Pacific Herring {#sec:pacific-herring}
+
+\emph{Clupea pallasii} (096)\
+Order: Clupeiformes, Family: Clupeidae,
+[FishBase](http://www.fishbase.org/summary/Clupea-pallasii), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=151159)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pacific-herring-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pacific-herring-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Pink Salmon {#sec:pink-salmon}
+
+\emph{Oncorhynchus gorbuscha} (108)\
+Order: Salmoniformes, Family: Salmonidae,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-gorbuscha), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127182)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pink-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/pink-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Chum Salmon {#sec:chum-salmon}
+
+\emph{Oncorhynchus keta} (112)\
+Order: Salmoniformes, Family: Salmonidae,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-keta), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127183)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chum-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chum-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Coho Salmon {#sec:coho-salmon}
+
+\emph{Oncorhynchus kisutch} (115)\
+Order: Salmoniformes, Family: Salmonidae,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-kisutch), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127184)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/coho-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/coho-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Sockeye Salmon {#sec:sockeye-salmon}
+
+\emph{Oncorhynchus nerka} (118)\
+Order: Salmoniformes, Family: Salmonidae,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-nerka), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254569)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/sockeye-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/sockeye-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
+## Chinook Salmon {#sec:chinook-salmon}
+
+\emph{Oncorhynchus tshawytscha} (124)\
+Order: Salmoniformes, Family: Salmonidae,
+[FishBase](http://www.fishbase.org/summary/Oncorhynchus-tshawytscha), 
+[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158075)\
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chinook-salmon-1.png}
+\end{figure}
+\clearpage
+\begin{figure}[b!]
+\includegraphics[width=6.4in]{figure-pages/chinook-salmon-2.png}
+\end{figure}
+
+
+
+\clearpage
+
 ## Whitebait Smelt {#sec:whitebait-smelt}
 
 \emph{Allosmerus elongatus} (138)\
@@ -426,7 +552,7 @@ Last Science Response: @dfo2021pcod, @dfo2024pcod\
 Order: Gadiformes, Family: Merlucciidae,
 [FishBase](http://www.fishbase.org/summary/Merluccius-productus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272458)\
-Last joint Canada-US stock assessment: @johnson2025hake\
+Last joint Canada-US stock assessment: @edwards2026hake\
 Note that Pacific Hake undergoes a directed joint
       Canada-US coastwide
  acoustic survey and annual assessment, which are not
@@ -869,8 +995,7 @@ Order: Scombriformes, Family: Icosteidae,
 \emph{Sebastes aleutianus/melanostictus} (394)\
 Order: Perciformes, Family: Sebastidae,
 [FishBase 1](http://www.fishbase.org/summary/Sebastes-aleutianus),
-[FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus), 
-[WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=unknown)\
+[FishBase 2](http://www.fishbase.org/summary/Sebastes-melanostictus)\
 Last Research Document: @starr2020rougheye\
 Last Science Advisory Report: @dfo2020rougheye\
 Species at Risk Act Management Plan Series: @dfo2012longspineidiots\
@@ -972,7 +1097,7 @@ Last Science Advisory Report: @dfo1999shortraker\
 Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-brevispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274778)\
-Last Research Document: @starr2016silvergray\
+Last Research Document: @starr2025silvergray\
 Last Science Advisory Report: @dfo2014silvergray\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/silvergray-rockfish-1.png}
@@ -1125,7 +1250,7 @@ Last Science Advisory Report: @dfo2019widow\
 Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-flavidus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274795)\
-Last Science Advisory Report: @dfo2015yellowtail\
+Last Science Advisory Report: @dfo2025yellowtail\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/yellowtail-rockfish-1.png}
 \end{figure}
@@ -1198,7 +1323,7 @@ Order: Perciformes, Family: Sebastidae,
 Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-maliger), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274815)\
-Last Research Documents: @yamanaka2011quillback, @huynh2024quillback_inside\
+Last Research Documents: @huynh2024quillback_inside, @huynh2024quillback_outside\
 Last Science Advisory Reports: @dfo2023quillback_inside, @dfo2023quillback_outside\
 COSEWIC Status Report: @cosewic2009quillback\
 COSEWIC Status: Threatened, SARA Status: No Status
@@ -1563,7 +1688,7 @@ Order: Perciformes, Family: Anoplopomatidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=159463)\
 Last Research Document: @johnson2024sablefish\
 Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefishom\
-Last Science Response: @dfo2024sablefish\
+Last Science Response: @dfo2025sablefish\
 The annual sablefish trap survey is not included in this report. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sablefish-1.png}
@@ -1619,8 +1744,8 @@ Order: Perciformes, Family: Hexagrammidae,
 Order: Perciformes, Family: Hexagrammidae,
 [FishBase](http://www.fishbase.org/summary/Ophiodon-elongatus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=240745)\
-Last Research Documents: @king2011lingOutside, @holt2016lingSOG\
-Last Science Advisory Reports: @dfo2011lingOutside, @dfo2015lingSOG\
+Last Research Documents: @carruthers2024lingcodoutside, @holt2016lingSOG\
+Last Science Advisory Reports: @dfo2025lingOutside, @dfo2015lingSOG\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/lingcod-1.png}
 \end{figure}
@@ -1672,7 +1797,7 @@ Order: Perciformes, Family: Cottidae,
 ## Red Irish Lord {#sec:red-irish-lord}
 
 \emph{Hemilepidotus hemilepidotus} (502)\
-Order: Perciformes, Family: Cottidae,
+Order: Perciformes, Family: Hemilepidotidae,
 [FishBase](http://www.fishbase.org/summary/Hemilepidotus-hemilepidotus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254521)\
 \begin{figure}[b!]
@@ -1945,7 +2070,7 @@ Order: Pleuronectiformes, Family: Paralichthyidae,
 Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Atheresthes-stomias), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=279792)\
-Last Research Document: @grandin2017arrowtooth\
+Last Research Document: @grandin2026arrowtooth\
 Last Science Advisory Report: @dfo2023arrowtooth\
 Last Science Response: @dfo2025arrowtooth\
 \begin{figure}[b!]
@@ -1984,7 +2109,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Eopsetta-jordani), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=280690)\
-Last Research Document: @starr2009petrale\
+Last Research Document: @mazur2026petrale\
 Last Science Advisory Report: @dfo2025petrale\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/petrale-sole-1.png}
@@ -2041,7 +2166,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
-Most Recent Stock Assessment: @iphc2025\
+Most Recent Stock Assessment: @iphc2026\
 Note that Pacific Halibut undergoes thorough assessment by the
       International Pacific
  Halibut Commission based on [the annual
@@ -2122,6 +2247,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Microstomus-pacificus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274294)\
+Last Research Document: @fisch2025dover\
 Last Science Advisory Report: @dfo1999dover\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/dover-sole-1.png}
