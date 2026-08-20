@@ -1,12 +1,12 @@
 ---
 title: |
-  "A data synopsis for Haida Gwaii Groundfish: 2024"
-french_title: "Une synthèse des données pour les poissons de fond du Haida Gwaii: 2024"
+  "A data synopsis for Haida Gwaii Groundfish: 2025"
+french_title: "Une synthèse des données pour les poissons de fond du Haida Gwaii: 2025"
 year: 2025
 report_number: 000
 author: |
-  Jillian C. Dunic and Sean C. Anderson
-author_list: "Dunic, J.C. and Anderson, S.C."
+  Jillian C. Dunic and Daniel L. Curtis and Sean C. Anderson
+author_list: "Dunic, J.C. and Curtis, D.L. and Anderson, S.C."
 region: Pacific Region
 french_region: Région du Pacifique
 isbn: "ISBN GOES HERE"
