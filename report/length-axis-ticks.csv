@@ -6,7 +6,7 @@ brown cat shark,038,"seq(20, 70, 20)",NA
 tope shark,040,"seq(140, 200, 20)",NA
 blue shark,041,"seq(80, 200, 40)","c('', seq(120, 200, 40))"
 pacific sleeper shark,043,NA,NA
-north pacific spiny dogfish,044,NA,NA
+north pacific spiny dogfish,044,"seq(0, 100, 25)","seq(0,100,25)"
 aleutian skate,052,NA,NA
 abyssal skate,054,NA,NA
 broad skate,055,NA,NA
@@ -116,7 +116,7 @@ shortbelly rockfish,423,NA,NA
 popeye,250,"seq(0, 16, 4)","c('', seq(4, 16, 4))"
 eulachon,148,"seq(6, 20, 4)","seq(6, 20, 4)"
 american shad,095,NA,NA
-pacific herring,096,NA,NA
+pacific herring,096,"seq(16, 26, 2)","c(seq(16,24,2),'')"
 herrings,094,NA,NA
 chinook salmon,124,NA,NA
 pink salmon,108,NA,NA
