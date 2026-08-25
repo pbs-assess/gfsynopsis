@@ -1,5 +1,8 @@
 # Settings ------------------------------------------------------------
 
+# return_data <- TRUE
+return_data <- FALSE
+
 dc <- here::here("report", "data-cache-2026-07") # cache folder location
 tag <- "main" # e.g., main or haida (affects cache folder name)
 
