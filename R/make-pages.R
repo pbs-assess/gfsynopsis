@@ -701,7 +701,7 @@ make_pages <- function(
   # Maturity by month: ---------------------------------------------------------
   progress_fn("Maturity by month")
   dat_tidy_maturity_months <- tidy_maturity_months(dat$combined_samples, french = french)
-  if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) == 0L) {
+  if (nrow(dplyr::filter(dat_tidy_maturity_months, !is.na(maturity))) < 5) {
     g_maturity_month <- local({
       ggplot() +
         theme_pbs() +
