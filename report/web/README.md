@@ -49,8 +49,8 @@ environment variables shown by `./report/web/deploy.sh --help`.
 
 ## Building and previewing locally
 
-From the repository root, build the web data and copy the current synopsis
-PNGs with:
+From the repository root, build the web data and copy the current English and
+French synopsis PNGs with:
 
 ```sh
 Rscript report/R/10-build-web.R
@@ -58,7 +58,11 @@ Rscript report/R/10-build-web.R
 
 The build validates the species metadata and images before replacing
 `report/web/generated/`, then copies the HTML, CSS, JavaScript, and Cloudflare
-headers into that directory.
+headers into that directory. English figures are written beneath `figures/en/`
+and French figures beneath `figures/fr/`; both use the same species filenames.
+The language toggle changes the interface, species common names, notes, and
+figure images, and records French selection in the URL as `lang=fr`.
+Bibliography records remain in English pending dedicated French references.
 
 Preview the generated site locally with:
 
@@ -81,7 +85,7 @@ species and the exceptional species links below:
 - `?species=sablefish`
 
 Confirm that refresh and browser back/forward navigation preserve the selected
-species, only its two figure files are requested, and the browser console has
+species and figure language, only its two figure files are requested, and the browser console has
 no errors. Check a wide desktop viewport as well as widths near 768 px and
 360 px; neither the controls, metadata, nor figures should cause horizontal
 scrolling. Test filtering and selection in the labelled species combobox with

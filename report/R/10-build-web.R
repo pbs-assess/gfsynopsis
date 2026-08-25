@@ -3,9 +3,11 @@
 build_web_species_pages <- function(
     spp,
     figure_dir,
+    french_figure_dir = here::here(
+      "report", "tech-report-fr-main", "figure-pages"
+    ),
     web_dir = here::here("report", "web"),
     edition = NA_character_,
-    french = FALSE,
     ext = "png",
     bibliography_file = here::here(
       "report", "tech-report-main", "bib", "spp-refs.bib"
@@ -13,13 +15,14 @@ build_web_species_pages <- function(
     legacy_bibliography_file = here::here(
       "report", "report-rmd", "bib", "spp-refs.bib"
     )) {
-  if (french) {
-    stop("The web build currently supports the English report only.", call. = FALSE)
-  }
-
   pages <- gfsynopsis:::species_pages_data(
     spp,
-    french = french,
+    french = FALSE,
+    ext = ext
+  )
+  french_pages <- gfsynopsis:::species_pages_data(
+    spp,
+    french = TRUE,
     ext = ext
   )
   if (!file.exists(bibliography_file)) {
@@ -33,6 +36,28 @@ build_web_species_pages <- function(
 
   scalar_value <- function(x) {
     length(x) == 1L && !is.na(x) && nzchar(trimws(x))
+  }
+  french_sentence_case <- function(x) {
+    x <- tolower(x)
+    proper_names <- c(
+      "pacifique" = "Pacifique",
+      "alaska" = "Alaska",
+      "amérique" = "Amérique",
+      "chili" = "Chili",
+      "californie" = "Californie",
+      "japon" = "Japon",
+      "goode" = "Goode",
+      "blackgill" = "Blackgill",
+      "deacon" = "Deacon",
+      "c-o" = "C-O"
+    )
+    for (name in names(proper_names)) {
+      x <- gsub(name, proper_names[[name]], x, fixed = TRUE)
+    }
+    x <- gsub("Pacifique nord", "Pacifique Nord", x, fixed = TRUE)
+    x <- gsub("Pacifique sud", "Pacifique Sud", x, fixed = TRUE)
+    substr(x, 1L, 1L) <- toupper(substr(x, 1L, 1L))
+    x
   }
   required_fields <- c(
     "slug", "common_name", "scientific_name", "species_code", "order", "family"
@@ -52,6 +77,18 @@ build_web_species_pages <- function(
       stop("Expected exactly two images for ", page$slug, call. = FALSE)
     }
   }
+  french_common_names <- vapply(
+    french_pages, `[[`, character(1), "common_name"
+  )
+  if (any(is.na(french_common_names) | !nzchar(trimws(french_common_names)))) {
+    stop("Missing French common name in web metadata.", call. = FALSE)
+  }
+  if (!identical(
+    vapply(pages, `[[`, character(1), "slug"),
+    vapply(french_pages, `[[`, character(1), "slug")
+  )) {
+    stop("English and French species pages do not align.", call. = FALSE)
+  }
 
   slugs <- vapply(pages, `[[`, character(1), "slug")
   species_codes <- vapply(pages, `[[`, character(1), "species_code")
@@ -66,14 +103,21 @@ build_web_species_pages <- function(
     )
   }
 
-  source_images <- unlist(lapply(
+  english_source_images <- unlist(lapply(
     pages,
     function(page) file.path(figure_dir, basename(page$images))
   ), use.names = FALSE)
-  if (anyDuplicated(source_images)) {
+  french_source_images <- unlist(lapply(
+    pages,
+    function(page) file.path(french_figure_dir, basename(page$images))
+  ), use.names = FALSE)
+  if (anyDuplicated(english_source_images) || anyDuplicated(french_source_images)) {
     stop("The same image is assigned to more than one species.", call. = FALSE)
   }
-  missing_images <- source_images[!file.exists(source_images)]
+  missing_images <- c(
+    english_source_images[!file.exists(english_source_images)],
+    french_source_images[!file.exists(french_source_images)]
+  )
   if (length(missing_images)) {
     stop(
       "Missing species image: ", missing_images[[1L]],
@@ -85,7 +129,7 @@ build_web_species_pages <- function(
       call. = FALSE
     )
   }
-  image_sizes <- file.info(source_images)$size
+  image_sizes <- file.info(c(english_source_images, french_source_images))$size
   if (any(is.na(image_sizes) | image_sizes <= 0)) {
     stop("One or more species images are empty or unreadable.", call. = FALSE)
   }
@@ -105,7 +149,7 @@ build_web_species_pages <- function(
   optional_value <- function(x) {
     if (!scalar_value(x)) NA_character_ else x
   }
-  web_pages <- lapply(pages, function(page) {
+  web_pages <- Map(pages, french_pages, f = function(page, french_page) {
     page$links <- lapply(page$links, function(link) {
       link$url <- sub("^http://", "https://", link$url)
       link
@@ -121,13 +165,27 @@ build_web_species_pages <- function(
       bibliography = bibliography,
       urls = reference_urls
     )
+    french_notes <- gfsynopsis:::web_resolve_note_citations(
+      french_page$notes,
+      reference_records = page$references,
+      bibliography = bibliography,
+      urls = reference_urls
+    )
     page$references <- lapply(page$references, function(reference) {
       reference$key <- NULL
       reference
     })
     page$cosewic_status <- optional_value(page$cosewic_status)
     page$sara_status <- optional_value(page$sara_status)
-    page$images <- paste0("figures/", basename(page$images))
+    image_names <- basename(page$images)
+    page$images <- list(
+      en = file.path("figures", "en", image_names),
+      fr = file.path("figures", "fr", image_names)
+    )
+    page$translations <- list(fr = list(
+      common_name = french_sentence_case(french_page$common_name),
+      notes = french_notes
+    ))
     page
   })
 
@@ -144,8 +202,10 @@ build_web_species_pages <- function(
   }
 
   if (dir.exists(output_dir)) unlink(output_dir, recursive = TRUE)
-  figure_output_dir <- file.path(output_dir, "figures")
-  dir.create(figure_output_dir, recursive = TRUE)
+  english_figure_output_dir <- file.path(output_dir, "figures", "en")
+  french_figure_output_dir <- file.path(output_dir, "figures", "fr")
+  dir.create(english_figure_output_dir, recursive = TRUE)
+  dir.create(french_figure_output_dir, recursive = TRUE)
 
   frontend_files <- c("index.html", "app.css", "app.js", "_headers")
   frontend_files <- file.path(web_dir, frontend_files)
@@ -153,7 +213,8 @@ build_web_species_pages <- function(
   if (length(frontend_files) && !all(file.copy(frontend_files, output_dir))) {
     stop("Could not copy one or more frontend files.", call. = FALSE)
   }
-  if (!all(file.copy(source_images, figure_output_dir))) {
+  if (!all(file.copy(english_source_images, english_figure_output_dir)) ||
+      !all(file.copy(french_source_images, french_figure_output_dir))) {
     stop("Could not copy one or more species images.", call. = FALSE)
   }
 
@@ -161,7 +222,7 @@ build_web_species_pages <- function(
     metadata = list(
       generated_at = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
       edition = optional_value(edition),
-      language = "en",
+      languages = c("en", "fr"),
       species_count = length(web_pages)
     ),
     species = web_pages
@@ -188,7 +249,8 @@ build_web_species_pages <- function(
   size_mb <- sum(image_sizes) / 1024^2
   message(
     "Built web data: ", length(web_pages), " species, ",
-    length(source_images), " images, ", sprintf("%.1f MB", size_mb), "\n",
+    length(english_source_images), " English and ", length(french_source_images),
+    " French images, ", sprintf("%.1f MB", size_mb), "\n",
     "Output: ", output_dir
   )
   invisible(output_dir)
@@ -232,13 +294,11 @@ web_edition <- if (exists("final_year_comm", inherits = FALSE)) {
 } else {
   sub("^.*-([0-9]{4})$", "\\1", basename(here::here()))
 }
-web_french <- if (exists("french", inherits = FALSE)) french else FALSE
 web_ext <- if (exists("ext", inherits = FALSE)) ext else "png"
 
 build_web_species_pages(
   spp = spp,
   figure_dir = web_figure_dir,
   edition = web_edition,
-  french = web_french,
   ext = web_ext
 )

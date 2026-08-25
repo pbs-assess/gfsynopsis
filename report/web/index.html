@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive species pages from the British Columbia groundfish data synopsis.">
+  <title>BC Groundfish Data Synopsis</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#species-content" data-i18n="skipLink">Skip to species synopsis</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="eyebrow" data-i18n="eyebrow">Data synopsis</p>
+      <h1 data-i18n="siteTitle">British Columbia groundfish</h1>
+    </div>
+  </header>
+
+  <div class="species-toolbar" aria-label="Species navigation" data-i18n-aria-label="speciesNavigation">
+    <div class="species-toolbar__inner">
+      <div class="species-picker">
+        <label for="species-search" data-i18n="species">Species</label>
+        <div class="species-combobox">
+          <input
+            id="species-search"
+            class="species-search"
+            data-testid="species-select"
+            type="search"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-controls="species-options"
+            aria-expanded="false"
+            autocomplete="off"
+            placeholder="Search species…"
+            data-i18n-placeholder="searchSpecies"
+            disabled
+          >
+          <ul id="species-options" class="species-options" role="listbox" hidden></ul>
+          <span id="species-match-count" class="visually-hidden" aria-live="polite"></span>
+        </div>
+      </div>
+      <div class="species-nav" aria-label="Previous or next species" data-i18n-aria-label="previousOrNextSpecies">
+        <button id="previous-species" type="button" disabled>
+          <span aria-hidden="true">←</span> <span data-i18n="previous">Previous</span>
+        </button>
+        <button id="next-species" type="button" disabled>
+          <span data-i18n="next">Next</span> <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <div class="figure-language" role="group" aria-label="Figure language" data-i18n-aria-label="figureLanguage">
+        <span class="figure-language__label" data-i18n="figures">Figures</span>
+        <button id="figures-english" type="button" aria-pressed="true" disabled data-i18n="english">English</button>
+        <button id="figures-french" type="button" aria-pressed="false" disabled>Français</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <p id="app-status" class="app-message" role="status" aria-live="polite">
+      <span data-i18n="loadingSpeciesData">Loading species data…</span>
+    </p>
+    <p id="app-error" class="app-message app-message--error" role="alert" hidden></p>
+
+    <article id="species-content" tabindex="-1" hidden>
+      <header class="species-header">
+        <div>
+          <p id="species-code" class="eyebrow"></p>
+          <h2 id="common-name"></h2>
+          <p id="scientific-name" class="scientific-name"></p>
+        </div>
+        <div id="status-badges" class="status-badges" aria-label="Conservation status" data-i18n-aria-label="conservationStatus"></div>
+      </header>
+
+      <section class="metadata-panel" aria-labelledby="details-heading">
+        <h3 id="details-heading" class="visually-hidden" data-i18n="speciesDetails">Species details</h3>
+        <dl class="taxonomy-list">
+          <div>
+            <dt data-i18n="order">Order</dt>
+            <dd id="species-order"></dd>
+          </div>
+          <div>
+            <dt data-i18n="family">Family</dt>
+            <dd id="species-family"></dd>
+          </div>
+        </dl>
+        <nav id="external-links" class="external-links" aria-label="External species records" data-i18n-aria-label="externalSpeciesRecords"></nav>
+      </section>
+
+      <section id="references-section" class="text-section" aria-labelledby="references-heading" hidden>
+        <h3 id="references-heading" data-i18n="reportsAndReferences">Reports and references</h3>
+        <ul id="references-list"></ul>
+      </section>
+
+      <section id="notes-section" class="text-section" aria-labelledby="notes-heading" hidden>
+        <h3 id="notes-heading" data-i18n="notes">Notes</h3>
+        <div id="notes-list"></div>
+      </section>
+
+      <section class="figures-section" aria-labelledby="figures-heading">
+        <div class="section-heading">
+          <div>
+            <h3 id="figures-heading" class="visually-hidden" data-i18n="synopsisFigures">Synopsis figures</h3>
+          </div>
+          <p data-i18n="openFigure">Open either image to view it at full resolution.</p>
+        </div>
+        <div id="figures" class="figures"></div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__top">
+      <p>
+        <span data-i18n="footerSynopsis">British Columbia groundfish data synopsis</span> ·
+        <a href="https://github.com/pbs-assess/gfsynopsis" target="_blank" rel="noopener noreferrer" data-i18n="sourceCode">Source code ↗</a>
+      </p>
+      <p id="build-details"></p>
+    </div>
+    <div class="site-footer__citation">
+      <p class="site-footer__citation-heading" data-i18n="webVersionOf">This is a web version of:</p>
+      <p>
+        <cite>Anderson, S.C. and Dunic, J.C. 2026. A data synopsis for British Columbia groundfish: 2025 data update. Can. Tech. Rep. Fish. Aquat. Sci. 3718: viii + 275 p.</cite>
+        <span class="site-footer__doi">https://doi.org/10.60825/TODO</span>
+      </p>
+      <p data-i18n="citeTechnicalReport">Please cite the Technical Report if referencing material.</p>
+    </div>
+  </footer>
+</body>
+</html>

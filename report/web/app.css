@@ -207,7 +207,23 @@ main,
   gap: 0.45rem;
 }
 
-.species-nav button {
+.figure-language {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.figure-language__label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.species-nav button,
+.figure-language button {
   min-height: 2.75rem;
   padding: 0.45rem 0.8rem;
   border: 1px solid #a8b8be;
@@ -218,14 +234,22 @@ main,
   font-weight: 650;
 }
 
-.species-nav button:hover:not(:disabled) {
+.species-nav button:hover:not(:disabled),
+.figure-language button:hover:not(:disabled) {
   border-color: var(--ocean);
   background: var(--ocean-pale);
 }
 
-.species-nav button:disabled {
+.species-nav button:disabled,
+.figure-language button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+.figure-language button[aria-pressed="true"] {
+  border-color: var(--ocean-dark);
+  background: var(--ocean-dark);
+  color: #fff;
 }
 
 main {
@@ -599,6 +623,10 @@ main {
   .species-nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .figure-language {
+    justify-content: flex-end;
   }
 
   .species-header {

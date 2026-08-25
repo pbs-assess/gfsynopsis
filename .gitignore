@@ -13,6 +13,7 @@ marmap_coord_-133.35505;52.20215;-129.349766;55.1566_res_1.csv
 *.aux
 *.log
 *html*
+!report/web/index.html
 *chunk*
 *data-cache*
 resdoc/cache/*
