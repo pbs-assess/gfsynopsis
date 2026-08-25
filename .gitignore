@@ -119,3 +119,5 @@ report/web/generated/
 .wrangler/cache/pages.json
 .wrangler/cache/wrangler-account.json
 report/web/PLAN.md
+report/tech-report-main/gfsynopsis-2025-data.tex
+report/tech-report-main/survey-length-types.tex
