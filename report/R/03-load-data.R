@@ -13,6 +13,7 @@ herrings_file <- file.path(dc, "herrings.rds")
 if (file.exists(pacific_herring_file) && file.exists(herrings_file)) {
   pacific_herring <- readRDS(pacific_herring_file)
   herrings <- readRDS(herrings_file)
+  pacific_herring_updated <- FALSE
 
   for (element in c("catch", "cpue_spatial", "cpue_spatial_ll")) {
     herrings_element <- herrings[[element]]
@@ -24,15 +25,26 @@ if (file.exists(pacific_herring_file) && file.exists(herrings_file)) {
       herrings_element$species_code <- "096"
     }
 
-    # distinct() makes this safe to run again if the cache has already been
-    # combined by an earlier run.
-    pacific_herring[[element]] <- dplyr::bind_rows(
-      pacific_herring[[element]], herrings_element
-    ) |>
-      dplyr::distinct()
+    # Avoid rewriting the shared cache when it already contains all of the
+    # herring rows; this file is read by every figure-building worker.
+    missing_herring <- dplyr::anti_join(
+      herrings_element, pacific_herring[[element]], by = names(herrings_element)
+    )
+
+    if (nrow(missing_herring)) {
+      # distinct() makes this safe to run again if the cache has already been
+      # partially combined by an earlier run.
+      pacific_herring[[element]] <- dplyr::bind_rows(
+        pacific_herring[[element]], herrings_element
+      ) |>
+        dplyr::distinct()
+      pacific_herring_updated <- TRUE
+    }
   }
 
-  saveRDS(pacific_herring, pacific_herring_file)
+  if (pacific_herring_updated) {
+    saveRDS(pacific_herring, pacific_herring_file)
+  }
 }
 
 excluded_report_spp <- "herrings"
