@@ -28,9 +28,9 @@ shortfin eelpout,242,NA,NA
 black eelpout,243,NA,NA
 wattled eelpout,244,NA,NA
 blackbelly eelpout,245,"seq(10, 30, 5)","c('', seq(15, 30, 5))"
-pacific grenadier,251,"seq(20, 60, 20)","seq(20, 60, 20)"
+pacific grenadier,251,"seq(0,30,10)","c(seq(0,20,10),'')"
 threadfin grenadier,254,NA,NA
-giant grenadier,256,NA,NA
+giant grenadier,256,"seq(0, 60, 10)","c('',seq(10,60,10))"
 california grenadier,257,NA,NA
 shiner perch,304,NA,NA
 pearly prickleback,331,NA,NA
@@ -113,7 +113,7 @@ c-o sole,633,NA,NA
 curlfin sole,635,NA,NA
 sand sole,636,NA,NA
 shortbelly rockfish,423,NA,NA
-popeye,250,NA,NA
+popeye,250,"seq(0, 16, 4)","c('', seq(4, 16, 4))"
 eulachon,148,"seq(6, 20, 4)","seq(6, 20, 4)"
 american shad,095,NA,NA
 pacific herring,096,NA,NA
