@@ -27,11 +27,8 @@ if (length(args)) {
   interactive <- TRUE
 }
 
-# ii <- 21
+# ii <- 39
 # interactive <- FALSE
-
-# return_data <- TRUE
-return_data <- FALSE
 
 library(here)
 source(here("report/R/01-settings.R"))
@@ -45,6 +42,7 @@ source(here("report/R/06-build-figure-pages.R"))
 # source(here("report/R/08-build-Rmd.R"))
 # source(here("report/R/09-optimize-png.R"))
 # source(here("report/R/10-build-web.R"))
+# source(here("report/R/11-build-survey-length-types-table.R"))
 
 if (FALSE) {
   setwd(here("report/tech-report-main/"))
