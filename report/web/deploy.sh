@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 project_name="${CLOUDFLARE_PAGES_PROJECT:-gfsynopsis}"
 deploy_branch="${CLOUDFLARE_PAGES_BRANCH:-main}"
-wrangler_version="${WRANGLER_VERSION:-4.113.0}"
+wrangler_version="${WRANGLER_VERSION:-4.126.0}"
 assume_yes=false
 dry_run=false
 
@@ -22,7 +22,7 @@ Optional environment variables:
   CLOUDFLARE_PAGES_PROJECT  Pages project name (default: gfsynopsis)
   CLOUDFLARE_PAGES_BRANCH   Deployment branch (default: main)
   CLOUDFLARE_ACCOUNT_ID     Cloudflare account to use, if you have more than one
-  WRANGLER_VERSION          Wrangler version (default: 4.113.0)
+  WRANGLER_VERSION          Wrangler version (default: 4.126.0)
 EOF
 }
 

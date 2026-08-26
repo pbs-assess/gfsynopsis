@@ -23,7 +23,7 @@ script.
 Sign in once on a new computer with the pinned Wrangler version:
 
 ```sh
-npx --yes wrangler@4.113.0 login
+npx --yes wrangler@4.126.0 login
 ```
 
 Then build, validate, review the account shown by Wrangler, and confirm the
@@ -48,6 +48,16 @@ project, branch, and pinned Wrangler version can be overridden with the
 environment variables shown by `./report/web/deploy.sh --help`.
 
 ## Building and previewing locally
+
+From `report/web/`, run the following to build the site, start a local server,
+and open it in the default browser:
+
+```sh
+make run
+```
+
+Use `make deploy` for the existing interactive Cloudflare deployment flow, or
+`make deploy-dry-run` to build and validate without deploying.
 
 From the repository root, build the web data and copy the current English and
 French synopsis PNGs with:

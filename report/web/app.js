@@ -1,6 +1,6 @@
 "use strict";
 
-const DEFAULT_SPECIES = "pacific-cod";
+const DEFAULT_SPECIES = "lingcod";
 const DEFAULT_LANGUAGE = "en";
 const BASE_TITLE = "BC Groundfish Data Synopsis";
 const REFERENCE_LABELS = {
@@ -21,7 +21,6 @@ const UI_TEXT = {
     previous: "Previous",
     next: "Next",
     figureLanguage: "Page language",
-    figures: "Pages",
     english: "English",
     loadingSpeciesData: "Loading species data…",
     conservationStatus: "Conservation status",
@@ -36,7 +35,8 @@ const UI_TEXT = {
     footerSynopsis: "British Columbia groundfish data synopsis",
     sourceCode: "Source code ↗",
     webVersionOf: "This is a web version of:",
-    citeTechnicalReport: "Please cite the Technical Report if referencing material.",
+    citeTechnicalReportPrefix: "Please cite most recent Technical Report and ",
+    sentencePeriod: ".",
     speciesCode: (code) => `Species code ${code}`,
     cosewicStatus: "COSEWIC status",
     saraStatus: "SARA status",
@@ -66,7 +66,6 @@ const UI_TEXT = {
     previous: "Précédente",
     next: "Suivante",
     figureLanguage: "Langue de la page",
-    figures: "Pages",
     english: "Anglais",
     loadingSpeciesData: "Chargement des données sur les espèces…",
     conservationStatus: "État de conservation",
@@ -81,7 +80,8 @@ const UI_TEXT = {
     footerSynopsis: "Synopsis des données sur les poissons de fond de la Colombie-Britannique",
     sourceCode: "Code source ↗",
     webVersionOf: "Il s’agit d’une version Web de :",
-    citeTechnicalReport: "Veuillez citer le rapport technique lorsque vous faites référence à ce contenu.",
+    citeTechnicalReportPrefix: "Veuillez citer le rapport technique le plus récent et ",
+    sentencePeriod: ".",
     speciesCode: (code) => `Code d’espèce ${code}`,
     cosewicStatus: "Statut du COSEPAC",
     saraStatus: "Statut de la LEP",

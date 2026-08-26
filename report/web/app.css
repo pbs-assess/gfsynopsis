@@ -1,17 +1,17 @@
 :root {
-  --ink: #17252d;
-  --muted: #53656e;
-  --line: #d8e0e3;
+  --ink: #1b3c53;
+  --muted: #456882;
+  --line: #e3e3e3;
   --surface: #ffffff;
-  --surface-muted: #f2f6f7;
-  --ocean: #075b71;
-  --ocean-dark: #064455;
-  --ocean-pale: #dceff3;
-  --status: #f3e7c8;
-  --status-border: #d8bd77;
-  --danger: #a42a2a;
-  --danger-pale: #fff0f0;
-  --shadow: 0 10px 30px rgb(21 49 59 / 9%);
+  --surface-muted: #eeeeee;
+  --ocean: #234c6a;
+  --ocean-dark: #1b3c53;
+  --ocean-pale: rgb(69 104 130 / 16%);
+  --status: #e3e3e3;
+  --status-border: #456882;
+  --danger: #1b3c53;
+  --danger-pale: #e3e3e3;
+  --shadow: 0 10px 30px rgb(27 60 83 / 9%);
   --content-width: 1500px;
   color-scheme: light;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -55,7 +55,7 @@ select:focus-visible,
 input:focus-visible,
 a:focus-visible,
 [tabindex="-1"]:focus-visible {
-  outline: 3px solid #ee9b36;
+  outline: 3px solid var(--ocean);
   outline-offset: 3px;
 }
 
@@ -65,7 +65,7 @@ a:focus-visible,
   top: 0.75rem;
   left: 0.75rem;
   padding: 0.65rem 0.9rem;
-  border-radius: 0.35rem;
+  border-radius: 0;
   background: var(--ink);
   color: #fff;
   transform: translateY(-160%);
@@ -76,10 +76,8 @@ a:focus-visible,
 }
 
 .site-header {
-  border-bottom: 1px solid rgb(255 255 255 / 18%);
-  background:
-    radial-gradient(circle at 82% 20%, rgb(85 181 194 / 28%), transparent 28rem),
-    linear-gradient(125deg, #063e50, #087085);
+  border-bottom: 1px solid var(--ocean-dark);
+  background: var(--ocean);
   color: #fff;
 }
 
@@ -107,7 +105,7 @@ main,
 .site-header h1 {
   max-width: 18ch;
   margin: 0;
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(1.9rem, 4.5vw, 4rem);
   font-weight: 720;
   letter-spacing: -0.045em;
   line-height: 0.98;
@@ -119,7 +117,7 @@ main,
   top: 0;
   border-bottom: 1px solid var(--line);
   background: rgb(255 255 255 / 96%);
-  box-shadow: 0 4px 16px rgb(21 49 59 / 7%);
+  box-shadow: 0 4px 16px rgb(27 60 83 / 7%);
   backdrop-filter: blur(10px);
 }
 
@@ -154,8 +152,8 @@ main,
   width: 100%;
   min-height: 2.75rem;
   padding: 0.45rem 0.7rem;
-  border: 1px solid #a8b8be;
-  border-radius: 0.4rem;
+  border: 1px solid var(--muted);
+  border-radius: 0.25rem;
   background: var(--surface);
   color: var(--ink);
 }
@@ -173,8 +171,8 @@ main,
   margin: 0;
   padding: 0.3rem;
   overflow-y: auto;
-  border: 1px solid #a8b8be;
-  border-radius: 0.45rem;
+  border: 1px solid var(--muted);
+  border-radius: 0;
   background: var(--surface);
   box-shadow: var(--shadow);
   list-style: none;
@@ -183,7 +181,7 @@ main,
 .species-option,
 .species-no-results {
   padding: 0.55rem 0.65rem;
-  border-radius: 0.3rem;
+  border-radius: 0;
 }
 
 .species-option {
@@ -214,20 +212,12 @@ main,
   gap: 0.35rem;
 }
 
-.figure-language__label {
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
 .species-nav button,
 .figure-language button {
   min-height: 2.75rem;
   padding: 0.45rem 0.8rem;
-  border: 1px solid #a8b8be;
-  border-radius: 0.4rem;
+  border: 1px solid var(--muted);
+  border-radius: 0.25rem;
   background: var(--surface);
   color: var(--ocean-dark);
   cursor: pointer;
@@ -261,15 +251,15 @@ main {
   width: min(100%, 50rem);
   margin: 0 auto 1.5rem;
   padding: 0.85rem 1rem;
-  border: 1px solid #a6cbd3;
-  border-radius: 0.45rem;
+  border: 1px solid var(--muted);
+  border-radius: 0;
   background: var(--ocean-pale);
   color: var(--ocean-dark);
   text-align: center;
 }
 
 .app-message--error {
-  border-color: #e0a1a1;
+  border-color: var(--muted);
   background: var(--danger-pale);
   color: var(--danger);
 }
@@ -287,14 +277,14 @@ main {
   justify-content: space-between;
   gap: 2rem;
   padding: clamp(1.25rem, 3vw, 2rem);
-  border-radius: 0.65rem 0.65rem 0 0;
-  background: var(--ocean-dark);
+  border-radius: 0;
+  background: var(--ocean);
   color: #fff;
 }
 
 .species-header h2 {
   margin: 0;
-  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-size: clamp(1.9rem, 4.5vw, 3.5rem);
   letter-spacing: -0.035em;
   line-height: 1.03;
 }
@@ -318,9 +308,9 @@ main {
 .status-badge {
   padding: 0.45rem 0.65rem;
   border: 1px solid var(--status-border);
-  border-radius: 0.4rem;
+  border-radius: 0;
   background: var(--status);
-  color: #463812;
+  color: var(--ink);
   font-size: 0.88rem;
 }
 
@@ -340,7 +330,7 @@ main {
   padding: 1.15rem clamp(1.25rem, 3vw, 2rem);
   border: 1px solid var(--line);
   border-top: 0;
-  border-radius: 0 0 0.65rem 0.65rem;
+  border-radius: 0;
   background: var(--surface);
   box-shadow: var(--shadow);
 }
@@ -386,7 +376,7 @@ main {
   margin-top: 1.25rem;
   padding: 1.25rem clamp(1.25rem, 3vw, 2rem);
   border: 1px solid var(--line);
-  border-radius: 0.65rem;
+  border-radius: 0;
   background: var(--surface);
 }
 
@@ -489,10 +479,10 @@ main {
   min-height: 14rem;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 0.5rem;
+  border-radius: 0;
   background:
     linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 70%) 40%, transparent 55%) 0 0 / 220% 100%,
-    #e4eaec;
+    var(--surface-muted);
   box-shadow: var(--shadow);
 }
 
@@ -514,7 +504,7 @@ main {
   z-index: 1;
   margin: 0;
   padding: 0.4rem 0.65rem;
-  border-radius: 0.35rem;
+  border-radius: 0;
   background: rgb(255 255 255 / 92%);
   color: var(--muted);
   font-size: 0.86rem;
