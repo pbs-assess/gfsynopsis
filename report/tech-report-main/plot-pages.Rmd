@@ -382,6 +382,7 @@ Order: Clupeiformes, Family: Clupeidae,
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-gorbuscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127182)\
+Salmon identification and catch counts are not representative for the period of Sept 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pink-salmon-1.png}
 \end{figure}
@@ -400,6 +401,7 @@ Order: Salmoniformes, Family: Salmonidae,
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-keta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127183)\
+Salmon identification and catch counts are not representative for the period of Sept 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chum-salmon-1.png}
 \end{figure}
@@ -418,6 +420,7 @@ Order: Salmoniformes, Family: Salmonidae,
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-kisutch), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127184)\
+Salmon identification and catch counts are not representative for the period of Sept 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/coho-salmon-1.png}
 \end{figure}
@@ -436,6 +439,7 @@ Order: Salmoniformes, Family: Salmonidae,
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-nerka), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254569)\
+Salmon identification and catch counts are not representative for the period of Sept 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sockeye-salmon-1.png}
 \end{figure}
@@ -454,6 +458,7 @@ Order: Salmoniformes, Family: Salmonidae,
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-tshawytscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158075)\
+Salmon identification and catch counts are not representative for the period of Sept 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chinook-salmon-1.png}
 \end{figure}

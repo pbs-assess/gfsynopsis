@@ -600,7 +600,16 @@ main {
 
 .site-footer__citation-heading {
   color: var(--ink);
-  font-weight: 700;
+  font-weight: 400;
+}
+
+.site-footer__citation-heading,
+.site-footer__citation-lead {
+  display: inline;
+}
+
+.site-footer__citation-heading::after {
+  content: " ";
 }
 
 .site-footer__citation cite {

@@ -112,6 +112,21 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
       "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
   }
+  if (identical(field("family"), "Salmonidae")) {
+    salmon_note <- paste0(
+      "Salmon identification and catch counts are not representative for the ",
+      "period of Sept 2022 to February 2024. See [Lagasse et al. (2024)](",
+      "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf",
+      ")."
+    )
+    notes <- c(notes, if (!french) salmon_note else paste0(
+      "L’identification et les dénombrements des saumons ne sont pas ",
+      "représentatifs pour la période de septembre 2022 à février 2024. Voir ",
+      "[Lagasse et al. (2024)](",
+      "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf",
+      ")."
+    ))
+  }
 
   list(
     slug = slug,
