@@ -115,7 +115,7 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
   if (identical(field("family"), "Salmonidae")) {
     salmon_note <- paste0(
       "Salmon identification and catch counts are not representative for the ",
-      "period of Sept 2022 to February 2024. See [Lagasse et al. (2024)](",
+      "period of September 2022 to February 2024. See [Lagasse et al. (2024)](",
       "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf",
       ")."
     )
