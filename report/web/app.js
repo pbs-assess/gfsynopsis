@@ -95,6 +95,9 @@ const UI_TEXT = {
 };
 
 const elements = {
+  picker: document.querySelector(".species-picker"),
+  pickerSentinel: document.querySelector("#species-picker-sentinel"),
+  pickerPlaceholder: document.querySelector("#species-picker-placeholder"),
   search: document.querySelector("#species-search"),
   options: document.querySelector("#species-options"),
   matchCount: document.querySelector("#species-match-count"),
@@ -181,6 +184,56 @@ function showFigureMessage(message, isError = false) {
   elements.figureStatus.hidden = !message;
   elements.figureStatus.classList.toggle("app-message--error", isError);
   elements.figureStatus.textContent = message;
+}
+
+function setupMobileSpeciesPicker() {
+  if (!elements.picker || !elements.pickerSentinel ||
+      !elements.pickerPlaceholder) {
+    return;
+  }
+
+  const mobileQuery = window.matchMedia("(max-width: 700px)");
+  let latestEntry;
+
+  function updatePickerPosition() {
+    const sentinelTop = latestEntry
+      ? latestEntry.boundingClientRect.top
+      : elements.pickerSentinel.getBoundingClientRect().top;
+    const shouldFix = mobileQuery.matches && sentinelTop < 0;
+    elements.picker.classList.toggle("is-fixed", shouldFix);
+    if (shouldFix) {
+      elements.pickerPlaceholder.style.height =
+        `${elements.picker.getBoundingClientRect().height}px`;
+    } else {
+      elements.pickerPlaceholder.style.height = "0px";
+    }
+  }
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      latestEntry = entry;
+      updatePickerPosition();
+    });
+    observer.observe(elements.pickerSentinel);
+  } else {
+    let framePending = false;
+    const scheduleUpdate = () => {
+      if (framePending) return;
+      framePending = true;
+      window.requestAnimationFrame(() => {
+        framePending = false;
+        updatePickerPosition();
+      });
+    };
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+  }
+  if (typeof mobileQuery.addEventListener === "function") {
+    mobileQuery.addEventListener("change", updatePickerPosition);
+  } else {
+    mobileQuery.addListener(updatePickerPosition);
+  }
+  updatePickerPosition();
 }
 
 function addTextWithLinks(container, text) {
@@ -623,4 +676,5 @@ window.addEventListener("popstate", () => {
   renderSpecies(requestedSpeciesIndex(), "none", requestedFigureLanguage());
 });
 
+setupMobileSpeciesPicker();
 initialize();

@@ -20,6 +20,7 @@
 
   <div class="species-toolbar" aria-label="Species navigation" data-i18n-aria-label="speciesNavigation">
     <div class="species-toolbar__inner">
+      <span id="species-picker-sentinel" aria-hidden="true"></span>
       <div class="species-picker">
         <label for="species-search" data-i18n="species">Species</label>
         <div class="species-combobox">
@@ -33,6 +34,7 @@
             aria-controls="species-options"
             aria-expanded="false"
             autocomplete="off"
+            spellcheck="false"
             placeholder="Search species…"
             data-i18n-placeholder="searchSpecies"
             disabled
@@ -41,6 +43,7 @@
           <span id="species-match-count" class="visually-hidden" aria-live="polite"></span>
         </div>
       </div>
+      <span id="species-picker-placeholder" aria-hidden="true"></span>
       <div class="species-nav" aria-label="Previous or next species" data-i18n-aria-label="previousOrNextSpecies">
         <button id="previous-species" type="button" disabled>
           <span aria-hidden="true">←</span> <span data-i18n="previous">Previous</span>
@@ -50,7 +53,7 @@
         </button>
       </div>
       <div class="figure-language" role="group" aria-label="Figure language" data-i18n-aria-label="figureLanguage">
-        <button id="figures-english" type="button" aria-pressed="true" disabled data-i18n="english">English</button>
+        <button id="figures-english" type="button" aria-pressed="true" disabled>English</button>
         <button id="figures-french" type="button" aria-pressed="false" disabled>Français</button>
       </div>
     </div>
