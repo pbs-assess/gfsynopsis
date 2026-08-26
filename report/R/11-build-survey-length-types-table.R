@@ -30,7 +30,11 @@ if (length(missing_files)) {
   )
 }
 
-survey_samples <- map_dfr(species_files, \(file) readRDS(file)$survey_samples)
+survey_samples <- map_dfr(
+  species_files,
+  \(file) readRDS(file)$survey_samples |>
+    mutate(length_type = as.character(length_type))
+)
 
 length_type_table <- survey_samples |>
   filter(

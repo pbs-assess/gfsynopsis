@@ -26,7 +26,7 @@ priorities;
 (3) increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
 
 The main figures of the synopsis report are presented in two-page species-by-species subsections that visually synthesize most available data for each species.
-The report covers `r no_species` groundfish species that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in our research surveys.
+The report covers `r no_species` fish species that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in our research surveys.
 The report focuses on the surveys and data types applicable to the widest array of these species.
 
 Each set of pages for a single species is laid out in the same format.
@@ -55,6 +55,11 @@ In this report:
 * We rebuilt all figure pages with data up to 2025 using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, @synopsis2023data, and @synopsis2024data.
 * We updated the recent references at the top of each species page.
 * We added pages for Pacific Herring, American Shad, Pink Salmon, Chum Salmon, Coho Salmon, Sockeye Salmon, and Chinook Salmon.
+* We added a table documenting which length measurement type is displayed for each species.
+* We raised the limit on the average coefficient of variation above which we do not display the geostatistical indices of abundance from 1.0 to 1.25.
+* We added snout-to-anal-fin length measurements for all grenadiers.
+* We corrected the algorithm that is designed to simplify the fitted spatiotemporal index standardization model if more complex versions fail to converge. The new version makes use of the new option `collapse_spatial_variance` in the sdmTMB R package (REF). With this option enabled, if the variance of a given random effect component is estimated to have a standard deviation below 0.1, the model is refit with the component turned off (fixed to zero).
+* We added a web version of the report at <https://gfsynopsis.ca>.
 
 \clearpage
 
