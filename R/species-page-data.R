@@ -113,22 +113,6 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
     }
   }
 
-  silhouette <- if (identical(species_code, "415")) {
-    list(
-      image = "assets/puget-sound-rockfish-silhouette.png",
-      alt = "Representative Sebastes rockfish silhouette",
-      credit = "Harold N. Eyster",
-      source_url = paste0(
-        "https://www.phylopic.org/images/",
-        "d0bde1d1-e52f-4d4e-828c-1641836dfb16/sebastes-melanops"
-      ),
-      license = "CC BY 3.0",
-      license_url = "https://creativecommons.org/licenses/by/3.0/"
-    )
-  } else {
-    NULL
-  }
-
   list(
     slug = slug,
     image_slug = image_slug,
@@ -147,7 +131,6 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
     cosewic_status = field("cosewic_status"),
     sara_status = field("sara_status"),
     notes = notes,
-    silhouette = silhouette,
     images = file.path(
       "figure-pages",
       paste0(image_slug, "-", seq_len(2L), ".", ext)

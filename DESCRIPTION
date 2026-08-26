@@ -58,6 +58,7 @@ Suggests:
     doParallel,
     parallel,
     plyr,
+    rphylopic,
     taxize,
     testthat,
     tibble

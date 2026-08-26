@@ -100,16 +100,19 @@ const elements = {
   frenchFigures: document.querySelector("#figures-french"),
   status: document.querySelector("#app-status"),
   error: document.querySelector("#app-error"),
+  figureStatus: document.querySelector("#figure-status"),
   content: document.querySelector("#species-content"),
   commonName: document.querySelector("#common-name"),
   scientificName: document.querySelector("#scientific-name"),
   silhouette: document.querySelector("#species-silhouette"),
   silhouetteImage: document.querySelector("#species-silhouette-image"),
+  silhouetteLabel: document.querySelector("#species-silhouette-label"),
   silhouetteCredit: document.querySelector("#species-silhouette-credit"),
   silhouetteLicense: document.querySelector("#species-silhouette-license"),
   order: document.querySelector("#species-order"),
   family: document.querySelector("#species-family"),
-  badges: document.querySelector("#status-badges"),
+  cosewicBadge: document.querySelector("#cosewic-status-badge"),
+  saraBadge: document.querySelector("#sara-status-badge"),
   links: document.querySelector("#external-links"),
   referencesSection: document.querySelector("#references-section"),
   references: document.querySelector("#references-list"),
@@ -170,6 +173,12 @@ function showMessage(message, isError = false) {
   }
 }
 
+function showFigureMessage(message, isError = false) {
+  elements.figureStatus.hidden = !message;
+  elements.figureStatus.classList.toggle("app-message--error", isError);
+  elements.figureStatus.textContent = message;
+}
+
 function addTextWithLinks(container, text) {
   const linkPattern = /\[([^\]]+)]\((https:\/\/[^)]+)\)/g;
   let position = 0;
@@ -189,20 +198,20 @@ function addTextWithLinks(container, text) {
 }
 
 function renderBadges(page) {
-  elements.badges.replaceChildren();
   const statuses = [
-    [t("cosewicStatus"), translateStatus(page.cosewic_status)],
-    [t("saraStatus"), translateStatus(page.sara_status)]
+    [elements.cosewicBadge, t("cosewicStatus"), translateStatus(page.cosewic_status)],
+    [elements.saraBadge, t("saraStatus"), translateStatus(page.sara_status)]
   ];
 
-  for (const [label, value] of statuses) {
+  for (const [container, label, value] of statuses) {
+    container.replaceChildren();
     if (!value) continue;
     const badge = document.createElement("span");
     badge.className = "status-badge";
     const heading = document.createElement("strong");
     heading.textContent = label;
     badge.append(heading, document.createTextNode(value));
-    elements.badges.append(badge);
+    container.append(badge);
   }
 }
 
@@ -287,6 +296,16 @@ function renderSilhouette(silhouette) {
 
   elements.silhouetteImage.src = silhouette.image;
   elements.silhouetteImage.alt = silhouette.alt;
+  elements.silhouetteLabel.replaceChildren();
+  const scientificName = document.createElement("em");
+  const matchedName = silhouette.matched_name || silhouette.label || "Scientific name";
+  if (silhouette.level === "genus") {
+    scientificName.textContent = matchedName.split(/\s+/)[0];
+    elements.silhouetteLabel.append(scientificName, " sp.");
+  } else {
+    scientificName.textContent = matchedName;
+    elements.silhouetteLabel.append(scientificName);
+  }
   elements.silhouetteCredit.href = silhouette.source_url;
   elements.silhouetteCredit.textContent = silhouette.credit;
   elements.silhouetteLicense.href = silhouette.license_url;
@@ -318,14 +337,14 @@ function createFigure(page, imagePath, pageNumber, version) {
     if (version !== renderVersion) return;
     frame.classList.remove("is-loading");
     loading.remove();
-    if (pageNumber === 1) showMessage("");
+    if (pageNumber === 1) showFigureMessage("");
   });
   image.addEventListener("error", () => {
     if (version !== renderVersion) return;
     frame.classList.remove("is-loading");
     loading.className = "figure-error";
     loading.textContent = t("pageCouldNotLoad", pageNumber);
-    showMessage(t("imagesCouldNotLoad", page.common_name), true);
+    showFigureMessage(t("imagesCouldNotLoad", page.common_name), true);
   });
   image.src = imagePath;
 
@@ -388,7 +407,8 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
 
   elements.content.hidden = false;
   document.title = `${displayPage.common_name} · ${t("siteTitle")}`;
-  showMessage(t("loadingFigures", displayPage.common_name));
+  showMessage("");
+  showFigureMessage(t("loadingFigures", displayPage.common_name));
   updateAddress(page.slug, figureLanguage, historyMode);
 }
 

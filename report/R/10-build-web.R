@@ -1,5 +1,210 @@
 # Build the data and assets for the interactive species website.
 
+resolve_phylopic_silhouettes <- function(pages, asset_dir) {
+  rphylopic_available <- requireNamespace("rphylopic", quietly = TRUE)
+  dir.create(asset_dir, recursive = TRUE, showWarnings = FALSE)
+  cache_file <- file.path(asset_dir, "phylopic-cache.json")
+  cache <- if (file.exists(cache_file)) {
+    tryCatch(
+      jsonlite::read_json(cache_file, simplifyVector = FALSE),
+      error = function(...) list()
+    )
+  } else {
+    list()
+  }
+
+  license_url <- function(value) {
+    if (is.null(value) || !length(value) || is.na(value[[1L]])) {
+      NA_character_
+    } else {
+      as.character(value[[1L]])
+    }
+  }
+
+  silhouette_label <- function(level, matched_name) {
+    if (identical(level, "species")) {
+      matched_name
+    } else {
+      paste(sub("[[:space:]].*$", "", matched_name), "sp.")
+    }
+  }
+
+  failures <- character()
+  for (page in pages) {
+    genus <- sub("[[:space:]].*$", "", page$scientific_name)
+    cached <- cache[[page$slug]]
+    cached_file <- if (!is.null(cached)) cached$file else NULL
+    cached_match <- if (!is.null(cached$matched_name)) {
+      cached$matched_name
+    } else {
+      page$scientific_name
+    }
+    cached_ok <- !is.null(cached) &&
+      isTRUE(cached$available) &&
+      identical(cached$scientific_name, page$scientific_name) &&
+      cached_match %in% c(page$scientific_name, genus) &&
+      length(cached_file) == 1L &&
+      file.exists(file.path(asset_dir, cached_file))
+    if (cached_ok) {
+      if (is.null(cached$matched_name)) {
+        cached$matched_name <- page$scientific_name
+      }
+      if (is.null(cached$level)) {
+        cached$level <- if (identical(cached$matched_name, page$scientific_name)) {
+          "species"
+        } else {
+          "genus"
+        }
+      }
+      cached$label <- silhouette_label(cached$level, cached$matched_name)
+      cache[[page$slug]] <- cached
+      next
+    }
+    cached_failure <- !is.null(cached) &&
+      isFALSE(cached$available) &&
+      identical(cached$scientific_name, page$scientific_name)
+    if (cached_failure) next
+
+    if (!rphylopic_available) {
+      stop(
+        "The rphylopic package is required to resolve uncached silhouettes. ",
+        "Install it with install.packages('rphylopic').",
+        call. = FALSE
+      )
+    }
+
+    asset_name <- paste0(page$slug, ".svg")
+    asset_path <- file.path(asset_dir, asset_name)
+    record <- tryCatch({
+      lookup_names <- unique(c(
+        page$scientific_name,
+        genus
+      ))
+      uuid_url <- NULL
+      matched_name <- NULL
+      for (lookup_name in lookup_names) {
+        uuid_url <- tryCatch(
+          rphylopic::get_uuid(name = lookup_name, n = 1, url = TRUE),
+          error = function(...) NULL
+        )
+        if (length(uuid_url)) {
+          matched_name <- lookup_name
+          break
+        }
+      }
+      if (!length(uuid_url)) stop("no silhouette returned")
+      level <- if (identical(matched_name, page$scientific_name)) {
+        "species"
+      } else {
+        "genus"
+      }
+      uuid <- names(uuid_url)[[1L]]
+      vector_url <- unname(uuid_url)[[1L]]
+      if (!nzchar(uuid) || !nzchar(vector_url)) {
+        stop("the silhouette response was incomplete")
+      }
+      if (!file.exists(asset_path)) {
+        utils::download.file(
+          vector_url,
+          asset_path,
+          mode = "wb",
+          quiet = TRUE
+        )
+      }
+      attribution <- rphylopic::get_attribution(uuid)$images[[uuid]]
+      credit <- attribution$attribution
+      if (is.null(credit) || !length(credit) || !nzchar(credit)) {
+        credit <- attribution$contributor
+      }
+      list(
+        available = TRUE,
+        file = asset_name,
+        scientific_name = page$scientific_name,
+        matched_name = matched_name,
+        level = level,
+        label = silhouette_label(level, matched_name),
+        alt = if (identical(level, "species")) {
+          paste("Species-level PhyloPic silhouette for", page$common_name)
+        } else {
+          paste("Genus-level PhyloPic silhouette for", page$common_name)
+        },
+        credit = as.character(credit),
+        source_url = paste0("https://www.phylopic.org/images/", uuid),
+        license = as.character(attribution$license_abbr),
+        license_url = license_url(attribution$license)
+      )
+    }, error = function(error) {
+      failures <<- c(failures, paste0(page$scientific_name, ": ", error$message))
+      NULL
+    })
+    if (is.null(record)) {
+      unlink(asset_path)
+      cache[[page$slug]] <- list(
+        available = FALSE,
+        scientific_name = page$scientific_name
+      )
+    } else {
+      cache[[page$slug]] <- record
+    }
+    jsonlite::write_json(
+      cache,
+      cache_file,
+      auto_unbox = TRUE,
+      pretty = TRUE,
+      na = "null",
+      null = "null"
+    )
+  }
+
+  jsonlite::write_json(
+    cache,
+    cache_file,
+    auto_unbox = TRUE,
+    pretty = TRUE,
+    na = "null",
+    null = "null"
+  )
+  if (length(failures)) {
+    message(
+      "PhyloPic silhouettes unavailable for ", length(failures),
+      " species; continuing without those images."
+    )
+  }
+
+  lapply(pages, function(page) {
+    record <- cache[[page$slug]]
+    if (!is.null(record) && isTRUE(record$available)) {
+      if (is.null(record$matched_name)) {
+        record$matched_name <- page$scientific_name
+      }
+      if (is.null(record$level)) {
+        record$level <- if (identical(record$matched_name, page$scientific_name)) {
+          "species"
+        } else {
+          "genus"
+        }
+      }
+      if (is.null(record$label)) {
+        record$label <- silhouette_label(record$level, record$matched_name)
+      }
+      page$silhouette <- list(
+        image = file.path("assets", record$file),
+        matched_name = record$matched_name,
+        level = record$level,
+        label = record$label,
+        alt = record$alt,
+        credit = record$credit,
+        source_url = record$source_url,
+        license = record$license,
+        license_url = record$license_url
+      )
+    } else {
+      page$silhouette <- NULL
+    }
+    page
+  })
+}
+
 build_web_species_pages <- function(
     spp,
     figure_dir,
@@ -24,6 +229,11 @@ build_web_species_pages <- function(
     spp,
     french = TRUE,
     ext = ext
+  )
+  web_dir <- normalizePath(web_dir, mustWork = TRUE)
+  pages <- resolve_phylopic_silhouettes(
+    pages,
+    asset_dir = file.path(web_dir, "assets")
   )
   if (!file.exists(bibliography_file)) {
     stop("Missing web bibliography: ", bibliography_file, call. = FALSE)
@@ -201,7 +411,6 @@ build_web_species_pages <- function(
     stop("Absolute silhouette path found in web metadata.", call. = FALSE)
   }
 
-  web_dir <- normalizePath(web_dir, mustWork = TRUE)
   output_dir <- file.path(web_dir, "generated")
   if (!identical(dirname(output_dir), web_dir) ||
       !identical(basename(output_dir), "generated")) {
@@ -238,6 +447,11 @@ build_web_species_pages <- function(
     if (!all(file.copy(silhouette_source_files, silhouette_output_dir))) {
       stop("Could not copy one or more silhouette assets.", call. = FALSE)
     }
+  }
+  dfo_logo <- file.path(web_dir, "assets", "dfo-logo.svg")
+  if (!file.exists(dfo_logo) ||
+      !file.copy(dfo_logo, silhouette_output_dir, overwrite = TRUE)) {
+    stop("Missing DFO logo asset.", call. = FALSE)
   }
 
   output <- list(

@@ -68,15 +68,16 @@
           <h2 id="common-name"></h2>
           <p id="scientific-name" class="scientific-name"></p>
         </div>
+        <div id="cosewic-status-badge" class="status-badges status-badges--cosewic" aria-label="Conservation status" data-i18n-aria-label="conservationStatus"></div>
+        <div id="sara-status-badge" class="status-badges status-badges--sara" aria-label="Conservation status" data-i18n-aria-label="conservationStatus"></div>
         <figure id="species-silhouette" class="species-silhouette" hidden>
           <img id="species-silhouette-image" alt="">
           <figcaption>
-            Representative silhouette:
+            <span id="species-silhouette-label"><em>Scientific name</em></span>
             <a id="species-silhouette-credit" target="_blank" rel="noopener noreferrer"></a>
             · <a id="species-silhouette-license" target="_blank" rel="noopener noreferrer"></a>
           </figcaption>
         </figure>
-        <div id="status-badges" class="status-badges" aria-label="Conservation status" data-i18n-aria-label="conservationStatus"></div>
       </header>
 
       <section class="metadata-panel" aria-labelledby="details-heading">
@@ -102,6 +103,7 @@
       </section>
 
       <section class="figures-section" aria-labelledby="figures-heading">
+        <p id="figure-status" class="app-message" role="status" aria-live="polite" hidden></p>
         <div class="section-heading">
           <div>
             <h3 id="figures-heading" class="visually-hidden" data-i18n="synopsisFigures">Synopsis figures</h3>
@@ -113,13 +115,6 @@
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__top">
-      <p>
-        <span data-i18n="footerSynopsis">British Columbia groundfish data synopsis</span> ·
-        <a href="https://github.com/pbs-assess/gfsynopsis" target="_blank" rel="noopener noreferrer" data-i18n="sourceCode">Source code ↗</a>
-      </p>
-      <p id="build-details"></p>
-    </div>
     <div class="site-footer__citation">
       <p class="site-footer__citation-heading" data-i18n="unofficialUpdateOf">This is an unofficial update of</p>
       <p>
@@ -131,10 +126,22 @@
         <span data-i18n="citeTechnicalReportPrefix">Please reference and cite the last official </span>
         <a href="https://doi.org/10.60825/h406-v638" data-i18n="technicalReport">Technical Report</a>
         <span data-i18n="and"> and </span>
-        <a href="http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html">Anderson et al. 2019</a>
+        <a href="http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html">Anderson et al. (2019)</a>
         <span data-i18n="or"> or </span>
         <a href="https://doi.org/10.1002/fsh.10441">Anderson et al. (2020)</a>.
       </p>
+    </div>
+    <div class="site-footer__top">
+      <p class="site-footer__synopsis">
+        <span data-i18n="footerSynopsis">British Columbia groundfish data synopsis</span> ·
+        <a href="https://github.com/pbs-assess/gfsynopsis" target="_blank" rel="noopener noreferrer" data-i18n="sourceCode">Source code ↗</a>
+      </p>
+      <img
+        class="site-footer__logo"
+        src="assets/dfo-logo.svg"
+        alt="Fisheries and Oceans Canada / Pêches et Océans Canada"
+      >
+      <p id="build-details"></p>
     </div>
   </footer>
 </body>

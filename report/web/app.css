@@ -279,21 +279,26 @@ main {
   color: #fff;
 }
 
+.species-header > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .species-silhouette {
   display: flex;
-  flex: 0 1 clamp(12rem, 20vw, 20rem);
+  flex: 0 1 clamp(10rem, 17vw, 16rem);
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
   gap: 0.15rem;
-  margin: 0 0 0 auto;
+  margin: 0;
 }
 
 .species-silhouette img {
   display: block;
-  width: min(100%, 18rem);
+  width: min(100%, 15rem);
   height: auto;
-  max-height: 6.5rem;
+  max-height: 5.5rem;
   object-fit: contain;
   object-position: right center;
   filter: invert(1);
@@ -327,10 +332,14 @@ main {
 
 .status-badges {
   display: flex;
-  flex: 0 1 29rem;
+  flex: 0 0 auto;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+.status-badges--cosewic {
+  margin-left: auto;
 }
 
 .status-badges:empty {
@@ -560,8 +569,21 @@ main {
 
 .site-footer__top {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.site-footer__synopsis,
+#build-details {
+  flex: 1 1 0;
+}
+
+#build-details {
+  text-align: right;
 }
 
 .site-footer p {
@@ -570,9 +592,6 @@ main {
 
 .site-footer__citation {
   width: 100%;
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--line);
 }
 
 .site-footer__citation p + p {
@@ -586,6 +605,14 @@ main {
 
 .site-footer__citation cite {
   font-style: normal;
+}
+
+.site-footer__logo {
+  display: block;
+  flex: 0 1 14rem;
+  width: min(100%, 14rem);
+  height: auto;
+  margin: 0;
 }
 
 .site-footer__doi {
@@ -632,6 +659,25 @@ main {
     flex-direction: column;
   }
 
+  .site-footer__top .site-footer__logo {
+    flex: 0 1 auto;
+    margin-inline: 0;
+  }
+
+  .site-footer__top {
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+
+  .site-footer__synopsis,
+  #build-details {
+    flex: 0 0 auto;
+  }
+
+  #build-details {
+    text-align: left;
+  }
+
   .species-toolbar__inner {
     gap: 0.55rem;
   }
@@ -675,6 +721,10 @@ main {
 
   .status-badges {
     flex-basis: auto;
+  }
+
+  .status-badges--cosewic {
+    margin-left: 0;
   }
 
   .metadata-panel {

@@ -47,6 +47,14 @@ The script deploys to the `gfsynopsis` Pages project on the `main` branch. Its
 project, branch, and pinned Wrangler version can be overridden with the
 environment variables shown by `./report/web/deploy.sh --help`.
 
+## Species silhouettes
+
+The build resolves one PhyloPic silhouette for each species with the
+[`rphylopic`](https://rphylopic.palaeoverse.org/) package and caches the SVGs in
+`assets/`. It tries the species name first, then the genus name when no
+species-level silhouette is available. Each rendered silhouette links to
+its PhyloPic source, contributor, and license.
+
 ## Building and previewing locally
 
 From `report/web/`, run the following to build the site, start a local server,
