@@ -65,10 +65,17 @@
     <article id="species-content" tabindex="-1" hidden>
       <header class="species-header">
         <div>
-          <p id="species-code" class="eyebrow"></p>
           <h2 id="common-name"></h2>
           <p id="scientific-name" class="scientific-name"></p>
         </div>
+        <figure id="species-silhouette" class="species-silhouette" hidden>
+          <img id="species-silhouette-image" alt="">
+          <figcaption>
+            Representative silhouette:
+            <a id="species-silhouette-credit" target="_blank" rel="noopener noreferrer"></a>
+            · <a id="species-silhouette-license" target="_blank" rel="noopener noreferrer"></a>
+          </figcaption>
+        </figure>
         <div id="status-badges" class="status-badges" aria-label="Conservation status" data-i18n-aria-label="conservationStatus"></div>
       </header>
 
@@ -85,16 +92,13 @@
           </div>
         </dl>
         <nav id="external-links" class="external-links" aria-label="External species records" data-i18n-aria-label="externalSpeciesRecords"></nav>
-      </section>
-
-      <section id="references-section" class="text-section" aria-labelledby="references-heading" hidden>
-        <h3 id="references-heading" data-i18n="reportsAndReferences">Reports and references</h3>
-        <ul id="references-list"></ul>
-      </section>
-
-      <section id="notes-section" class="text-section" aria-labelledby="notes-heading" hidden>
-        <h3 id="notes-heading" data-i18n="notes">Notes</h3>
-        <div id="notes-list"></div>
+        <section id="references-section" class="text-section references-section" aria-labelledby="references-heading" hidden>
+          <h3 id="references-heading" data-i18n="reportsAndReferences">Latest reports</h3>
+          <ul id="references-list"></ul>
+        </section>
+        <section id="notes-section" class="text-section notes-section" aria-label="Notes" data-i18n-aria-label="notes" hidden>
+          <div id="notes-list"></div>
+        </section>
       </section>
 
       <section class="figures-section" aria-labelledby="figures-heading">

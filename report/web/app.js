@@ -3,12 +3,6 @@
 const DEFAULT_SPECIES = "lingcod";
 const DEFAULT_LANGUAGE = "en";
 const BASE_TITLE = "BC Groundfish Data Synopsis";
-const REFERENCE_LABELS = {
-  research_documents: "Research document",
-  science_advisory_reports: "Science advisory report",
-  other: "Related document",
-  cosewic_status_report: "COSEWIC status report"
-};
 const UI_TEXT = {
   en: {
     skipLink: "Skip to species synopsis",
@@ -28,7 +22,7 @@ const UI_TEXT = {
     order: "Order",
     family: "Family",
     externalSpeciesRecords: "External species records",
-    reportsAndReferences: "Reports and references",
+    reportsAndReferences: "Latest reports",
     notes: "Notes",
     synopsisFigures: "Synopsis figures",
     footerSynopsis: "British Columbia groundfish data synopsis",
@@ -38,17 +32,13 @@ const UI_TEXT = {
     technicalReport: "Technical Report",
     and: " and ",
     or: " or ",
-    speciesCode: (code) => `Species code ${code}`,
     cosewicStatus: "COSEWIC status",
     saraStatus: "SARA status",
-    reference: "Reference",
-    fullCitation: "Full citation",
     loadingPage: (number) => `Loading page ${number}…`,
     pageCouldNotLoad: (number) => `Page ${number} could not be loaded.`,
     imagesCouldNotLoad: (name) => `One or more images for ${name} could not be loaded.`,
     figureAriaLabel: (name, number) => `${name} synopsis page ${number}, full resolution`,
     figureAlt: (name, number) => `${name} synopsis, page ${number} of 2`,
-    pageOf: (number) => `Page ${number} of 2`,
     loadingFigures: (name) => `Loading synopsis figures for ${name}…`,
     noMatchingSpecies: "No matching species",
     matchingSpecies: (number) => `${number} matching species`,
@@ -74,7 +64,7 @@ const UI_TEXT = {
     order: "Ordre",
     family: "Famille",
     externalSpeciesRecords: "Dossiers externes sur l’espèce",
-    reportsAndReferences: "Rapports et références",
+    reportsAndReferences: "Rapports récents",
     notes: "Notes",
     synopsisFigures: "Figures du synopsis",
     footerSynopsis: "Synopsis des données sur les poissons de fond de la Colombie-Britannique",
@@ -84,17 +74,13 @@ const UI_TEXT = {
     technicalReport: "rapport technique officiel",
     and: " et ",
     or: " ou ",
-    speciesCode: (code) => `Code d’espèce ${code}`,
     cosewicStatus: "Statut du COSEPAC",
     saraStatus: "Statut de la LEP",
-    reference: "Référence",
-    fullCitation: "Citation complète",
     loadingPage: (number) => `Chargement de la page ${number}…`,
     pageCouldNotLoad: (number) => `La page ${number} n’a pas pu être chargée.`,
     imagesCouldNotLoad: (name) => `Une ou plusieurs images pour ${name} n’ont pas pu être chargées.`,
     figureAriaLabel: (name, number) => `${name}, page ${number} du synopsis, pleine résolution`,
     figureAlt: (name, number) => `${name}, synopsis, page ${number} sur 2`,
-    pageOf: (number) => `Page ${number} sur 2`,
     loadingFigures: (name) => `Chargement des figures du synopsis pour ${name}…`,
     noMatchingSpecies: "Aucune espèce correspondante",
     matchingSpecies: (number) => `${number} espèces correspondantes`,
@@ -115,9 +101,12 @@ const elements = {
   status: document.querySelector("#app-status"),
   error: document.querySelector("#app-error"),
   content: document.querySelector("#species-content"),
-  code: document.querySelector("#species-code"),
   commonName: document.querySelector("#common-name"),
   scientificName: document.querySelector("#scientific-name"),
+  silhouette: document.querySelector("#species-silhouette"),
+  silhouetteImage: document.querySelector("#species-silhouette-image"),
+  silhouetteCredit: document.querySelector("#species-silhouette-credit"),
+  silhouetteLicense: document.querySelector("#species-silhouette-license"),
   order: document.querySelector("#species-order"),
   family: document.querySelector("#species-family"),
   badges: document.querySelector("#status-badges"),
@@ -245,36 +234,35 @@ function appendCitationText(container, text) {
   container.append(document.createTextNode(text.slice(position)));
 }
 
+function appendReferenceCitation(container, reference) {
+  const title = reference.title || "";
+  const titleIndex = reference.url && title
+    ? reference.citation.indexOf(title)
+    : -1;
+
+  if (titleIndex === -1) {
+    appendCitationText(container, reference.citation);
+    return;
+  }
+
+  appendCitationText(container, reference.citation.slice(0, titleIndex));
+  const titleLink = document.createElement("a");
+  titleLink.href = reference.url;
+  titleLink.target = "_blank";
+  titleLink.rel = "noopener noreferrer";
+  appendCitationText(titleLink, title);
+  container.append(titleLink);
+  appendCitationText(container, reference.citation.slice(titleIndex + title.length));
+}
+
 function renderReferences(references) {
   elements.references.replaceChildren();
   elements.referencesSection.hidden = references.length === 0;
 
   for (const reference of references) {
     const item = document.createElement("li");
-    const heading = document.createElement("div");
-    heading.className = "reference-heading";
-    const group = document.createElement("span");
-    group.className = "reference-label";
-    group.textContent = `${reference.group || REFERENCE_LABELS[reference.type] || t("reference")}: `;
-    const label = reference.url
-      ? document.createElement("a")
-      : document.createElement("span");
-    label.className = "reference-link";
-    label.textContent = reference.label;
-    if (reference.url) {
-      label.href = reference.url;
-      label.target = "_blank";
-      label.rel = "noopener noreferrer";
-    }
-    heading.append(group, label);
-    const details = document.createElement("details");
-    const summary = document.createElement("summary");
-    summary.textContent = t("fullCitation");
-    const citation = document.createElement("span");
-    citation.className = "reference-text";
-    appendCitationText(citation, reference.citation);
-    details.append(summary, citation);
-    item.append(heading, details);
+    item.className = "reference-citation";
+    appendReferenceCitation(item, reference);
     elements.references.append(item);
   }
 }
@@ -288,6 +276,22 @@ function renderNotes(notes) {
     addTextWithLinks(paragraph, note);
     elements.notes.append(paragraph);
   }
+}
+
+function renderSilhouette(silhouette) {
+  if (!silhouette) {
+    elements.silhouette.hidden = true;
+    elements.silhouetteImage.removeAttribute("src");
+    return;
+  }
+
+  elements.silhouetteImage.src = silhouette.image;
+  elements.silhouetteImage.alt = silhouette.alt;
+  elements.silhouetteCredit.href = silhouette.source_url;
+  elements.silhouetteCredit.textContent = silhouette.credit;
+  elements.silhouetteLicense.href = silhouette.license_url;
+  elements.silhouetteLicense.textContent = silhouette.license;
+  elements.silhouette.hidden = false;
 }
 
 function createFigure(page, imagePath, pageNumber, version) {
@@ -327,9 +331,7 @@ function createFigure(page, imagePath, pageNumber, version) {
 
   link.append(image);
   frame.append(loading, link);
-  const caption = document.createElement("figcaption");
-  caption.textContent = t("pageOf", pageNumber);
-  figure.append(frame, caption);
+  figure.append(frame);
   return figure;
 }
 
@@ -361,9 +363,9 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   closeSpeciesOptions();
   elements.previous.disabled = index === 0;
   elements.next.disabled = index === species.length - 1;
-  elements.code.textContent = t("speciesCode", displayPage.species_code);
   elements.commonName.textContent = displayPage.common_name;
   elements.scientificName.textContent = displayPage.scientific_name;
+  renderSilhouette(page.silhouette);
   elements.order.textContent = displayPage.order;
   elements.family.textContent = displayPage.family;
   renderBadges(displayPage);

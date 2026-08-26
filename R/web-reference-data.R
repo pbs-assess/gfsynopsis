@@ -55,10 +55,14 @@ web_bib_entry_label <- function(entry) {
   paste0(authors, if (nzchar(year)) paste0(" (", year, ")") else "")
 }
 
+web_bib_entry_title <- function(entry) {
+  sub("[.]+$", "", web_bib_field(entry, "title"))
+}
+
 web_bib_entry_citation <- function(entry) {
   authors <- web_bib_author_text(entry)
   year <- web_bib_field(entry, "year")
-  title <- web_bib_field(entry, "title")
+  title <- web_bib_entry_title(entry)
   journal <- web_bib_field(entry, "journal")
   booktitle <- web_bib_field(entry, "booktitle")
   volume <- web_bib_field(entry, "volume")
@@ -67,7 +71,6 @@ web_bib_entry_citation <- function(entry) {
   source <- paste(c(journal, booktitle)[nzchar(c(journal, booktitle))], collapse = ". ")
   if (nzchar(volume)) source <- paste(source, volume)
   if (nzchar(pages)) source <- paste0(source, if (nzchar(source)) ": " else "", pages)
-  title <- sub("[.]+$", "", title)
   source <- sub("[.]+$", "", source)
   note <- sub("[.]+$", "", note)
 
@@ -225,6 +228,7 @@ web_reference_records <- function(page, bibliography, urls = character()) {
         group = group,
         key = key,
         label = web_bib_entry_label(entry),
+        title = web_bib_entry_title(entry),
         citation = web_bib_entry_citation(entry),
         url = url
       )
@@ -268,6 +272,7 @@ web_resolve_note_citations <- function(
         record <- list(
           key = key,
           label = web_bib_entry_label(entry),
+          title = web_bib_entry_title(entry),
           citation = web_bib_entry_citation(entry),
           url = url
         )

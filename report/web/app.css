@@ -7,7 +7,7 @@
   --ocean: #234c6a;
   --ocean-dark: #1b3c53;
   --ocean-pale: rgb(69 104 130 / 16%);
-  --status: #e3e3e3;
+  --status: #ffffff;
   --status-border: #456882;
   --danger: #1b3c53;
   --danger-pale: #e3e3e3;
@@ -89,7 +89,7 @@ main,
 }
 
 .site-header__inner {
-  padding: clamp(2.5rem, 7vw, 5.5rem) 0 clamp(2.25rem, 5vw, 4rem);
+  padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(1.75rem, 4vw, 3rem);
 }
 
 .eyebrow {
@@ -102,7 +102,6 @@ main,
 }
 
 .site-header h1 {
-  max-width: 18ch;
   margin: 0;
   font-size: clamp(1.9rem, 4.5vw, 4rem);
   font-weight: 720;
@@ -152,7 +151,7 @@ main,
   padding: 0.45rem 0.7rem;
   border: 1px solid var(--muted);
   border-radius: 0.25rem;
-  background: var(--surface);
+  background: #ffffff;
   color: var(--ink);
 }
 
@@ -171,7 +170,7 @@ main,
   overflow-y: auto;
   border: 1px solid var(--muted);
   border-radius: 0;
-  background: var(--surface);
+  background: #ffffff;
   list-style: none;
 }
 
@@ -215,7 +214,7 @@ main,
   padding: 0.45rem 0.8rem;
   border: 1px solid var(--muted);
   border-radius: 0.25rem;
-  background: var(--surface);
+  background: #ffffff;
   color: var(--ocean-dark);
   cursor: pointer;
   font-weight: 650;
@@ -269,6 +268,7 @@ main {
 }
 
 .species-header {
+  position: relative;
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -277,6 +277,37 @@ main {
   border-radius: 0;
   background: var(--ocean);
   color: #fff;
+}
+
+.species-silhouette {
+  display: flex;
+  flex: 0 1 clamp(12rem, 20vw, 20rem);
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.15rem;
+  margin: 0 0 0 auto;
+}
+
+.species-silhouette img {
+  display: block;
+  width: min(100%, 18rem);
+  height: auto;
+  max-height: 6.5rem;
+  object-fit: contain;
+  object-position: right center;
+  filter: invert(1);
+}
+
+.species-silhouette figcaption {
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.62rem;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.species-silhouette a {
+  color: inherit;
 }
 
 .species-header h2 {
@@ -288,7 +319,7 @@ main {
 
 .scientific-name {
   margin: 0.55rem 0 0;
-  color: rgb(255 255 255 / 78%);
+  color: #ffffff;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.1rem, 2vw, 1.35rem);
   font-style: italic;
@@ -300,6 +331,10 @@ main {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+.status-badges:empty {
+  display: none;
 }
 
 .status-badge {
@@ -376,6 +411,39 @@ main {
   background: var(--surface);
 }
 
+.references-section {
+  width: 100%;
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 0.85rem;
+}
+
+.notes-section {
+  width: 100%;
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 0.85rem;
+}
+
+.notes-section p {
+  margin: 0;
+}
+
+.text-section.references-section ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.references-section li,
+.references-section details {
+  margin-left: 0;
+}
+
 .text-section h3 {
   margin: 0 0 0.65rem;
   font-size: 1rem;
@@ -391,33 +459,7 @@ main {
   margin-top: 0.5rem;
 }
 
-.reference-heading {
-  overflow-wrap: anywhere;
-}
-
-.reference-label {
-  font-weight: 700;
-}
-
-.reference-link {
-  font-weight: 650;
-}
-
-.text-section details {
-  margin-top: 0.15rem;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.text-section summary {
-  color: var(--ocean);
-  cursor: pointer;
-  font-size: 0.83rem;
-}
-
-.reference-text {
-  display: block;
-  margin-top: 0.2rem;
+.reference-citation {
   overflow-wrap: anywhere;
   color: var(--muted);
 }
@@ -427,7 +469,7 @@ main {
 }
 
 .figures-section {
-  margin-top: clamp(2.5rem, 7vw, 5.5rem);
+  margin-top: clamp(1.5rem, 3vw, 3rem);
 }
 
 .section-heading {
@@ -507,12 +549,6 @@ main {
 
 .figure-error {
   color: var(--danger);
-}
-
-.synopsis-figure figcaption {
-  margin-top: 0.45rem;
-  color: var(--muted);
-  font-size: 0.86rem;
 }
 
 .site-footer {
@@ -613,8 +649,23 @@ main {
     justify-content: flex-end;
   }
 
+  .references-section {
+    width: 100%;
+  }
+
   .species-header {
     gap: 1.25rem;
+  }
+
+  .species-silhouette {
+    align-items: flex-start;
+    margin-left: 0;
+  }
+
+  .species-silhouette img,
+  .species-silhouette figcaption {
+    object-position: left center;
+    text-align: left;
   }
 
   .status-badges,

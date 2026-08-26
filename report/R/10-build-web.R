@@ -194,6 +194,13 @@ build_web_species_pages <- function(
     stop("Absolute image path found in web metadata.", call. = FALSE)
   }
 
+  web_silhouette_paths <- unlist(lapply(web_pages, function(page) {
+    if (is.null(page$silhouette)) character() else page$silhouette$image
+  }), use.names = FALSE)
+  if (any(grepl("^/|^[A-Za-z]:[/\\\\]", web_silhouette_paths))) {
+    stop("Absolute silhouette path found in web metadata.", call. = FALSE)
+  }
+
   web_dir <- normalizePath(web_dir, mustWork = TRUE)
   output_dir <- file.path(web_dir, "generated")
   if (!identical(dirname(output_dir), web_dir) ||
@@ -204,8 +211,10 @@ build_web_species_pages <- function(
   if (dir.exists(output_dir)) unlink(output_dir, recursive = TRUE)
   english_figure_output_dir <- file.path(output_dir, "figures", "en")
   french_figure_output_dir <- file.path(output_dir, "figures", "fr")
+  silhouette_output_dir <- file.path(output_dir, "assets")
   dir.create(english_figure_output_dir, recursive = TRUE)
   dir.create(french_figure_output_dir, recursive = TRUE)
+  dir.create(silhouette_output_dir, recursive = TRUE)
 
   frontend_files <- c("index.html", "app.css", "app.js", "_headers")
   frontend_files <- file.path(web_dir, frontend_files)
@@ -216,6 +225,19 @@ build_web_species_pages <- function(
   if (!all(file.copy(english_source_images, english_figure_output_dir)) ||
       !all(file.copy(french_source_images, french_figure_output_dir))) {
     stop("Could not copy one or more species images.", call. = FALSE)
+  }
+  if (length(web_silhouette_paths)) {
+    silhouette_source_files <- file.path(web_dir, web_silhouette_paths)
+    if (!all(file.exists(silhouette_source_files))) {
+      stop(
+        "Missing silhouette asset: ",
+        silhouette_source_files[!file.exists(silhouette_source_files)][[1L]],
+        call. = FALSE
+      )
+    }
+    if (!all(file.copy(silhouette_source_files, silhouette_output_dir))) {
+      stop("Could not copy one or more silhouette assets.", call. = FALSE)
+    }
   }
 
   output <- list(

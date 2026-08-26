@@ -117,6 +117,8 @@ inst/data-examples.qmd
 inst/data-examples2.qmd
 report/tech-report-main/_book/gfsynopsis-2025-data.tex
 report/web/generated/
+!report/web/assets/
+!report/web/assets/*.png
 .wrangler/cache/pages.json
 .wrangler/cache/wrangler-account.json
 report/web/PLAN.md

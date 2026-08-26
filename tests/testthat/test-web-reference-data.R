@@ -33,6 +33,7 @@ test_that("web references resolve bibliography keys and note citations", {
     "R. E. Forrest, S. C. Anderson, C. J. Grandin et al. (2020)"
   )
   expect_match(references[[1L]]$citation, "Assessment of Pacific Cod")
+  expect_match(references[[1L]]$title, "Assessment of Pacific Cod")
   expect_match(references[[1L]]$url, "40952290.pdf")
 
   notes <- gfsynopsis:::web_resolve_note_citations(
