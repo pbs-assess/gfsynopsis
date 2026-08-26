@@ -33,7 +33,12 @@ if (length(missing_files)) {
 survey_samples <- map_dfr(
   species_files,
   \(file) readRDS(file)$survey_samples |>
-    mutate(length_type = as.character(length_type))
+    mutate(
+      length_type = as.character(length_type),
+      length_type = stringr::str_to_sentence(
+        stringr::str_replace_all(length_type, "_", " ")
+      )
+    )
 )
 
 length_type_table <- survey_samples |>
@@ -62,7 +67,8 @@ latex_table <- knitr::kable(
   format = "latex",
   booktabs = TRUE,
   longtable = TRUE,
-  caption = "Length type used for length samples."
+  caption = "Length type used for length samples. The most common length type for each species was chosen.",
+  label = "survey-length-types"
 )
 
 writeLines(latex_table, output_file)

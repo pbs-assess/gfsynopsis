@@ -1,4 +1,3 @@
 # Length types
 
-\include{survey-length-types.tex}
-
+\input{survey-length-types.tex}

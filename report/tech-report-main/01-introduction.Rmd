@@ -43,8 +43,8 @@ We show survey biomass index trends for the Hecate Strait Multispecies Assemblag
 The report includes counts of available fish specimens from biological samples on all surveys.
 A brief description of the included surveys is provided in Appendix F of @anderson2019synopsis along with associated references for details on design and implementation.
 
-(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Longline (HBLL) survey boundaries (right). 
-Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
+(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Longline (HBLL) survey boundaries (right).
+Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year.
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are not shown here because they are coast-wide and are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
 
@@ -55,10 +55,10 @@ In this report:
 * We rebuilt all figure pages with data up to 2025 using the methods described in @anderson2019synopsis, @anderson2020fisheries, @synopsis2021data, @synopsis2022data, @synopsis2023data, and @synopsis2024data.
 * We updated the recent references at the top of each species page.
 * We added pages for Pacific Herring, American Shad, Pink Salmon, Chum Salmon, Coho Salmon, Sockeye Salmon, and Chinook Salmon.
-* We added a table documenting which length measurement type is displayed for each species.
+* We added a table documenting which length measurement type is displayed for each species (Table \@ref(tab:survey-length-types)).
 * We raised the limit on the average coefficient of variation above which we do not display the geostatistical indices of abundance from 1.0 to 1.25.
 * We added snout-to-anal-fin length measurements for all grenadiers.
-* We corrected the algorithm that is designed to simplify the fitted spatiotemporal index standardization model if more complex versions fail to converge. The new version makes use of the new option `collapse_spatial_variance` in the sdmTMB R package (REF). With this option enabled, if the variance of a given random effect component is estimated to have a standard deviation below 0.1, the model is refit with the component turned off (fixed to zero).
+* We corrected the algorithm that is designed to simplify the fitted spatiotemporal index standardization model if more complex versions fail to converge. The new version makes use of the new option `collapse_spatial_variance` in the sdmTMB R package [@anderson2022sdmTMB]. With this option enabled, if the standard deviation of a given random effect component is estimated to be below 0.1, the model is refit with the component turned off (fixed to zero).
 * We added a web version of the report at <https://gfsynopsis.ca>.
 
 \clearpage
@@ -70,4 +70,3 @@ source(here::here("report/tech-report-main/intro-maps.R"))
 ```{r management-map, fig.cap="Map of Pacific Marine Fisheries Commission (PMFC) areas 5AB (Queen Charlotte Sound), 5CD (Hecate Strait), 5E (West Coast Haida Gwaii), 3CD (West Coast Vancouver Island), and 4B (Strait of Georgia). These are close, but not identical, to similarly named Groundfish Management Unit areas. Areas 3AB and 4A are outside of Canadian waters.", out.width="5.8in", fig.pos="htbp"}
 knitr::include_graphics(here::here("report/tech-report-main/figure/3CD5ABCDE.png"), dpi = NA)
 ```
-
