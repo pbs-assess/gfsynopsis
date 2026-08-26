@@ -71,15 +71,11 @@
           <h2 id="common-name"></h2>
           <p id="scientific-name" class="scientific-name"></p>
         </div>
-        <div id="cosewic-status-badge" class="status-badges status-badges--cosewic" aria-label="Conservation status" data-i18n-aria-label="conservationStatus"></div>
-        <div id="sara-status-badge" class="status-badges status-badges--sara" aria-label="Conservation status" data-i18n-aria-label="conservationStatus"></div>
         <figure id="species-silhouette" class="species-silhouette" hidden>
           <img id="species-silhouette-image" alt="">
           <figcaption>
             <span id="species-silhouette-label"><em>Scientific name</em></span>
-            ·
-            <a id="species-silhouette-credit" target="_blank" rel="noopener noreferrer"></a>
-            · <a id="species-silhouette-license" target="_blank" rel="noopener noreferrer"></a>
+            <span id="species-silhouette-attribution"></span>
           </figcaption>
         </figure>
       </header>
@@ -97,6 +93,10 @@
           </div>
         </dl>
         <nav id="external-links" class="external-links" aria-label="External species records" data-i18n-aria-label="externalSpeciesRecords"></nav>
+        <section id="conservation-status" class="conservation-status" aria-labelledby="conservation-status-heading" hidden>
+          <h3 id="conservation-status-heading" data-i18n="conservationStatus">Conservation status</h3>
+          <div id="conservation-status-list"></div>
+        </section>
         <section id="references-section" class="text-section references-section" aria-labelledby="references-heading" hidden>
           <h3 id="references-heading" data-i18n="reportsAndReferences">Latest reports</h3>
           <ul id="references-list"></ul>

@@ -296,7 +296,8 @@ main {
 
 .species-silhouette {
   display: flex;
-  flex: 0 1 clamp(10rem, 17vw, 16rem);
+  flex: 0 0 min(11.25rem, 100%);
+  width: min(11.25rem, 100%);
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
@@ -306,15 +307,16 @@ main {
 
 .species-silhouette img {
   display: block;
-  width: min(100%, 15rem);
+  width: 100%;
   height: auto;
-  max-height: 5.5rem;
+  max-height: 10rem;
   object-fit: contain;
   object-position: right center;
   filter: invert(1);
 }
 
 .species-silhouette figcaption {
+  width: min(18rem, calc(100vw - 2.5rem));
   color: rgb(255 255 255 / 72%);
   font-size: 0.62rem;
   line-height: 1.2;
@@ -338,38 +340,6 @@ main {
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.1rem, 2vw, 1.35rem);
   font-style: italic;
-}
-
-.status-badges {
-  display: flex;
-  flex: 0 0 auto;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.status-badges--cosewic {
-  margin-left: auto;
-}
-
-.status-badges:empty {
-  display: none;
-}
-
-.status-badge {
-  padding: 0.45rem 0.65rem;
-  border: 1px solid var(--status-border);
-  border-radius: 0;
-  background: var(--status);
-  color: var(--ink);
-  font-size: 0.88rem;
-}
-
-.status-badge strong {
-  display: block;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .metadata-panel {
@@ -415,6 +385,18 @@ main {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.5rem 1rem;
+}
+
+.conservation-status {
+  width: 100%;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.conservation-status h3 {
+  margin: 0 0 0.65rem;
+  color: var(--ink);
+  font-size: 1rem;
 }
 
 .external-links a::after {
@@ -756,17 +738,8 @@ main {
     text-align: left;
   }
 
-  .status-badges,
   .external-links {
     justify-content: flex-start;
-  }
-
-  .status-badges {
-    flex-basis: auto;
-  }
-
-  .status-badges--cosewic {
-    margin-left: 0;
   }
 
   .metadata-panel {

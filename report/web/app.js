@@ -114,12 +114,11 @@ const elements = {
   silhouette: document.querySelector("#species-silhouette"),
   silhouetteImage: document.querySelector("#species-silhouette-image"),
   silhouetteLabel: document.querySelector("#species-silhouette-label"),
-  silhouetteCredit: document.querySelector("#species-silhouette-credit"),
-  silhouetteLicense: document.querySelector("#species-silhouette-license"),
+  silhouetteAttribution: document.querySelector("#species-silhouette-attribution"),
   order: document.querySelector("#species-order"),
   family: document.querySelector("#species-family"),
-  cosewicBadge: document.querySelector("#cosewic-status-badge"),
-  saraBadge: document.querySelector("#sara-status-badge"),
+  conservationStatus: document.querySelector("#conservation-status"),
+  conservationStatusList: document.querySelector("#conservation-status-list"),
   links: document.querySelector("#external-links"),
   referencesSection: document.querySelector("#references-section"),
   references: document.querySelector("#references-list"),
@@ -254,22 +253,19 @@ function addTextWithLinks(container, text) {
   container.append(document.createTextNode(text.slice(position)));
 }
 
-function renderBadges(page) {
+function renderConservationStatus(page) {
+  elements.conservationStatusList.replaceChildren();
   const statuses = [
-    [elements.cosewicBadge, t("cosewicStatus"), translateStatus(page.cosewic_status)],
-    [elements.saraBadge, t("saraStatus"), translateStatus(page.sara_status)]
-  ];
+    [t("cosewicStatus"), translateStatus(page.cosewic_status)],
+    [t("saraStatus"), translateStatus(page.sara_status)]
+  ].filter(([, value]) => value);
 
-  for (const [container, label, value] of statuses) {
-    container.replaceChildren();
-    if (!value) continue;
-    const badge = document.createElement("span");
-    badge.className = "status-badge";
-    const heading = document.createElement("strong");
-    heading.textContent = label;
-    badge.append(heading, document.createTextNode(value));
-    container.append(badge);
-  }
+  statuses.forEach(([label, value]) => {
+    const line = document.createElement("div");
+    line.textContent = `${label}: ${value}`;
+    elements.conservationStatusList.append(line);
+  });
+  elements.conservationStatus.hidden = statuses.length === 0;
 }
 
 function renderLinks(links) {
@@ -363,10 +359,33 @@ function renderSilhouette(silhouette) {
     scientificName.textContent = matchedName;
     elements.silhouetteLabel.append(scientificName);
   }
-  elements.silhouetteCredit.href = silhouette.source_url;
-  elements.silhouetteCredit.textContent = silhouette.credit;
-  elements.silhouetteLicense.href = silhouette.license_url;
-  elements.silhouetteLicense.textContent = silhouette.license;
+  elements.silhouetteAttribution.replaceChildren();
+  if (silhouette.credit) {
+    elements.silhouetteAttribution.append(" · ");
+    if (silhouette.source_url) {
+      const credit = document.createElement("a");
+      credit.href = silhouette.source_url;
+      credit.target = "_blank";
+      credit.rel = "noopener noreferrer";
+      credit.textContent = silhouette.credit;
+      elements.silhouetteAttribution.append(credit);
+    } else {
+      elements.silhouetteAttribution.append(silhouette.credit);
+    }
+  }
+  if (silhouette.license) {
+    elements.silhouetteAttribution.append(" · ");
+    if (silhouette.license_url) {
+      const license = document.createElement("a");
+      license.href = silhouette.license_url;
+      license.target = "_blank";
+      license.rel = "noopener noreferrer";
+      license.textContent = silhouette.license;
+      elements.silhouetteAttribution.append(license);
+    } else {
+      elements.silhouetteAttribution.append(silhouette.license);
+    }
+  }
   elements.silhouette.hidden = false;
 }
 
@@ -444,7 +463,7 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   renderSilhouette(page.silhouette);
   elements.order.textContent = displayPage.order;
   elements.family.textContent = displayPage.family;
-  renderBadges(displayPage);
+  renderConservationStatus(displayPage);
   renderLinks(displayPage.links);
   renderReferences(displayPage.references);
   renderNotes(displayPage.notes);

@@ -49,11 +49,18 @@ environment variables shown by `./report/web/deploy.sh --help`.
 
 ## Species silhouettes
 
-The build resolves one PhyloPic silhouette for each species with the
-[`rphylopic`](https://rphylopic.palaeoverse.org/) package and caches the SVGs in
+The build gives locally supplied SVGs in `assets/inkscape/` priority over
+PhyloPic silhouettes. The local silhouette attribution is maintained in
+`report/R/10-build-web.R`. For species without a local SVG, the build resolves
+one PhyloPic silhouette with the
+[`rphylopic`](https://rphylopic.palaeoverse.org/) package and caches it in
 `assets/`. It tries the species name first, then the genus name when no
-species-level silhouette is available. Each rendered silhouette links to
-its PhyloPic source, contributor, and license.
+species-level silhouette is available. PhyloPic silhouettes link to their
+source, contributor, and license.
+
+`Rscript report/web/trim-silhouettes.R` crops transparent margins from every
+silhouette SVG. The web build runs this script after resolving silhouettes, so
+newly downloaded PhyloPic SVGs receive the same treatment automatically.
 
 ## Building and previewing locally
 
