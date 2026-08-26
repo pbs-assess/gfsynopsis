@@ -652,6 +652,21 @@ main {
 }
 
 @media (max-width: 700px) {
+  .species-toolbar {
+    position: static;
+  }
+
+  .species-picker {
+    position: sticky;
+    z-index: 10;
+    top: 0;
+    max-width: none;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--line);
+    background: rgb(238 238 238 / 96%);
+    backdrop-filter: blur(10px);
+  }
+
   .site-header__inner,
   .species-toolbar__inner,
   main,
