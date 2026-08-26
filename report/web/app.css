@@ -348,6 +348,7 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+  row-gap: 1.25rem;
   padding: 1.15rem clamp(1.25rem, 3vw, 2rem);
   border: 1px solid var(--line);
   border-top: 0;
@@ -394,7 +395,7 @@ main {
 }
 
 .conservation-status h3 {
-  margin: 0 0 0.65rem;
+  margin: 0 0 0.5rem;
   color: var(--ink);
   font-size: 1rem;
 }
@@ -428,10 +429,15 @@ main {
   border: 0;
   background: transparent;
   font-size: 0.85rem;
+  color: var(--muted);
 }
 
 .notes-section p {
   margin: 0;
+}
+
+.notes-section h3 {
+  color: var(--ink);
 }
 
 .text-section.references-section ul {
@@ -446,7 +452,7 @@ main {
 }
 
 .text-section h3 {
-  margin: 0 0 0.65rem;
+  margin: 0 0 0.5rem;
   font-size: 1rem;
 }
 

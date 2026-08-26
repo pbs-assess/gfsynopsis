@@ -12,6 +12,7 @@ resolve_phylopic_silhouettes <- function(pages, asset_dir) {
     "chum-salmon" = "NOAA",
     "coho-salmon" = "WDFW",
     "copper-rockfish" = "WDFW",
+    "dover-sole" = "WDFW",
     "pacific-cod" = "NOAA",
     "north-pacific-spiny-dogfish" = "WDFW",
     "petrale-sole" = "WDFW",
@@ -20,6 +21,7 @@ resolve_phylopic_silhouettes <- function(pages, asset_dir) {
     "quillback-rockfish" = "WDFW",
     "salmon-shark" = "Shorefishes of the Eastern Pacific online information system",
     "shortraker-rockfish" = "WDFW",
+    "silvergray-rockfish" = "WDFW",
     "yelloweye-rockfish" = "NOAA"
   )
   local_silhouette_dir <- file.path(asset_dir, "inkscape")

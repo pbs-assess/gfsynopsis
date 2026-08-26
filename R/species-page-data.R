@@ -112,6 +112,51 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
       "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
   }
+  if (identical(species_code, "405")) {
+    notes <- c(
+      notes,
+      if (!french) {
+        paste0(
+          "In the 2025 assessment, it was recommended that if a 40% change in the ",
+          "3-year running average of the coastwide geostatistical index or the ",
+          "coastwide commercial CPUE index relative to the 2024 value was observed, ",
+          "an early reassessment of Silvergray Rockfish should be brought forward for ",
+          "consideration. In 2025, these exceptional circumstance criteria were **not** met."
+        )
+      } else {
+        paste0(
+          "Dans l’évaluation de 2025, il a été recommandé que, si une variation de ",
+          "40 % de la moyenne mobile sur 3 ans de l’indice géostatistique à l’échelle ",
+          "de la côte ou de l’indice de CPUE commerciale à l’échelle de la côte par ",
+          "rapport à la valeur de 2024 était observée, une réévaluation anticipée du ",
+          "sébaste argenté soit proposée pour examen. En 2025, ces critères de ",
+          "circonstances exceptionnelles n’ont **pas** été remplis."
+        )
+      }
+    )
+  }
+  if (identical(species_code, "626")) {
+    notes <- c(
+      notes,
+      if (!french) {
+        paste0(
+          "In the 2025 assessment, it was recommended that if a 50% change in the ",
+          "3-year running average of the coastwide geostatistical index relative to ",
+          "the 2024 value was observed, an early reassessment of Dover Sole should be ",
+          "brought forward for consideration. In 2025, this exceptional circumstance ",
+          "criterion was **not** met."
+        )
+      } else {
+        paste0(
+          "Dans l’évaluation de 2025, il a été recommandé que, si une variation de ",
+          "50 % de la moyenne mobile sur 3 ans de l’indice géostatistique à l’échelle ",
+          "de la côte par rapport à la valeur de 2024 était observée, une réévaluation ",
+          "anticipée de la limande-sole du Pacifique soit proposée pour examen. En ",
+          "2025, ce critère de circonstances exceptionnelles n’a **pas** été rempli."
+        )
+      }
+    )
+  }
   if (identical(field("family"), "Salmonidae")) {
     salmon_note <- paste0(
       "Salmon identification and catch counts are not representative for the ",

@@ -236,19 +236,25 @@ function setupMobileSpeciesPicker() {
 }
 
 function addTextWithLinks(container, text) {
-  const linkPattern = /\[([^\]]+)]\((https:\/\/[^)]+)\)/g;
+  const markupPattern = /\*\*([^*]+)\*\*|\[([^\]]+)]\((https:\/\/[^)]+)\)/g;
   let position = 0;
   let match;
 
-  while ((match = linkPattern.exec(text)) !== null) {
+  while ((match = markupPattern.exec(text)) !== null) {
     container.append(document.createTextNode(text.slice(position, match.index)));
-    const link = document.createElement("a");
-    link.href = match[2];
-    link.textContent = match[1];
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    container.append(link);
-    position = linkPattern.lastIndex;
+    if (match[1] !== undefined) {
+      const emphasis = document.createElement("strong");
+      emphasis.textContent = match[1];
+      container.append(emphasis);
+    } else {
+      const link = document.createElement("a");
+      link.href = match[3];
+      link.textContent = match[2];
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      container.append(link);
+    }
+    position = markupPattern.lastIndex;
   }
   container.append(document.createTextNode(text.slice(position)));
 }

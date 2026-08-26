@@ -76,7 +76,7 @@ web_bib_entry_citation <- function(entry) {
 
   pieces <- character()
   if (nzchar(authors)) pieces <- c(pieces, authors)
-  if (nzchar(year)) pieces <- c(pieces, paste0("(", year, ")"))
+  if (nzchar(year)) pieces <- c(pieces, paste0("(", year, ")."))
   if (nzchar(title)) pieces <- c(pieces, paste0(title, "."))
   if (nzchar(source)) pieces <- c(pieces, paste0(source, "."))
   if (nzchar(note) && !grepl(note, source, fixed = TRUE)) {
