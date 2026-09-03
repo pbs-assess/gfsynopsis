@@ -72,6 +72,35 @@ spp <- join_refs_spp(spp, french = french)
 
 set_data <- readRDS(file.path(dc, "survey-sets.rds"))
 
+na_grouping_code <- set_data |>
+  dplyr::filter(species_common_name == "petrale sole") |>  # pick any one!
+  dplyr::filter(is.na(grouping_code))
+nrow(na_grouping_code)
+
+table(na_grouping_code$survey_abbrev, na_grouping_code$year)
+
+na_grouping_code <- set_data |>
+  dplyr::filter(species_common_name == "petrale sole") |>  # pick any one!
+  dplyr::filter(!survey_abbrev %in% c("MSSM WCVI", "HS MSA")) |>
+  dplyr::filter(is.na(grouping_code)| !grepl("^SYN", survey_abbrev) | survey_series_id == 16L | !is.na(grouping_code_updated))
+
+table(na_grouping_code$survey_abbrev, na_grouping_code$year)
+
+
+# Match the legacy survey-set selection: retain events with an original
+# grouping code, and for SYN events other than WCHG require a survey-specific
+# updated grouping match as well. WCHG is exempt because its 2006 legacy
+# FISHING_EVENT_GROUPING codes differ from the original grouping codes. The
+# updated-grouping requirement still removes events such as SYN WCVI 1720127,
+# which has no matching FISHING_EVENT_GROUPING / SURVEY_GROUPING pair.
+# set_data <- set_data |>
+#   dplyr::filter(!is.na(grouping_code)) |>
+#   dplyr::filter(
+#     !grepl("^SYN", survey_abbrev) |
+#       survey_series_id == 16L |
+#       !is.na(grouping_code_updated)
+#   )
+
 if (!is_hake_server()) { # @Question - why check for hake server here? Is this just temporary to prevent it from resplitting since this has already been done?
   survey_set_dir <- file.path(dc, "survey-sets")
   dir.create(survey_set_dir, showWarnings = FALSE, recursive = TRUE)

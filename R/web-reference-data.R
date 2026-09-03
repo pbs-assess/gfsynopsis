@@ -114,7 +114,9 @@ web_reference_url_overrides <- function() {
     # Canadian technical report 3580 (the document cited in the Sablefish note).
     lacko2023 = "https://publications.gc.ca/collections/collection_2023/mpo-dfo/Fs97-6-3580-eng.pdf",
     # The IPHC landing page lists the annual assessment cited by the report.
-    iphc2025 = "https://www.iphc.int/research/stock-assessment/"
+    iphc2025 = "https://www.iphc.int/research/stock-assessment/",
+    # Link the salmon bycatch report citation directly to its PDF in the web report.
+    lagasse2024salmon = "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf"
   )
 }
 
@@ -255,11 +257,11 @@ web_resolve_note_citations <- function(
     note <- trimws(gsub("[[:space:]]+", " ", note))
     matches <- regmatches(
       note,
-      gregexpr("\\[@[A-Za-z][A-Za-z0-9_-]*\\]", note, perl = TRUE)
+      gregexpr("\\[?@[A-Za-z][A-Za-z0-9_-]*\\]?", note, perl = TRUE)
     )[[1L]]
     if (!length(matches) || identical(matches, "-1")) return(note)
     for (match in matches) {
-      key <- sub("^\\[@", "", match)
+      key <- sub("^\\[?@", "", match)
       key <- sub("\\]$", "", key)
       record <- by_key[[key]]
       if (is.null(record)) {

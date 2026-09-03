@@ -248,6 +248,25 @@ main,
   color: #fff;
 }
 
+.plot-descriptions-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--muted);
+  border-radius: 0.25rem;
+  background: #ffffff;
+  color: var(--ocean-dark);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.plot-descriptions-link:hover {
+  border-color: var(--ocean);
+  background: var(--ocean-pale);
+}
+
 main {
   min-height: 55vh;
   padding-block: clamp(1.5rem, 4vw, 3.5rem) 4rem;
@@ -477,6 +496,50 @@ main {
 
 .figures-section {
   margin-top: clamp(1.5rem, 3vw, 3rem);
+}
+
+.descriptions-page {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+}
+
+.descriptions-page__header {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--ocean);
+  color: #fff;
+}
+
+.descriptions-page__header h2 {
+  margin: 0;
+  font-size: clamp(1.9rem, 4.5vw, 3.5rem);
+  letter-spacing: -0.035em;
+  line-height: 1.03;
+}
+
+.descriptions-page__header p {
+  max-width: 55rem;
+  margin: 0.8rem 0 0;
+}
+
+.plot-description {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--line);
+  border-top: 0;
+}
+
+.plot-description h3 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.15;
+}
+
+.plot-description p {
+  max-width: 70rem;
+  margin: 0;
+}
+
+.plot-description p + p {
+  margin-top: 0.9rem;
 }
 
 .section-heading {

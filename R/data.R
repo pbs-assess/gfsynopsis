@@ -45,7 +45,8 @@ get_data <- function(
 
   if (force || !file.exists(file.path(path, "survey-sets.rds"))) {
     message("Running get_all_survey_sets()")
-    set_dat <- gfdata::get_all_survey_sets(species = spp$species_code, ssid = c(1, 3, 4, 16, 2, 7, 22, 36, 39, 40), remove_false_zeros = FALSE, usability = c(0, 1, 2, 6)) # dropped IPHC
+    set_dat <- gfdata::get_all_survey_sets(species = spp$species_code, ssid = c(1, 3, 4, 16, 2, 7, 22, 36, 39, 40), remove_false_zeros = FALSE, usability = c(0, 1, 2, 6), grouping_only = FALSE) # dropped IPHC
+    # note grouping_only = FALSE!
     saveRDS(set_dat, file = file.path(path, "survey-sets.rds"))
   }
 

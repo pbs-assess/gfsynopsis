@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Descriptions of the figures in the British Columbia groundfish data synopsis.">
+  <title>Plot descriptions · BC Groundfish Data Synopsis</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <a class="skip-link" href="#plot-descriptions">Skip to plot descriptions</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="eyebrow">Data synopsis</p>
+      <h1>British Columbia groundfish</h1>
+    </div>
+  </header>
+
+  <nav class="species-toolbar" aria-label="Site navigation">
+    <div class="species-toolbar__inner">
+      <a class="plot-descriptions-link" href="index.html">← Species synopsis</a>
+    </div>
+  </nav>
+
+  <main>
+    <article id="plot-descriptions" class="descriptions-page" tabindex="-1">
+      <header class="descriptions-page__header">
+        <h2>Plot descriptions</h2>
+        <p>These descriptions explain how to interpret each visualization in the species-by-species synopsis pages.</p>
+      </header>
+
+      <section class="plot-description" aria-labelledby="survey-index-heading">
+        <h3 id="survey-index-heading">Relative biomass index trends from surveys</h3>
+        <p>Dots represent design-based mean estimates of relative biomass and vertical lines around the dots represent 95% bootstrap confidence intervals. Time series with a solid trend line and shaded ribbon for 95% confidence intervals represent an index that has been standardized with a spatiotemporal model. Spatiotemporal-model-based indices are omitted for a survey-species combination if fewer than 5% of sets contained the species or if no models converged. “Mean CV” is the mean of the annual coefficients of variation (CVs), and “Mean +ve sets” indicates the ratio of the mean number, across years, of sets that captured the species of interest to the mean number of sets.</p>
+        <p>All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. When both types of indices are shown, they are scaled to have the same geometric mean and the axes are set to encompass the model-based confidence intervals. For the MSSM WCVI, years before 2003 are shaded grey to indicate that catches are considered less reliable than modern data. For the HBLL OUT, HBLL INS, and IPHC FISS the values are abundance rather than biomass. Coastwide or survey-wide indices are also included for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.</p>
+        <p><strong>Survey abbreviations:</strong> SYN WCHG = West Coast Haida Gwaii Synoptic Bottom Trawl; SYN HS = Hecate Strait Synoptic Bottom Trawl; SYN QCS = Queen Charlotte Sound Synoptic Bottom Trawl; SYN WCVI = West Coast Vancouver Island Synoptic Bottom Trawl; HBLL OUT N/S = Hard Bottom Longline Outside North/South; HBLL INS N/S = Hard Bottom Longline Inside North/South; IPHC FISS = International Pacific Halibut Commission Fishery-Independent Setline Survey; MSA HS = Hecate Strait Multispecies Assemblage Bottom Trawl; MSSM WCVI = West Coast Vancouver Island Multispecies Small-mesh Bottom Trawl.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="survey-maps-heading">
+        <h3 id="survey-maps-heading">Maps of relative biomass from surveys</h3>
+        <p>These maps show relative biomass, or catch rate, from trawl and longline surveys for the latest available year of each survey. The synoptic trawl surveys are on the left, outside hard-bottom longline (HBLL OUT) surveys are in the middle, and IPHC FISS surveys are on the right. Individual sets in the two left panels are shown as faint crosses when the species was not caught, or circles with area proportional to the species density from the set. Colour shading, except for the IPHC survey, indicates predictions from a spatial model that includes depth, depth squared, and spatial random effects.</p>
+        <p>The colour scale is fourth-root transformed to show a pattern similar to a log transformation without overemphasizing differences close to zero. It ranges from zero to the highest value within each map; dark grey indicates regions where models could not be fit. Synoptic and HBLL maps show predicted biomass density throughout the survey domain. IPHC maps show raw, unmodelled data at fixed station locations, with stations without observations shown as empty circles. Years at the left of each plot identify the respective survey. Surveys other than IPHC in which fewer than 2% of sets contained the species are not modelled and show raw data only. Mean values at the bottom are mean raw-data fish densities for the entire coast in the indicated years; IPHC units are fish per effective skate, where an effective skate represents 100 circle hooks with 18-foot spacing. The coast is rotated 40° to fit the maps; depth contours are shown at 100 m, 200 m, and 500 m.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="catch-heading">
+        <h3 id="catch-heading">Commercial fishery catches</h3>
+        <p>Catch from various gear types is indicated by colour shading. Catch is calculated as the summed weight of landings aggregated by year. Discards include reported discard weights from all fisheries combined; however, bottom-trawl discards are considered less reliable before 100% observer coverage in 1996, and trap, hook-and-line, midwater-trawl, and Strait of Georgia bottom-trawl discards are less reliable before fisheries integration in 2006 and are therefore not included. Catch data before 1996 and 2006 are shaded grey to indicate that they are considered less reliable than more recent data.</p>
+        <p>Catch estimates from bottom- and midwater-trawl fleets operating in outside waters are less certain before the introduction of an at-sea observer program in 1996. Similarly, catch estimates from non-trawl sectors are less certain before the implementation of an at-sea electronic monitoring program in 2006. The trawl at-sea observer program was discontinued in early 2020 because of COVID-19; the fleet has since been monitored with electronic monitoring systems, supplemented by port-based biological sampling for some species. Management areas are identified in the top left corner of each panel.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="trawl-cpue-heading">
+        <h3 id="trawl-cpue-heading">Commercial bottom trawl catch per unit effort indices</h3>
+        <p>Commercial bottom-trawl catch per unit effort (CPUE) trends use hours trawled as effort. Commercial CPUE is standardized with a spatiotemporal model. The line and shaded region represent the mean and 95% confidence interval. Standardized time series are scaled to have the same maximum 95% confidence interval. Management areas are identified in the top left corner of each panel.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="cpue-maps-heading">
+        <h3 id="cpue-maps-heading">Maps of commercial catch per unit effort</h3>
+        <p>These maps show commercial trawl and commercial hook-and-line catch per unit effort. Lighter shading indicates higher geometric mean catch per unit effort in a hexagonal cell. The colour scale is fourth-root transformed to show a pattern similar to a log transformation without overemphasizing differences close to zero. Cells are 7 km wide and are shown only where at least three unique vessels occurred, to meet privacy requirements.</p>
+        <p>For bottom trawl, CPUE is the weight of catch (landings plus discards) divided by hours fished for all positive tows from the groundfish trawl sector. Trawl data are shown from 2013 onward, after ecosystem-based trawling boundaries established the trawl footprint. Data from 2007–2012 are outlined light-grey hexagons to show fishing before the frozen footprint. For hook and line, CPUE is the number of fish recorded as landed or discarded per set. Hook-and-line data are shown from 2008 onward. Including as many years as possible reduces the number of fishing events discarded when applying the three-vessel privacy requirement. The coast is rotated 40° to fit the maps; depth contours are shown at 100 m, 200 m, and 500 m.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="samples-heading">
+        <h3 id="samples-heading">Available biological samples</h3>
+        <p>These plots show the number of available fish specimens with length measurements, weights, maturity assessments, age assessments, and ageing structures available for ageing. Data are shown for all surveys, not just the surveys shown elsewhere in the synopsis, in the top panel, and for all commercial fleets in the bottom panel. Blank panels indicate year-measurement combinations without data. Cell shading reflects the relative number of specimens available, and cells show the actual count rounded to a nearby round number.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="length-heading">
+        <h3 id="length-heading">Length composition data</h3>
+        <p>Female fish are shown as coloured, or black, bars and male fish are shown behind them as light-grey bars. The total number of fish measured for a survey and year appears in the top left corner of each panel. Histograms are shown only when more than 20 fish were measured for a given survey-year combination. Commercial male and female fish are combined because many fish are unsexed.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="age-heading">
+        <h3 id="age-heading">Age composition data</h3>
+        <p>Female fish are shown as coloured, or black, circles and male fish are shown behind them as light-grey circles. The total number of fish aged for a survey and year appears along the top of the panels. Diagonal lines at five-year intervals help trace cohorts through time. The plots show the most recent 15-year window for which ageing data exist. Ageing-precision plots comparing readings by two people are available for species with age data in Appendix A of Anderson et al. (2019).</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="growth-heading">
+        <h3 id="growth-heading">Length-age and length-weight model fits</h3>
+        <p>The length-age growth curve is a von Bertalanffy model. The length-weight curve is a Student-t model, with three degrees of freedom to be robust to outliers. Female model fits are solid black lines and male model fits are dashed grey lines. Text on the panels gives parameter estimates, and open grey circles are individual fish used to fit the models. These figures include all survey samples.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="maturity-month-heading">
+        <h3 id="maturity-month-heading">Maturity frequency by month</h3>
+        <p>Maturity categories are listed from the most immature at the top to the most mature at the bottom; once mature, individual fish cycle through mature stages. Circle area corresponds to the number of fish specimens in a maturity category and month. Female fish are black circles and male fish are light-grey circles behind them. Numbers at the top give the total number of fish specimens for each month. These plots include both commercial and survey samples.</p>
+      </section>
+
+      <section class="plot-description" aria-labelledby="maturity-ogive-heading">
+        <h3 id="maturity-ogive-heading">Maturity ogives</h3>
+        <p>Maturity ogives are logistic regressions fit to individual fish specimens categorized as mature or not mature. Solid black lines are fits to female fish and dashed grey lines are fits to male fish. Vertical lines show estimated age or length at 50% maturity. Text on the panels gives estimated age and length at 5%, 50%, and 95% maturity for females (F) and males (M). Fits are shown only when there are at least 20 mature and 20 immature males and females.</p>
+        <p>Short rug lines at the top and bottom of each panel represent up to 1,500 randomly selected fish. Ages are slightly jittered to help distinguish individual fish. Models use all available survey samples regardless of time of year.</p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

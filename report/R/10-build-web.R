@@ -475,7 +475,9 @@ build_web_species_pages <- function(
   dir.create(french_figure_output_dir, recursive = TRUE)
   dir.create(silhouette_output_dir, recursive = TRUE)
 
-  frontend_files <- c("index.html", "app.css", "app.js", "_headers")
+  frontend_files <- c(
+    "index.html", "plot-descriptions.html", "app.css", "app.js", "_headers"
+  )
   frontend_files <- file.path(web_dir, frontend_files)
   frontend_files <- frontend_files[file.exists(frontend_files)]
   if (length(frontend_files) && !all(file.copy(frontend_files, output_dir))) {
