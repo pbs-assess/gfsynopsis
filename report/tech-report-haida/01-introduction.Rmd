@@ -6,62 +6,67 @@ roi <- "Haida Territory"
 
 # Introduction {#sec:introduction}
 
-The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, form the backbone of most fisheries stock assessments.
-Fisheries and Oceans Canada (DFO) manages vast quantities of such data on groundfish species in British Columbia (BC).
-However, formal stock assessments are not conducted on an annual basis for most stocks, and so much of these data are not summarized to represent the nature of the data holdings.
+Fisheries and Oceans Canada (DFO) manages vast quantities of data on groundfish species in British Columbia (BC).
+The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, forms the backbone of most fisheries stock assessments and Canada's subsequent management decisions related to those fisheries.
+However, formal stock assessments are not conducted on an annual basis for most stocks, and so many of these data are not summarized to represent the nature of the data holdings.
+To address this, DFO began publishing an annual coastwide groundfish data synopsis report to provide more frequent coastwide updates to long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries; @synopsis2022data; @synopsis2023data; @synopsis2024data].
 
-The original groundfish data synopsis report was developed to provide a coastwide snapshot of long-term and recent population and fishing trends, as well as data availability, for all major BC groundfish species of commercial and conservation interest [@anderson2019synopsis; @anderson2020fisheries].
-The report was published as a Canadian Science Advisory Secretariat (CSAS) Research Document [@anderson2019synopsis] to facilitate review of the methods, with the intent to update the report on a regular schedule.
-In 2022, the first update was published as a Science Response including data up to 2021 [@synopsis2021data].
-Versions with 2022 [@synopsis2022data], 2023 [@synopsis2023data], and 2024 [@synopsis2024data] data were published as Technical Reports.
+As we enter a new era of co-management under an ever-growing number of co-governance agreements between Canada and First Nations in British Columbia, access to and a common understanding of these data serve as a key pillar for developing trust between the parties.
+A recurring theme heard amongst members of the Collaborative Science for Reconciliation Section in DFO Science when co-developing priorities with First Nations partners has been the desire for those groups to have a better understanding of the data held by DFO and for them to be available in a timely manner. Additionally, DFO's cycles of stock assessment and management may not align with co-management cycles, creating a need for more frequent updates.
+Many stocks are currently considered coastwide and managed on very large scales, with similarly large-scale conservation objectives and harvest rates.
+These larger scales do not take into account the potential for localized depletions that can be consequential for Community-Based or Food, Social, and Ceremonial fisheries.
 
+To better facilitate the sharing of information between DFO and First Nations partners at spatial scales relevant to co-governance discussions and place-based management, the adaptation presented here of the original groundfish data synopsis report was developed by the Pacific Groundfish and the Collaborative Science for Reconciliation Sections in DFO Science, with support from the Haida Joint Halibut and Groundfish Technical Committee.
 The groundfish data synopsis report generation is automated---pulling data from databases, fitting models, generating visualizations, and stitching the document together to facilitate rapid publication, reproducibility, and transparency.
-The goals of the report are to
-(1) facilitate regular review by groundfish
-scientists and managers of trends in survey indices and stock composition
-across all species to provide information for discussion on assessment
-priorities;
+This report is a regional adaptation of the coastwide synopsis report, summarising data to provide population trends and data availability specific to `r roi`.
+We use the same automated report format and standardised layout, but focus on data relevant to `r roi`.
+This regional adaptation was designed to be reproducible for different regions of interest.
+`r roi` is a large region that encompasses a significant portion of scientific survey and commercial fishing activity in British Columbia.
+However, it should be noted that by subsetting and reducing data inputs relative to the coastwide report, there will be more blank panels and some species pages will have no information to be shown.
+With smaller regions of interest, the uncertainty associated with the survey indices and commercial CPUE will also increase.
+
+
+# Report structure {#sec:report-structure}
+
+The goals of the coastwide groundfish synopsis report are to
+(1) facilitate regular review by groundfish scientists and managers of trends in survey indices and stock composition across all species to provide information for discussion on assessment priorities;
 (2) generate standardized datasets, biological model fits, and visualizations that will help assessment scientists develop operating models and select candidate management procedures for groundfish stocks; and
 (3) increase data transparency between DFO, the fishing industry, First Nations, non-governmental organizations, and the general public.
+In this regional adaptation, an additional goal is to present this information at finer spatial scales more relevant to co-governance discussions and place-based management in `r roi`.
 
 The main figures of the synopsis report are presented in two-page species-by-species subsections that visually synthesize most available data for each species.
-The report covers `r no_species` groundfish species that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in our research surveys.
+The report includes `r no_species` fish species, primarily groundfish, that are either of commercial, recreational, conservation, or First Nations interest, or are regularly caught in DFO research surveys.
 The report focuses on the surveys and data types applicable to the widest array of these species.
 
 Each set of pages for a single species is laid out in the same format.
-The page layout begins with the species common name, the species scientific name, and the DFO species code, which usually corresponds to the page number referencing the species in @hart1988.
+The page layout begins with the species common name, the species scientific name, and the DFO species code, which usually corresponds to the page number referencing the species in [@hart1988].
 The figures are laid out such that the first page has survey (Figure \@ref(fig:intro-maps)) time series trends and spatial patterns on the left and commercial time series by Pacific Marine Fisheries Commission areas (Figure \@ref(fig:management-map)) and spatial patterns on the right.
 The second page focuses on biological samples from both fishery dependent and independent sources.
 This page presents length and age data, maturity data, and an overview of available numbers of sampled fish per year across all survey and commercial samples.
-
-This report is a regional adaptation of the coastwide synopsis report, summarising data to provide a snapshot of population trends and data availability specific to Haida Territory.
-We use the same automated report format and standardised layout, but focus on data relevant to `r roi`.
-These changes have also been made to allow for the report to be reproduced for different regions of interest.
-However, it should be noted that as a result of the subsetting and reduced data inputs in some cases, there will be more blank panels and some species pages will have no information to be shown.
-With smaller regions of interest, the uncertainty associated with the survey indices and commercial CPUE will also increase. 
 
 To focus this report on `r roi`, we have made the following changes relative to the coastwide report:
 
 **Survey indices**
 
-Spatiotemporal model-based indices of relative biomass or abundance are shown for surveys that sample within `r roi`. 
-In this report, this includes the following individual surveys: three Synoptic Bottom Trawl surveys: West Coast Haida Gwaii (SYN WCHG), Hecate Strait (SYN HS), and Queen Charlotte Sound (SYN QCS); the Outside Hard Bottom Longline North and South (HBLL OUT N, HBLL OUT S) (Figure \@ref(fig:intro-maps)); and the International Pacific Halibut Commission Fishery Independent Setline (IPHC FISS) surveys.
+Spatiotemporal model-based indices of relative biomass or abundance are shown for surveys that sample within `r roi`.
+The individual surveys included in this report are: three Synoptic Bottom Trawl surveys---West Coast Haida Gwaii (SYN WCHG), Hecate Strait (SYN HS), and Queen Charlotte Sound (SYN QCS); the Outside Hard Bottom Longline North and South (HBLL OUT N, HBLL OUT S) (Figure \@ref(fig:intro-maps)); and the International Pacific Halibut Commission Fishery Independent Setline Survey (IPHC FISS).
 We also use spatiotemporal models to "stitch" together data from multiple surveys of the same type (e.g., all Synoptic Bottom Trawl surveys, or all HBLL OUT surveys) to produce coastwide indices.
-Using these models, we calculate and present the indices restricted to `r roi`. 
-We exclude the design-based indices for surveys that are not fully contained within `r roi` because the stratified random sampling method was designed to represent each individual survey region as a whole. 
-Subsetting these indices to the smaller spatial area could introduce bias as the original sampling design was done to estimate a design-based index within each survey. <!--REFS?-->
+Using these models, we calculate and present the indices restricted to `r roi`.
+We exclude the design-based indices for surveys that are not fully contained within `r roi` because the stratified random sampling method was designed to represent each individual survey region as a whole.
+Subsetting these indices to the smaller spatial area could introduce bias as the original sampling design was done to estimate a design-based index within each survey.
 Therefore, in this report, the design-based indices are presented only for SYN WCHG.
 
 **Commercial catch**
 
-Commercial fishery catch data has been subset to locations that overlap with `r roi`. The total catch is indicated as "Whole Area" (Figure \@ref(fig:catches)), with breakdowns by the Pacific Marine Fisheries Commission (PMFC) areas 5CDE, and 5AB. 
-Prior to 2006, commercial catch data did not include latitude/longitude information and so has not been included. <!--*Q: is there more to say here?*-->
-However, the modelled commercial bottom trawl catch per unit effort (CPUE) indices are presented starting in 1996 (Figure \@ref(fig:trawl-cpue-index)), as is done in the coastwide report. 
+Commercial fishery catch data have been subset to locations that overlap with `r roi`.
+The total catch is indicated as "Whole Area" (Figure \@ref(fig:catches)), with breakdowns by the Pacific Marine Fisheries Commission (PMFC) areas 5CDE and 5AB.
+Prior to 2006, commercial catch data did not include latitude/longitude information and so has not been included.
+However, the modelled commercial bottom trawl catch per unit effort (CPUE) indices are presented starting in 1996 (Figure \@ref(fig:trawl-cpue-index)), as is done in the coastwide report.
 Similar to the survey indices, the commercial catch CPUE was calculated using coastwide data (see Appendix A in @synopsis2024data) and then subset to grid cells within `r roi` for presentation.
 
 **Maps of relative biomass from surveys**
 
-The maps of relative biomass from surveys (Figure \@ref(fig:survey-maps)) display coastwide data with Haida Territory outlined in black to show how regional patterns compare to coastwide patterns
+The maps of relative biomass from surveys (Figure \@ref(fig:survey-maps)) display coastwide data with `r roi` outlined in black to show how regional patterns compare to coastwide patterns.
 
 **Biological sampling data**
 
@@ -74,8 +79,8 @@ The fitted growth curves and maturity ogives are specific to samples from `r roi
 shapefile <- sf::st_read(here::here("report/spatial-filtering/shape-files/haida/"), quiet = TRUE)
 ```
 
-(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Longline (HBLL) survey boundaries (right), overlaid with the `r roi` polygon shown as a black line. 
-The Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year. 
+(ref:intro-maps-cap) Synoptic bottom trawl survey boundaries (left) and Hard Bottom Longline (HBLL) survey boundaries (right), overlaid with the `r roi` polygon shown as a black line.
+The Inside HBLL north and south are not differentiated because the delineation is not consistent from year to year.
 The International Pacific Halibut Commission (IPHC) Fishery Independent Setline survey (FISS) locations are illustrated in the right panel of Figure \@ref(fig:survey-maps).
 Colours match the colour coding throughout the report.
 
