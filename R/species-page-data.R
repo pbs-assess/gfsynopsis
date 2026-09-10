@@ -174,6 +174,21 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
       "représentatifs pour la période de septembre 2022 à février 2024. Voir ",
       "@lagasse2024salmon."
     ))
+    notes <- c(notes, if (!french) {
+      paste0(
+        "Note that only incidental Pacific salmon data from the groundfish ",
+        "databases are shown in this report. The latest relevant CSAS reports ",
+        "should be consulted for details on Pacific salmon data."
+      )
+    } else {
+      paste0(
+        "Il est à noter que seules les données accessoires sur le saumon du ",
+        "Pacifique provenant des bases de données sur les poissons de fond sont ",
+        "présentées dans le présent rapport. Les derniers rapports pertinents du ",
+        "SCCS devraient être consultés pour obtenir des détails sur les données ",
+        "concernant le saumon du Pacifique."
+      )
+    })
   }
 
   list(
