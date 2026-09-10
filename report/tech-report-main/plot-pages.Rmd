@@ -367,6 +367,7 @@ Order: Clupeiformes, Family: Clupeidae,
 Last Research Document: @johnson2026herring\
 Last Science Advisory Report: @dfo2023herringframework\
 Last Science Response: @dfo2026herringbc, @dfo2026herringsog, @dfo2026herringpr\
+Note that only incidental Pacific Herring data from the groundfish databases are shown in this report. The latest cited CSAS reports should be consulted for details on Pacific Herring data and stock status.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-herring-1.png}
 \end{figure}
@@ -386,6 +387,7 @@ Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-gorbuscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127182)\
 Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
+Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pink-salmon-1.png}
 \end{figure}
@@ -405,6 +407,7 @@ Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-keta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127183)\
 Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
+Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chum-salmon-1.png}
 \end{figure}
@@ -424,6 +427,7 @@ Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-kisutch), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127184)\
 Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
+Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/coho-salmon-1.png}
 \end{figure}
@@ -443,6 +447,7 @@ Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-nerka), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254569)\
 Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
+Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sockeye-salmon-1.png}
 \end{figure}
@@ -462,6 +467,7 @@ Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-tshawytscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158075)\
 Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
+Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chinook-salmon-1.png}
 \end{figure}
@@ -1107,7 +1113,7 @@ Order: Perciformes, Family: Sebastidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274778)\
 Last Research Document: @starr2025silvergray\
 Last Science Advisory Report: @dfo2014silvergray\
-In the 2025 assessment, it was recommended that if a 40% change in the 3-year running average of the coastwide geostatistical index or the coastwide commercial CPUE index relative to the 2024 value was observed, an early reassessment of Silvergray Rockfish should be brought forward for consideration. In 2025, this exceptional circumstance criteria was **not** met.
+In the 2025 assessment, it was recommended that if a 40% change in the 3-year running average of the coastwide geostatistical index or the coastwide commercial CPUE index relative to the 2024 value was observed, an early reassessment of Silvergray Rockfish should be brought forward for consideration. In 2025, this exceptional circumstance criterion was **not** met.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/silvergray-rockfish-1.png}
 \end{figure}
@@ -2258,7 +2264,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274294)\
 Last Research Document: @fisch2025dover\
 Last Science Advisory Report: @dfo1999dover\
-In the 2025 assessment, it was recommended that if a 50% change in the 3-year running average of the coastwide geostatistical index relative to the 2024 value was observed, an early reassessment of Dover Sole should be brought forward for consideration. In 2025, this exceptional circumstance criteria was **not** met.
+In the 2025 assessment, it was recommended that if a 50% change in the 3-year running average of the coastwide geostatistical index relative to the 2024 value was observed, an early reassessment of Dover Sole should be brought forward for consideration. In 2025, this exceptional circumstance criterion was **not** met.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/dover-sole-1.png}
 \end{figure}
