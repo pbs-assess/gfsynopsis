@@ -23,7 +23,7 @@ script.
 Sign in once on a new computer with the pinned Wrangler version:
 
 ```sh
-npx --yes wrangler@4.126.0 login
+npx --yes wrangler@4.131.0 login
 ```
 
 Then build, validate, review the account shown by Wrangler, and confirm the
