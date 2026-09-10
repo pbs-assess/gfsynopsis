@@ -112,6 +112,13 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
       "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
     }
   }
+  if (identical(species_code, "096")) {
+    notes <- if (!french) {
+      "Note that only incidental Pacific Herring data from the groundfish databases are shown in this report. The latest cited CSAS reports should be consulted for details on Pacific Herring data and stock status."
+    } else {
+      "Il est à noter que seules les données accessoires sur le hareng du Pacifique provenant des bases de données sur les poissons de fond sont présentées dans le présent rapport. Les derniers rapports cités du SCCS devraient être consultés pour obtenir des détails sur l’état des stocks de hareng du Pacifique."
+    }
+  }
   if (identical(species_code, "405")) {
     notes <- c(
       notes,
@@ -121,7 +128,7 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
           "3-year running average of the coastwide geostatistical index or the ",
           "coastwide commercial CPUE index relative to the 2024 value was observed, ",
           "an early reassessment of Silvergray Rockfish should be brought forward for ",
-          "consideration. In 2025, this exceptional circumstance criteria was **not** met."
+          "consideration. In 2025, this exceptional circumstance criterion was **not** met."
         )
       } else {
         paste0(
@@ -144,7 +151,7 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
           "3-year running average of the coastwide geostatistical index relative to ",
           "the 2024 value was observed, an early reassessment of Dover Sole should be ",
           "brought forward for consideration. In 2025, this exceptional circumstance ",
-          "criteria was **not** met."
+          "criterion was **not** met."
         )
       } else {
         paste0(
