@@ -777,23 +777,22 @@ make_pages <- function(
       any(is.na(unlist(fit$m$pars))) || any(is.na(unlist(fit$f$pars)))
     }
 
-    # Regional (shapefile-subset) reports only: if the fit fails to converge
-    # with the defaults above, retry once using the coastwide main report's
-    # own growth-fit parameters as starting values (requires main report built
-    # first)
+    # Regional (shapefile-subset) reports use start values from coastwide
     has_coastwide_cache <- !is.null(shapefile) && file.exists(growth_pars_cache)
-    vb <- fit_growth(tmb_init)
-    if (has_coastwide_cache && vb_failed(vb)) {
+    coastwide_init <- NULL
+    if (has_coastwide_cache) {
       coastwide_pars <- readRDS(growth_pars_cache)
       k <- mean(c(coastwide_pars$m$k, coastwide_pars$f$k))
       linf <- mean(c(coastwide_pars$m$linf, coastwide_pars$f$linf))
       t0 <- mean(c(coastwide_pars$m$t0, coastwide_pars$f$t0))
       if (all(is.finite(c(k, linf, t0)))) {
-        vb <- fit_growth(list(k = k, linf = linf, log_sigma = log(0.1), t0 = t0))
+        coastwide_init <- list(k = k, linf = linf, log_sigma = log(0.1), t0 = t0)
       }
     }
-    # if it still hasn't converged at this point, `vb` is an empty fit
-    # (NA pars) -- plot_vb() already handles that gracefully, so we keep going
+    vb <- fit_growth(if (!is.null(coastwide_init)) coastwide_init else tmb_init)
+    if (vb_failed(vb) && !is.null(coastwide_init)) {
+      vb <- fit_growth(tmb_init)
+    }
     if (vb_failed(vb)) {
       failed_sexes <- c(
         if (any(is.na(unlist(vb$m$pars)))) "male",

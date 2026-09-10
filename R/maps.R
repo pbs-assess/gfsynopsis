@@ -185,16 +185,16 @@ plot_survey_maps <- function(pred_dat, raw_dat, show_axes = FALSE,
     guides(fill = "none", size = "none")
 
   if (annotations == "SYN")
-    g <- g + ggplot2::annotate("text", 390, 6090, label = syn_wchg_year, col = "grey30") +
-      ggplot2::annotate("text", 390, 5800, label = syn_qcs_hs_year, col = "grey30") +
-      ggplot2::annotate("text", 390, 5450, label = syn_wcvi_year, col = "grey30")
+    g <- g + ggplot2::annotate("label", 390, 6090, label = syn_wchg_year, col = "grey30", fill = "white", linewidth = 0, alpha = 0.8) +
+      ggplot2::annotate("label", 390, 5800, label = syn_qcs_hs_year, col = "grey30", fill = "white", linewidth = 0, alpha = 0.8) +
+      ggplot2::annotate("label", 390, 5450, label = syn_wcvi_year, col = "grey30", fill = "white", linewidth = 0, alpha = 0.8)
 
   if (annotations == "HBLL")
-    g <- g + ggplot2::annotate("text", 390, 5990, label = hbll_n_year, col = "grey30") +
-    ggplot2::annotate("text", 390, 5550, label = hbll_s_year, col = "grey30")
+    g <- g + ggplot2::annotate("label", 390, 5990, label = hbll_n_year, col = "grey30", fill = "white", linewidth = 0, alpha = 0.8) +
+    ggplot2::annotate("label", 390, 5550, label = hbll_s_year, col = "grey30", fill = "white", linewidth = 0, alpha = 0.8)
 
   if (annotations == "IPHC")
-    g <- g + ggplot2::annotate("text", 390, 5700, label = iphc_year, col = "grey30")
+    g <- g + ggplot2::annotate("label", 390, 5700, label = iphc_year, col = "grey30", fill = "white", linewidth = 0, alpha = 0.8)
 
   g
 }
