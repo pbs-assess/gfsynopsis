@@ -1,6 +1,10 @@
 # Generate plot-pages.Rmd ---------------------------------------------
 # This is the guts of where the .tex / .Rmd figure page code gets made
-pull_gfbib(path = file.path(build_dir, "bib", "spp-refs.bib"), rm_url = TRUE) # sometimes delay after pushing gfbib changes to github
+pull_gfbib(
+  path = file.path(build_dir, "bib", "spp-refs.bib"),
+  rm_url = TRUE,
+  french = french
+) # sometimes delay after pushing gfbib changes to github
 temp <- lapply(
   spp$species_common_name,
   \(x) generate_plotpages_Rmd(x = x, spp = spp, french = french, ext = ext)

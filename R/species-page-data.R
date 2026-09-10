@@ -121,7 +121,7 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
           "3-year running average of the coastwide geostatistical index or the ",
           "coastwide commercial CPUE index relative to the 2024 value was observed, ",
           "an early reassessment of Silvergray Rockfish should be brought forward for ",
-          "consideration. In 2025, these exceptional circumstance criteria were **not** met."
+          "consideration. In 2025, this exceptional circumstance criteria was **not** met."
         )
       } else {
         paste0(
@@ -144,7 +144,7 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
           "3-year running average of the coastwide geostatistical index relative to ",
           "the 2024 value was observed, an early reassessment of Dover Sole should be ",
           "brought forward for consideration. In 2025, this exceptional circumstance ",
-          "criterion was **not** met."
+          "criteria was **not** met."
         )
       } else {
         paste0(

@@ -76,7 +76,7 @@ find_length_outliers <- function(xx) {
 
 #' Download References from gfbib
 #'
-#' Downloads the English BibTeX file from the
+#' Downloads the English or French BibTeX file from the
 #' \href{https://github.com/pbs-assess/gfbib}{gfbib GitHub repository}
 #' and optionally removes all `url` fields using `RefManageR`.
 #'
@@ -84,6 +84,7 @@ find_length_outliers <- function(xx) {
 #'   Default is `"report/tech-report/spp-refs.bib"`.
 #' @param rm_url Logical; if `TRUE` (default), removes the `url` field from all entries
 #'   in the BibTeX file using `RefManageR::ReadBib()` and `WriteBib()`.
+#' @param french Logical; if `TRUE`, downloads the French bibliography.
 #'
 #' @details
 #' The function downloads the raw BibTeX file from the `main` branch of the
@@ -97,8 +98,16 @@ find_length_outliers <- function(xx) {
 #' @import httr2
 #' @import RefManageR
 #'
-pull_gfbib <- function(path = "report/tech-report/bib/spp-refs.bib", rm_url = TRUE) {
-  httr2::request("https://raw.githubusercontent.com/pbs-assess/gfbib/refs/heads/main/csas-refs.bib") |>
+pull_gfbib <- function(
+    path = "report/tech-report/bib/spp-refs.bib",
+    rm_url = TRUE,
+    french = FALSE) {
+  bib_name <- if (french) "csas-french-refs.bib" else "csas-refs.bib"
+  bib_url <- paste0(
+    "https://raw.githubusercontent.com/pbs-assess/gfbib/refs/heads/main/",
+    bib_name
+  )
+  httr2::request(bib_url) |>
   httr2::req_perform(path = path)
 
   if (rm_url) {

@@ -55,3 +55,24 @@ test_that("BibTeX emphasis is retained for web citations", {
     "Title (<em>Squalus suckleyi</em>)"
   )
 })
+
+test_that("Pacific Herring references use live catalogue records", {
+  bibliography_file <- here::here(
+    "report", "tech-report-main", "bib", "spp-refs.bib"
+  )
+  skip_if_not(file.exists(bibliography_file))
+
+  urls <- gfsynopsis:::web_reference_urls(bibliography_file)
+  expect_equal(
+    unname(urls[c(
+      "johnson2026herring", "dfo2026herringbc",
+      "dfo2026herringsog", "dfo2026herringpr"
+    )]),
+    c(
+      "https://publications.gc.ca/site/eng/9.959528/publication.html",
+      "https://publications.gc.ca/site/eng/9.960801/publication.html",
+      "https://publications.gc.ca/site/eng/9.958694/publication.html",
+      "https://publications.gc.ca/site/eng/9.959363/publication.html"
+    )
+  )
+})

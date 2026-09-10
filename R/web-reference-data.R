@@ -116,7 +116,14 @@ web_reference_url_overrides <- function() {
     # The IPHC landing page lists the annual assessment cited by the report.
     iphc2025 = "https://www.iphc.int/research/stock-assessment/",
     # Link the salmon bycatch report citation directly to its PDF in the web report.
-    lagasse2024salmon = "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf"
+    lagasse2024salmon = "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf",
+    # The legacy CSAS HTML landing pages for these recently published Herring
+    # records return 404; use their official Government of Canada catalogue
+    # records instead. The catalogue pages link to the current PDFs.
+    johnson2026herring = "https://publications.gc.ca/site/eng/9.959528/publication.html",
+    dfo2026herringbc = "https://publications.gc.ca/site/eng/9.960801/publication.html",
+    dfo2026herringsog = "https://publications.gc.ca/site/eng/9.958694/publication.html",
+    dfo2026herringpr = "https://publications.gc.ca/site/eng/9.959363/publication.html"
   )
 }
 

@@ -2213,5 +2213,3 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 \includegraphics[width=6.4in]{figure-pages/sand-sole-2.png}
 \end{figure}
 
-
-

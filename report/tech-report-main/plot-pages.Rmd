@@ -364,6 +364,9 @@ Order: Clupeiformes, Family: Alosidae,
 Order: Clupeiformes, Family: Clupeidae,
 [FishBase](http://www.fishbase.org/summary/Clupea-pallasii), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=151159)\
+Last Research Document: @johnson2026herring\
+Last Science Advisory Report: @dfo2023herringframework\
+Last Science Response: @dfo2026herringbc, @dfo2026herringsog, @dfo2026herringpr\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-herring-1.png}
 \end{figure}
@@ -382,7 +385,7 @@ Order: Clupeiformes, Family: Clupeidae,
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-gorbuscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127182)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pink-salmon-1.png}
 \end{figure}
@@ -401,7 +404,7 @@ Salmon identification and catch counts are not representative for the period of 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-keta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127183)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chum-salmon-1.png}
 \end{figure}
@@ -420,7 +423,7 @@ Salmon identification and catch counts are not representative for the period of 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-kisutch), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127184)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/coho-salmon-1.png}
 \end{figure}
@@ -439,7 +442,7 @@ Salmon identification and catch counts are not representative for the period of 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-nerka), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254569)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sockeye-salmon-1.png}
 \end{figure}
@@ -458,7 +461,7 @@ Salmon identification and catch counts are not representative for the period of 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-tshawytscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158075)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chinook-salmon-1.png}
 \end{figure}
@@ -1554,7 +1557,7 @@ Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-ruberrimus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Last Research Documents: @cox2020YEout, @haggarty2021yelloweyeinside\
-Last Science Advisory Reports: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside\
+Last Science Advisory Reports: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside, @dfo2026yelloweye\
 Species at Risk Act Management Plan Series and Last Science Responses: @dfo2021yelloweye, @dfo2023yelloweye, @dfo2023yelloweyeMPs\
 COSEWIC Status Report: @cosewic2020yelloweye\
 COSEWIC Status: Threatened, SARA Status: Special Concern

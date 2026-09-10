@@ -4,7 +4,8 @@
 \alias{pull_gfbib}
 \title{Download References from gfbib}
 \usage{
-pull_gfbib(path = "report/tech-report/bib/spp-refs.bib", rm_url = TRUE)
+pull_gfbib(path = "report/tech-report/bib/spp-refs.bib", rm_url = TRUE,
+  french = FALSE)
 }
 \arguments{
 \item{path}{A string specifying path where the BibTeX file should be saved.
@@ -12,13 +13,15 @@ Default is \code{"report/tech-report/spp-refs.bib"}.}
 
 \item{rm_url}{Logical; if \code{TRUE} (default), removes the \code{url} field from all entries
 in the BibTeX file using \code{RefManageR::ReadBib()} and \code{WriteBib()}.}
+
+\item{french}{Logical; if \code{TRUE}, downloads the French bibliography.}
 }
 \value{
 No return value. The function is called for its side effect of writing
 a cleaned BibTeX file to disk.
 }
 \description{
-Downloads the English BibTeX file from the
+Downloads the English or French BibTeX file from the
 \href{https://github.com/pbs-assess/gfbib}{gfbib GitHub repository}
 and optionally removes all \code{url} fields using \code{RefManageR}.
 }
