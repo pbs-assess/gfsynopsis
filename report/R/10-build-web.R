@@ -255,6 +255,52 @@ resolve_phylopic_silhouettes <- function(pages, asset_dir) {
   })
 }
 
+build_web_plot_descriptions <- function(
+    output_dir,
+    english_figure_dir = here::here(
+      "report", "tech-report-main", "knitr-figs-pdf"
+    ),
+    french_figure_dir = here::here(
+      "report", "tech-report-fr-main", "knitr-figs-pdf"
+    )) {
+  plot_files <- c(
+    "survey-index-1.png" = "survey-index.png",
+    "survey-maps-1.png" = "survey-maps.png",
+    "catches-1.png" = "catches.png",
+    "trawl-cpue-index-1.png" = "trawl-cpue-index.png",
+    "cpue-maps-1.png" = "cpue-maps.png",
+    "samples-1.png" = "samples.png",
+    "lengths-1.png" = "lengths.png",
+    "ages-1.png" = "ages.png",
+    "length-weight-vb-1.png" = "growth.png",
+    "maturity-months-1.png" = "maturity-months.png",
+    "maturity-ogives-1.png" = "maturity-ogives.png"
+  )
+  source_files <- c(
+    file.path(english_figure_dir, names(plot_files)),
+    file.path(french_figure_dir, names(plot_files))
+  )
+  if (any(!file.exists(source_files))) {
+    stop(
+      "Missing plot-description example figure: ",
+      source_files[!file.exists(source_files)][[1L]],
+      ". Render the technical report first so knitr-figs-pdf is available.",
+      call. = FALSE
+    )
+  }
+  image_dirs <- file.path(output_dir, "plot-descriptions", c("en", "fr"))
+  lapply(image_dirs, dir.create, recursive = TRUE, showWarnings = FALSE)
+  destination_files <- c(
+    file.path(image_dirs[[1L]], unname(plot_files)),
+    file.path(image_dirs[[2L]], unname(plot_files))
+  )
+  if (!all(file.copy(source_files, destination_files, overwrite = TRUE))) {
+    stop("Could not copy one or more plot-description figures.", call. = FALSE)
+  }
+  message("Copied ", length(destination_files), " plot-description example figures.")
+  invisible(destination_files)
+}
+
 build_web_species_pages <- function(
     spp,
     figure_dir,
@@ -476,13 +522,15 @@ build_web_species_pages <- function(
   dir.create(silhouette_output_dir, recursive = TRUE)
 
   frontend_files <- c(
-    "index.html", "plot-descriptions.html", "app.css", "app.js", "_headers"
+    "index.html", "plot-descriptions.html", "plot-descriptions.js",
+    "app.css", "app.js", "_headers"
   )
   frontend_files <- file.path(web_dir, frontend_files)
   frontend_files <- frontend_files[file.exists(frontend_files)]
   if (length(frontend_files) && !all(file.copy(frontend_files, output_dir))) {
     stop("Could not copy one or more frontend files.", call. = FALSE)
   }
+  build_web_plot_descriptions(output_dir)
   if (!all(file.copy(english_source_images, english_figure_output_dir)) ||
       !all(file.copy(french_source_images, french_figure_output_dir))) {
     stop("Could not copy one or more species images.", call. = FALSE)

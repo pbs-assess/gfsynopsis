@@ -15,6 +15,7 @@ const UI_TEXT = {
     previous: "Previous",
     next: "Next",
     figureLanguage: "Page language",
+    plotDescriptions: "Plot descriptions",
     english: "English",
     loadingSpeciesData: "Loading species data…",
     conservationStatus: "Conservation status",
@@ -59,6 +60,7 @@ const UI_TEXT = {
     previous: "Précédente",
     next: "Suivante",
     figureLanguage: "Langue de la page",
+    plotDescriptions: "Description des graphiques",
     english: "Anglais",
     loadingSpeciesData: "Chargement des données sur les espèces…",
     conservationStatus: "État de conservation",
@@ -105,6 +107,7 @@ const elements = {
   next: document.querySelector("#next-species"),
   englishFigures: document.querySelector("#figures-english"),
   frenchFigures: document.querySelector("#figures-french"),
+  plotDescriptions: document.querySelector("#plot-descriptions-link"),
   status: document.querySelector("#app-status"),
   error: document.querySelector("#app-error"),
   figureStatus: document.querySelector("#figure-status"),
@@ -459,6 +462,15 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   const version = renderVersion;
   const page = species[index];
   const displayPage = localizedPage(page);
+
+  const descriptionsUrl = new URL("plot-descriptions.html", window.location.href);
+  descriptionsUrl.searchParams.set("species", page.slug);
+  if (language === DEFAULT_LANGUAGE) {
+    descriptionsUrl.searchParams.delete("lang");
+  } else {
+    descriptionsUrl.searchParams.set("lang", language);
+  }
+  elements.plotDescriptions.href = descriptionsUrl;
 
   elements.search.value = displayPage.common_name;
   closeSpeciesOptions();

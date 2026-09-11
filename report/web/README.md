@@ -81,10 +81,16 @@ French synopsis PNGs with:
 Rscript report/R/10-build-web.R
 ```
 
+Render the technical report first when rebuilding from scratch; the web build
+reuses its `knitr-figs-pdf/` example figures for the plot-description page.
+
 The build validates the species metadata and images before replacing
 `report/web/generated/`, then copies the HTML, CSS, JavaScript, and Cloudflare
 headers into that directory. English figures are written beneath `figures/en/`
 and French figures beneath `figures/fr/`; both use the same species filenames.
+The plot-description examples are copied from the report's
+`tech-report-main/knitr-figs-pdf/` output into `plot-descriptions/`, keeping the
+web examples synchronized with the figures rendered for the technical report.
 The language toggle changes the interface, species common names, notes, and
 figure images, and records French selection in the URL as `lang=fr`.
 Bibliography records remain in English pending dedicated French references.

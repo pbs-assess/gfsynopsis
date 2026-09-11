@@ -218,6 +218,10 @@ main,
   gap: 0.35rem;
 }
 
+.toolbar-secondary {
+  display: contents;
+}
+
 .species-nav button,
 .figure-language button {
   min-height: 2.75rem;
@@ -252,6 +256,7 @@ main,
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
+  justify-content: center;
   min-height: 2.75rem;
   padding: 0.45rem 0.8rem;
   border: 1px solid var(--muted);
@@ -265,6 +270,14 @@ main,
 .plot-descriptions-link:hover {
   border-color: var(--ocean);
   background: var(--ocean-pale);
+}
+
+.descriptions-toolbar {
+  align-items: center;
+}
+
+.descriptions-toolbar .figure-language {
+  margin-left: auto;
 }
 
 main {
@@ -444,9 +457,9 @@ main {
 .notes-section {
   width: 100%;
   margin-top: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
+  padding: 1.25rem clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid #666666;
+  background: #ffffff;
   font-size: 0.85rem;
   color: var(--muted);
 }
@@ -531,6 +544,21 @@ main {
   margin: 0 0 0.75rem;
   font-size: clamp(1.35rem, 3vw, 2rem);
   line-height: 1.15;
+}
+
+.plot-description__figure {
+  margin: 1.25rem 0 1.5rem;
+  padding: clamp(0.65rem, 1.5vw, 1rem);
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.plot-description__figure img {
+  display: block;
+  width: min(100%, 44rem);
+  height: auto;
+  margin-inline: auto;
+  background: #ffffff;
 }
 
 .plot-description p {
@@ -783,8 +811,36 @@ main {
     grid-template-columns: 1fr 1fr;
   }
 
+  .toolbar-secondary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
   .figure-language {
-    justify-content: flex-end;
+    display: contents;
+  }
+
+  .figure-language button,
+  .plot-descriptions-link {
+    min-width: 0;
+    padding-inline: 0.45rem;
+    text-align: center;
+  }
+
+  .descriptions-toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .descriptions-toolbar .plot-descriptions-link {
+    flex: 1 1 auto;
+  }
+
+  .descriptions-toolbar .figure-language {
+    flex: 0 0 auto;
+    margin-left: 0;
   }
 
   .references-section {

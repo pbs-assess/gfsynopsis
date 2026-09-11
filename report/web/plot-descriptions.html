@@ -6,6 +6,7 @@
   <meta name="description" content="Descriptions of the figures in the British Columbia groundfish data synopsis.">
   <title>Plot descriptions · BC Groundfish Data Synopsis</title>
   <link rel="stylesheet" href="app.css">
+  <script src="plot-descriptions.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#plot-descriptions">Skip to plot descriptions</a>
@@ -17,9 +18,13 @@
     </div>
   </header>
 
-  <nav class="species-toolbar" aria-label="Site navigation">
-    <div class="species-toolbar__inner">
-      <a class="plot-descriptions-link" href="index.html">← Species synopsis</a>
+  <nav class="species-toolbar" aria-label="Site navigation" id="descriptions-navigation">
+    <div class="species-toolbar__inner descriptions-toolbar">
+      <a class="plot-descriptions-link" id="species-synopsis-link" href="index.html">← Species synopsis</a>
+      <div class="figure-language" role="group" aria-label="Page language" id="descriptions-language">
+        <button id="descriptions-english" type="button" aria-pressed="true">English</button>
+        <button id="descriptions-french" type="button" aria-pressed="false">Français</button>
+      </div>
     </div>
   </nav>
 
@@ -27,68 +32,95 @@
     <article id="plot-descriptions" class="descriptions-page" tabindex="-1">
       <header class="descriptions-page__header">
         <h2>Plot descriptions</h2>
-        <p>These descriptions explain how to interpret each visualization in the species-by-species synopsis pages.</p>
+        <p>This section provides captions for each of the visualizations that form the species-by-species pages. Petrale Sole is used as an example species for all plots except for commercial catch per unit effort maps where Pacific Cod is used.</p>
       </header>
 
       <section class="plot-description" aria-labelledby="survey-index-heading">
         <h3 id="survey-index-heading">Relative biomass index trends from surveys</h3>
-        <p>Dots represent design-based mean estimates of relative biomass and vertical lines around the dots represent 95% bootstrap confidence intervals. Time series with a solid trend line and shaded ribbon for 95% confidence intervals represent an index that has been standardized with a spatiotemporal model. Spatiotemporal-model-based indices are omitted for a survey-species combination if fewer than 5% of sets contained the species or if no models converged. “Mean CV” is the mean of the annual coefficients of variation (CVs), and “Mean +ve sets” indicates the ratio of the mean number, across years, of sets that captured the species of interest to the mean number of sets.</p>
-        <p>All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. When both types of indices are shown, they are scaled to have the same geometric mean and the axes are set to encompass the model-based confidence intervals. For the MSSM WCVI, years before 2003 are shaded grey to indicate that catches are considered less reliable than modern data. For the HBLL OUT, HBLL INS, and IPHC FISS the values are abundance rather than biomass. Coastwide or survey-wide indices are also included for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.</p>
-        <p><strong>Survey abbreviations:</strong> SYN WCHG = West Coast Haida Gwaii Synoptic Bottom Trawl; SYN HS = Hecate Strait Synoptic Bottom Trawl; SYN QCS = Queen Charlotte Sound Synoptic Bottom Trawl; SYN WCVI = West Coast Vancouver Island Synoptic Bottom Trawl; HBLL OUT N/S = Hard Bottom Longline Outside North/South; HBLL INS N/S = Hard Bottom Longline Inside North/South; IPHC FISS = International Pacific Halibut Commission Fishery-Independent Setline Survey; MSA HS = Hecate Strait Multispecies Assemblage Bottom Trawl; MSSM WCVI = West Coast Vancouver Island Multispecies Small-mesh Bottom Trawl.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/survey-index.png" alt="Example survey relative biomass index trends for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example relative biomass index trends from trawl and longline surveys for Petrale Sole. Dots represent design-based mean estimates of relative biomass and vertical lines around the dots represent 95% bootstrap confidence intervals. Time series with a solid trend line and shaded ribbon for 95% confidence intervals represent an index that has been standardized with a spatiotemporal model (see Appendix A in DFO 2022a). Spatiotemporal-model-based indices are omitted for a survey-species combination if fewer than 5% of sets contained the species or if no models converged. ‘Mean CV’ is the mean of the annual coefficients of variation (CVs), and ‘Mean +ve sets’ indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets. All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey. When both types of indices are shown, they are scaled to have the same geometric mean and the axes are set to encompass the model-based confidence intervals. For the MSSM WCVI, years before 2003 are shaded grey to indicate that catches are considered less reliable than modern data. For the HBLL OUT, HBLL INS, and IPHC FISS the values are abundance rather than biomass. SYN WCHG = West Coast Haida Gwaii Synoptic Bottom Trawl, SYN HS = Hecate Strait Synoptic Bottom Trawl, SYN QCS = Queen Charlotte Sound Synoptic Bottom Trawl, SYN WCVI = West Coast Vancouver Island Synoptic Bottom Trawl, HBLL OUT N = Hard Bottom Longline Outside North, HBLL OUT S = Hard Bottom Longline Outside South, HBLL INS N = Hard Bottom Longline Inside North, HBLL INS S = Hard Bottom Longline Inside South, IPHC FISS = International Pacific Halibut Commission Fishery-Independent Setline Survey, MSA HS = Hecate Strait Multispecies Assemblage Bottom Trawl, MSSM WCVI = West Coast Vancouver Island Multispecies Small-mesh Bottom Trawl. Also included are coastwide or survey-wide indices for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="survey-maps-heading">
         <h3 id="survey-maps-heading">Maps of relative biomass from surveys</h3>
-        <p>These maps show relative biomass, or catch rate, from trawl and longline surveys for the latest available year of each survey. The synoptic trawl surveys are on the left, outside hard-bottom longline (HBLL OUT) surveys are in the middle, and IPHC FISS surveys are on the right. Individual sets in the two left panels are shown as faint crosses when the species was not caught, or circles with area proportional to the species density from the set. Colour shading, except for the IPHC survey, indicates predictions from a spatial model that includes depth, depth squared, and spatial random effects.</p>
-        <p>The colour scale is fourth-root transformed to show a pattern similar to a log transformation without overemphasizing differences close to zero. It ranges from zero to the highest value within each map; dark grey indicates regions where models could not be fit. Synoptic and HBLL maps show predicted biomass density throughout the survey domain. IPHC maps show raw, unmodelled data at fixed station locations, with stations without observations shown as empty circles. Years at the left of each plot identify the respective survey. Surveys other than IPHC in which fewer than 2% of sets contained the species are not modelled and show raw data only. Mean values at the bottom are mean raw-data fish densities for the entire coast in the indicated years; IPHC units are fish per effective skate, where an effective skate represents 100 circle hooks with 18-foot spacing. The coast is rotated 40° to fit the maps; depth contours are shown at 100 m, 200 m, and 500 m.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/survey-maps.png" alt="Example survey relative biomass maps for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example maps of relative biomass (or catch rate) from trawl and longline surveys from the latest available years of each survey for Petrale Sole. Shown are the synoptic trawl surveys (left), the outside hard bottom longline (HBLL OUT) surveys (middle), and the IPHC FISS (right). Individual sets are shown in the two left panels as faint crosses (if the species was not caught in that set), or circles with the area of the circle proportional to the species density from the set. Colour shading (except for the IPHC survey) indicates predictions from a spatial model that includes depth and depth squared as predictors as well as spatial random effects (Appendix E in Anderson et al. 2019). The colour scale is fourth-root transformed to render a visual pattern similar to a log transformation without overemphasizing differences close to zero. The colour scale ranges from zero to the highest value within each map, and dark grey indicates regions where models could not be fit. The synoptic and HBLL maps show predicted biomass density throughout the survey domain. The IPHC map shows the raw unmodelled data for fixed station locations—stations without any observations for a given species are shown as empty circles. Years on the left side of each plot indicate the year of the respective survey. Surveys (except IPHC) in which less than 2% of the sets contained the species are not modeled and are shown with raw data only. Mean values shown at the bottom are the mean fish density values from the raw data for the entire coast for the indicated years; for the IPHC data the units are fish per effective skate, where an effective skate represents 100 circle hooks with 18-foot spacing (Appendix G in Anderson et al. 2019). Note that the coast has been rotated 40° to fit all the maps in the available space. Depth contours are shown at 100 m, 200 m, and 500 m.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="catch-heading">
         <h3 id="catch-heading">Commercial fishery catches</h3>
-        <p>Catch from various gear types is indicated by colour shading. Catch is calculated as the summed weight of landings aggregated by year. Discards include reported discard weights from all fisheries combined; however, bottom-trawl discards are considered less reliable before 100% observer coverage in 1996, and trap, hook-and-line, midwater-trawl, and Strait of Georgia bottom-trawl discards are less reliable before fisheries integration in 2006 and are therefore not included. Catch data before 1996 and 2006 are shaded grey to indicate that they are considered less reliable than more recent data.</p>
-        <p>Catch estimates from bottom- and midwater-trawl fleets operating in outside waters are less certain before the introduction of an at-sea observer program in 1996. Similarly, catch estimates from non-trawl sectors are less certain before the implementation of an at-sea electronic monitoring program in 2006. The trawl at-sea observer program was discontinued in early 2020 because of COVID-19; the fleet has since been monitored with electronic monitoring systems, supplemented by port-based biological sampling for some species. Management areas are identified in the top left corner of each panel.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/catches.png" alt="Example commercial fishery catch plot for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example commercial fishery catch plots for Petrale Sole. Catch from various gear types is indicated by colour shading. Catch is calculated as the summed weight of landings aggregated by year. Discards include reported discard weights from all fisheries combined; however, bottom trawl discards are considered less reliable prior to 100% observer coverage in 1996 and trap, hook and line, midwater trawl, and Strait of Georgia bottom trawl discards are less reliable prior to fisheries integration in 2006 and are therefore not included. Catch data prior to 1996 and 2006 are shaded grey to indicate they are considered less reliable than more recent data. Catch estimates from the bottom and midwater trawl fleets operating in outside waters are less certain before the introduction of an at-sea observer program in 1996. Similarly, catch estimates from non-trawl sectors (longline and trap) are less certain prior to the implementation of an at-sea electronic monitoring (EM) program in 2006. The at-sea observer program for the trawl fleet was discontinued in early 2020 due to COVID-19. Since then, the trawl fleet has been monitored using EM systems. EM systems are supplemented by port-based biological sampling for some species. Management areas, as indicated in the top left corner of each panel, are shown in Figure 2.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="trawl-cpue-heading">
         <h3 id="trawl-cpue-heading">Commercial bottom trawl catch per unit effort indices</h3>
-        <p>Commercial bottom-trawl catch per unit effort (CPUE) trends use hours trawled as effort. Commercial CPUE is standardized with a spatiotemporal model. The line and shaded region represent the mean and 95% confidence interval. Standardized time series are scaled to have the same maximum 95% confidence interval. Management areas are identified in the top left corner of each panel.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/trawl-cpue-index.png" alt="Example commercial bottom trawl catch per unit effort index for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example commercial bottom trawl catch per unit effort (CPUE) trends, with effort as hours trawled, for Petrale Sole. Commercial CPUE has been standardized with a spatiotemporal model. The line and shaded region represent the mean and 95% confidence interval. Standardized time series are scaled to have the same maximum 95% confidence interval. Management areas, as indicated in the top left corner of each panel, are shown in Figure 2.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="cpue-maps-heading">
         <h3 id="cpue-maps-heading">Maps of commercial catch per unit effort</h3>
-        <p>These maps show commercial trawl and commercial hook-and-line catch per unit effort. Lighter shading indicates higher geometric mean catch per unit effort in a hexagonal cell. The colour scale is fourth-root transformed to show a pattern similar to a log transformation without overemphasizing differences close to zero. Cells are 7 km wide and are shown only where at least three unique vessels occurred, to meet privacy requirements.</p>
-        <p>For bottom trawl, CPUE is the weight of catch (landings plus discards) divided by hours fished for all positive tows from the groundfish trawl sector. Trawl data are shown from 2013 onward, after ecosystem-based trawling boundaries established the trawl footprint. Data from 2007–2012 are outlined light-grey hexagons to show fishing before the frozen footprint. For hook and line, CPUE is the number of fish recorded as landed or discarded per set. Hook-and-line data are shown from 2008 onward. Including as many years as possible reduces the number of fishing events discarded when applying the three-vessel privacy requirement. The coast is rotated 40° to fit the maps; depth contours are shown at 100 m, 200 m, and 500 m.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/cpue-maps.png" alt="Example commercial trawl and hook-and-line catch per unit effort maps for Pacific Cod" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example commercial trawl and commercial hook-and-line catch-per-unit-effort maps for Pacific Cod (note this figure is not Petrale Sole because the hook-and-line panel is mostly blank for Petrale Sole). Lighter shading indicates higher levels of a geometric mean of catch per unit effort in a given hexagonal cell. The colour scale is fourth-root transformed to render a visual pattern similar to a log transformation without overemphasizing differences close to zero. Cells are 7 km wide and are only shown in cases where there are at least 3 unique vessels in a given cell to meet privacy requirements. For bottom trawl, catch per unit effort is calculated as the weight of catch (landings plus discards) divided by hours fished for all positive tows from the groundfish trawl sector. Trawl data are shown from 2013 onwards after the trawl footprint was [ecosystem-based trawling boundaries were established; Wallace et al. (2015)]. Trawl data from 2007–2012 are indicated as outlined light grey hexagons to illustrate fishing prior to the frozen footprint. For hook and line, catch per unit effort is shown as the number of fish recorded as landed or discarded per set. Hook-and-line data are shown from 2008 onwards. Including as many years of data as possible reduces the number of discarded fishing events when implementing the 3-vessel privacy requirement. Note that the coast has been rotated 40° to fit all the maps in the available space. Depth contours are shown at 100 m, 200 m, and 500 m.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="samples-heading">
         <h3 id="samples-heading">Available biological samples</h3>
-        <p>These plots show the number of available fish specimens with length measurements, weights, maturity assessments, age assessments, and ageing structures available for ageing. Data are shown for all surveys, not just the surveys shown elsewhere in the synopsis, in the top panel, and for all commercial fleets in the bottom panel. Blank panels indicate year-measurement combinations without data. Cell shading reflects the relative number of specimens available, and cells show the actual count rounded to a nearby round number.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/samples.png" alt="Example survey and commercial biological specimen counts for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example specimen-availability plot for Petrale Sole. Shown are the number of available fish specimens that have had their length measured, have been weighed, had their maturity assessed, had their age assessed, and for which ageing structures are available for ageing. Data are shown across all surveys (not just surveys shown elsewhere in the synopsis; top panel) and across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="length-heading">
         <h3 id="length-heading">Length composition data</h3>
-        <p>Female fish are shown as coloured, or black, bars and male fish are shown behind them as light-grey bars. The total number of fish measured for a survey and year appears in the top left corner of each panel. Histograms are shown only when more than 20 fish were measured for a given survey-year combination. Commercial male and female fish are combined because many fish are unsexed.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/lengths.png" alt="Example length composition data for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example length-frequency plot for Petrale Sole. Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish measured for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish measured for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure 3 for survey abbreviations.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="age-heading">
         <h3 id="age-heading">Age composition data</h3>
-        <p>Female fish are shown as coloured, or black, circles and male fish are shown behind them as light-grey circles. The total number of fish aged for a survey and year appears along the top of the panels. Diagonal lines at five-year intervals help trace cohorts through time. The plots show the most recent 15-year window for which ageing data exist. Ageing-precision plots comparing readings by two people are available for species with age data in Appendix A of Anderson et al. (2019).</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/ages.png" alt="Example age composition data for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example age-frequency plot for Petrale Sole. Female fish are shown as coloured (or black) circles and male fish are shown behind as light grey circles. The total number of fish aged for a given survey and year are indicated along the top of the panels. Diagonal lines are shown at five-year intervals to facilitate tracing cohorts through time. We plot the most recent 15 year window for which ageing data exist. See Figure 3 for survey abbreviations. Ageing precision plots comparing precision of readings by two individuals ageing the fish are provided for all species for which age data exist in Appendix A in Anderson et al. (2019).</p>
       </section>
 
       <section class="plot-description" aria-labelledby="growth-heading">
         <h3 id="growth-heading">Length-age and length-weight model fits</h3>
-        <p>The length-age growth curve is a von Bertalanffy model. The length-weight curve is a Student-t model, with three degrees of freedom to be robust to outliers. Female model fits are solid black lines and male model fits are dashed grey lines. Text on the panels gives parameter estimates, and open grey circles are individual fish used to fit the models. These figures include all survey samples.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/growth.png" alt="Example length-age and length-weight model fits for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example length-age and length-weight model fits and plots for Petrale Sole. The length-age growth curve is a von Bertalanffy model of the form Lᵢ ∼ Log-normal (log(l∞ (1 − exp(−k(Aᵢ − t₀)))), σ) where Lᵢ and Aᵢ represent the length and age of fish i, l∞, k, and t₀ represent the von Bertalanffy growth parameters, and σ represents the scale parameter. The length-weight curve is of the form log(Wᵢ) ∼ Student-t (df = 3, log(a) + b log(Lᵢ), σ), with Wᵢ and Lᵢ representing the weight and length for fish i and σ representing the observation error scale. The degrees of freedom of the Student-t distribution is set to 3 to be robust to outliers. The variables a and b represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendix H in Anderson et al. (2019) for details on the models.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="maturity-month-heading">
         <h3 id="maturity-month-heading">Maturity frequency by month</h3>
-        <p>Maturity categories are listed from the most immature at the top to the most mature at the bottom; once mature, individual fish cycle through mature stages. Circle area corresponds to the number of fish specimens in a maturity category and month. Female fish are black circles and male fish are light-grey circles behind them. Numbers at the top give the total number of fish specimens for each month. These plots include both commercial and survey samples.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/maturity-months.png" alt="Example maturity frequency by month plot for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example maturity-frequency-by-month plot for Petrale Sole. Categories of maturity are listed from most immature (top) to most mature (bottom); individual fish, once mature, cycle through the mature stages. The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.</p>
       </section>
 
       <section class="plot-description" aria-labelledby="maturity-ogive-heading">
         <h3 id="maturity-ogive-heading">Maturity ogives</h3>
-        <p>Maturity ogives are logistic regressions fit to individual fish specimens categorized as mature or not mature. Solid black lines are fits to female fish and dashed grey lines are fits to male fish. Vertical lines show estimated age or length at 50% maturity. Text on the panels gives estimated age and length at 5%, 50%, and 95% maturity for females (F) and males (M). Fits are shown only when there are at least 20 mature and 20 immature males and females.</p>
-        <p>Short rug lines at the top and bottom of each panel represent up to 1,500 randomly selected fish. Ages are slightly jittered to help distinguish individual fish. Models use all available survey samples regardless of time of year.</p>
+        <figure class="plot-description__figure">
+          <img src="plot-descriptions/en/maturity-ogives.png" alt="Example age and length at maturity ogive plots for Petrale Sole" loading="lazy">
+        </figure>
+        <p class="plot-description__caption">Example age- and length-at-maturity ogive plots for Petrale Sole. Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix H in Anderson et al. (2019) for details.</p>
       </section>
     </article>
   </main>

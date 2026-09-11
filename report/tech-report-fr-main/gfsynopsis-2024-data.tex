@@ -1,0 +1,412 @@
+%%%%% Set up %%%%%
+
+% Set document style and font size
+\documentclass[12pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+% File path to resources (style file etc)
+\newcommand{\locRepo}{csas-style}
+
+% Style file for DFO Technical Reports
+\usepackage{\locRepo/tech-report-french}
+
+% header-includes from R markdown entry
+\usepackage{float}
+
+%%%%% Variables %%%%%
+
+% New definitions: Title, year, report number, authors
+% Protect lower case words (i.e., species names) in \Addlcwords{}, in "TechReport.sty"
+\newcommand{\trTitle}{Une synthèse des données pour les poissons de fond de la Colombie-Britannique~: mise à jour des données de 2024}
+\newcommand{\trYear}{2025}
+\newcommand{\trReportNum}{3718}
+\newcommand{\trDOI}{10.60825/2b8n-my73}
+% Optional
+\newcommand{\trAuthFootA}{Email: \link{mailto:sean.anderson@dfo-mpo.gc.ca}{\nolinkurl{sean.anderson@dfo-mpo.gc.ca}} \textbar{} telephone: (250) 756-5555}
+\newcommand{\trAuthsLong}{Sean C. Anderson et Jillian C. Dunic}
+\newcommand{\trAuthsBack}{Anderson, S.C. et Dunic, J.C.}
+
+% New definition: Address
+\newcommand{\trAddy}{Station biologique du Pacifique\\
+Pêches et Océans Canada, 3190 Hammond Bay Road\\
+Nanaimo, Colombie-Britannique, V9T 6N7, Canada\\
+\smallskip}
+
+% Resume
+\newcommand{\trAbstract}{The combination of fishery-dependent data, such as catch and effort, and fishery-independent survey data, such as biomass indices and age compositions, forms the backbone of most fisheries stock assessments. For British Columbia groundfish, vast quantities of such data are collected. However, the Fisheries and Oceans Canada Pacific groundfish section lacks the capacity to conduct formal stock assessments for most stocks annually, and therefore, much of these data are not summarized to represent the nature of the data holdings. Here, we update a reproducible report that gives a snapshot of population and fishing trends, growth and maturity patterns, as well as data availability, for 116 groundfish species in British Columbia. This update includes data up to 2024.}
+
+\newcommand{\trCitationFrench}{Anderson, S.C. and Dunic, J.C. 2025. A data synopsis for British Columbia groundfish: 2024 data update. Can. Tech. Rep.~Fish. Aquat. Sci. 0: viii + 263 p.}
+
+% Abstract (i.e., English abstract)
+\newcommand{\trResume}{La combinaison de données dépendantes de la pêche, telles que les captures et l'effort de pêche, et de données d'enquête indépendantes de la pêche, telles que les indices de biomasse et la composition par âge, constitue l'épine dorsale de la plupart des évaluations des stocks halieutiques. Pour les poissons de fond de la Colombie-Britannique, de grandes quantités de données de ce type sont collectées. Cependant, la section des poissons de fond du Pacifique de Pêches et Océans Canada n'a pas la capacité d'effectuer des évaluations formelles de la plupart des stocks chaque année, et par conséquent, la plupart de ces données ne sont pas résumées pour représenter la nature des fonds de données. Ici, nous mettons à jour un rapport reproductible qui donne un aperçu des tendances de la population et de la pêche, des modèles de croissance et de maturité, ainsi que de la disponibilité des données, pour 116 espèces de poissons de fond en Colombie-Britannique. Cette mise à jour inclut les données jusqu'en 2024.}
+
+\newcommand{\trISBN}{978-0-660-78638-4}
+
+\DeclareGraphicsExtensions{.png,.pdf}
+%%%%% Start %%%%%
+
+% Start the document
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+% commands and environments needed by pandoc snippets
+% extracted from the output of `pandoc -s`
+%% Make R markdown code chunks work
+\usepackage{array}
+\usepackage{amssymb,amsmath}
+\usepackage{color}
+\usepackage{fancyvrb}
+
+% From default template:
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},formatcom=\color[rgb]{0.00,0.00,0.00}}
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textit{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textit{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textit{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textit{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\begin{document}
+\renewcommand{\tablename}{Tableau}
+
+%%%% Front matter %%%%%
+
+% Add the first few pages
+\frontmatter
+
+%%%%% Drafts %%%%%
+
+%\linenumbers  % Line numbers
+%\onehalfspacing  % Extra space between lines
+\renewcommand{\headrulewidth}{0.5pt}  % Header line
+\renewcommand{\footrulewidth}{0.5pt}  % footer line
+%\pagestyle{fancy}\fancyhead[c]{Draft: Do not cite or circulate}  % Header text
+
+\newcommand{\lt}{\ensuremath <}
+\newcommand{\gt}{\ensuremath >}
+
+%Defines cslreferences environment
+%Required by pandoc 2.8
+%Copied from https://github.com/rstudio/rmarkdown/issues/1649
+% % \newlength{\cslhangindent}
+% \setlength{\cslhangindent}{1.5em}
+% \newenvironment{cslreferences}%
+%   {}%
+%   {\par}
+% 
+%%%%% Main document %%%%%
+\section{Introduction}\label{sec:introduction}
+
+La combinaison de données dépendantes de la pêche, telles que les captures et l'effort de pêche, et de données d'enquêtes indépendantes de la pêche, telles que les indices de biomasse et les compositions par âge, constitue l'épine dorsale de la plupart des évaluations de stocks de pêche. Pêches et Océans Canada (MPO) gère de vastes quantités de ces données sur les espèces de poissons de fond en Colombie-Britannique (C.-B.). Cependant, les évaluations formelles de stocks ne sont pas effectuées sur une base annuelle pour la plupart des stocks, et une grande partie de ces données ne sont donc pas résumées pour représenter la nature des avoirs de données.
+
+Le rapport de synthèse original des données sur les poissons de fond a été élaboré pour fournir un aperçu des tendances démographiques et de pêche à long terme et récentes, ainsi que de la disponibilité des données, pour toutes les principales espèces de poissons de fond de la C.-B. d'intérêt commercial et de conservation (\citeproc{ref-anderson2019synopsis}{Anderson \emph{et al.} 2019}; \citeproc{ref-anderson2020fisheries}{Anderson \emph{et al.} 2020}). Le rapport a été publié comme document de recherche du Secrétariat canadien des avis scientifiques (SCAS) (\citeproc{ref-anderson2019synopsis}{Anderson \emph{et al.} 2019}) pour faciliter l'examen des méthodes, avec l'intention de mettre à jour le rapport selon un calendrier régulier. En 2022, la première mise à jour a été publiée comme réponse des Sciences incluant des données jusqu'en 2021 (\citeproc{ref-synopsis2021data}{DFO 2022}). Les versions avec les données de 2022 (\citeproc{ref-synopsis2022data}{Anderson \emph{et al.} 2024a}) et 2023 (\citeproc{ref-synopsis2023data}{Anderson \emph{et al.} 2024b}) ont été publiées comme rapports techniques. Dans cette version, nous mettons à jour le rapport pour inclure les données de 2024. Nous mettons également à jour les documents de recherche d'évaluation de stocks référencés, les avis consultatifs scientifiques et les réponses des Sciences.
+
+La génération du rapport de synthèse des données sur les poissons de fond est automatisée --- extrayant les données des bases de données, ajustant les modèles, générant les visualisations, et assemblant le document pour faciliter la publication rapide, la reproductibilité et la transparence. Les objectifs du rapport sont de (1) faciliter l'examen régulier par les scientifiques et gestionnaires des poissons de fond des tendances des indices d'enquête et de la composition des stocks pour toutes les espèces afin de fournir des informations pour la discussion sur les priorités d'évaluation ; (2) générer des ensembles de données standardisés, des ajustements de modèles biologiques et des visualisations qui aideront les scientifiques d'évaluation à développer des modèles opérationnels et à sélectionner des procédures de gestion candidates pour les stocks de poissons de fond ; et (3) accroître la transparence des données entre le MPO, l'industrie de la pêche, les Premières Nations, les organisations non gouvernementales et le grand public.
+
+Les principales figures du rapport de synthèse sont présentées dans des sous-sections de deux pages par espèce qui synthétisent visuellement la plupart des données disponibles pour chaque espèce. Le rapport couvre \text{124} espèces de poissons de fond qui sont soit d'intérêt commercial, récréatif, de conservation ou des Premières Nations, soit régulièrement capturées dans nos enquêtes de recherche. Le rapport se concentre sur les enquêtes et les types de données applicables au plus large éventail de ces espèces.
+
+Chaque ensemble de pages pour une seule espèce est disposé dans le même format. La mise en page commence par le nom commun de l'espèce, le nom scientifique de l'espèce et le code d'espèce du MPO, qui correspond généralement au numéro de page référençant l'espèce dans Hart \emph{et al.} (\citeproc{ref-hart1988}{1988}). Les figures sont disposées de telle sorte que la première page présente les tendances des séries temporelles d'enquête (Figure~\ref{fig:intro-maps}) et les motifs spatiaux à gauche, et les séries temporelles commerciales par zones de la Commission des pêches marines du Pacifique (Figure~\ref{fig:management-map}) et les motifs spatiaux à droite. La deuxième page se concentre sur les échantillons biologiques provenant de sources dépendantes et indépendantes de la pêche. Cette page présente les données de longueur et d'âge, les données de maturité, et un aperçu du nombre disponible de poissons échantillonnés par année dans tous les échantillons d'enquête et commerciaux.
+
+Pour les enquêtes, le rapport s'est concentré sur les enquêtes synoptiques de chalutage de fond (Figure~\ref{fig:intro-maps}), les enquêtes de palangre de fond dur à l'extérieur (HBLL OUT), les enquêtes de palangre de fond dur à l'intérieur (HBLL INS) (Figure~\ref{fig:intro-maps}), et les enquêtes de palangre indépendante de la pêche de la Commission internationale du flétan du Pacifique (CIFP). Dans la version avec les données de 2023, nous avons ajouté les données de l'enquête de chalutage de fond multi-espèces à petits maillages sur la côte ouest de l'île de Vancouver (MSSM WCVI) (anciennement connue sous le nom d'« enquête sur les crevettes »). Voir Dunic et Anderson (\citeproc{ref-dunic2025smms}{2025}) pour une analyse de la qualité des données sur les poissons de fond de cette enquête. Nous montrons les tendances de l'indice de biomasse d'enquête pour l'enquête d'assemblage multi-espèces du détroit d'Hécate (MSA HS). Le rapport inclut le décompte des spécimens de poissons disponibles provenant d'échantillons biologiques de toutes les enquêtes. Une brève description des enquêtes incluses est fournie à l'annexe F de Anderson \emph{et al.} (\citeproc{ref-anderson2019synopsis}{2019}) avec les références associées pour les détails sur la conception et la mise en œuvre.
+
+
+
+\section{Mises à jour}\label{sec:update}
+
+Dans ce rapport~:
+\begin{itemize}
+
+\item
+  Nous avons reconstruit toutes les pages de figures avec des données jusqu'en 2024 en utilisant les méthodes décrites dans Anderson \emph{et al.} (\citeproc{ref-anderson2019synopsis}{2019}), Anderson \emph{et al.} (\citeproc{ref-anderson2020fisheries}{2020}), DFO (\citeproc{ref-synopsis2021data}{2022}), Anderson \emph{et al.} (\citeproc{ref-synopsis2022data}{2024a}), et Anderson \emph{et al.} (\citeproc{ref-synopsis2023data}{2024b}).
+\item
+  Nous avons mis à jour les références récentes en haut de chaque page d'espèce.
+\item
+  Nous avons modélisé ensemble les enquêtes SYN QCS et SYN HS dans les visualisations de cartes spatiales (p.~ex., Figure~\ref{fig:survey-maps}). Dans les versions précédentes, elles étaient modélisées séparément, ce qui pouvait entraîner une discontinuité à la frontière des deux enquêtes.
+\item
+  Nous avons ajouté la distribution gamma généralisée delta (\citeproc{ref-dunic2025gengamma}{Dunic \emph{et al.} 2025}) aux vraisemblances d'observation candidates pour les modèles de standardisation des indices d'enquête avec un lien standard (logit) et de Poisson (\citeproc{ref-thorson2018poisson}{Thorson 2018}).
+\item
+  Nous avons mis à jour la standardisation des captures par unité d'effort commercial pour utiliser un modèle spatiotemporel (Annexe~\ref{app:cpue}).
+\item
+  Nous avons changé d'\link{https://itis.gov/}{ITIS} (Système d'information taxonomique intégré) vers \link{https://www.marinespecies.org/}{WoRMS} (Registre mondial des espèces marines) pour les informations taxonomiques imprimées en haut de chaque page. WoRMS est généralement considéré comme plus à jour pour la taxonomie des espèces marines qu'ITIS. Notamment, cela a mis à jour l'ordre pour les sébastes de \emph{Scorpaeniformes} à \emph{Perciformes} et la famille de \emph{Scorpaenidae} à \emph{Sebastidae}.
+\item
+  Nous avons retiré les petites observations (principalement \textless{} 100 kg) de captures commerciales pour le requin-pèlerin (\emph{Cetorhinus maximus}) à partir de 2018, que nous croyons dues à une erreur d'identification d'espèce. La plupart de ces enregistrements datent d'après 2020 quand la flotte de chalutage est passée d'observateurs à bord à la surveillance électronique.
+\item
+  Nous avons mis à jour le nom commun de \emph{Coryphaenoides cinereus} de « Popeye » à « Grenadier Popeye ».
+\item
+  Nous avons mis à jour les grilles d'enquête dans la Figure~\ref{fig:survey-maps} pour représenter les derniers domaines d'enquête.
+\end{itemize}
+\clearpage
+\begin{figure}[htbp]
+
+{\centering \pdftooltip{\includegraphics[width=\textwidth]{knitr-figs-pdf/intro-maps-1}}{Figure \ref{fig:intro-maps}} 
+
+}
+
+\caption{Limites des enquêtes synoptiques de chalutage de fond (à gauche) et limites des enquêtes de palangre de fond dur (HBLL) (à droite). Les zones HBLL intérieures nord et sud ne sont pas différenciées car la délimitation n'est pas cohérente d'une année à l'autre. Les emplacements de l'enquête de palangre indépendante de la pêche (FISS) de la Commission internationale du flétan du Pacifique (CIFP) ne sont pas montrés ici car ils couvrent toute la côte et sont illustrés dans le panneau de droite de la Figure~\ref{fig:survey-maps}. Les couleurs correspondent au codage de couleurs utilisé dans tout le rapport.}\label{fig:intro-maps}
+\end{figure}
+\begin{figure}[htbp]
+
+{\centering \pdftooltip{\includegraphics[width=5.8in]{../tech-report-main/figure/3CD5ABCDE}}{Figure \ref{fig:management-map}} 
+
+}
+
+\caption{Carte des zones de la Commission des pêches marines du Pacifique (PMFC) 5AB (Détroit de la Reine-Charlotte), 5CD (Détroit d'Hécate), 5E (Côte ouest de Haida Gwaii), 3CD (Côte ouest de l'île de Vancouver), et 4B (Détroit de Georgie). Celles-ci sont proches, mais non identiques, aux zones d'unité de gestion des poissons de fond portant des noms similaires. Les zones 3AB et 4A sont à l'extérieur des eaux canadiennes.}\label{fig:management-map}
+\end{figure}
+\clearpage
+
+\section{Descriptions des graphiques}\label{sec:plot-descriptions}
+
+Cette section fournit des légendes pour chacune des visualisations qui forment les pages par espèce. Petrale Sole est utilisé comme espèce d'exemple pour toutes les figures sauf pour les cartes de capture par unité d'effort commercial où la morue du Pacifique est utilisée.
+
+\clearpage
+
+\subsection{Tendances des indices de biomasse relative provenant des enquêtes}\label{tendances-des-indices-de-biomasse-relative-provenant-des-enquuxeates}
+
+
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=3.1in]{knitr-figs-pdf/survey-index-1}}{Figure \ref{fig:survey-index}} 
+
+}
+
+\caption{Exemple de tendances des indices de biomasse relative provenant d'enquêtes de chalutage et de palangre pour Petrale Sole. Les points représentent les estimations moyennes de biomasse relative basées sur le plan d'enquête et les lignes verticales autour des points représentent les intervalles de confiance bootstrap de 95 \%. Les séries temporelles avec une ligne de tendance pleine et un ruban ombré pour les intervalles de confiance de 95 \% représentent un indice qui a été standardisé avec un modèle spatiotemporel (voir l'annexe A dans \citeproc{ref-synopsis2021data}{DFO 2022}). Les indices basés sur un modèle spatiotemporel sont omis pour une combinaison enquête-espèce si moins de 5 \% des traits contenaient l'espèce ou si aucun modèle n'a convergé. « CV moyen » est la moyenne des coefficients de variation annuels (CV), et « Traits +fs moyens » indique le ratio du nombre moyen (à travers les années) de traits qui ont capturé l'espèce d'intérêt par rapport au nombre moyen de traits. Tous les axes verticaux sont mis à l'échelle entre zéro et la valeur maximale de l'intervalle de confiance supérieur pour cette enquête. Quand les deux types d'indices sont montrés, ils sont mis à l'échelle pour avoir la même moyenne géométrique et les axes sont ajustés pour englober les intervalles de confiance basés sur le modèle. Pour le MSSM WCVI, les années avant 2003 sont ombrées en gris pour indiquer que les captures sont considérées comme moins fiables que les données modernes. Pour le HBLL OUT, HBLL INS, et IPHC FISS, les valeurs sont des abondances plutôt que des biomasses. SYN WCHG = West Coast Haida Gwaii Synoptic Bottom Trawl, SYN HS = Hecate Strait Synoptic Bottom Trawl, SYN QCS = Queen Charlotte Sound Synoptic Bottom Trawl, SYN WCVI = West Coast Vancouver Island Synoptic Bottom Trawl, HBLL OUT N = Hard Bottom Longline Outside North, HBLL OUT S = Hard Bottom Longline Outside South, HBLL INS N = Hard Bottom Longline Inside North, HBLL INS S = Hard Bottom Longline Inside South, IPHC FISS = International Pacific Halibut Commission Fishery-Independent Setline Survey, MSA HS = Hecate Strait Multispecies Assemblage Bottom Trawl, MSSM WCVI = West Coast Vancouver Island Multispecies Small-mesh Bottom Trawl. Sont également inclus des indices à l'échelle côtière ou à l'échelle de l'enquête pour SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, et HBLL INS N/S.}\label{fig:survey-index}
+\end{figure}
+\clearpage
+
+\subsection{Cartes de biomasse relative provenant des enquêtes}\label{cartes-de-biomasse-relative-provenant-des-enquuxeates}
+
+
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=2.9in]{knitr-figs-pdf/survey-maps-1}}{Figure \ref{fig:survey-maps}} 
+
+}
+
+\caption{Exemples de cartes de biomasse relative (ou taux de capture) provenant d'enquêtes de chalutage et de palangre des dernières années disponibles de chaque enquête pour Petrale Sole. Sont montrées les enquêtes synoptiques de chalutage (à gauche), les enquêtes de palangre de fond dur à l'extérieur (HBLL OUT) (au milieu), et l'IPHC FISS (à droite). Les traits individuels sont montrés dans les deux panneaux de gauche comme des croix pâles (si l'espèce n'a pas été capturée dans ce trait), ou des cercles avec l'aire du cercle proportionnelle à la densité d'espèce du trait. L'ombrage coloré (sauf pour l'enquête IPHC) indique des prédictions d'un modèle spatial qui inclut la profondeur et la profondeur au carré comme prédicteurs ainsi que des effets aléatoires spatiaux (Annexe E dans \citeproc{ref-anderson2019synopsis}{Anderson \emph{et al.} 2019}). L'échelle de couleur est transformée par racine quatrième pour rendre un motif visuel similaire à une transformation logarithmique sans sur-accentuer les différences près de zéro. L'échelle de couleur va de zéro à la valeur la plus élevée dans chaque carte, et le gris foncé indique les régions où les modèles n'ont pas pu être ajustés. Les cartes synoptiques et HBLL montrent la densité de biomasse prédite dans tout le domaine d'enquête. La carte IPHC montre les données brutes non modélisées pour les emplacements de stations fixes --- les stations sans observations pour une espèce donnée sont montrées comme des cercles vides. Les années sur le côté gauche de chaque graphique indiquent l'année de l'enquête respective. Les enquêtes (sauf IPHC) dans lesquelles moins de 2 \% des traits contenaient l'espèce ne sont pas modélisées et sont montrées avec des données brutes seulement. Les valeurs moyennes montrées en bas sont les valeurs de densité de poissons moyennes des données brutes pour toute la côte pour les années indiquées ; pour les données IPHC les unités sont poissons par raie réelle, où une raie réelle représente 100 hameçons circulaires avec un espacement de 18 pieds (Annexe G dans \citeproc{ref-anderson2019synopsis}{Anderson \emph{et al.} 2019}). Notez que la côte a été tournée de 40\(^{\circ}\) pour faire tenir toutes les cartes dans l'espace disponible. Les contours de profondeur sont montrés à 100 m, 200 m, et 500 m.}\label{fig:survey-maps}
+\end{figure}
+\clearpage
+
+\subsection{Captures de la pêche commerciale}\label{captures-de-la-puxeache-commerciale}
+
+
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=3.5in]{knitr-figs-pdf/catches-1}}{Figure \ref{fig:catches}} 
+
+}
+
+\caption{Exemples de graphiques de captures de pêche commerciale pour Petrale Sole. Les captures de various types d'engins sont indiquées par l'ombrage coloré. Les captures sont calculées comme le poids total des débarquements agrégés par année. Les rejets incluent les poids de rejets déclarés de toutes les pêches combinées ; cependant, les rejets du chalutage de fond sont considérés comme moins fiables avant la couverture complète d'observateurs en 1996 et les rejets de casier, ligne et hameçon, chalutage pélagique, et chalutage de fond du détroit de Georgie sont moins fiables avant l'intégration des pêches en 2006 et ne sont donc pas inclus. Les données de captures avant 1996 et 2006 sont ombrées en gris pour indiquer qu'elles sont considérées comme moins fiables que les données plus récentes. Les estimations de captures des flottes de chalutage de fond et pélagique opérant dans les eaux extérieures sont moins certaines avant l'introduction d'un programme d'observateurs en mer en 1996. De même, les estimations de captures des secteurs non-chalutiers (palangre et casier) sont moins certaines avant la mise en œuvre d'un programme de surveillance électronique (SE) en mer en 2006. Le programme d'observateurs en mer pour la flotte de chalutage a été interrompu au début de 2020 à cause de la COVID-19. Depuis lors, la flotte de chalutage a été surveillée en utilisant des systèmes SE. Les systèmes SE sont complétés par un échantillonnage biologique basé au port pour certaines espèces. Les zones de gestion, comme indiqué dans le coin supérieur gauche de chaque panneau, sont montrées dans la Figure~\ref{fig:management-map}.}\label{fig:catches}
+\end{figure}
+\clearpage
+
+\subsection{Indices de capture par unité d'effort du chalutage de fond commercial}\label{indices-de-capture-par-unituxe9-deffort-du-chalutage-de-fond-commercial}
+
+
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=3.5in]{knitr-figs-pdf/trawl-cpue-index-1}}{Figure \ref{fig:trawl-cpue-index}} 
+
+}
+
+\caption{Exemples de tendances de capture par unité d'effort (CPUE) du chalutage de fond commercial, avec l'effort en heures de chalutage, pour Petrale Sole. Les CPUE commerciales ont été standardisées avec un modèle spatiotemporel (Annexe~\ref{app:cpue}). La ligne et la région ombrée représentent la moyenne et l'intervalle de confiance de 95 \%. Les séries temporelles standardisées sont mises à l'échelle pour avoir le même intervalle de confiance maximal de 95 \%. Les zones de gestion, comme indiqué dans le coin supérieur gauche de chaque panneau, sont montrées dans la Figure~\ref{fig:management-map}.}\label{fig:trawl-cpue-index}
+\end{figure}
+\clearpage
+
+\subsection{Cartes de capture par unité d'effort commercial}\label{cartes-de-capture-par-unituxe9-deffort-commercial}
+
+
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=2.9in]{knitr-figs-pdf/cpue-maps-1}}{Figure \ref{fig:cpue-maps}} 
+
+}
+
+\caption{Exemples de cartes de capture par unité d'effort de chalutage commercial et de ligne et hameçon commercial pour la morue du Pacifique (notez que cette figure n'est \textbf{pas} Petrale Sole parce que le panneau de ligne et hameçon est principalement vide pour Petrale Sole). L'ombrage plus clair indique des niveaux plus élevés d'une moyenne géométrique de capture par unité d'effort dans une cellule hexagonale donnée. L'échelle de couleur est transformée par racine quatrième pour rendre un motif visuel similaire à une transformation logarithmique sans sur-accentuer les différences près de zéro. Les cellules font 7 km de largeur et ne sont montrées que dans les cas où il y a au moins 3 navires uniques dans une cellule donnée pour respecter les exigences de confidentialité. Pour le chalutage de fond, la capture par unité d'effort est calculée comme le poids de capture (débarquements plus rejets) divisé par les heures de pêche pour tous les traits positifs du secteur de chalutage de poissons de fond. Les données de chalutage sont montrées à partir de 2013 après que l'empreinte de chalutage fut {[}les limites de chalutage basées sur l'écosystème furent établies ; Wallace \emph{et al.} (\citeproc{ref-wallace2015}{2015}){]}. Les données de chalutage de 2007--2012 sont indiquées comme des hexagones gris clair délimités pour illustrer la pêche avant l'empreinte gelée. Pour la ligne et hameçon, la capture par unité d'effort est montrée comme le nombre de poissons enregistrés comme débarqués ou rejetés par trait. Les données de ligne et hameçon sont montrées à partir de 2008. Inclure autant d'années de données que possible réduit le nombre d'événements de pêche rejetés lors de l'implémentation de l'exigence de confidentialité de 3 navires. Notez que la côte a été tournée de 40\(^{\circ}\) pour faire tenir toutes les cartes dans l'espace disponible. Les contours de profondeur sont montrés à 100 m, 200 m, et 500 m.}\label{fig:cpue-maps}
+\end{figure}
+\clearpage
+
+\subsection{Échantillons biologiques disponibles}\label{sec:bio-samples}
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=5.2in]{knitr-figs-pdf/samples-1}}{Figure \ref{fig:samples}} 
+
+}
+
+\caption{Example specimen-availability plot for Petrale Sole. Shown are the number of available fish specimens that have had their length measured, have been weighed, had their maturity assessed, had their age assessed, and for which ageing structures are available for ageing. Data are shown across all surveys (not just surveys shown elsewhere in the synopsis; top panel) and across all commercial fleets (bottom panel). Blank panels indicate year-measurement combinations without any data. Shading of these cells reflects the relative number of specimens available with the actual number of specimens indicated in the cells to the nearest round number.}\label{fig:samples}
+\end{figure}
+\clearpage
+
+\subsection{Données de composition en longueur}\label{donnuxe9es-de-composition-en-longueur}
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=6in]{knitr-figs-pdf/lengths-1}}{Figure \ref{fig:lengths}} 
+
+}
+
+\caption{Example length-frequency plot for Petrale Sole. Female fish are shown as coloured (or black) bars and male fish are shown behind as light grey bars. The total number of fish measured for a given survey and year are indicated in the top left corner of each panel. Histograms are only shown if there are more than 20 fish measured for a given survey-year combination. The commercial male and female fish are combined since many are unsexed. See Figure~\ref{fig:survey-index} for survey abbreviations.}\label{fig:lengths}
+\end{figure}
+\clearpage
+
+\subsection{Données de composition par âge}\label{donnuxe9es-de-composition-par-uxe2ge}
+
+
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=6in]{knitr-figs-pdf/ages-1}}{Figure \ref{fig:ages}} 
+
+}
+
+\caption{Exemple de graphique de fréquence par âge pour Petrale Sole. Les poissons femelles sont montrés comme des cercles colorés (ou noirs) et les poissons mâles sont montrés derrière comme des cercles gris clair. Le nombre total de poissons vieillis pour une enquête et une année données sont indiqués en haut des panneaux. Des lignes diagonales sont montrées à intervalles de cinq ans pour faciliter le traçage des cohortes à travers le temps. Nous traçons la fenêtre de 15 ans la plus récente pour laquelle des données de vieillissement existent. Voir la Figure~\ref{fig:survey-index} pour les abréviations d'enquêtes. Des graphiques de précision de vieillissement comparant la précision des lectures par deux individus vieillissant les poissons sont fournis pour toutes les espèces pour lesquelles des données d'âge existent à l'Annexe A dans Anderson \emph{et al.} (\citeproc{ref-anderson2019synopsis}{2019}).}\label{fig:ages}
+\end{figure}
+\clearpage
+
+\subsection{Ajustements de modèles longueur-âge et longueur-poids}\label{ajustements-de-moduxe8les-longueur-uxe2ge-et-longueur-poids}
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=6in]{knitr-figs-pdf/length-weight-vb-1}}{Figure \ref{fig:length-weight-vb}} 
+
+}
+
+\caption{Example length-age and length-weight model fits and plots for Petrale Sole. The length-age growth curve is a von Bertalanffy model of the form $L_i \sim \operatorname{Log-normal} \left( \log(l_\mathrm{inf} (1 - \exp(-k (A_i - t_0)))), \sigma \right)$ where $L_i$ and $A_i$ represent the length and age of fish $i$, $l_\mathrm{inf}$, $k$, and $t_0$ represent the von Bertalanffy growth parameters, and $\sigma$ represents the scale parameter. The length-weight curve is of the form $\log (W_i) \sim$ Student-t $(df = 3, \log(a) + b \log(L_i), \sigma),$ with $W_i$ and $L_i$ representing the weight and length for fish $i$ and $\sigma$ representing the observation error scale. The degrees of freedom of the Student-t distribution is set to 3 to be robust to outliers. The variables $a$ and $b$ represent the estimated length-weight parameters. Female model fits are indicated as solid black lines and male model fits are indicated as dashed grey lines. Text on the panels shows the parameter estimates and open grey circles represent individual fish that the models are fit to. These figures include all survey samples. See Appendix H in Anderson et al. (2019) for details on the models.}\label{fig:length-weight-vb}
+\end{figure}
+\clearpage
+
+\subsection{Fréquence de maturité par mois}\label{fruxe9quence-de-maturituxe9-par-mois}
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=4in]{knitr-figs-pdf/maturity-months-1}}{Figure \ref{fig:maturity-months}} 
+
+}
+
+\caption{Example maturity-frequency-by-month plot for Petrale Sole. Categories of maturity are listed from most immature (top) to most mature (bottom); individual fish, once mature, cycle through the mature stages. The area of each circle corresponds to the number of fish specimens in a given maturity category for the given month. Female fish are indicated by black circles and male fish are indicated by light grey circles behind. The total number of fish specimens for each month are indicated by the numbers at the top of the plot. This plot includes data from both the commercial and survey samples.}\label{fig:maturity-months}
+\end{figure}
+\clearpage
+
+\subsection{Ogives de maturité}\label{ogives-de-maturituxe9}
+\begin{figure}[htb]
+
+{\centering \pdftooltip{\includegraphics[width=6in]{knitr-figs-pdf/maturity-ogives-1}}{Figure \ref{fig:maturity-ogives}} 
+
+}
+
+\caption{Example age- and length-at-maturity ogive plots for Petrale Sole. Maturity ogives are fit as logistic regressions to individual fish specimens, which are categorized as mature vs. not mature. The solid black lines represent fits to the female fish and the dashed grey lines represent fits to the male fish. The vertical lines indicate the estimated age or length at 50\% maturity. Text on the panels indicates the estimated age and length at 5, 50 and 95\% maturity for females (F) and males (M). Model fits are only shown for cases where there are at least 20 mature and 20 immature males and females. Short rug lines along the top and bottom of each panel represent up to 1500 randomly chosen individual fish with a small amount of random jittering in the case of ages to help differentiate individual fish. Models are fit to all available survey samples regardless of time of year. See Appendix H in Anderson et al. (2019) for details.}\label{fig:maturity-ogives}
+\end{figure}
+\clearpage
+
+\clearpage
+
+\section{Références}\label{ruxe9fuxe9rences}
+
+\noindent \vspace{-2em} \setlength{\parindent}{-0.2in} \setlength{\leftskip}{0.2in} \setlength{\parskip}{8pt}
+
+\protect\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-synopsis2023data}
+Anderson, S.C., Dunic, J.C., Keppel, E.A., et Edwards, A.M. 2024b. A data synopsis for {British Columbia} groundfish: 2023 data update. Can. Tech. Rep. Fish. Aquat. Sci. 3641: viii~+~262~p.
+
+\bibitem[\citeproctext]{ref-synopsis2022data}
+Anderson, S.C., Dunic, J.C., Keppel, E.A., et Edwards, A.M. 2024a. A data synopsis for {British Columbia} groundfish: 2022 data update. Can. Tech. Rep. Fish. Aquat. Sci. 3624: viii~+~267~p.
+
+\bibitem[\citeproctext]{ref-anderson2019synopsis}
+Anderson, S.C., Keppel, E.A., et Edwards, A.M. 2019. A Reproducible Data Synopsis for over 100 Species of {British Columbia} Groundfish. DFO Can. Sci. Advis. Sec. Res. Doc. 2019/041. vii~+~321~p.
+
+\bibitem[\citeproctext]{ref-anderson2020fisheries}
+Anderson, S.C., Keppel, E.A., et Edwards, A.M. 2020. Reproducible Visualization of Raw Fisheries Data for 113 Species Improves Transparency, Assessment Efficiency, and Monitoring. Fisheries 45: 535‑543.
+
+\bibitem[\citeproctext]{ref-synopsis2021data}
+DFO. 2022. A data synopsis for {British Columbia} groundfish: 2021 data update. DFO Can. Sci. Advis. Sec. Sci. Resp. 2022/020.
+
+\bibitem[\citeproctext]{ref-dunic2025smms}
+Dunic, J.C., et Anderson, S.C. 2025. A data synopsis for {British Columbia} groundfish: 2023 data update. Can. Tech. Rep. Fish. Aquat. Sci. 3667: v~+~40~p.
+
+\bibitem[\citeproctext]{ref-dunic2025gengamma}
+Dunic, J.C., Conner, J., Anderson, S.C., et Thorson, J.T. 2025. The generalized gamma is a flexible distribution that outperforms alternatives when modelling catch rate data. ICES Journal of Marine Science 82(4): fsaf040.
+
+\bibitem[\citeproctext]{ref-hart1988}
+Hart, J.L., Clemens, W.A., et Fisheries Research Board of Canada. 1988. Pacific Fishes of {Canada}. {Fisheries Research Board of Canada}.
+
+\bibitem[\citeproctext]{ref-thorson2018poisson}
+Thorson, J.T. 2018. \link{https://doi.org/10.1139/cjfas-2017-0266}{Three Problems with the Conventional Delta-Model for Biomass Sampling Data, and a Computationally Efficient Alternative}. Canadian Journal of Fisheries and Aquatic Sciences 75(9): 1369‑1382.
+
+\bibitem[\citeproctext]{ref-wallace2015}
+Wallace, S., Turris, B., Driscoll, J., Bodtker, K., Mose, B., et Munro, G. 2015. Canada's {Pacific} Groundfish Trawl Habitat Agreement: {A} Global First in an Ecosystem Approach to Bottom Trawl Impacts. Marine Policy 60: 240‑248.
+
+\end{CSLReferences}
+\end{document}

@@ -31,7 +31,7 @@ citation_french: "Anderson, S.C. and Dunic, J.C. 2025. A data synopsis for Briti
 show_continued_text: true
 report_DOI: "10.60825/2b8n-my73"
 output:
- csasdown::techreport_pdf:
+ csasdowntex::techreport_pdf:
    french: true
    copy_sty: false
    line_nums: false
@@ -41,7 +41,7 @@ output:
 type:
   techreport
 knit: (function(input, ...) {
-       csasdown::render()
+       csasdowntex::render()
       })
 site: bookdown::bookdown_site
 link-citations: true
