@@ -458,7 +458,7 @@ main {
   width: 100%;
   margin-top: 0;
   padding: 1.25rem clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid #666666;
+  border: 0;
   background: #ffffff;
   font-size: 0.85rem;
   color: var(--muted);

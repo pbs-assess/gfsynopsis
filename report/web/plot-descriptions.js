@@ -71,7 +71,36 @@ const FRENCH_CAPTIONS = [
 
 const englishHeadings = [...document.querySelectorAll(".plot-description h3")].map((element) => element.textContent);
 const englishAlts = [...document.querySelectorAll(".plot-description img")].map((element) => element.alt);
-const englishCaptions = [...document.querySelectorAll(".plot-description__caption")].map((element) => element.textContent);
+const englishCaptions = [...document.querySelectorAll(".plot-description__caption")].map((element) => element.innerHTML);
+
+const ANDERSON_2019_URL = "https://csas-scas.dfo-mpo.gc.ca/publications-publications/0a09ace0-7249-4c72-be1c-579005135e2a?lang=en";
+
+function webCaption(caption, language) {
+  if (language === "fr") {
+    caption = caption
+      .replace(" Les zones de gestion apparaissent dans le coin supérieur gauche de chaque panneau.", "")
+      .replace(" Les zones de gestion sont indiquées dans le coin supérieur gauche de chaque panneau.", "")
+      .replace(
+        "Voir la figure 3 pour les abréviations des relevés.",
+        'Voir la description du graphique <a href="#survey-index-heading">« Tendances des indices de biomasse relative provenant des relevés »</a> pour les abréviations des relevés.'
+      );
+    return caption.replace(
+      /Anderson et coll\. \(2019\)/g,
+      `<a href="${ANDERSON_2019_URL}">$&</a>`
+    );
+  }
+
+  caption = caption
+    .replace(" Management areas, as indicated in the top left corner of each panel, are shown in Figure 2.", "")
+    .replace(
+      "See Figure 3 for survey abbreviations.",
+      'See the <a href="#survey-index-heading">“Relative biomass index trends from surveys” plot description</a> for survey abbreviations.'
+    );
+  return caption.replace(
+    /Anderson et al\. (?:\(2019\)|2019)/g,
+    `<a href="${ANDERSON_2019_URL}">$&</a>`
+  );
+}
 
 function requestedLanguage() {
   return new URL(window.location.href).searchParams.get("lang") === "fr" ? "fr" : "en";
@@ -99,7 +128,8 @@ function render(language, historyMode = "replace") {
     element.src = element.src.replace(/\/plot-descriptions\/(?:en|fr)\//, `/plot-descriptions/${language}/`);
   });
   document.querySelectorAll(".plot-description__caption").forEach((element, index) => {
-    element.textContent = language === "fr" ? FRENCH_CAPTIONS[index] : englishCaptions[index];
+    const caption = language === "fr" ? FRENCH_CAPTIONS[index] : englishCaptions[index];
+    element.innerHTML = webCaption(caption, language);
   });
 
   document.querySelector("#descriptions-english").setAttribute("aria-pressed", String(language === "en"));
