@@ -153,4 +153,14 @@ function render(language, historyMode = "replace") {
 }
 
 window.addEventListener("popstate", () => render(requestedLanguage(), "none"));
+
+const toolbar = document.querySelector(".species-toolbar");
+if (toolbar) {
+  const updateShadow = () => {
+    toolbar.classList.toggle("is-scrolled", window.scrollY > 0);
+  };
+  window.addEventListener("scroll", updateShadow, { passive: true });
+  updateShadow();
+}
+
 render(requestedLanguage());

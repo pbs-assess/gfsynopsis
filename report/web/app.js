@@ -205,6 +205,16 @@ function showFigureMessage(message, isError = false) {
   elements.figureStatus.textContent = message;
 }
 
+function setupToolbarShadow() {
+  const toolbar = document.querySelector(".species-toolbar");
+  if (!toolbar) return;
+  const update = () => {
+    toolbar.classList.toggle("is-scrolled", window.scrollY > 0);
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
 function setupMobileSpeciesPicker() {
   if (!elements.picker || !elements.pickerSentinel ||
       !elements.pickerPlaceholder) {
@@ -720,4 +730,5 @@ window.addEventListener("popstate", () => {
 });
 
 setupMobileSpeciesPicker();
+setupToolbarShadow();
 initialize();
