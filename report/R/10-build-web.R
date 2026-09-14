@@ -530,6 +530,19 @@ build_web_species_pages <- function(
   if (length(frontend_files) && !all(file.copy(frontend_files, output_dir))) {
     stop("Could not copy one or more frontend files.", call. = FALSE)
   }
+  font_source_dir <- file.path(web_dir, "assets", "fonts")
+  font_source_files <- if (dir.exists(font_source_dir)) {
+    list.files(font_source_dir, full.names = TRUE, recursive = FALSE)
+  } else {
+    character()
+  }
+  if (length(font_source_files)) {
+    font_output_dir <- file.path(output_dir, "assets", "fonts")
+    dir.create(font_output_dir, recursive = TRUE, showWarnings = FALSE)
+    if (!all(file.copy(font_source_files, font_output_dir, overwrite = TRUE))) {
+      stop("Could not copy one or more web font files.", call. = FALSE)
+    }
+  }
   build_web_plot_descriptions(output_dir)
   if (!all(file.copy(english_source_images, english_figure_output_dir)) ||
       !all(file.copy(french_source_images, french_figure_output_dir))) {
