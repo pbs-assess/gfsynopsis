@@ -14,9 +14,9 @@ const UI_TEXT = {
     previousOrNextSpecies: "Previous or next species",
     previous: "Previous",
     next: "Next",
-    figureLanguage: "Page language",
     plotDescriptions: "Plot descriptions",
-    english: "English",
+    switchToFrench: "Français",
+    switchToEnglish: "English",
     loadingSpeciesData: "Loading species data…",
     conservationStatus: "Conservation status",
     speciesDetails: "Species details",
@@ -59,9 +59,9 @@ const UI_TEXT = {
     previousOrNextSpecies: "Espèce précédente ou suivante",
     previous: "Précédente",
     next: "Suivante",
-    figureLanguage: "Langue de la page",
     plotDescriptions: "Description des graphiques",
-    english: "Anglais",
+    switchToFrench: "Français",
+    switchToEnglish: "English",
     loadingSpeciesData: "Chargement des données sur les espèces…",
     conservationStatus: "État de conservation",
     speciesDetails: "Détails sur l’espèce",
@@ -105,8 +105,7 @@ const elements = {
   matchCount: document.querySelector("#species-match-count"),
   previous: document.querySelector("#previous-species"),
   next: document.querySelector("#next-species"),
-  englishFigures: document.querySelector("#figures-english"),
-  frenchFigures: document.querySelector("#figures-french"),
+  languageLink: document.querySelector("#page-language-link"),
   plotDescriptions: document.querySelector("#plot-descriptions-link"),
   status: document.querySelector("#app-status"),
   error: document.querySelector("#app-error"),
@@ -148,6 +147,22 @@ function localizedPage(page) {
   return figureLanguage === "fr" ? { ...page, ...page.translations.fr } : page;
 }
 
+function updateLanguageLink() {
+  const nextLanguage = figureLanguage === "fr" ? "en" : "fr";
+  const languageUrl = new URL(window.location.href);
+  if (nextLanguage === DEFAULT_LANGUAGE) {
+    languageUrl.searchParams.delete("lang");
+  } else {
+    languageUrl.searchParams.set("lang", nextLanguage);
+  }
+  elements.languageLink.textContent = nextLanguage === "fr"
+    ? t("switchToFrench")
+    : t("switchToEnglish");
+  elements.languageLink.lang = nextLanguage;
+  elements.languageLink.hreflang = nextLanguage;
+  elements.languageLink.href = languageUrl;
+}
+
 function translateStatus(value) {
   if (figureLanguage !== "fr" || !value) return value;
   return value
@@ -170,6 +185,8 @@ function renderInterface() {
   document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
     element.setAttribute("aria-label", t(element.dataset.i18nAriaLabel));
   });
+
+  updateLanguageLink();
 }
 
 function showMessage(message, isError = false) {
@@ -488,8 +505,6 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
 
   elements.figures.replaceChildren();
   const imagePaths = page.images[figureLanguage] || page.images[DEFAULT_LANGUAGE];
-  elements.englishFigures.setAttribute("aria-pressed", String(figureLanguage === "en"));
-  elements.frenchFigures.setAttribute("aria-pressed", String(figureLanguage === "fr"));
   imagePaths.forEach((imagePath, imageIndex) => {
     elements.figures.append(createFigure(
       displayPage,
@@ -504,6 +519,7 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   showMessage("");
   showFigureMessage(t("loadingFigures", displayPage.common_name));
   updateAddress(page.slug, figureLanguage, historyMode);
+  updateLanguageLink();
 }
 
 function requestedSpeciesIndex() {
@@ -592,8 +608,6 @@ function enableSpeciesSearch() {
   elements.search.disabled = false;
   elements.previous.disabled = false;
   elements.next.disabled = false;
-  elements.englishFigures.disabled = false;
-  elements.frenchFigures.disabled = false;
 }
 
 function renderBuildDetails(metadata) {
@@ -699,14 +713,6 @@ elements.previous.addEventListener("click", () => {
 
 elements.next.addEventListener("click", () => {
   renderSpecies(selectedIndex + 1, "push");
-});
-
-elements.englishFigures.addEventListener("click", () => {
-  if (figureLanguage !== "en") renderSpecies(selectedIndex, "push", "en");
-});
-
-elements.frenchFigures.addEventListener("click", () => {
-  if (figureLanguage !== "fr") renderSpecies(selectedIndex, "push", "fr");
 });
 
 window.addEventListener("popstate", () => {

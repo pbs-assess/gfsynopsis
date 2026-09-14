@@ -386,8 +386,7 @@ Note that only incidental Pacific Herring data from the groundfish databases are
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-gorbuscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127182)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
-Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pink-salmon-1.png}
 \end{figure}
@@ -406,8 +405,7 @@ Note that only incidental Pacific salmon data from the groundfish databases are 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-keta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127183)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
-Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chum-salmon-1.png}
 \end{figure}
@@ -426,8 +424,7 @@ Note that only incidental Pacific salmon data from the groundfish databases are 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-kisutch), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127184)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
-Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/coho-salmon-1.png}
 \end{figure}
@@ -446,8 +443,7 @@ Note that only incidental Pacific salmon data from the groundfish databases are 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-nerka), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254569)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
-Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sockeye-salmon-1.png}
 \end{figure}
@@ -466,8 +462,7 @@ Note that only incidental Pacific salmon data from the groundfish databases are 
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-tshawytscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158075)\
-Salmon identification and catch counts are not representative for the period of September 2022 to February 2024. See @lagasse2024salmon.
-Note that only incidental Pacific salmon data from the groundfish databases are shown in this report. The latest relevant CSAS reports should be consulted for details on Pacific salmon data.
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chinook-salmon-1.png}
 \end{figure}
@@ -2364,6 +2359,3 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sand-sole-2.png}
 \end{figure}
-
-
-

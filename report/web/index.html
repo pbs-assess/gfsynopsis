@@ -13,7 +13,16 @@
 
   <header class="site-header">
     <div class="site-header__inner">
-      <p class="eyebrow" data-i18n="eyebrow">Data synopsis</p>
+      <div class="site-header__topline">
+        <p class="eyebrow" data-i18n="eyebrow">Data synopsis</p>
+        <a
+          class="language-link"
+          id="page-language-link"
+          href="?lang=fr"
+          lang="fr"
+          hreflang="fr"
+        >Français</a>
+      </div>
       <h1 data-i18n="siteTitle">British Columbia groundfish</h1>
     </div>
   </header>
@@ -51,13 +60,6 @@
         <button id="next-species" type="button" disabled>
           <span data-i18n="next">Next</span> <span aria-hidden="true">→</span>
         </button>
-      </div>
-      <div class="toolbar-secondary">
-        <a class="plot-descriptions-link" id="plot-descriptions-link" href="plot-descriptions.html" data-i18n="plotDescriptions">Plot descriptions</a>
-        <div class="figure-language" role="group" aria-label="Figure language" data-i18n-aria-label="figureLanguage">
-          <button id="figures-english" type="button" aria-pressed="true" disabled>English</button>
-          <button id="figures-french" type="button" aria-pressed="false" disabled>Français</button>
-        </div>
       </div>
     </div>
   </div>
@@ -113,9 +115,8 @@
       <section class="figures-section" aria-labelledby="figures-heading">
         <p id="figure-status" class="app-message" role="status" aria-live="polite" hidden></p>
         <div class="section-heading">
-          <div>
-            <h3 id="figures-heading" class="visually-hidden" data-i18n="synopsisFigures">Synopsis figures</h3>
-          </div>
+          <h3 id="figures-heading" class="visually-hidden" data-i18n="synopsisFigures">Synopsis figures</h3>
+          <a class="plot-descriptions-link" id="plot-descriptions-link" href="plot-descriptions.html" data-i18n="plotDescriptions">Plot descriptions</a>
         </div>
         <div id="figures" class="figures"></div>
       </section>

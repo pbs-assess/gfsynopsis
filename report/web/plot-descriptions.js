@@ -9,7 +9,6 @@ const TEXT = {
     siteTitle: "British Columbia groundfish",
     navigation: "Site navigation",
     back: "← Species synopsis",
-    language: "Page language",
     heading: "Plot descriptions",
     intro: "This section provides captions for each of the visualizations that form the species-by-species pages. Petrale Sole is used as an example species for all plots except for commercial catch per unit effort maps where Pacific Cod is used."
   },
@@ -21,7 +20,6 @@ const TEXT = {
     siteTitle: "Poissons de fond de la Colombie-Britannique",
     navigation: "Navigation du site",
     back: "← Synopsis des espèces",
-    language: "Langue de la page",
     heading: "Description des graphiques",
     intro: "Cette section fournit les légendes de chacune des visualisations qui composent les pages par espèce. La sole de Petrale sert d’espèce d’exemple pour tous les graphiques, sauf les cartes des captures commerciales par unité d’effort, qui utilisent la morue du Pacifique."
   }
@@ -116,7 +114,6 @@ function render(language, historyMode = "replace") {
   document.querySelector(".site-header h1").textContent = copy.siteTitle;
   document.querySelector("#descriptions-navigation").setAttribute("aria-label", copy.navigation);
   document.querySelector("#species-synopsis-link").textContent = copy.back;
-  document.querySelector("#descriptions-language").setAttribute("aria-label", copy.language);
   document.querySelector(".descriptions-page__header h2").textContent = copy.heading;
   document.querySelector(".descriptions-page__header p").textContent = copy.intro;
 
@@ -132,8 +129,15 @@ function render(language, historyMode = "replace") {
     element.innerHTML = webCaption(caption, language);
   });
 
-  document.querySelector("#descriptions-english").setAttribute("aria-pressed", String(language === "en"));
-  document.querySelector("#descriptions-french").setAttribute("aria-pressed", String(language === "fr"));
+  const languageLink = document.querySelector("#page-language-link");
+  const nextLanguage = language === "fr" ? "en" : "fr";
+  const languageUrl = new URL(window.location.href);
+  if (nextLanguage === "en") languageUrl.searchParams.delete("lang");
+  else languageUrl.searchParams.set("lang", nextLanguage);
+  languageLink.textContent = nextLanguage === "fr" ? "Français" : "English";
+  languageLink.lang = nextLanguage;
+  languageLink.hreflang = nextLanguage;
+  languageLink.href = languageUrl;
 
   const url = new URL(window.location.href);
   if (language === "fr") url.searchParams.set("lang", "fr");
@@ -148,7 +152,5 @@ function render(language, historyMode = "replace") {
   document.querySelector("#species-synopsis-link").href = backUrl;
 }
 
-document.querySelector("#descriptions-english").addEventListener("click", () => render("en", "push"));
-document.querySelector("#descriptions-french").addEventListener("click", () => render("fr", "push"));
 window.addEventListener("popstate", () => render(requestedLanguage(), "none"));
 render(requestedLanguage());

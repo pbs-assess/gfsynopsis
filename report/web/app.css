@@ -92,6 +92,14 @@ main,
   padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(1.75rem, 4vw, 3rem);
 }
 
+.site-header__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
 .eyebrow {
   margin: 0 0 0.35rem;
   color: inherit;
@@ -99,6 +107,21 @@ main,
   font-weight: 750;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.site-header__topline .eyebrow {
+  margin-bottom: 0;
+}
+
+.language-link {
+  flex: 0 0 auto;
+  color: #fff;
+  font-weight: 650;
+  text-underline-offset: 0.2em;
+}
+
+.language-link:hover {
+  color: #fff;
 }
 
 .site-header h1 {
@@ -211,19 +234,7 @@ main,
   gap: 0.45rem;
 }
 
-.figure-language {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.toolbar-secondary {
-  display: contents;
-}
-
-.species-nav button,
-.figure-language button {
+.species-nav button {
   min-height: 2.75rem;
   padding: 0.45rem 0.8rem;
   border: 1px solid var(--muted);
@@ -234,22 +245,14 @@ main,
   font-weight: 650;
 }
 
-.species-nav button:hover:not(:disabled),
-.figure-language button:hover:not(:disabled) {
+.species-nav button:hover:not(:disabled) {
   border-color: var(--ocean);
   background: var(--ocean-pale);
 }
 
-.species-nav button:disabled,
-.figure-language button:disabled {
+.species-nav button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
-}
-
-.figure-language button[aria-pressed="true"] {
-  border-color: var(--ocean-dark);
-  background: var(--ocean-dark);
-  color: #fff;
 }
 
 .plot-descriptions-link {
@@ -276,8 +279,23 @@ main,
   align-items: center;
 }
 
-.descriptions-toolbar .figure-language {
-  margin-left: auto;
+.section-heading .plot-descriptions-link {
+  display: inline;
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ocean);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.section-heading .plot-descriptions-link:hover {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ocean-dark);
 }
 
 main {
@@ -572,10 +590,11 @@ main {
 
 .section-heading {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
+  align-items: baseline;
+  justify-content: flex-end;
   gap: 1.5rem;
   width: min(100%, 72rem);
+  padding-inline: clamp(1.25rem, 3vw, 2rem);
   margin: 0 auto 1rem;
 }
 
@@ -811,17 +830,6 @@ main {
     grid-template-columns: 1fr 1fr;
   }
 
-  .toolbar-secondary {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.35rem;
-  }
-
-  .figure-language {
-    display: contents;
-  }
-
-  .figure-language button,
   .plot-descriptions-link {
     min-width: 0;
     padding-inline: 0.45rem;
@@ -836,11 +844,6 @@ main {
 
   .descriptions-toolbar .plot-descriptions-link {
     flex: 1 1 auto;
-  }
-
-  .descriptions-toolbar .figure-language {
-    flex: 0 0 auto;
-    margin-left: 0;
   }
 
   .references-section {
@@ -873,6 +876,14 @@ main {
 
   .section-heading > p {
     max-width: 32rem;
+  }
+
+  .section-heading {
+    gap: 0.35rem;
+  }
+
+  .section-heading .plot-descriptions-link {
+    align-self: flex-start;
   }
 }
 

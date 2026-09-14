@@ -165,28 +165,39 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
     )
   }
   if (identical(field("family"), "Salmonidae")) {
-    salmon_note <- paste0(
-      "Salmon identification and catch counts are not representative for the ",
-      "period of September 2022 to February 2024. See @lagasse2024salmon."
-    )
-    notes <- c(notes, if (!french) salmon_note else paste0(
-      "L’identification et les dénombrements des saumons ne sont pas ",
-      "représentatifs pour la période de septembre 2022 à février 2024. Voir ",
-      "@lagasse2024salmon."
-    ))
     notes <- c(notes, if (!french) {
       paste0(
-        "Note that only incidental Pacific salmon data from the groundfish ",
-        "databases are shown in this report. The latest relevant CSAS reports ",
-        "should be consulted for details on Pacific salmon data."
+        "Only incidental Pacific salmon data from the groundfish databases are shown ",
+        "here; commercial catch is limited to incidental catch in groundfish fisheries. ",
+        "Consult the latest relevant CSAS reports for details on Pacific salmon data. ",
+        "For other salmon data, see the [Pacific Region ",
+        "commercial salmon fishery in-season catch estimates](https://open.canada.ca/",
+        "data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon ",
+        "Escapement Database System)](https://open.canada.ca/data/en/dataset/",
+        "c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.",
+        "dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification ",
+        "and catch counts in the groundfish data shown here are not representative for ",
+        "the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. ",
+        "Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/",
+        "library-bibliotheque/41221618.pdf)."
       )
     } else {
       paste0(
-        "Il est à noter que seules les données accessoires sur le saumon du ",
-        "Pacifique provenant des bases de données sur les poissons de fond sont ",
-        "présentées dans le présent rapport. Les derniers rapports pertinents du ",
-        "SCCS devraient être consultés pour obtenir des détails sur les données ",
-        "concernant le saumon du Pacifique."
+        "Seules les données accessoires sur le saumon du Pacifique provenant des bases ",
+        "de données sur les poissons de fond sont présentées ici; les prises commerciales ",
+        "se limitent aux prises accessoires dans les pêches de poissons de fond. ",
+        "Consultez les derniers rapports pertinents du SCCS pour obtenir des détails sur ",
+        "les données concernant le saumon du Pacifique. Pour obtenir d’autres données ",
+        "sur le saumon, consultez les [estimations des prises en saison de la pêche ",
+        "commerciale du saumon dans la région du Pacifique](https://ouvert.canada.ca/",
+        "data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), le [NuSEDS (Nouveau ",
+        "système de base de données sur les échappées de saumon)](https://open.canada.ca/",
+        "data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6) et [Salmon Space](https://",
+        "www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). L’identification ",
+        "et les dénombrements des saumons dans les données sur les poissons de fond ",
+        "présentées ici ne sont pas représentatifs pour la période de septembre 2022 à ",
+        "février 2024; voir [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)]",
+        "(https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf)."
       )
     })
   }
