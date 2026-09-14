@@ -177,7 +177,7 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
         "c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.",
         "dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification ",
         "and catch counts in the groundfish data shown here are not representative for ",
-        "the period of September 2022 to February 2024; see [C. R. Lagasse et al. ",
+        "the period of September 2022 to February 2024; see [Lagasse et al. ",
         "(2024)](https://waves-vagues.dfo-mpo.gc.ca/",
         "library-bibliotheque/41221618.pdf)."
       )
@@ -196,7 +196,7 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
         "www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). L’identification ",
         "et les dénombrements des saumons dans les données sur les poissons de fond ",
         "présentées ici ne sont pas représentatifs pour la période de septembre 2022 à ",
-        "février 2024; voir [C. R. Lagasse et al. (2024)]",
+        "février 2024; voir [Lagasse et al. (2024)]",
         "(https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf)."
       )
     })
