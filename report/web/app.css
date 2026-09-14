@@ -408,8 +408,8 @@ main {
 .species-silhouette img {
   display: block;
   width: 100%;
-  height: auto;
-  max-height: 9rem;
+  /* Keep the silhouette within the same vertical budget as the text header. */
+  height: 4.5rem;
   object-fit: contain;
   object-position: right center;
   opacity: 0.85;

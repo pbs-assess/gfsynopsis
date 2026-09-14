@@ -123,3 +123,44 @@ scrolling. Test filtering and selection in the labelled species combobox with
 both the keyboard and a pointer.
 
 Do not commit `generated/`; it contains approximately 109 MB of derived PNGs.
+
+## Headless screenshots (agent visual review)
+
+An agent can review rendered design changes without a human by screenshotting
+with headless Chrome (installed at
+`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`):
+
+```sh
+# Serve in the background so it survives across commands (foreground servers
+# die when the shell exits, causing ERR_EMPTY_RESPONSE screenshots):
+nohup python3 -m http.server 8124 --bind 127.0.0.1 \
+  --directory report/web/generated >/tmp/gfserver.log 2>&1 &
+
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+"$CHROME" --headless --disable-gpu --hide-scrollbars \
+  --window-size=1510,944 --screenshot=/tmp/shot.png \
+  "http://127.0.0.1:8124/?species=lingcod"
+```
+
+Notes and gotchas:
+
+- Screenshots render at CSS-pixel size (not retina), matching the
+  `window-size`. Use ~1510x944 for a laptop viewport and 500px width for the
+  narrow/mobile layout. **Headless Chrome enforces a ~500px minimum window
+  width** — a request for 390px silently produces a 500px-wide page cropped to
+  390px in the image, which looks exactly like a horizontal-overflow bug but
+  is not one.
+- Edit only the tracked source files (`app.css`, `app.js`, `index.html`);
+  `make build` (from `report/web/`) recopies them into `generated/`. Temporary
+  debug files placed directly in `generated/` are wiped by the next build —
+  that is a feature (use it for throwaway markup/CSS probes).
+- To check console errors, add `--enable-logging=stderr --v=0` and ignore the
+  macOS-internal noise (`CVDisplayLinkCreate...`, `task_policy_set...`); page
+  JS errors appear as `Uncaught`.
+- `--dump-dom` combined with a `<script>` that writes measurements into
+  `document.title` is a quick way to read computed layout values
+  (`offsetWidth`, `getComputedStyle`) from a headless run.
+- Verify at least one species with a silhouette (e.g. `?species=lingcod`) and
+  one without (e.g. `?species=longspine-thornyhead`), plus
+  `plot-descriptions.html` and `?lang=fr`.
+- Kill the server when done: `pkill -f "http.server 8124"`.
