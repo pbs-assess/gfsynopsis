@@ -91,7 +91,7 @@ main,
 }
 
 .site-header__inner {
-  padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(1.75rem, 4vw, 3rem);
+  padding: clamp(1.4rem, 3.5vw, 3.15rem) 0 clamp(1.225rem, 2.8vw, 2.1rem);
 }
 
 .site-header__topline {
@@ -148,7 +148,7 @@ main,
   align-items: end;
   justify-content: center;
   gap: 1rem;
-  padding-block: 0.85rem;
+  padding-block: 0.65rem;
 }
 
 .species-picker {
@@ -258,6 +258,16 @@ main,
 }
 
 .plot-descriptions-link {
+  color: var(--ocean);
+  font-weight: 650;
+  text-underline-offset: 0.18em;
+}
+
+.descriptions-toolbar {
+  align-items: center;
+}
+
+.descriptions-toolbar .plot-descriptions-link {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
@@ -268,41 +278,22 @@ main,
   border-radius: 0.25rem;
   background: #ffffff;
   color: var(--ocean-dark);
-  font-weight: 650;
   text-decoration: none;
 }
 
-.plot-descriptions-link:hover {
+.descriptions-toolbar .plot-descriptions-link:hover {
   border-color: var(--ocean);
   background: var(--ocean-pale);
+  color: var(--ocean-dark);
 }
 
-.descriptions-toolbar {
-  align-items: center;
-}
-
-.section-heading .plot-descriptions-link {
-  display: inline;
-  min-height: auto;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--ocean);
-  font-weight: 650;
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-}
-
-.section-heading .plot-descriptions-link:hover {
-  border-color: transparent;
-  background: transparent;
+.plot-descriptions-link:hover {
   color: var(--ocean-dark);
 }
 
 main {
   min-height: 55vh;
-  padding-block: clamp(1.5rem, 4vw, 3.5rem) 4rem;
+  padding-block: clamp(1rem, 2.8vw, 2.5rem) 3rem;
 }
 
 .app-message {
@@ -334,7 +325,7 @@ main {
   align-items: end;
   justify-content: space-between;
   gap: 2rem;
-  padding: var(--species-gutter);
+  padding: clamp(1rem, 2vw, 1.4rem) var(--species-gutter);
   border-radius: 0;
   background: var(--ocean);
   color: #fff;
@@ -386,7 +377,7 @@ main {
 }
 
 .scientific-name {
-  margin: 0.55rem 0 0;
+  margin: 0.4rem 0 0;
   color: #ffffff;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.1rem, 2vw, 1.35rem);
@@ -398,13 +389,20 @@ main {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  row-gap: 1.25rem;
-  padding: 1.15rem var(--species-gutter);
+  gap: 1rem 1.5rem;
+  row-gap: 0.8rem;
+  padding: 0.8rem var(--species-gutter);
   border: 1px solid var(--line);
   border-top: 0;
   border-radius: 0;
   background: var(--surface);
+}
+
+.metadata-panel__footer {
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: flex-start;
+  margin-top: 0.15rem;
 }
 
 .taxonomy-list {
@@ -471,6 +469,7 @@ main {
   border: 0;
   background: transparent;
   font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .notes-section {
@@ -503,7 +502,7 @@ main {
 }
 
 .text-section h3 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.35rem;
   font-size: 1rem;
 }
 
@@ -514,7 +513,7 @@ main {
 
 .text-section li + li,
 #notes-list p + p {
-  margin-top: 0.5rem;
+  margin-top: 0.3rem;
 }
 
 .reference-citation {
@@ -529,7 +528,7 @@ main {
 .figures-section {
   width: min(100%, var(--content-width));
   margin-inline: auto;
-  margin-top: clamp(1.5rem, 3vw, 3rem);
+  margin-top: clamp(1rem, 2vw, 2rem);
 }
 
 .descriptions-page {
@@ -591,33 +590,9 @@ main {
   margin-top: 0.9rem;
 }
 
-.section-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  gap: 1.5rem;
-  padding-inline: var(--species-gutter);
-  margin: 0 0 1rem;
-}
-
-.section-heading .eyebrow {
-  color: var(--ocean);
-}
-
-.section-heading h3 {
-  margin: 0;
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
-}
-
-.section-heading > p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
 .figures {
   display: grid;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
+  gap: clamp(1rem, 2vw, 2rem);
   padding-inline: var(--species-gutter);
 }
 
@@ -835,8 +810,6 @@ main {
 
   .plot-descriptions-link {
     min-width: 0;
-    padding-inline: 0.45rem;
-    text-align: center;
   }
 
   .descriptions-toolbar {
@@ -877,17 +850,6 @@ main {
     gap: 1rem;
   }
 
-  .section-heading > p {
-    max-width: 32rem;
-  }
-
-  .section-heading {
-    gap: 0.35rem;
-  }
-
-  .section-heading .plot-descriptions-link {
-    align-self: flex-start;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
