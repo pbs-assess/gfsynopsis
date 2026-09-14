@@ -1107,7 +1107,7 @@ Order: Perciformes, Family: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-brevispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274778)\
 Last Research Document: @starr2025silvergray\
-Last Science Advisory Report: @dfo2014silvergray\
+Last Science Advisory Report: @dfo2026silvergray\
 In the 2025 assessment, it was recommended that if a 40% change in the 3-year running average of the coastwide geostatistical index or the coastwide commercial CPUE index relative to the 2024 value was observed, an early reassessment of Silvergray Rockfish should be brought forward for consideration. In 2025, this exceptional circumstance criterion was **not** met.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/silvergray-rockfish-1.png}

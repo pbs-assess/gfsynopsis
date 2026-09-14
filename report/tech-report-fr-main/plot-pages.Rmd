@@ -968,7 +968,7 @@ Ordre: Perciformes, Famille: Sebastidae,
 [FishBase](http://www.fishbase.org/summary/Sebastes-brevispinis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274778)\
 Plus récent document de recherche: @starr2016silvergray\
-Dernier avis scientifique: @dfo2014silvergray\
+Dernier avis scientifique: @dfo2026silvergray\
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/silvergray-rockfish-1.png}
 \end{figure}
@@ -2212,4 +2212,3 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sand-sole-2.png}
 \end{figure}
-

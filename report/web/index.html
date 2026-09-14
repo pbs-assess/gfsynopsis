@@ -125,11 +125,9 @@
 
   <footer class="site-footer">
     <div class="site-footer__citation">
-      <p class="site-footer__citation-heading" data-i18n="unofficialUpdateOf">This is an unofficial update of</p>
-      <p class="site-footer__citation-lead">
-        Anderson, S.C. and Dunic, J.C. 2025.
+      <p>
+        <span data-i18n="unofficialUpdateOf">This is an unofficial update of</span>
         <cite><a href="https://doi.org/10.60825/h406-v638">A data synopsis for British Columbia groundfish: 2024 data update</a></cite>.
-        Can. Tech. Rep. Fish. Aquat. Sci. 3718: viii + 275 p.
       </p>
       <p>
         <span data-i18n="citeTechnicalReportPrefix">Please reference and cite the last official </span>
@@ -146,11 +144,19 @@
         <a href="https://github.com/pbs-assess/gfsynopsis/issues" target="_blank" rel="noopener noreferrer" data-i18n="issues">Issues ↗</a> ·
         <a href="https://github.com/pbs-assess/gfsynopsis/blob/208f8c50eae94ee3644ea10d7ddf3d488594eb49/DESCRIPTION#L5" target="_blank" rel="noopener noreferrer" data-i18n="contact">Contact ↗</a>
       </p>
-      <img
-        class="site-footer__logo"
-        src="assets/dfo-logo.svg"
-        alt="Fisheries and Oceans Canada / Pêches et Océans Canada"
+      <a
+        id="dfo-logo-link"
+        class="site-footer__logo-link"
+        href="https://www.dfo-mpo.gc.ca/index-eng.html"
+        lang="en"
+        hreflang="en"
       >
+        <img
+          class="site-footer__logo"
+          src="assets/dfo-logo.svg"
+          alt="Fisheries and Oceans Canada / Pêches et Océans Canada"
+        >
+      </a>
       <p id="build-details"></p>
     </div>
   </footer>

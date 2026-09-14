@@ -395,12 +395,13 @@ main {
 }
 
 .species-silhouette {
-  display: flex;
+  display: grid;
   flex: 0 0 min(11.25rem, 100%);
   width: min(11.25rem, 100%);
-  flex-direction: column;
+  height: 5.5rem;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
   align-items: flex-end;
-  justify-content: center;
   gap: 0.15rem;
   margin: 0;
 }
@@ -409,14 +410,16 @@ main {
   display: block;
   width: 100%;
   /* Keep the silhouette within the same vertical budget as the text header. */
-  height: 4.5rem;
+  height: 100%;
+  min-height: 0;
   object-fit: contain;
   object-position: right center;
   opacity: 0.85;
 }
 
 .species-silhouette figcaption {
-  width: min(18rem, calc(100vw - 2.5rem));
+  width: min(24rem, calc(100vw - 2.5rem));
+  justify-self: end;
   color: var(--muted);
   font-size: 0.62rem;
   line-height: 1.2;
@@ -678,17 +681,10 @@ main {
   position: relative;
   min-height: 14rem;
   overflow: hidden;
-  border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
   background:
     linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 70%) 40%, transparent 55%) 0 0 / 220% 100%,
     var(--surface);
-  transition: box-shadow 160ms ease;
-}
-
-.figure-frame:hover {
-  box-shadow: var(--shadow-md);
 }
 
 .figure-frame.is-loading {
@@ -721,6 +717,7 @@ main {
 }
 
 .site-footer {
+  width: min(calc(100% - 2rem), var(--species-content-width));
   padding-block: 2rem 3rem;
   border-top: 1px solid var(--line);
   color: var(--muted);
@@ -758,28 +755,19 @@ main {
   margin-top: 0.35rem;
 }
 
-.site-footer__citation-heading {
-  color: var(--ink);
-  font-weight: 400;
-}
-
-.site-footer__citation-heading,
-.site-footer__citation-lead {
-  display: inline;
-}
-
-.site-footer__citation-heading::after {
-  content: " ";
-}
-
 .site-footer__citation cite {
   font-style: normal;
 }
 
-.site-footer__logo {
+.site-footer__logo-link {
   display: block;
   flex: 0 1 12rem;
   width: min(100%, 12rem);
+}
+
+.site-footer__logo {
+  display: block;
+  width: 100%;
   height: auto;
   margin: 0;
 }
@@ -850,7 +838,7 @@ main {
     flex-direction: column;
   }
 
-  .site-footer__top .site-footer__logo {
+  .site-footer__top .site-footer__logo-link {
     flex: 0 1 auto;
     margin-inline: 0;
   }
@@ -914,6 +902,10 @@ main {
   .species-silhouette figcaption {
     object-position: left center;
     text-align: left;
+  }
+
+  .species-silhouette figcaption {
+    justify-self: start;
   }
 
   .external-links {
