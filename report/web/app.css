@@ -12,6 +12,8 @@
   --danger: #1b3c53;
   --danger-pale: #e3e3e3;
   --content-width: 1500px;
+  --species-content-width: 72rem;
+  --species-gutter: clamp(1.25rem, 3vw, 2rem);
   color-scheme: light;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
@@ -144,7 +146,7 @@ main,
 .species-toolbar__inner {
   display: flex;
   align-items: end;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   padding-block: 0.85rem;
 }
@@ -321,9 +323,8 @@ main {
 }
 
 .species-header,
-.metadata-panel,
-.text-section {
-  width: min(100%, 72rem);
+.metadata-panel {
+  width: min(100%, var(--species-content-width));
   margin-inline: auto;
 }
 
@@ -333,7 +334,7 @@ main {
   align-items: end;
   justify-content: space-between;
   gap: 2rem;
-  padding: clamp(1.25rem, 3vw, 2rem);
+  padding: var(--species-gutter);
   border-radius: 0;
   background: var(--ocean);
   color: #fff;
@@ -399,7 +400,7 @@ main {
   justify-content: space-between;
   gap: 1.5rem;
   row-gap: 1.25rem;
-  padding: 1.15rem clamp(1.25rem, 3vw, 2rem);
+  padding: 1.15rem var(--species-gutter);
   border: 1px solid var(--line);
   border-top: 0;
   border-radius: 0;
@@ -526,6 +527,8 @@ main {
 }
 
 .figures-section {
+  width: min(100%, var(--content-width));
+  margin-inline: auto;
   margin-top: clamp(1.5rem, 3vw, 3rem);
 }
 
@@ -593,9 +596,8 @@ main {
   align-items: baseline;
   justify-content: flex-end;
   gap: 1.5rem;
-  width: min(100%, 72rem);
-  padding-inline: clamp(1.25rem, 3vw, 2rem);
-  margin: 0 auto 1rem;
+  padding-inline: var(--species-gutter);
+  margin: 0 0 1rem;
 }
 
 .section-heading .eyebrow {
@@ -616,9 +618,10 @@ main {
 .figures {
   display: grid;
   gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding-inline: var(--species-gutter);
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
   .figures {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
