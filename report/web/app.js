@@ -26,6 +26,9 @@ const UI_TEXT = {
     reportsAndReferences: "Latest reports",
     notes: "Notes",
     synopsisFigures: "Synopsis figures",
+    landingHeading: "Explore the data, species by species",
+    landingLede: (count) => `Standardized, reproducible figures on catch, surveys, growth, and abundance for ${count} groundfish species off the Pacific coast of Canada.`,
+    landingHint: "Type a common name, or browse the full list with the arrow keys.",
     footerSynopsis: "British Columbia groundfish data synopsis",
     sourceCode: "Source code ↗",
     issues: "Issues ↗",
@@ -71,6 +74,9 @@ const UI_TEXT = {
     reportsAndReferences: "Rapports récents",
     notes: "Notes",
     synopsisFigures: "Figures du synopsis",
+    landingHeading: "Explorez les données, espèce par espèce",
+    landingLede: (count) => `Des figures standardisées et reproductibles sur les prises, les relevés, la croissance et l’abondance de ${count} espèces de poissons de fond au large de la côte canadienne du Pacifique.`,
+    landingHint: "Tapez un nom commun ou parcourez la liste complète avec les flèches du clavier.",
     footerSynopsis: "Synopsis des données sur les poissons de fond de la Colombie-Britannique",
     sourceCode: "Code source ↗",
     issues: "Problèmes ↗",
@@ -103,6 +109,9 @@ const elements = {
   search: document.querySelector("#species-search"),
   options: document.querySelector("#species-options"),
   matchCount: document.querySelector("#species-match-count"),
+  landing: document.querySelector("#landing"),
+  landingLede: document.querySelector("#landing-lede"),
+  homeLink: document.querySelector("#home-link"),
   previous: document.querySelector("#previous-species"),
   next: document.querySelector("#next-species"),
   languageLink: document.querySelector("#page-language-link"),
@@ -135,8 +144,22 @@ let metadata = {};
 let selectedIndex = -1;
 let figureLanguage = DEFAULT_LANGUAGE;
 let renderVersion = 0;
-let filteredIndices = [];
-let activeOption = -1;
+
+const toolbarPicker = {
+  search: elements.search,
+  options: elements.options,
+  matchCount: elements.matchCount,
+  filteredIndices: [],
+  activeOption: -1
+};
+
+const landingPicker = {
+  search: document.querySelector("#landing-search"),
+  options: document.querySelector("#landing-options"),
+  matchCount: document.querySelector("#landing-match-count"),
+  filteredIndices: [],
+  activeOption: -1
+};
 
 function t(key, ...args) {
   const value = UI_TEXT[figureLanguage][key];
@@ -161,6 +184,15 @@ function updateLanguageLink() {
   elements.languageLink.lang = nextLanguage;
   elements.languageLink.hreflang = nextLanguage;
   elements.languageLink.href = languageUrl;
+
+  const homeUrl = new URL(window.location.href);
+  homeUrl.searchParams.delete("species");
+  if (figureLanguage === DEFAULT_LANGUAGE) {
+    homeUrl.searchParams.delete("lang");
+  } else {
+    homeUrl.searchParams.set("lang", figureLanguage);
+  }
+  elements.homeLink.href = homeUrl;
 }
 
 function translateStatus(value) {
@@ -187,6 +219,10 @@ function renderInterface() {
   });
 
   updateLanguageLink();
+
+  if (species.length > 0) {
+    elements.landingLede.textContent = t("landingLede", species.length);
+  }
 }
 
 function showMessage(message, isError = false) {
@@ -487,6 +523,8 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   renderBuildDetails(metadata);
   renderVersion += 1;
   const version = renderVersion;
+  document.body.classList.remove("is-landing");
+  elements.landing.hidden = true;
   const page = species[index];
   const displayPage = localizedPage(page);
 
@@ -500,7 +538,7 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   elements.plotDescriptions.href = descriptionsUrl;
 
   elements.search.value = displayPage.common_name;
-  closeSpeciesOptions();
+  closeSpeciesOptions(toolbarPicker);
   elements.previous.disabled = index === 0;
   elements.next.disabled = index === species.length - 1;
   elements.commonName.textContent = displayPage.common_name;
@@ -546,37 +584,37 @@ function requestedFigureLanguage() {
     : DEFAULT_LANGUAGE;
 }
 
-function setActiveOption(position) {
-  const options = elements.options.querySelectorAll(".species-option");
-  activeOption = position >= 0 && position < options.length ? position : -1;
+function setActiveOption(picker, position) {
+  const options = picker.options.querySelectorAll(".species-option");
+  picker.activeOption = position >= 0 && position < options.length ? position : -1;
 
   options.forEach((option, index) => {
-    const isActive = index === activeOption;
+    const isActive = index === picker.activeOption;
     option.classList.toggle("is-active", isActive);
     option.setAttribute("aria-selected", String(isActive));
   });
 
-  if (activeOption >= 0) {
-    const option = options[activeOption];
-    elements.search.setAttribute("aria-activedescendant", option.id);
+  if (picker.activeOption >= 0) {
+    const option = options[picker.activeOption];
+    picker.search.setAttribute("aria-activedescendant", option.id);
     option.scrollIntoView({ block: "nearest" });
   } else {
-    elements.search.removeAttribute("aria-activedescendant");
+    picker.search.removeAttribute("aria-activedescendant");
   }
 }
 
-function renderSpeciesOptions(query = "", preferredIndex = -1) {
+function renderSpeciesOptions(picker, query = "", preferredIndex = -1) {
   const needle = query.trim().toLocaleLowerCase(figureLanguage);
-  filteredIndices = species
+  picker.filteredIndices = species
     .map((page, index) => ({ page, index }))
     .filter(({ page }) =>
       localizedPage(page).common_name.toLocaleLowerCase(figureLanguage).includes(needle)
     )
     .map(({ index }) => index);
 
-  const options = filteredIndices.map((speciesIndex, optionIndex) => {
+  const options = picker.filteredIndices.map((speciesIndex, optionIndex) => {
     const option = document.createElement("li");
-    option.id = `species-option-${optionIndex}`;
+    option.id = `${picker.idPrefix}-${optionIndex}`;
     option.className = "species-option";
     option.dataset.speciesIndex = String(speciesIndex);
     option.setAttribute("role", "option");
@@ -589,33 +627,36 @@ function renderSpeciesOptions(query = "", preferredIndex = -1) {
     const empty = document.createElement("li");
     empty.className = "species-no-results";
     empty.textContent = t("noMatchingSpecies");
-    elements.options.replaceChildren(empty);
+    picker.options.replaceChildren(empty);
   } else {
-    elements.options.replaceChildren(...options);
+    picker.options.replaceChildren(...options);
   }
 
-  elements.matchCount.textContent = t("matchingSpecies", options.length);
-  const preferredPosition = filteredIndices.indexOf(preferredIndex);
-  setActiveOption(preferredPosition >= 0 ? preferredPosition : (options.length ? 0 : -1));
+  picker.matchCount.textContent = t("matchingSpecies", options.length);
+  const preferredPosition = picker.filteredIndices.indexOf(preferredIndex);
+  setActiveOption(picker, preferredPosition >= 0 ? preferredPosition : (options.length ? 0 : -1));
 }
 
-function openSpeciesOptions() {
-  elements.options.hidden = false;
-  elements.search.setAttribute("aria-expanded", "true");
+function openSpeciesOptions(picker) {
+  picker.options.hidden = false;
+  picker.search.setAttribute("aria-expanded", "true");
 }
 
-function closeSpeciesOptions(restoreValue = false) {
-  elements.options.hidden = true;
-  elements.search.setAttribute("aria-expanded", "false");
-  elements.search.removeAttribute("aria-activedescendant");
-  activeOption = -1;
-  if (restoreValue && selectedIndex >= 0) {
-    elements.search.value = localizedPage(species[selectedIndex]).common_name;
+function closeSpeciesOptions(picker, restoreValue = false) {
+  picker.options.hidden = true;
+  picker.search.setAttribute("aria-expanded", "false");
+  picker.search.removeAttribute("aria-activedescendant");
+  picker.activeOption = -1;
+  if (restoreValue) {
+    picker.search.value = picker === toolbarPicker && selectedIndex >= 0
+      ? localizedPage(species[selectedIndex]).common_name
+      : "";
   }
 }
 
 function enableSpeciesSearch() {
-  elements.search.disabled = false;
+  toolbarPicker.search.disabled = false;
+  landingPicker.search.disabled = false;
   elements.previous.disabled = false;
   elements.next.disabled = false;
 }
