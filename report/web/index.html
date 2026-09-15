@@ -23,7 +23,7 @@
           hreflang="fr"
         >Français</a>
       </div>
-      <h1 data-i18n="siteTitle">British Columbia groundfish</h1>
+      <h1><a id="home-link" class="site-title-link" href="./" data-i18n="siteTitle">British Columbia groundfish</a></h1>
     </div>
   </header>
 
@@ -69,6 +69,41 @@
       <span data-i18n="loadingSpeciesData">Loading species data…</span>
     </p>
     <p id="app-error" class="app-message app-message--error" role="alert" hidden></p>
+
+    <section id="landing" class="landing" aria-labelledby="landing-heading" hidden>
+      <div class="landing__silhouettes" aria-hidden="true">
+        <img class="landing__silhouette landing__silhouette--1" src="assets/basking-shark.svg" alt="">
+        <img class="landing__silhouette landing__silhouette--2" src="assets/lingcod.svg" alt="">
+        <img class="landing__silhouette landing__silhouette--3" src="assets/big-skate.svg" alt="">
+        <img class="landing__silhouette landing__silhouette--4" src="assets/chinook-salmon.svg" alt="">
+      </div>
+      <div class="landing__inner">
+        <h2 id="landing-heading" data-i18n="landingHeading">Explore the data, species by species</h2>
+        <p class="landing__lede" id="landing-lede"></p>
+        <div class="landing__picker">
+          <label for="landing-search" data-i18n="species">Species</label>
+          <div class="species-combobox">
+            <input
+              id="landing-search"
+              class="species-search"
+              type="search"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-controls="landing-options"
+              aria-expanded="false"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Search species…"
+              data-i18n-placeholder="searchSpecies"
+              disabled
+            >
+            <ul id="landing-options" class="species-options" role="listbox" hidden></ul>
+            <span id="landing-match-count" class="visually-hidden" aria-live="polite"></span>
+          </div>
+        </div>
+        <p class="landing__hint" data-i18n="landingHint">Or open the synopsis and browse with the previous and next buttons.</p>
+      </div>
+    </section>
 
     <article id="species-content" tabindex="-1" hidden>
       <header class="species-header">
