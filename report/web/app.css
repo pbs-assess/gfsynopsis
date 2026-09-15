@@ -142,6 +142,15 @@ main,
   margin-bottom: 0;
 }
 
+.eyebrow-link {
+  color: rgb(255 255 255 / 72%);
+  text-decoration: none;
+}
+
+.eyebrow-link:hover {
+  color: rgb(255 255 255 / 82%);
+}
+
 .language-link {
   flex: 0 0 auto;
   padding: 0.3rem 0.65rem;
@@ -280,6 +289,20 @@ main,
 .species-no-results {
   color: var(--muted);
   font-style: italic;
+}
+
+.species-options-group {
+  padding: 0.45rem 0.65rem 0.2rem;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.species-options-group ~ .species-options-group {
+  margin-top: 0.3rem;
+  border-top: 1px solid var(--line);
 }
 
 .species-nav {
@@ -953,10 +976,7 @@ main {
 }
 
 .site-title-link:hover {
-  color: #fff;
-  text-decoration: underline;
-  text-decoration-color: rgb(255 255 255 / 45%);
-  text-underline-offset: 0.2em;
+  color: rgb(255 255 255 / 82%);
 }
 
 body.is-landing .species-toolbar,
@@ -973,7 +993,7 @@ body.is-landing main {
   position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  overflow: hidden;
+  overflow: visible;
   background:
     radial-gradient(90% 70% at 80% 10%, rgb(46 125 156 / 38%), transparent 62%),
     radial-gradient(70% 60% at 10% 90%, rgb(30 74 95 / 55%), transparent 65%),
@@ -986,7 +1006,7 @@ body.is-landing main {
   z-index: 1;
   width: min(calc(100% - 2.5rem), 62rem);
   margin-inline: auto;
-  padding: clamp(3.5rem, 9vw, 7.5rem) 0 clamp(6rem, 13vw, 10rem);
+  padding: clamp(3.5rem, 9vw, 7.5rem) 0 clamp(3.5rem, 7vw, 6rem);
 }
 
 .landing h2 {
@@ -1034,15 +1054,10 @@ body.is-landing main {
   color: var(--ink);
 }
 
-.landing__hint {
-  margin: 0.85rem 0 0;
-  color: rgb(255 255 255 / 55%);
-  font-size: 0.9rem;
-}
-
 .landing__silhouettes {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
 }
 
@@ -1114,7 +1129,7 @@ body.is-landing main {
 
 @media (max-width: 700px) {
   .landing__inner {
-    padding: 2.75rem 0 6.5rem;
+    padding: 2.75rem 0 3.5rem;
   }
 
   .landing__silhouette--3,

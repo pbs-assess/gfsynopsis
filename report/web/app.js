@@ -26,8 +26,9 @@ const UI_TEXT = {
     notes: "Notes",
     synopsisFigures: "Synopsis figures",
     landingHeading: "Explore the data, species by species",
-    landingLede: (count) => `Standardized, reproducible figures on catch, surveys, growth, and abundance for ${count} groundfish species off the Pacific coast of Canada.`,
-    landingHint: "Type a common name, or browse the full list with the arrow keys.",
+    landingLede: (count) => `Standardized, reproducible visualizations of population and fishing trends, distribution, growth, and maturity for ${count} species—primarily groundfish—off Canada’s Pacific coast.`,
+    suggested: "Suggested",
+    allSpecies: "All species",
     footerSynopsis: "British Columbia groundfish data synopsis",
     sourceCode: "Source code ↗",
     issues: "Issues ↗",
@@ -74,8 +75,9 @@ const UI_TEXT = {
     notes: "Notes",
     synopsisFigures: "Figures du synopsis",
     landingHeading: "Explorez les données, espèce par espèce",
-    landingLede: (count) => `Des figures standardisées et reproductibles sur les prises, les relevés, la croissance et l’abondance de ${count} espèces de poissons de fond au large de la côte canadienne du Pacifique.`,
-    landingHint: "Tapez un nom commun ou parcourez la liste complète avec les flèches du clavier.",
+    landingLede: (count) => `Des visualisations standardisées et reproductibles illustrant les tendances des populations et de la pêche, la répartition, la croissance et la maturité de ${count} espèces — principalement des poissons de fond — au large de la côte canadienne du Pacifique.`,
+    suggested: "Suggestions",
+    allSpecies: "Toutes les espèces",
     footerSynopsis: "Synopsis des données sur les poissons de fond de la Colombie-Britannique",
     sourceCode: "Code source ↗",
     issues: "Problèmes ↗",
@@ -159,9 +161,20 @@ const landingPicker = {
   options: document.querySelector("#landing-options"),
   matchCount: document.querySelector("#landing-match-count"),
   idPrefix: "landing-option",
+  suggestFeatured: true,
   filteredIndices: [],
   activeOption: -1
 };
+
+const FEATURED_SLUGS = [
+  "lingcod",
+  "north-pacific-spiny-dogfish",
+  "yelloweye-rockfish",
+  "silvergray-rockfish",
+  "bocaccio",
+  "dover-sole",
+  "quillback-rockfish"
+];
 
 function t(key, ...args) {
   const value = UI_TEXT[figureLanguage][key];
@@ -648,6 +661,19 @@ function renderSpeciesOptions(picker, query = "", preferredIndex = -1) {
     )
     .map(({ index }) => index);
 
+  const showFeatured = picker.suggestFeatured && needle === "";
+  let featuredCount = 0;
+  if (showFeatured) {
+    const featured = FEATURED_SLUGS
+      .map((slug) => species.findIndex((page) => page.slug === slug))
+      .filter((index) => index >= 0 && picker.filteredIndices.includes(index));
+    picker.filteredIndices = [
+      ...featured,
+      ...picker.filteredIndices.filter((index) => !featured.includes(index))
+    ];
+    featuredCount = featured.length;
+  }
+
   const options = picker.filteredIndices.map((speciesIndex, optionIndex) => {
     const option = document.createElement("li");
     option.id = `${picker.idPrefix}-${optionIndex}`;
@@ -664,6 +690,21 @@ function renderSpeciesOptions(picker, query = "", preferredIndex = -1) {
     empty.className = "species-no-results";
     empty.textContent = t("noMatchingSpecies");
     picker.options.replaceChildren(empty);
+  } else if (featuredCount > 0 && options.length > featuredCount) {
+    const suggestedLabel = document.createElement("li");
+    suggestedLabel.className = "species-options-group";
+    suggestedLabel.setAttribute("role", "presentation");
+    suggestedLabel.textContent = t("suggested");
+    const allLabel = document.createElement("li");
+    allLabel.className = "species-options-group";
+    allLabel.setAttribute("role", "presentation");
+    allLabel.textContent = t("allSpecies");
+    picker.options.replaceChildren(
+      suggestedLabel,
+      ...options.slice(0, featuredCount),
+      allLabel,
+      ...options.slice(featuredCount)
+    );
   } else {
     picker.options.replaceChildren(...options);
   }
