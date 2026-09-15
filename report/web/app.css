@@ -944,3 +944,192 @@ main {
     animation: none;
   }
 }
+
+/* Landing page (shown when no species is selected) */
+
+.site-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-title-link:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: rgb(255 255 255 / 45%);
+  text-underline-offset: 0.2em;
+}
+
+body.is-landing .species-toolbar,
+body.is-landing #app-status,
+body.is-landing .skip-link {
+  display: none;
+}
+
+body.is-landing main {
+  padding-top: 0;
+}
+
+.landing {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  background:
+    radial-gradient(90% 70% at 80% 10%, rgb(46 125 156 / 38%), transparent 62%),
+    radial-gradient(70% 60% at 10% 90%, rgb(30 74 95 / 55%), transparent 65%),
+    linear-gradient(180deg, var(--ocean-dark) 0%, #0e2b3b 55%, #081c27 100%);
+  color: #fff;
+}
+
+.landing__inner {
+  position: relative;
+  z-index: 1;
+  width: min(calc(100% - 2.5rem), 62rem);
+  margin-inline: auto;
+  padding: clamp(3.5rem, 9vw, 7.5rem) 0 clamp(6rem, 13vw, 10rem);
+}
+
+.landing h2 {
+  max-width: 15ch;
+  margin: 0;
+  font-size: clamp(2.6rem, 6.5vw, 4.9rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+}
+
+.landing__lede {
+  max-width: 36rem;
+  margin: 1.4rem 0 0;
+  color: rgb(255 255 255 / 78%);
+  font-size: clamp(1.05rem, 1.6vw, 1.28rem);
+  line-height: 1.5;
+}
+
+.landing__picker {
+  max-width: 36rem;
+  margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.landing__picker label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.landing__picker .species-search {
+  min-height: 3.6rem;
+  padding: 0.6rem 1.1rem;
+  border: 0;
+  border-radius: calc(var(--radius) + 2px);
+  font-size: 1.12rem;
+  box-shadow: 0 10px 34px rgb(0 0 0 / 38%);
+}
+
+.landing .species-options {
+  color: var(--ink);
+}
+
+.landing__hint {
+  margin: 0.85rem 0 0;
+  color: rgb(255 255 255 / 55%);
+  font-size: 0.9rem;
+}
+
+.landing__silhouettes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.landing__silhouette {
+  position: absolute;
+  filter: invert(1);
+  opacity: 0.13;
+}
+
+.landing__silhouette--1 {
+  right: -3%;
+  bottom: 0;
+  width: clamp(20rem, 36vw, 34rem);
+  transform: rotate(-6deg);
+  opacity: 0.17;
+}
+
+.landing__silhouette--2 {
+  left: -4%;
+  bottom: -7%;
+  width: clamp(14rem, 28vw, 27rem);
+  transform: scaleX(-1) rotate(5deg);
+  opacity: 0.1;
+}
+
+.landing__silhouette--3 {
+  right: 12%;
+  top: -8%;
+  width: clamp(9rem, 16vw, 15rem);
+  transform: rotate(14deg);
+  opacity: 0.09;
+}
+
+.landing__silhouette--4 {
+  left: 9%;
+  top: 4%;
+  width: clamp(7rem, 13vw, 12rem);
+  transform: scaleX(-1) rotate(-10deg);
+  opacity: 0.08;
+}
+
+@keyframes landing-drift {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 1.5rem -1rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing__silhouette {
+    animation: landing-drift 16s ease-in-out infinite alternate;
+  }
+
+  .landing__silhouette--2 {
+    animation-duration: 19s;
+  }
+
+  .landing__silhouette--3 {
+    animation-duration: 13s;
+  }
+
+  .landing__silhouette--4 {
+    animation-duration: 15s;
+  }
+}
+
+@media (max-width: 700px) {
+  .landing__inner {
+    padding: 2.75rem 0 6.5rem;
+  }
+
+  .landing__silhouette--3,
+  .landing__silhouette--4 {
+    display: none;
+  }
+
+  .landing__silhouette--1 {
+    right: -35%;
+    bottom: 2%;
+    width: 20rem;
+  }
+
+  .landing__silhouette--2 {
+    left: -30%;
+    width: 15rem;
+  }
+}

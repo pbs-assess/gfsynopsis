@@ -9,6 +9,7 @@
   <script src="app.js" defer></script>
 </head>
 <body>
+  <script>if (!/[?&]species=/.test(window.location.search)) document.body.classList.add("is-landing");</script>
   <a class="skip-link" href="#species-content" data-i18n="skipLink">Skip to species synopsis</a>
 
   <header class="site-header">
@@ -72,7 +73,7 @@
 
     <section id="landing" class="landing" aria-labelledby="landing-heading" hidden>
       <div class="landing__silhouettes" aria-hidden="true">
-        <img class="landing__silhouette landing__silhouette--1" src="assets/basking-shark.svg" alt="">
+        <img class="landing__silhouette landing__silhouette--1" src="assets/inkscape/quillback-rockfish.svg" alt="">
         <img class="landing__silhouette landing__silhouette--2" src="assets/lingcod.svg" alt="">
         <img class="landing__silhouette landing__silhouette--3" src="assets/big-skate.svg" alt="">
         <img class="landing__silhouette landing__silhouette--4" src="assets/chinook-salmon.svg" alt="">

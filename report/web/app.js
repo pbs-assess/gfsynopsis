@@ -1,6 +1,5 @@
 "use strict";
 
-const DEFAULT_SPECIES = "lingcod";
 const DEFAULT_LANGUAGE = "en";
 const BASE_TITLE = "BC Groundfish Data Synopsis";
 const UI_TEXT = {
@@ -150,6 +149,7 @@ const toolbarPicker = {
   search: elements.search,
   options: elements.options,
   matchCount: elements.matchCount,
+  idPrefix: "species-option",
   filteredIndices: [],
   activeOption: -1
 };
@@ -158,6 +158,7 @@ const landingPicker = {
   search: document.querySelector("#landing-search"),
   options: document.querySelector("#landing-options"),
   matchCount: document.querySelector("#landing-match-count"),
+  idPrefix: "landing-option",
   filteredIndices: [],
   activeOption: -1
 };
@@ -524,6 +525,35 @@ function updateAddress(slug, language, mode) {
   window.history[method]({ species: slug }, "", url);
 }
 
+function updateLandingAddress(language, mode) {
+  if (mode === "none") return;
+  const url = new URL(window.location.href);
+  url.searchParams.delete("species");
+  if (language === DEFAULT_LANGUAGE) {
+    url.searchParams.delete("lang");
+  } else {
+    url.searchParams.set("lang", language);
+  }
+  const method = mode === "push" ? "pushState" : "replaceState";
+  window.history[method]({}, "", url);
+}
+
+function showLanding(historyMode = "none") {
+  selectedIndex = -1;
+  renderVersion += 1;
+  document.body.classList.add("is-landing");
+  elements.content.hidden = true;
+  elements.landing.hidden = false;
+  showMessage("");
+  showFigureMessage("");
+  renderInterface();
+  renderBuildDetails(metadata);
+  document.title = BASE_TITLE;
+  landingPicker.search.value = "";
+  closeSpeciesOptions(landingPicker);
+  updateLandingAddress(figureLanguage, historyMode);
+}
+
 function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   if (index < 0 || index >= species.length) return;
   selectedIndex = index;
@@ -581,10 +611,7 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
 
 function requestedSpeciesIndex() {
   const slug = new URL(window.location.href).searchParams.get("species");
-  const index = species.findIndex((page) => page.slug === slug);
-  if (index >= 0) return index;
-  const defaultIndex = species.findIndex((page) => page.slug === DEFAULT_SPECIES);
-  return defaultIndex >= 0 ? defaultIndex : 0;
+  return species.findIndex((page) => page.slug === slug);
 }
 
 function requestedFigureLanguage() {
@@ -704,67 +731,81 @@ async function initialize() {
     enableSpeciesSearch();
     const index = requestedSpeciesIndex();
     const requestedSlug = new URL(window.location.href).searchParams.get("species");
-    const validRequest = species.some((page) => page.slug === requestedSlug);
-    renderSpecies(index, validRequest ? "none" : "replace", figureLanguage);
+    if (index >= 0) {
+      renderSpecies(index, "none", figureLanguage);
+    } else {
+      showLanding(requestedSlug ? "replace" : "none");
+    }
   } catch (error) {
     console.error(error);
     showMessage(t("dataCouldNotLoad"), true);
   }
 }
 
-elements.search.addEventListener("focus", () => {
-  elements.search.select();
-  renderSpeciesOptions("", selectedIndex);
-  openSpeciesOptions();
-});
+function attachPickerHandlers(picker) {
+  picker.search.addEventListener("focus", () => {
+    picker.search.select();
+    renderSpeciesOptions(picker, "", picker === toolbarPicker ? selectedIndex : -1);
+    openSpeciesOptions(picker);
+  });
 
-elements.search.addEventListener("input", () => {
-  renderSpeciesOptions(elements.search.value);
-  openSpeciesOptions();
-});
+  picker.search.addEventListener("input", () => {
+    renderSpeciesOptions(picker, picker.search.value);
+    openSpeciesOptions(picker);
+  });
 
-elements.search.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeSpeciesOptions(true);
-    return;
-  }
-  if (event.key === "Tab") {
-    closeSpeciesOptions(true);
-    return;
-  }
-  if (event.key === "Enter" && !elements.options.hidden && activeOption >= 0) {
+  picker.search.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeSpeciesOptions(picker, true);
+      return;
+    }
+    if (event.key === "Tab") {
+      closeSpeciesOptions(picker, true);
+      return;
+    }
+    if (event.key === "Enter" && !picker.options.hidden && picker.activeOption >= 0) {
+      event.preventDefault();
+      renderSpecies(picker.filteredIndices[picker.activeOption], "push");
+      return;
+    }
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+
     event.preventDefault();
-    renderSpecies(filteredIndices[activeOption], "push");
-    return;
-  }
-  if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+    if (picker.options.hidden) {
+      renderSpeciesOptions(picker, "", picker === toolbarPicker ? selectedIndex : -1);
+      openSpeciesOptions(picker);
+    }
+    const direction = event.key === "ArrowDown" ? 1 : -1;
+    const nextOption = Math.max(
+      0,
+      Math.min(picker.filteredIndices.length - 1, picker.activeOption + direction)
+    );
+    setActiveOption(picker, nextOption);
+  });
 
+  picker.search.addEventListener("blur", () => {
+    closeSpeciesOptions(picker, true);
+  });
+
+  picker.options.addEventListener("pointerdown", (event) => {
+    if (event.target.closest(".species-option")) event.preventDefault();
+  });
+
+  picker.options.addEventListener("click", (event) => {
+    const option = event.target.closest(".species-option");
+    if (!option) return;
+    renderSpecies(Number(option.dataset.speciesIndex), "push");
+    if (picker === toolbarPicker) picker.search.focus();
+  });
+}
+
+attachPickerHandlers(toolbarPicker);
+attachPickerHandlers(landingPicker);
+
+elements.homeLink.addEventListener("click", (event) => {
+  if (species.length === 0) return;
   event.preventDefault();
-  if (elements.options.hidden) {
-    renderSpeciesOptions("", selectedIndex);
-    openSpeciesOptions();
-  }
-  const direction = event.key === "ArrowDown" ? 1 : -1;
-  const nextOption = Math.max(
-    0,
-    Math.min(filteredIndices.length - 1, activeOption + direction)
-  );
-  setActiveOption(nextOption);
-});
-
-elements.search.addEventListener("blur", () => {
-  closeSpeciesOptions(true);
-});
-
-elements.options.addEventListener("pointerdown", (event) => {
-  if (event.target.closest(".species-option")) event.preventDefault();
-});
-
-elements.options.addEventListener("click", (event) => {
-  const option = event.target.closest(".species-option");
-  if (!option) return;
-  renderSpecies(Number(option.dataset.speciesIndex), "push");
-  elements.search.focus();
+  showLanding("push");
 });
 
 elements.previous.addEventListener("click", () => {
@@ -776,7 +817,13 @@ elements.next.addEventListener("click", () => {
 });
 
 window.addEventListener("popstate", () => {
-  renderSpecies(requestedSpeciesIndex(), "none", requestedFigureLanguage());
+  figureLanguage = requestedFigureLanguage();
+  const index = requestedSpeciesIndex();
+  if (index >= 0) {
+    renderSpecies(index, "none", figureLanguage);
+  } else {
+    showLanding("none");
+  }
 });
 
 setupMobileSpeciesPicker();

@@ -101,13 +101,17 @@ Preview the generated site locally with:
 python3 -m http.server 8000 --directory report/web/generated
 ```
 
-Then open `http://localhost:8000/`. A direct species link looks like
-`http://localhost:8000/?species=pacific-cod`.
+Then open `http://localhost:8000/`. With no `species` parameter, the site shows a
+landing page with a large species search; a direct species link looks like
+`http://localhost:8000/?species=pacific-cod`. An unrecognized `species` value is
+removed from the URL and replaced by the landing page. The site title in the
+header links back to the landing page.
 
 ## Local verification
 
 After each metadata, frontend, or figure update, verify at least one ordinary
-species and the exceptional species links below:
+species and the exceptional species links below, plus the landing page at `/`
+in both languages:
 
 - `?species=pacific-cod`
 - `?species=north-pacific-spiny-dogfish`
