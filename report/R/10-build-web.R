@@ -2,7 +2,27 @@
 
 source(here::here("report", "web", "trim-silhouettes.R"))
 
-resolve_phylopic_silhouettes <- function(pages, asset_dir) {
+copy_web_files_if_newer <- function(source_files, destination_files) {
+  if (length(source_files) != length(destination_files)) {
+    stop("Source and destination file counts do not match.", call. = FALSE)
+  }
+  source_info <- file.info(source_files)
+  destination_info <- file.info(destination_files)
+  needs_copy <- !file.exists(destination_files) |
+    is.na(destination_info$mtime) |
+    source_info$mtime > destination_info$mtime
+  if (any(needs_copy) && !all(file.copy(
+    source_files[needs_copy],
+    destination_files[needs_copy],
+    overwrite = TRUE
+  ))) {
+    stop("Could not copy one or more web files.", call. = FALSE)
+  }
+  sum(needs_copy)
+}
+
+resolve_phylopic_silhouettes <- function(
+    pages, asset_dir, trim_all_silhouettes = FALSE) {
   rphylopic_available <- requireNamespace("rphylopic", quietly = TRUE)
   dir.create(asset_dir, recursive = TRUE, showWarnings = FALSE)
   local_silhouettes <- c(
@@ -53,6 +73,7 @@ resolve_phylopic_silhouettes <- function(pages, asset_dir) {
   }
 
   failures <- character()
+  downloaded_silhouettes <- character()
   for (page in pages) {
     local_file <- paste0(page$slug, ".svg")
     local_path <- file.path(local_silhouette_dir, local_file)
@@ -158,6 +179,7 @@ resolve_phylopic_silhouettes <- function(pages, asset_dir) {
           mode = "wb",
           quiet = TRUE
         )
+        downloaded_silhouettes <- c(downloaded_silhouettes, asset_path)
       }
       attribution <- rphylopic::get_attribution(uuid)$images[[uuid]]
       credit <- attribution$attribution
@@ -212,7 +234,11 @@ resolve_phylopic_silhouettes <- function(pages, asset_dir) {
     na = "null",
     null = "null"
   )
-  trim_silhouette_directory(asset_dir, quiet = TRUE)
+  if (isTRUE(trim_all_silhouettes)) {
+    trim_silhouette_directory(asset_dir, quiet = TRUE)
+  } else if (length(downloaded_silhouettes)) {
+    trim_silhouette_files(downloaded_silhouettes, quiet = TRUE)
+  }
   if (length(failures)) {
     message(
       "PhyloPic silhouettes unavailable for ", length(failures),
@@ -294,10 +320,8 @@ build_web_plot_descriptions <- function(
     file.path(image_dirs[[1L]], unname(plot_files)),
     file.path(image_dirs[[2L]], unname(plot_files))
   )
-  if (!all(file.copy(source_files, destination_files, overwrite = TRUE))) {
-    stop("Could not copy one or more plot-description figures.", call. = FALSE)
-  }
-  message("Copied ", length(destination_files), " plot-description example figures.")
+  copied <- copy_web_files_if_newer(source_files, destination_files)
+  message("Copied ", copied, " updated plot-description example figures.")
   invisible(destination_files)
 }
 
@@ -315,7 +339,8 @@ build_web_species_pages <- function(
     ),
     legacy_bibliography_file = here::here(
       "report", "report-rmd", "bib", "spp-refs.bib"
-    )) {
+    ),
+    trim_all_silhouettes = FALSE) {
   pages <- gfsynopsis:::species_pages_data(
     spp,
     french = FALSE,
@@ -329,7 +354,8 @@ build_web_species_pages <- function(
   web_dir <- normalizePath(web_dir, mustWork = TRUE)
   pages <- resolve_phylopic_silhouettes(
     pages,
-    asset_dir = file.path(web_dir, "assets")
+    asset_dir = file.path(web_dir, "assets"),
+    trim_all_silhouettes = trim_all_silhouettes
   )
   if (!file.exists(bibliography_file)) {
     stop("Missing web bibliography: ", bibliography_file, call. = FALSE)
@@ -510,16 +536,15 @@ build_web_species_pages <- function(
   output_dir <- file.path(web_dir, "generated")
   if (!identical(dirname(output_dir), web_dir) ||
       !identical(basename(output_dir), "generated")) {
-    stop("Refusing to clean an unexpected output directory.", call. = FALSE)
+    stop("Refusing to use an unexpected output directory.", call. = FALSE)
   }
 
-  if (dir.exists(output_dir)) unlink(output_dir, recursive = TRUE)
   english_figure_output_dir <- file.path(output_dir, "figures", "en")
   french_figure_output_dir <- file.path(output_dir, "figures", "fr")
   silhouette_output_dir <- file.path(output_dir, "assets")
-  dir.create(english_figure_output_dir, recursive = TRUE)
-  dir.create(french_figure_output_dir, recursive = TRUE)
-  dir.create(silhouette_output_dir, recursive = TRUE)
+  dir.create(english_figure_output_dir, recursive = TRUE, showWarnings = FALSE)
+  dir.create(french_figure_output_dir, recursive = TRUE, showWarnings = FALSE)
+  dir.create(silhouette_output_dir, recursive = TRUE, showWarnings = FALSE)
 
   frontend_files <- c(
     "index.html", "plot-descriptions.html", "plot-descriptions.js",
@@ -527,7 +552,9 @@ build_web_species_pages <- function(
   )
   frontend_files <- file.path(web_dir, frontend_files)
   frontend_files <- frontend_files[file.exists(frontend_files)]
-  if (length(frontend_files) && !all(file.copy(frontend_files, output_dir))) {
+  if (length(frontend_files) && !all(file.copy(
+    frontend_files, output_dir, overwrite = TRUE
+  ))) {
     stop("Could not copy one or more frontend files.", call. = FALSE)
   }
   font_source_dir <- file.path(web_dir, "assets", "fonts")
@@ -544,10 +571,14 @@ build_web_species_pages <- function(
     }
   }
   build_web_plot_descriptions(output_dir)
-  if (!all(file.copy(english_source_images, english_figure_output_dir)) ||
-      !all(file.copy(french_source_images, french_figure_output_dir))) {
-    stop("Could not copy one or more species images.", call. = FALSE)
-  }
+  copied_english_images <- copy_web_files_if_newer(
+    english_source_images,
+    file.path(english_figure_output_dir, basename(english_source_images))
+  )
+  copied_french_images <- copy_web_files_if_newer(
+    french_source_images,
+    file.path(french_figure_output_dir, basename(french_source_images))
+  )
   if (length(web_silhouette_paths)) {
     silhouette_source_files <- file.path(web_dir, web_silhouette_paths)
     if (!all(file.exists(silhouette_source_files))) {
@@ -606,7 +637,8 @@ build_web_species_pages <- function(
   message(
     "Built web data: ", length(web_pages), " species, ",
     length(english_source_images), " English and ", length(french_source_images),
-    " French images, ", sprintf("%.1f MB", size_mb), "\n",
+    " French images (", copied_english_images, " English and ",
+    copied_french_images, " French updated), ", sprintf("%.1f MB", size_mb), "\n",
     "Output: ", output_dir
   )
   invisible(output_dir)

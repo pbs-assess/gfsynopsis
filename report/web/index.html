@@ -4,9 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Interactive species pages from the British Columbia groundfish data synopsis.">
+  <meta property="og:title" content="BC Groundfish Data Synopsis">
+  <meta property="og:description" content="Interactive species pages from the British Columbia groundfish data synopsis.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="figures/en/pacific-cod-1.png">
+  <meta name="twitter:card" content="summary_large_image">
   <title>BC Groundfish Data Synopsis</title>
-  <link rel="stylesheet" href="app.css?v=20260915-3">
-  <script src="app.js?v=20260915-2" defer></script>
+  <link rel="icon" type="image/svg+xml" href="assets/inkscape/quillback-rockfish.svg?v=20260915-5">
+  <link rel="stylesheet" href="app.css?v=20260915-13">
+  <script src="app.js?v=20260915-9" defer></script>
 </head>
 <body>
   <script>if (!/[?&]species=/.test(window.location.search)) document.body.classList.add("is-landing");</script>
@@ -137,9 +143,11 @@
           <h3 id="conservation-status-heading" data-i18n="conservationStatus">Conservation status</h3>
           <div id="conservation-status-list"></div>
         </section>
-        <section id="references-section" class="text-section references-section" aria-labelledby="references-heading" hidden>
+        <section id="references-section" class="references-section" aria-labelledby="references-heading" hidden>
           <h3 id="references-heading" data-i18n="reportsAndReferences">Latest reports</h3>
-          <ul id="references-list"></ul>
+          <div class="references-section__list">
+            <ul id="references-list"></ul>
+          </div>
         </section>
         <section id="notes-section" class="text-section notes-section" aria-labelledby="notes-heading" hidden>
           <h3 id="notes-heading" data-i18n="notes">Notes</h3>
@@ -162,21 +170,17 @@
     <div class="site-footer__citation">
       <p class="site-footer__citation-copy">
         <span class="site-footer__disclaimer">
-          <span data-i18n="unofficialUpdateOf">This is an unofficial update of</span>
-          <cite><a href="https://doi.org/10.60825/h406-v638">A data synopsis for British Columbia groundfish: 2024 data update</a></cite></span><span class="site-footer__citation-separator">. </span>
-        <span data-i18n="citeTechnicalReportPrefix">Please reference and cite the last official </span>
-        <a href="https://doi.org/10.60825/h406-v638" data-i18n="technicalReport">Technical Report</a>
-        <span data-i18n="and"> and </span>
+          <span data-i18n="unofficialUpdateOf">An unofficial update of&nbsp;</span><cite><a href="https://doi.org/10.60825/h406-v638">A data synopsis for British Columbia groundfish: 2024 data update</a></cite></span><span data-i18n="annualUpdateOf">, an annual update of </span>
         <a href="http://www.dfo-mpo.gc.ca/csas-sccs/Publications/ResDocs-DocRech/2019/2019_041-eng.html">Anderson et al. (2019)</a>
-        <span data-i18n="or"> or </span>
-        <a href="https://doi.org/10.1002/fsh.10441">Anderson et al. (2020)</a>.
+        <span data-i18n="asDescribedIn"> as described in </span>
+        <a href="https://seananderson.ca/papers/anderson-etal-2020-synopsis-fisheries.pdf">Anderson et al. (2020)</a>.
       </p>
     </div>
     <div class="site-footer__top">
       <p class="site-footer__synopsis">
-        <a href="https://github.com/pbs-assess/gfsynopsis" target="_blank" rel="noopener noreferrer" data-i18n="sourceCode">Source code ↗</a> ·
-        <a href="https://github.com/pbs-assess/gfsynopsis/issues" target="_blank" rel="noopener noreferrer" data-i18n="issues">Issues ↗</a> ·
-        <a href="https://github.com/pbs-assess/gfsynopsis/blob/208f8c50eae94ee3644ea10d7ddf3d488594eb49/DESCRIPTION#L5" target="_blank" rel="noopener noreferrer" data-i18n="contact">Contact ↗</a>
+        <a href="https://github.com/pbs-assess/gfsynopsis" target="_blank" rel="noopener noreferrer" data-i18n="sourceCode">Source code</a> ·
+        <a href="https://github.com/pbs-assess/gfsynopsis/issues" target="_blank" rel="noopener noreferrer" data-i18n="issues">Issues</a> ·
+        <a href="https://github.com/pbs-assess/gfsynopsis/blob/208f8c50eae94ee3644ea10d7ddf3d488594eb49/DESCRIPTION#L5" target="_blank" rel="noopener noreferrer" data-i18n="contact">Contact</a>
       </p>
       <a
         id="dfo-logo-link"

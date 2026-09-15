@@ -95,13 +95,12 @@ trim_svg_view_box <- function(
   TRUE
 }
 
-trim_silhouette_directory <- function(asset_dir, quiet = FALSE) {
+trim_silhouette_files <- function(svg_files, quiet = FALSE) {
   if (!nzchar(Sys.which("rsvg-convert")) || !nzchar(Sys.which("identify"))) {
     stop("Trimming silhouettes requires rsvg-convert and ImageMagick identify.",
       call. = FALSE)
   }
-  svg_files <- list.files(asset_dir, pattern = "[.]svg$", recursive = TRUE,
-    full.names = TRUE)
+  svg_files <- unique(svg_files[file.exists(svg_files)])
   svg_files <- svg_files[basename(svg_files) != "dfo-logo.svg"]
   trimmed_files <- character()
   pending_files <- svg_files
@@ -123,6 +122,12 @@ trim_silhouette_directory <- function(asset_dir, quiet = FALSE) {
       " silhouette SVGs.")
   }
   invisible(trimmed_files)
+}
+
+trim_silhouette_directory <- function(asset_dir, quiet = FALSE) {
+  svg_files <- list.files(asset_dir, pattern = "[.]svg$", recursive = TRUE,
+    full.names = TRUE)
+  trim_silhouette_files(svg_files, quiet = quiet)
 }
 
 if (sys.nframe() == 0L) {

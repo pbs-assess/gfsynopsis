@@ -177,6 +177,17 @@ main,
   line-height: 1.05;
 }
 
+/* Slim masthead on interior contexts (species pages and plot descriptions);
+   the landing hero keeps the full-size header. */
+body:not(.is-landing) .site-header__inner {
+  padding: clamp(0.85rem, 1.8vw, 1.35rem) 0;
+}
+
+body:not(.is-landing) .site-header h1 {
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+  letter-spacing: -0.02em;
+}
+
 .species-toolbar {
   position: sticky;
   z-index: 10;
@@ -344,6 +355,54 @@ main,
 
 .descriptions-toolbar {
   align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.descriptions-toc {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.descriptions-toc::-webkit-scrollbar {
+  display: none;
+}
+
+.descriptions-toc a {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.55rem;
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 550;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.descriptions-toc a:hover {
+  background: var(--accent-pale);
+  color: var(--ink);
+}
+
+.descriptions-toc a[aria-current="true"] {
+  background: var(--ocean-pale);
+  color: var(--ocean-dark);
+}
+
+@media (max-width: 900px) {
+  .descriptions-toc {
+    display: none;
+  }
+}
+
+.plot-description h3 {
+  scroll-margin-top: 5.5rem;
 }
 
 .descriptions-toolbar .plot-descriptions-link {
@@ -551,8 +610,34 @@ main {
   padding: 0;
   border: 0;
   background: transparent;
-  font-size: 0.85rem;
-  line-height: 1.4;
+}
+
+.references-section__list {
+  padding: 0 0 0 0.9rem;
+  border-left: 1px solid var(--line);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.references-section h3 {
+  margin: 0 0 0.5rem;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.references-section a {
+  color: color-mix(in srgb, var(--ocean) 82%, var(--muted));
+  text-decoration-color: rgb(30 74 95 / 35%);
+}
+
+.references-section a:hover {
+  color: var(--accent);
+}
+
+.references-section li {
+  padding-left: 1.1rem;
+  text-indent: -1.1rem;
 }
 
 .notes-section {
@@ -562,8 +647,15 @@ main {
   border: 0;
   background: transparent;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--muted);
+}
+
+.notes-section #notes-list {
+  padding: 0.85rem 1rem;
+  border: 1px solid #eadf9f;
+  border-radius: var(--radius);
+  background: #fff8dc;
 }
 
 .notes-section p {
@@ -574,7 +666,7 @@ main {
   color: var(--ink);
 }
 
-.text-section.references-section ul {
+.references-section__list ul {
   margin: 0;
   padding-left: 0;
   list-style: none;
@@ -616,7 +708,7 @@ main {
 }
 
 .descriptions-page {
-  width: min(100%, 72rem);
+  width: min(100%, 80rem);
   margin-inline: auto;
 }
 
@@ -669,19 +761,76 @@ main {
 
 .plot-description__figure img {
   display: block;
-  width: min(100%, 44rem);
+  width: auto;
+  max-width: 100%;
   height: auto;
+  max-height: 42rem;
   margin-inline: auto;
   background: #ffffff;
+  transition: opacity 140ms ease;
 }
 
-.plot-description p {
-  max-width: 70rem;
+.plot-description__caption {
+  max-width: 66ch;
+}
+
+.plot-description__caption p {
   margin: 0;
 }
 
-.plot-description p + p {
+.plot-description__caption p + p {
   margin-top: 0.9rem;
+}
+
+.survey-acronyms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 1.75rem;
+  margin: 1.1rem 0 0;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.survey-acronyms div {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, auto) 1fr;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.survey-acronyms dt {
+  font-weight: 650;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.survey-acronyms dd {
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .survey-acronyms {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .plot-description__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(1.5rem, 3vw, 2.75rem);
+    align-items: start;
+  }
+
+  .plot-description__figure {
+    position: sticky;
+    top: 5.25rem;
+    margin: 0;
+  }
 }
 
 .figures {
@@ -699,6 +848,15 @@ main {
 
 .synopsis-figure {
   margin: 0;
+}
+
+.synopsis-figure__title {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
 .figure-frame {
@@ -752,7 +910,7 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1.75rem;
+  margin-top: 2.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--line);
   color: color-mix(in srgb, var(--muted) 78%, white);
@@ -778,11 +936,6 @@ main {
 
 .site-footer__citation-copy {
   line-height: 1.65;
-}
-
-.site-footer__disclaimer {
-  color: var(--ink);
-  font-weight: 530;
 }
 
 .site-footer__citation cite {
@@ -986,7 +1139,9 @@ body.is-landing .skip-link {
 }
 
 body.is-landing main {
+  min-height: 0;
   padding-top: 0;
+  padding-bottom: 1.5rem;
 }
 
 .landing {

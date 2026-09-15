@@ -26,18 +26,19 @@ const UI_TEXT = {
     notes: "Notes",
     synopsisFigures: "Synopsis figures",
     landingHeading: "Explore the data, species by species",
+    figurePageTitle: (number) => number === 1
+      ? "Page 1 — Surveys, catch, and CPUE"
+      : "Page 2 — Biological sampling, growth, and maturity",
     landingLede: (count) => `Standardized, reproducible visualizations of population and fishing trends, distribution, growth, and maturity for ${count} species—primarily groundfish—off Canada’s Pacific coast.`,
     suggested: "Suggested",
     allSpecies: "All species",
     footerSynopsis: "British Columbia groundfish data synopsis",
-    sourceCode: "Source code ↗",
-    issues: "Issues ↗",
-    contact: "Contact ↗",
-    unofficialUpdateOf: "This is an unofficial update of",
-    citeTechnicalReportPrefix: "Please reference and cite the last official ",
-    technicalReport: "Technical Report",
-    and: " and ",
-    or: " or ",
+    sourceCode: "Source code",
+    issues: "Issues",
+    contact: "Contact",
+    unofficialUpdateOf: "An unofficial update of ",
+    annualUpdateOf: ", an annual update of ",
+    asDescribedIn: " as described in ",
     cosewicStatus: "COSEWIC status",
     saraStatus: "SARA status",
     loadingPage: (number) => `Loading page ${number}…`,
@@ -75,18 +76,19 @@ const UI_TEXT = {
     notes: "Notes",
     synopsisFigures: "Figures du synopsis",
     landingHeading: "Explorez les données, espèce par espèce",
+    figurePageTitle: (number) => number === 1
+      ? "Page 1 — Relevés, captures et CPUE"
+      : "Page 2 — Échantillonnage biologique, croissance et maturité",
     landingLede: (count) => `Des visualisations standardisées et reproductibles illustrant les tendances des populations et de la pêche, la répartition, la croissance et la maturité de ${count} espèces — principalement des poissons de fond — au large de la côte canadienne du Pacifique.`,
     suggested: "Suggestions",
     allSpecies: "Toutes les espèces",
     footerSynopsis: "Synopsis des données sur les poissons de fond de la Colombie-Britannique",
-    sourceCode: "Code source ↗",
-    issues: "Problèmes ↗",
-    contact: "Contact ↗",
-    unofficialUpdateOf: "Il s’agit d’une mise à jour non officielle de",
-    citeTechnicalReportPrefix: "Veuillez citer le dernier ",
-    technicalReport: "rapport technique officiel",
-    and: " et ",
-    or: " ou ",
+    sourceCode: "Code source",
+    issues: "Problèmes",
+    contact: "Contact",
+    unofficialUpdateOf: "Mise à jour non officielle de ",
+    annualUpdateOf: ", mise à jour annuelle de ",
+    asDescribedIn: " telle que décrite dans ",
     cosewicStatus: "Statut du COSEPAC",
     saraStatus: "Statut de la LEP",
     loadingPage: (number) => `Chargement de la page ${number}…`,
@@ -167,13 +169,20 @@ const landingPicker = {
 };
 
 const FEATURED_SLUGS = [
+  "arrowtooth-flounder",
+  "bocaccio",
+  "canary-rockfish",
+  "dover-sole",
   "lingcod",
   "north-pacific-spiny-dogfish",
-  "yelloweye-rockfish",
+  "pacific-cod",
+  "petrale-sole",
+  "quillback-rockfish",
+  "redstripe-rockfish",
+  "rougheye-blackspotted-rockfish-complex",
   "silvergray-rockfish",
-  "bocaccio",
-  "dover-sole",
-  "quillback-rockfish"
+  "yelloweye-rockfish",
+  "yellowtail-rockfish"
 ];
 
 function t(key, ...args) {
@@ -188,6 +197,9 @@ function localizedPage(page) {
 function updateLanguageLink() {
   const nextLanguage = figureLanguage === "fr" ? "en" : "fr";
   const languageUrl = new URL(window.location.href);
+  if (selectedIndex < 0) {
+    languageUrl.searchParams.delete("species");
+  }
   if (nextLanguage === DEFAULT_LANGUAGE) {
     languageUrl.searchParams.delete("lang");
   } else {
@@ -488,6 +500,10 @@ function createFigure(page, imagePath, pageNumber, version) {
   const figure = document.createElement("figure");
   figure.className = "synopsis-figure";
 
+  const title = document.createElement("figcaption");
+  title.className = "synopsis-figure__title";
+  title.textContent = t("figurePageTitle", pageNumber);
+
   const frame = document.createElement("div");
   frame.className = "figure-frame is-loading";
   const loading = document.createElement("p");
@@ -521,7 +537,7 @@ function createFigure(page, imagePath, pageNumber, version) {
 
   link.append(image);
   frame.append(loading, link);
-  figure.append(frame);
+  figure.append(title, frame);
   return figure;
 }
 
@@ -666,7 +682,11 @@ function renderSpeciesOptions(picker, query = "", preferredIndex = -1) {
   if (showFeatured) {
     const featured = FEATURED_SLUGS
       .map((slug) => species.findIndex((page) => page.slug === slug))
-      .filter((index) => index >= 0 && picker.filteredIndices.includes(index));
+      .filter((index) => index >= 0 && picker.filteredIndices.includes(index))
+      .sort((left, right) => localizedPage(species[left]).common_name.localeCompare(
+        localizedPage(species[right]).common_name,
+        figureLanguage
+      ));
     picker.filteredIndices = [
       ...featured,
       ...picker.filteredIndices.filter((index) => !featured.includes(index))
@@ -784,6 +804,11 @@ async function initialize() {
 }
 
 function attachPickerHandlers(picker) {
+  const selectOption = (option) => {
+    renderSpecies(Number(option.dataset.speciesIndex), "push");
+    if (picker === toolbarPicker) picker.search.focus();
+  };
+
   picker.search.addEventListener("focus", () => {
     picker.search.select();
     renderSpeciesOptions(picker, "", picker === toolbarPicker ? selectedIndex : -1);
@@ -829,14 +854,21 @@ function attachPickerHandlers(picker) {
   });
 
   picker.options.addEventListener("pointerdown", (event) => {
-    if (event.target.closest(".species-option")) event.preventDefault();
+    const option = event.target.closest(".species-option");
+    if (!option) return;
+    event.preventDefault();
+    picker.pointerSelection = option;
+    selectOption(option);
   });
 
   picker.options.addEventListener("click", (event) => {
     const option = event.target.closest(".species-option");
     if (!option) return;
-    renderSpecies(Number(option.dataset.speciesIndex), "push");
-    if (picker === toolbarPicker) picker.search.focus();
+    if (picker.pointerSelection === option) {
+      picker.pointerSelection = null;
+      return;
+    }
+    selectOption(option);
   });
 }
 
