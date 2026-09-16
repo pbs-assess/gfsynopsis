@@ -804,6 +804,8 @@ async function initialize() {
 }
 
 function attachPickerHandlers(picker) {
+  const touchDragThreshold = 10;
+
   const selectOption = (option) => {
     renderSpecies(Number(option.dataset.speciesIndex), "push");
     if (picker === toolbarPicker) picker.search.focus();
@@ -850,15 +852,55 @@ function attachPickerHandlers(picker) {
   });
 
   picker.search.addEventListener("blur", () => {
+    // A touch starts by moving focus away from the input. Keep the list open
+    // while that touch is still being classified as a tap or a scroll.
+    if (picker.touchSelection) return;
     closeSpeciesOptions(picker, true);
   });
 
   picker.options.addEventListener("pointerdown", (event) => {
     const option = event.target.closest(".species-option");
     if (!option) return;
+
+    // Select touch options on release, not initial contact: `pointerdown` is
+    // also the first event of a scroll gesture on iOS.
+    if (event.pointerType === "touch") {
+      picker.touchSelection = {
+        option,
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        moved: false
+      };
+      return;
+    }
+
+    // Keep the search input focused for mouse and pen selection so its blur
+    // handler does not hide the option before the click is delivered.
     event.preventDefault();
     picker.pointerSelection = option;
     selectOption(option);
+  });
+
+  picker.options.addEventListener("pointermove", (event) => {
+    const selection = picker.touchSelection;
+    if (!selection || selection.pointerId !== event.pointerId) return;
+    if (Math.hypot(event.clientX - selection.startX, event.clientY - selection.startY) >= touchDragThreshold) {
+      selection.moved = true;
+    }
+  });
+
+  picker.options.addEventListener("pointerup", (event) => {
+    const selection = picker.touchSelection;
+    if (!selection || selection.pointerId !== event.pointerId) return;
+    picker.touchSelection = null;
+    if (!selection.moved) selectOption(selection.option);
+  });
+
+  picker.options.addEventListener("pointercancel", (event) => {
+    if (picker.touchSelection?.pointerId === event.pointerId) {
+      picker.touchSelection = null;
+    }
   });
 
   picker.options.addEventListener("click", (event) => {
@@ -868,6 +910,7 @@ function attachPickerHandlers(picker) {
       picker.pointerSelection = null;
       return;
     }
+    if (event.detail !== 0) return;
     selectOption(option);
   });
 }
