@@ -1,9 +1,9 @@
 book_filename: "gfsynopsis-2025-data"
 rmd_files: ["index.Rmd",
             "01-introduction.Rmd",
-            #"02-plot-descriptions.Rmd",
-            #"04-indices.Rmd",
-            #"05-synopsis-plots-intro.Rmd",
+            "02-plot-descriptions.Rmd",
+            "04-indices.Rmd",
+            "05-synopsis-plots-intro.Rmd",
             "plot-pages.Rmd",
             "98-length-types.Rmd",
             "99-bibliography.Rmd"
