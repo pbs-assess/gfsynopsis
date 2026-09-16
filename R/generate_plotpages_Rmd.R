@@ -117,8 +117,17 @@ generate_plotpages_Rmd <- function(x, spp, french = FALSE, ext = "png") {
   #   }
   #   i <- i + 1
   # }
-  for (note in page$notes) {
-    out[[i]] <- note
+  if (length(page$notes)) {
+    # Use commands rather than a raw LaTeX environment in the Rmd source so
+    # Pandoc still processes Markdown links, emphasis, and citations inside
+    # the box before TeX sees it.
+    out[[i]] <- "\\notesboxstart"
+    i <- i + 1
+    for (note in page$notes) {
+      out[[i]] <- note
+      i <- i + 1
+    }
+    out[[i]] <- "\\notesboxend"
     i <- i + 1
   }
   out[[i]] <- "\\begin{figure}[b!]"

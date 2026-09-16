@@ -367,7 +367,9 @@ Order: Clupeiformes, Family: Clupeidae,
 Last Research Document: @johnson2026herring\
 Last Science Advisory Report: @dfo2023herringframework\
 Last Science Response: @dfo2026herringbc, @dfo2026herringsog, @dfo2026herringpr\
+\notesboxstart
 Note that only incidental Pacific Herring data from the groundfish databases are shown in this report. The latest cited CSAS reports should be consulted for details on Pacific Herring data and stock status.
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-herring-1.png}
 \end{figure}
@@ -386,7 +388,9 @@ Note that only incidental Pacific Herring data from the groundfish databases are
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-gorbuscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127182)\
-Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxstart
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://open.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pink-salmon-1.png}
 \end{figure}
@@ -405,7 +409,9 @@ Only incidental Pacific salmon data from the groundfish databases are shown here
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-keta), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127183)\
-Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxstart
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://open.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chum-salmon-1.png}
 \end{figure}
@@ -424,7 +430,9 @@ Only incidental Pacific salmon data from the groundfish databases are shown here
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-kisutch), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=127184)\
-Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxstart
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://open.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/coho-salmon-1.png}
 \end{figure}
@@ -443,7 +451,9 @@ Only incidental Pacific salmon data from the groundfish databases are shown here
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-nerka), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=254569)\
-Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxstart
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://open.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sockeye-salmon-1.png}
 \end{figure}
@@ -462,7 +472,9 @@ Only incidental Pacific salmon data from the groundfish databases are shown here
 Order: Salmoniformes, Family: Salmonidae,
 [FishBase](http://www.fishbase.org/summary/Oncorhynchus-tshawytscha), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=158075)\
-Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://ouvert.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [C. R. Lagasse, K. A. Fraser, R. Houtman et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxstart
+Only incidental Pacific salmon data from the groundfish databases are shown here; commercial catch is limited to incidental catch in groundfish fisheries. Consult the latest relevant CSAS reports for details on Pacific salmon data. For other salmon data, see the [Pacific Region commercial salmon fishery in-season catch estimates](https://open.canada.ca/data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon Escapement Database System)](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification and catch counts in the groundfish data shown here are not representative for the period of September 2022 to February 2024; see [Lagasse et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf).
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/chinook-salmon-1.png}
 \end{figure}
@@ -562,12 +574,14 @@ Order: Gadiformes, Family: Merlucciidae,
 [FishBase](http://www.fishbase.org/summary/Merluccius-productus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=272458)\
 Last joint Canada-US stock assessment: @edwards2026hake\
+\notesboxstart
 Note that Pacific Hake undergoes a directed joint
       Canada-US coastwide
  acoustic survey and annual assessment, which are not
       included in this report. The most recent
  stock assessment
       should be consulted for details on stock status.
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-hake-1.png}
 \end{figure}
@@ -1108,7 +1122,9 @@ Order: Perciformes, Family: Sebastidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274778)\
 Last Research Document: @starr2025silvergray\
 Last Science Advisory Report: @dfo2026silvergray\
+\notesboxstart
 In the 2025 assessment, it was recommended that if a 40% change in the 3-year running average of the coastwide geostatistical index or the coastwide commercial CPUE index relative to the 2024 value was observed, an early reassessment of Silvergray Rockfish should be brought forward for consideration. In 2025, this exceptional circumstance criterion was **not** met.
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/silvergray-rockfish-1.png}
 \end{figure}
@@ -1699,7 +1715,9 @@ Order: Perciformes, Family: Anoplopomatidae,
 Last Research Document: @johnson2024sablefish\
 Last Science Advisory Reports: @dfo2017sablefish, @dfo2023sablefishom\
 Last Science Response: @dfo2025sablefish\
+\notesboxstart
 The annual sablefish trap survey is not included in this report. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown.
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sablefish-1.png}
 \end{figure}
@@ -2177,12 +2195,14 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
 Most Recent Stock Assessment: @iphc2026\
+\notesboxstart
 Note that Pacific Halibut undergoes thorough assessment by the
       International Pacific
  Halibut Commission based on [the annual
       standardized setline survey](https://www.iphc.int/research/fishery-independent-monitoring/). The most
  recent [stock assessment](https://www.iphc.int/research/stock-assessment/)
       should be consulted for details on stock status.
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-halibut-1.png}
 \end{figure}
@@ -2259,7 +2279,9 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274294)\
 Last Research Document: @fisch2025dover\
 Last Science Advisory Report: @dfo1999dover\
+\notesboxstart
 In the 2025 assessment, it was recommended that if a 50% change in the 3-year running average of the coastwide geostatistical index relative to the 2024 value was observed, an early reassessment of Dover Sole should be brought forward for consideration. In 2025, this exceptional circumstance criterion was **not** met.
+\notesboxend
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/dover-sole-1.png}
 \end{figure}
@@ -2359,3 +2381,6 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sand-sole-2.png}
 \end{figure}
+
+
+

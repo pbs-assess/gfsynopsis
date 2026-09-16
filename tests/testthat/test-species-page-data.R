@@ -33,6 +33,35 @@ test_that("species page data contains the fields needed by both outputs", {
   expect_true(any(grepl("## Pacific Cod", rmd, fixed = TRUE)))
   expect_true(any(grepl("figure-pages/pacific-cod-2.png", rmd, fixed = TRUE)))
 
+  expect_false(any(grepl("notesbox", rmd, fixed = TRUE)))
+
+  salmon_spp <- transform(
+    spp[1, , drop = FALSE],
+    species_common_name = "chinook salmon",
+    species_science_name = "Oncorhynchus tshawytscha",
+    species_code = "124",
+    spp_w_hyphens = "chinook-salmon",
+    family = "Salmonidae"
+  )
+  salmon_rmd <- generate_plotpages_Rmd("chinook salmon", salmon_spp)
+  expect_true(any(grepl("\\notesboxstart", salmon_rmd, fixed = TRUE)))
+  expect_true(any(grepl("\\notesboxend", salmon_rmd, fixed = TRUE)))
+  expect_false(any(grepl("\\compactnotesboxstart", salmon_rmd, fixed = TRUE)))
+  expect_false(any(grepl("\\textbf{Notes}", salmon_rmd, fixed = TRUE)))
+  expect_true(any(grepl("width=6.4in", salmon_rmd, fixed = TRUE)))
+
+  herring_spp <- transform(
+    spp[1, , drop = FALSE],
+    species_common_name = "pacific herring",
+    species_science_name = "Clupea pallasii",
+    species_code = "096",
+    spp_w_hyphens = "pacific-herring",
+    family = "Clupeidae"
+  )
+  herring_rmd <- generate_plotpages_Rmd("pacific herring", herring_spp)
+  expect_true(any(grepl("\\notesboxstart", herring_rmd, fixed = TRUE)))
+  expect_true(any(grepl("\\notesboxend", herring_rmd, fixed = TRUE)))
+
   expect_length(gfsynopsis:::species_pages_data(spp), 2L)
 })
 
