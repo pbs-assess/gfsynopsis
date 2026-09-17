@@ -168,12 +168,12 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
     notes <- c(notes, if (!french) {
       paste0(
         "Only incidental Pacific salmon records from groundfish databases are shown; ",
-        "commercial catch covers groundfish fishery bycatch only. Salmon identification ",
+        "commercial catch is limited to incidental catch in groundfish fisheries. ",
+        "Salmon identification ",
         "and catch counts are not representative for Sept. 2022–Feb. 2024; ",
         "see [Lagasse ",
         "et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/",
         "41221618.pdf). ",
-        "Consult the latest CSAS reports for Pacific salmon details. ",
         "Other salmon data: [Pacific Region commercial salmon in-season catch ",
         "estimates](https://open.canada.ca/",
         "data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon ",
