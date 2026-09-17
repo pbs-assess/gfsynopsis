@@ -167,37 +167,41 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
   if (identical(field("family"), "Salmonidae")) {
     notes <- c(notes, if (!french) {
       paste0(
-        "Only incidental Pacific salmon data from the groundfish databases are shown ",
-        "here; commercial catch is limited to incidental catch in groundfish fisheries. ",
-        "Consult the latest relevant CSAS reports for details on Pacific salmon data. ",
-        "For other salmon data, see the [Pacific Region ",
-        "commercial salmon fishery in-season catch estimates](https://open.canada.ca/",
+        "Only incidental Pacific salmon records from groundfish databases are shown; ",
+        "commercial catch covers groundfish fishery bycatch only. Salmon identification ",
+        "and catch counts are not representative for Sept. 2022–Feb. 2024; ",
+        "see [Lagasse ",
+        "et al. (2024)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/",
+        "41221618.pdf). ",
+        "Consult the latest CSAS reports for Pacific salmon details. ",
+        "Other salmon data: [Pacific Region commercial salmon in-season catch ",
+        "estimates](https://open.canada.ca/",
         "data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), [NuSEDS (New Salmon ",
         "Escapement Database System)](https://open.canada.ca/data/en/dataset/",
-        "c48669a3-045b-400d-b730-48aafe8c5ee6), and [Salmon Space](https://www.pac.",
-        "dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). Salmon identification ",
-        "and catch counts in the groundfish data shown here are not representative for ",
-        "the period of September 2022 to February 2024; see [Lagasse et al. ",
-        "(2024)](https://waves-vagues.dfo-mpo.gc.ca/",
-        "library-bibliotheque/41221618.pdf)."
+        "c48669a3-045b-400d-b730-48aafe8c5ee6), [Salmon Space](https://www.pac.",
+        "dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html), and the [Pacific salmon ",
+        "outlook](https://www.pac.dfo-mpo.gc.ca/pacific-smon-pacifique/science/",
+        "research-recherche/smon-outlook-perspective-eng.html)."
       )
     } else {
       paste0(
         "Seules les données accessoires sur le saumon du Pacifique provenant des bases ",
         "de données sur les poissons de fond sont présentées ici; les prises commerciales ",
         "se limitent aux prises accessoires dans les pêches de poissons de fond. ",
+        "L’identification et les dénombrements des saumons dans les données sur les poissons ",
+        "de fond présentées ici ne sont pas représentatifs pour la période de septembre 2022 ",
+        "à février 2024; voir [Lagasse et al. (2024)]",
+        "(https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf). ",
         "Consultez les derniers rapports pertinents du SCCS pour obtenir des détails sur ",
         "les données concernant le saumon du Pacifique. Pour obtenir d’autres données ",
         "sur le saumon, consultez les [estimations des prises en saison de la pêche ",
         "commerciale du saumon dans la région du Pacifique](https://ouvert.canada.ca/",
         "data/dataset/7ac5fe02-308d-4fff-b805-80194f8ddeb4), le [NuSEDS (Nouveau ",
         "système de base de données sur les échappées de saumon)](https://open.canada.ca/",
-        "data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6) et [Salmon Space](https://",
-        "www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html). L’identification ",
-        "et les dénombrements des saumons dans les données sur les poissons de fond ",
-        "présentées ici ne sont pas représentatifs pour la période de septembre 2022 à ",
-        "février 2024; voir [Lagasse et al. (2024)]",
-        "(https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41221618.pdf)."
+        "data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6), [Salmon Space](https://",
+        "www.pac.dfo-mpo.gc.ca/science/smon-space-espace/index-eng.html) et les [prévisions ",
+        "pour le saumon du Pacifique](https://www.pac.dfo-mpo.gc.ca/pacific-smon-pacifique/",
+        "science/research-recherche/smon-outlook-perspective-fra.html)."
       )
     })
   }

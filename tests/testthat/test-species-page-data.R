@@ -49,6 +49,16 @@ test_that("species page data contains the fields needed by both outputs", {
   expect_false(any(grepl("\\compactnotesboxstart", salmon_rmd, fixed = TRUE)))
   expect_false(any(grepl("\\textbf{Notes}", salmon_rmd, fixed = TRUE)))
   expect_true(any(grepl("width=6.4in", salmon_rmd, fixed = TRUE)))
+  expect_true(any(grepl(
+    "smon-outlook-perspective-eng.html", salmon_rmd, fixed = TRUE
+  )))
+
+  salmon_rmd_fr <- generate_plotpages_Rmd(
+    "chinook salmon", salmon_spp, french = TRUE
+  )
+  expect_true(any(grepl(
+    "smon-outlook-perspective-fra.html", salmon_rmd_fr, fixed = TRUE
+  )))
 
   herring_spp <- transform(
     spp[1, , drop = FALSE],
