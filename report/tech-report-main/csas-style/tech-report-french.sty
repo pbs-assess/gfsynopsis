@@ -60,11 +60,12 @@
 \makeatletter
 \newenvironment{notesbox}{%
   \color{notesforeground}%
-  \setlength{\fboxsep}{8pt}%
+  \setlength{\parskip}{0pt}%
+  \setlength{\fboxsep}{2pt}%
   \def\FrameCommand##1{%
     \hskip\@totalleftmargin
     \hskip-\fboxsep
-    \fcolorbox{notesborder}{notesbackground}{##1}%
+    \fcolorbox{notesborder}{notesbackground}{\hspace{4pt}##1\hspace{4pt}}%
     \hskip-\fboxsep
     \hskip-\linewidth
     \hskip-\@totalleftmargin

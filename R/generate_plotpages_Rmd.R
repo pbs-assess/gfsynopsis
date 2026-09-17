@@ -129,6 +129,12 @@ generate_plotpages_Rmd <- function(x, spp, french = FALSE, ext = "png") {
     }
     out[[i]] <- "\\notesboxend"
     i <- i + 1
+    # Keep this setting active until \clearpage places the bottom float.
+    # It changes the minimum required clearance, not bottom alignment.
+    out[[i]] <- "\\begingroup"
+    i <- i + 1
+    out[[i]] <- "\\setlength{\\textfloatsep}{0pt}"
+    i <- i + 1
   }
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
@@ -140,6 +146,10 @@ generate_plotpages_Rmd <- function(x, spp, french = FALSE, ext = "png") {
   i <- i + 1
   out[[i]] <- "\\clearpage"
   i <- i + 1
+  if (length(page$notes)) {
+    out[[i]] <- "\\endgroup"
+    i <- i + 1
+  }
   out[[i]] <- "\\begin{figure}[b!]"
   i <- i + 1
   out[[i]] <- paste0(
