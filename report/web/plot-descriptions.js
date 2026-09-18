@@ -214,7 +214,8 @@ function render(language, historyMode = "replace") {
   const ogDescription = document.querySelector('meta[property="og:description"]');
   if (ogDescription) ogDescription.content = copy.description;
   document.querySelector(".skip-link").textContent = copy.skip;
-  document.querySelector(".eyebrow").textContent = copy.eyebrow;
+  document.querySelector(".eyebrow__full").textContent = copy.eyebrow;
+  document.querySelector(".eyebrow").setAttribute("aria-label", copy.eyebrow);
   document.querySelector(".site-header h1").textContent = copy.siteTitle;
   document.querySelector("#descriptions-navigation").setAttribute("aria-label", copy.navigation);
   document.querySelector("#species-synopsis-link").textContent = copy.back;

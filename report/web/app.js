@@ -13,7 +13,8 @@ const UI_TEXT = {
     previousOrNextSpecies: "Previous or next species",
     previous: "Previous",
     next: "Next",
-    plotDescriptions: "Plot descriptions",
+    howToReadPlots: "How to read these plots",
+    howToReadThisPage: "How to read this page",
     switchToFrench: "Français",
     switchToEnglish: "English",
     loadingSpeciesData: "Loading species data…",
@@ -27,8 +28,8 @@ const UI_TEXT = {
     synopsisFigures: "Synopsis figures",
     landingHeading: "Explore the data, species by species",
     figurePageTitle: (number) => number === 1
-      ? "Page 1 — Surveys, catch, and CPUE"
-      : "Page 2 — Biological sampling, growth, and maturity",
+      ? "Surveys, catch, and CPUE"
+      : "Biological sampling, growth, and maturity",
     landingLede: (count) => `Standardized, reproducible visualizations of population and fishing trends, distribution, growth, and maturity for ${count} species—primarily groundfish—off Canada’s Pacific coast.`,
     suggested: "Suggested",
     allSpecies: "All species",
@@ -63,7 +64,8 @@ const UI_TEXT = {
     previousOrNextSpecies: "Espèce précédente ou suivante",
     previous: "Précédente",
     next: "Suivante",
-    plotDescriptions: "Description des graphiques",
+    howToReadPlots: "Comment lire ces graphiques",
+    howToReadThisPage: "Comment lire cette page",
     switchToFrench: "Français",
     switchToEnglish: "English",
     loadingSpeciesData: "Chargement des données sur les espèces…",
@@ -77,8 +79,8 @@ const UI_TEXT = {
     synopsisFigures: "Figures du synopsis",
     landingHeading: "Explorez les données, espèce par espèce",
     figurePageTitle: (number) => number === 1
-      ? "Page 1 — Relevés, captures et CPUE"
-      : "Page 2 — Échantillonnage biologique, croissance et maturité",
+      ? "Relevés, captures et CPUE"
+      : "Échantillonnage biologique, croissance et maturité",
     landingLede: (count) => `Des visualisations standardisées et reproductibles illustrant les tendances des populations et de la pêche, la répartition, la croissance et la maturité de ${count} espèces — principalement des poissons de fond — au large de la côte canadienne du Pacifique.`,
     suggested: "Suggestions",
     allSpecies: "Toutes les espèces",
@@ -211,6 +213,17 @@ function updateLanguageLink() {
   elements.languageLink.lang = nextLanguage;
   elements.languageLink.hreflang = nextLanguage;
   elements.languageLink.href = languageUrl;
+
+  const descriptionsUrl = new URL("plot-descriptions.html", window.location.href);
+  if (selectedIndex >= 0 && species[selectedIndex]) {
+    descriptionsUrl.searchParams.set("species", species[selectedIndex].slug);
+  }
+  if (figureLanguage === DEFAULT_LANGUAGE) {
+    descriptionsUrl.searchParams.delete("lang");
+  } else {
+    descriptionsUrl.searchParams.set("lang", figureLanguage);
+  }
+  elements.plotDescriptions.href = descriptionsUrl;
 
   const dfoLanguage = figureLanguage === "fr" ? "fr" : "en";
   const dfoUrl = dfoLanguage === "fr"
@@ -502,7 +515,23 @@ function createFigure(page, imagePath, pageNumber, version) {
 
   const title = document.createElement("figcaption");
   title.className = "synopsis-figure__title";
-  title.textContent = t("figurePageTitle", pageNumber);
+  const titleText = document.createElement("span");
+  titleText.textContent = t("figurePageTitle", pageNumber);
+
+  const helpUrl = new URL("plot-descriptions.html", window.location.href);
+  helpUrl.hash = pageNumber === 1 ? "survey-index-heading" : "samples-heading";
+  if (selectedIndex >= 0 && species[selectedIndex]) {
+    helpUrl.searchParams.set("species", species[selectedIndex].slug);
+  }
+  if (figureLanguage !== DEFAULT_LANGUAGE) {
+    helpUrl.searchParams.set("lang", figureLanguage);
+  }
+  const helpLink = document.createElement("a");
+  helpLink.className = "synopsis-figure__help-link";
+  helpLink.href = helpUrl;
+  helpLink.textContent = t("howToReadThisPage");
+
+  title.append(titleText, helpLink);
 
   const frame = document.createElement("div");
   frame.className = "figure-frame is-loading";
@@ -595,15 +624,6 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   elements.landing.hidden = true;
   const page = species[index];
   const displayPage = localizedPage(page);
-
-  const descriptionsUrl = new URL("plot-descriptions.html", window.location.href);
-  descriptionsUrl.searchParams.set("species", page.slug);
-  if (language === DEFAULT_LANGUAGE) {
-    descriptionsUrl.searchParams.delete("lang");
-  } else {
-    descriptionsUrl.searchParams.set("lang", language);
-  }
-  elements.plotDescriptions.href = descriptionsUrl;
 
   elements.search.value = displayPage.common_name;
   closeSpeciesOptions(toolbarPicker);

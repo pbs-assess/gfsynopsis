@@ -130,16 +130,19 @@ main,
 }
 
 .eyebrow {
-  margin: 0 0 0.35rem;
+  flex: 0 0 auto;
+  margin: 0;
   color: rgb(255 255 255 / 72%);
   font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: 0.14em;
+  line-height: 1.2;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.site-header__topline .eyebrow {
-  margin-bottom: 0;
+.eyebrow__compact {
+  display: none;
 }
 
 .eyebrow-link {
@@ -151,22 +154,32 @@ main,
   color: rgb(255 255 255 / 82%);
 }
 
+.topline-link,
 .language-link {
-  flex: 0 0 auto;
-  padding: 0.3rem 0.65rem;
-  border: 1px solid rgb(255 255 255 / 35%);
-  border-radius: var(--radius);
-  color: #fff;
+  color: rgb(255 255 255 / 78%);
   font-size: 0.85rem;
   font-weight: 600;
-  text-decoration: none;
-  transition: background 120ms ease, border-color 120ms ease;
+  text-decoration-color: rgb(255 255 255 / 35%);
 }
 
+.topline-link:hover,
 .language-link:hover {
-  border-color: rgb(255 255 255 / 70%);
-  background: rgb(255 255 255 / 10%);
   color: #fff;
+  text-decoration-color: rgb(255 255 255 / 70%);
+}
+
+.site-header__topline-links {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem 0.9rem;
+}
+
+.site-header__topline-links .language-link {
+  border-left: 1px solid rgb(255 255 255 / 30%);
+  padding-left: 0.9rem;
 }
 
 .site-header h1 {
@@ -540,13 +553,6 @@ main {
   background: var(--surface-muted);
 }
 
-.metadata-panel__footer {
-  display: flex;
-  flex: 0 0 100%;
-  justify-content: flex-start;
-  margin-top: 0.15rem;
-}
-
 .taxonomy-list {
   display: flex;
   flex-wrap: wrap;
@@ -851,12 +857,23 @@ main {
 }
 
 .synopsis-figure__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.15rem 0.9rem;
   margin: 0 0 0.45rem;
   color: var(--muted);
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
+}
+
+.synopsis-figure__help-link {
+  flex: 0 0 auto;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .figure-frame {
@@ -992,6 +1009,26 @@ main {
 }
 
 @media (max-width: 700px) {
+  .site-header__topline {
+    gap: 0.5rem;
+  }
+
+  .eyebrow__full {
+    display: none;
+  }
+
+  .eyebrow__compact {
+    display: inline;
+  }
+
+  .site-header__topline-links {
+    gap: 0.35rem 0.6rem;
+  }
+
+  .site-header__topline-links .language-link {
+    padding-left: 0.6rem;
+  }
+
   .species-toolbar {
     position: static;
     backdrop-filter: none;

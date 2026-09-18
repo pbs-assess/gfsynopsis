@@ -11,8 +11,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>BC Groundfish Data Synopsis</title>
   <link rel="icon" type="image/svg+xml" href="assets/inkscape/quillback-rockfish.svg?v=20260915-5">
-  <link rel="stylesheet" href="app.css?v=20260915-13">
-  <script src="app.js?v=20260916-1" defer></script>
+  <link rel="stylesheet" href="app.css?v=20260917-4">
+  <script src="app.js?v=20260917-4" defer></script>
 </head>
 <body>
   <script>if (!/[?&]species=/.test(window.location.search)) document.body.classList.add("is-landing");</script>
@@ -21,14 +21,25 @@
   <header class="site-header">
     <div class="site-header__inner">
       <div class="site-header__topline">
-        <a class="eyebrow eyebrow-link" href="./" data-i18n="eyebrow">Data synopsis</a>
-        <a
-          class="language-link"
-          id="page-language-link"
-          href="?lang=fr"
-          lang="fr"
-          hreflang="fr"
-        >Français</a>
+        <a class="eyebrow eyebrow-link" href="./" aria-label="Data synopsis" data-i18n-aria-label="eyebrow">
+          <span class="eyebrow__full" data-i18n="eyebrow">Data synopsis</span>
+          <span class="eyebrow__compact" aria-hidden="true">Synopsis</span>
+        </a>
+        <div class="site-header__topline-links">
+          <a
+            class="topline-link"
+            id="plot-descriptions-link"
+            href="plot-descriptions.html"
+            data-i18n="howToReadPlots"
+          >How to read these plots</a>
+          <a
+            class="language-link"
+            id="page-language-link"
+            href="?lang=fr"
+            lang="fr"
+            hreflang="fr"
+          >Français</a>
+        </div>
       </div>
       <h1><a id="home-link" class="site-title-link" href="./" data-i18n="siteTitle">British Columbia groundfish</a></h1>
     </div>
@@ -153,9 +164,6 @@
           <h3 id="notes-heading" data-i18n="notes">Notes</h3>
           <div id="notes-list"></div>
         </section>
-        <div class="metadata-panel__footer">
-          <a class="plot-descriptions-link" id="plot-descriptions-link" href="plot-descriptions.html" data-i18n="plotDescriptions">Plot descriptions</a>
-        </div>
       </section>
 
       <section class="figures-section" aria-labelledby="figures-heading">
