@@ -596,6 +596,21 @@ function updateLandingAddress(language, mode) {
   window.history[method]({}, "", url);
 }
 
+function scrollToPageTop() {
+  // Wait until the selection's default touch/click behavior and the landing
+  // layout change have completed. Otherwise mobile scroll anchoring can undo
+  // an immediate reset.
+  window.requestAnimationFrame(() => {
+    // The site uses smooth scrolling globally, but a route change should be
+    // immediate.
+    const root = document.documentElement;
+    const previousBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    root.style.scrollBehavior = previousBehavior;
+  });
+}
+
 function showLanding(historyMode = "none") {
   selectedIndex = -1;
   renderVersion += 1;
@@ -655,6 +670,7 @@ function renderSpecies(index, historyMode = "none", language = figureLanguage) {
   showMessage("");
   showFigureMessage(t("loadingFigures", displayPage.common_name));
   updateAddress(page.slug, figureLanguage, historyMode);
+  if (historyMode === "push") scrollToPageTop();
   updateLanguageLink();
 }
 

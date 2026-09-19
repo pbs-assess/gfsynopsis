@@ -23,7 +23,7 @@ script.
 Sign in once on a new computer with the pinned Wrangler version:
 
 ```sh
-npx --yes wrangler@4.131.0 login
+npx --yes wrangler@4.135.0 login
 ```
 
 Then build, validate, review the account shown by Wrangler, and confirm the
@@ -71,8 +71,9 @@ and open it in the default browser:
 make run
 ```
 
-Use `make deploy` for the existing interactive Cloudflare deployment flow, or
-`make deploy-dry-run` to build and validate without deploying.
+Use `make deploy` for a non-interactive Cloudflare deployment, or
+`make deploy-dry-run` to build and validate without deploying. To retain the
+confirmation prompt, run `./deploy.sh` directly.
 
 From the repository root, build the web data and copy the current English and
 French synopsis PNGs with:

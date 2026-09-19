@@ -18,7 +18,7 @@ run: build
 	wait $$server_pid
 
 deploy:
-	./deploy.sh
+	./deploy.sh --yes
 
 deploy-dry-run:
 	./deploy.sh --dry-run
