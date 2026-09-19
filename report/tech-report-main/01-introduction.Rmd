@@ -56,7 +56,7 @@ In this report:
 * We updated the recent references at the top of each species page.
 * We added pages for Pacific Herring, American Shad, Pink Salmon, Chum Salmon, Coho Salmon, Sockeye Salmon, and Chinook Salmon.
 * We added a table documenting which length measurement type is displayed for each species (Table \@ref(tab:survey-length-types)).
-* We raised the limit on the average coefficient of variation above which we do not display the geostatistical indices of abundance from 1.0 to 1.25.
+* We increased the average coefficient of variation threshold for displaying geostatistical abundance indices from 1.0 to 1.25.
 * We added snout-to-anal-fin length measurements for all grenadiers.
 * We raised the upper y-axis limit for the "Growth" panels to encompass all the observations, rather than cutting it off at 20% above the fitted growth curve.
 * We corrected the algorithm that is designed to simplify the fitted spatiotemporal index standardization model if more complex versions fail to converge. The new version makes use of the new option `collapse_spatial_variance` in the sdmTMB R package [@anderson2022sdmTMB]. With this option enabled, if the standard deviation of a given random effect component is estimated to be below 0.01, the model is refit with the component turned off (fixed to zero).
