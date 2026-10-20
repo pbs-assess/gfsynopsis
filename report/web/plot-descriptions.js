@@ -113,15 +113,15 @@ const FRENCH_ACRONYMS = `
 
 const FRENCH_CAPTIONS = [
   `<p>Exemple de tendances des indices de biomasse relative provenant de relevés au chalut et à la palangre pour la sole de Petrale. Les points représentent les estimations moyennes fondées sur le plan de relevé et les lignes verticales, leurs intervalles de confiance bootstrap à 95 %. Une ligne pleine et un ruban ombré indiquent un indice standardisé au moyen d’un modèle spatiotemporel. Ces indices sont omis si moins de 5 % des traits contiennent l’espèce ou si aucun modèle ne converge.</p>
-<p>Le « CV moyen » est la moyenne des coefficients de variation annuels; les « traits positifs moyens » comparent le nombre moyen de traits ayant capturé l’espèce au nombre moyen de traits. Les axes verticaux vont de zéro à la limite supérieure maximale de l’intervalle de confiance. Lorsque les deux indices sont présentés, ils sont ramenés à la même moyenne géométrique. Pour le relevé SMMS WCVI, les années antérieures à 2003 sont grisées parce que les captures sont moins fiables. Les valeurs HBLL OUT, HBLL INS et IPHC FISS représentent l’abondance plutôt que la biomasse. Des indices couvrant toute la côte ou tout le relevé sont aussi présentés pour les séries synoptiques, HBLL OUT et HBLL INS.</p>
+<p>Le « CV moyen » est la moyenne des coefficients de variation annuels; les « traits positifs moyens » comparent le nombre moyen de traits ayant capturé l’espèce au nombre moyen de traits. Les axes verticaux vont de zéro à la limite supérieure maximale de l’intervalle de confiance. Lorsque les deux indices sont présentés, ils sont ramenés à la même moyenne géométrique. Pour le relevé SMMS WCVI, les années antérieures à 2003 sont grisées parce que les captures sont moins fiables. Les valeurs HBLL OUT, HBLL INS et IPHC FISS représentent l’abondance plutôt que la biomasse. Des indices couvrant toute la côte ou tout le relevé sont aussi présentés pour les séries synoptiques, HBLL OUT et HBLL INS. Ces indices synthétiques combinent les données de plusieurs relevés au moyen de modèles spatiotemporels (Anderson et coll. 2024).</p>
 ${FRENCH_ACRONYMS}`,
   `<p>Exemples de cartes de biomasse relative, ou de taux de capture, tirées des plus récentes années disponibles des relevés au chalut et à la palangre pour la sole de Petrale. Les relevés synoptiques figurent à gauche, les relevés à la palangre sur fond dur extérieur au centre et le relevé IPHC FISS à droite. Les croix pâles représentent les traits sans capture; la superficie des cercles est proportionnelle à la densité observée.</p>
 <p>Sauf pour l’IPHC, les couleurs montrent les prédictions d’un modèle spatial comprenant la profondeur, son carré et des effets spatiaux aléatoires. L’échelle de couleurs, transformée par racine quatrième, va de zéro au maximum de chaque carte; le gris foncé signale les zones où le modèle n’a pu être ajusté.</p>
 <p>Les cartes synoptiques et HBLL montrent la biomasse prédite dans le domaine du relevé, tandis que la carte IPHC présente les données brutes aux stations fixes. Les relevés comptant moins de 2 % de traits positifs ne sont pas modélisés.</p>
 <p>Les moyennes au bas des cartes proviennent des données brutes de toute la côte. Pour l’IPHC, l’unité est le poisson par raie effective, soit 100 hameçons circulaires espacés de 18 pieds. La côte est tournée de 40°; les isobathes indiquent 100, 200 et 500 m.</p>`,
   `<p>Exemples de captures de la pêche commerciale pour la sole de Petrale. Les couleurs distinguent les types d’engins et les captures correspondent au poids total des débarquements par année. Les rejets déclarés de toutes les pêches sont inclus, sauf ceux jugés moins fiables avant la couverture complète des observateurs du chalut en 1996 et avant l’intégration des autres pêches en 2006. Ces périodes sont grisées.</p>
-<p>Les estimations des flottilles de chalut dans les eaux extérieures sont moins certaines avant 1996, tout comme celles des secteurs de la palangre et du casier avant la surveillance électronique instaurée en 2006. Depuis l’interruption du programme d’observateurs en mer en 2020, la flotte de chalut est surveillée électroniquement, avec un échantillonnage biologique au port pour certaines espèces.</p>`,
-  `<p>Exemple de tendances des captures commerciales par unité d’effort (CPUE) du chalutage de fond, l’effort étant mesuré en heures de chalutage, pour la sole de Petrale. Les CPUE sont standardisées au moyen d’un modèle spatiotemporel. La ligne et la zone ombrée représentent respectivement la moyenne et son intervalle de confiance à 95 %. Les séries standardisées sont mises à l’échelle pour partager la même valeur maximale de l’intervalle de confiance.</p>`,
+<p>Les estimations des flottilles de chalut dans les eaux extérieures sont moins certaines avant 1996, tout comme celles des secteurs de la palangre et du casier avant la surveillance électronique instaurée en 2006. Depuis l’interruption du programme d’observateurs en mer en 2020, la flotte de chalut est surveillée électroniquement, avec un échantillonnage biologique au port pour certaines espèces. Seules les captures des flottilles canadiennes sont incluses; les captures des flottilles étrangères dans les eaux canadiennes avant l’établissement de la zone économique exclusive (ZEE) ne sont pas représentées.</p>`,
+  `<p>Exemple de tendances des captures commerciales par unité d’effort (CPUE) du chalutage de fond, l’effort étant mesuré en heures de chalutage, pour la sole de Petrale. Les CPUE sont standardisées au moyen d’un modèle spatiotemporel (annexe A d’Anderson et coll. 2025). La ligne et la zone ombrée représentent respectivement la moyenne et son intervalle de confiance à 95 %. Les séries standardisées sont mises à l’échelle pour partager la même valeur maximale de l’intervalle de confiance.</p>`,
   `<p>Exemples de cartes des CPUE commerciales au chalut et à la ligne pour la morue du Pacifique; cette espèce remplace la sole de Petrale, dont le panneau de pêche à la ligne serait presque vide. Une teinte plus claire indique une moyenne géométrique plus élevée des CPUE dans une cellule hexagonale. L’échelle est transformée par racine quatrième. Les cellules, larges de 7 km, ne sont affichées que si au moins trois navires distincts y ont pêché.</p>
 <p>Pour le chalut de fond, la CPUE est le poids des prises, débarquements et rejets compris, divisé par les heures de pêche des traits positifs. Les données depuis 2013 sont remplies; celles de 2007 à 2012 sont représentées par des hexagones gris pâle en contour. Pour la ligne, la CPUE est le nombre de poissons débarqués ou rejetés par trait et les données commencent en 2008.</p>
 <p>La côte est tournée de 40°; les isobathes indiquent 100, 200 et 500 m.</p>`,
@@ -139,7 +139,29 @@ const englishHeadings = [...document.querySelectorAll(".plot-description h3")].m
 const englishAlts = [...document.querySelectorAll(".plot-description img")].map((element) => element.alt);
 const englishCaptions = [...document.querySelectorAll(".plot-description__caption")].map((element) => element.innerHTML);
 
-const ANDERSON_2019_URL = "https://csas-scas.dfo-mpo.gc.ca/publications-publications/0a09ace0-7249-4c72-be1c-579005135e2a?lang=en";
+const CSAS_URL = "https://csas-scas.dfo-mpo.gc.ca/publications-publications";
+
+const CITATION_LINKS = {
+  en: [
+    [/Anderson et al\. (?:\(2019\)|2019)/g, `${CSAS_URL}/0a09ace0-7249-4c72-be1c-579005135e2a?lang=en`],
+    [/DFO 2022/g, `${CSAS_URL}/7ab04346-6081-478e-b1c9-6711f022d5fe?lang=en`],
+    [/Anderson et al\. 2024/g, "https://science-catalogue.canada.ca/record=4125206~S6"],
+    [/Anderson et al\. 2025/g, "https://doi.org/10.60825/h406-v638"],
+    [/Wallace et al\. 2015/g, "https://doi.org/10.1016/j.marpol.2015.06.028"]
+  ],
+  fr: [
+    [/Anderson et coll\. \(2019\)/g, `${CSAS_URL}/0a09ace0-7249-4c72-be1c-579005135e2a?lang=fr`],
+    [/Anderson et coll\. 2024/g, "https://science-catalogue.canada.ca/record=4125206~S6"],
+    [/Anderson et coll\. 2025/g, "https://doi.org/10.60825/2b8n-my73"]
+  ]
+};
+
+function linkCitations(caption, language) {
+  return CITATION_LINKS[language].reduce(
+    (text, [pattern, url]) => text.replace(pattern, `<a href="${url}">$&</a>`),
+    caption
+  );
+}
 
 function webCaption(caption, language) {
   if (language === "fr") {
@@ -150,10 +172,7 @@ function webCaption(caption, language) {
         "Voir la figure 3 pour les abréviations des relevés.",
         'Voir la description du graphique <a href="#survey-index-heading">« Tendances des indices de biomasse relative provenant des relevés »</a> pour les abréviations des relevés.'
       );
-    return caption.replace(
-      /Anderson et coll\. \(2019\)/g,
-      `<a href="${ANDERSON_2019_URL}">$&</a>`
-    );
+    return linkCitations(caption, language);
   }
 
   caption = caption
@@ -162,10 +181,7 @@ function webCaption(caption, language) {
       "See Figure 3 for survey abbreviations.",
       'See the <a href="#survey-index-heading">“Relative biomass index trends from surveys” plot description</a> for survey abbreviations.'
     );
-  return caption.replace(
-    /Anderson et al\. (?:\(2019\)|2019)/g,
-    `<a href="${ANDERSON_2019_URL}">$&</a>`
-  );
+  return linkCitations(caption, language);
 }
 
 function requestedLanguage() {
