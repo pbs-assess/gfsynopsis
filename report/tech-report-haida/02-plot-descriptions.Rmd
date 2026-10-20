@@ -57,11 +57,11 @@ Spatiotemporal-model-based indices are omitted for a survey-species combination 
 'Mean CV' is the mean of the annual coefficients of variation (CVs), and 'Mean $+$ve sets' indicates the ratio of the mean number (across the years) of sets that captured the species of interest to the mean number of sets.
 All vertical axes are scaled between zero and the maximum upper confidence interval value for that survey.
 When both types of indices are shown, they are scaled to have the same geometric mean and the axes are set to encompass the model-based confidence intervals.
-<!--For the MSSM WCVI, years before 2003 are shaded grey to indicate that catches are considered less reliable than modern data.
+<!--For the SMMS WCVI, years before 2003 are shaded grey to indicate that catches are considered less reliable than modern data.
 -->
 For the HBLL OUT and IPHC FISS, the values are abundance rather than biomass.
-Indices for SYN WCVI, HBLL INS N/S, OTHER HS MSA, and MSSM WCVI are not shown because they do not overlap with `r roi`.
-Survey abbreviations: SYN = Synoptic Bottom Trawl (WCHG = West Coast Haida Gwaii, HS = Hecate Strait, QCS = Queen Charlotte Sound, WCVI = West Coast Vancouver Island); HBLL = Hard Bottom Longline (OUT N/S = Outside North/South, INS N/S = Inside North/South); IPHC FISS = International Pacific Halibut Commission Fishery-Independent Setline Survey; MSA HS = Hecate Strait Multispecies Assemblage Bottom Trawl; MSSM WCVI = West Coast Vancouver Island Multispecies Small-mesh Bottom Trawl.
+Indices for SYN WCVI, HBLL INS N/S, OTHER HS MSA, and SMMS WCVI are not shown because they do not overlap with `r roi`.
+Survey abbreviations: SYN = Synoptic Bottom Trawl (WCHG = West Coast Haida Gwaii, HS = Hecate Strait, QCS = Queen Charlotte Sound, WCVI = West Coast Vancouver Island); HBLL = Hard Bottom Longline (OUT N/S = Outside North/South, INS N/S = Inside North/South); IPHC FISS = International Pacific Halibut Commission Fishery-Independent Setline Survey; MSA HS = Hecate Strait Multispecies Assemblage Bottom Trawl; SMMS WCVI = West Coast Vancouver Island Small-mesh Multispecies Bottom Trawl.
 <!--`r surv_abbrev_text`.-->
 Also included are survey-wide indices for SYN WCHG/HS/QCS/WCVI and HBLL OUT N/S that show the trends within `r roi`.
 

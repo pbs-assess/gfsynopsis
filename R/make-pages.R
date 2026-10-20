@@ -390,11 +390,12 @@ make_pages <- function(
       mutate(survey_abbrev2 = case_when(
         survey_abbrev %in% c('HBLL OUT N', 'HBLL OUT S') ~ 'HBLL OUT',
         survey_abbrev == 'HBLL INS N/S' ~ 'HBLL INS',
+        survey_abbrev == 'MSSM WCVI' ~ 'SMMS WCVI', # display name only
         TRUE ~ survey_abbrev)) |>
       mutate(survey_abbrev2 = factor(survey_abbrev2,
       levels = c("SYN WCHG", "SYN HS", "SYN QCS", "SYN WCVI",
         "HBLL OUT", "HBLL INS",
-        "MSSM WCVI", "IPHC FISS",
+        "SMMS WCVI", "IPHC FISS",
         en2fr("Commercial", french)))
     )
 

@@ -959,20 +959,6 @@ main {
   font-style: normal;
 }
 
-.site-footer__logo-link {
-  display: block;
-  flex: 0 1 12rem;
-  width: min(100%, 12rem);
-  transform: translateY(0.15rem);
-}
-
-.site-footer__logo {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 0;
-}
-
 .site-footer__doi {
   overflow-wrap: anywhere;
   white-space: nowrap;
@@ -1065,12 +1051,6 @@ main {
   .site-footer__top {
     align-items: stretch;
     flex-direction: column;
-  }
-
-  .site-footer__top .site-footer__logo-link {
-    flex: 0 1 auto;
-    margin-inline: 0;
-    transform: none;
   }
 
   .site-footer__top {

@@ -36,7 +36,7 @@ cols <- c(
   "Outside Hard Bottom Longline (N)" = paste0("#FF7F00", alpha),
   "Outside Hard Bottom Longline (S)" = paste0("#FDBF6F", alpha),
   "Inside Hard Bottom Longline (N & S)" = paste0("#A65628", alpha),
-  "Multi-Species Small Mesh (MSSM)" = paste0("#6c6c6c", alpha)
+  "Small-Mesh Multi-Species (SMMS)" = paste0("#6c6c6c", alpha)
 )
 
 g <- ggplot()

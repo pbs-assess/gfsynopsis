@@ -8,7 +8,7 @@ survey_lookup <- data.frame(
     "Outside Hard Bottom Longline (S)",
     "Inside Hard Bottom Longline (N & S)",
     "Inside Hard Bottom Longline (N & S)",
-    "Multi-Species Small Mesh (MSSM WCVI)"
+    "Small-Mesh Multi-Species (SMMS)"
   ),
   survey_abbrev = c(
     "SYN WCHG",
@@ -32,7 +32,7 @@ cols <- c(
       "Outside Hard Bottom Longline (N)" = "#FF7F00",
       "Outside Hard Bottom Longline (S)" = "#FDBF6F",
       "Inside Hard Bottom Longline (N & S)" = "#A65628",
-      "Multi-Species Small Mesh (MSSM)" = "#6c6c6c"
+      "Small-Mesh Multi-Species (SMMS)" = "#6c6c6c"
     )
 
 sb <- gfdata::survey_blocks |>

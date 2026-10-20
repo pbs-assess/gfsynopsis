@@ -120,7 +120,6 @@ const elements = {
   previous: document.querySelector("#previous-species"),
   next: document.querySelector("#next-species"),
   languageLink: document.querySelector("#page-language-link"),
-  dfoLogoLink: document.querySelector("#dfo-logo-link"),
   plotDescriptions: document.querySelector("#plot-descriptions-link"),
   status: document.querySelector("#app-status"),
   error: document.querySelector("#app-error"),
@@ -224,14 +223,6 @@ function updateLanguageLink() {
     descriptionsUrl.searchParams.set("lang", figureLanguage);
   }
   elements.plotDescriptions.href = descriptionsUrl;
-
-  const dfoLanguage = figureLanguage === "fr" ? "fr" : "en";
-  const dfoUrl = dfoLanguage === "fr"
-    ? "https://www.dfo-mpo.gc.ca/index-fra.html"
-    : "https://www.dfo-mpo.gc.ca/index-eng.html";
-  elements.dfoLogoLink.href = dfoUrl;
-  elements.dfoLogoLink.lang = dfoLanguage;
-  elements.dfoLogoLink.hreflang = dfoLanguage;
 
   const homeUrl = new URL(window.location.href);
   homeUrl.searchParams.delete("species");

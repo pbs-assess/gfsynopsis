@@ -108,12 +108,12 @@ const FRENCH_ACRONYMS = `
   <div><dt>HBLL INS S</dt><dd>Palangre sur fond dur intérieur Sud</dd></div>
   <div><dt>IPHC FISS</dt><dd>Relevé à la palangre indépendant de la Commission internationale du flétan du Pacifique</dd></div>
   <div><dt>MSA HS</dt><dd>Chalut de fond de l’assemblage multi-espèces du détroit d’Hécate</dd></div>
-  <div><dt>MSSM WCVI</dt><dd>Chalut de fond à petites mailles multi-espèces de la côte ouest de l’île de Vancouver</dd></div>
+  <div><dt>SMMS WCVI</dt><dd>Chalut de fond à petites mailles multi-espèces de la côte ouest de l’île de Vancouver</dd></div>
 </dl>`;
 
 const FRENCH_CAPTIONS = [
   `<p>Exemple de tendances des indices de biomasse relative provenant de relevés au chalut et à la palangre pour la sole de Petrale. Les points représentent les estimations moyennes fondées sur le plan de relevé et les lignes verticales, leurs intervalles de confiance bootstrap à 95 %. Une ligne pleine et un ruban ombré indiquent un indice standardisé au moyen d’un modèle spatiotemporel. Ces indices sont omis si moins de 5 % des traits contiennent l’espèce ou si aucun modèle ne converge.</p>
-<p>Le « CV moyen » est la moyenne des coefficients de variation annuels; les « traits positifs moyens » comparent le nombre moyen de traits ayant capturé l’espèce au nombre moyen de traits. Les axes verticaux vont de zéro à la limite supérieure maximale de l’intervalle de confiance. Lorsque les deux indices sont présentés, ils sont ramenés à la même moyenne géométrique. Pour le relevé MSSM WCVI, les années antérieures à 2003 sont grisées parce que les captures sont moins fiables. Les valeurs HBLL OUT, HBLL INS et IPHC FISS représentent l’abondance plutôt que la biomasse. Des indices couvrant toute la côte ou tout le relevé sont aussi présentés pour les séries synoptiques, HBLL OUT et HBLL INS.</p>
+<p>Le « CV moyen » est la moyenne des coefficients de variation annuels; les « traits positifs moyens » comparent le nombre moyen de traits ayant capturé l’espèce au nombre moyen de traits. Les axes verticaux vont de zéro à la limite supérieure maximale de l’intervalle de confiance. Lorsque les deux indices sont présentés, ils sont ramenés à la même moyenne géométrique. Pour le relevé SMMS WCVI, les années antérieures à 2003 sont grisées parce que les captures sont moins fiables. Les valeurs HBLL OUT, HBLL INS et IPHC FISS représentent l’abondance plutôt que la biomasse. Des indices couvrant toute la côte ou tout le relevé sont aussi présentés pour les séries synoptiques, HBLL OUT et HBLL INS.</p>
 ${FRENCH_ACRONYMS}`,
   `<p>Exemples de cartes de biomasse relative, ou de taux de capture, tirées des plus récentes années disponibles des relevés au chalut et à la palangre pour la sole de Petrale. Les relevés synoptiques figurent à gauche, les relevés à la palangre sur fond dur extérieur au centre et le relevé IPHC FISS à droite. Les croix pâles représentent les traits sans capture; la superficie des cercles est proportionnelle à la densité observée.</p>
 <p>Sauf pour l’IPHC, les couleurs montrent les prédictions d’un modèle spatial comprenant la profondeur, son carré et des effets spatiaux aléatoires. L’échelle de couleurs, transformée par racine quatrième, va de zéro au maximum de chaque carte; le gris foncé signale les zones où le modèle n’a pu être ajusté.</p>
@@ -237,15 +237,6 @@ function render(language, historyMode = "replace") {
   document.querySelectorAll("[data-pd-i18n]").forEach((element) => {
     element.textContent = copy[element.dataset.pdI18n];
   });
-
-  const dfoLink = document.querySelector("#dfo-logo-link");
-  if (dfoLink) {
-    dfoLink.href = language === "fr"
-      ? "https://www.dfo-mpo.gc.ca/index-fra.html"
-      : "https://www.dfo-mpo.gc.ca/index-eng.html";
-    dfoLink.lang = language;
-    dfoLink.hreflang = language;
-  }
 
   buildToc(language);
 

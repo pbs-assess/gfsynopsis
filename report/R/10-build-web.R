@@ -599,11 +599,6 @@ build_web_species_pages <- function(
       }
     }
   }
-  dfo_logo <- file.path(web_dir, "assets", "dfo-logo.svg")
-  if (!file.exists(dfo_logo) ||
-      !file.copy(dfo_logo, silhouette_output_dir, overwrite = TRUE)) {
-    stop("Missing DFO logo asset.", call. = FALSE)
-  }
 
   output <- list(
     metadata = list(

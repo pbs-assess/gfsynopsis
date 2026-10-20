@@ -34,7 +34,7 @@ La deuxième page se concentre sur les échantillons biologiques provenant de so
 Cette page présente les données de longueur et d'âge, les données de maturité, et un aperçu du nombre disponible de poissons échantillonnés par année dans tous les échantillons d'enquête et commerciaux.
 
 Pour les enquêtes, le rapport s'est concentré sur les enquêtes synoptiques de chalutage de fond (Figure \@ref(fig:intro-maps)), les enquêtes de palangre de fond dur à l'extérieur (HBLL OUT), les enquêtes de palangre de fond dur à l'intérieur (HBLL INS) (Figure \@ref(fig:intro-maps)), et les enquêtes de palangre indépendante de la pêche de la Commission internationale du flétan du Pacifique (CIFP).
-Dans la version avec les données de 2023, nous avons ajouté les données de l'enquête de chalutage de fond multi-espèces à petits maillages sur la côte ouest de l'île de Vancouver (MSSM WCVI) (anciennement connue sous le nom d'« enquête sur les crevettes »).
+Dans la version avec les données de 2023, nous avons ajouté les données de l'enquête de chalutage de fond multi-espèces à petits maillages sur la côte ouest de l'île de Vancouver (SMMS WCVI) (anciennement connue sous le nom d'« enquête sur les crevettes »).
 Voir @dunic2025smms pour une analyse de la qualité des données sur les poissons de fond de cette enquête.
 Nous montrons les tendances de l'indice de biomasse d'enquête pour l'enquête d'assemblage multi-espèces du détroit d'Hécate (MSA HS).
 Le rapport inclut le décompte des spécimens de poissons disponibles provenant d'échantillons biologiques de toutes les enquêtes.

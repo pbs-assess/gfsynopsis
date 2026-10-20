@@ -101,7 +101,6 @@ trim_silhouette_files <- function(svg_files, quiet = FALSE) {
       call. = FALSE)
   }
   svg_files <- unique(svg_files[file.exists(svg_files)])
-  svg_files <- svg_files[basename(svg_files) != "dfo-logo.svg"]
   trimmed_files <- character()
   pending_files <- svg_files
   for (pass in seq_len(20L)) {

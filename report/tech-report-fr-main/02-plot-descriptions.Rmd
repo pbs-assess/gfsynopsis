@@ -44,6 +44,9 @@ survey_descriptions <- bind_rows(survey_descriptions,
 x <- inner_join(survey_descriptions, survs, by = "survey_abbrev") %>%
   arrange(surv_order)
 x$survey_series_desc <- gsub(" $", "", x$survey_series_desc)
+# display name only; data still use MSSM:
+x$survey_abbrev <- gsub("MSSM", "SMMS", x$survey_abbrev)
+x$survey_series_desc <- gsub("Multispecies Small-mesh", "Small-mesh Multispecies", x$survey_series_desc)
 surv_abbrev_text <- paste0(x$survey_abbrev, " = ", x$survey_series_desc, collapse = ", ")
 ```
 
@@ -54,7 +57,7 @@ Les indices basés sur un modèle spatiotemporel sont omis pour une combinaison 
 « CV moyen » est la moyenne des coefficients de variation annuels (CV), et « Traits +fs moyens » indique le ratio du nombre moyen (à travers les années) de traits qui ont capturé l'espèce d'intérêt par rapport au nombre moyen de traits.
 Tous les axes verticaux sont mis à l'échelle entre zéro et la valeur maximale de l'intervalle de confiance supérieur pour cette enquête.
 Quand les deux types d'indices sont montrés, ils sont mis à l'échelle pour avoir la même moyenne géométrique et les axes sont ajustés pour englober les intervalles de confiance basés sur le modèle.
-Pour le MSSM WCVI, les années avant 2003 sont ombrées en gris pour indiquer que les captures sont considérées comme moins fiables que les données modernes.
+Pour le SMMS WCVI, les années avant 2003 sont ombrées en gris pour indiquer que les captures sont considérées comme moins fiables que les données modernes.
 Pour le HBLL OUT, HBLL INS, et IPHC FISS, les valeurs sont des abondances plutôt que des biomasses.
 `r surv_abbrev_text`.
 Sont également inclus des indices à l'échelle côtière ou à l'échelle de l'enquête pour SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, et HBLL INS N/S.

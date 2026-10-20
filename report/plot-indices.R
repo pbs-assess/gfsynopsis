@@ -366,7 +366,7 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
         ) +
         geom_text(
           data = labs, x = yrs[1] + 0.5, y = 0.89,
-          aes(label = survey_abbrev),
+          aes(label = gsub("MSSM", "SMMS", survey_abbrev)), # display name only; data still use MSSM
           inherit.aes = FALSE, colour = "grey30", size = 3, hjust = 0
         )
 
