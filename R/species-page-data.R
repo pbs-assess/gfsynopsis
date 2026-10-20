@@ -100,16 +100,16 @@ species_page_data <- function(x, spp, french = FALSE, ext = "png") {
       "Note that Pacific Halibut undergoes thorough assessment by the
       International Pacific\n Halibut Commission based on [the annual
       standardized setline survey](https://www.iphc.int/research/fishery-independent-monitoring/). The most\n recent [stock assessment](https://www.iphc.int/research/stock-assessment/)
-      should be consulted for details on stock status."
+      should be consulted for details on stock status, including the current FISS survey biomass index."
     } else {
-      "Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
+      "Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks, y compris l’indice de biomasse actuel du relevé FISS."
     }
   }
   if (identical(species_code, "455")) {
     notes <- if (!french) {
-      "The annual sablefish trap survey is not included in this report. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown."
+      "The annual sablefish trap survey is not included in this report. See @lacko2026 for the most recent summary of this survey. Commercial biological samples from a head-only sampling program that began in 2018 [@lacko2023] are not shown."
     } else {
-      "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks."
+      "Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks. Voir @lacko2026 pour le résumé le plus récent de ce relevé. Les échantillons biologiques commerciaux provenant d’un programme d’échantillonnage de têtes seulement, commencé en 2018 [@lacko2023], ne sont pas présentés."
     }
   }
   if (identical(species_code, "096")) {

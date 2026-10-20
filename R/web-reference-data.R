@@ -113,6 +113,8 @@ web_reference_url_overrides <- function() {
   c(
     # Canadian technical report 3580 (the document cited in the Sablefish note).
     lacko2023 = "https://publications.gc.ca/collections/collection_2023/mpo-dfo/Fs97-6-3580-eng.pdf",
+    # Canadian technical report 3751, the most recent Sablefish trap survey summary (no French version).
+    lacko2026 = "https://doi.org/10.60825/rgr5-x663",
     # The IPHC landing page lists the annual assessment cited by the report.
     iphc2025 = "https://www.iphc.int/research/stock-assessment/",
     # Link the salmon bycatch report citation directly to its PDF in the web report.

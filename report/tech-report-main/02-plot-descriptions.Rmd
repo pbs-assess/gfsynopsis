@@ -58,6 +58,7 @@ For the SMMS WCVI, years before 2003 are shaded grey to indicate that catches ar
 For the HBLL OUT, HBLL INS, and IPHC FISS the values are abundance rather than biomass.
 `r surv_abbrev_text`.
 Also included are coastwide or survey-wide indices for SYN WCHG/HS/QCS/WCVI, HBLL OUT N/S, and HBLL INS N/S.
+These represent the combination of data from multiple surveys into synthetic indices using spatiotemporal models [@synopsis2022data].
 
 
 ```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=5.8, out.width="4.1in", fig.cap="(ref:survey-index-example)"}
@@ -84,7 +85,7 @@ a spatial model that includes depth and depth squared as predictors as well as
 spatial random effects [Appendix E in @anderson2019synopsis]. The colour scale
 is fourth-root transformed to render a visual pattern similar to a log
 transformation without overemphasizing differences close to zero. The colour
-scale ranges from zero to the highest value within each map, and dark grey 
+scale ranges from zero to the highest value within each map, and dark grey
 indicates regions where models could not be fit. The
 synoptic and HBLL maps show predicted biomass density throughout the survey
 domain. The IPHC map shows the raw unmodelled data for fixed station
@@ -163,10 +164,11 @@ Catch data prior to 1996 and 2006 are shaded grey to indicate they are considere
 Catch estimates from the bottom and midwater trawl fleets operating in outside waters are less certain before the introduction of an at-sea observer program in 1996.
 Similarly, catch estimates from non-trawl sectors (longline and trap) are less certain prior to the implementation of an at-sea electronic monitoring (EM) program in 2006.
 The at-sea observer program for the trawl fleet was discontinued in early 2020 due to COVID-19.
-Since then, the trawl fleet has been monitored using EM systems. 
+Since then, the trawl fleet has been monitored using EM systems.
 EM systems are supplemented by port-based biological sampling for some species.
 Management areas, as indicated in the top left corner of each panel, are shown
 in Figure \@ref(fig:management-map).
+This figure only includes catch from Canadian fleets; catch from foreign fleets fishing in Canadian waters prior to the establishment of the Exclusive Economic Zone (EEZ) is not represented.
 
 ```{r catches, fig.asp=1.3, fig.width=5, out.width="4in", warning=FALSE, fig.cap="(ref:catches-cap)"}
 g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Catch", french), " (t)"))
@@ -177,8 +179,8 @@ g$catch + ggtitle(en2fr("Commercial catch", french)) + labs(y = paste(en2fr("Cat
 ## Commercial bottom trawl catch per unit effort indices
 
 (ref:trawl-cpue-cap) Example commercial bottom trawl catch per unit effort (CPUE)
-trends, with effort as hours trawled, for `r sp`. Commercial CPUE has been 
-standardized with a spatiotemporal model (Appendix \@ref(app:cpue)).
+trends, with effort as hours trawled, for `r sp`. Commercial CPUE has been
+standardized with a spatiotemporal model [Appendix A in @synopsis2024data].
 The line and shaded region represent the mean and 95\% confidence interval.
 <!-- The dashed line represents an -->
 <!-- unstandardized commercial CPUE index calculated as the sum of catch divided by -->
@@ -212,8 +214,7 @@ shown in cases where there are at least 3 unique vessels in a given cell to
 meet privacy requirements. For bottom trawl, catch per unit effort is
 calculated as the weight of catch (landings plus discards) divided by hours
 fished for all positive tows from the groundfish trawl sector. Trawl data are
-shown from 2013 onwards after the trawl footprint was [ecosystem-based
-trawling boundaries were established; @wallace2015]. Trawl data from
+shown from 2013 onwards after the trawl footprint was established [@wallace2015]. Trawl data from
 2007--2012 are indicated as outlined light grey hexagons to illustrate fishing
 prior to the frozen footprint. For hook and line, catch per unit effort is
 shown as the number of fish recorded as landed or discarded per set.

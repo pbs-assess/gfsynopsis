@@ -1559,7 +1559,7 @@ Ordre: Perciformes, Famille: Anoplopomatidae,
 Plus récent document de recherche: @johnson2024sablefish\
 Dernier avis scientifiques: @dfo2017sablefish, @dfo2023sablefishom\
 Réponse des sciences : @dfo2024sablefish\
-Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks.
+Il est à noter que la morue charbonnière fait l’objet de relevés annuels au casier ciblés qui servent à l’évaluation des stocks et qui ne sont pas compris dans le présent rapport. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks. Voir @lacko2026 pour le résumé le plus récent de ce relevé. Les échantillons biologiques commerciaux provenant d’un programme d’échantillonnage de têtes seulement, commencé en 2018 [@lacko2023], ne sont pas présentés.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/sablefish-1.png}
 \end{figure}
@@ -2037,7 +2037,7 @@ Ordre: Pleuronectiformes, Famille: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Hippoglossus-stenolepis), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274290)\
 Most Recent Stock Assessment: @iphc2025\
-Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks.
+Il est à noter que le flétan du Pacifique fait l’objet d’une évaluation approfondie par la Commission internationale du flétan du Pacifique qui se fonde sur un relevé annuel normalisé en fonction de la ligne de référence. L’évaluation la plus récente des stocks doit être consultée pour obtenir des détails sur l’état des stocks, y compris l’indice de biomasse actuel du relevé FISS.
 \begin{figure}[b!]
 \includegraphics[width=6.4in]{figure-pages/pacific-halibut-1.png}
 \end{figure}

@@ -103,4 +103,14 @@ g2 <- g2 + geom_polygon(
 
 g2 <- g2 + theme(legend.justification = c(0, 0), legend.position = c(0, 0))
 
-gridExtra::grid.arrange(g, g2, nrow = 1)
+small_text <- theme(
+  axis.text = element_text(size = 8),
+  axis.title = element_text(size = 9),
+  legend.text = element_text(size = 7.5),
+  legend.key.size = unit(0.35, "cm"),
+  plot.margin = margin(2, 4, 2, 2)
+)
+g <- g + small_text
+g2 <- g2 + small_text
+
+gridExtra::grid.arrange(g, g2, nrow = 2)
