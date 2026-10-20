@@ -61,7 +61,7 @@ Also included are coastwide or survey-wide indices for SYN WCHG/HS/QCS/WCVI, HBL
 These represent the combination of data from multiple surveys into synthetic indices using spatiotemporal models [@synopsis2022data].
 
 
-```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=5.8, out.width="4.1in", fig.cap="(ref:survey-index-example)"}
+```{r survey-index, message=FALSE, warning=FALSE, fig.asp=0.9, fig.width=5.8, out.width="3.75in", fig.cap="(ref:survey-index-example)"}
 g$survey_index + ggtitle(en2fr("Survey relative biomass indices", french))
 ```
 

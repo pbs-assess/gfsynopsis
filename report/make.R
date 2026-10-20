@@ -43,8 +43,8 @@ source(here("report/R/03-load-data.R"))
 source(here("report/R/06-build-figure-pages.R"))
 # source(here("report/R/07-cache-ggplots.R"))
 source(here("report/R/08-build-Rmd.R"))
-source(here("report/R/09-optimize-png.R"))
-# source(here("report/R/10-build-web.R"))
+# source(here("report/R/09-optimize-png.R"))
+source(here("report/R/10-build-web.R"))
 # source(here("report/R/11-build-survey-length-types-table.R"))
 
 if (FALSE) {
