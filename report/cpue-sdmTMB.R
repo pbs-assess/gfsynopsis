@@ -380,14 +380,16 @@ fit_sdmTMB_cpue <- function(
       ind$region <- paste(surveys_to_predict, collapse = "; ")
       return(ind)
     }
-    pred <- predict(
+    ind <- get_index_split(
       model,
       newdata = this_grid,
-      return_tmb_object = TRUE,
-      re_form_iid = NA,
-      offset = rep(0, nrow(this_grid))
+      bias_correct = TRUE,
+      nsplit = 3,
+      area = 4,
+      offset = 0,
+      silent = TRUE,
+      predict_args = list(re_form_iid = NA)
     )
-    ind <- get_index(pred, bias_correct = TRUE, area = 4)
     gc()
     ind$region <- paste(surveys_to_predict, collapse = "; ")
     ind$species <- params$species
