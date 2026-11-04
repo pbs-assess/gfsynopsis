@@ -107,7 +107,7 @@ Get stitched index across survey regions in synoptic trawl and HBLL surveys
 \details{
 Allowed values for \code{family}:
 \itemize{
-\item Standard families: \code{"lognormal"}, \code{"gamma"}, \code{"gengamma"}, \code{"tweedie"}, \code{"nb2"}.
+\item Standard families: \code{"lognormal"}, \code{"gamma"}, \code{"gengamma"}, \code{"tweedie"}, \code{"nb2"}, \code{"nb1"}.
 \item Delta models: \code{"delta-gamma"}, \code{"delta-lognormal"}, \code{"delta-gengamma"}.
 \item Delta models with Poisson link: \code{"delta-gamma-poisson-link"}, \code{"delta-lognormal-poisson-link"}, \code{"delta-gengamma-poisson-link"}.
 }

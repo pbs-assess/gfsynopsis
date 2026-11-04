@@ -15,6 +15,10 @@ families <- c(
   "delta-lognormal-poisson-link", "delta-gamma-poisson-link",
   "delta-gengamma-poisson-link"
 )
+hook_families <- c(
+  "nb2"
+  # "nb1" # planned for next year
+) # HBLL and IPHC counts
 
 load_stitch_survey_data <- function(.sp) {
   readRDS(file.path(dc, "survey-sets", paste0(gfsynopsis:::clean_name(.sp), ".rds"))) |>
@@ -54,7 +58,7 @@ rw_job_is_cached <- function(.sp, .family, .job) {
   file.exists(stitch_output_file(.cache, .sp, .family, "rw"))
 }
 
-single_region_job_is_cached <- function(.sp, .job) {
+single_region_job_is_cached <- function(.sp, .family, .job) {
   job_cache <- switch(.job,
     hbll_outside_rw = list(sc_hbll_out, "rw"),
     hbll_out_n_rw = list(sc_hbll_out_n, "rw"),
@@ -65,7 +69,7 @@ single_region_job_is_cached <- function(.sp, .job) {
     iphc_rw = list(sc_iphc, "rw"),
     stop("Unknown single-region job: ", .job)
   )
-  file.exists(stitch_output_file(job_cache[[1]], .sp, "nb2", job_cache[[2]]))
+  file.exists(stitch_output_file(job_cache[[1]], .sp, .family, job_cache[[2]]))
 }
 
 synoptic_single_region_job_is_cached <- function(.sp, .syn, .family) {
@@ -125,7 +129,7 @@ fit_rw_stitched_job <- function(.sp, .family, .job) {
   stop("Unknown RW stitched job: ", .job)
 }
 
-fit_single_region_job <- function(.sp, .job) {
+fit_single_region_job <- function(.sp, .family, .job) {
   set_model_fit_threads()
   gc()
   survey_dat <- load_stitch_survey_data(.sp)
@@ -137,7 +141,7 @@ fit_single_region_job <- function(.sp, .job) {
       species = .sp,
       cutoff = 20,
       form = catch ~ 1,
-      family = "nb2",
+      family = .family,
       spatial = "on",
       spatiotemporal = "rw",
       use_extra_time = TRUE,
@@ -155,7 +159,7 @@ fit_single_region_job <- function(.sp, .job) {
       species = .sp,
       cutoff = 10,
       form = catch ~ 1,
-      family = "nb2",
+      family = .family,
       spatial = "on",
       spatiotemporal = "rw",
       use_extra_time = TRUE,
@@ -173,7 +177,7 @@ fit_single_region_job <- function(.sp, .job) {
       species = .sp,
       cutoff = 10,
       form = catch ~ 1,
-      family = "nb2",
+      family = .family,
       spatial = "on",
       spatiotemporal = "rw",
       use_extra_time = TRUE,
@@ -191,7 +195,7 @@ fit_single_region_job <- function(.sp, .job) {
       species = .sp,
       cutoff = 10,
       form = catch ~ 0 + as.factor(year),
-      family = "nb2",
+      family = .family,
       spatial = "on",
       spatiotemporal = "iid",
       use_extra_time = FALSE,
@@ -208,7 +212,7 @@ fit_single_region_job <- function(.sp, .job) {
       species = .sp,
       cutoff = 10,
       form = catch ~ 0 + as.factor(year),
-      family = "nb2",
+      family = .family,
       spatial = "on",
       spatiotemporal = "iid",
       use_extra_time = FALSE,
@@ -225,7 +229,7 @@ fit_single_region_job <- function(.sp, .job) {
       species = .sp,
       cutoff = 20,
       form = catch ~ 1,
-      family = "nb2",
+      family = .family,
       spatial = "on",
       spatiotemporal = "rw",
       use_extra_time = TRUE,
@@ -242,7 +246,7 @@ fit_single_region_job <- function(.sp, .job) {
       species = .sp,
       survey_type = "IPHC FISS",
       form = catch ~ 1,
-      family = "nb2",
+      family = .family,
       time = "year",
       spatial = "on",
       spatiotemporal = "rw",
@@ -316,6 +320,7 @@ furrr::future_pwalk(
 # -----------------------------------------
 single_region_jobs <- tidyr::expand_grid(
   .sp = spp_vector,
+  .family = hook_families,
   .job = c(
     "hbll_outside_rw",
     "hbll_out_n_rw",

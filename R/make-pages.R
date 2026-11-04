@@ -1628,6 +1628,6 @@ make_pages <- function(
       x
     })
 
-    saveRDS(plots, file = gg_folder_spp, compress = "zstd")
+    saveRDS(plots, file = gg_folder_spp, compress = "gzip")
   }
 }

@@ -17,7 +17,8 @@ Must be one of the following:
 \item \code{"delta-lognormal-poisson-link"}: Delta-Lognormal with Poisson link (\code{sdmTMB::delta_lognormal})
 \item \code{"delta-gengamma-poisson-link"}: Delta-Generalized Gamma with Poisson link (\code{sdmTMB::delta_gengamma})
 \item \code{"tweedie"}: Tweedie distribution (\code{sdmTMB::tweedie})
-\item \code{"nb2"}: Negative binomial (\code{sdmTMB::nbinom2})
+\item \code{"nb2"}: Negative binomial with quadratic variance (\code{sdmTMB::nbinom2})
+\item \code{"nb1"}: Negative binomial with linear variance (\code{sdmTMB::nbinom1})
 }}
 }
 \value{

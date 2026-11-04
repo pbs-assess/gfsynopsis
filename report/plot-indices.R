@@ -75,6 +75,20 @@ make_index_panel <- function(spp_w_hyphens, species_common_name, final_year_surv
       design_set_stats <- survey_sets |>
         dplyr::filter(survey_abbrev %in% lvls) |>
         dplyr::distinct(survey_abbrev, year, fishing_event_id, .keep_all = TRUE) |>
+        # Count the same HBLL sets used in the design index: map the 2025 HBLL
+        # OUT N stratum codes to the standard ones (as in gfdata's
+        # data-raw/design-indexes.R) and drop sets outside the survey's frame.
+        dplyr::filter(!grepl("HBLL", survey_abbrev) | !is.na(grouping_code)) |>
+        dplyr::mutate(grouping_code = dplyr::if_else(
+          grouping_code %in% 448:459,
+          as.numeric(rep(321:323, 4)[match(grouping_code, 448:459)]),
+          as.numeric(grouping_code)
+        )) |>
+        dplyr::group_by(survey_series_id) |>
+        dplyr::group_modify(\(x, key) suppressMessages(
+          gfdata:::filter_hbll_frame(x, key$survey_series_id)
+        )) |>
+        dplyr::ungroup() |>
         dplyr::mutate(present = dplyr::if_else(
           grepl("HBLL", survey_abbrev),
           catch_count > 0,

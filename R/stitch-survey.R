@@ -194,7 +194,8 @@ choose_survey_grid <- function(.survey_abbrev) {
 #'   - `"delta-lognormal-poisson-link"`: Delta-Lognormal with Poisson link (`sdmTMB::delta_lognormal`)
 #'   - `"delta-gengamma-poisson-link"`: Delta-Generalized Gamma with Poisson link (`sdmTMB::delta_gengamma`)
 #'   - `"tweedie"`: Tweedie distribution (`sdmTMB::tweedie`)
-#'   - `"nb2"`: Negative binomial (`sdmTMB::nbinom2`)
+#'   - `"nb2"`: Negative binomial with quadratic variance (`sdmTMB::nbinom2`)
+#'   - `"nb1"`: Negative binomial with linear variance (`sdmTMB::nbinom1`)
 #'
 #' @return An R family object used for model fitting.
 #' @export
@@ -214,6 +215,7 @@ get_family_object <- function(fit_fam) {
     "delta-gengamma-poisson-link" = sdmTMB::delta_gengamma(link2 = "log", type = "poisson-link"),
     "tweedie" = sdmTMB::tweedie(link = "log"),
     "nb2" = sdmTMB::nbinom2(link = "log"),
+    "nb1" = sdmTMB::nbinom1(link = "log"),
     # Add more cases for other families if needed
     # TODO: add censored poisson/negbin
     stop("Invalid family name")
@@ -308,7 +310,7 @@ add_upr <- function(
 #'
 #' @details
 #' Allowed values for `family`:
-#' - Standard families: `"lognormal"`, `"gamma"`, `"gengamma"`, `"tweedie"`, `"nb2"`.
+#' - Standard families: `"lognormal"`, `"gamma"`, `"gengamma"`, `"tweedie"`, `"nb2"`, `"nb1"`.
 #' - Delta models: `"delta-gamma"`, `"delta-lognormal"`, `"delta-gengamma"`.
 #' - Delta models with Poisson link: `"delta-gamma-poisson-link"`, `"delta-lognormal-poisson-link"`, `"delta-gengamma-poisson-link"`.
 #'

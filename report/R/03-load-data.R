@@ -122,7 +122,7 @@ if (!is_hake_server()) { # @Question - why check for hake server here? Is this j
     saveRDS(
       gfdata:::convert_to_old_sets(survey_set_spp[[sp]]),
       file = out_file,
-      compress = "zstd"
+      compress = "gzip"
     )
   }
 }
