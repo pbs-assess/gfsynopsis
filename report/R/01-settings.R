@@ -14,6 +14,13 @@ cores <- floor(future::availableCores() / 2)
 french <- FALSE
 final_year_comm <- 2025 # final commercial CPUE year
 
+# build folder; derived from `french` and `tag` so it can't get out of sync:
+build_dir <- if (french) {
+  paste0("report/tech-report-fr-", tag)
+} else {
+  paste0("report/tech-report-", tag)
+}
+
 # path based on tag for plot descriptions
 ggplot_objects <- here::here("report", paste0("tech-report-", tag), "ggplot-objects")
 

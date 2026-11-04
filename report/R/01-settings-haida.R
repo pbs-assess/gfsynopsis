@@ -11,6 +11,13 @@ cores <- floor(future::availableCores() / 2)
 french <- FALSE
 final_year_comm <- 2025 # final commercial CPUE year
 
+# build folder; derived from `french` and `tag` so it can't get out of sync:
+build_dir <- if (french) {
+  paste0("report/tech-report-fr-", tag)
+} else {
+  paste0("report/tech-report-", tag)
+}
+
 # Likely only needed for Haida report
 design_survey_to_include <- "SYN WCHG" # set to NULL if no design index should be included on survey index panel
 

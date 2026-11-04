@@ -7,11 +7,6 @@ if (french) {
 is_rstudio <- !is.na(Sys.getenv("RSTUDIO", unset = NA))
 is_unix <- .Platform$OS.type == "unix"
 
-if (french) {
-  build_dir <- paste0("report/tech-report-fr-", tag)
-} else {
-  build_dir <- paste0("report/tech-report-", tag)
-}
 library(here)
 library(dplyr)
 # devtools::load_all("../gfplot/")

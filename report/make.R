@@ -41,11 +41,12 @@ source(here("report/R/03-load-data.R"))
 # source(here("report/R/04-survey-index-standardization.R"))
 # source(here("report/R/05-cpue-index-standardization.R"))
 source(here("report/R/06-build-figure-pages.R"))
-# source(here("report/R/07-cache-ggplots.R"))
-source(here("report/R/08-build-Rmd.R"))
-# source(here("report/R/09-optimize-png.R"))
-source(here("report/R/10-build-web.R"))
-# source(here("report/R/11-build-survey-length-types-table.R"))
+if (!exists("ii")) source(here("report/R/07-cache-ggplots.R"))
+# Shared outputs: skip when running one species at a time in parallel
+if (!exists("ii")) source(here("report/R/08-build-Rmd.R"))
+if (!exists("ii")) source(here("report/R/09-optimize-png.R"))
+if (!exists("ii")) source(here("report/R/10-build-web.R"))
+if (!exists("ii")) source(here("report/R/11-build-survey-length-types-table.R"))
 
 if (FALSE) {
   if (!french) setwd(here("report/tech-report-main/"))

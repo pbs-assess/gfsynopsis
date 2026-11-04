@@ -1599,7 +1599,7 @@ Order: Perciformes, Family: Sebastidae,
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274844)\
 Last Research Documents: @cox2020YEout, @haggarty2021yelloweyeinside\
 Last Science Advisory Reports: @dfo2020yelloweyeinside, @dfo2020yelloweyeoutside, @dfo2026yelloweye\
-Species at Risk Act Management Plan Series and Last Science Responses: @dfo2021yelloweye, @dfo2023yelloweye, @dfo2023yelloweyeMPs\
+Species at Risk Act Management Plan Series and Last Science Responses: @dfo2021yelloweye, @dfo2023yelloweye, @dfo2023yelloweyeMPs, @dfo2026yelloweyemp\
 COSEWIC Status Report: @cosewic2020yelloweye\
 COSEWIC Status: Threatened, SARA Status: Special Concern
 
@@ -2308,7 +2308,7 @@ Order: Pleuronectiformes, Family: Pleuronectidae,
 [FishBase](http://www.fishbase.org/summary/Microstomus-pacificus), 
 [WoRMS](http://www.marinespecies.org/aphia.php?p=taxdetails&id=274294)\
 Last Research Document: @fisch2025dover\
-Last Science Advisory Report: @dfo1999dover\
+Last Science Advisory Report: @dfo2026dover\
 \notesboxstart
 In the 2025 assessment, it was recommended that if a 50% change in the 3-year running average of the coastwide geostatistical index relative to the 2024 value was observed, an early reassessment of Dover Sole should be brought forward for consideration. In 2025, this exceptional circumstance criterion was **not** met.
 \notesboxend
