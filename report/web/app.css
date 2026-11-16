@@ -1178,10 +1178,47 @@ body.is-landing main {
   z-index: 1;
   width: min(calc(100% - 2.5rem), 62rem);
   margin-inline: auto;
-  padding: clamp(3.5rem, 9vw, 7.5rem) 0 clamp(3.5rem, 7vw, 6rem);
+  padding: clamp(6rem, 12vw, 10rem) 0 clamp(3.5rem, 7vw, 6rem);
 }
 
-.landing h2 {
+/* On the landing page the masthead collapses to its nav links and floats over
+   the hero, which carries the site title instead. */
+body.is-landing .site-header {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: transparent;
+}
+
+body.is-landing .site-header__topline {
+  justify-content: flex-end;
+  margin-bottom: 0;
+}
+
+body.is-landing .site-header .eyebrow,
+body.is-landing .site-header h1,
+body.is-landing #plot-descriptions-link {
+  display: none;
+}
+
+body.is-landing .site-header__topline-links .language-link {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.landing__eyebrow {
+  margin: 0 0 0.9rem;
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.landing h1 {
   max-width: 15ch;
   margin: 0;
   font-size: clamp(2.6rem, 6.5vw, 4.9rem);
@@ -1301,7 +1338,7 @@ body.is-landing main {
 
 @media (max-width: 700px) {
   .landing__inner {
-    padding: 2.75rem 0 3.5rem;
+    padding: 5rem 0 3.5rem;
   }
 
   .landing__silhouette--3,

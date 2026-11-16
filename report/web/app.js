@@ -26,11 +26,11 @@ const UI_TEXT = {
     reportsAndReferences: "Latest reports",
     notes: "Notes",
     synopsisFigures: "Synopsis figures",
-    landingHeading: "Explore the data, species by species",
+    searchSpeciesCount: (count) => `Search ${count} species…`,
     figurePageTitle: (number) => number === 1
       ? "Surveys, catch, and CPUE"
       : "Biological sampling, growth, and maturity",
-    landingLede: (count) => `Standardized, reproducible visualizations of population and fishing trends, distribution, growth, and maturity for ${count} species—primarily groundfish—off Canada’s Pacific coast.`,
+    landingLede: (count) => `Standardized, reproducible visualizations of population and fishing trends, distribution, growth, and maturity for ${count} species, primarily groundfish, off Canada’s Pacific coast.`,
     suggested: "Suggested",
     allSpecies: "All species",
     footerSynopsis: "British Columbia groundfish data synopsis",
@@ -77,11 +77,11 @@ const UI_TEXT = {
     reportsAndReferences: "Rapports récents",
     notes: "Notes",
     synopsisFigures: "Figures du synopsis",
-    landingHeading: "Explorez les données, espèce par espèce",
+    searchSpeciesCount: (count) => `Rechercher parmi ${count} espèces…`,
     figurePageTitle: (number) => number === 1
       ? "Relevés, captures et CPUE"
       : "Échantillonnage biologique, croissance et maturité",
-    landingLede: (count) => `Des visualisations standardisées et reproductibles illustrant les tendances des populations et de la pêche, la répartition, la croissance et la maturité de ${count} espèces — principalement des poissons de fond — au large de la côte canadienne du Pacifique.`,
+    landingLede: (count) => `Des visualisations standardisées et reproductibles illustrant les tendances des populations et de la pêche, la répartition, la croissance et la maturité de ${count} espèces, principalement des poissons de fond, au large de la côte canadienne du Pacifique.`,
     suggested: "Suggestions",
     allSpecies: "Toutes les espèces",
     footerSynopsis: "Synopsis des données sur les poissons de fond de la Colombie-Britannique",
@@ -261,6 +261,7 @@ function renderInterface() {
 
   if (species.length > 0) {
     elements.landingLede.textContent = t("landingLede", species.length);
+    landingPicker.search.placeholder = t("searchSpeciesCount", species.length);
   }
 }
 
